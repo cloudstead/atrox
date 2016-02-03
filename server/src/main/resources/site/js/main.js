@@ -2,7 +2,7 @@ MAX_SLIDER = 10000.0;
 
 var map;
 var mode = 'inspect';
-var editWindow = null;
+var addRegionWindow = null;
 var isClosed = false;
 var poly = null;
 var markers = [];
@@ -84,7 +84,7 @@ function initMap () {
         }
     };
 
-    editWindow = new google.maps.InfoWindow({ content: addRegionForm() });
+    addRegionWindow = new google.maps.InfoWindow({ content: addRegionForm() });
 
     isClosed = false;
 
@@ -110,9 +110,9 @@ function initMap () {
                 poly.setMap(null);
                 poly = new google.maps.Polygon({ map: map, path: path, strokeColor: "#FF0000", strokeOpacity: 0.8, strokeWeight: 2, fillColor: "#FF0000", fillOpacity: 0.35 });
                 isClosed = true;
-                editWindow.open(map, marker);
+                addRegionWindow.open(map, marker);
                 poly.addListener('click', function () {
-                    editWindow.open(map, marker);
+                    addRegionWindow.open(map, marker);
                 });
             });
         }
@@ -269,14 +269,14 @@ function timelineZoomOut () {
     sliderControl.updateLabels();
 }
 
-function createAtrox () {
+function addRegion () {
     console.log('createAtrox!');
     removePolygon();
 }
 
 function removePolygon() {
     poly.setMap(null);
-    editWindow.close();
+    addRegionWindow.close();
     if (markers != null) {
         for (var i = 0; i < markers.length; i++) {
             markers[i].setMap(null);
@@ -286,8 +286,9 @@ function removePolygon() {
     isClosed = false;
     poly = null;
 }
-function cancelAtrox () {
-    console.log('cancelAtrox...');
+
+function cancelAddRegion () {
+    console.log('cancelAddRegion ...');
     removePolygon();
 }
 
@@ -307,8 +308,8 @@ function addRegionForm () {
         'Low estimate: <input type="text" name="deathLow"/><br/>' +
         'Citations: <input type="text" name="citations"/><br/>' +
         '<br/>' +
-        '<button id="btnCreate" value="create" onclick="createAtrox(this.form)">create</button><br/>'+
-        '<button id="btnCancel" value="cancel" onclick="cancelAtrox()">cancel</button><br/>'+
+        '<button id="btnCreate" value="create" onclick="addRegion(this.form)">create</button><br/>'+
+        '<button id="btnCancel" value="cancel" onclick="cancelAddRegion()">cancel</button><br/>'+
         '</form></p>'+
         '</div>'+
         '</div>';
