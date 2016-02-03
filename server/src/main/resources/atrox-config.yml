@@ -45,3 +45,5 @@ smtp:
   user: {{SYSTEM_MAILER_USERNAME}}
   password: {{SYSTEM_MAILER_PASSWORD}}
   tlsEnabled: true
+
+sessionPassphrase: {{ATROX_DATAKEY}}

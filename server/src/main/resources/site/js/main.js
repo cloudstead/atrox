@@ -308,7 +308,7 @@ function addRegionForm () {
         'Low estimate: <input type="text" name="deathLow"/><br/>' +
         'Citations: <input type="text" name="citations"/><br/>' +
         '<br/>' +
-        '<button id="btnCreate" value="create" onclick="addRegion(this.form)">create</button><br/>'+
+        '<button id="btnCreate" value="add" onclick="addRegion(this.form)">create</button><br/>'+
         '<button id="btnCancel" value="cancel" onclick="cancelAddRegion()">cancel</button><br/>'+
         '</form></p>'+
         '</div>'+

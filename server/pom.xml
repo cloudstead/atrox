@@ -49,6 +49,19 @@ For commercial use, please contact cloudstead.io
             <version>${jdbcDriver.postgres.version}</version>
         </dependency>
 
+        <!-- persist Joda Time -->
+        <dependency>
+            <groupId>org.jadira.usertype</groupId>
+            <artifactId>usertype.core</artifactId>
+            <version>3.0.0.CR1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cloudstead</groupId>
+            <artifactId>cloudos-lib</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>org.cobbzilla</groupId>
             <artifactId>templated-mail-sender</artifactId>
