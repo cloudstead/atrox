@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="css/dhtmlxslider.css"/>
+
+    <meta charset="utf-8">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #map {
+            height: 100%;
+        }
+    </style>
+    <style>
+        #sliderObj {
+            width: 160px;
+            height: 20px;
+            margin-top: 2px;
+        }
+        #sliderOriginLabel, #sliderCurrentLabel {
+            font-size: 18px;
+            font-family: Tahoma,sans-serif;
+            color: #ffffff;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<script data-main="js/main" src="js/dhtmlxcommon.js"></script>
+<script data-main="js/main" src="js/dhtmlxslider.js"></script>
+<script data-main="js/main" src="js/require-jquery.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkjxB2DrMIXcFqK40XjlolSjnMCMF-cAk&callback=init"></script>
+
+<div id="sliderContainer" style="visibility: hidden">
+<table id="sliderTable" cellspacing="0" cellpadding="0" border="1">
+    <tr>
+        <td id="sliderPre"></td>
+        <td id="sliderCell" colspan="3">
+            <div id="sliderObj"></div>
+        </td>
+        <td id="sliderPost"></td>
+    </tr>
+<!--</table>-->
+<!--<table cellspacing="0" cellpadding="0" border="1">-->
+    <tr>
+      <td></td>
+      <td align="left">
+        <span id="sliderOriginLabel"></span>
+      </td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
+      <td align="right">
+        <span id="sliderCurrentLabel"></span>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td valign="middle" align="center" colspan="3">
+          <button id="btnZoomOut" disabled="true" onclick="timelineZoomOut();">&lt;&lt;&lt;zoom</button>
+          <button id="btnZoomIn" onclick="timelineZoomIn();">zoom&gt;&gt;&gt;</button>
+        </td>
+        <td></td>
+    </tr>
+</table>
+
+<span id="sliderOrigin" style="visibility: hidden"></span>
+<span id="sliderCurrent" style="visibility: hidden"></span>
+</div>
+
+</body>
+</html>
