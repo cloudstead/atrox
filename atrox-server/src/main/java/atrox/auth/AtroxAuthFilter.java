@@ -2,7 +2,6 @@ package atrox.auth;
 
 import atrox.ApiConstants;
 import atrox.model.Account;
-import atrox.resources.AccountsResource;
 import atrox.server.AtroxConfiguration;
 import com.sun.jersey.spi.container.ContainerRequest;
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -27,7 +26,7 @@ public class AtroxAuthFilter extends AuthFilter<Account> {
     @Autowired private AtroxConfiguration configuration;
     @Autowired @Getter private AtroxAuthProvider authProvider;
 
-    private static final Set<String> SKIP_AUTH_PREFIXES = new SingletonSet<>(AccountsResource.ENDPOINT);
+    private static final Set<String> SKIP_AUTH_PREFIXES = new SingletonSet<>(ApiConstants.ACCOUNTS_ENDPOINT);
 
     @Getter(lazy=true) private final Set<String> skipAuthPrefixes = initSkipAuthPrefixes();
     public Set<String> initSkipAuthPrefixes() {

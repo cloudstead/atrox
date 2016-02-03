@@ -46,6 +46,7 @@ import org.springframework.stereotype.Repository;
             } else if (account.isEmailVerified()) {
                 loginAttemptDAO.create(new LoginAttempt().setName(name).setNotes("authenticate: password-less login not allowed for verified email " + name+", return null"));
                 return null;
+
             } else {
                 // name but no password, email not verified. create a named anonymous account, they can save it later
                 loginAttemptDAO.create(new LoginAttempt().setName(name).setNotes("authenticate: password-less login allowed for unverified email " + name+", return null"));

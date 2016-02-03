@@ -21,6 +21,25 @@ var localizer = {
     }
 };
 
+var openAddRegionWindow = function (map, marker) {
+    addRegionWindow.open(map, marker);
+    // check to see if we are logged in --
+    if (get_token() == NO_TOKEN || ((typeof Atrox.account == 'undefined') || (typeof Atrox.account.email == 'undefined'))) {
+        document.getElementById('loginMessageSlot').innerHTML
+            = 'Currently anonymous. <a href="." onclick="showLoginForm(); return false;">Sign in</a>';
+    } else {
+        document.getElementById('loginMessageSlot').innerHTML
+            = 'Currently logged in as '+Atrox.account.email+' <a href="." onclick="Atrox.logout(); return false;">Log out</a>';
+    }
+};
+
+function showLoginForm () {
+    document.getElementById('loginForm').innerHTML
+        = 'Email: <input type="text" name="email"/>' +
+        '<br/>Password: <input type="password" name="password"/>' +
+        '<br/><input type="submit" value="Sign In"/>';
+}
+
 function initMap () {
 
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -110,9 +129,9 @@ function initMap () {
                 poly.setMap(null);
                 poly = new google.maps.Polygon({ map: map, path: path, strokeColor: "#FF0000", strokeOpacity: 0.8, strokeWeight: 2, fillColor: "#FF0000", fillOpacity: 0.35 });
                 isClosed = true;
-                addRegionWindow.open(map, marker);
+                openAddRegionWindow(map, marker);
                 poly.addListener('click', function () {
-                    addRegionWindow.open(map, marker);
+                    openAddRegionWindow(map, marker);
                 });
             });
         }
@@ -294,6 +313,8 @@ function cancelAddRegion () {
 
 function addRegionForm () {
     return '<div id="content">'+
+        '<div id="loginMessageSlot"></div>'+
+        '<div id="loginFormSlot"></div>'+
         '<div id="bodyContent">'+
         '<p><form onsubmit="return false;">' +
         'Event: <input type="text" name="eventName"/><br/>' +

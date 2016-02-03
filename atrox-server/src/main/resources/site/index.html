@@ -31,11 +31,13 @@
             padding-right: 10px;
         }
     </style>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
 <div id="map"></div>
-<script data-main="js/main" src="js/dhtmlxcommon.js"></script>
-<script data-main="js/main" src="js/dhtmlxslider.js"></script>
+<script src="js/dhtmlxcommon.js"></script>
+<script src="js/dhtmlxslider.js"></script>
+<script src="js/atrox.js"></script>
 <script data-main="js/main" src="js/require-jquery.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkjxB2DrMIXcFqK40XjlolSjnMCMF-cAk&callback=init"></script>
 
@@ -77,6 +79,15 @@
 
 <span id="sliderOrigin" style="visibility: hidden"></span>
 <span id="sliderCurrent" style="visibility: hidden"></span>
+</div>
+
+<div id="loginContainer" style="visibility: hidden">
+    <form onsubmit="Atrox.login(this.elements['email'], this.elements['password']);">
+        <div id="loginForm">
+
+        </div>
+        <div class="g-recaptcha" data-sitekey="6LeWURcTAAAAAPfQtEuykB8YJEhC0kEE63AjmJV7"></div>
+    </form>
 </div>
 
 </body>
