@@ -42,7 +42,9 @@
 <div id="sliderContainer" style="visibility: hidden">
 <table id="sliderTable" cellspacing="0" cellpadding="0" border="1">
     <tr>
-        <td id="sliderPre"></td>
+        <td id="sliderPre">
+            <button id="btnInspect" style="font-weight: bold" value="inspect" onclick="setMode(this)">inspect</button>
+        </td>
         <td id="sliderCell" colspan="3">
             <div id="sliderObj"></div>
         </td>
@@ -51,7 +53,9 @@
 <!--</table>-->
 <!--<table cellspacing="0" cellpadding="0" border="1">-->
     <tr>
-      <td></td>
+      <td>
+          <button id="btnAddRegion" value="addRegion" onclick="setMode(this);">add region</button>
+      </td>
       <td align="left">
         <span id="sliderOriginLabel"></span>
       </td>
@@ -62,7 +66,9 @@
       <td></td>
     </tr>
     <tr>
-        <td></td>
+        <td>
+            <button id="btnAddEvent" value="addEvent" onclick="setMode(this);">add event</button>
+        </td>
         <td valign="middle" align="center" colspan="3">
           <button id="btnZoomOut" disabled="true" onclick="timelineZoomOut();">&lt;&lt;&lt;zoom</button>
           <button id="btnZoomIn" onclick="timelineZoomIn();">zoom&gt;&gt;&gt;</button>

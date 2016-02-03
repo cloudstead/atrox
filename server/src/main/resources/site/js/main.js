@@ -1,9 +1,7 @@
 MAX_SLIDER = 10000.0;
 
 var map;
-var modeMarker = null;
 var mode = 'inspect';
-var modeWindow = null;
 var editWindow = null;
 var isClosed = false;
 var poly = null;
@@ -46,8 +44,8 @@ function initMap () {
     map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(sliderContainer);
 
     // Create the slider control
-    var sliderScreenSize = (($(window).width() * 0.8)/1);
-    var sliderSize = (sliderScreenSize * 0.95)/1;
+    var sliderScreenSize = (($(window).width() * 0.75)/1);
+    var sliderSize = (sliderScreenSize * 0.70)/1;
 
     timeRangeSlider = new dhtmlXSlider({
         parent: "sliderObj",
@@ -60,8 +58,8 @@ function initMap () {
         size: sliderSize
     });
     document.getElementById('sliderTable').style.width = sliderScreenSize+"px";
-    document.getElementById('sliderPre').style.width = ((sliderScreenSize*0.018)/1)+"px";
-    document.getElementById('sliderPost').style.width = ((sliderScreenSize*0.018)/1)+"px";
+    document.getElementById('sliderPre').style.width = ((sliderScreenSize*0.125)/1)+"px";
+    document.getElementById('sliderPost').style.width = ((sliderScreenSize*0.125)/1)+"px";
     document.getElementById('sliderCell').style.width = sliderScreenSize+"px";
     document.getElementById('sliderCell').style.textAlign = "center";
     document.getElementById('sliderOriginLabel').innerHTML = sliderControl.getSliderLabel(0);
@@ -71,18 +69,9 @@ function initMap () {
         document.getElementById('sliderOriginLabel').innerHTML = sliderControl.getSliderLabel(vals[0]);
         document.getElementById('sliderCurrentLabel').innerHTML = sliderControl.getSliderLabel(vals[1]);
     };
-//        timeRangeSlider.attachEvent("onChange", function () { sliderControl.startWatchingMouse(); } );
-//        timeRangeSlider.attachEvent("onmouseup", function () { sliderControl.stopWatchingMouse(); } );
     timeRangeSlider.attachEvent("onChange", function () { sliderControl.updateLabels(); } );
     document.body.onkeydown = function (e) {
         e = e || window.event;
-
-//            if (e.keyCode == '38') {
-//                // up arrow
-//            }
-//            else if (e.keyCode == '40') {
-//                // down arrow
-//            } else
         if (e.keyCode == '37') {
             // left arrow
             timeRangeSlider.setValue(sliderControl.decrementLast());
@@ -95,28 +84,22 @@ function initMap () {
         }
     };
 
-    google.maps.event.addListener(map, 'rightclick', function (clickEvent) {
-        if (modeMarker != null) modeMarker.setMap(null);
-        modeMarker = new google.maps.Marker({
-            map: map,
-            position: clickEvent.latLng,
-            anchorPoint: new google.maps.Point(0.0, 60.0),
-            draggable: false,
-            opacity: 0.0
-        });
-        modeWindow = new google.maps.InfoWindow({ content: modeContentString() });
-        modeWindow.open(map, modeMarker);
-    });
+    editWindow = new google.maps.InfoWindow({ content: addRegionForm() });
 
-    var isClosed = false;
-    poly = new google.maps.Polyline({ map: map, path: [], strokeColor: "#FF0000", strokeOpacity: 1.0, strokeWeight: 2 });
+    isClosed = false;
 
     google.maps.event.addListener(map, 'click', function (clickEvent) {
         if (mode == 'inspect') {
             inspectLocation(clickEvent);
             return;
         }
+        if (mode == 'addEvent') {
+            console.log('show addEvent dialog here');
+            return;
+        }
         if (isClosed) return;
+        if (poly == null) poly = new google.maps.Polyline({ map: map, path: [], strokeColor: "#FF0000", strokeOpacity: 1.0, strokeWeight: 2 });
+
         var markerIndex = poly.getPath().length;
         var isFirstMarker = markerIndex === 0;
         var marker = new google.maps.Marker({ map: map, position: clickEvent.latLng, draggable: true });
@@ -127,8 +110,10 @@ function initMap () {
                 poly.setMap(null);
                 poly = new google.maps.Polygon({ map: map, path: path, strokeColor: "#FF0000", strokeOpacity: 0.8, strokeWeight: 2, fillColor: "#FF0000", fillOpacity: 0.35 });
                 isClosed = true;
-                editWindow = new google.maps.InfoWindow({ content: editContentString() });
                 editWindow.open(map, marker);
+                poly.addListener('click', function () {
+                    editWindow.open(map, marker);
+                });
             });
         }
         google.maps.event.addListener(marker, 'drag', function (dragEvent) {
@@ -136,6 +121,7 @@ function initMap () {
         });
         var path = poly.getPath();
         path.push(clickEvent.latLng);
+        //poly = new google.maps.Polygon({ map: map, path: path, strokeColor: "#FF0000", strokeOpacity: 0.8, strokeWeight: 2, fillColor: "#FF0000", fillOpacity: 0.35 });
         markers.push(marker);
     });
 }
@@ -242,7 +228,19 @@ TimeRangeControl.prototype.decrementLast = function() {
 
 function setMode (button) {
     mode = button.value;
-    if (modeMarker != null) modeMarker.setMap(null);
+    if (button.id == 'btnInspect') {
+        button.style['font-weight'] = "bold";
+        document.getElementById('btnAddRegion').style['font-weight'] = "normal";
+        document.getElementById('btnAddEvent').style['font-weight'] = "normal";
+    } else if (button.id == 'btnAddRegion') {
+        button.style['font-weight'] = "bold";
+        document.getElementById('btnInspect').style['font-weight'] = "normal";
+        document.getElementById('btnAddEvent').style['font-weight'] = "normal";
+    } else {
+        button.style['font-weight'] = "bold";
+        document.getElementById('btnInspect').style['font-weight'] = "normal";
+        document.getElementById('btnAddRegion').style['font-weight'] = "normal";
+    }
 }
 
 function timelineZoomIn () {
@@ -271,21 +269,6 @@ function timelineZoomOut () {
     sliderControl.updateLabels();
 }
 
-function modeContentString () {
-    var inspectLabel = (mode == 'inspect') ? '<b>inspect</b>' : 'inspect';
-    var editLabel = (mode == 'edit') ? '<b>edit</b>' : 'edit';
-    return '<div id="content">'+
-        '<div id="bodyContent">'+
-        '<p align="center">' +
-        '<button id="btnInspect" value="inspect" onclick="setMode(this)">'+inspectLabel+'</button>'+
-        '<br/>' +
-        '<br/>' +
-        '<button id="btnEdit" value="edit" onclick="setMode(this)">'+editLabel+'</button>'+
-        '</p>'+
-        '</div>'+
-        '</div>';
-}
-
 function createAtrox () {
     console.log('createAtrox!');
     removePolygon();
@@ -293,8 +276,7 @@ function createAtrox () {
 
 function removePolygon() {
     poly.setMap(null);
-    poly = null;
-    editWindow.setMap(null);
+    editWindow.close();
     if (markers != null) {
         for (var i = 0; i < markers.length; i++) {
             markers[i].setMap(null);
@@ -302,13 +284,14 @@ function removePolygon() {
         markers = [];
     }
     isClosed = false;
+    poly = null;
 }
 function cancelAtrox () {
     console.log('cancelAtrox...');
     removePolygon();
 }
 
-function editContentString () {
+function addRegionForm () {
     return '<div id="content">'+
         '<div id="bodyContent">'+
         '<p><form onsubmit="return false;">' +
@@ -316,9 +299,12 @@ function editContentString () {
         'Start: <input type="text" name="startDate"/><br/>' +
         'End: <input type="text" name="endDate"/><br/>' +
         'Ideologies: <input type="text" name="ideologies"/><br/>' +
-        'Death estimate (high): <input type="text" name="deathHigh"/><br/>' +
-        'Death estimate (mid): <input type="text" name="deathMid"/><br/>' +
-        'Death estimate (low): <input type="text" name="deathLow"/><br/>' +
+        '<br/>' +
+        '<em>Estimated number of people affected</em><br/>' +
+        '<br/>' +
+        'High estimate: <input type="text" name="deathHigh"/><br/>' +
+        'Middle estimate: <input type="text" name="deathMid"/><br/>' +
+        'Low estimate: <input type="text" name="deathLow"/><br/>' +
         'Citations: <input type="text" name="citations"/><br/>' +
         '<br/>' +
         '<button id="btnCreate" value="create" onclick="createAtrox(this.form)">create</button><br/>'+
