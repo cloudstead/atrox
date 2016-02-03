@@ -16,3 +16,6 @@
 [submodule "utils/merge-yml"]
 	path = utils/merge-yml
 	url = https://github.com/cobbzilla/merge-yml.git
+[submodule "utils/cloudos-lib"]
+	path = utils/cloudos-lib
+	url = https://github.com/cloudstead/cloudos-lib.git
