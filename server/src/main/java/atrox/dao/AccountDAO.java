@@ -2,14 +2,13 @@ package atrox.dao;
 
 import atrox.model.Account;
 import atrox.model.LoginAttempt;
-import cloudos.dao.BasicAccountDAO;
+import cloudos.dao.AccountBaseDAOBase;
 import cloudos.model.auth.AuthenticationException;
 import cloudos.model.auth.LoginRequest;
-import org.cobbzilla.wizard.dao.AbstractCRUDDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-@Repository public class AccountDAO extends AccountBaseDAOBase<Account>  {
+@Repository public class AccountDAO extends AccountBaseDAOBase<Account> {
 
     @Autowired private LoginAttemptDAO loginAttemptDAO;
 
