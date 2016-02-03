@@ -1,0 +1,18 @@
+[submodule "utils/cobbzilla-parent"]
+	path = utils/cobbzilla-parent
+	url = https://github.com/cobbzilla/cobbzilla-parent.git
+[submodule "utils/cobbzilla-utils"]
+	path = utils/cobbzilla-utils
+	url = https://github.com/cobbzilla/cobbzilla-utils.git
+[submodule "utils/cobbzilla-wizard"]
+	path = utils/cobbzilla-wizard
+	url = https://github.com/cobbzilla/cobbzilla-wizard.git
+[submodule "utils/restex"]
+	path = utils/restex
+	url = https://github.com/cobbzilla/restex.git
+[submodule "utils/templated-mail-sender"]
+	path = utils/templated-mail-sender
+	url = https://github.com/cobbzilla/templated-mail-sender.git
+[submodule "utils/merge-yml"]
+	path = utils/merge-yml
+	url = https://github.com/cobbzilla/merge-yml.git
