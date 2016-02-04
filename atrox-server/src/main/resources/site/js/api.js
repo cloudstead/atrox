@@ -18,15 +18,18 @@ function add_api_auth (xhr) {
     xhr.setRequestHeader(Api.API_TOKEN, token);
 }
 
+// Must match what is in atrox-config.xml, then add a trailing slash here
+API_PREFIX = "/api/";
+
 Api = {
     // must match API_TOKEN in ApiConstants.java
     API_TOKEN: 'x-atrox-api-key',
 
     _get: function (url) {
         var results = null;
-        Ember.$.ajax({
+        $.ajax({
             type: 'GET',
-            url: url,
+            url: API_PREFIX + url,
             async: false,
             beforeSend: add_api_auth,
             success: function (data, status, jqXHR) {
@@ -38,9 +41,9 @@ Api = {
 
     _update: function (method, url, data) {
         var result = null;
-        Ember.$.ajax({
+        $.ajax({
             type: method,
-            url: url,
+            url: API_PREFIX + url,
             async: false,
             contentType: 'application/json',
             data: JSON.stringify(data),
@@ -61,9 +64,9 @@ Api = {
 
     _delete: function (path) {
         var ok = false;
-        Ember.$.ajax({
+        $.ajax({
             type: 'DELETE',
-            url: path,
+            url: API_PREFIX + url,
             async: false,
             beforeSend: add_api_auth,
             'success': function (accounts, status, jqXHR) {
@@ -76,8 +79,10 @@ Api = {
         return ok;
     },
 
-    login: function (email, password) { return Api._post('/api/accounts' + account.name, {'name': email, 'password': password}); },
+    login: function (email, password) { return Api._post('accounts/auth/' +  encodeURIComponent(email), {'name': email, 'password': password}); },
 
-    addRegion: function (email, password) { return Api._post('/api/accounts' + account.name, {'name': email, 'password': password}); },
+    register: function (email) { return Api._post('accounts/auth/' + encodeURIComponent(email), {'name': email}); }
+
+    //addRegion: function (email, password) { return Api._post('/api/accounts/' + email, {'name': email, 'password': password}); }
 
 };

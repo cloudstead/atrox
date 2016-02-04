@@ -8,4 +8,6 @@ public class ApiConstants {
     public static final String ACCOUNTS_ENDPOINT = "/accounts";
 
     public static final String ERR_ALREADY_LOGGED_IN = "err.alreadyLoggedIn";
+
+    public static final String PLACEHOLDER_MOBILE_PHONE = "8005550100";
 }

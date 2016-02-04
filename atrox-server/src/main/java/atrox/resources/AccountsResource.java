@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
 import static atrox.ApiConstants.ACCOUNTS_ENDPOINT;
@@ -43,11 +44,11 @@ public class AccountsResource extends AuthResourceBase<Account> {
         return found == null ? notFound() : ok(found);
     }
 
-    @PUT
-    @Path("/{email}")
-    public Response login (@Context HttpContext ctx, @PathParam("email") String email, LoginRequest request) {
+    @POST
+    @Path("/auth/{email}")
+    public Response loginOrRegister (@Context HttpContext ctx, @PathParam("email") String email, LoginRequest request) {
 
-        final Account alreadyLoggedIn = userPrincipal(ctx);
+        final Account alreadyLoggedIn = optionalUserPrincipal(ctx);
         if (alreadyLoggedIn != null) throw invalidEx(ApiConstants.ERR_ALREADY_LOGGED_IN);
 
         if (!request.hasName()) return ok(startSession(accountDAO.anonymousAccount()));
@@ -55,6 +56,7 @@ public class AccountsResource extends AuthResourceBase<Account> {
         if (!email.equalsIgnoreCase(request.getName())) throw invalidEx(ERR_EMAIL_INVALID);
 
         try {
+            request.setUserAgent(ctx.getRequest().getHeaderValue(HttpHeaders.USER_AGENT));
             Account account = accountDAO.authenticate(request);
             return ok(startSession(account != null ? account : accountDAO.anonymousAccount()));
         } catch (AuthenticationException e) {

@@ -15,6 +15,5 @@ public class Account extends AccountBase implements TokenPrincipal {
     @JsonIgnore @Transient
     @Getter private String apiToken;
     public void setApiToken(String apiToken) { this.apiToken = apiToken; }
-    @JsonIgnore @Override public String getName() { return getUuid(); }
 
 }

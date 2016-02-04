@@ -77,12 +77,25 @@
 </div>
 
 <div id="loginContainer" style="visibility: hidden">
-    <form onsubmit="Atrox.login(this.elements['email'], this.elements['password']);">
-        <div id="loginForm">
+    <div id="loginForm">
+        <form onsubmit="Atrox.login(this.elements['email'].value, this.elements['password'].value); return false;" method="post">
+        Email: <input type="text" name="email"/><br/>
+        Password: <input type="password" name="password"/><br/>
+        <input type="submit" value="Sign In"/>
+            <div class="g-recaptcha" data-sitekey="6LeWURcTAAAAAPfQtEuykB8YJEhC0kEE63AjmJV7"></div>
+        </form>
+    </div>
+</div>
 
-        </div>
+<div id="regContainer" style="visibility: hidden">
+    <div id="regForm">
+        <form onsubmit="Atrox.register(this.elements['email'].value); return false;" method="post">
+        Email: <input type="text" name="email"/><br/>
+        <input type="submit" value="Sign Up"/><br/>
+        You will receive an email to set your password
         <div class="g-recaptcha" data-sitekey="6LeWURcTAAAAAPfQtEuykB8YJEhC0kEE63AjmJV7"></div>
-    </form>
+        </form>
+    </div>
 </div>
 
 </body>

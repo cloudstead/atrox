@@ -13,6 +13,12 @@ Atrox = {
         Atrox.set_account(auth_response.account);
     },
 
+    register: function (email) {
+        var auth_response = Api.register(email);
+        sessionStorage.setItem('atrox_session', auth_response.sessionId);
+        Atrox.set_account(auth_response.account);
+    },
+
     logout: function () {
         sessionStorage.clear();
     },

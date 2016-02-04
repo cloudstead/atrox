@@ -21,7 +21,11 @@ public class AtroxConfiguration extends RestServerConfiguration
     @Setter private DatabaseConfiguration database;
     @Bean public DatabaseConfiguration getDatabase() { return database; }
 
-    @Getter @Setter private RedisConfiguration redis;
+    @Setter private RedisConfiguration redis;
+    @Bean public RedisConfiguration getRedis() {
+        if (redis == null) redis = new RedisConfiguration(getSessionPassphrase());
+        return redis;
+    }
 
     @Getter @Setter private SmtpMailConfig smtp;
     @Getter @Setter private String emailTemplateRoot;

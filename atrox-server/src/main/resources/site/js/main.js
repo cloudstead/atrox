@@ -24,22 +24,29 @@ var localizer = {
 var openAddRegionWindow = function (map, marker) {
     addRegionWindow.open(map, marker);
     // check to see if we are logged in --
+    var authMessageSlot = document.getElementById('authMessageSlot');
     if (get_token() == NO_TOKEN || ((typeof Atrox.account == 'undefined') || (typeof Atrox.account.email == 'undefined'))) {
-        document.getElementById('loginMessageSlot').innerHTML
-            = 'Currently anonymous. <a href="." onclick="showLoginForm(); return false;">Sign in</a>';
+        authMessageSlot.innerHTML
+            = 'Currently anonymous. <a href="." onclick="showLoginForm(); return false;">Sign in</a> or '
+            + '<a href="." onclick="showRegistrationForm(); return false;">Sign up</a>';
     } else {
-        document.getElementById('loginMessageSlot').innerHTML
+        authMessageSlot.innerHTML
             = 'Currently logged in as '+Atrox.account.email+' <a href="." onclick="Atrox.logout(); return false;">Log out</a>';
     }
 };
 
 function showLoginForm () {
     var loginForm = document.getElementById('loginForm');
-    loginForm.innerHTML
-        = 'Email: <input type="text" name="email"/>' +
-        '<br/>Password: <input type="password" name="password"/>' +
-        '<br/><input type="submit" value="Sign In"/>';
-    document.getElementById('loginFormSlot').appendChild(loginForm);
+    var authFormSlot = document.getElementById('authFormSlot');
+    authFormSlot.innerHTML = '';
+    authFormSlot.appendChild(loginForm);
+}
+
+function showRegistrationForm () {
+    var regForm = document.getElementById('regForm');
+    var authFormSlot = document.getElementById('authFormSlot');
+    authFormSlot.innerHTML = '';
+    authFormSlot.appendChild(regForm);
 }
 
 function initMap () {
@@ -315,8 +322,8 @@ function cancelAddRegion () {
 
 function addRegionForm () {
     return '<div id="content">'+
-        '<div id="loginMessageSlot"></div>'+
-        '<div id="loginFormSlot"></div>'+
+        '<div id="authMessageSlot"></div>'+
+        '<div id="authFormSlot"></div>'+
         '<div id="bodyContent">'+
         '<p><form onsubmit="return false;">' +
         'Event: <input type="text" name="eventName"/><br/>' +
