@@ -25,6 +25,7 @@
     <context:component-scan base-package="org.cobbzilla.mail.service"/>
 
     <!-- jersey resources, DAOs -->
+    <context:component-scan base-package="atrox.auth"/>
     <context:component-scan base-package="atrox.model"/>
     <context:component-scan base-package="atrox.dao"/>
     <context:component-scan base-package="atrox.resources"/>

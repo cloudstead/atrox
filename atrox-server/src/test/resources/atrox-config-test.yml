@@ -3,26 +3,26 @@
 
 serverName: atrox-api
 
-#publicUriBase: https://127.0.0.1
-publicUriBase: {{PUBLIC_BASE_URI}}
+publicUriBase: https://127.0.0.1
+#publicUriBase: {{PUBLIC_BASE_URI}}
 
 database:
   driver: org.postgresql.Driver
-  url: jdbc:postgresql://127.0.0.1:5432/atrox
+  url: jdbc:postgresql://127.0.0.1:5432/atrox_test
   user: atrox
-  password: {{ATROX_DB_PASS}}
+  password: atrox
 
   hibernate:
     entityPackages: [ atrox.model ]
     dialect: org.hibernate.dialect.PostgreSQLDialect
     showSql: true
-    hbm2ddlAuto: validate
+    hbm2ddlAuto: create
     validationMode: ddl
 
 staticAssets:
   baseUri: /
   assetRoot: site/
-  localOverride: {{ASSETS_DIR}}
+#  localOverride: {{ASSETS_DIR}}
   mustacheCacheEnabled: false
   mustacheResourceRoot: site/
   utilPaths:
@@ -31,7 +31,7 @@ staticAssets:
     LOCALIZE: /localize
 
 http:
-  port: {{ATROX_SERVER_PORT}}
+  port: 0
   baseUri: /api
 
 jersey:
@@ -42,8 +42,8 @@ emailTemplateRoot: {{EMAIL_TEMPLATE_ROOT}}
 
 smtp:
   host: 127.0.0.1
-  user: {{SYSTEM_MAILER_USERNAME}}
-  password: {{SYSTEM_MAILER_PASSWORD}}
+  user: bogus
+  password: bogus
   tlsEnabled: true
 
-sessionPassphrase: {{ATROX_DATAKEY}}
+sessionPassphrase: dummy_value

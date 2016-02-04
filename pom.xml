@@ -28,7 +28,7 @@ This code is available under the GNU Affero General Public License, version 3: h
     </licenses>
 
     <modules>
-        <module>server</module>
+        <module>atrox-server</module>
     </modules>
 
     <profiles>
