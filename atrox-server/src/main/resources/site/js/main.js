@@ -34,10 +34,12 @@ var openAddRegionWindow = function (map, marker) {
 };
 
 function showLoginForm () {
-    document.getElementById('loginForm').innerHTML
+    var loginForm = document.getElementById('loginForm');
+    loginForm.innerHTML
         = 'Email: <input type="text" name="email"/>' +
         '<br/>Password: <input type="password" name="password"/>' +
         '<br/><input type="submit" value="Sign In"/>';
+    document.getElementById('loginFormSlot').appendChild(loginForm);
 }
 
 function initMap () {
