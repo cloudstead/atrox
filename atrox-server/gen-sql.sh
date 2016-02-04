@@ -9,7 +9,7 @@ outfile=${BASE}/target/atrox.sql
 SILENT="${1}"
 
 if [ ! -z "${SILENT}" ] ; then
-  ${GEN_SQL} cloudos_test ${outfile} 1> /dev/null 2> /dev/null
+  ${GEN_SQL} atrox_test ${outfile} 1> /dev/null 2> /dev/null
 else
-  ${GEN_SQL} cloudos_test ${outfile}
+  ${GEN_SQL} atrox_test ${outfile}
 fi
