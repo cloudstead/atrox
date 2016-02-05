@@ -36,7 +36,7 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
     @Override public Account findByName(String name) { return findByEmail(name); }
 
     @Override public Object preCreate(@Valid Account account) {
-        account.setEmail(account.getName());
+        if (empty(account.getName())) account.setName(account.getEmail());
         account.setFirstName(".");
         account.setLastName(".");
         account.setHashedPassword(new HashedPassword(randomAlphanumeric(30)));
@@ -120,6 +120,7 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
         }
 
         audit.log(request, "registerAnonymous", "anon user "+found.getEmail()+" now registered as "+name+"");
+        found.setName(name);
         found.setEmail(name);
         found.setPassword(request.getPassword());
         found.setAnonymous(false);
@@ -151,7 +152,7 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
 
     public Account anonymousAccount() {
         final Account account = new Account();
-        account.setName(ApiConstants.anonymousEmail());
+        account.setEmail(ApiConstants.anonymousEmail());
         account.setAnonymous(true);
         return create(account);
     }

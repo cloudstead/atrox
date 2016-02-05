@@ -18,9 +18,13 @@ import org.springframework.context.annotation.Configuration;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.cobbzilla.util.daemon.ZillaRuntime.die;
+
 @Configuration @Slf4j
 public class AtroxConfiguration extends RestServerConfiguration
     implements HasDatabaseConfiguration, TemplatedMailSenderConfiguration, HasRedisConfiguration {
+
+    public static final String RESET_PASSWORD_URI = "/reset_password.html?key=";
 
     @Setter private DatabaseConfiguration database;
     @Bean public DatabaseConfiguration getDatabase() { return database; }
@@ -38,6 +42,13 @@ public class AtroxConfiguration extends RestServerConfiguration
     @Getter @Setter private String sessionPassphrase;
 
     public String getResetPasswordUrl(String token) {
-        return new StringBuilder().append(getPublicUriBase()).append("/reset_password.html?key=").append(token).toString();
+        return new StringBuilder().append(getPublicUriBase()).append(RESET_PASSWORD_URI).append(token).toString();
+    }
+
+    public String getTokenFromResetPasswordUrl (String url) {
+        if (!url.startsWith(getPublicUriBase()+RESET_PASSWORD_URI)) die("getTokenFromResetPasswordUrl: invalid url: "+url);
+        int lastEq = url.lastIndexOf('=');
+        if (lastEq == -1 || lastEq == url.length()-1) die("getTokenFromResetPasswordUrl: invalid url: "+url);
+        return url.substring(lastEq+1);
     }
 }

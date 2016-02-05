@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.cobbzilla.wizard.model.IdentifiableBase;
+import org.cobbzilla.wizard.model.StrongIdentifiableBase;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +13,7 @@ import javax.persistence.Entity;
 import static org.cobbzilla.wizard.model.UniquelyNamedEntity.NAME_MAXLEN;
 
 @Entity @Accessors(chain=true) @NoArgsConstructor
-public class AuditLog extends IdentifiableBase {
+public class AuditLog extends StrongIdentifiableBase {
 
     public AuditLog(LoginRequest login, String context, String notes) {
         setName(login.hasName() ? login.getName() : "-empty-");

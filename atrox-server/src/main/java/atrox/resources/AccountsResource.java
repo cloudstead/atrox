@@ -46,8 +46,10 @@ public class AccountsResource extends AuthResourceBase<Account> {
      */
     @GET
     public Response me (@Context HttpContext ctx) {
-        final Account found = optionalUserPrincipal(ctx);
-        return found == null ? notFound() : ok(found);
+        Account found = optionalUserPrincipal(ctx);
+        if (found == null) return notFound();
+        found = accountDAO.findByUuid(found.getUuid());
+        return (found == null) ? notFound() : ok(found);
     }
 
     /**

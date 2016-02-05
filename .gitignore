@@ -13,3 +13,4 @@ target/maven-archiver
 target
 .DS_Store
 node_modules
+dump.rdb
