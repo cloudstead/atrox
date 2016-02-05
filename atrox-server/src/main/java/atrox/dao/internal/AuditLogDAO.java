@@ -1,6 +1,6 @@
-package atrox.dao;
+package atrox.dao.internal;
 
-import atrox.model.AuditLog;
+import atrox.model.internal.AuditLog;
 import cloudos.model.auth.LoginRequest;
 import org.cobbzilla.wizard.dao.AbstractCRUDDAO;
 import org.springframework.stereotype.Repository;

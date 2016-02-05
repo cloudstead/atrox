@@ -1,6 +1,7 @@
 package atrox.dao;
 
 import atrox.ApiConstants;
+import atrox.dao.internal.AuditLogDAO;
 import atrox.model.Account;
 import atrox.model.auth.RegistrationRequest;
 import atrox.server.AtroxConfiguration;

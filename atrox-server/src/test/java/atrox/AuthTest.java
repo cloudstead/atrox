@@ -24,22 +24,6 @@ import static org.junit.Assert.*;
 public class AuthTest extends ApiClientTestBase {
 
     public static final String DOC_TARGET = "Authentication";
-    public static final String REGISTER_URL = ACCOUNTS_ENDPOINT + EP_REGISTER;
-
-    public AccountAuthResponse register(RegistrationRequest request) throws Exception {
-        AccountAuthResponse response = fromJson(post(REGISTER_URL, toJson(request)).json, AccountAuthResponse.class);
-        if (response != null) pushToken(response.getSessionId());
-        return response;
-    }
-
-    public AccountAuthResponse newAnonymousAccount() throws Exception {
-        final RegistrationRequest request = new RegistrationRequest();
-        apiDocs.addNote("Register an anonymous account");
-        AccountAuthResponse response = register(request);
-        assertTrue(response.hasSessionId());
-        assertTrue(response.getAccount().isAnonymous());
-        return response;
-    }
 
     @Test public void testCreateAnonymousAccount () throws Exception {
         apiDocs.startRecording(DOC_TARGET, "Register an anonymous account");

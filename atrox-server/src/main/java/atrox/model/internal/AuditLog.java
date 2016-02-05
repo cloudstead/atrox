@@ -1,4 +1,4 @@
-package atrox.model;
+package atrox.model.internal;
 
 import cloudos.model.auth.LoginRequest;
 import lombok.Getter;

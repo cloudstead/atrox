@@ -2,13 +2,13 @@ package atrox.server;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.mail.SimpleEmailMessage;
 import org.cobbzilla.mail.sender.SmtpMailConfig;
 import org.cobbzilla.mail.service.TemplatedMailSenderConfiguration;
 import org.cobbzilla.wizard.cache.redis.HasRedisConfiguration;
 import org.cobbzilla.wizard.cache.redis.RedisConfiguration;
+import org.cobbzilla.wizard.dao.DAO;
 import org.cobbzilla.wizard.server.config.DatabaseConfiguration;
 import org.cobbzilla.wizard.server.config.HasDatabaseConfiguration;
 import org.cobbzilla.wizard.server.config.RestServerConfiguration;
@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 
@@ -50,5 +51,16 @@ public class AtroxConfiguration extends RestServerConfiguration
         int lastEq = url.lastIndexOf('=');
         if (lastEq == -1 || lastEq == url.length()-1) die("getTokenFromResetPasswordUrl: invalid url: "+url);
         return url.substring(lastEq+1);
+    }
+
+    public static final Map<Class, DAO> daoCache = new ConcurrentHashMap<>();
+
+    public DAO getDaoForEntityClass(Class entityClass) {
+        DAO entityDao = daoCache.get(entityClass);
+        if (entityDao == null) {
+            entityDao = getBean(entityClass + "DAO");
+            daoCache.put(entityClass, entityDao);
+        }
+        return entityDao;
     }
 }

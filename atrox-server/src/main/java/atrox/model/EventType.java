@@ -1,12 +1,12 @@
 package atrox.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 
-@Entity
+@Entity @NoArgsConstructor
 public class EventType extends CanonicallyNamedEntity {
+
+    public EventType (String name) { super(name); }
 
 }

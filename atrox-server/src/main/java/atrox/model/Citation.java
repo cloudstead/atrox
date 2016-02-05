@@ -14,7 +14,7 @@ public class Citation extends CanonicallyNamedEntity {
     public String getUrl () { return getName(); }
     public void setUrl (String val) { setName(val); }
 
-    // Can be just about anything: WorldEvent, WorldActor, EventActor, EventType, EventTypeTag, Ideology or IdeologyTag
+    // Can be any any entity
     @Column(nullable=false, length=UUID_MAXLEN)
     @Getter @Setter private String entity;
 

@@ -206,7 +206,3 @@
 # PostgreSQL JDBC driver
   * Site: https://jdbc.postgresql.org/
   * License: https://jdbc.postgresql.org/about/license.html
-
-# Jadira
-  * Site: http://jadira.sourceforge.net/
-  * License: http://jadira.sourceforge.net/licensecover.html
