@@ -21,9 +21,7 @@ var localizer = {
     }
 };
 
-var openAddRegionWindow = function (map, marker) {
-    addRegionWindow.open(map, marker);
-    // check to see if we are logged in --
+function updateAuthMessage() {
     var authMessageSlot = document.getElementById('authMessageSlot');
     if (get_token() == NO_TOKEN || ((typeof Atrox.account == 'undefined') || (typeof Atrox.account.email == 'undefined'))) {
         authMessageSlot.innerHTML
@@ -31,8 +29,12 @@ var openAddRegionWindow = function (map, marker) {
             + '<a href="." onclick="showRegistrationForm(); return false;">Sign up</a>';
     } else {
         authMessageSlot.innerHTML
-            = 'Currently logged in as '+Atrox.account.email+' <a href="." onclick="Atrox.logout(); return false;">Log out</a>';
+            = 'Currently logged in as ' + Atrox.account.email + ' <a href="." onclick="Atrox.logout(); return false;">Log out</a>';
     }
+}
+var openAddRegionWindow = function (map, marker) {
+    addRegionWindow.open(map, marker);
+    updateAuthMessage();
 };
 
 function showLoginForm () {
@@ -40,6 +42,21 @@ function showLoginForm () {
     var authFormSlot = document.getElementById('authFormSlot');
     authFormSlot.innerHTML = '';
     authFormSlot.appendChild(loginForm);
+}
+
+function closeLoginForm () {
+    var loginForm = document.getElementById('loginForm');
+    var loginContainer = document.getElementById('loginContainer');
+    loginContainer.appendChild(loginForm);
+    updateAuthMessage();
+}
+
+function handleLoginError () {
+    var authMessageSlot = document.getElementById('authMessageSlot');
+    var loginContainer = document.getElementById('loginContainer');
+    authMessageSlot.innerHTML = '<b>oops, there was an error</b>';
+    loginContainer.appendChild(loginForm)
+    updateAuthMessage();
 }
 
 function showRegistrationForm () {

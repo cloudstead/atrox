@@ -1,7 +1,10 @@
 package atrox.model;
 
 import cloudos.model.auth.AuthResponse;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@NoArgsConstructor @Slf4j
 public class AccountAuthResponse extends AuthResponse<Account> {
 
     public static final AccountAuthResponse TWO_FACTOR = new AccountAuthResponse(true);

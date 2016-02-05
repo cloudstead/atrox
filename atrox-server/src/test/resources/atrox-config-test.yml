@@ -35,10 +35,19 @@ http:
   baseUri: /api
 
 jersey:
-  resourcePackages: [ atrox.auth, atrox.resources, org.cobbzilla.wizard.server, org.cobbzilla.wizard.filters ]
+  resourcePackages: [ atrox.resources, org.cobbzilla.wizard.server, org.cobbzilla.wizard.filters ]
+  requestFilters: [ atrox.auth.AtroxAuthFilter ]
   responseFilters: [ org.cobbzilla.wizard.filters.ScrubbableScrubber ]
 
 emailTemplateRoot: {{EMAIL_TEMPLATE_ROOT}}
+
+emailSenderNames:
+  welcome:
+    fromName:  Hello from Atrox
+    fromEmail: do-not-reply@atrox.city
+  reset_password:
+    fromName: Atrox Password Helper
+    fromEmail: do-not-reply@atrox.city
 
 smtp:
   host: 127.0.0.1

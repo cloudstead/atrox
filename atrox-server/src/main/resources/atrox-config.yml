@@ -40,6 +40,14 @@ jersey:
 
 emailTemplateRoot: {{EMAIL_TEMPLATE_ROOT}}
 
+emailSenderNames:
+  welcome:
+    fromName:  {{WELCOME_SENDER_NAME}}
+    fromEmail: {{WELCOME_SENDER_EMAIL}}
+  reset_password:
+    fromName: {{RESET_PASSWORD_SENDER_NAME}}
+    fromEmail: {{RESET_PASSWORD_SENDER_EMAIL}}
+
 smtp:
   host: 127.0.0.1
   user: {{SYSTEM_MAILER_USERNAME}}

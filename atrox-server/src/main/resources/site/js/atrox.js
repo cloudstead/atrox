@@ -7,16 +7,22 @@ Atrox = {
         return j ? JSON.parse(j) : null;
     },
 
-    login: function (email, password) {
-        var auth_response = Api.login(email, password);
-        sessionStorage.setItem('atrox_session', auth_response.sessionId);
-        Atrox.set_account(auth_response.account);
+    login: function (email, password, success, fail) {
+        Api.login(email, password,
+            function (auth_response) {
+                success(auth_response);
+                sessionStorage.setItem('atrox_session', auth_response.sessionId);
+                Atrox.set_account(auth_response.account);
+            }, fail);
     },
 
-    register: function (email) {
-        var auth_response = Api.register(email);
-        sessionStorage.setItem('atrox_session', auth_response.sessionId);
-        Atrox.set_account(auth_response.account);
+    register: function (email, success, fail) {
+        Api.register(email,
+            function (auth_response) {
+                success(auth_response);
+                sessionStorage.setItem('atrox_session', auth_response.sessionId);
+                Atrox.set_account(auth_response.account);
+            }, fail);
     },
 
     logout: function () {

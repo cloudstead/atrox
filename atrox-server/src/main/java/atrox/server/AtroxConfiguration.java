@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import lombok.extern.slf4j.Slf4j;
+import org.cobbzilla.mail.SimpleEmailMessage;
 import org.cobbzilla.mail.sender.SmtpMailConfig;
 import org.cobbzilla.mail.service.TemplatedMailSenderConfiguration;
 import org.cobbzilla.wizard.cache.redis.HasRedisConfiguration;
@@ -13,6 +14,9 @@ import org.cobbzilla.wizard.server.config.HasDatabaseConfiguration;
 import org.cobbzilla.wizard.server.config.RestServerConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration @Slf4j
 public class AtroxConfiguration extends RestServerConfiguration
@@ -28,6 +32,7 @@ public class AtroxConfiguration extends RestServerConfiguration
     }
 
     @Getter @Setter private SmtpMailConfig smtp;
+    @Getter @Setter private Map<String, SimpleEmailMessage> emailSenderNames = new HashMap<>();
     @Getter @Setter private String emailTemplateRoot;
 
     @Getter @Setter private String sessionPassphrase;
