@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
-@Entity @NoArgsConstructor @Accessors(chain=true)
+@Entity @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS) @NoArgsConstructor @Accessors(chain=true)
 public class Citation extends CanonicallyNamedEntity {
 
     public Citation (String url) { super(url); }

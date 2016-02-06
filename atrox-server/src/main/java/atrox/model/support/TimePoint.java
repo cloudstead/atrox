@@ -78,14 +78,28 @@ public class TimePoint {
 
     @Getter @Setter private long instant;
 
-    @Min(value=MIN_YEAR, message="err.year.tooEarly")
-    @Max(value=MAX_YEAR, message="err.year.tooLate")
+    @Min(value=MIN_YEAR, message="err.timePoint.year.tooEarly")
+    @Max(value=MAX_YEAR, message="err.timePoint.year.tooLate")
     @Getter @Setter private long year;
 
+    @Min(value=1, message="err.timePoint.month.tooSmall")
+    @Max(value=12, message="err.timePoint.month.tooLarge")
     @Getter @Setter private Byte month;
+
+    @Min(value=1, message="err.timePoint.day.tooSmall")
+    @Max(value=31, message="err.timePoint.day.tooLarge")
     @Getter @Setter private Byte day;
+
+    @Min(value=0, message="err.timePoint.hour.tooSmall")
+    @Max(value=23, message="err.timePoint.hour.tooLarge")
     @Getter @Setter private Byte hour;
+
+    @Min(value=0, message="err.timePoint.minute.tooSmall")
+    @Max(value=59, message="err.timePoint.minute.tooLarge")
     @Getter @Setter private Byte minute;
+
+    @Min(value=0, message="err.timePoint.second.tooSmall")
+    @Max(value=59, message="err.timePoint.second.tooLarge")
     @Getter @Setter private Byte second;
 
     @Override public String toString () {

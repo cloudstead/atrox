@@ -1,14 +1,14 @@
-package atrox.model.archive.tags;
+package atrox.archive.tags;
 
-import atrox.model.archive.EntityArchive;
-import atrox.model.tags.WorldEventTag;
+import atrox.archive.EntityArchive;
+import atrox.model.tags.IdeologyTag;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-@Entity public class WorldEventTagArchive extends WorldEventTag implements EntityArchive {
+@Entity public class IdeologyTagArchive extends IdeologyTag implements EntityArchive {
 
     @Override public void beforeCreate() {}
 

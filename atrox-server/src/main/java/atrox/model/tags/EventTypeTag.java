@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
-@Entity @Accessors(chain=true)
+@Entity @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)  @Accessors(chain=true)
 public class EventTypeTag extends EntityTag {
 
     public static final String[] UNIQUES = {"eventType", "worldEvent"};

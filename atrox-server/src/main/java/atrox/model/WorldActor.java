@@ -7,8 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
-@Entity @NoArgsConstructor
-@Accessors(chain=true)
+@Entity @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS) @NoArgsConstructor @Accessors(chain=true)
 public class WorldActor extends CanonicallyNamedEntity {
 
     public WorldActor (String name) { super(name); }

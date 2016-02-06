@@ -1,13 +1,14 @@
-package atrox.model.archive;
+package atrox.archive.tags;
 
-import atrox.model.EffectType;
+import atrox.archive.EntityArchive;
+import atrox.model.tags.WorldActorTag;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-@Entity public class EffectTypeArchive extends EffectType implements EntityArchive {
+@Entity public class WorldActorTagArchive extends WorldActorTag implements EntityArchive {
 
     @Override public void beforeCreate() {}
 
@@ -15,3 +16,4 @@ import javax.persistence.Entity;
     @Getter @Setter private String originalUuid;
 
 }
+

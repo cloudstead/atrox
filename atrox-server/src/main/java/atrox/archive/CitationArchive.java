@@ -1,14 +1,13 @@
-package atrox.model.archive.tags;
+package atrox.archive;
 
-import atrox.model.archive.EntityArchive;
-import atrox.model.tags.CitationTag;
+import atrox.model.Citation;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-@Entity public class CitationTagArchive extends CitationTag implements EntityArchive {
+@Entity public class CitationArchive extends Citation implements EntityArchive {
 
     @Override public void beforeCreate() {}
 
@@ -16,4 +15,3 @@ import javax.persistence.Entity;
     @Getter @Setter private String originalUuid;
 
 }
-

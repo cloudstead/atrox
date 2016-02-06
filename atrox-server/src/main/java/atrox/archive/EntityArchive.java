@@ -1,4 +1,4 @@
-package atrox.model.archive;
+package atrox.archive;
 
 import atrox.model.AccountOwnedEntity;
 import org.cobbzilla.wizard.model.Identifiable;

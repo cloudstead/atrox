@@ -14,6 +14,7 @@ database:
 
   hibernate:
     entityPackages: [ atrox.model ]
+    archivePackages: [ atrox.archive ]
     dialect: org.hibernate.dialect.PostgreSQLDialect
     showSql: true
     hbm2ddlAuto: create

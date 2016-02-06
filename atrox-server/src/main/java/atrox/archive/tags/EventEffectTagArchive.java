@@ -1,13 +1,14 @@
-package atrox.model.archive;
+package atrox.archive.tags;
 
-import atrox.model.Citation;
+import atrox.archive.EntityArchive;
+import atrox.model.tags.EventEffectTag;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-@Entity public class CitationArchive extends Citation implements EntityArchive {
+@Entity public class EventEffectTagArchive extends EventEffectTag implements EntityArchive {
 
     @Override public void beforeCreate() {}
 
@@ -15,3 +16,4 @@ import javax.persistence.Entity;
     @Getter @Setter private String originalUuid;
 
 }
+

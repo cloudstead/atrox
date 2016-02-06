@@ -1,13 +1,13 @@
-package atrox.model.archive;
+package atrox.archive;
 
-import atrox.model.WorldActor;
+import atrox.model.WorldEvent;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-@Entity public class WorldActorArchive extends WorldActor implements EntityArchive {
+@Entity public class WorldEventArchive extends WorldEvent implements EntityArchive {
 
     @Override public void beforeCreate() {}
 
@@ -15,4 +15,3 @@ import javax.persistence.Entity;
     @Getter @Setter private String originalUuid;
 
 }
-

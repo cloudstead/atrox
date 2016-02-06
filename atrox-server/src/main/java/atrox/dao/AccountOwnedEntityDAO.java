@@ -1,12 +1,12 @@
 package atrox.dao;
 
 import atrox.ApiConstants;
+import atrox.archive.EntityArchive;
 import atrox.dao.internal.EntityPointerDAO;
 import atrox.dao.tags.TagDAO;
 import atrox.model.Account;
 import atrox.model.AccountOwnedEntity;
 import atrox.model.CanonicallyNamedEntity;
-import atrox.model.archive.EntityArchive;
 import atrox.model.internal.EntityPointer;
 import atrox.model.support.EntityVisibility;
 import atrox.model.support.TagOrder;
@@ -22,6 +22,7 @@ import org.cobbzilla.wizard.dao.DAO;
 import org.cobbzilla.wizard.dao.HibernateCallbackImpl;
 import org.cobbzilla.wizard.model.SemanticVersion;
 import org.cobbzilla.wizard.model.StrongIdentifiableBase;
+import org.cobbzilla.wizard.spring.config.rdbms_archive.ArchiveHibernateTemplate;
 import org.cobbzilla.wizard.validation.ValidationResult;
 import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,7 @@ import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
 @Slf4j
 public abstract class AccountOwnedEntityDAO<E extends AccountOwnedEntity> extends AbstractCRUDDAO<E> {
 
+    @Autowired protected ArchiveHibernateTemplate archiveHibernateTemplate;
     @Autowired private AtroxConfiguration configuration;
     @Autowired private EntityPointerDAO entityPointerDAO;
 
@@ -118,14 +120,14 @@ public abstract class AccountOwnedEntityDAO<E extends AccountOwnedEntity> extend
             }
             archive.setOriginalUuid(entity.getUuid());
             archive.setUuid(archive.getUuid()+"_"+entity.getVersion());
-            hibernateTemplate.save(archive);
+            archiveHibernateTemplate.save(archive);
 
         } catch (SQLException e) {
             log.error("preCreate: error saving archive: "+e, e);
         }
     }
 
-    public String archiveClassName() { return getEntityClass().getName().replace(".model.", ".model.archive.")+"Archive"; }
+    public String archiveClassName() { return getEntityClass().getName().replace(".model.", ".archive.")+"Archive"; }
 
     @Getter(lazy=true) private final String archiveTableName = initArchiveTableName();
     public String initArchiveTableName() {

@@ -17,6 +17,7 @@
 
     <!-- DB-related beans (dataSource, sessionFactory, hibernateTemplate, etc) -->
     <context:component-scan base-package="org.cobbzilla.wizard.spring.config.rdbms"/>
+    <context:component-scan base-package="org.cobbzilla.wizard.spring.config.rdbms_archive"/>
 
     <!-- RedisService -->
     <context:component-scan base-package="org.cobbzilla.wizard.cache.redis"/>
@@ -27,6 +28,7 @@
     <!-- jersey resources, DAOs -->
     <context:component-scan base-package="atrox.auth"/>
     <context:component-scan base-package="atrox.model"/>
+    <context:component-scan base-package="atrox.archive"/>
     <context:component-scan base-package="atrox.dao"/>
     <context:component-scan base-package="atrox.service"/>
     <context:component-scan base-package="atrox.resources"/>

@@ -1,14 +1,13 @@
-package atrox.model.archive.tags;
+package atrox.archive;
 
-import atrox.model.archive.EntityArchive;
-import atrox.model.tags.IdeologyTag;
+import atrox.model.Ideology;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-@Entity public class IdeologyTagArchive extends IdeologyTag implements EntityArchive {
+@Entity public class IdeologyArchive extends Ideology implements EntityArchive {
 
     @Override public void beforeCreate() {}
 
