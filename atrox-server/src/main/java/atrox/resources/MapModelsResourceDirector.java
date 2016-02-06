@@ -7,20 +7,20 @@ import org.springframework.stereotype.Service;
 
 import javax.ws.rs.*;
 
-import static atrox.ApiConstants.NAMED_ENTITIES_ENDPOINT;
+import static atrox.ApiConstants.MAP_ENTITIES_ENDPOINT;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Consumes(APPLICATION_JSON)
 @Produces(APPLICATION_JSON)
-@Path(NAMED_ENTITIES_ENDPOINT)
+@Path(MAP_ENTITIES_ENDPOINT)
 @Service @Slf4j
-public class ModelsResourceDirector {
+public class MapModelsResourceDirector {
 
     @Autowired private AtroxConfiguration configuration;
 
     @Path("/{entityType}")
-    public ModelsResource getEntityResource (@PathParam("entityType") String entityType) {
-        return ModelsResource.getResource(entityType, configuration);
+    public MapModelsResource getEntityResource (@PathParam("entityType") String entityType) {
+        return MapModelsResource.getResource(entityType, configuration);
     }
 
 //

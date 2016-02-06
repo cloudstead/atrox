@@ -58,7 +58,7 @@ public class AtroxConfiguration extends RestServerConfiguration
     public DAO getDaoForEntityClass(Class entityClass) {
         DAO entityDao = daoCache.get(entityClass);
         if (entityDao == null) {
-            entityDao = getBean(entityClass + "DAO");
+            entityDao = getBean(entityClass.getName().replace(".model.", ".dao.") + "DAO");
             daoCache.put(entityClass, entityDao);
         }
         return entityDao;

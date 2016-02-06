@@ -2,16 +2,27 @@ package atrox.dao;
 
 import atrox.ApiConstants;
 import atrox.dao.internal.EntityPointerDAO;
+import atrox.dao.tags.TagDAO;
+import atrox.model.Account;
 import atrox.model.AccountOwnedEntity;
+import atrox.model.CanonicallyNamedEntity;
 import atrox.model.archive.EntityArchive;
 import atrox.model.internal.EntityPointer;
+import atrox.model.support.EntityVisibility;
+import atrox.model.support.TagOrder;
+import atrox.model.support.TagSearchType;
+import atrox.model.tags.EntityTag;
 import atrox.server.AtroxConfiguration;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.jdbc.ResultSetBean;
 import org.cobbzilla.util.reflect.ReflectionUtil;
 import org.cobbzilla.wizard.dao.AbstractCRUDDAO;
+import org.cobbzilla.wizard.dao.DAO;
+import org.cobbzilla.wizard.dao.HibernateCallbackImpl;
 import org.cobbzilla.wizard.model.SemanticVersion;
+import org.cobbzilla.wizard.model.StrongIdentifiableBase;
+import org.cobbzilla.wizard.validation.ValidationResult;
 import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,11 +32,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static atrox.ApiConstants.BOUND_RANGE;
+import static atrox.ApiConstants.*;
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.daemon.ZillaRuntime.notSupported;
-import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
-import static org.cobbzilla.util.reflect.ReflectionUtil.instantiate;
+import static org.cobbzilla.util.reflect.ReflectionUtil.*;
+import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
 
 @Slf4j
 public abstract class AccountOwnedEntityDAO<E extends AccountOwnedEntity> extends AbstractCRUDDAO<E> {
@@ -39,7 +50,7 @@ public abstract class AccountOwnedEntityDAO<E extends AccountOwnedEntity> extend
 
         Object ctx = super.preCreate(entity);
         incrementVersionAndArchive(entity);
-        entityPointerDAO.create(new EntityPointer(entity.getUuid(), entity.getClass().getName()));
+        entityPointerDAO.create(new EntityPointer(entity.getUuid(), entity.getClass().getSimpleName()));
 
         return ctx;
     }
@@ -72,6 +83,7 @@ public abstract class AccountOwnedEntityDAO<E extends AccountOwnedEntity> extend
         String[] uniqueProps = archive.getUniqueProperties();
         final List<String> args = new ArrayList<>();
         args.add(archive.getOwner());
+
         String uniqueSql = "";
         for (String propName : uniqueProps) {
             args.add((String) ReflectionUtil.get(archive, propName));
@@ -111,4 +123,77 @@ public abstract class AccountOwnedEntityDAO<E extends AccountOwnedEntity> extend
     public String columnName (String propName) { return ImprovedNamingStrategy.INSTANCE.propertyToColumnName(propName); }
 
     public EntityArchive newArchiveEntity() { return (EntityArchive) instantiate(archiveClassName()); }
+
+    public DAO dao(String entityType) {
+        final Class<?> entityClass = ENTITY_CLASS_MAP.get(entityType);
+        return configuration.getDaoForEntityClass(entityClass);
+    }
+
+    public ValidationResult populateAssociated(Account account, E newEntity, ValidationResult validationResult) {
+        for (String associated : newEntity.getAssociated()) {
+            final String uuidOrName = (String) ReflectionUtil.get(newEntity, associated);
+            if (uuidOrName == null) throw invalidEx("err."+associated+".empty");
+
+            DAO associatedDao = dao(associated);
+            AccountOwnedEntity associatedEntity;
+
+            if (associatedDao instanceof EntityPointerDAO) {
+                final Object dereferencedEntity = associatedDao.findByUuid(uuidOrName);
+                if (dereferencedEntity == null) {
+                    validationResult.addViolation("err."+associated+".notFound", associated+" was not found: "+uuidOrName, uuidOrName);
+                    continue;
+                } else {
+                    associatedDao = dao(((EntityPointer) dereferencedEntity).getEntityType());
+                }
+            }
+
+            associatedEntity = (AccountOwnedEntity) associatedDao.findByUuid(uuidOrName);
+            if (associatedEntity == null) {
+                if (associatedDao instanceof CanonicallyNamedEntityDAO) {
+                    CanonicallyNamedEntity canonical = (CanonicallyNamedEntity) ((CanonicallyNamedEntityDAO) associatedDao).newEntity();
+                    if (!StrongIdentifiableBase.isStrongUuid(uuidOrName)) {
+                        // Create new canonical on the fly
+                        canonical.setName(uuidOrName);
+                        canonical.setOwner(account.getUuid());
+                        canonical = (CanonicallyNamedEntity) associatedDao.create(canonical);
+                        ReflectionUtil.set(newEntity, associated, canonical.getUuid());
+                        newEntity.addAssociation(canonical);
+                    }
+                } else {
+                    validationResult.addViolation("err." + associated + ".notFound", associated + " was not found: " + uuidOrName, uuidOrName);
+                }
+
+            } else {
+                set(newEntity, associated, associatedEntity.getUuid());
+                newEntity.addAssociation(associatedEntity);
+            }
+        }
+        return validationResult;
+    }
+
+    public ValidationResult populateAssociated (Account account, E entity) { return populateAssociated(account, entity, new ValidationResult()); }
+
+    public E populateTags (Account account, E entity, TagSearchType tagSearchType, TagOrder tagOrder) {
+        for (Class tagClass : TAG_ENTITIES) {
+            final TagDAO tagDao = (TagDAO) dao(tagClass.getSimpleName());
+            final List<EntityTag> tags = tagDao.findTags(account, getEntityClass().getSimpleName(), entity.getUuid(), tagSearchType, tagOrder);
+            entity.addTags(tags);
+        }
+        return entity;
+    }
+
+    public static final String[] PARAMS_STARTSWITH = new String[]{":owner", ":nameFragment"};
+
+    public List findByFieldStartsWith(Account account, String field, String nameFragment) {
+
+        final String queryString = "select x."+field+" " +
+                "from "+getEntityClass().getSimpleName()+" x " +
+                "where x."+field+" like :nameFragment " +
+                "and ( x.owner = :owner or x.visibility = '"+EntityVisibility.everyone+"' ) " +
+                "order by length(x.name) desc ";
+
+        final Object[] values = {account.getUuid(), nameFragment+"%"};
+
+        return (List) hibernateTemplate.execute(new HibernateCallbackImpl(queryString, PARAMS_STARTSWITH, values, 0, 10));
+    }
 }

@@ -10,6 +10,11 @@ import static org.cobbzilla.util.reflect.ReflectionUtil.instantiate;
 
 public abstract class CanonicallyNamedEntityDAO<E extends CanonicallyNamedEntity> extends AccountOwnedEntityDAO<E> {
 
+    @Override public E findByUuid(String uuid) {
+        final E found = super.findByUuid(uuid);
+        return found != null ? found : findByCanonicalName(uuid);
+    }
+
     public E findByCanonicalName(E entity) {
         return findByCanonicalName(entity.getCanonicalName());
     }
@@ -23,12 +28,10 @@ public abstract class CanonicallyNamedEntityDAO<E extends CanonicallyNamedEntity
         return found != null ? found : create(entity);
     }
 
-    public static final String[] PARAMS_NAMEFRAGMENT = new String[]{":nameFragment"};
+    public static final String[] PARAMS_STARTSWITH = new String[]{":nameFragment"};
 
-    public List<String> findByCanonicalNameStartsWith(Account account, String nameFragment) {
+    public List<String> findByCanonicalNameStartsWith(String nameFragment) {
 
-        // todo: ensure results are either public or owned by account
-        // todo later: also add results that have visibility=shared and where the caller is a follower of the owner)
         final String queryString = "select x.name " +
                 "from "+getEntityClass().getSimpleName()+" x " +
                 "where x.canonicalName like :nameFragment " +
@@ -36,7 +39,7 @@ public abstract class CanonicallyNamedEntityDAO<E extends CanonicallyNamedEntity
 
         final Object[] values = {nameFragment+"%"};
 
-        return (List) hibernateTemplate.execute(new HibernateCallbackImpl(queryString, PARAMS_NAMEFRAGMENT, values, 0, 10));
+        return (List) hibernateTemplate.execute(new HibernateCallbackImpl(queryString, PARAMS_STARTSWITH, values, 0, 10));
     }
 
     public E findOrCreateByCanonicalName(Account account, String name) {
@@ -49,5 +52,4 @@ public abstract class CanonicallyNamedEntityDAO<E extends CanonicallyNamedEntity
         }
         return found;
     }
-
 }

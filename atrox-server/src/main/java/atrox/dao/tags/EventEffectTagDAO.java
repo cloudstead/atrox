@@ -1,6 +1,9 @@
 package atrox.dao.tags;
 
-import atrox.model.tags.CitationTag;
+import atrox.dao.AssociatorEntityDAO;
+import atrox.model.EffectType;
+import atrox.model.tags.EventEffectTag;
+import atrox.model.WorldEvent;
 import org.springframework.stereotype.Repository;
 
-@Repository public class EventEffectTagDAO extends TagDAO<CitationTag> {}
+@Repository public class EventEffectTagDAO extends AssociatorEntityDAO<EventEffectTag, WorldEvent, EffectType> {}

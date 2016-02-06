@@ -1,19 +1,18 @@
 package atrox.dao;
 
+import atrox.dao.tags.TagDAO;
 import atrox.model.Account;
 import atrox.model.AccountOwnedEntity;
 import org.cobbzilla.wizard.model.Identifiable;
 import org.hibernate.criterion.Restrictions;
 
-import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
-import static org.cobbzilla.util.reflect.ReflectionUtil.instantiate;
-import static org.cobbzilla.util.reflect.ReflectionUtil.set;
+import static org.cobbzilla.util.reflect.ReflectionUtil.*;
 import static org.cobbzilla.util.string.StringUtil.classAsFieldName;
 
 public class AssociatorEntityDAO<E extends AccountOwnedEntity,
                                  T1 extends Identifiable,
                                  T2 extends Identifiable>
-        extends AccountOwnedEntityDAO<E> {
+        extends TagDAO<E> {
 
     public E findByAssociation(Account account, T1 foo, T2 bar) {
         return uniqueResult(criteria().add(Restrictions.and(

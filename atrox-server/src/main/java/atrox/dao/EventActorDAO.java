@@ -5,5 +5,4 @@ import atrox.model.WorldActor;
 import atrox.model.WorldEvent;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public class EventActorDAO extends AssociatorEntityDAO<EventActorTag, WorldEvent, WorldActor> {}
+@Repository public class EventActorDAO extends AssociatorEntityDAO<EventActorTag, WorldEvent, WorldActor> {}

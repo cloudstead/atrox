@@ -10,13 +10,12 @@ import javax.persistence.Transient;
 @Entity
 public class Citation extends CanonicallyNamedEntity {
 
+    public static final String[] ASSOCIATED = {"entity"};
+    @Transient public String[] getAssociated() { return ASSOCIATED; }
+
     @Transient
     public String getUrl () { return getName(); }
     public void setUrl (String val) { setName(val); }
-
-    // Can be any any entity
-    @Column(nullable=false, length=UUID_MAXLEN)
-    @Getter @Setter private String entity;
 
     @Column(length=200)
     @Getter @Setter private String author;
