@@ -20,7 +20,6 @@ import org.cobbzilla.util.reflect.ReflectionUtil;
 import org.cobbzilla.wizard.dao.AbstractCRUDDAO;
 import org.cobbzilla.wizard.dao.DAO;
 import org.cobbzilla.wizard.dao.HibernateCallbackImpl;
-import org.cobbzilla.wizard.model.SemanticVersion;
 import org.cobbzilla.wizard.model.StrongIdentifiableBase;
 import org.cobbzilla.wizard.spring.config.rdbms_archive.ArchiveHibernateTemplate;
 import org.cobbzilla.wizard.validation.ValidationResult;
@@ -101,25 +100,21 @@ public abstract class AccountOwnedEntityDAO<E extends AccountOwnedEntity> extend
         }
         try {
             // any old versions here?
-            final String sql = "select t.major_version, t.minor_version, t.patch_version " +
+            final String sql = "select max(t.entity_version) " +
                     "from " + getArchiveTableName() + " t " +
-                    "where t.owner = ? " + uniqueSql + " " +
-                    "order by t.major_version DESC, t.minor_version DESC, t.patch_version DESC LIMIT 1";
+                    "where t.owner = ? " + uniqueSql;
             final ResultSetBean results = configuration.execSql(sql, args.toArray());
             if (!results.isEmpty()) {
                 final Map<String, Object> mostRecentArchive = results.first();
-                final SemanticVersion latestArchivedVersion = new SemanticVersion(
-                        mostRecentArchive.get("major_version").toString()+"."+
-                        mostRecentArchive.get("minor_version").toString()+"."+
-                        mostRecentArchive.get("patch_version").toString());
+                final int latestArchivedVersion = ((Number) mostRecentArchive.get("entity_version")).intValue();
 
-                if (latestArchivedVersion.compareTo(entity.getVersion()) >= 0) {
+                if (latestArchivedVersion > entity.getEntityVersion()) {
                     // entity version is too low, make it the next minor version
-                    entity.setVersion(latestArchivedVersion.incrementMinor());
+                    entity.setEntityVersion(latestArchivedVersion+1);
                 }
             }
             archive.setOriginalUuid(entity.getUuid());
-            archive.setUuid(archive.getUuid()+"_"+entity.getVersion());
+            archive.setUuid(archive.getUuid()+"_"+Integer.toHexString(entity.getEntityVersion()));
             archiveHibernateTemplate.save(archive);
 
         } catch (SQLException e) {

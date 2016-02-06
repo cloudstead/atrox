@@ -14,7 +14,6 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.cobbzilla.wizard.dao.SearchResults;
 import org.cobbzilla.wizard.model.ResultPage;
-import org.cobbzilla.wizard.model.SemanticVersion;
 import org.cobbzilla.wizard.model.StrongIdentifiableBase;
 
 import javax.persistence.*;
@@ -44,16 +43,12 @@ public abstract class AccountOwnedEntity extends StrongIdentifiableBase {
     public boolean hasOwner() { return !empty(owner); }
     public boolean isOwner(String uuid) { return hasOwner() && getOwner().equals(uuid); }
 
-    @Embedded @Getter @Setter private SemanticVersion version = new SemanticVersion();
+    @Getter @Setter private int entityVersion;
+
     @Embedded @Getter @Setter private EntityCommentary commentary = new EntityCommentary();
     @Embedded @Getter @Setter private VoteSummary votes = new VoteSummary();
 
     @Transient @JsonIgnore public JavaType getSearchResultType() { return SearchResults.jsonType(getClass()); }
-
-    public String incrementVersion () {
-        version = SemanticVersion.incrementPatch(version);
-        return version.toString();
-    }
 
     @Column(nullable=false, length=20)
     @Enumerated(EnumType.STRING)
