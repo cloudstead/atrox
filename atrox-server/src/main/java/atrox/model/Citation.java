@@ -1,17 +1,16 @@
 package atrox.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
-@Entity
+@Entity @NoArgsConstructor @Accessors(chain=true)
 public class Citation extends CanonicallyNamedEntity {
 
-    public static final String[] ASSOCIATED = {"entity"};
-    @Transient public String[] getAssociated() { return ASSOCIATED; }
+    public Citation (String url) { super(url); }
 
     @Transient
     public String getUrl () { return getName(); }
@@ -28,5 +27,8 @@ public class Citation extends CanonicallyNamedEntity {
 
     @Column(length=100)
     @Getter @Setter private String publishDate;
+
+    @Column(length=200)
+    @Getter @Setter private String citationNotes;
 
 }

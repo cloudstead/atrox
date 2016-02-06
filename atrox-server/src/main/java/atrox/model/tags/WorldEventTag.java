@@ -2,6 +2,7 @@ package atrox.model.tags;
 
 import atrox.model.support.GeoPolygon;
 import atrox.model.support.TimePoint;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -14,7 +15,7 @@ public class WorldEventTag extends EntityTag {
     public static final String[] UNIQUES
             = {"worldEvent", "startPoint.instant", "endPoint.instant", "polygon.coordinates"};
 
-    @Override public String[] getUniqueProperties() { return UNIQUES; }
+    @Override @Transient @JsonIgnore public String[] getUniqueProperties() { return UNIQUES; }
 
     @Column(nullable=false, length=UUID_MAXLEN)
     @Getter @Setter private String worldEvent;

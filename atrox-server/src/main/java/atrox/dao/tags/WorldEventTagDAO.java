@@ -1,6 +1,7 @@
 package atrox.dao.tags;
 
 import atrox.model.tags.WorldEventTag;
+import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.springframework.stereotype.Repository;
 
 import static atrox.ApiConstants.BOUND_RANGE;
@@ -21,6 +22,13 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.notSupported;
                         + "OR (x.startPoint.instant >= "+start+" AND x.startPoint.instant <= "+end+")";
         }
         return notSupported("Invalid bound: " + bound);
+    }
+
+    // special handling for startPoint and endPoint, since we use @AttributeOverrides
+    @Override public String columnName (String propName) {
+        if (propName.startsWith("startPoint.")) return "start_" + super.columnName(propName);
+        if (propName.startsWith("endPoint.")) return "end_" + super.columnName(propName);
+        return ImprovedNamingStrategy.INSTANCE.propertyToColumnName(propName);
     }
 
 }

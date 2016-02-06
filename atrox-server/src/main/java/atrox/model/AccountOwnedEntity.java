@@ -6,6 +6,7 @@ import atrox.model.support.EntityVisibility;
 import atrox.model.support.TimePoint;
 import atrox.model.support.VoteSummary;
 import atrox.model.tags.EntityTag;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JavaType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,12 +29,12 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 public abstract class AccountOwnedEntity extends StrongIdentifiableBase {
 
     public static final String[] UNIQUES = new String[0];
-    @Transient public String[] getUniqueProperties() { return UNIQUES; }
-    @Transient public String getSortField() { return "ctime"; }
-    @Transient public ResultPage.SortOrder getSortOrder() { return ResultPage.SortOrder.DESC; }
+    @Transient @JsonIgnore public String[] getUniqueProperties() { return UNIQUES; }
+    @Transient @JsonIgnore public String getSortField() { return "ctime"; }
+    @Transient @JsonIgnore public ResultPage.SortOrder getSortOrder() { return ResultPage.SortOrder.DESC; }
 
     public static final String[] ASSOCIATED = new String[0];
-    @Transient public String[] getAssociated() { return ASSOCIATED; }
+    @Transient @JsonIgnore public String[] getAssociated() { return ASSOCIATED; }
     @Transient public boolean hasAssociated() { return !empty(getAssociated()); }
 
     public AccountOwnedEntity (String owner) { setOwner(owner); }
@@ -43,11 +44,11 @@ public abstract class AccountOwnedEntity extends StrongIdentifiableBase {
     public boolean hasOwner() { return !empty(owner); }
     public boolean isOwner(String uuid) { return hasOwner() && getOwner().equals(uuid); }
 
-    @Embedded @Getter @Setter private SemanticVersion version;
-    @Embedded @Getter @Setter private EntityCommentary commentary;
-    @Embedded @Getter @Setter private VoteSummary votes;
+    @Embedded @Getter @Setter private SemanticVersion version = new SemanticVersion();
+    @Embedded @Getter @Setter private EntityCommentary commentary = new EntityCommentary();
+    @Embedded @Getter @Setter private VoteSummary votes = new VoteSummary();
 
-    public JavaType getSearchResultType() { return SearchResults.jsonType(getClass()); }
+    @Transient @JsonIgnore public JavaType getSearchResultType() { return SearchResults.jsonType(getClass()); }
 
     public String incrementVersion () {
         version = SemanticVersion.incrementPatch(version);

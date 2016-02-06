@@ -29,19 +29,13 @@ import static org.junit.Assert.assertTrue;
 @Slf4j
 public class ApiClientTestBase extends ApiDocsResourceIT<AtroxConfiguration, AtroxServer> {
 
-    protected String getTestConfig() {
-        return "atrox-config-test.yml";
-    }
+    protected String getTestConfig() { return "atrox-config-test.yml"; }
 
-    @Override
-    protected List<ConfigurationSource> getConfigurations() {
+    @Override protected List<ConfigurationSource> getConfigurations() {
         return new SingletonList<ConfigurationSource>(new StreamConfigurationSource(getTestConfig()));
     }
 
-    @Override
-    protected String getTokenHeader() {
-        return API_TOKEN;
-    }
+    @Override protected String getTokenHeader() { return API_TOKEN; }
 
     public MockTemplatedMailService getTemplatedMailService() {
         return getBean(MockTemplatedMailService.class);

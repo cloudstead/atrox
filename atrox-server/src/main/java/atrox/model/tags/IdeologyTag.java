@@ -1,22 +1,22 @@
 package atrox.model.tags;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity @Accessors(chain=true)
 public class IdeologyTag extends EntityTag {
 
     public static final String[] UNIQUES = {"ideology", "entity"};
-    @Override public String[] getUniqueProperties() { return UNIQUES; }
+    @Override @Transient @JsonIgnore public String[] getUniqueProperties() { return UNIQUES; }
 
     @Column(nullable=false, length=UUID_MAXLEN)
     @Getter @Setter private String ideology;
 
-    // Can be a WorldActor, WorldEvent or EventActorTag
+    // Can be just about anything
     @Column(nullable=false, length=UUID_MAXLEN)
     @Getter @Setter private String entity;
 

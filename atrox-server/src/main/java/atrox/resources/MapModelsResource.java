@@ -40,6 +40,7 @@ import static org.cobbzilla.wizard.resources.ResourceUtil.*;
 public class MapModelsResource<E extends AccountOwnedEntity> {
 
     private static final Map<String, MapModelsResource> resourceCache = new ConcurrentHashMap<>(20);
+    public static final String[] EXCLUDE_FROM_EDITING = new String[]{"owner", "votes"};
 
     public static MapModelsResource getResource(String entityType, AtroxConfiguration configuration) {
         MapModelsResource resource = resourceCache.get(entityType);
@@ -163,11 +164,7 @@ public class MapModelsResource<E extends AccountOwnedEntity> {
 
         // uuid in the path takes precedence
         newEntity.setUuid(uuid);
-
-        copy(found, newEntity);
-
-        // owner cannot be changed (not here, anyway)
-        found.setOwner(account.getUuid());
+        copy(found, newEntity, null, EXCLUDE_FROM_EDITING);
 
         return ok(dao.update(newEntity));
     }
@@ -193,21 +190,27 @@ public class MapModelsResource<E extends AccountOwnedEntity> {
 
         final Account account = userPrincipal(ctx);
         final E entity = fromJson(json);
+        if (entity == null) return serverError();
 
         final AccountOwnedEntityDAO<E> dao = getDao();
 
-        if (entity != null && entity.hasUuid()) {
+        if (entity.hasUuid()) {
             final E found = dao.findByUuid(entity.getUuid());
             if (found != null) {
                 if (account.isAdmin() || found.isOwner(account.getUuid())) {
-                    entity.setOwner(account.getUuid());
-                    return ok(dao.update(entity));
+                    copy(found, entity, null, EXCLUDE_FROM_EDITING);
+                    return ok(dao.update(found));
                 } else {
                     return forbidden();
                 }
+            } else {
+                // has a uuid but does not exist -- wtf?
+                return notFound(entity.getUuid());
             }
+        } else {
+            entity.setOwner(account.getUuid());
+            return ok(dao.create(entity));
         }
-        return ok(dao.create(entity));
     }
 
     @GET

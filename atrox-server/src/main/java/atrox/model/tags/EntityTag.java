@@ -1,6 +1,7 @@
 package atrox.model.tags;
 
 import atrox.model.AccountOwnedEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
@@ -8,6 +9,6 @@ import javax.persistence.Transient;
 @MappedSuperclass
 public abstract class EntityTag extends AccountOwnedEntity {
 
-    @Transient public String[] getAssociated() { return getUniqueProperties(); }
+    @Override @Transient @JsonIgnore public String[] getAssociated() { return getUniqueProperties(); }
 
 }

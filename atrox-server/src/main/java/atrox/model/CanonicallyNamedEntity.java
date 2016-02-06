@@ -1,5 +1,6 @@
 package atrox.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import org.cobbzilla.wizard.model.ResultPage;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
@@ -24,9 +26,9 @@ public abstract class CanonicallyNamedEntity extends AccountOwnedEntity {
     public CanonicallyNamedEntity (String name) { setName(name); }
 
     public static final String[] UNIQUES = {"canonicalName"};
-    @Override public String[] getUniqueProperties() { return UNIQUES; }
-    @Override public String getSortField() { return UNIQUES[0]; }
-    @Override public ResultPage.SortOrder getSortOrder() { return ResultPage.SortOrder.ASC; }
+    @Override @Transient @JsonIgnore public String[] getUniqueProperties() { return UNIQUES; }
+    @Override @Transient @JsonIgnore public String getSortField() { return UNIQUES[0]; }
+    @Override @Transient @JsonIgnore public ResultPage.SortOrder getSortOrder() { return ResultPage.SortOrder.ASC; }
 
     @Column(length=NAME_MAXLEN, unique=true, nullable=false, updatable=false)
     @Size(min=2, max=NAME_MAXLEN, message="err.name.length")

@@ -18,6 +18,8 @@ public class ApiConstants {
     public static final String ACCOUNTS_ENDPOINT = "/accounts";
     public static final String MAP_ENTITIES_ENDPOINT = "/map";
 
+    public static String entityEndpoint(Class clazz) { return MAP_ENTITIES_ENDPOINT+"/"+clazz.getSimpleName(); }
+
     public static final String ERR_ALREADY_LOGGED_IN = "err.alreadyLoggedIn";
 
     public static final String PLACEHOLDER_MOBILE_PHONE = "8005550100";
@@ -61,4 +63,5 @@ public class ApiConstants {
         }
         ENTITY_CLASS_MAP.put("any", EntityPointer.class);
     }
+
 }
