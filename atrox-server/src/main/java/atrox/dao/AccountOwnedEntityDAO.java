@@ -74,20 +74,28 @@ public abstract class AccountOwnedEntityDAO<E extends AccountOwnedEntity> extend
         return notSupported("Invalid bound: " + bound);
     }
 
+    /**
+     * Ensure proper version ordering and archiving. Called on preCreate and preUpdate.
+     * Find the archived version with the highest version number
+     *   - if the entity's version is less than or equal to this archived version, increment it
+     *   - if the entity's version is greater than the archived version, keep it
+     *   - if no archived version exists, keep it
+     * @param entity The entity to version/archive
+     */
     public void incrementVersionAndArchive(E entity) {
 
         final EntityArchive archive = newArchiveEntity();
         copy(archive, entity);
 
         // if earlier archives exist, find the one with the latest version
-        String[] uniqueProps = archive.getUniqueProperties();
-        final List<String> args = new ArrayList<>();
-        args.add(archive.getOwner());
+        String[] uniqueProps = entity.getUniqueProperties();
+        final List<Object> args = new ArrayList<>();
+        args.add(entity.getOwner());
 
         String uniqueSql = "";
         for (String propName : uniqueProps) {
-            args.add((String) ReflectionUtil.get(archive, propName));
-            uniqueSql = "and t." + columnName(propName) + " = ? ";
+            args.add(ReflectionUtil.get(entity, propName));
+            uniqueSql += "and t." + columnName(propName) + " = ? ";
         }
         try {
             // any old versions here?
@@ -97,16 +105,19 @@ public abstract class AccountOwnedEntityDAO<E extends AccountOwnedEntity> extend
                     "order by t.major_version DESC, t.minor_version DESC, t.patch_version DESC LIMIT 1";
             final ResultSetBean results = configuration.execSql(sql, args.toArray());
             if (!results.isEmpty()) {
-                Map<String, Object> mostRecentArchive = results.first();
-                final SemanticVersion nextVersion = new SemanticVersion(
+                final Map<String, Object> mostRecentArchive = results.first();
+                final SemanticVersion latestArchivedVersion = new SemanticVersion(
                         mostRecentArchive.get("major_version").toString()+"."+
                         mostRecentArchive.get("minor_version").toString()+"."+
-                        mostRecentArchive.get("patch_version").toString()
-                ).incrementMinor();
-                archive.setVersion(nextVersion);
-                archive.setOriginalUuid(entity.getUuid());
-                archive.setUuid(archive.getUuid()+"_"+nextVersion);
+                        mostRecentArchive.get("patch_version").toString());
+
+                if (latestArchivedVersion.compareTo(entity.getVersion()) >= 0) {
+                    // entity version is too low, make it the next minor version
+                    entity.setVersion(latestArchivedVersion.incrementMinor());
+                }
             }
+            archive.setOriginalUuid(entity.getUuid());
+            archive.setUuid(archive.getUuid()+"_"+entity.getVersion());
             hibernateTemplate.save(archive);
 
         } catch (SQLException e) {
@@ -114,7 +125,7 @@ public abstract class AccountOwnedEntityDAO<E extends AccountOwnedEntity> extend
         }
     }
 
-    public String archiveClassName() { return getEntityClass().getName()+"Archive"; }
+    public String archiveClassName() { return getEntityClass().getName().replace(".model.", ".model.archive.")+"Archive"; }
 
     @Getter(lazy=true) private final String archiveTableName = initArchiveTableName();
     public String initArchiveTableName() {
