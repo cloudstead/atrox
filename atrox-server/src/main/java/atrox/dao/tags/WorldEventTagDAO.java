@@ -1,6 +1,6 @@
 package atrox.dao.tags;
 
-import atrox.model.tags.CitationTag;
+import atrox.model.tags.WorldEventTag;
 import org.springframework.stereotype.Repository;
 
 import static atrox.ApiConstants.BOUND_RANGE;
@@ -8,7 +8,7 @@ import static atrox.ApiConstants.RANGE_SEP;
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.daemon.ZillaRuntime.notSupported;
 
-@Repository public class WorldEventTagDAO extends TagDAO<CitationTag> {
+@Repository public class WorldEventTagDAO extends TagDAO<WorldEventTag> {
 
     @Override protected String formatBound(String entityAlias, String bound, String value) {
         switch (bound) {
