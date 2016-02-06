@@ -118,7 +118,7 @@ public abstract class AccountOwnedEntityDAO<E extends AccountOwnedEntity> extend
             archiveHibernateTemplate.save(archive);
 
         } catch (SQLException e) {
-            log.error("preCreate: error saving archive: "+e, e);
+            log.error("incrementVersionAndArchive: error saving archive: "+e, e);
         }
     }
 
