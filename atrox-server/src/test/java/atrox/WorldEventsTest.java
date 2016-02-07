@@ -73,46 +73,6 @@ public class WorldEventsTest extends ApiClientTestBase {
         apiDocs.addNote("Update our tag, this should create a new version");
 
         apiDocs.addNote("Search for event tags, we should see our updated tag");
-
-//        final WorldEvent event = new WorldEvent();
-//        event.setName(eventName);
-//
-//        // Define a WorldActor
-//        final String actorName = randomName();
-//        final WorldActor actor = new WorldActor(actorName);
-//
-//        // Define an effect
-//        final String impactType = randomName();
-//        final EventImpactTag effect = new EventImpactTag().setImpactType(impactType);
-//        long randomEstimate = RandomUtils.nextLong(10_000, 100_000);
-//        effect.setLowEstimate(randomEstimate/2);
-//        effect.setMidEstimate(randomEstimate);
-//        effect.setHighEstimate(randomEstimate*2);
-//
-//        // Build the view
-//        final WorldEventView view = new WorldEventView(event).addActor(actor).addEffect(effect);
-//
-//        apiDocs.addNote("Define a new world event");
-//        final WorldEventView created = fromJson(post(MAP_ENTITIES_ENDPOINT +"/event", toJson(view)).json, WorldEventView.class);
-//        assertNotNull(created);
-//        assertEquals(eventName, created.getWorldEvent().getName());
-//        assertEquals(1, created.getActors().size());
-//        assertEquals(actorName, created.getActors().get(0).getName());
-//        assertEquals(1, created.getEffects().size());
-//        assertEquals(impactType, created.getEffects().get(0).getImpactType());
-//
-//        apiDocs.addNote("Search for events in the range ("+startDate+" to "+endDate+"), we should fine the event we just created");
-//        foundEvents = findWorldEvents(startDate, endDate);
-//        assertEquals(1, foundEvents.total());
-//        assertEquals(1, foundEvents.count());
-//        assertFalse(foundEvents.getResults().isEmpty());
-//
-//        final WorldEventView foundEvent = foundEvents.getResult(0);
-//        assertEquals(eventName, foundEvent.getWorldEvent().getName());
-//        assertEquals(1, foundEvent.getActors().size());
-//        assertEquals(actorName, foundEvent.getActors().get(0).getName());
-//        assertEquals(1, foundEvent.getEffects().size());
-//        assertEquals(impactType, foundEvent.getEffects().get(0).getImpactType());
     }
 
     public SearchResults<WorldEventTag> findWorldEventTags(String startDate, String endDate) throws Exception {
