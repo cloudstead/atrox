@@ -17,6 +17,9 @@ public class WorldEventTag extends EntityTag {
 
     @Override @Transient @JsonIgnore public String[] getUniqueProperties() { return UNIQUES; }
 
+    public static final String[] ASSOCIATED = {"worldEvent"};
+    @Override public String[] getAssociated() { return ASSOCIATED; }
+
     @Column(nullable=false, length=UUID_MAXLEN)
     @Getter @Setter private String worldEvent;
 

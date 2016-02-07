@@ -33,7 +33,7 @@ public abstract class CanonicallyNamedEntity extends AccountOwnedEntity {
     @Column(length=NAME_MAXLEN, unique=true, nullable=false, updatable=false)
     @Size(min=2, max=NAME_MAXLEN, message="err.name.length")
     @Getter private String name;
-    public CanonicallyNamedEntity setName (String val) { canonicalName = canonicalize(val); return this; }
+    public CanonicallyNamedEntity setName (String val) { this.name = val; canonicalName = canonicalize(val); return this; }
 
     public static String canonicalize(String val) {
         return empty(val) ? "" : val.replaceAll("\\W+", "_").toLowerCase();

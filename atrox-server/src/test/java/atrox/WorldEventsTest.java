@@ -2,6 +2,7 @@ package atrox;
 
 import atrox.model.Account;
 import atrox.model.AccountAuthResponse;
+import atrox.model.WorldEvent;
 import atrox.model.support.GeoPolygon;
 import atrox.model.support.TimePoint;
 import atrox.model.tags.WorldEventTag;
@@ -60,6 +61,13 @@ public class WorldEventsTest extends ApiClientTestBase {
         WorldEventTag createdWETag = fromJson(post(entityEndpoint(WorldEventTag.class), toJson(worldEventTag)).json, WorldEventTag.class);
         assertNotNull(createdWETag);
 
+        apiDocs.addNote("Lookup the WorldEventTag we created by uuid");
+        WorldEventTag foundTag = fromJson(get(entityEndpoint(WorldEventTag.class)+"/"+createdWETag.getUuid()).json, WorldEventTag.class);
+        assertNotEquals(foundTag.getWorldEvent(), createdWETag.getWorldEvent());// should now be a uuid
+        WorldEvent worldEvent = (WorldEvent) foundTag.getAssociation(WorldEventTag.class);
+        assertNotNull(worldEvent);
+        assertEquals(worldEvent.getName(), createdWETag.getWorldEvent());
+
         apiDocs.addNote("Search for world events in the same range, should see the new canonical event with our single tag");
 
         apiDocs.addNote("Update our tag, this should create a new version");
@@ -74,8 +82,8 @@ public class WorldEventsTest extends ApiClientTestBase {
 //        final WorldActor actor = new WorldActor(actorName);
 //
 //        // Define an effect
-//        final String effectType = randomName();
-//        final EventEffectTag effect = new EventEffectTag().setEffectType(effectType);
+//        final String impactType = randomName();
+//        final EventImpactTag effect = new EventImpactTag().setImpactType(impactType);
 //        long randomEstimate = RandomUtils.nextLong(10_000, 100_000);
 //        effect.setLowEstimate(randomEstimate/2);
 //        effect.setMidEstimate(randomEstimate);
@@ -91,7 +99,7 @@ public class WorldEventsTest extends ApiClientTestBase {
 //        assertEquals(1, created.getActors().size());
 //        assertEquals(actorName, created.getActors().get(0).getName());
 //        assertEquals(1, created.getEffects().size());
-//        assertEquals(effectType, created.getEffects().get(0).getEffectType());
+//        assertEquals(impactType, created.getEffects().get(0).getImpactType());
 //
 //        apiDocs.addNote("Search for events in the range ("+startDate+" to "+endDate+"), we should fine the event we just created");
 //        foundEvents = findWorldEvents(startDate, endDate);
@@ -104,7 +112,7 @@ public class WorldEventsTest extends ApiClientTestBase {
 //        assertEquals(1, foundEvent.getActors().size());
 //        assertEquals(actorName, foundEvent.getActors().get(0).getName());
 //        assertEquals(1, foundEvent.getEffects().size());
-//        assertEquals(effectType, foundEvent.getEffects().get(0).getEffectType());
+//        assertEquals(impactType, foundEvent.getEffects().get(0).getImpactType());
     }
 
     public SearchResults<WorldEventTag> findWorldEventTags(String startDate, String endDate) throws Exception {

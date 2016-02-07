@@ -30,7 +30,6 @@ import javax.validation.Valid;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static atrox.ApiConstants.*;
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
@@ -50,6 +49,10 @@ public abstract class AccountOwnedEntityDAO<E extends AccountOwnedEntity> extend
     @Override public Object preCreate(@Valid E entity) {
 
         Object ctx = super.preCreate(entity);
+
+        final ValidationResult validationResult = populateAssociated(entity.getOwner(), entity);
+        if (!validationResult.isEmpty()) throw invalidEx(validationResult); // sanity check
+
         incrementVersionAndArchive(entity);
         entityPointerDAO.create(new EntityPointer(entity.getUuid(), entity.getClass().getSimpleName()));
 
@@ -59,6 +62,10 @@ public abstract class AccountOwnedEntityDAO<E extends AccountOwnedEntity> extend
     @Override public Object preUpdate(@Valid E entity) {
 
         Object ctx = super.preUpdate(entity);
+
+        final ValidationResult validationResult = populateAssociated(entity.getOwner(), entity);
+        if (!validationResult.isEmpty()) throw invalidEx(validationResult); // sanity check
+
         incrementVersionAndArchive(entity);
         return ctx;
     }
@@ -104,10 +111,8 @@ public abstract class AccountOwnedEntityDAO<E extends AccountOwnedEntity> extend
                     "from " + getArchiveTableName() + " t " +
                     "where t.owner = ? " + uniqueSql;
             final ResultSetBean results = configuration.execSql(sql, args.toArray());
-            if (!results.isEmpty()) {
-                final Map<String, Object> mostRecentArchive = results.first();
-                final int latestArchivedVersion = ((Number) mostRecentArchive.get("entity_version")).intValue();
-
+            if (!results.isEmpty() && results.first().get(0) != null) {
+                final Integer latestArchivedVersion = (Integer) results.first().get(0);
                 if (latestArchivedVersion > entity.getEntityVersion()) {
                     // entity version is too low, make it the next minor version
                     entity.setEntityVersion(latestArchivedVersion+1);
@@ -137,10 +142,10 @@ public abstract class AccountOwnedEntityDAO<E extends AccountOwnedEntity> extend
         return configuration.getDaoForEntityClass(entityClass);
     }
 
-    public ValidationResult populateAssociated(Account account, E newEntity, ValidationResult validationResult) {
+    public ValidationResult populateAssociated(String account, E newEntity, ValidationResult validationResult) {
         for (String associated : newEntity.getAssociated()) {
-            final String uuidOrName = (String) ReflectionUtil.get(newEntity, associated);
-            if (uuidOrName == null) throw invalidEx("err."+associated+".empty");
+            final String uuidOrName = String.valueOf(ReflectionUtil.get(newEntity, associated));
+            if (uuidOrName == null || uuidOrName.equals("null")) throw invalidEx("err."+associated+".empty");
 
             DAO associatedDao = dao(associated);
             AccountOwnedEntity associatedEntity;
@@ -162,7 +167,7 @@ public abstract class AccountOwnedEntityDAO<E extends AccountOwnedEntity> extend
                     if (!StrongIdentifiableBase.isStrongUuid(uuidOrName)) {
                         // Create new canonical on the fly
                         canonical.setName(uuidOrName);
-                        canonical.setOwner(account.getUuid());
+                        canonical.setOwner(account);
                         canonical = (CanonicallyNamedEntity) associatedDao.create(canonical);
                         ReflectionUtil.set(newEntity, associated, canonical.getUuid());
                         newEntity.addAssociation(canonical);
@@ -179,11 +184,11 @@ public abstract class AccountOwnedEntityDAO<E extends AccountOwnedEntity> extend
         return validationResult;
     }
 
-    public ValidationResult populateAssociated (Account account, E entity) { return populateAssociated(account, entity, new ValidationResult()); }
+    public ValidationResult populateAssociated (String account, E entity) { return populateAssociated(account, entity, new ValidationResult()); }
 
     public E populateTags (Account account, E entity, TagSearchType tagSearchType, TagOrder tagOrder) {
-        for (Class tagClass : TAG_ENTITIES) {
-            final TagDAO tagDao = (TagDAO) dao(tagClass.getSimpleName());
+        for (String tagType: entity.getTagTypes()) {
+            final TagDAO tagDao = (TagDAO) dao(tagType);
             final List<EntityTag> tags = tagDao.findTags(account, getEntityClass().getSimpleName(), entity.getUuid(), tagSearchType, tagOrder);
             entity.addTags(tags);
         }

@@ -7,15 +7,13 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
-@Entity @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)  @Accessors(chain=true)
+@Entity @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS) @Accessors(chain=true)
 public class EventActorTag extends EntityTag {
 
-    public static final String[] UNIQUES = {"worldActor", "worldEvent"};
+    public static final String[] UNIQUES = {"eventActor"};
     @Override @Transient @JsonIgnore public String[] getUniqueProperties() { return UNIQUES; }
 
     @Column(nullable=false, length=UUID_MAXLEN)
-    @Getter @Setter private String worldActor;
+    @Getter @Setter private String eventActor;
 
-    @Column(nullable=false, length=UUID_MAXLEN)
-    @Getter @Setter private String worldEvent;
 }

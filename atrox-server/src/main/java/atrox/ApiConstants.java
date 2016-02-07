@@ -43,13 +43,17 @@ public class ApiConstants {
 
 
     public static final Class[] NAMED_ENTITIES = {
-            Citation.class, EffectType.class, EventType.class,
-            Ideology.class, WorldActor.class, WorldEvent.class
+            Citation.class, Ideology.class,
+            WorldActor.class, WorldEvent.class, EventActor.class,
+            ImpactType.class, EventImpact.class,
+            IncidentType.class, EventIncident.class
     };
 
     public static final Class[] TAG_ENTITIES = {
-            CitationTag.class, EventActorTag.class, EventEffectTag.class, EventTypeTag.class,
-            IdeologyTag.class, WorldActorTag.class, WorldEventTag.class
+            CitationTag.class, IdeologyTag.class,
+            WorldActorTag.class, WorldEventTag.class, EventActorTag.class,
+            ImpactTypeTag.class, EventImpactTag.class,
+            IncidentTypeTag.class, EventIncidentTag.class
     };
 
     public static final Class[] ALL_MODELS = ArrayUtil.concat(NAMED_ENTITIES, TAG_ENTITIES, new Class[]{EntityPointer.class} );

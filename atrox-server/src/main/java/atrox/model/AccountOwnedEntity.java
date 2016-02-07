@@ -7,11 +7,13 @@ import atrox.model.support.TimePoint;
 import atrox.model.support.VoteSummary;
 import atrox.model.tags.EntityTag;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.JavaType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.cobbzilla.util.collection.ArrayUtil;
 import org.cobbzilla.wizard.dao.SearchResults;
 import org.cobbzilla.wizard.model.ResultPage;
 import org.cobbzilla.wizard.model.StrongIdentifiableBase;
@@ -24,6 +26,7 @@ import java.util.Map;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 
+@JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY, property="entityType")
 @MappedSuperclass @Accessors(chain=true) @NoArgsConstructor
 public abstract class AccountOwnedEntity extends StrongIdentifiableBase {
 
@@ -36,10 +39,13 @@ public abstract class AccountOwnedEntity extends StrongIdentifiableBase {
     @Transient @JsonIgnore public String[] getAssociated() { return ASSOCIATED; }
     @Transient public boolean hasAssociated() { return !empty(getAssociated()); }
 
-    public AccountOwnedEntity (String owner) { setOwner(owner); }
+    public static final String[] BASIC_TAG_TYPES = {"CitationTag", "IdeologyTag"};
+    @Transient @JsonIgnore @Getter(lazy=true) private final String[] tagTypes = initTagTypes();
+    public String[] initTagTypes() { return ArrayUtil.append(BASIC_TAG_TYPES, getClass().getSimpleName()+"Tag"); }
 
-    @Column(nullable=false, length=UUID_MAXLEN)
-    @Getter @Setter private String owner;
+    public AccountOwnedEntity(String owner) { setOwner(owner); }
+
+    @Column(nullable = false, length = UUID_MAXLEN) @Getter @Setter private String owner;
     public boolean hasOwner() { return !empty(owner); }
     public boolean isOwner(String uuid) { return hasOwner() && getOwner().equals(uuid); }
 
@@ -50,7 +56,7 @@ public abstract class AccountOwnedEntity extends StrongIdentifiableBase {
 
     @Transient @JsonIgnore public JavaType getSearchResultType() { return SearchResults.jsonType(getClass()); }
 
-    @Column(nullable=false, length=20)
+    @Column(nullable = false, length = 20)
     @Enumerated(EnumType.STRING)
     @Getter @Setter private EntityVisibility visibility = EntityVisibility.owner;
 
@@ -61,30 +67,17 @@ public abstract class AccountOwnedEntity extends StrongIdentifiableBase {
     }
 
     // Used to populate json
-    @Transient @Getter @Setter public Map<String, List<AccountOwnedEntity>> associations = new HashMap<>();
+    @Transient @Getter @Setter
+    public Map<String, AccountOwnedEntity> associations = new HashMap<>();
 
-    public List<AccountOwnedEntity> getAssociationList(String associationEntityType) {
-        List<AccountOwnedEntity> list = associations.get(associationEntityType);
-        if (list == null) {
-            list = new ArrayList<>();
-            associations.put(associationEntityType, list);
-        }
-        return list;
+    public AccountOwnedEntity getAssociation(String type) { return associations.get(type); }
+
+    public AccountOwnedEntity getAssociation(Class<? extends AccountOwnedEntity> type) {
+        return associations.get(type.getSimpleName());
     }
 
     public AccountOwnedEntity addAssociation(AccountOwnedEntity toAdd) {
-        if (empty(toAdd)) return this;
-        final String associationEntityType = toAdd.getClass().getSimpleName();
-        List<AccountOwnedEntity> list = getAssociationList(associationEntityType);
-        list.add(toAdd);
-        return this;
-    }
-
-    public AccountOwnedEntity addAssociations(List<AccountOwnedEntity> toAdd) {
-        if (empty(toAdd)) return this;
-        final String associationEntityType = toAdd.get(0).getClass().getSimpleName();
-        List<AccountOwnedEntity> list = getAssociationList(associationEntityType);
-        list.addAll(toAdd);
+        associations.put(toAdd.getClass().getSimpleName(), toAdd);
         return this;
     }
 

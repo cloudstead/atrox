@@ -1,13 +1,13 @@
 package atrox.archive;
 
-import atrox.model.EffectType;
+import atrox.model.EventIncident;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-@Entity public class EffectTypeArchive extends EffectType implements EntityArchive {
+@Entity public class EventIncidentArchive extends EventIncident implements EntityArchive {
 
     @Override public void beforeCreate() {}
 

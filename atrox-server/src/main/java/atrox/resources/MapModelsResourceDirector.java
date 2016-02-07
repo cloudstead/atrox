@@ -56,10 +56,10 @@ public class MapModelsResourceDirector {
 //            final EventActorTag eventActorTag = eventActorDAO.createOrUpdateByAssociation(account, actor.getEventActor(), foundEvent, foundActor);
 //        }
 //
-//        for (EventEffectTag effect : incoming.getEffects()) {
+//        for (EventImpactTag effect : incoming.getEffects()) {
 //
-//            EffectType foundEffectType = effectTypeDAO.findOrCreateByCanonicalName(account, effect.getEffectType());
-//            final EventEffectTag foundEffect = eventEffectDAO.findByAssociation(account, foundEvent, foundEffectType);
+//            IncidentType foundEffectType = effectTypeDAO.findOrCreateByCanonicalName(account, effect.getImpactType());
+//            final EventImpactTag foundEffect = eventEffectDAO.findByAssociation(account, foundEvent, foundEffectType);
 //            outgoing.addEffect(foundEffect);
 //        }
 //        return ok(outgoing);

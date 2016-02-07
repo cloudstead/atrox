@@ -8,8 +8,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
 @Entity @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS) @NoArgsConstructor @Accessors(chain=true)
-public class EffectType extends CanonicallyNamedEntity {
+public class IncidentType extends CanonicallyNamedEntity {
 
-    public EffectType (String name) { super(name); }
+    public IncidentType(String name) { super(name); }
 
 }

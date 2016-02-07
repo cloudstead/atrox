@@ -99,7 +99,7 @@ public class MapModelsResource<E extends AccountOwnedEntity> {
     public E populate (Account account, E entity, TagSearchType tagSearchType, TagOrder tagOrder) {
         if (entity == null) return null;
 
-        final ValidationResult validationResult = getDao().populateAssociated(account, entity);
+        final ValidationResult validationResult = getDao().populateAssociated(account.getUuid(), entity);
         if (!validationResult.isEmpty()) throw invalidEx(validationResult); // sanity check
 
         return tagSearchType == TagSearchType.none ? entity : getDao().populateTags(account, entity, tagSearchType, tagOrder);
@@ -107,7 +107,7 @@ public class MapModelsResource<E extends AccountOwnedEntity> {
 
     public ValidationResult populate(Account account, E entity, TagSearchType tagSearchType, TagOrder tagOrder, ValidationResult validationResult) {
         if (entity == null) return null;
-        getDao().populateAssociated(account, entity, validationResult);
+        getDao().populateAssociated(account.getUuid(), entity, validationResult);
         if (!validationResult.isEmpty()) throw invalidEx(validationResult); // sanity check
         if (tagSearchType != TagSearchType.none) entity = getDao().populateTags(account, entity, tagSearchType, tagOrder);
         return validationResult;
