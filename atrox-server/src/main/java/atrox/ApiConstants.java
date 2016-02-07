@@ -73,7 +73,7 @@ public class ApiConstants {
     public static final Map<String, Class> ENTITY_TO_TAG_CLASS_MAP = new HashMap<>();
     static {
         for (Class c : NAMED_ENTITIES) {
-            final Class<?> tagClass = forName(c.getName() + "Tag");
+            final Class<?> tagClass = forName(c.getName().replace(".model.", ".model.tags.") + "Tag");
             ENTITY_TO_TAG_CLASS_MAP.put(c.getSimpleName(), tagClass);
             ENTITY_TO_TAG_CLASS_MAP.put(StringUtil.uncapitalize(c.getSimpleName()), tagClass);
             ENTITY_TO_TAG_CLASS_MAP.put(c.getName(), tagClass);
