@@ -43,7 +43,6 @@ public class ApiConstants {
         return ANONYMOUS_EMAIL.replace("#STAMP#", RandomStringUtils.randomAlphanumeric(10)+"-"+System.currentTimeMillis());
     }
 
-
     public static final Class[] NAMED_ENTITIES = {
             Citation.class, Ideology.class,
             WorldActor.class, WorldEvent.class, EventActor.class,
