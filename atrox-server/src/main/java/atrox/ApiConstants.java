@@ -10,6 +10,8 @@ import org.cobbzilla.util.string.StringUtil;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.cobbzilla.util.reflect.ReflectionUtil.forName;
+
 public class ApiConstants {
 
     // must match what is in api.js
@@ -68,4 +70,14 @@ public class ApiConstants {
         ENTITY_CLASS_MAP.put("any", EntityPointer.class);
     }
 
+    public static final Map<String, Class> ENTITY_TO_TAG_CLASS_MAP = new HashMap<>();
+    static {
+        for (Class c : NAMED_ENTITIES) {
+            final Class<?> tagClass = forName(c.getName() + "Tag");
+            ENTITY_TO_TAG_CLASS_MAP.put(c.getSimpleName(), tagClass);
+            ENTITY_TO_TAG_CLASS_MAP.put(StringUtil.uncapitalize(c.getSimpleName()), tagClass);
+            ENTITY_TO_TAG_CLASS_MAP.put(c.getName(), tagClass);
+        }
+        ENTITY_CLASS_MAP.put("any", EntityPointer.class);
+    }
 }
