@@ -60,13 +60,13 @@ public class WorldEventsTest extends ApiClientTestBase {
         apiDocs.addNote("Define a new WorldEventTag, and as a consequence, create the canonical WorldEvent");
         WorldEventTag createdWETag = fromJson(post(entityEndpoint(WorldEventTag.class), toJson(worldEventTag)).json, WorldEventTag.class);
         assertNotNull(createdWETag);
+        assertNotEquals(eventName, createdWETag.getWorldEvent());// should now be a uuid
 
         apiDocs.addNote("Lookup the WorldEventTag we created by uuid");
         WorldEventTag foundTag = fromJson(get(entityEndpoint(WorldEventTag.class)+"/"+createdWETag.getUuid()).json, WorldEventTag.class);
-        assertNotEquals(foundTag.getWorldEvent(), createdWETag.getWorldEvent());// should now be a uuid
-        WorldEvent worldEvent = (WorldEvent) foundTag.getAssociation(WorldEventTag.class);
+        WorldEvent worldEvent = (WorldEvent) foundTag.getAssociation(WorldEvent.class);
         assertNotNull(worldEvent);
-        assertEquals(worldEvent.getName(), createdWETag.getWorldEvent());
+        assertEquals(eventName, worldEvent.getName());
 
         apiDocs.addNote("Search for world events in the same range, should see the new canonical event with our single tag");
 

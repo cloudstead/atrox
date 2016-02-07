@@ -19,24 +19,31 @@ public abstract class TagDAO<E extends AccountOwnedEntity> extends AccountOwnedE
 
     @Autowired protected AtroxConfiguration configuration;
 
+    protected String propertyName(String entityType) { return StringUtil.uncapitalize(entityType); }
+
+    public static final String[] PARAMS_UUID = new String[]{"uuid", "nameFragment"};
+    public static final String[] PARAMS_UUID_AND_OWNER = new String[]{"uuid", "owner"};
+
     public List<EntityTag> findTags(Account account, String entityType, String uuid, TagSearchType tagSearchType, TagOrder tagOrder) {
 
         if (tagSearchType == TagSearchType.none) return new ArrayList<>();
 
         String queryString;
+        final String[] params;
         final Object[] values;
         if (account == null) {
             if (tagSearchType == TagSearchType.mine) return new ArrayList<>(); // not logged in!
             queryString = "from " + getEntityClass().getSimpleName() + " x " +
-                          "where x."+StringUtil.uncapitalize(entityType)+" = :uuid " +
+                          "where x."+ propertyName(entityType) +" = :uuid " +
                           "x.visibility = '"+ EntityVisibility.everyone +"' " +
                           "order by ";
             queryString += orderClause(tagOrder);
+            params = PARAMS_UUID;
             values = new Object[]{uuid};
 
         } else {
             queryString = "from " + getEntityClass().getSimpleName() + " x " +
-                    "where x."+StringUtil.uncapitalize(entityType)+" = :uuid ";
+                    "where x."+ propertyName(entityType) +" = :uuid ";
             switch (tagSearchType) {
                 case mine:
                     queryString += "and x.owner = :owner ";
@@ -49,10 +56,11 @@ public abstract class TagDAO<E extends AccountOwnedEntity> extends AccountOwnedE
                     break;
 
             }
-            queryString += "order by (x.voteSummary.upVotes - x.voteSummary.downVotes) desc ";
+            queryString += "order by (x.votes.upVotes - x.votes.downVotes) desc ";
+            params = PARAMS_UUID_AND_OWNER;
             values = new Object[]{account.getUuid(), uuid};
         }
-        return (List) hibernateTemplate.execute(new HibernateCallbackImpl(queryString, PARAMS_STARTSWITH, values, 0, 10));
+        return (List) hibernateTemplate.execute(new HibernateCallbackImpl(queryString, params, values, 0, 10));
     }
 
     public String orderClause(TagOrder tagOrder) {

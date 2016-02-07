@@ -195,7 +195,7 @@ public abstract class AccountOwnedEntityDAO<E extends AccountOwnedEntity> extend
         return entity;
     }
 
-    public static final String[] PARAMS_STARTSWITH = new String[]{":owner", ":nameFragment"};
+    public static final String[] PARAMS_STARTSWITH = new String[]{"owner", "nameFragment"};
 
     public List findByFieldStartsWith(Account account, String field, String nameFragment) {
 
