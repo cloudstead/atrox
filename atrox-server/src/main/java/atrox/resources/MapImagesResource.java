@@ -4,27 +4,34 @@ import atrox.dao.MapImageDAO;
 import atrox.model.Account;
 import atrox.model.MapImage;
 import atrox.server.AtroxConfiguration;
+import cloudos.service.asset.AssetStorageService;
 import cloudos.service.asset.AssetStream;
-import com.jhlabs.map.proj.Projection;
-import com.jhlabs.map.proj.ProjectionFactory;
 import com.sun.jersey.api.core.HttpContext;
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
 import lombok.extern.slf4j.Slf4j;
+import org.cobbzilla.util.graphics.ImageTransformConfig;
+import org.cobbzilla.util.io.FileUtil;
 import org.cobbzilla.wizard.util.StreamStreamingOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.List;
 
 import static atrox.ApiConstants.*;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.MULTIPART_FORM_DATA;
+import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.wizard.resources.ResourceUtil.*;
 
 @Path(MAP_IMAGES_ENDPOINT)
@@ -63,6 +70,7 @@ public class MapImagesResource {
 
     private boolean isLegalImageFile(String fileName) {
         if (fileName == null) return false;
+        fileName = fileName.toLowerCase();
         return fileName.endsWith(".png") || fileName.endsWith(".gif")
                 || fileName.endsWith(".jpg") || fileName.endsWith(".jpeg");
     }
@@ -92,13 +100,33 @@ public class MapImagesResource {
         final Account account = optionalUserPrincipal(ctx);
         uriOrName = getUriFromName(uriOrName, account);
 
-        final AssetStream asset = configuration.getAssetStorageService().load(uriOrName);
-        if (asset == null) return notFound(uriOrName);
+        final AssetStorageService storageService = configuration.getAssetStorageService();
+        final ImageTransformConfig xform = new ImageTransformConfig(xformConfig);
 
-        InputStream xformedStream = transform(asset, xformConfig);
-        return Response.ok(new StreamStreamingOutput(xformedStream))
+        final String xformUri = getXformUri(uriOrName, xform);
+        AssetStream asset = storageService.load(xformUri);
+        if (asset == null) {
+            AssetStream origAsset = storageService.load(uriOrName);
+            if (origAsset == null) return notFound(uriOrName);
+            final File xformFile = transform(origAsset, xform);
+            try (InputStream in = new FileInputStream(xformFile)) {
+                storageService.store(in, origAsset.getUri(), xformUri);
+
+            } catch (Exception e) {
+                return die("transformMapImage: error storing: "+e, e);
+            }
+            asset = storageService.load(xformUri);
+            if (asset == null) die("transformMapImage: error loading after stored");
+        }
+        return Response.ok(new StreamStreamingOutput(asset.getStream()))
                 .header(HttpHeaders.CONTENT_TYPE, asset.getContentType())
                 .build();
+    }
+
+    private String getXformUri(String uri, ImageTransformConfig xform) {
+        int lastDot = uri.lastIndexOf('.');
+        if (lastDot == -1 || lastDot == uri.length()-1) die("getXformUri: invalid: "+uri);
+        return uri.substring(0, lastDot) + "_" + xform.toString() + uri.substring(lastDot);
     }
 
     @GET
@@ -125,11 +153,42 @@ public class MapImagesResource {
         return configuration.getApiUriBase()+MAP_IMAGES_ENDPOINT+EP_PUBLIC+EP_GET_MAP_IMAGE+"/"+i.getUri();
     }
 
-    private InputStream transform(AssetStream asset, String xformConfig) {
-//        String[] args = parseArgs(xformConfig);
-        final String[] args = {};
-        Projection projection = ProjectionFactory.fromPROJ4Specification(args);
+    private File transform(AssetStream asset, ImageTransformConfig xform) {
 
-        return null;
+        final String ext = FileUtil.extension(asset.getUri());
+        final String formatName = asset.getFormatName();
+        final InputStream assetStream = asset.getStream();
+
+        return transformToFile(xform, ext, formatName, assetStream);
+    }
+
+    public static File transformToFile(ImageTransformConfig xform, String ext, String formatName, InputStream assetStream) {
+        try (InputStream imageInput = assetStream) {
+            BufferedImage originalImage = ImageIO.read(imageInput);
+            int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+
+            BufferedImage resizedImage = new BufferedImage(xform.getWidth(), xform.getHeight(), type);
+            Graphics2D g = resizedImage.createGraphics();
+            g.drawImage(originalImage, 0, 0, xform.getWidth(), xform.getHeight(), null);
+
+            g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                    RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+            g.setRenderingHint(RenderingHints.KEY_RENDERING,
+                    RenderingHints.VALUE_RENDER_QUALITY);
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
+            g.setRenderingHint(RenderingHints.KEY_DITHERING,
+                    RenderingHints.VALUE_DITHER_ENABLE);
+
+            g.dispose();
+
+            final File xformOutfile = File.createTempFile("transform", ext);
+            ImageIO.write(resizedImage, formatName, xformOutfile);
+
+            return xformOutfile;
+
+        } catch (Exception e) {
+            return die("transform: "+e, e);
+        }
     }
 }

@@ -148,6 +148,10 @@ Api = {
             }
         };
         xhr.send(fd);
+    },
+
+    transform_image: function (src, width, height) {
+        return src.replace("/public/image/", "/public/transform/w_"+width+"-h_"+height+"/");
     }
 
     //addRegion: function (email, password) { return Api._post('/api/accounts/' + email, {'name': email, 'password': password}); }

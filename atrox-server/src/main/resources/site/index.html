@@ -38,10 +38,21 @@
 </head>
 <body>
 
-<div id="map">
-</div>
+<div id="map"></div>
 
-<div id="mapImageContainer"></div>
+<div id="mapImageContainer">
+    <div class="mapImageControl">
+        <button class="mapImageButton" onclick="closeMapImages(); return false;">close</button>
+        <br/>
+        <div class="mapImageControl">
+            <button onclick="rotate('mapImg', -0.1); return false;">&lt;&lt; rotate &lt;&lt;</button>
+            <button onclick="rotate('mapImg', +0.1); return false;">&gt;&gt; rotate &gt;&gt;</button>
+        </div>
+        <br/>
+        <button id="btnMapImageMode" class="mapImageButton" onclick="toggleMapImageMode(); return false;">freeze image</button>
+    </div>
+    <div class="container"><img id="mapImg" class="mapImage"/></div>
+</div>
 
 <div id="sliderContainer" style="visibility: hidden">
 <table id="sliderTable" cellspacing="0" cellpadding="0" border="0">

@@ -86,6 +86,7 @@ function closeLoginForm () {
 function handleLoginError () {
     var authMessageSlot = document.getElementById('authMessageSlot');
     var loginContainer = document.getElementById('loginContainer');
+    var loginForm = document.getElementById('loginForm');
     authMessageSlot.innerHTML = '<b>oops, there was an error</b>';
     loginContainer.appendChild(loginForm)
     updateAuthMessage();
@@ -100,11 +101,33 @@ function showRegistrationForm () {
 
 function closeMapImages () {
     var container = $('#mapImageContainer');
-    container.empty();
     container.css('zIndex', -1);
-    //container.remove('.container');
-    //container.remove('container');
-    //$('.mapImage').remove();
+}
+
+element_rotations = [];
+function rotate(id, delta) {
+    var element = $('#'+id);
+    var degree = (id in element_rotations) ? element_rotations[id] : 0;
+    degree += delta;
+    element_rotations[id] = degree;
+
+    element.css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
+    element.css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
+}
+
+map_image_mode = 'image';
+function toggleMapImageMode() {
+    if (map_image_mode == 'image') {
+        map_image_mode = 'map';
+        $('#mapImg').css({'pointer-events': 'none'});
+        $('.container').css({'pointer-events': 'none'});
+        $('#btnMapImageMode').html('unfreeze image');
+    } else {
+        map_image_mode = 'image';
+        $('#mapImg').css({'pointer-events': 'visible'});
+        $('.container').css({'pointer-events': 'visible'});
+        $('#btnMapImageMode').html('freeze image');
+    }
 }
 
 function initMap () {
@@ -132,20 +155,17 @@ function initMap () {
             var src = JSON.parse(xhr.response).url;
 
             var container = $('#mapImageContainer');
-            container.append($('<button id="mapImageControlButton" onclick="closeMapImages(); return false;">close</button>'));
+            container.css("zIndex", 1);
+            var elem = $('#mapImageContainer > .container');
+            //var xformUri = Api.transform_image(src, 100, 200);
+            var xformUri = src;
 
-            var width = container.width()/2;
+            $('#mapImg')[0].src = xformUri;
 
-            var elem = $('<div class="container"><img src="' + src + '" class="mapImage"/></div>');
-            container.css("zIndex", 2);
-            container.append(elem);
-            elem.css("top", 0);
-            elem.css("left", 0);
-            elem.css("width", 400);
-            elem.css("height", 400);
-
-            $('#mapImageControls').css("zIndex", 1);
-
+            elem.css('top', 0);
+            elem.css('left', 0);
+            elem.css('width', 400);
+            elem.css('height', 300);
             elem.draggable();
             elem.find('.mapImage:first').resizable();
         });
@@ -219,6 +239,10 @@ function initMap () {
         }
         if (mode == 'addEvent') {
             console.log('show addEvent dialog here');
+            return;
+        }
+        if (mode != 'addRegion') {
+            console.log('doing '+mode+"...");
             return;
         }
         if (isClosed) return;
@@ -301,8 +325,11 @@ TimeRangeControl.prototype.updateHistoryRange = function () {
     if (currentOrig != currentNew) this.last_ = 'current';
     document.getElementById('sliderCurrentLabel').innerHTML = currentNew;
 
-    document.getElementById('startDate').value = sliderControl.sliderDates[0];
-    document.getElementById('endDate').value = sliderControl.sliderDates[1];
+    var startDate = document.getElementById('startDate');
+    if (startDate != null) startDate.value = sliderControl.sliderDates[0];
+
+    var endDate = document.getElementById('endDate');
+    if (endDate != null) endDate.value = sliderControl.sliderDates[1];
 
     return Api.find_histories(sliderControl.sliderDates[0], sliderControl.sliderDates[1]);
 };
