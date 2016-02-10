@@ -34,6 +34,38 @@ function updateAuthMessage() {
 }
 var openAddRegionWindow = function (map, marker) {
     addRegionWindow.open(map, marker);
+
+    var startDate = sliderControl.sliderDates[0];
+    if (typeof startDate != "undefined") document.getElementById('startDate').value = startDate;
+
+    var endDate = sliderControl.sliderDates[1];
+    if (typeof endDate != "undefined") document.getElementById('endDate').value = endDate;
+
+    // Initialize autocomplete with local lookup:
+    $('#autocomplete_tag').devbridgeAutocomplete({
+        serviceUrl: Api.autocomplete(null, ["WorldEvent"]),
+        minChars: 1,
+        onSelect: function (suggestion) {
+            $('#ac_selection_tag').html('You selected: ' + suggestion.value + ', ' + suggestion.data.category);
+        },
+        showNoSuggestionNotice: true,
+        noSuggestionNotice: 'Sorry, no matching results',
+        groupBy: 'category'
+    });
+
+    // Initialize autocomplete with local lookup:
+    $('#autocomplete_worldevent').devbridgeAutocomplete({
+        serviceUrl: Api.autocomplete(["WorldEvent"], null),
+        minChars: 1,
+        onSelect: function (suggestion) {
+            $('#ac_selection_worldevent').html('You selected: ' + suggestion.value + ', ' + suggestion.data.category);
+        },
+        showNoSuggestionNotice: true,
+        noSuggestionNotice: 'Sorry, no matching results',
+        groupBy: 'category'
+    });
+
+
     updateAuthMessage();
 };
 
@@ -66,6 +98,15 @@ function showRegistrationForm () {
     authFormSlot.appendChild(regForm);
 }
 
+function closeMapImages () {
+    var container = $('#mapImageContainer');
+    container.empty();
+    container.css('zIndex', -1);
+    //container.remove('.container');
+    //container.remove('container');
+    //$('.mapImage').remove();
+}
+
 function initMap () {
 
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -73,6 +114,41 @@ function initMap () {
         zoom: 2,
         mapTypeId: google.maps.MapTypeId.HYBRID,
         scaleControl: true
+    });
+
+    // file upload handler
+    document.getElementById('fileImageUpload').addEventListener('change', function(e) {
+        var file = this.files[0];
+        var xhr = new XMLHttpRequest();
+        (xhr.upload || xhr).addEventListener('progress', function(e) {
+            var done = e.position || e.loaded;
+            var total = e.totalSize || e.total;
+            console.log('xhr progress: ' + Math.round(done/total*100) + '%');
+        });
+        xhr.addEventListener('load', function(e) {
+            console.log('xhr upload complete', e, this.responseText);
+        });
+        Api.upload_image(xhr, file, function (xhr) {
+            var src = JSON.parse(xhr.response).url;
+
+            var container = $('#mapImageContainer');
+            container.append($('<button id="mapImageControlButton" onclick="closeMapImages(); return false;">close</button>'));
+
+            var width = container.width()/2;
+
+            var elem = $('<div class="container"><img src="' + src + '" class="mapImage"/></div>');
+            container.css("zIndex", 2);
+            container.append(elem);
+            elem.css("top", 0);
+            elem.css("left", 0);
+            elem.css("width", 400);
+            elem.css("height", 400);
+
+            $('#mapImageControls').css("zIndex", 1);
+
+            elem.draggable();
+            elem.find('.mapImage:first').resizable();
+        });
     });
 
     // Create the DIV to hold the control and call the CenterControl() constructor
@@ -102,30 +178,33 @@ function initMap () {
         range: true,
         size: sliderSize
     });
+    sliderControl.setSliderLabels(timeRangeSlider.getValue());
+
     document.getElementById('sliderTable').style.width = sliderScreenSize+"px";
     document.getElementById('sliderPre').style.width = ((sliderScreenSize*0.125)/1)+"px";
     document.getElementById('sliderPost').style.width = ((sliderScreenSize*0.125)/1)+"px";
     document.getElementById('sliderCell').style.width = sliderScreenSize+"px";
     document.getElementById('sliderCell').style.textAlign = "center";
-    document.getElementById('sliderOriginLabel').innerHTML = sliderControl.getSliderLabel(0);
-    document.getElementById('sliderCurrentLabel').innerHTML = sliderControl.getSliderLabel(MAX_SLIDER);
+    document.getElementById('sliderOriginLabel').innerHTML = sliderControl.label(0);
+    document.getElementById('sliderCurrentLabel').innerHTML = sliderControl.label(MAX_SLIDER);
     var listener = function(){
         var vals = timeRangeSlider.getValue();
-        document.getElementById('sliderOriginLabel').innerHTML = sliderControl.getSliderLabel(vals[0]);
-        document.getElementById('sliderCurrentLabel').innerHTML = sliderControl.getSliderLabel(vals[1]);
+        sliderControl.setSliderLabels(vals);
+        document.getElementById('sliderOriginLabel').innerHTML = sliderControl.sliderLabels(0);
+        document.getElementById('sliderCurrentLabel').innerHTML = sliderControl.sliderLabels(1);
     };
-    timeRangeSlider.attachEvent("onChange", function () { sliderControl.updateLabels(); } );
+    timeRangeSlider.attachEvent("onChange", function () { sliderControl.updateHistoryRange(); } );
     document.body.onkeydown = function (e) {
         e = e || window.event;
         if (e.keyCode == '37') {
             // left arrow
             timeRangeSlider.setValue(sliderControl.decrementLast());
-            sliderControl.updateLabels();
+            sliderControl.updateHistoryRange();
         }
         else if (e.keyCode == '39') {
             // right arrow
             timeRangeSlider.setValue(sliderControl.incrementLast());
-            sliderControl.updateLabels();
+            sliderControl.updateHistoryRange();
         }
     };
 
@@ -193,6 +272,8 @@ TimeRangeControl.prototype.rangeStart_ = null;
 TimeRangeControl.prototype.rangeEnd_ = null;
 TimeRangeControl.prototype.last_ = 'current';
 TimeRangeControl.prototype.timeZoomStack_ = [];
+TimeRangeControl.prototype.sliderLabels = [];
+TimeRangeControl.prototype.sliderDates = [];
 
 TimeRangeControl.prototype.getRangeOrigin = function() {
     return this.rangeStart_;
@@ -206,23 +287,34 @@ TimeRangeControl.prototype.setRangeOrigin = function(val) {
 TimeRangeControl.prototype.setRangeCurrent = function(val) {
     this.rangeEnd_ = val;
 };
-TimeRangeControl.prototype.updateLabels = function () {
+TimeRangeControl.prototype.updateHistoryRange = function () {
     var vals = timeRangeSlider.getValue();
+    sliderControl.setSliderLabels(vals);
+
     var originOrig = document.getElementById('sliderOriginLabel').innerHTML;
-    var originNew = sliderControl.getSliderLabel(vals[0]);
+    var originNew = sliderControl.sliderLabels[0];
     if (originOrig != originNew) this.last_ = 'origin';
     document.getElementById('sliderOriginLabel').innerHTML = originNew;
 
     var currentOrig = document.getElementById('sliderCurrentLabel').innerHTML;
-    var currentNew = sliderControl.getSliderLabel(vals[1]);
+    var currentNew = sliderControl.sliderLabels[1];
     if (currentOrig != currentNew) this.last_ = 'current';
     document.getElementById('sliderCurrentLabel').innerHTML = currentNew;
+
+    document.getElementById('startDate').value = sliderControl.sliderDates[0];
+    document.getElementById('endDate').value = sliderControl.sliderDates[1];
+
+    return Api.find_histories(sliderControl.sliderDates[0], sliderControl.sliderDates[1]);
 };
 TimeRangeControl.prototype.getYears = function(val) {
     var year = parseInt(val); // coerce to integer
     if (year == 0) year += 1; // skip year zero
-    var val2 = (year < 0) ? localizer.numberFormatter(-1*year) + " BCE " : localizer.numberFormatter(year) + " CE";
-    return val2;
+    return (year < 0) ? localizer.numberFormatter(-1 * year) + " BCE " : localizer.numberFormatter(year) + " CE";
+};
+TimeRangeControl.prototype.getYearsDate = function(val) {
+    var year = parseInt(val); // coerce to integer
+    if (year == 0) year += 1; // skip year zero
+    return year;
 };
 function rangeDateObj(val, year) {
     var yearFraction = parseFloat(val) - parseInt(year);
@@ -236,23 +328,42 @@ TimeRangeControl.prototype.getMonth = function(val) {
     if (year == 0) year += 1; // skip year zero, does not exist
     var thisDate = rangeDateObj(val, year);
     var month = thisDate.getMonth()+1;
-    return (year < 0) ? month + "-" + localizer.numberFormatter(-1*year) + " BCE" : "" + month + "-" + localizer.numberFormatter(year) + " CE";
+    return (year < 0) ? localizer.numberFormatter(-1*year) + "-" + month + " BCE" : localizer.numberFormatter(year) + "-" + month + " CE";
+};
+TimeRangeControl.prototype.getMonthDate = function(val) {
+    var year = parseInt(val); // coerce to integer
+    if (year == 0) year += 1; // skip year zero, does not exist
+    var thisDate = rangeDateObj(val, year);
+    var month = thisDate.getMonth()+1;
+    return this.getYearsDate(val) + "-" + month;
 };
 TimeRangeControl.prototype.getDay = function(val) {
     var year = parseInt(val); // coerce to integer
     if (year == 0) year += 1; // skip year zero, does not exist
     var thisDate = rangeDateObj(val, year);
+    var day = thisDate.getDate();
+    return this.getMonthDate(val) + "-" + day;
+};
+TimeRangeControl.prototype.getDayDate = function(val) {
+    var year = parseInt(val); // coerce to integer
+    if (year == 0) year += 1; // skip year zero, does not exist
+    var thisDate = rangeDateObj(val, year);
     var month = thisDate.getMonth()+1;
     var day = thisDate.getDate();
-    return (year < 0) ? day + "-" + month + "-" + localizer.numberFormatter(-1*year) + " BCE" : day + "-" + month + "-" + localizer.numberFormatter(year) + " CE";
+    return (year < 0) ? (-1*year) + "-" + month + "-" + day : (year) + "-" + month + "-" + day;
 };
 TimeRangeControl.prototype.getRangePoint = function(val) {
     var currentRange = (1.0*this.rangeEnd_) - this.rangeStart_;
     return (1.0*this.rangeStart_) + (((1.0*val) / MAX_SLIDER) * currentRange);
 };
-TimeRangeControl.prototype.getSliderLabel = function(val) {
+TimeRangeControl.prototype.setSliderLabels = function(vals) {
+    this.sliderLabels = [ this.label(vals[0]), this.label(vals[1]) ];
+    this.sliderDates = [ this.date(vals[0]), this.date(vals[1]) ];
+}
+TimeRangeControl.prototype.label = function(val) {
     if (localizer === undefined) return "";
     var rangePoint = this.getRangePoint(val);
+    console.log("rangePoint("+val+")="+rangePoint);
     var currentRange = (1.0*this.rangeEnd_) - this.rangeStart_;
     if (currentRange > 400 || rangePoint < -1000) {
         return this.getYears(rangePoint);
@@ -260,6 +371,18 @@ TimeRangeControl.prototype.getSliderLabel = function(val) {
         return this.getMonth(rangePoint);
     } else {
         return this.getDay(rangePoint);
+    }
+};
+TimeRangeControl.prototype.date = function(val) {
+    if (localizer === undefined) return "";
+    var rangePoint = this.getRangePoint(val);
+    var currentRange = (1.0*this.rangeEnd_) - this.rangeStart_;
+    if (currentRange > 400 || rangePoint < -1000) {
+        return this.getYearsDate(rangePoint);
+    } else if (currentRange > 100) {
+        return this.getMonthDate(rangePoint);
+    } else {
+        return this.getDayDate(rangePoint);
     }
 };
 TimeRangeControl.prototype.incrementLast = function() {
@@ -271,21 +394,16 @@ TimeRangeControl.prototype.decrementLast = function() {
     return (this.last_ == 'origin') ? [ vals[0]-1, vals[1] ] : [ vals[0], vals[1]-1 ];
 };
 
-function setMode (button) {
-    mode = button.value;
-    if (button.id == 'btnInspect') {
-        button.style['font-weight'] = "bold";
-        document.getElementById('btnAddRegion').style['font-weight'] = "normal";
-        document.getElementById('btnAddEvent').style['font-weight'] = "normal";
-    } else if (button.id == 'btnAddRegion') {
-        button.style['font-weight'] = "bold";
-        document.getElementById('btnInspect').style['font-weight'] = "normal";
-        document.getElementById('btnAddEvent').style['font-weight'] = "normal";
-    } else {
-        button.style['font-weight'] = "bold";
-        document.getElementById('btnInspect').style['font-weight'] = "normal";
-        document.getElementById('btnAddRegion').style['font-weight'] = "normal";
+modeButtons = ['btnInspect', 'btnAddRegion', 'btnImageRegion', 'btnAddEvent'];
+
+function setMode (m, button) {
+    mode = m;
+    var hasButton = (typeof button != "undefined" && button != null);
+    if (hasButton) button.style['font-weight'] = "bold";
+    for (var i=0; i<modeButtons.length; i++) {
+        if (!hasButton || button.id != modeButtons[i]) document.getElementById(modeButtons[i]).style['font-weight'] = "normal";
     }
+    if (m == 'imageRegion') $('#fileImageUpload').click();
 }
 
 function timelineZoomIn () {
@@ -298,7 +416,7 @@ function timelineZoomIn () {
         document.getElementById('btnZoomOut').disabled = false;
     }
     timeRangeSlider.setValue([0, MAX_SLIDER]);
-    sliderControl.updateLabels();
+    sliderControl.updateHistoryRange();
 }
 
 function timelineZoomOut () {
@@ -311,7 +429,7 @@ function timelineZoomOut () {
         document.getElementById('btnZoomOut').disabled = true;
     }
     timeRangeSlider.setValue([0, MAX_SLIDER]);
-    sliderControl.updateLabels();
+    sliderControl.updateHistoryRange();
 }
 
 function addRegion () {
@@ -343,18 +461,12 @@ function addRegionForm () {
         '<div id="authFormSlot"></div>'+
         '<div id="bodyContent">'+
         '<p><form onsubmit="return false;">' +
-        'Event: <input type="text" name="eventName"/><br/>' +
-        'Start: <input type="text" name="startDate"/><br/>' +
-        'End: <input type="text" name="endDate"/><br/>' +
-        'Ideologies: <input type="text" name="ideologies"/><br/>' +
+        'Event: <div><input type="text" name="eventName" id="autocomplete_worldevent"/></div><div id="ac_selection_worldevent"></div><br/>' +
+        'Start: <input id="startDate" type="text" name="startDate"/><br/>' +
+        'End: <input id="endDate" type="text" name="endDate"/><br/>' +
+        'Tags: <div><input type="text" name="country" id="autocomplete_tag"/></div><div id="ac_selection_tag"></div><br/>' +
         '<br/>' +
-        '<em>Estimated number of people affected</em><br/>' +
-        '<br/>' +
-        'High estimate: <input type="text" name="deathHigh"/><br/>' +
-        'Middle estimate: <input type="text" name="deathMid"/><br/>' +
-        'Low estimate: <input type="text" name="deathLow"/><br/>' +
-        'Citations: <input type="text" name="citations"/><br/>' +
-        '<br/>' +
+        '<div id="tag_container"></div>' +
         '<button id="btnCreate" value="add" onclick="addRegion(this.form)">create</button><br/>'+
         '<button id="btnCancel" value="cancel" onclick="cancelAddRegion()">cancel</button><br/>'+
         '</form></p>'+

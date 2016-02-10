@@ -1,0 +1,46 @@
+.mode_button {
+    height: 20px;
+    width: 120px;
+}
+
+input[type=file] {
+    width: 1px;
+    visibility: hidden;
+}
+
+.mapImage {
+    /*display: inline-block;*/
+    opacity: 0.4;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    /*margin: auto;*/
+
+    margin-left: auto ;
+    margin-right: auto ;
+
+    border:10px solid blue;
+    top:0;
+    left:0;
+    position : relative;
+}
+
+#mapImageContainer {
+    width: 100%;
+    height: 100%;
+    top:0;
+    left:0;
+    /*border:1px solid red;*/
+    z-index: -1;
+    margin: 0px;
+    background-color: transparent;
+    position : absolute;
+    overflow: hidden;
+}
+
+#mapImageControlButton {
+    margin: 10px;
+    position : relative;
+    overflow: hidden;
+    float: right;
+}

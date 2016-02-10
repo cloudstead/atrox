@@ -21,8 +21,7 @@ public class TimePoint {
     //                                  year____MMddHHmmss
     public static final long YEAR_MULTIPLIER = 10000000000L;
 
-    // do not use '-' since year can be negative!
-    public static final String TP_SEP = "_";
+    public static final String TP_SEP = "-";
 
     public static final String DATE_TIME_PATTERN = "yyyy" + TP_SEP + "MM" + TP_SEP + "dd" + TP_SEP + "HH" + TP_SEP + "mm" + TP_SEP + "ss";
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern(DATE_TIME_PATTERN);
@@ -42,36 +41,46 @@ public class TimePoint {
         final String[] parts = date.split(TP_SEP);
         if (parts.length == 0) die("TimePoint: too short: "+date);
 
-        setYear(Integer.parseInt(parts[0]));
+        final int year;
+        final int yearIndex;
+        if (parts[0].length() == 0) {
+            year = -1 * Integer.parseInt(parts[1]);
+            yearIndex = 1;
+        } else {
+            year = Integer.parseInt(parts[0]);
+            yearIndex = 0;
+        }
+        setYear(year);
+
         long multiplier = YEAR_MULTIPLIER;
         long instant = multiplier * getYear();
 
-        if (parts.length > 1) {
+        if (parts.length > 1 + yearIndex) {
             setMonth(Byte.parseByte(parts[1]));
             multiplier /= 100;
             instant += multiplier * getMonth();
         }
-        if (parts.length > 2) {
+        if (parts.length > 2 + yearIndex) {
             setDay(Byte.parseByte(parts[2]));
             multiplier /= 100;
             instant += multiplier * getDay();
         }
-        if (parts.length > 3) {
+        if (parts.length > 3 + yearIndex) {
             setHour(Byte.parseByte(parts[3]));
             multiplier /= 100;
             instant += multiplier * getHour();
         }
-        if (parts.length > 4) {
+        if (parts.length > 4 + yearIndex) {
             setMinute(Byte.parseByte(parts[4]));
             multiplier /= 100;
             instant += multiplier * getMinute();
         }
-        if (parts.length > 5) {
+        if (parts.length > 5 + yearIndex) {
             setSecond(Byte.parseByte(parts[5]));
             multiplier /= 100;
             instant += multiplier * getSecond();
         }
-        if (parts.length > 6) die("TimePoint: too long: "+date);
+        if (parts.length > 6 + yearIndex) die("TimePoint: too long: "+date);
 
         setInstant(instant);
     }

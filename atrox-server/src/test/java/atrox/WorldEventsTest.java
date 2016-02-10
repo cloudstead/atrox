@@ -2,17 +2,18 @@ package atrox;
 
 import atrox.model.Account;
 import atrox.model.AccountAuthResponse;
-import atrox.model.WorldEvent;
+import atrox.model.canonical.WorldEvent;
+import atrox.model.history.WorldActorHistory;
+import atrox.model.history.WorldEventHistory;
 import atrox.model.support.GeoPolygon;
 import atrox.model.support.TimePoint;
-import atrox.model.tags.WorldEventTag;
 import org.apache.commons.lang3.RandomUtils;
 import org.cobbzilla.wizard.dao.SearchResults;
 import org.junit.Before;
 import org.junit.Test;
 
 import static atrox.ApiConstants.EP_BY_DATE;
-import static atrox.ApiConstants.entityEndpoint;
+import static atrox.ApiConstants.historyEndpoint;
 import static atrox.model.support.TimePoint.TP_SEP;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJson;
@@ -41,45 +42,67 @@ public class WorldEventsTest extends ApiClientTestBase {
         final String startDate = ""+startYear+ TP_SEP +startMonth + TP_SEP + startDay;
         final String endDate = ""+startYear+ TP_SEP +startMonth + TP_SEP + (startDay+1);
 
-        apiDocs.addNote("Search for event tags in the range ("+startDate+" to "+endDate+"), there should be none");
-        SearchResults<WorldEventTag> foundEvents = findWorldEventTags(startDate, endDate);
+        apiDocs.addNote("Search for event ideas in the range ("+startDate+" to "+endDate+"), there should be none");
+        SearchResults<WorldEventHistory> foundEvents = findWorldEvents(startDate, endDate);
         assertNull(foundEvents.getTotalCount());
         assertEquals(0, foundEvents.count());
         assertTrue(foundEvents.getResults().isEmpty());
 
-        // Create a new WorldEventTag
+        // Create a new WorldEventHistory
         final String eventName = randomName();
         final String headline = randomName();
-        final WorldEventTag worldEventTag = new WorldEventTag();
-        worldEventTag.setWorldEvent(eventName);
-        worldEventTag.setStartPoint(new TimePoint(startDate));
-        worldEventTag.setEndPoint(new TimePoint(endDate));
-        worldEventTag.setPolygon(new GeoPolygon("0,0", "0.1,0.1"));
-        worldEventTag.getCommentary().setHeadline(headline);
+        final WorldEventHistory history = new WorldEventHistory();
+        history.setWorldEvent(eventName);
+        history.setStartPoint(new TimePoint(startDate));
+        history.setEndPoint(new TimePoint(endDate));
+        history.setPolygon(new GeoPolygon("0,0", "0.1,0.1"));
+        history.getCommentary().setHeadline(headline);
+        history.addIdeas("east asia");
+        history.addCitations("http://example.com/citation.html");
 
-        apiDocs.addNote("Define a new WorldEventTag, and as a consequence, create the canonical WorldEvent");
-        WorldEventTag createdWETag = fromJson(post(entityEndpoint(WorldEventTag.class), toJson(worldEventTag)).json, WorldEventTag.class);
+        final WorldActorHistory germany = new WorldActorHistory();
+        germany.setWorldActor("Germany");
+        germany.addIdea("nazism");
+        germany.addIdea("axis");
+        germany.addIdea("hitler");
+        germany.addCitation("http://example.com/something.html");
+
+        final WorldActorHistory italy = new WorldActorHistory();
+        germany.setWorldActor("Italy");
+        germany.addIdea("fascism");
+        germany.addIdea("axis");
+        germany.addIdea("hitler");
+        germany.addCitation("http://example.com/something.html");
+
+        history.addActor(germany);
+        history.addActor(italy);
+//        history.addImpact();
+
+        apiDocs.addNote("Define a new WorldEventHistory, and as a consequence, create the canonical WorldEvent");
+        WorldEventHistory createdWETag = fromJson(post(historyEndpoint(WorldEventHistory.class), toJson(history)).json, WorldEventHistory.class);
         assertNotNull(createdWETag);
         assertNotEquals(eventName, createdWETag.getWorldEvent());// should now be a uuid
 
-        apiDocs.addNote("Lookup the WorldEventTag we created by uuid");
-        WorldEventTag foundTag = fromJson(get(entityEndpoint(WorldEventTag.class)+"/"+createdWETag.getUuid()).json, WorldEventTag.class);
-        WorldEvent worldEvent = (WorldEvent) foundTag.getAssociation(WorldEvent.class);
+        apiDocs.addNote("Lookup the WorldEventHistory we created by uuid");
+        WorldEventHistory foundTag = fromJson(get(historyEndpoint(WorldEventHistory.class)+"/"+createdWETag.getUuid()).json, WorldEventHistory.class);
+        WorldEvent worldEvent = (WorldEvent) foundTag.getCanonical();
         assertNotNull(worldEvent);
         assertEquals(eventName, worldEvent.getName());
 
         apiDocs.addNote("Search for world events in the same range, should see the new canonical event with our single tag");
+        foundEvents = findWorldEvents(startDate, endDate);
+        assertEquals(1, foundEvents.count());
 
         apiDocs.addNote("Update our tag, this should create a new version");
 
-        apiDocs.addNote("Search for event tags, we should see our updated tag");
+        apiDocs.addNote("Search for event ideas, we should see our updated tag");
     }
 
-    public SearchResults<WorldEventTag> findWorldEventTags(String startDate, String endDate) throws Exception {
-        return simpleSearch(entityEndpoint(WorldEventTag.class)
+    public SearchResults<WorldEventHistory> findWorldEvents(String startDate, String endDate) throws Exception {
+        return simpleSearch(historyEndpoint(WorldEvent.class)
                 + "/" + EP_BY_DATE
                 + "/" + startDate
-                + "/" + endDate, new WorldEventTag().getSearchResultType());
+                + "/" + endDate, new WorldEventHistory().getSearchResultType());
     }
 
 }

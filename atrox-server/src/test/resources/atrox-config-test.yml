@@ -57,3 +57,8 @@ smtp:
   tlsEnabled: true
 
 sessionPassphrase: dummy_value
+
+assetStorage:
+  type: local
+  config:
+    baseDir: /tmp/atrox-assets

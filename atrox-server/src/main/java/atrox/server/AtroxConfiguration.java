@@ -1,5 +1,7 @@
 package atrox.server;
 
+import cloudos.server.asset.AssetStorageConfiguration;
+import cloudos.service.asset.AssetStorageService;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +43,10 @@ public class AtroxConfiguration extends RestServerConfiguration
     @Getter @Setter private String emailTemplateRoot;
 
     @Getter @Setter private String sessionPassphrase;
+
+    @Getter @Setter private AssetStorageConfiguration assetStorage;
+    @Getter(lazy=true) private final AssetStorageService assetStorageService = initStorageService();
+    public AssetStorageService initStorageService () { return AssetStorageService.build(assetStorage); }
 
     public String getResetPasswordUrl(String token) {
         return new StringBuilder().append(getPublicUriBase()).append(RESET_PASSWORD_URI).append(token).toString();

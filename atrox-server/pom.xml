@@ -101,6 +101,12 @@ For commercial use, please contact cloudstead.io
         </dependency>
 
         <dependency>
+            <groupId>com.sun.jersey.contribs</groupId>
+            <artifactId>jersey-multipart</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>${commons-codec.version}</version>
@@ -112,11 +118,10 @@ For commercial use, please contact cloudstead.io
             <version>${jedis.version}</version>
         </dependency>
 
-        <!-- download reports -->
         <dependency>
-            <groupId>net.sf.opencsv</groupId>
-            <artifactId>opencsv</artifactId>
-            <version>${opencsv.version}</version>
+            <groupId>com.jhlabs</groupId>
+            <artifactId>map</artifactId>
+            <version>1.0.0</version>
         </dependency>
 
         <dependency>

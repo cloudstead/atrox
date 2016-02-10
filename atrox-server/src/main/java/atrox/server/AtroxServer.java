@@ -16,7 +16,7 @@ public class AtroxServer extends RestServerBase<AtroxConfiguration> {
     // args are ignored, config is loaded from the classpath
     public static void main(String[] args) throws Exception {
         final List<ConfigurationSource> configSources = getConfigurationSources();
-        main(AtroxServer.class, configSources);
+        main(AtroxServer.class, new DbSeedListener(), configSources);
     }
 
     public static List<ConfigurationSource> getConfigurationSources() {

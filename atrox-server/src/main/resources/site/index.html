@@ -4,6 +4,9 @@
     <title>atrox</title>
     <meta name="viewport" content="initial-scale=1.0">
 
+    <link rel="stylesheet" type="text/css" href="css/atrox.css"/>
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="css/autocomplete.css"/>
     <link rel="stylesheet" type="text/css" href="css/dhtmlxslider.css"/>
 
     <meta charset="utf-8">
@@ -34,13 +37,17 @@
     <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
-<div id="map"></div>
+
+<div id="map">
+</div>
+
+<div id="mapImageContainer"></div>
 
 <div id="sliderContainer" style="visibility: hidden">
 <table id="sliderTable" cellspacing="0" cellpadding="0" border="0">
     <tr>
         <td id="sliderPre">
-            <button id="btnInspect" style="font-weight: bold" value="inspect" onclick="setMode(this)">inspect</button>
+            <button class="mode_button" id="btnInspect" style="font-weight: bold" value="inspect" onclick="setMode('inspect', this)">inspect</button>
         </td>
         <td id="sliderCell" colspan="3">
             <div id="sliderObj"></div>
@@ -49,7 +56,8 @@
     </tr>
     <tr>
       <td>
-          <button id="btnAddRegion" value="addRegion" onclick="setMode(this);">add region</button>
+          <button class="mode_button" id="btnImageRegion" value="imageRegion" onclick="setMode('imageRegion', this);">region from image</button>
+          <button class="mode_button" id="btnAddRegion" value="addRegion" onclick="setMode('addRegion', this);">draw region</button>
       </td>
       <td align="left">
         <span id="sliderOriginLabel"></span>
@@ -62,7 +70,7 @@
     </tr>
     <tr>
         <td>
-            <button id="btnAddEvent" value="addEvent" onclick="setMode(this);">add event</button>
+            <button class="mode_button" id="btnAddEvent" value="addEvent" onclick="setMode('addEvent', this);">add event</button>
         </td>
         <td valign="middle" align="center" colspan="3">
           <button id="btnZoomOut" disabled="true" onclick="timelineZoomOut();">&lt;&lt;&lt;zoom</button>
@@ -97,13 +105,21 @@
     </div>
 </div>
 
+<div>
+    <input type="file" id="fileImageUpload"/>
+</div>
+
 </body>
 
 <script src="js/jquery.js"></script>
+<script src="js/jquery-ui.js"></script>
 <script src="js/dhtmlxcommon.js"></script>
 <script src="js/dhtmlxslider.js"></script>
+<script src="js/image_resizer.js"></script>
 <script src="js/api.js"></script>
 <script src="js/atrox.js"></script>
 <script src="js/main.js"></script>
+<script src="js/warp.js"></script>
+<script type="text/javascript" src="js/jquery.autocomplete.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkjxB2DrMIXcFqK40XjlolSjnMCMF-cAk&callback=init"></script>
 </html>
