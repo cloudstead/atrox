@@ -2,6 +2,10 @@
  * Site: https://jquery.com/
  * License: https://jquery.org/license/
  
+# jQuery UI
+ * Site: https://jqueryui.com/
+ * License: https://jquery.org/license/
+ 
 # dhtmlxSlider
   * Site: http://dhtmlx.com/docs/products/dhtmlxSlider/
   * License: http://dhtmlx.com/docs/products/dhtmlxSlider/license.shtml?gpl 
@@ -206,3 +210,7 @@
 # PostgreSQL JDBC driver
   * Site: https://jdbc.postgresql.org/
   * License: https://jdbc.postgresql.org/about/license.html
+
+# jQuery autocomplete
+  * Site: https://github.com/devbridge/jQuery-Autocomplete
+  * License: https://raw.githubusercontent.com/devbridge/jQuery-Autocomplete/master/license.txt
