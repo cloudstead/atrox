@@ -104,17 +104,6 @@ function closeMapImages () {
     container.css('zIndex', -1);
 }
 
-element_rotations = [];
-function rotate(id, delta) {
-    var element = $('#'+id);
-    var degree = (id in element_rotations) ? element_rotations[id] : 0;
-    degree += delta;
-    element_rotations[id] = degree;
-
-    element.css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
-    element.css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
-}
-
 map_image_mode = 'image';
 function toggleMapImageMode() {
     if (map_image_mode == 'image') {
@@ -130,6 +119,49 @@ function toggleMapImageMode() {
     }
 }
 
+// dummy-noop at first
+rotate_handler = window.setInterval(function () {}, 5000);
+
+function createRotationHandler (id, direction) {
+    //console.log("ONMOUSEDOWN: createRotationHandler: creating for "+id+"/"+direction);
+    var element = $('#'+id);
+
+    return function (e) {
+        Atrox.set_session(id+"_rotate_start", Date.now());
+
+        window.clearInterval(rotate_handler);
+        rotate_handler = window.setInterval(function () {
+            var degree = parseFloat(Atrox.get_session(id+"_rotate_amount", 0.0));
+            if (degree == null) degree = 0.0;
+            Atrox.set_session(id+"_rotate_amount", degree);
+
+            var start = parseInt(Atrox.get_session(id+"_rotate_start", Date.now()));
+            if (start == null || isNaN(start)) start = Date.now();
+            Atrox.set_session(id+"_rotate_start", start);
+
+            var duration = parseInt(Date.now() - start);
+            if (duration > 20000) {
+                window.clearInterval(rotate_handler);
+                rotate_handler = window.setInterval(function () {}, 5000);
+            }
+
+            var delta = Math.min(5.0, 50.0 * Math.pow(duration/10000.0, 3));
+            delta *= (1.0) * direction;
+            degree += delta;
+            Atrox.set_session(id+"_rotate_amount", degree);
+
+            console.log("adjusted "+id+" angle by delta="+delta+", now="+degree+" (duration="+duration+")");
+
+            element.css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
+            element.css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
+
+        }, 50);
+
+        // Using return false prevents browser's default,
+        // often unwanted mousemove actions (drag & drop)
+        return false;
+    }
+}
 function initMap () {
 
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -138,6 +170,18 @@ function initMap () {
         mapTypeId: google.maps.MapTypeId.HYBRID,
         scaleControl: true
     });
+
+    $(window).mouseup(function() {
+        //alert("This will show after mousemove and mouse released.");
+        //console.log("CLEANUP: onmouseup -- cancelling rotation handler");
+        window.clearInterval(rotate_handler);
+        rotate_handler = window.setInterval(function () {}, 5000);
+    });
+
+    // rotation buttons
+    Atrox.set_session("mapImg_rotate_amount", 0.0);
+    $('#clockwise').mousedown(createRotationHandler('mapImg', +1));
+    $('#anticlockwise').mousedown(createRotationHandler('mapImg', -1));
 
     // file upload handler
     document.getElementById('fileImageUpload').addEventListener('change', function(e) {
@@ -227,6 +271,9 @@ function initMap () {
             sliderControl.updateHistoryRange();
         }
     };
+    zoomToDates(-10000, thisYear);
+    zoomToDates(-4000, thisYear);
+    zoomToDates(1500, thisYear);
 
     addRegionWindow = new google.maps.InfoWindow({ content: addRegionForm() });
 
@@ -383,6 +430,12 @@ TimeRangeControl.prototype.getRangePoint = function(val) {
     var currentRange = (1.0*this.rangeEnd_) - this.rangeStart_;
     return (1.0*this.rangeStart_) + (((1.0*val) / MAX_SLIDER) * currentRange);
 };
+TimeRangeControl.prototype.getValueForRangePoint = function(val) {
+    var currentRange = (1.0*this.rangeEnd_) - this.rangeStart_;
+    var number = parseFloat(parseFloat(parseFloat(val) - this.rangeStart_) / currentRange) * MAX_SLIDER;
+    //console.log("zoomToDates: "+val+" -> "+number+" (rangestart="+this.rangeStart_+", rangeend="+this.rangeEnd_+", currentRange="+currentRange+")");
+    return number;
+};
 TimeRangeControl.prototype.setSliderLabels = function(vals) {
     this.sliderLabels = [ this.label(vals[0]), this.label(vals[1]) ];
     this.sliderDates = [ this.date(vals[0]), this.date(vals[1]) ];
@@ -390,7 +443,7 @@ TimeRangeControl.prototype.setSliderLabels = function(vals) {
 TimeRangeControl.prototype.label = function(val) {
     if (localizer === undefined) return "";
     var rangePoint = this.getRangePoint(val);
-    console.log("rangePoint("+val+")="+rangePoint);
+    //console.log("rangePoint("+val+")="+rangePoint);
     var currentRange = (1.0*this.rangeEnd_) - this.rangeStart_;
     if (currentRange > 400 || rangePoint < -1000) {
         return this.getYears(rangePoint);
@@ -434,7 +487,14 @@ function setMode (m, button) {
 }
 
 function timelineZoomIn () {
-    var vals = timeRangeSlider.getValue();
+    zoomIn(timeRangeSlider.getValue());
+}
+
+function zoomToDates (date1, date2) {
+    zoomIn([ sliderControl.getValueForRangePoint(date1), sliderControl.getValueForRangePoint(date2) ]);
+}
+
+function zoomIn (vals) {
     if (vals[0] == 0 && vals[1] == MAX_SLIDER) return;
     sliderControl.timeZoomStack_.push([sliderControl.getRangeOrigin(), sliderControl.getRangeCurrent()]);
     sliderControl.setRangeOrigin(sliderControl.getRangePoint(vals[0]));

@@ -105,7 +105,7 @@ Api = {
     _find_history_request: [],
 
     find_histories: function (origin, current, success, fail) {
-        console.log('find_histories::'+origin+", "+current);
+        //console.log('find_histories::'+origin+", "+current);
         Api._find_history_request = [origin, current];
         if (Api._find_history_timer != -1) {
             window.clearTimeout(Api._find_history_timer);
@@ -113,7 +113,7 @@ Api = {
         Api._find_history_timer = window.setTimeout(function () {
             var start = Api._find_history_request[0];
             var end = Api._find_history_request[1];
-            console.log('NOW calling API .... find_histories::'+ start+", "+ end);
+            //console.log('NOW calling API .... find_histories::'+ start+", "+ end);
             Api._get('histories/WorldEvent/date/'+start+'/'+end, success, fail);
         }, 1000);
     },

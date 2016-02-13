@@ -24,4 +24,12 @@ else
   debug=""
 fi
 
-java ${debug} -Xmx1900m -Xms1900m -server -cp ${BASE}/target/atrox-server-1.0.0-SNAPSHOT.jar atrox.server.AtroxServer
+command="${1}"
+if [ -z "${command}" ] ; then
+  CLASS=atrox.server.AtroxServer
+else
+  CLASS=atrox.main.AtroxMain
+  shift
+fi
+
+java ${debug} -Xmx1900m -Xms1900m -server -cp ${BASE}/target/atrox-server-1.0.0-SNAPSHOT.jar ${CLASS} ${command} "${@}"

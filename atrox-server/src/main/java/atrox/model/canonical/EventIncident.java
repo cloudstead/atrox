@@ -13,9 +13,6 @@ import javax.persistence.InheritanceType;
 @Entity @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS) @NoArgsConstructor @Accessors(chain=true)
 public class EventIncident extends CanonicalEntity {
 
-    @Override public String getName() { return getUuid(); }
-    @Override public CanonicalEntity setName(String val) { return this; } // noop
-
     @Column(nullable=false, length=UUID_MAXLEN)
     @Getter @Setter private String worldEvent;
 

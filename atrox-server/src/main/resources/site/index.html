@@ -45,11 +45,13 @@
         <button class="mapImageButton" onclick="closeMapImages(); return false;">close</button>
         <br/>
         <div class="mapImageControl">
-            <button onclick="rotate('mapImg', -0.1); return false;">&lt;&lt; rotate &lt;&lt;</button>
-            <button onclick="rotate('mapImg', +0.1); return false;">&gt;&gt; rotate &gt;&gt;</button>
+            <button id="clockwise" class="bigbuttonicon">↻</button>
+            <button id="anticlockwise" class="bigbuttonicon">↺</button>
         </div>
         <br/>
+
         <button id="btnMapImageMode" class="mapImageButton" onclick="toggleMapImageMode(); return false;">freeze image</button>
+
     </div>
     <div class="container"><img id="mapImg" class="mapImage"/></div>
 </div>
@@ -67,7 +69,7 @@
     </tr>
     <tr>
       <td>
-          <button class="mode_button" id="btnImageRegion" value="imageRegion" onclick="setMode('imageRegion', this);">region from image</button>
+          <button class="mode_button" id="btnImageRegion" value="imageRegion" onclick="setMode('imageRegion', this);">overlay image</button>
           <button class="mode_button" id="btnAddRegion" value="addRegion" onclick="setMode('addRegion', this);">draw region</button>
       </td>
       <td align="left">

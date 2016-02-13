@@ -35,7 +35,13 @@ Atrox = {
 
     set_account: function (account) {
         sessionStorage.setItem('atrox_account', JSON.stringify(account));
-    }
+    },
+
+    get_session: function (name, default_value) {
+        if (sessionStorage.getItem(name)) return sessionStorage.getItem(name);
+        return default_value;
+    },
+    set_session: function (name, value) { sessionStorage.setItem(name, value); }
 
 };
 

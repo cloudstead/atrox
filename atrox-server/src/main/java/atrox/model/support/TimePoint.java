@@ -11,6 +11,7 @@ import org.joda.time.format.DateTimeFormatter;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.io.Serializable;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 
@@ -31,13 +32,15 @@ public class TimePoint {
 
     public static final TimePoint MIN_VALUE = new TimePoint(String.valueOf(MIN_YEAR));
 
-    public TimePoint(long timestamp) { this(DATE_TIME_FORMATTER.print(timestamp)); }
+    public TimePoint (long timestamp) { this(DATE_TIME_FORMATTER.print(timestamp)); }
 
     public static String formatSearchRange(TimePoint start, TimePoint end) {
         return start.getInstant() + ApiConstants.RANGE_SEP + end.getInstant();
     }
 
-    public TimePoint (String date) {
+    public TimePoint (String date) { initInstant(date); }
+
+    public void initInstant(String date) {
         final String[] parts = date.split(TP_SEP);
         if (parts.length == 0) die("TimePoint: too short: "+date);
 
@@ -81,15 +84,17 @@ public class TimePoint {
             instant += multiplier * getSecond();
         }
         if (parts.length > 6 + yearIndex) die("TimePoint: too long: "+date);
-
         setInstant(instant);
     }
 
     @Getter @Setter private long instant;
+    public void initInstant () { initInstant(toString()); }
 
     @Min(value=MIN_YEAR, message="err.timePoint.year.tooEarly")
     @Max(value=MAX_YEAR, message="err.timePoint.year.tooLate")
     @Getter @Setter private long year;
+
+    public void invertYear() { year *= -1; }
 
     @Min(value=1, message="err.timePoint.month.tooSmall")
     @Max(value=12, message="err.timePoint.month.tooLarge")
@@ -115,20 +120,25 @@ public class TimePoint {
         StringBuilder b = new StringBuilder(String.valueOf(year));
 
         if (month == null) return b.toString();
-        b.append(TP_SEP).append(month);
+        b.append(TP_SEP).append(pad(month));
 
         if (day == null) return b.toString();
-        b.append(TP_SEP).append(day);
+        b.append(TP_SEP).append(pad(day));
 
         if (hour == null) return b.toString();
-        b.append(TP_SEP).append(hour);
+        b.append(TP_SEP).append(pad(hour));
 
         if (minute == null) return b.toString();
-        b.append(TP_SEP).append(minute);
+        b.append(TP_SEP).append(pad(minute));
 
         if (second == null) return b.toString();
-        b.append(TP_SEP).append(second);
+        b.append(TP_SEP).append(pad(second));
 
         return b.toString();
     }
+
+    public Serializable pad(Number val) {
+        return val.longValue() < 10L ? "0"+val : val;
+    }
+
 }

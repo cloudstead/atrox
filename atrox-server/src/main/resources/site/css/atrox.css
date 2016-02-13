@@ -3,6 +3,11 @@
     width: 120px;
 }
 
+.bigbuttonicon {
+    font-size: large;
+    font-weight: bold;
+}
+
 input[type=file] {
     width: 1px;
     visibility: hidden;
