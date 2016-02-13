@@ -214,3 +214,15 @@
 # jQuery autocomplete
   * Site: https://github.com/devbridge/jQuery-Autocomplete
   * License: https://raw.githubusercontent.com/devbridge/jQuery-Autocomplete/master/license.txt
+
+# PICOL fonts and icons
+  * Site: http://picol.org/
+  * License: http://creativecommons.org/licenses/by/3.0/
+
+# ANTLR
+  * Site: http://www.antlr.org/
+  * License: http://www.antlr.org/license.html
+
+# Wikipedia
+  * Site: https://en.wikipedia.org/
+  * License: https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License
