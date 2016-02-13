@@ -1,11 +1,9 @@
 package atrox;
 
-import atrox.main.wiki.AntlrArticleListener;
-import atrox.main.wiki.WikiNode;
+import atrox.main.wiki.ParsedWikiArticle;
+import atrox.main.wiki.WikiArticle;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-
-import java.util.List;
 
 @Slf4j
 public class WikiArticleTest {
@@ -23,8 +21,8 @@ public class WikiArticleTest {
             ;
 
     @Test public void testParseArticle () throws Exception {
-        final List<WikiNode> nodes = AntlrArticleListener.parse(TEST);
-        log.info("nodes: "+nodes);
+        final ParsedWikiArticle article = new WikiArticle("some title", TEST).parse();
+
         // todo: add validations on nodes here
     }
 

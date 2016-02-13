@@ -11,4 +11,6 @@ public class WikiArticle {
 
     public void addText(String line) { text += line; }
 
+    public ParsedWikiArticle parse () { return new ParsedWikiArticle(title, WikiNode.parse(text)); }
+
 }

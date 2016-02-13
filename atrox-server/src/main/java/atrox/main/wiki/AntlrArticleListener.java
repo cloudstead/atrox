@@ -1,14 +1,10 @@
 package atrox.main.wiki;
 
-import atrox.antlr.wiki.WikiArticleLexer;
 import atrox.antlr.wiki.WikiArticleParser;
 import atrox.antlr.wiki.WikiArticleParserBaseListener;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,19 +12,6 @@ import java.util.Stack;
 
 @Slf4j
 public class AntlrArticleListener extends WikiArticleParserBaseListener {
-
-    public static List<WikiNode> parse(String text) {
-        final WikiArticleLexer lexer = new WikiArticleLexer(new ANTLRInputStream(text));
-        final CommonTokenStream tokens = new CommonTokenStream(lexer);
-        final WikiArticleParser parser = new WikiArticleParser(tokens);
-
-        final WikiArticleParser.ArticleContext context = parser.article();
-        final ParseTreeWalker walker = new ParseTreeWalker();
-        final AntlrArticleListener listener = new AntlrArticleListener();
-        walker.walk(listener, context);
-
-        return listener.getNodes();
-    }
 
     private final Stack<WikiNode> stack = new Stack<>();
     @Getter private final List<WikiNode> nodes = new ArrayList<>();

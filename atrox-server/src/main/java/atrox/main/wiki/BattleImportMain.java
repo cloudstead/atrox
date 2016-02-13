@@ -28,6 +28,7 @@ public class BattleImportMain extends MainBase<BattleImportOptions> {
         }
 
         final String text = article.getText();
+
 //        WikiBlock infoBlock = article.getBlock("Infobox military conflict");
 //        WikiMilitaryConflict conflict = new WikiMilitaryConflict(infoBlock);
 
