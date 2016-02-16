@@ -14,8 +14,8 @@ This code is available under the GNU Affero General Public License, version 3: h
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>atrox</groupId>
-    <artifactId>atrox</artifactId>
+    <groupId>histori</groupId>
+    <artifactId>histori</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -28,7 +28,7 @@ This code is available under the GNU Affero General Public License, version 3: h
     </licenses>
 
     <modules>
-        <module>atrox-server</module>
+        <module>histori-server</module>
     </modules>
 
     <profiles>

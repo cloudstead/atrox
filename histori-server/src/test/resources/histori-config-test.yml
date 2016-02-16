@@ -1,0 +1,64 @@
+# Things in {{CURLIES}} will be read from the process environment when the server starts up.
+# The jrun launcher will typically load these from ~/.cloudos.env
+
+serverName: histori-api
+
+publicUriBase: https://127.0.0.1
+#publicUriBase: {{PUBLIC_BASE_URI}}
+
+database:
+  driver: org.postgresql.Driver
+  url: jdbc:postgresql://127.0.0.1:5432/histori_test
+  user: histori
+  password: histori
+
+  hibernate:
+    entityPackages: [ histori.model ]
+    archivePackages: [ histori.archive ]
+    dialect: org.hibernate.dialect.PostgreSQLDialect
+    showSql: true
+    hbm2ddlAuto: create
+    validationMode: ddl
+
+staticAssets:
+  baseUri: /
+  assetRoot: site/
+#  localOverride: {{ASSETS_DIR}}
+  mustacheCacheEnabled: false
+  mustacheResourceRoot: site/
+  utilPaths:
+    INDEX_PATH: /index.html
+    INDEX_ALIASES: /:/index.php
+    LOCALIZE: /localize
+
+http:
+  port: 0
+  baseUri: /api
+
+jersey:
+  resourcePackages: [ histori.resources, org.cobbzilla.wizard.server, org.cobbzilla.wizard.filters ]
+  requestFilters: [ histori.auth.HistoriAuthFilter ]
+  responseFilters: [ org.cobbzilla.wizard.filters.ScrubbableScrubber ]
+
+emailTemplateRoot: {{EMAIL_TEMPLATE_ROOT}}
+
+emailSenderNames:
+  welcome:
+    fromName:  Hello from Histori
+    fromEmail: do-not-reply@histori.city
+  reset_password:
+    fromName: Histori Password Helper
+    fromEmail: do-not-reply@histori.city
+
+smtp:
+  host: 127.0.0.1
+  user: bogus
+  password: bogus
+  tlsEnabled: true
+
+sessionPassphrase: dummy_value
+
+assetStorage:
+  type: local
+  config:
+    baseDir: /tmp/histori-assets
