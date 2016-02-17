@@ -2,11 +2,14 @@ package histori.wiki;
 
 import histori.model.support.TimePoint;
 import histori.model.support.TimeRange;
+import lombok.Getter;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,18 +23,18 @@ public class WikiDateFormat {
 
 
     // the second entry in each array is the field mask, tells us which fields we can use from the joda-time
-    public static final String[][] FORMATS = {
+    private static final String[][] FORMAT_BASES = {
             {"yyyy-MM-dd", "yMd"},
             {"dd MMM yyyy", "yMd"},
             {"dd MMMM yyyy", "yMd"},
+            {"d MMM yyyy", "yMd"},
+            {"d MMMM yyyy", "yMd"},
             {"MMM yyyy", "yM"},
-            {"MMM yyyy 'BC'", "yM"},
-            {"MMM yyyy 'B.C.'", "yM"},
-            {"MMM yyyy 'BCE'", "yM"},
-            {"MMM yyyy 'B.C.E.'", "yM"},
             {"MMMM yyyy", "yM"},
             {"MMMM dd yyyy", "yMd"},
             {"MMMM dd, yyyy", "yMd"},
+            {"MMMM d yyyy", "yMd"},
+            {"MMMM d, yyyy", "yMd"},
 
             {"'Summer' yyyy", "y"},
             {"'Fall' yyyy", "y"},
@@ -39,25 +42,30 @@ public class WikiDateFormat {
             {"'Winter' yyyy", "y"},
             {"'Spring' yyyy", "y"},
 
-            {"'Summer' yyyy 'BC'", "y"},
-            {"'Fall' yyyy 'BC'", "y"},
-            {"'Autumn' yyyy 'BC'", "y"},
-            {"'Winter' yyyy 'BC'", "y"},
-            {"'Spring' yyyy 'BC'", "y"},
-
             {"'Early' yyyy", "y"},
-            {"'Early' yyyy 'BC'", "y"},
             {"'Late' yyyy", "y"},
-            {"'Late' yyyy 'BC'", "y"},
 
             {"yyyy", "y"},
-            {"yyyy 'CE'", "y"},
-            {"yyyy 'C.E.'", "y"},
-            {"yyyy 'AD'", "y"},
-            {"yyyy 'A.D.'", "y"}
     };
-    public static final String MATCH_DAY = "(\\d{1,2})";
-    public static final String MATCH_YEAR= "(\\d{1,4})";
+    private static final String[] FORMAT_SUFFIXES = {
+            "", "BC", "B.C.", "BCE", "B.C.E", "AD", "A.D.", "CE", "C.E."
+    };
+    @Getter(lazy=true) private static final String[][] formats = initFormats();
+    private static String[][] initFormats () {
+        List<String[]> allFormats = new ArrayList<>();
+        for (String[] format : FORMAT_BASES) {
+            for (String suffix : FORMAT_SUFFIXES) {
+                if (suffix.length() > 0) suffix = " '" + suffix + "'";
+                allFormats.add(new String[] {format[0] + suffix, format[1]});
+                suffix = "," + suffix;
+                allFormats.add(new String[] {format[0] + suffix, format[1]});
+            }
+        }
+        return allFormats.toArray(new String[allFormats.size()][2]);
+    }
+
+    public static final String MATCH_DAY  = "(\\d{1,2})";
+    public static final String MATCH_YEAR = "(\\d{1,4})";
 
     public static final String MATCH_MONTH
             = "(January|Jan|February|Feb|March|Mar|April|Apr|May|June|Jun|July|Jul|August|Aug|September|Sep|October|Oct|November|Nov|December|Dec)";
@@ -78,9 +86,10 @@ public class WikiDateFormat {
 
     private static DateTimeFormatter[] DATE_FORMATTERS;
     static {
-        DATE_FORMATTERS = new DateTimeFormatter[FORMATS.length];
-        for (int i=0; i<FORMATS.length; i++) {
-            DATE_FORMATTERS[i] = DateTimeFormat.forPattern(FORMATS[i][0]);
+        final String[][] ALL_FORMATS = getFormats();
+        DATE_FORMATTERS = new DateTimeFormatter[ALL_FORMATS.length];
+        for (int i = 0; i< ALL_FORMATS.length; i++) {
+            DATE_FORMATTERS[i] = DateTimeFormat.forPattern(ALL_FORMATS[i][0]);
         }
     }
 
@@ -137,11 +146,12 @@ public class WikiDateFormat {
             return new TimeRange(start, end);
         }
 
+        final String[][] ALL_FORMATS = getFormats();
         for (int i=0; i<DATE_FORMATTERS.length; i++) {
             final DateTimeFormatter formatter = DATE_FORMATTERS[i];
             try {
                 DateTime dateTime = formatter.parseDateTime(date);
-                final String fieldMask = FORMATS[i][1];
+                final String fieldMask = ALL_FORMATS[i][1];
                 for (char c : fieldMask.toCharArray()) {
                     switch (c) {
                         case 'y':

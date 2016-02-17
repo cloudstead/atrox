@@ -16,9 +16,9 @@ public class DateRangeFinder extends WikiDataFinderBase<TimeRange> {
 
     @Override public TimeRange find() {
         for (WikiNode box : article.getInfoboxes()) {
-            for (WikiNode child : box.getChildren()) {
-                if (child.getName().equals(attrName)) return WikiDateFormat.parse(child.findAllText());
-            }
+            if (isIgnoredInfobox(box)) continue;
+            WikiNode dateAttr = box.findChildNamed(ATTR_DATE);
+            if (dateAttr != null) return WikiDateFormat.parse(dateAttr.findAllChildText());
         }
         return null;
     }

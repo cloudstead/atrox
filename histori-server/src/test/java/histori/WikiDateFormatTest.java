@@ -10,11 +10,12 @@ import static org.junit.Assert.fail;
 public class WikiDateFormatTest {
 
 	public static final String[][] TESTS = new String[][] {
+            {"5–6 June 1967", "1967-06-05_1967-06-06"},
+			{"September 2, 31 BC", "-31-09-02"},
             {"11 September 1865<ref name=\"Bancroft\" />{{rp", "1865-09-11"},
             {"July or August, 251", "251-07"},
             {"May 2014", "2014-05"},
             {"February 7, 1866", "1866-02-07"},
-            {"5–6 June 1967", "1967-06-05_1967-06-06"},
             {"2005-04-03 ", "2005-04-03"},
             {"17 January 1885", "1885-01-17"},
             {" November 411 BC", "-411-11"},
@@ -61,11 +62,11 @@ public class WikiDateFormatTest {
 			final String expected = test[1];
             final TimeRange times;
             boolean parsedOk = false;
+            String output = null;
             try {
                 times = WikiDateFormat.parse(input);
                 parsedOk = true;
-                String output = times.getStart().toString();
-                if (times.getEnd() != null && !times.getStart().equals(times.getEnd())) output += "_" + times.getStart().toString();
+                output = times.toString();
 				if (expected != null && !output.equals(expected)) {
                     die("expected "+input+" -> "+expected+" but got "+output);
                 } else if (expected == null) {
@@ -75,7 +76,7 @@ public class WikiDateFormatTest {
 			} catch (Exception e) {
                 // a null expected value means that we expect parsing to fail
                 if (expected != null || parsedOk) {
-                    failures.append("\ninput=" + input);
+                    failures.append("\ninput=" + input+", expected="+expected+", parsed="+output);
                     failCount++;
                 }
             }

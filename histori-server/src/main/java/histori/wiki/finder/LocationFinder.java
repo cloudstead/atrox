@@ -123,6 +123,7 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
 
     private LatLon parseCoordinates(ParsedWikiArticle art) {
         for (WikiNode box : art.getInfoboxes()) {
+            if (isIgnoredInfobox(box)) continue;
 
             final WikiNode coordsAttr = box.findChildNamed(ATTR_COORDINATES);
             if (coordsAttr != null) {
