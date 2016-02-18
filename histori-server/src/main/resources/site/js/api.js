@@ -114,17 +114,14 @@ Api = {
             var start = Api._find_history_request[0];
             var end = Api._find_history_request[1];
             //console.log('NOW calling API .... find_histories::'+ start+", "+ end);
-            Api._get('histories/WorldEvent/date/'+start+'/'+end, success, fail);
+            Api._get('search/date/'+start+'/'+end, success, fail);
         }, 1000);
     },
 
-    autocomplete: function (includes, excludes) {
+    autocomplete: function (matchType) {
         var uri = '/api/autocomplete';
-        var hasInclude = (typeof includes != "undefined" && includes != null && includes.length > 0);
-        var hasExclude = (typeof excludes != "undefined" && excludes != null && excludes.length > 0);
-        if (hasInclude && hasExclude) return uri + '/' + includes.join("_") + '/-' + excludes.join("_");
-        if (hasInclude) return uri + '/' + includes.join("_");
-        if (hasExclude) return uri + '/_/-' + excludes.join("_");
+        var hasMatch = (typeof matchType != "undefined" && matchType != null);
+        if (hasMatch) return uri + '/' + includes.join("_");
         return uri;
     },
 

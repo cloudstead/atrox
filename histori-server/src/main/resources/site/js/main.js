@@ -43,7 +43,7 @@ var openAddRegionWindow = function (map, marker) {
 
     // Initialize autocomplete with local lookup:
     $('#autocomplete_tag').devbridgeAutocomplete({
-        serviceUrl: Api.autocomplete(null, ["WorldEvent"]),
+        serviceUrl: Api.autocomplete("no-type"),
         minChars: 1,
         onSelect: function (suggestion) {
             $('#ac_selection_tag').html('You selected: ' + suggestion.value + ', ' + suggestion.data.category);
@@ -55,7 +55,7 @@ var openAddRegionWindow = function (map, marker) {
 
     // Initialize autocomplete with local lookup:
     $('#autocomplete_worldevent').devbridgeAutocomplete({
-        serviceUrl: Api.autocomplete(["WorldEvent"], null),
+        serviceUrl: Api.autocomplete(),
         minChars: 1,
         onSelect: function (suggestion) {
             $('#ac_selection_worldevent').html('You selected: ' + suggestion.value + ', ' + suggestion.data.category);
@@ -372,13 +372,16 @@ TimeRangeControl.prototype.updateHistoryRange = function () {
     if (currentOrig != currentNew) this.last_ = 'current';
     document.getElementById('sliderCurrentLabel').innerHTML = currentNew;
 
-    var startDate = document.getElementById('startDate');
-    if (startDate != null) startDate.value = sliderControl.sliderDates[0];
-
-    var endDate = document.getElementById('endDate');
-    if (endDate != null) endDate.value = sliderControl.sliderDates[1];
+    this.updateRangeLabels(sliderControl.sliderDates[0], sliderControl.sliderDates[1]);
 
     return Api.find_histories(sliderControl.sliderDates[0], sliderControl.sliderDates[1]);
+};
+TimeRangeControl.prototype.updateRangeLabels = function (start, end) {
+    var startDate = document.getElementById('startDate');
+    if (startDate != null) startDate.value = start;
+
+    var endDate = document.getElementById('endDate');
+    if (endDate != null) endDate.value = end;
 };
 TimeRangeControl.prototype.getYears = function(val) {
     var year = parseInt(val); // coerce to integer
@@ -496,12 +499,19 @@ function zoomToDates (date1, date2) {
 
 function zoomIn (vals) {
     if (vals[0] == 0 && vals[1] == MAX_SLIDER) return;
+
     sliderControl.timeZoomStack_.push([sliderControl.getRangeOrigin(), sliderControl.getRangeCurrent()]);
-    sliderControl.setRangeOrigin(sliderControl.getRangePoint(vals[0]));
-    sliderControl.setRangeCurrent(sliderControl.getRangePoint(vals[1]));
+
+    var newStart = sliderControl.getRangePoint(vals[0]);
+    var newEnd = sliderControl.getRangePoint(vals[1]);
+
+    sliderControl.setRangeOrigin(newStart);
+    sliderControl.setRangeCurrent(newEnd);
+
     if (sliderControl.timeZoomStack_.length > 0) {
         document.getElementById('btnZoomOut').disabled = false;
     }
+
     timeRangeSlider.setValue([0, MAX_SLIDER]);
     sliderControl.updateHistoryRange();
 }

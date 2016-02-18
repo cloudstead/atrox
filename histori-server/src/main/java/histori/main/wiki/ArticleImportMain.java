@@ -64,9 +64,7 @@ public class ArticleImportMain extends HistoriApiMain<ArticleImportOptions> {
                 die("Error creating nexus: "+response);
             }
 
-            // extract combatants
-
-            // write out a WorldEventHistory record, with dates, location, and Actors
+            // extract additional tags
 
         } catch (Exception e) {
             log.warn("Error processing article: "+parsed.getName()+": "+e, e);
