@@ -25,6 +25,7 @@ import static histori.ApiConstants.NEXUS_ENDPOINT;
 import static histori.ApiConstants.EP_TAGS;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
+import static org.cobbzilla.util.string.StringUtil.urlEncode;
 import static org.cobbzilla.wizard.resources.ResourceUtil.*;
 import static org.cobbzilla.wizard.util.SpringUtil.autowire;
 
@@ -91,7 +92,7 @@ public class NexusResource {
         final Nexus found = nexusDAO.findByOwnerAndName(account, name);
         if (found != null) return invalid("err.name.notUnique");
 
-        if (!name.equals(request.getName())) return invalid("err.name.mismatch");
+        if (!name.equals(urlEncode(request.getName()))) return invalid("err.name.mismatch");
 
         final Nexus nexus = new Nexus();
         copy(nexus, request, CREATE_FIELDS);

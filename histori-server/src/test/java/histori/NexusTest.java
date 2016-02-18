@@ -74,7 +74,7 @@ public class NexusTest extends ApiClientTestBase {
         nexus.addTag(tag3, "citation");
 
         apiDocs.addNote("Define a new Nexus, and as a consequence, create some tags");
-        Nexus createdNexus = fromJson(put("/nexus/"+urlEncode(nexusName), toJson(nexus)).json, Nexus.class);
+        Nexus createdNexus = fromJson(put(NEXUS_ENDPOINT+"/"+urlEncode(nexusName), toJson(nexus)).json, Nexus.class);
         assertEquals(nexusName, createdNexus.getName());
 
         final String nexusPath = NEXUS_ENDPOINT + "/" + createdNexus.getUuid();

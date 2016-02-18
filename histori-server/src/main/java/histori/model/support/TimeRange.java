@@ -17,6 +17,7 @@ public class TimeRange {
             @AttributeOverride(name="second",column=@Column(name="startSecond")),
     })
     @Embedded @Getter @Setter private TimePoint startPoint;
+    public boolean hasStart() { return startPoint != null; }
 
     @AttributeOverrides({
             @AttributeOverride(name="instant",column=@Column(name="endInstant", columnDefinition="numeric(29,0)")),
@@ -27,14 +28,14 @@ public class TimeRange {
             @AttributeOverride(name="minute",column=@Column(name="endMinute")),
             @AttributeOverride(name="second",column=@Column(name="endSecond")),
     })
-    @Embedded @Getter @Setter private TimePoint endPoint;
+    @Embedded @Setter private TimePoint endPoint;
+    public TimePoint getEndPoint() { return endPoint == null || endPoint.equals(startPoint) ? null : endPoint; }
+    public boolean hasEnd() { return endPoint != null && !endPoint.equals(startPoint); }
 
     public TimeRange(String startDate, String endDate) {
         setStartPoint(new TimePoint(startDate));
         setEndPoint(new TimePoint(endDate));
     }
-
-    public boolean hasEnd() { return endPoint != null && !endPoint.equals(startPoint); }
 
     public TimeRange(TimePoint start) { this.startPoint = start; }
 

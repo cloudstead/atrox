@@ -122,6 +122,9 @@ public class NexusTagsResource {
 
         final Tag tag = tagDAO.findOrCreateByCanonical(new Tag(nexusTag.getTagName(), tagType));
 
+        final Response validationResult = validateTagSchema(nexusTag, tagType);
+        if (validationResult != null) return validationResult;
+
         final NexusTag newTag = new NexusTag();
         copy(newTag, nexusTag, CREATE_FIELDS);
         newTag
@@ -131,6 +134,18 @@ public class NexusTagsResource {
                 .setOwner(account.getUuid());
 
         return ok(nexusTagDAO.create(newTag));
+    }
+
+    public Response validateTagSchema(@Valid NexusTag nexusTag, TagType tagType) {
+        if (tagType == null || !tagType.hasSchema()) {
+            if (nexusTag.hasSchemaValues()) return invalid("err.tag.noValuesAllowed");
+
+        } else {
+            final TagSchema schema = tagType.getSchema();
+            final ValidationResult validationResult = validateTagSchemaValues(schema, nexusTag.getValues());
+            if (!validationResult.isEmpty()) return invalid(validationResult);
+        }
+        return null;
     }
 
     @POST
@@ -146,6 +161,10 @@ public class NexusTagsResource {
 
         final NexusTag found = nexusTagDAO.findByNexusAndOwnerAndName(nexus.getUuid(), account, tagName);
         if (found == null) return notFound(tagName);
+
+        final TagType tagType = tagTypeDAO.findByCanonicalName(found.getTagType());
+        final Response validationResult = validateTagSchema(nexusTag, tagType);
+        if (validationResult != null) return validationResult;
 
         copy(found, nexusTag, UPDATE_FIELDS);
 

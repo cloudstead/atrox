@@ -30,7 +30,7 @@ public abstract class SocialEntity extends AccountOwnedEntity implements Version
 
     @Column(nullable=false, length=20)
     @Enumerated(EnumType.STRING)
-    @Getter @Setter private EntityVisibility visibility = EntityVisibility.owner;
+    @Getter @Setter private EntityVisibility visibility = EntityVisibility.everyone;
 
     @Getter @Setter private int version;
 

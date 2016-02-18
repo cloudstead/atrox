@@ -7,6 +7,7 @@ import histori.model.support.TimeRange;
 import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Repository;
 
+import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -14,6 +15,16 @@ import static org.hibernate.criterion.Restrictions.*;
 
 @Repository
 public class NexusDAO extends VersionedEntityDAO<Nexus> {
+
+    @Override public Object preCreate(@Valid Nexus entity) {
+        entity.initTimeInstants();
+        return super.preCreate(entity);
+    }
+
+    @Override public Object preUpdate(@Valid Nexus entity) {
+        entity.initTimeInstants();
+        return super.preUpdate(entity);
+    }
 
     public Nexus findByOwnerAndName(Account account, String name) {
         return uniqueResult(criteria().add(and(

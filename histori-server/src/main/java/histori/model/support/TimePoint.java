@@ -24,7 +24,8 @@ public class TimePoint {
     // in the form: yearMMddHHmmss
     // "year" is limited by Long.MAX_VALUE, so we are limited to the range -9223372036854775807 BCE to 9223372036854775807 CE
     // This is ~700M x (age of the universe). And we have resolution down to the second for all that time.
-    public static final long YEAR_MULTIPLIER = 10000000000L;
+    public static final long YEAR_MULTIPLIER = 1_00_00_00_00_00L;
+    //                                           MM dd HH mm ss
 
     public static final String TP_SEP = "-";
 

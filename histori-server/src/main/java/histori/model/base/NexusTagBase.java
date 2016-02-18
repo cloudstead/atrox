@@ -36,6 +36,7 @@ public class NexusTagBase extends SocialEntity {
     @Size(max=32000, message="err.schemaValues.tooLong")
     @Column(length=32000)
     @JsonIgnore @Getter @Setter private String schemaValues;
+    public boolean hasSchemaValues () { return !empty(schemaValues); }
 
     @Transient
     public TagSchemaValue[] getValues () { return empty(schemaValues) ? null : fromJsonOrDie(schemaValues, TagSchemaValue[].class); }

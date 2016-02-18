@@ -27,5 +27,6 @@ public class TagTypeBase extends CanonicalEntity {
     @Transient
     public TagSchema getSchema () { return empty(schemaJson) ? null : fromJsonOrDie(schemaJson, TagSchema.class); }
     public TagTypeBase setSchema (TagSchema schema) { return setSchemaJson(empty(schema) ? null : toJsonOrDie(schema)); }
+    public boolean hasSchema() { return !empty(getSchemaJson()); }
 
 }

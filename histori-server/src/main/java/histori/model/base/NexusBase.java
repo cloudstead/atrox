@@ -25,6 +25,7 @@ import static histori.model.CanonicalEntity.canonicalize;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.json.JsonUtil.fromJsonOrDie;
 import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
+import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
 
 @MappedSuperclass @Accessors(chain=true) @ToString(of="name")
 public class NexusBase extends SocialEntity {
@@ -49,8 +50,14 @@ public class NexusBase extends SocialEntity {
         this.geoJson = toJsonOrDie(geo);
     }
 
-    @Embedded
-    @Getter @Setter private TimeRange timeRange;
+    @Embedded @Getter @Setter private TimeRange timeRange;
+
+    public void initTimeInstants() {
+        if (timeRange == null) throw invalidEx("err.timeRange.empty");
+        if (!timeRange.hasStart()) throw invalidEx("err.timeRange.start.empty");
+        timeRange.getStartPoint().initInstant();
+        if (timeRange.hasEnd()) timeRange.getEndPoint().initInstant();
+    }
 
     private static final String[] ID_FIELDS = {"owner", "name"};
     @Override public String[] getIdentifiers() { return new String [] { getOwner(), getName() }; }
@@ -93,4 +100,5 @@ public class NexusBase extends SocialEntity {
         }
         return false;
     }
+
 }

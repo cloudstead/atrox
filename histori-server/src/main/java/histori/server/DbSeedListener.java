@@ -4,6 +4,7 @@ import histori.dao.CanonicalEntityDAO;
 import histori.model.CanonicalEntity;
 import histori.model.Tag;
 import histori.model.TagType;
+import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.wizard.server.RestServer;
 import org.cobbzilla.wizard.server.RestServerLifecycleListenerBase;
 
@@ -11,6 +12,7 @@ import static org.cobbzilla.util.io.StreamUtil.loadResourceAsStringOrDie;
 import static org.cobbzilla.util.json.JsonUtil.fromJsonOrDie;
 import static org.cobbzilla.util.reflect.ReflectionUtil.arrayClass;
 
+@Slf4j
 public class DbSeedListener extends RestServerLifecycleListenerBase<HistoriConfiguration> {
 
     private static final Class<? extends CanonicalEntity>[] SEED_CLASSES = new Class[]{ TagType.class, Tag.class };
