@@ -1,11 +1,12 @@
 package histori.main.wiki;
 
-import histori.wiki.*;
-import histori.wiki.finder.DateRangeFinder;
-import histori.wiki.finder.LocationFinder;
-import histori.model.history.WorldEventHistory;
 import histori.model.support.LatLon;
 import histori.model.support.TimeRange;
+import histori.wiki.ParsedWikiArticle;
+import histori.wiki.WikiArchive;
+import histori.wiki.WikiArticle;
+import histori.wiki.finder.DateRangeFinder;
+import histori.wiki.finder.LocationFinder;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.io.FileUtil;
 import org.cobbzilla.wizard.main.MainBase;
@@ -43,10 +44,10 @@ public class ArticleImportMain extends MainBase<ArticleImportOptions> {
             // Where was it?
             coordinates = new LocationFinder().setWiki(wiki).setArticle(parsed).find();
 
-            WorldEventHistory eventHistory = new WorldEventHistory();
-            eventHistory.setWorldEvent(article.getTitle());
-            eventHistory.setStartPoint(dateRange.getStart());
-            eventHistory.setEndPoint(dateRange.getEnd());
+//            WorldEventHistory eventHistory = new WorldEventHistory();
+//            eventHistory.setWorldEvent(article.getTitle());
+//            eventHistory.setStartPoint(dateRange.getStart());
+//            eventHistory.setEndPoint(dateRange.getEnd());
 
             // do we have coordinates?
 

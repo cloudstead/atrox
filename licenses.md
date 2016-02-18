@@ -226,3 +226,11 @@
 # Wikipedia
   * Site: https://en.wikipedia.org/
   * License: https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License
+
+# GeoJSON Jackson
+  * Site: https://github.com/opendatalab-de/geojson-jackson
+  * License: https://raw.githubusercontent.com/opendatalab-de/geojson-jackson/master/LICENSE
+
+# GeoJSON Country Border Data
+  * Site: http://data.okfn.org/data/datasets/geo-boundaries-world-110m#data
+  * License: https://okfn.org/terms-of-use/

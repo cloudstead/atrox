@@ -12,14 +12,18 @@ import javax.persistence.Embeddable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
+import java.math.BigInteger;
 
+import static org.cobbzilla.util.daemon.ZillaRuntime.bigint;
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 
 @Embeddable @NoArgsConstructor @EqualsAndHashCode(of={"instant"})
 public class TimePoint {
 
-    // allows us to represent any TimePoint as a long
-    //                                  year____MMddHHmmss
+    // allows us to represent any TimePoint as a BigInteger
+    // in the form: yearMMddHHmmss
+    // "year" is limited by Long.MAX_VALUE, so we are limited to the range -9223372036854775807 BCE to 9223372036854775807 CE
+    // This is ~700M x (age of the universe). And we have resolution down to the second for all that time.
     public static final long YEAR_MULTIPLIER = 10000000000L;
 
     public static final String TP_SEP = "-";
@@ -56,38 +60,38 @@ public class TimePoint {
         setYear(year);
 
         long multiplier = YEAR_MULTIPLIER;
-        long instant = multiplier * getYear();
+        BigInteger instant = bigint(multiplier).multiply(bigint(getYear()));
 
         if (parts.length > 1 + yearIndex) {
-            setMonth(Byte.parseByte(parts[1]));
+            setMonth(Byte.parseByte(parts[1+yearIndex]));
             multiplier /= 100;
-            instant += multiplier * getMonth();
+            instant = instant.add(bigint(multiplier).multiply(bigint(getMonth())));
         }
         if (parts.length > 2 + yearIndex) {
-            setDay(Byte.parseByte(parts[2]));
+            setDay(Byte.parseByte(parts[2+yearIndex]));
             multiplier /= 100;
-            instant += multiplier * getDay();
+            instant = instant.add(bigint(multiplier).multiply(bigint(getDay())));
         }
         if (parts.length > 3 + yearIndex) {
-            setHour(Byte.parseByte(parts[3]));
+            setHour(Byte.parseByte(parts[3+yearIndex]));
             multiplier /= 100;
-            instant += multiplier * getHour();
+            instant = instant.add(bigint(multiplier).multiply(bigint(getHour())));
         }
         if (parts.length > 4 + yearIndex) {
-            setMinute(Byte.parseByte(parts[4]));
+            setMinute(Byte.parseByte(parts[4+yearIndex]));
             multiplier /= 100;
-            instant += multiplier * getMinute();
+            instant = instant.add(bigint(multiplier).multiply(bigint(getMinute())));
         }
         if (parts.length > 5 + yearIndex) {
-            setSecond(Byte.parseByte(parts[5]));
+            setSecond(Byte.parseByte(parts[5+yearIndex]));
             multiplier /= 100;
-            instant += multiplier * getSecond();
+            instant = instant.add(bigint(multiplier).multiply(bigint(getSecond())));
         }
         if (parts.length > 6 + yearIndex) die("TimePoint: too long: "+date);
         setInstant(instant);
     }
 
-    @Getter @Setter private long instant;
+    @Getter @Setter private BigInteger instant;
     public void initInstant () { initInstant(toString()); }
 
     @Min(value=MIN_YEAR, message="err.timePoint.year.tooEarly")

@@ -4,7 +4,7 @@ import histori.ApiConstants;
 import histori.dao.AccountDAO;
 import histori.dao.SessionDAO;
 import histori.model.Account;
-import histori.model.AccountAuthResponse;
+import histori.model.support.AccountAuthResponse;
 import histori.model.auth.HistoriLoginRequest;
 import histori.model.auth.RegistrationRequest;
 import histori.server.HistoriConfiguration;

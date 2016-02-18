@@ -1,0 +1,63 @@
+[
+  {
+    "name": "World Actor",
+    "schema": {
+      "fields": [
+        {"name": "name", "fieldType": "world_actor", "multiple": false},
+        {"name": "roles", "fieldType": "role_type", "multiple": true}
+      ]
+    }
+  },
+  {
+    "name": "Relationship",
+    "schema": {
+      "fields": [
+        {"name": "name", "fieldType": "tag", "multiple": false},
+        {"name": "relationship", "fieldType": "relationship_type", "multiple": true}
+      ]
+    }
+  },
+  {
+    "name": "Result",
+    "schema": {
+      "fields": [
+        {"name": "name", "fieldType": "result", "multiple": false},
+        {"name": "world_actor", "fieldType": "world_actor", "multiple": true}
+      ]
+    }
+  },
+  {
+    "name": "Impact",
+    "schema": {
+      "fields": [
+        {"name": "name", "fieldType": "impact", "multiple": false},
+        {"name": "world_actor", "fieldType": "world_actor", "multiple": false},
+        {"name": "role", "fieldType": "role_type", "multiple": false},
+        {"name": "low_estimate", "fieldType": "integer", "multiple": false},
+        {"name": "estimate", "fieldType": "integer", "multiple": false},
+        {"name": "high_estimate", "fieldType": "integer", "multiple": false}
+      ]
+    }
+  },
+  { "name": "Citation",
+    "schema": {
+      "fields": [
+        {"name": "name", "fieldType": "citation", "multiple": false}
+      ]
+    }
+  },
+  { "name": "Idea",
+    "schema": {
+      "fields": [
+        {"name": "name", "fieldType": "idea", "multiple": false}
+      ]
+    }
+  },
+  { "name": "Event Type",
+    "schema": {
+      "fields": [
+        {"name": "name", "fieldType": "event_type", "multiple": false}
+      ]
+    }
+  }
+]

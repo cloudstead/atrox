@@ -1,11 +1,11 @@
 package histori.main.wiki;
 
-import histori.wiki.WikiArchive;
-import histori.wiki.WikiArticle;
-import histori.wiki.WikiJsonParseState;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import histori.wiki.WikiArchive;
+import histori.wiki.WikiArticle;
+import histori.wiki.WikiJsonParseState;
 import org.cobbzilla.util.io.FileUtil;
 import org.cobbzilla.util.json.JsonUtil;
 import org.cobbzilla.wizard.main.MainBase;
@@ -17,7 +17,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
-import static histori.model.canonical.CanonicalEntity.canonicalize;
+import static histori.model.CanonicalEntity.canonicalize;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJson;
 import static org.cobbzilla.util.security.ShaUtil.sha256_hex;

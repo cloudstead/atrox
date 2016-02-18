@@ -1,7 +1,7 @@
 package histori;
 
 import histori.model.Account;
-import histori.model.AccountAuthResponse;
+import histori.model.support.AccountAuthResponse;
 import histori.model.auth.HistoriLoginRequest;
 import histori.model.auth.RegistrationRequest;
 import cloudos.model.auth.ResetPasswordRequest;

@@ -1,11 +1,13 @@
 package histori.archive;
 
-import org.cobbzilla.wizard.model.Identifiable;
+import histori.model.VersionedEntity;
 
-public interface EntityArchive extends Identifiable {
+public interface EntityArchive extends VersionedEntity {
 
     public String getOriginalUuid ();
-    public void setOriginalUuid (String uuid);
+    public EntityArchive setOriginalUuid (String uuid);
+
+    public boolean archiveUuid();
 
     // annoying working for lack of mixins. easier than doing cglib madness
 //    public String[] getUniqueProperties();

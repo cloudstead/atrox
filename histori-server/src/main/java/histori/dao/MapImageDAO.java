@@ -2,6 +2,7 @@ package histori.dao;
 
 import histori.model.Account;
 import histori.model.MapImage;
+import org.cobbzilla.wizard.dao.AbstractCRUDDAO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 import static org.hibernate.criterion.Restrictions.and;
 import static org.hibernate.criterion.Restrictions.eq;
 
-@Repository public class MapImageDAO extends AccountOwnedEntityDAO<MapImage> {
+@Repository public class MapImageDAO extends AbstractCRUDDAO<MapImage> {
 
     public MapImage findByOwnerAndUri(String accountUuid, String storageUri) {
         return uniqueResult(criteria().add(and(

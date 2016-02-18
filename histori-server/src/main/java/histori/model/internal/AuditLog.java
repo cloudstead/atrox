@@ -31,6 +31,6 @@ public class AuditLog extends StrongIdentifiableBase {
     @Column(length=1000, nullable=false, updatable=false)
     @Getter @Setter private String userAgent;
 
-    @Column(length=1000, nullable=false, updatable=false)
+    @Column(length=16000, nullable=false, updatable=false)
     @Getter @Setter private String notes;
 }

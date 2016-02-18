@@ -20,4 +20,5 @@ public class MapImage extends AccountOwnedEntity {
     @Getter @Setter private String fileName;
 
     @Transient @Getter @Setter private String url;
+
 }

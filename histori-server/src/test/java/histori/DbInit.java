@@ -8,7 +8,6 @@ public class DbInit extends ApiClientTestBase {
 
     @Test public void init () throws Exception {
         docsEnabled = false;
-        System.out.println("foo");
     }
 
 }

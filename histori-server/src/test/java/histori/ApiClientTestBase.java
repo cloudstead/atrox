@@ -1,7 +1,8 @@
 package histori;
 
-import histori.model.AccountAuthResponse;
+import histori.model.support.AccountAuthResponse;
 import histori.model.auth.RegistrationRequest;
+import histori.server.DbSeedListener;
 import histori.server.HistoriConfiguration;
 import histori.server.HistoriServer;
 import com.fasterxml.jackson.databind.JavaType;
@@ -12,6 +13,7 @@ import org.cobbzilla.util.collection.SingletonList;
 import org.cobbzilla.util.json.JsonUtil;
 import org.cobbzilla.wizard.dao.SearchResults;
 import org.cobbzilla.wizard.model.ResultPage;
+import org.cobbzilla.wizard.server.RestServer;
 import org.cobbzilla.wizard.server.config.factory.ConfigurationSource;
 import org.cobbzilla.wizard.server.config.factory.StreamConfigurationSource;
 import org.cobbzilla.wizard.util.RestResponse;
@@ -29,7 +31,10 @@ import static org.junit.Assert.assertTrue;
 @Slf4j
 public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, HistoriServer> {
 
+
     protected String getTestConfig() { return "histori-config-test.yml"; }
+
+    @Override public void onStart(RestServer<HistoriConfiguration> server) { new DbSeedListener().onStart(server); }
 
     @Override protected List<ConfigurationSource> getConfigurations() {
         return new SingletonList<ConfigurationSource>(new StreamConfigurationSource(getTestConfig()));

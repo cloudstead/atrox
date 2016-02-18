@@ -8,4 +8,12 @@ public enum EntityVisibility {
 
     @JsonCreator public static EntityVisibility create(String val) { return EntityVisibility.valueOf(val.toLowerCase()); }
 
+    public static EntityVisibility create (String val, EntityVisibility defaultValue) {
+        try {
+            return create(val);
+        } catch (Exception ignored) {
+            return defaultValue;
+        }
+    }
+
 }

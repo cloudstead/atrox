@@ -1,7 +1,7 @@
 package histori.resources;
 
-import histori.dao.internal.EntityPointerDAO;
-import histori.model.canonical.CanonicalEntity;
+import histori.dao.TagDAO;
+import histori.model.CanonicalEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import static org.cobbzilla.wizard.resources.ResourceUtil.ok;
 @Service @Slf4j
 public class AutocompleteResource {
 
-    @Autowired private EntityPointerDAO pointerDAO;
+    @Autowired private TagDAO tagDAO;
 
     @GET
     public Response autocomplete (@QueryParam("query") String query) {
@@ -41,6 +41,6 @@ public class AutocompleteResource {
                                   @PathParam("exclude") String excludeTypes) {
 
         final String canonical = CanonicalEntity.canonicalize(query);
-        return ok(pointerDAO.findByCanonicalNameStartsWith(canonical, splitAndTrim(includeTypes, "_"), splitAndTrim(excludeTypes, "_")));
+        return ok(tagDAO.findByCanonicalNameStartsWith(canonical, splitAndTrim(includeTypes, "_"), splitAndTrim(excludeTypes, "_")));
     }
 }

@@ -4,12 +4,13 @@ import cloudos.model.AccountBase;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.cobbzilla.wizard.filters.auth.TokenPrincipal;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
-@Entity
+@Entity @Accessors(chain=true)
 public class Account extends AccountBase implements TokenPrincipal {
 
     @Getter @Setter private boolean anonymous = false;

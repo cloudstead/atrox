@@ -1,18 +1,6 @@
 package histori;
 
-import histori.model.canonical.*;
-import histori.model.history.*;
-import histori.model.internal.EntityPointer;
-import histori.model.tag.CitationTag;
-import histori.model.tag.IdeaTag;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.cobbzilla.util.collection.ArrayUtil;
-import org.cobbzilla.util.string.StringUtil;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.cobbzilla.util.reflect.ReflectionUtil.forName;
 
 public class ApiConstants {
 
@@ -24,16 +12,12 @@ public class ApiConstants {
     public static final String ACCOUNTS_ENDPOINT = "/accounts";
     public static final String AUTOCOMPLETE_ENDPOINT = "/autocomplete";
     public static final String MAP_IMAGES_ENDPOINT = "/map_images";
-    public static final String HISTORIES_ENDPOINT = "/histories";
+    public static final String NEXUS_ENDPOINT = "/nexus";
+    public static final String NEXUS_TAGS_ENDPOINT = "/tags";
+    public static final String SEARCH_ENDPOINT = "/search";
 
-    public static final int ENTITY_TYPE_MAXLEN = 100;
-
-    public static String historyEndpoint(Class clazz) {
-        if (EntityHistory.class.isAssignableFrom(clazz)) {
-            return HISTORIES_ENDPOINT + "/" + clazz.getSimpleName().replace("History", "");
-        }
-        return HISTORIES_ENDPOINT + "/" + clazz.getSimpleName();
-    }
+    public static final int NAME_MAXLEN = 200;
+    public static final int GEOJSON_MAXLEN = 64000;
 
     public static final String ERR_ALREADY_LOGGED_IN = "err.alreadyLoggedIn";
 
@@ -49,11 +33,8 @@ public class ApiConstants {
     public static final String EP_GET_MAP_IMAGE = "/image";
     public static final String EP_TRANSFORM_MAP_IMAGE = "/transform";
 
-    // histories resource sub-endpoints
-    public static final String EP_CANONICAL = "/canonical";
-    public static final String EP_BY_ID = "/id";
-    public static final String EP_BY_DATE = "/date";
-    public static final String EP_AUTOCOMPLETE = "/autocomplete";
+    // search endpoints
+    public static final String EP_DATE = "/date";
 
     // bound used when searching by date
     public static final String BOUND_RANGE = "range";
@@ -63,43 +44,4 @@ public class ApiConstants {
         return ANONYMOUS_EMAIL.replace("#STAMP#", RandomStringUtils.randomAlphanumeric(10)+"-"+System.currentTimeMillis());
     }
 
-    public static final Class[] CANONICAL_ENTITIES = {
-            Citation.class, Idea.class,
-            WorldActor.class, WorldEvent.class, EventActor.class,
-            ImpactType.class, EventImpact.class,
-            IncidentType.class, EventIncident.class
-    };
-
-    public static final Class[] HISTORY_ENTITIES = {
-            CitationHistory.class, IdeaHistory.class,
-            WorldActorHistory.class, WorldEventHistory.class, EventActorHistory.class,
-            ImpactTypeHistory.class, EventImpactHistory.class,
-            IncidentTypeHistory.class, EventIncidentHistory.class
-    };
-
-    public static final Class[] TAG_ENTITIES = { CitationTag.class, IdeaTag.class };
-
-    public static final Class[] ALL_ENTITIES
-            = ArrayUtil.concat(CANONICAL_ENTITIES, HISTORY_ENTITIES, TAG_ENTITIES, new Class[]{EntityPointer.class} );
-
-    public static final Map<String, Class> ENTITY_CLASS_MAP = new HashMap<>();
-    public static final Map<String, Class> CANONICAL_ENTITY_CLASS_MAP = new HashMap<>();
-    static {
-        buildClassMap(CANONICAL_ENTITIES, CANONICAL_ENTITY_CLASS_MAP);
-        buildClassMap(ALL_ENTITIES, ENTITY_CLASS_MAP);
-        ENTITY_CLASS_MAP.put("any", EntityPointer.class);
-    }
-
-    private static void buildClassMap(Class[] classes, Map<String, Class> map) {
-        for (Class c : classes) {
-            map.put(c.getSimpleName(), c);
-            map.put(StringUtil.uncapitalize(c.getSimpleName()), c);
-            map.put(c.getName(), c);
-        }
-    }
-
-    public static Class<? extends EntityHistory> getHistoryClass(Class c) {
-        if (c.getName().endsWith("History")) return c;
-        return forName(c.getName().replace(".canonical.", ".history.") + "History");
-    }
 }

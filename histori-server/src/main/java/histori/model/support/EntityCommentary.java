@@ -1,18 +1,24 @@
 package histori.model.support;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.Size;
 
-@Embeddable
+@Embeddable @NoArgsConstructor @AllArgsConstructor @Accessors(chain=true)
 public class EntityCommentary {
 
     public static final int HEADLINE_MAXLEN = 100;
     public static final int SUBHEAD_MAXLEN = 200;
     public static final int MARKDOWN_MAXLEN = 100000;
+
+    public EntityCommentary (String headline) { setHeadline(headline); }
+    public EntityCommentary (String headline, String subhead) { setHeadline(headline); setSubhead(subhead); }
 
     @Size(max=HEADLINE_MAXLEN, message="err.headline.tooLong")
     @Column(length=HEADLINE_MAXLEN)
