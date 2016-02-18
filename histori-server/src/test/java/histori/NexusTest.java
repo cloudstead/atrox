@@ -1,5 +1,7 @@
 package histori;
 
+import histori.archive.NexusArchive;
+import histori.archive.NexusTagArchive;
 import histori.model.Account;
 import histori.model.Nexus;
 import histori.model.NexusTag;
@@ -132,6 +134,12 @@ public class NexusTest extends ApiClientTestBase {
         assertEquals(tagComments, found.getTag("foobar").getCommentary().getHeadline());
 
         apiDocs.addNote("Lookup previous versions, there should now be 2");
+        NexusArchive[] archives = fromJson(get(ARCHIVES_ENDPOINT+"/Nexus/"+found.getUuid()).json, NexusArchive[].class);
+        assertEquals(2, archives.length);
+
+        apiDocs.addNote("Lookup previous versions of tag we just edited, there should now be 2");
+        NexusTagArchive[] tagArchives = fromJson(get(ARCHIVES_ENDPOINT+"/NexusTag/"+found.getTag("foobar").getUuid()).json, NexusTagArchive[].class);
+        assertEquals(2, tagArchives.length);
 
         apiDocs.addNote("Delete the nexus");
         delete(nexusPath);

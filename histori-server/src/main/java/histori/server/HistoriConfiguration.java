@@ -5,9 +5,11 @@ import cloudos.service.asset.AssetStorageService;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.cobbzilla.mail.SimpleEmailMessage;
 import org.cobbzilla.mail.sender.SmtpMailConfig;
 import org.cobbzilla.mail.service.TemplatedMailSenderConfiguration;
+import org.cobbzilla.util.reflect.ReflectionUtil;
 import org.cobbzilla.wizard.cache.redis.HasRedisConfiguration;
 import org.cobbzilla.wizard.cache.redis.RedisConfiguration;
 import org.cobbzilla.wizard.dao.DAO;
@@ -65,6 +67,16 @@ public class HistoriConfiguration extends RestServerConfiguration
         DAO entityDao = daoCache.get(entityClass);
         if (entityDao == null) {
             entityDao = getBean(entityClass.getName().replace(".model.", ".dao.") + "DAO");
+            daoCache.put(entityClass, entityDao);
+        }
+        return entityDao;
+    }
+
+    public DAO getDaoForArchiveClass(String type) {
+        Class<? extends DAO> entityClass = ReflectionUtil.forName("histori.dao.archive."+ StringUtils.capitalize(type)+"ArchiveDAO");
+        DAO entityDao = daoCache.get(entityClass);
+        if (entityDao == null) {
+            entityDao = getBean(entityClass);
             daoCache.put(entityClass, entityDao);
         }
         return entityDao;

@@ -62,10 +62,7 @@ public class VersionedEntityDAO<E extends VersionedEntity> extends AbstractCRUDD
 
         final EntityArchive archive = newArchiveEntity();
         copy(archive, entity);
-        if (archive.archiveUuid()) {
-            archive.setUuid(uuid());
-            archive.setOriginalUuid(entity.getUuid());
-        }
+        archive.setUuid(uuid());
 
         // if earlier archives exist, find the one with the latest version
         final List<Object> args = new ArrayList<>();
@@ -78,13 +75,13 @@ public class VersionedEntityDAO<E extends VersionedEntity> extends AbstractCRUDD
 
         try {
             // any old versions here?
-            final String sql = "select t.original_uuid, t.version " +
+            final String sql = "select t.identifier, t.version " +
                     "from " + getArchiveTableName() + " t " +
                     "where " + uniqueSql + " " +
                     "order by t.version desc limit 1";
             final ResultSetBean results = configuration.execSql(sql, args.toArray());
-            if (!results.isEmpty() && results.first().get("original_uuid") != null) {
-                final String uuid = (String) results.first().get("original_uuid");
+            if (!results.isEmpty() && results.first().get("identifier") != null) {
+                final String uuid = (String) results.first().get("identifier");
                 final Integer latestArchivedVersion = (Integer) results.first().get("version");
                 if (latestArchivedVersion >= entity.getVersion()) {
                     // entity version is too low, make it the next logical version
@@ -95,6 +92,8 @@ public class VersionedEntityDAO<E extends VersionedEntity> extends AbstractCRUDD
                     entity.setUuid(uuid);
                 }
             }
+
+            archive.setIdentifier(archive.getIdentifier(entity));
             archiveHibernateTemplate.save(archive);
 
         } catch (SQLException e) {

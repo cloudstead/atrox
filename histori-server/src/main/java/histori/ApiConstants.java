@@ -14,6 +14,7 @@ public class ApiConstants {
     public static final String MAP_IMAGES_ENDPOINT = "/map_images";
     public static final String NEXUS_ENDPOINT = "/nexus";
     public static final String SEARCH_ENDPOINT = "/search";
+    public static final String ARCHIVES_ENDPOINT = "/archives";
 
     public static final int NAME_MAXLEN = 200;
     public static final int GEOJSON_MAXLEN = 64000;
