@@ -124,8 +124,12 @@ public class NexusTest extends ApiClientTestBase {
         assertTrue(result.hasTag("foobar"));
 
         apiDocs.addNote("Update a tag");
+        final String tagComments = randomName();
+        post(nexusPath+EP_TAGS+"/foobar", toJson(found.getTag("Foobar").setCommentary(new EntityCommentary(tagComments))));
 
         apiDocs.addNote("Lookup Nexus again, verify updated tag");
+        found = fromJson(get(nexusPath).json, Nexus.class);
+        assertEquals(tagComments, found.getTag("foobar").getCommentary().getHeadline());
 
         apiDocs.addNote("Lookup previous versions, there should now be 2");
 
@@ -146,7 +150,7 @@ public class NexusTest extends ApiClientTestBase {
 
     public void addTag(String nexusPath, NexusTag tag) throws Exception {
         final String canonical = canonicalize(tag.getTagName());
-        final String tagPath = nexusPath + ApiConstants.NEXUS_TAGS_ENDPOINT + "/" + urlEncode(canonical);
+        final String tagPath = nexusPath + EP_TAGS + "/" + urlEncode(canonical);
         final RestResponse response = put(tagPath, toJson(tag));
         final NexusTag createdTag = fromJson(response.json, NexusTag.class);
         assertEquals(createdTag.getTagName(), canonical);

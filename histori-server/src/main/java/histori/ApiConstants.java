@@ -13,7 +13,6 @@ public class ApiConstants {
     public static final String AUTOCOMPLETE_ENDPOINT = "/autocomplete";
     public static final String MAP_IMAGES_ENDPOINT = "/map_images";
     public static final String NEXUS_ENDPOINT = "/nexus";
-    public static final String NEXUS_TAGS_ENDPOINT = "/tags";
     public static final String SEARCH_ENDPOINT = "/search";
 
     public static final int NAME_MAXLEN = 200;
@@ -32,6 +31,9 @@ public class ApiConstants {
     public static final String EP_PUBLIC = "/public";
     public static final String EP_GET_MAP_IMAGE = "/image";
     public static final String EP_TRANSFORM_MAP_IMAGE = "/transform";
+
+    // nexus endpoints
+    public static final String EP_TAGS = "/tags";
 
     // search endpoints
     public static final String EP_DATE = "/date";

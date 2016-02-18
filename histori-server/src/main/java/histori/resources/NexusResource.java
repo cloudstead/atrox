@@ -22,7 +22,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 import static histori.ApiConstants.NEXUS_ENDPOINT;
-import static histori.ApiConstants.NEXUS_TAGS_ENDPOINT;
+import static histori.ApiConstants.EP_TAGS;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
 import static org.cobbzilla.wizard.resources.ResourceUtil.*;
@@ -54,7 +54,7 @@ public class NexusResource {
     @Autowired private TagDAO tagDAO;
     @Autowired private TagTypeDAO tagTypeDAO;
 
-    @Path("/{nameOrUuid}"+NEXUS_TAGS_ENDPOINT)
+    @Path("/{nameOrUuid}"+ EP_TAGS)
     public NexusTagsResource tagsResource (@Context HttpContext ctx,
                                            @PathParam("nameOrUuid") String nameOrUuid) {
         // todo: cache these?
