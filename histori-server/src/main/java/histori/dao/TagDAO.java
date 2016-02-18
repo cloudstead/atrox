@@ -13,14 +13,14 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 @Repository public class TagDAO extends CanonicalEntityDAO<Tag> {
 
     public static final String AUTOCOMPLETE_SQL
-            = "from EntityPointer p " +
-            "where p.canonicalName like :nameFragment ";
+            = "from Tag t " +
+            "where t.canonicalName like :nameFragment ";
     public static final String AUTOCOMPLETE_INCLUDE =
-            "and p.entityType in :includeTypes ";
+            "and t.tagType in :includeTypes ";
     public static final String AUTOCOMPLETE_EXCLUDE =
-            "and not p.entityType in :excludeTypes ";
+            "and not t.tagType in :excludeTypes ";
     public static final String AUTOCOMPLETE_ORDER =
-            "order by length(p.canonicalName) desc";
+            "order by length(t.canonicalName) desc";
 
     public AutocompleteSuggestions findByCanonicalNameStartsWith(String nameFragment) {
         return findByCanonicalNameStartsWith(nameFragment, null, null);

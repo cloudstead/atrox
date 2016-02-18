@@ -4,11 +4,14 @@ import histori.model.CanonicalEntity;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 import static histori.model.CanonicalEntity.canonicalize;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.reflect.ReflectionUtil.instantiate;
 import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
+import static org.hibernate.criterion.Restrictions.in;
 
 @Repository
 public class CanonicalEntityDAO<E extends CanonicalEntity> extends VersionedEntityDAO<E> {
@@ -25,7 +28,6 @@ public class CanonicalEntityDAO<E extends CanonicalEntity> extends VersionedEnti
     }
 
     public E newEntity (String name) { return (E) instantiate(getEntityClass()).setName(name); }
-
 
     @Override public E findByUuid(String uuid) {
         if (empty(uuid)) return null;
@@ -47,5 +49,11 @@ public class CanonicalEntityDAO<E extends CanonicalEntity> extends VersionedEnti
     public E findOrCreateByCanonical(@Valid E entity) {
         final E found = findByCanonicalName(entity.getCanonicalName());
         return found != null ? found : create(entity);
+    }
+
+    public List<E> findByCanonicalNames(String[] names) {
+        final List<String> canonical = new ArrayList<>(names.length);
+        for (String name : names) canonical.add(canonicalize(name));
+        return list(criteria().add(in("canonicalName", canonical)));
     }
 }
