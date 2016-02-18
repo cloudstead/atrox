@@ -164,7 +164,7 @@ function createRotationHandler (id, direction) {
 }
 function initMap () {
 
-    var map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById('map'), {
         center: new google.maps.LatLng(20.0, 0.0),
         zoom: 2,
         mapTypeId: google.maps.MapTypeId.HYBRID,
@@ -374,7 +374,7 @@ TimeRangeControl.prototype.updateHistoryRange = function () {
 
     this.updateRangeLabels(sliderControl.sliderDates[0], sliderControl.sliderDates[1]);
 
-    return Api.find_histories(sliderControl.sliderDates[0], sliderControl.sliderDates[1]);
+    return Api.find_histories(sliderControl.sliderDates[0], sliderControl.sliderDates[1], update_map);
 };
 TimeRangeControl.prototype.updateRangeLabels = function (start, end) {
     var startDate = document.getElementById('startDate');
@@ -573,4 +573,20 @@ function addRegionForm () {
 
 function inspectLocation (clickEvent) {
     console.log('inspecting: ' + clickEvent);
+}
+
+function update_map (data) {
+    if (data && data.results && data.results instanceof Array) {
+        for (var i = 0; i < data.results.length; i++) {
+            var result = data.results[i];
+            console.log("update_map: result[" + i + "] is: " + result);
+            if (result.geo.type == "Point") {
+                var marker = new google.maps.Marker({
+                    position: {lat: result.geo.coordinates[1], lng: result.geo.coordinates[0]},
+                    title: result.name,
+                    map: map
+                });
+            }
+        }
+    }
 }
