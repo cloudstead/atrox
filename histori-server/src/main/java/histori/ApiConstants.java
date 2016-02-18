@@ -10,7 +10,6 @@ public class ApiConstants {
     public static final String SYSTEM_UUID = "_system_";
 
     public static final String ACCOUNTS_ENDPOINT = "/accounts";
-    public static final String AUTOCOMPLETE_ENDPOINT = "/autocomplete";
     public static final String MAP_IMAGES_ENDPOINT = "/map_images";
     public static final String NEXUS_ENDPOINT = "/nexus";
     public static final String SEARCH_ENDPOINT = "/search";
@@ -41,9 +40,12 @@ public class ApiConstants {
     // search endpoints
     public static final String EP_DATE = "/date";
 
-    // tag and tagtype endpoints
+    // tag endpoints and query params
     public static final String EP_TAG = "/tag";
+    public static final String EP_AUTOCOMPLETE = "/autocomplete";
     public static final String EP_RESOLVE = "/resolve";
+    public static final String QPARAM_AUTOCOMPLETE = "q";
+    public static final String MATCH_NULL_TYPE = "no-type";
 
     // bound used when searching by date
     public static final String BOUND_RANGE = "range";

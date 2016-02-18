@@ -4,6 +4,7 @@ import histori.archive.NexusArchive;
 import histori.archive.NexusTagArchive;
 import histori.model.*;
 import histori.model.support.AccountAuthResponse;
+import histori.model.support.AutocompleteSuggestions;
 import histori.model.support.EntityCommentary;
 import org.apache.commons.lang3.RandomUtils;
 import org.cobbzilla.wizard.dao.SearchResults;
@@ -169,6 +170,22 @@ public class NexusTest extends ApiClientTestBase {
         apiDocs.addNote("Find all tag types");
         final TagType[] tagTypes = fromJson(get(TAG_TYPES_ENDPOINT).json, TagType[].class);
         assertEquals(7, tagTypes.length);
+
+        final String autocompleteUri = TAGS_ENDPOINT + EP_AUTOCOMPLETE;
+        final String acQuery = "?" + QPARAM_AUTOCOMPLETE + "=f";
+        AutocompleteSuggestions autoComplete;
+
+        apiDocs.addNote("Test autocomplete for any tag");
+        autoComplete = fromJson(get(autocompleteUri + acQuery).json, AutocompleteSuggestions.class);
+        assertEquals(9, autoComplete.getSuggestions().size());
+
+        apiDocs.addNote("Test autocomplete for only event_type tags");
+        autoComplete = fromJson(get(autocompleteUri +"/Event+type" + acQuery).json, AutocompleteSuggestions.class);
+        assertEquals(4, autoComplete.getSuggestions().size());
+
+        apiDocs.addNote("Test autocomplete for only tags without a type");
+        autoComplete = fromJson(get(autocompleteUri +"/" + MATCH_NULL_TYPE + acQuery).json, AutocompleteSuggestions.class);
+        assertEquals(1, autoComplete.getSuggestions().size());
     }
 
     public void addTag(String nexusPath, NexusTag tag) throws Exception {
