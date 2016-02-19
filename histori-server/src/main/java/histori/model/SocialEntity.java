@@ -6,7 +6,6 @@ import histori.ApiConstants;
 import histori.model.support.EntityCommentary;
 import histori.model.support.EntityVisibility;
 import histori.model.support.TimePoint;
-import histori.model.support.VoteSummary;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -23,8 +22,11 @@ public abstract class SocialEntity extends AccountOwnedEntity implements Version
     @Transient @JsonIgnore public String getSortField() { return "ctime"; }
     @Transient @JsonIgnore public ResultPage.SortOrder getSortOrder() { return ResultPage.SortOrder.DESC; }
 
-    @Embedded @Getter @Setter private EntityCommentary commentary = new EntityCommentary();
-    @Embedded @Getter @Setter private VoteSummary votes = new VoteSummary();
+    @Embedded @Getter @Setter private EntityCommentary commentary;
+    public EntityCommentary initCommentary() {
+        if (commentary == null) commentary = new EntityCommentary();
+        return commentary;
+    }
 
     @Transient @JsonIgnore public JavaType getSearchResultType() { return SearchResults.jsonType(getClass()); }
 

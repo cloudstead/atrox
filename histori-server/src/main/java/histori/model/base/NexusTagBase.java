@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import org.cobbzilla.util.collection.ArrayUtil;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -18,7 +19,7 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.json.JsonUtil.fromJsonOrDie;
 import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
 
-@MappedSuperclass @Accessors(chain=true) @ToString(of="tagName")
+@MappedSuperclass @Accessors(chain=true) @ToString(of={"tagName", "tagType"})
 public class NexusTagBase extends SocialEntity {
 
     @Column(length=UUID_MAXLEN, nullable=false, updatable=false)
@@ -41,6 +42,16 @@ public class NexusTagBase extends SocialEntity {
     @Transient
     public TagSchemaValue[] getValues () { return empty(schemaValues) ? null : fromJsonOrDie(schemaValues, TagSchemaValue[].class); }
     public NexusTagBase setValues (TagSchemaValue[] values) { return setSchemaValues(empty(values) ? null : toJsonOrDie(values)); }
+
+    public void setValue(String field, String value) {
+        TagSchemaValue[] values = getValues();
+        if (values == null) {
+            values = new TagSchemaValue[] { new TagSchemaValue(field, value) };
+        } else {
+            values = ArrayUtil.append(values, new TagSchemaValue(field, value));
+        }
+        setValues(values);
+    }
 
     private static final String[] ID_FIELDS = new String[]{"owner", "nexus", "tagName"};
     @Override public String[] getIdentifiers() { return new String[] {getOwner(), getNexus(), getTagName()}; }

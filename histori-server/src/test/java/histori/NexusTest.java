@@ -67,7 +67,7 @@ public class NexusTest extends ApiClientTestBase {
         nexus.setName(nexusName);
         nexus.setTimeRange(startDate, endDate);
         nexus.setGeo(new Point(0, 0));
-        nexus.getCommentary().setHeadline(headline);
+        nexus.initCommentary().setHeadline(headline);
         nexus.addTag(tag1);
         nexus.addTag(tag2, "world actor");
         nexus.getTag("usa").setCommentary(new EntityCommentary(headline+" for the usa"));
@@ -88,7 +88,7 @@ public class NexusTest extends ApiClientTestBase {
         found = fromJson(get(nexusPath).json, Nexus.class);
         assertEquals(nexusName, found.getName());
         assertEquals(3, found.getTags().size());
-        assertEquals(headline, found.getCommentary().getHeadline());
+        assertEquals(headline, found.initCommentary().getHeadline());
 
         apiDocs.addNote("Lookup the Nexus we created by name");
         found = fromJson(get(NEXUS_ENDPOINT+"/"+urlEncode(nexus.getName())).json, Nexus.class);
@@ -105,7 +105,7 @@ public class NexusTest extends ApiClientTestBase {
         apiDocs.addNote("Update our nexus with new name, this should create a new version");
         final String updatedName = nexusName + " -- update";
         nexus.setName(updatedName);
-        nexus.getCommentary().setHeadline(headline + " -- update");
+        nexus.initCommentary().setHeadline(headline + " -- update");
         final Nexus updatedNexus = fromJson(post(nexusPath, toJson(nexus)).json, Nexus.class);
         assertEquals(nexusName, updatedNexus.getName());
 
@@ -135,7 +135,7 @@ public class NexusTest extends ApiClientTestBase {
 
         apiDocs.addNote("Lookup Nexus again, verify updated tag");
         found = fromJson(get(nexusPath).json, Nexus.class);
-        assertEquals(tagComments, found.getTag(tag4.toLowerCase()).getCommentary().getHeadline());
+        assertEquals(tagComments, found.getTag(tag4.toLowerCase()).initCommentary().getHeadline());
 
         apiDocs.addNote("Lookup previous versions, there should now be 2");
         NexusArchive[] archives = fromJson(get(ARCHIVES_ENDPOINT+"/Nexus/"+found.getUuid()).json, NexusArchive[].class);

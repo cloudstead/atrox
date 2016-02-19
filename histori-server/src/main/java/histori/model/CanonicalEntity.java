@@ -38,8 +38,8 @@ public abstract class CanonicalEntity implements VersionedEntity {
     @Override public void setUuid(String uuid) { setCanonicalName(uuid); }
 
     @Column(length=NAME_MAXLEN, unique=true, nullable=false)
-    @HasValue(message="err.name.required")
-    @Size(min=2, max=NAME_MAXLEN, message="err.name.length")
+    @HasValue(message="err.name.empty")
+    @Size(min=2, max=NAME_MAXLEN, message="err.name.tooLong")
     @Getter private String name;
     public CanonicalEntity setName (String val) {
         final String canonical = canonicalize(val);

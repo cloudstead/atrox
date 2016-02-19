@@ -210,6 +210,7 @@ public class NexusTagsResource {
                 case world_actor:
                 case world_event:
                 case event_type:
+                case person:
                 case idea:
                 case result:
                 case tag:

@@ -111,6 +111,19 @@ public class WikiNode {
         return b.toString().trim();
     }
 
+    public String findAllChildTextButNotLinkDescriptions() {
+        if (!hasChildren()) return null;
+        final StringBuilder b = new StringBuilder();
+        for (WikiNode n : getChildren()) {
+            if (n.getType() == WikiNodeType.link) {
+                b.append(" ").append(n.getName());
+            } else {
+                b.append(" ").append(n.findAllText());
+            }
+        }
+        return b.toString().trim();
+    }
+
     public String findAllText() {
         final StringBuilder b = new StringBuilder(getName());
         if (hasChildren()) {

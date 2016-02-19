@@ -4,15 +4,25 @@
     "schema": {
       "fields": [
         {"name": "name", "fieldType": "world_actor", "multiple": false},
-        {"name": "roles", "fieldType": "role_type", "multiple": true}
+        {"name": "role", "fieldType": "role_type", "multiple": true}
       ]
     }
   },
   {
-    "name": "Relationship",
+    "name": "Person",
     "schema": {
       "fields": [
-        {"name": "name", "fieldType": "tag", "multiple": false},
+        {"name": "name", "fieldType": "person", "multiple": false},
+        {"name": "role", "fieldType": "role_type", "multiple": true},
+        {"name": "world_actor", "fieldType": "world_actor", "multiple": true}
+      ]
+    }
+  },
+  {
+    "name": "World Event",
+    "schema": {
+      "fields": [
+        {"name": "name", "fieldType": "world_event", "multiple": false},
         {"name": "relationship", "fieldType": "relationship_type", "multiple": true}
       ]
     }
@@ -31,8 +41,7 @@
     "schema": {
       "fields": [
         {"name": "name", "fieldType": "impact", "multiple": false},
-        {"name": "world_actor", "fieldType": "world_actor", "multiple": false},
-        {"name": "role", "fieldType": "role_type", "multiple": false},
+        {"name": "world_actor", "fieldType": "world_actor", "multiple": true},
         {"name": "low_estimate", "fieldType": "integer", "multiple": false},
         {"name": "estimate", "fieldType": "integer", "multiple": false},
         {"name": "high_estimate", "fieldType": "integer", "multiple": false}
