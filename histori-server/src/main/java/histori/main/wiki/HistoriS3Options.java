@@ -17,11 +17,13 @@ public class HistoriS3Options extends BaseMainOptions {
     @Option(name=OPT_S3_ACCESS_KEY, aliases=LONGOPT_S3_ACCESS_KEY, usage=USAGE_S3_ACCESS_KEY, required=true)
     @Getter @Setter private String s3accessKey;
 
-    public static final String USAGE_S3_SECRET_KEY = "Environment variable holding S3 Secret Key";
+    public static final String S3_SECRET_KEY_ENV_VAR = "S3_SECRET_KEY";
+
+    public static final String USAGE_S3_SECRET_KEY = "Environment variable holding S3 Secret Key. Default is " +S3_SECRET_KEY_ENV_VAR;
     public static final String OPT_S3_SECRET_KEY = "-S";
     public static final String LONGOPT_S3_SECRET_KEY= "--s3-secret-key-env-var";
     @Option(name=OPT_S3_SECRET_KEY, aliases=LONGOPT_S3_SECRET_KEY, usage=USAGE_S3_SECRET_KEY)
-    @Getter @Setter private String s3secretKeyEnvVar = "S3_SECRET_KEY";
+    @Getter @Setter private String s3secretKeyEnvVar = S3_SECRET_KEY_ENV_VAR;
 
     public String getS3secretKey() { return System.getProperty(getS3secretKeyEnvVar()); }
 
