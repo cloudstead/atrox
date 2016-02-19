@@ -25,3 +25,6 @@
 [submodule "utils/jestrel"]
 	path = utils/jestrel
 	url = https://github.com/cobbzilla/jestrel.git
+[submodule "utils/authy-java"]
+	path = utils/authy-java
+	url = https://github.com/cobbzilla/authy-java.git

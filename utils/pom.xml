@@ -24,6 +24,7 @@ This code is available under the GNU Affero General Public License, version 3: h
         <module>cobbzilla-parent</module>
         <module>cobbzilla-utils</module>
         <module>cobbzilla-wizard</module>
+        <module>authy-java</module>
         <module>cloudos-lib</module>
         <module>merge-yml</module>
         <module>restex</module>
