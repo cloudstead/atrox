@@ -25,7 +25,7 @@ public class HistoriS3Options extends BaseMainOptions {
     @Option(name=OPT_S3_SECRET_KEY, aliases=LONGOPT_S3_SECRET_KEY, usage=USAGE_S3_SECRET_KEY)
     @Getter @Setter private String s3secretKeyEnvVar = S3_SECRET_KEY_ENV_VAR;
 
-    public String getS3secretKey() { return System.getProperty(getS3secretKeyEnvVar()); }
+    public String getS3secretKey() { return System.getenv(getS3secretKeyEnvVar()); }
 
     public static final String USAGE_S3_BUCKET = "S3 bucket";
     public static final String OPT_S3_BUCKET = "-B";
