@@ -132,13 +132,6 @@ For commercial use, please contact cloudstead.io
             <version>1.5.1</version>
         </dependency>
 
-        <!-- still needed? -->
-        <dependency>
-            <groupId>com.jhlabs</groupId>
-            <artifactId>map</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
         <dependency>
             <groupId>org.cobbzilla</groupId>
             <artifactId>restex</artifactId>
