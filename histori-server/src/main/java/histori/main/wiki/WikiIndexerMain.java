@@ -10,6 +10,12 @@ import java.io.InputStreamReader;
 
 public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
 
+    public static final String PAGE_TAG = "<page>";
+    public static final String TITLE_TAG_OPEN = "<title>";
+    public static final String TITLE_TAG_CLOSE = "</title>";
+    public static final String TEXT_TAG_OPEN = "<text ";
+    public static final String TEXT_TAG_CLOSE = "</text>";
+
     public static void main (String[] args) { main(WikiIndexerMain.class, args); }
 
     @Override protected void run() throws Exception {
@@ -31,7 +37,7 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                 if (line.length() == 0) continue;
                 switch (parseState) {
                     case seeking_page:
-                        if (line.equals("<page>")) {
+                        if (line.equals(PAGE_TAG)) {
                             pageCount++;
                             if (pageCount > skipPages) {
                                 parseState = WikiXmlParseState.seeking_title;
@@ -43,22 +49,22 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                         continue;
 
                     case seeking_title:
-                        if (line.startsWith("<title>") && line.endsWith("</title>")) {
-                            article.setTitle(line.replace("<title>", "").replace("</title>", ""));
+                        if (line.startsWith(TITLE_TAG_OPEN) && line.endsWith(TITLE_TAG_CLOSE)) {
+                            article.setTitle(line.replace(TITLE_TAG_OPEN, "").replace(TITLE_TAG_CLOSE, ""));
                             parseState = WikiXmlParseState.seeking_text;
                         }
                         continue;
 
                     case seeking_text:
-                        if (line.startsWith("<text ")) {
+                        if (line.startsWith(TEXT_TAG_OPEN)) {
                             article.addText(line.substring(line.indexOf(">")+1));
                             parseState = WikiXmlParseState.seeking_text_end;
                         }
                         continue;
 
                     case seeking_text_end:
-                        if (line.endsWith("</text>")) {
-                            article.addText("\n"+line.substring(0, line.length()-"</text>".length()));
+                        if (line.endsWith(TEXT_TAG_CLOSE)) {
+                            article.addText("\n"+line.substring(0, line.length() - TEXT_TAG_CLOSE.length()));
 
                             try {
                                 wiki.store(article);
