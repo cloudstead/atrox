@@ -22,3 +22,6 @@
 [submodule "utils/JMapProjLib"]
 	path = utils/JMapProjLib
 	url = https://github.com/cloudstead/JMapProjLib.git
+[submodule "utils/jestrel"]
+	path = utils/jestrel
+	url = https://github.com/cobbzilla/jestrel.git

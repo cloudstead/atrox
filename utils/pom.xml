@@ -27,6 +27,7 @@ This code is available under the GNU Affero General Public License, version 3: h
         <module>cloudos-lib</module>
         <module>merge-yml</module>
         <module>restex</module>
+        <module>jestrel</module>
         <module>templated-mail-sender</module>
     </modules>
 
