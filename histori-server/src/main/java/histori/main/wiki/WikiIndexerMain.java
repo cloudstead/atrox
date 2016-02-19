@@ -3,11 +3,13 @@ package histori.main.wiki;
 import histori.wiki.WikiArchive;
 import histori.wiki.WikiArticle;
 import histori.wiki.WikiXmlParseState;
+import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.wizard.main.MainBase;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+@Slf4j
 public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
 
     public static final String PAGE_TAG = "<page>";
@@ -21,8 +23,7 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
     @Override protected void run() throws Exception {
 
         final WikiIndexerOptions opts = getOptions();
-
-        final WikiArchive wiki = new WikiArchive(opts.getS3config());
+        final WikiArchive wiki = opts.getWikiArchive();
 
         final int skipPages = opts.getSkipPages();
 
@@ -66,11 +67,7 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                         if (line.endsWith(TEXT_TAG_CLOSE)) {
                             article.addText("\n"+line.substring(0, line.length() - TEXT_TAG_CLOSE.length()));
 
-                            try {
-                                wiki.store(article);
-                            } catch (Exception e) {
-                                die("error storing: " + article.getTitle() + " (page " + pageCount + "): " + e, e);
-                            }
+                            store(wiki, article, pageCount);
 
                             article = new WikiArticle();
                             parseState = WikiXmlParseState.seeking_page;
@@ -83,6 +80,18 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                         die("Invalid state: "+parseState);
                 }
             }
+        }
+    }
+
+    private void store(final WikiArchive wiki, final WikiArticle article, final int pageCount) {
+
+        if (wiki.exists(article)) return;
+
+        try {
+            wiki.store(article);
+            if (pageCount % 1000 == 0) out("wrote page # "+pageCount);
+        } catch (Exception e) {
+            die("error storing: " + article.getTitle() + " (page " + pageCount + "): " + e, e);
         }
     }
 

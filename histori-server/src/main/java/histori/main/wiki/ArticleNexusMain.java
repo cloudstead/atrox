@@ -116,7 +116,7 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
         final File outputDir = options.getOutputDir();
 
         final ParsedWikiArticle parsed = article.parse();
-        final WikiArchive wiki = new WikiArchive(options.getS3config());
+        final WikiArchive wiki = options.getWikiArchive();
         final TimeRange dateRange;
         final LatLon coordinates;
 
