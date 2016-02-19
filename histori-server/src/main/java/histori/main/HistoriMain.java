@@ -1,6 +1,7 @@
 package histori.main;
 
 import histori.main.wiki.ArticleNexusMain;
+import histori.main.wiki.ArticlePathMain;
 import histori.main.wiki.WikiIndexerMain;
 import org.cobbzilla.util.collection.MapBuilder;
 import org.cobbzilla.util.string.StringUtil;
@@ -12,6 +13,7 @@ public class HistoriMain {
 
     private static Map<String, Class<? extends MainBase>> mainClasses = MapBuilder.build(new Object[][]{
             {"index",  WikiIndexerMain.class},
+            {"path",  ArticlePathMain.class},
             {"nexus",  ArticleNexusMain.class}
     });
 
