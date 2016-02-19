@@ -20,6 +20,9 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
 
     public static void main (String[] args) { main(WikiIndexerMain.class, args); }
 
+    private int pageCount = 0;
+    private int storeCount = 0;
+
     @Override protected void run() throws Exception {
 
         final WikiIndexerOptions opts = getOptions();
@@ -29,7 +32,6 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
 
         WikiXmlParseState parseState = WikiXmlParseState.seeking_page;
         WikiArticle article = new WikiArticle();
-        int pageCount = 0;
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             String line;
@@ -39,7 +41,7 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                 switch (parseState) {
                     case seeking_page:
                         if (line.equals(PAGE_TAG)) {
-                            pageCount++;
+                            if (++pageCount % 1000 == 0) out("handling page # "+pageCount);
                             if (pageCount > skipPages) {
                                 parseState = WikiXmlParseState.seeking_title;
                             } else {
@@ -67,7 +69,7 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                         if (line.endsWith(TEXT_TAG_CLOSE)) {
                             article.addText("\n"+line.substring(0, line.length() - TEXT_TAG_CLOSE.length()));
 
-                            store(wiki, article, pageCount);
+                            store(wiki, article);
 
                             article = new WikiArticle();
                             parseState = WikiXmlParseState.seeking_page;
@@ -83,13 +85,14 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
         }
     }
 
-    private void store(final WikiArchive wiki, final WikiArticle article, final int pageCount) {
+    private void store(final WikiArchive wiki, final WikiArticle article) {
 
         if (wiki.exists(article)) return;
 
         try {
             wiki.store(article);
-            if (pageCount % 1000 == 0) out("wrote page # "+pageCount);
+            if (++storeCount % 1000 == 0) out("stored page # "+storeCount);
+
         } catch (Exception e) {
             die("error storing: " + article.getTitle() + " (page " + pageCount + "): " + e, e);
         }

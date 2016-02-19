@@ -26,8 +26,6 @@ import java.io.FileInputStream;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 
-import static histori.model.CanonicalEntity.canonicalize;
-import static org.cobbzilla.util.daemon.ZillaRuntime.uuid;
 import static org.cobbzilla.util.io.FileUtil.abs;
 import static org.cobbzilla.util.io.FileUtil.listFiles;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
@@ -53,7 +51,7 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
             for (File articleJson : listFiles(file, new FileSuffixFilter(".json"))) {
                 try {
                     article = fromJson(FileUtil.toString(articleJson), WikiArticle.class);
-                    importArticle(article);
+                    buildNexus(article);
 
                 } catch (Exception e) {
                     err("Error importing " + abs(articleJson) + ": " + e);
@@ -88,7 +86,7 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
                                 case capture_text:
                                     if (jsonToken == JsonToken.VALUE_STRING) {
                                         article.setText(jp.getValueAsString());
-                                        importArticle(article);
+                                        buildNexus(article);
                                         parseState = WikiJsonParseState.seeking;
                                         article = new WikiArticle();
                                     }
@@ -101,14 +99,14 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
         } else {
             // import a single file
             article = fromJson(FileUtil.toString(file), WikiArticle.class);
-            importArticle(article);
+            buildNexus(article);
         }
     }
 
-    protected void importArticle (WikiArticle article) {
+    protected void buildNexus(WikiArticle article) {
 
         if (article.getText().toLowerCase().startsWith("#redirect")) {
-            err("importArticle: "+article.getTitle()+ " is a redirect (skipping)");
+            err("buildNexus: "+article.getTitle()+ " is a redirect (skipping)");
             return;
         }
 
@@ -124,14 +122,14 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
             // When was it?
             dateRange = new DateRangeFinder().setWiki(wiki).setArticle(parsed).find();
             if (dateRange == null) {
-                err("importArticle: "+article.getTitle()+ " had no date (skipping)");
+                err("buildNexus: "+article.getTitle()+ " had no date (skipping)");
                 return;
             }
 
             // Where was it?
             coordinates = new LocationFinder().setWiki(wiki).setArticle(parsed).find();
             if (coordinates == null) {
-                err("importArticle: "+article.getTitle()+ " had no coordinates (skipping)");
+                err("buildNexus: "+article.getTitle()+ " had no coordinates (skipping)");
                 return;
             }
 
@@ -150,8 +148,13 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
 
             final String nexusJson = toJson(nexusRequest);
             if (outputDir != null) {
-                final File out = new File(outputDir, canonicalize(nexusRequest.getName() + "_" + uuid() + ".json"));
+                final String path = WikiArchive.getArticlePath(nexusRequest.getName());
+                if (path == null) die("Cannot save: "+nexusRequest.getName());
+
+                final File out = new File(abs(outputDir) + "/" + path);
+                if (!out.getParentFile().mkdirs()) die("Error creating parent dir: "+abs(out.getParentFile()));
                 FileUtil.toFile(out, nexusJson);
+                out("WROTE: "+abs(out));
             } else {
                 out("\n----------\n" + nexusJson);
             }

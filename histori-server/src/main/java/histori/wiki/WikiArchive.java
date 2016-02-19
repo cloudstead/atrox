@@ -2,13 +2,11 @@ package histori.wiki;
 
 import cloudos.service.asset.AssetStorageService;
 import cloudos.service.asset.AssetStream;
-import cloudos.service.asset.S3AssetStorageService;
 import com.amazonaws.util.StringInputStream;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.security.ShaUtil;
-
-import java.util.Map;
+import org.cobbzilla.util.string.StringUtil;
 
 import static histori.model.CanonicalEntity.canonicalize;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
@@ -20,10 +18,6 @@ public class WikiArchive {
     private final AssetStorageService storage;
 
     public static final String[] SKIP_INDEX_PREFIXES = { "Category:", "Template:", "File:", "Template:" };
-
-    public WikiArchive(Map<String, String> config) {
-        this.storage = new S3AssetStorageService(config);
-    }
 
     public boolean exists (WikiArticle article) {
         final String articlePath = getArticlePath(article.getTitle());
@@ -67,12 +61,12 @@ public class WikiArchive {
         return true;
     }
 
-    private static String getArticlePath(String title) {
+    public static String getArticlePath(String title) {
         if (!isIndexable(title)) return null;
         final String sha256 = ShaUtil.sha256_hex(title);
         return sha256.substring(0, 2)
                 + "/" + sha256.substring(2, 4)
                 + "/" + sha256.substring(4, 6)
-                + "/" + canonicalize(title) + "_" + sha256 + ".json";
+                + "/" + StringUtil.truncate(canonicalize(title), 100) + "_" + sha256 + ".json";
     }
 }
