@@ -8,7 +8,7 @@ import org.kohsuke.args4j.Option;
 
 import java.io.File;
 
-public class ArticleImportOptions extends BaseMainOptions {
+public class ArticleNexusOptions extends BaseMainOptions {
 
     public static final String USAGE_WDIR = "Directory containing Wikipedia index and article files";
     public static final String OPT_WDIR = "-w";

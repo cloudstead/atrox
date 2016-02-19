@@ -35,13 +35,13 @@ import static org.cobbzilla.util.json.JsonUtil.toJson;
 import static org.cobbzilla.util.string.StringUtil.urlEncode;
 
 @Slf4j
-public class ArticleImportMain extends MainBase<ArticleImportOptions> {
+public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
 
-    public static void main(String[] args) { main(ArticleImportMain.class, args); }
+    public static void main(String[] args) { main(ArticleNexusMain.class, args); }
 
     @Override protected void run() throws Exception {
 
-        final ArticleImportOptions options = getOptions();
+        final ArticleNexusOptions options = getOptions();
         final File file = options.getFile();
         final File outputDir = options.getOutputDir();
         if (outputDir != null && !outputDir.isDirectory()) die("Output directory does not exist or is not a directory: "+abs(outputDir));
@@ -112,7 +112,7 @@ public class ArticleImportMain extends MainBase<ArticleImportOptions> {
             return;
         }
 
-        final ArticleImportOptions options = getOptions();
+        final ArticleNexusOptions options = getOptions();
         final File outputDir = options.getOutputDir();
 
         final ParsedWikiArticle parsed = article.parse();

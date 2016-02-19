@@ -31,7 +31,7 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
 
     public static final String ATTR_PLACE = "place";
 
-    public static final String BATTLE_PREFIX = "Battle of ";
+    public static final String BATTLE_PREFIX = "battle of ";
 
     public String getLocationNameFromTitle(ParsedWikiArticle art) {
         if (art.getName().toLowerCase().startsWith(BATTLE_PREFIX)) {

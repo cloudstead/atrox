@@ -1,6 +1,7 @@
 package histori.main;
 
 import histori.main.wiki.ArticleFilterMain;
+import histori.main.wiki.ArticleNexusMain;
 import histori.main.wiki.MasterDbSplitterMain;
 import org.cobbzilla.util.collection.MapBuilder;
 import org.cobbzilla.util.string.StringUtil;
@@ -11,8 +12,9 @@ import java.util.Map;
 public class HistoriMain {
 
     private static Map<String, Class<? extends MainBase>> mainClasses = MapBuilder.build(new Object[][]{
-            {"split-master", MasterDbSplitterMain.class},
-            {"article-filter", ArticleFilterMain.class}
+            {"split",  MasterDbSplitterMain.class},
+            {"filter", ArticleFilterMain.class},
+            {"nexus",  ArticleNexusMain.class}
     });
 
     public static void main(String[] args) throws Exception {
