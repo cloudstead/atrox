@@ -36,7 +36,7 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
         return uniqueResult(criteria().add(and(
                 eq("owner", account.getUuid()),
                 or( eq("uuid", nameOrUuid),
-                    eq("name", nameOrUuid) ))));
+                        eq("name", nameOrUuid) ))));
     }
 
     public List<Nexus> findByTimeRange(Account account, TimeRange range) {
@@ -44,14 +44,18 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
         final BigInteger end = range.getEndPoint().getInstant();
         if (account != null) {
             return list(criteria().add(and(
-                    or(le("timeRange.startPoint.instant", end), ge("timeRange.endPoint.instant", start)),
-                    or(eq("owner", account.getUuid()), eq("visibility", EntityVisibility.everyone))
-            )).addOrder(Order.desc("timeRange.startPoint.instant")), 0, 100);
+                    or(
+                            and(ge("timeRange.startPoint.instant", start), le("timeRange.startPoint.instant", end)),
+                            and(ge("timeRange.endPoint.instant", start), le("timeRange.endPoint.instant", end))),
+                    or(eq("owner", account.getUuid()), eq("visibility", EntityVisibility.everyone)))
+            ).addOrder(Order.desc("timeRange.startPoint.instant")), 0, 1000);
         } else {
             return list(criteria().add(and(
-                    or(le("timeRange.startPoint.instant", end), ge("timeRange.endPoint.instant", start)),
+                    or(
+                            and(ge("timeRange.startPoint.instant", start), le("timeRange.startPoint.instant", end)),
+                            and(ge("timeRange.endPoint.instant", start), le("timeRange.endPoint.instant", end))),
                     eq("visibility", EntityVisibility.everyone)
-            )).addOrder(Order.desc("timeRange.startPoint.instant")), 0, 100);
+            )).addOrder(Order.desc("timeRange.startPoint.instant")), 0, 1000);
         }
     }
 }
