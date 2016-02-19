@@ -1,6 +1,5 @@
 package histori.main.wiki;
 
-import cloudos.service.asset.S3AssetStorageService;
 import lombok.Getter;
 import lombok.Setter;
 import org.cobbzilla.util.main.BaseMainOptions;
@@ -8,6 +7,8 @@ import org.kohsuke.args4j.Option;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static cloudos.service.asset.S3AssetStorageService.*;
 
 public class HistoriS3Options extends BaseMainOptions {
 
@@ -41,10 +42,11 @@ public class HistoriS3Options extends BaseMainOptions {
 
     public Map<String, String> getS3config() {
         final Map<String, String> config = new HashMap<>();
-        config.put(S3AssetStorageService.PROP_ACCESS_KEY, getS3accessKey());
-        config.put(S3AssetStorageService.PROP_SECRET_KEY, getS3secretKey());
-        config.put(S3AssetStorageService.PROP_BUCKET, getS3bucket());
-        config.put(S3AssetStorageService.PROP_PREFIX, getS3prefix());
+        config.put(PROP_ACCESS_KEY, getS3accessKey());
+        config.put(PROP_SECRET_KEY, getS3secretKey());
+        config.put(PROP_BUCKET, getS3bucket());
+        config.put(PROP_PREFIX, getS3prefix());
+        config.put(PROP_LOCAL_CACHE, CACHE_DISABLED);
         return config;
     }
 
