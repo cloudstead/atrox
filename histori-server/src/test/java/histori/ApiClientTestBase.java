@@ -1,12 +1,16 @@
 package histori;
 
+import histori.model.Nexus;
+import histori.model.NexusTag;
 import histori.model.support.AccountAuthResponse;
 import histori.model.auth.RegistrationRequest;
+import histori.model.support.TimeRange;
 import histori.server.DbSeedListener;
 import histori.server.HistoriConfiguration;
 import histori.server.HistoriServer;
 import com.fasterxml.jackson.databind.JavaType;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomUtils;
 import org.cobbzilla.mail.sender.mock.MockTemplatedMailSender;
 import org.cobbzilla.mail.sender.mock.MockTemplatedMailService;
 import org.cobbzilla.util.collection.SingletonList;
@@ -18,14 +22,18 @@ import org.cobbzilla.wizard.server.config.factory.ConfigurationSource;
 import org.cobbzilla.wizard.server.config.factory.StreamConfigurationSource;
 import org.cobbzilla.wizard.util.RestResponse;
 import org.cobbzilla.wizardtest.resources.ApiDocsResourceIT;
+import org.geojson.Point;
 
 import java.util.List;
 
-import static histori.ApiConstants.ACCOUNTS_ENDPOINT;
-import static histori.ApiConstants.API_TOKEN;
-import static histori.ApiConstants.EP_REGISTER;
+import static histori.ApiConstants.*;
+import static histori.model.CanonicalEntity.canonicalize;
+import static histori.model.support.TimePoint.TP_SEP;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJson;
+import static org.cobbzilla.util.string.StringUtil.urlEncode;
+import static org.cobbzilla.wizardtest.RandomUtil.randomName;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @Slf4j
@@ -71,6 +79,15 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
         return response;
     }
 
+    public TimeRange randomTimeRange() {
+        final int startYear = -1 * RandomUtils.nextInt(0, Integer.MAX_VALUE);
+        final int startMonth = RandomUtils.nextInt(0, 12);
+        final int startDay = RandomUtils.nextInt(0, 27);
+        final String startDate = ""+startYear+ TP_SEP +startMonth + TP_SEP + startDay;
+        final String endDate = ""+startYear+ TP_SEP +startMonth + TP_SEP + (startDay+1);
+        return new TimeRange(startDate, endDate);
+    }
+
     public <T> SearchResults<T> simpleSearch(String url, JavaType resultType) throws Exception {
         apiDocs.addNote("search " + url + " (default search)");
         final RestResponse response = doGet(url);
@@ -81,6 +98,44 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
         apiDocs.addNote("search " + url + " with query: " + page);
         final RestResponse response = doPost(url, toJson(page));
         return JsonUtil.PUBLIC_MAPPER.readValue(response.json, resultType);
+    }
+
+    public SearchResults<Nexus> search(String startDate, String endDate) throws Exception {
+        return simpleSearch(SEARCH_ENDPOINT + EP_DATE + "/" + startDate + "/" + endDate, new Nexus().getSearchResultType());
+    }
+
+    public Nexus dummyNexus () {
+        final TimeRange range = randomTimeRange();
+        return dummyNexus(range);
+    }
+
+    public Nexus dummyNexus (TimeRange range) {
+        return newNexus(range.getStartPoint().toString(), range.getEndPoint().toString(), "nexus-"+randomName(), "headline-"+randomName());
+    }
+
+    public Nexus newNexus(String startDate, String endDate, String nexusName, String headline) {
+        final Nexus nexus = new Nexus();
+        nexus.setName(nexusName);
+        nexus.setTimeRange(startDate, endDate);
+        nexus.setGeo(new Point(0, 0));
+        nexus.initCommentary().setHeadline(headline);
+        return nexus;
+    }
+
+    public Nexus createNexus(Nexus nexus) throws Exception { return createNexus(nexus.getName(), nexus); }
+
+    public Nexus createNexus(String nexusName, Nexus nexus) throws Exception {
+        Nexus createdNexus = fromJson(put(NEXUS_ENDPOINT+"/"+urlEncode(nexusName), toJson(nexus)).json, Nexus.class);
+        assertEquals(nexusName, createdNexus.getName());
+        return createdNexus;
+    }
+
+    public void addTag(String nexusPath, NexusTag tag) throws Exception {
+        final String canonical = canonicalize(tag.getTagName());
+        final String tagPath = nexusPath + EP_TAGS + "/" + urlEncode(canonical);
+        final RestResponse response = put(tagPath, toJson(tag));
+        final NexusTag createdTag = fromJson(response.json, NexusTag.class);
+        assertEquals(createdTag.getTagName(), canonical);
     }
 
 }

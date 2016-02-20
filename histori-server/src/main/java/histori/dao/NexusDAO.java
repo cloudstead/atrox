@@ -39,23 +39,37 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
                         eq("name", nameOrUuid) ))));
     }
 
+    /**
+     * Find all publicly-viewable nexus in the range
+     * @param range the time range to search
+     * @return a List of Nexus objects
+     */
+    public List<Nexus> findByTimeRange(TimeRange range) {
+        final BigInteger start = range.getStartPoint().getInstant();
+        final BigInteger end = range.getEndPoint().getInstant();
+        return list(criteria().add(and(
+                or(
+                        and(ge("timeRange.startPoint.instant", start), le("timeRange.startPoint.instant", end)),
+                        and(ge("timeRange.endPoint.instant", start), le("timeRange.endPoint.instant", end))),
+                eq("visibility", EntityVisibility.everyone)
+        )).addOrder(Order.desc("timeRange.startPoint.instant")), 0, 1000);
+    }
+
+    /**
+     * Find all nexus in the range that are owned by the account
+     * @param account the Nexus owner
+     * @param range the time range to search
+     * @return a List of Nexus objects
+     */
     public List<Nexus> findByTimeRange(Account account, TimeRange range) {
         final BigInteger start = range.getStartPoint().getInstant();
         final BigInteger end = range.getEndPoint().getInstant();
-        if (account != null) {
-            return list(criteria().add(and(
-                    or(
-                            and(ge("timeRange.startPoint.instant", start), le("timeRange.startPoint.instant", end)),
-                            and(ge("timeRange.endPoint.instant", start), le("timeRange.endPoint.instant", end))),
-                    or(eq("owner", account.getUuid()), eq("visibility", EntityVisibility.everyone)))
-            ).addOrder(Order.desc("timeRange.startPoint.instant")), 0, 1000);
-        } else {
-            return list(criteria().add(and(
-                    or(
-                            and(ge("timeRange.startPoint.instant", start), le("timeRange.startPoint.instant", end)),
-                            and(ge("timeRange.endPoint.instant", start), le("timeRange.endPoint.instant", end))),
-                    eq("visibility", EntityVisibility.everyone)
-            )).addOrder(Order.desc("timeRange.startPoint.instant")), 0, 1000);
-        }
+        return list(criteria().add(and(
+                or(
+                        and(ge("timeRange.startPoint.instant", start), le("timeRange.startPoint.instant", end)),
+                        and(ge("timeRange.endPoint.instant", start), le("timeRange.endPoint.instant", end))),
+                or(eq("owner", account.getUuid()), eq("visibility", EntityVisibility.everyone)))
+        ).addOrder(Order.desc("timeRange.startPoint.instant")), 0, 1000);
     }
+
 }

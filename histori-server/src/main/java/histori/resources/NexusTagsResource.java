@@ -54,28 +54,42 @@ public class NexusTagsResource {
 
     public NexusTagsResource(Nexus nexus) { this.nexus = nexus; }
 
+    class NexusTagContext {
+        public Account account;
+        public Response response;
+        public boolean requireOwner = false;
+        public boolean hasResponse () { return response != null; }
+        public NexusTagContext(HttpContext ctx, boolean requireOwner) {
+            account = (Account) (requireOwner ? userPrincipal(ctx) : optionalUserPrincipal(ctx));
+            if (nexus == null) response = notFound();
+            if (nexus.getVisibility() != EntityVisibility.everyone) {
+                if (account == null || !nexus.getOwner().equals(account.getUuid())) response = forbidden();
+            }
+        }
+        public NexusTagContext (HttpContext ctx) { this(ctx, true); }
+    }
+
     /**
      * Find tags for a Nexus
-     * @param ctx session token
+     * @param context session token
      * @param visibility if 'everyone', return all publicly visible tags
      *                   if 'owner', return only tags created by the caller
      *                   if 'hidden', return only hidden tags created by the caller
      * @return a list of tags, depending on visibility
      */
     @GET
-    public Response findTags(@Context HttpContext ctx,
+    public Response findTags(@Context HttpContext context,
                              @QueryParam("visibility") String visibility) {
-
-        final Account account = optionalUserPrincipal(ctx);
-        if (nexus == null) return notFound();
+        final NexusTagContext ctx = new NexusTagContext(context);
+        if (ctx.hasResponse()) return ctx.response;
 
         final EntityVisibility vis = EntityVisibility.create(visibility, EntityVisibility.everyone);
-        return ok(nexusTagDAO.findByNexus(account, nexus.getUuid(), vis));
+        return ok(nexusTagDAO.findByNexus(ctx.account, nexus.getUuid(), vis));
     }
 
     /**
      * Find tags of a given name for a Nexus
-     * @param ctx session token
+     * @param context session token
      * @param tagName name of the tag
      * @param visibility if 'everyone', return all publicly visible tags
      *                   if 'owner', return only tags created by the caller
@@ -84,30 +98,30 @@ public class NexusTagsResource {
      */
     @GET
     @Path("/{tagName}")
-    public Response findTag(@Context HttpContext ctx,
+    public Response findTag(@Context HttpContext context,
                             @PathParam("tagName") String tagName,
                             @QueryParam("visibility") String visibility) {
 
-        final Account account = optionalUserPrincipal(ctx);
-        if (nexus == null) return notFound();
+        final NexusTagContext ctx = new NexusTagContext(context);
+        if (ctx.hasResponse()) return ctx.response;
 
         final EntityVisibility vis = EntityVisibility.create(visibility, EntityVisibility.everyone);
-        return ok(nexusTagDAO.findByNexusAndName(account, nexus.getUuid(), tagName, vis));
+        return ok(nexusTagDAO.findByNexusAndName(ctx.account, nexus.getUuid(), tagName, vis));
     }
 
     @PUT
     @Path("/{tagName}")
-    public Response createTag(@Context HttpContext ctx,
+    public Response createTag(@Context HttpContext context,
                               @PathParam("tagName") String tagName,
                               @Valid NexusTag nexusTag) {
 
-        final Account account = userPrincipal(ctx);
-        if (nexus == null) return notFound();
+        final NexusTagContext ctx = new NexusTagContext(context, true);
+        if (ctx.hasResponse()) return ctx.response;
 
         final String canonical = canonicalize(tagName);
         if (!canonicalize(nexusTag.getTagName()).equals(canonical)) return invalid("err.tagName.mismatch");
 
-        final NexusTag found = nexusTagDAO.findByNexusAndOwnerAndName(nexus.getUuid(), account, tagName);
+        final NexusTag found = nexusTagDAO.findByNexusAndOwnerAndName(nexus.getUuid(), ctx.account, tagName);
         if (found != null) return invalid("err.tagExists");
 
         TagType tagType = tagTypeDAO.findByCanonicalName(nexusTag.getTagType());
@@ -131,7 +145,7 @@ public class NexusTagsResource {
                 .setNexus(nexus.getUuid())
                 .setTagName(canonical)
                 .setTagType(tagType == null ? null : tagType.getCanonicalName())
-                .setOwner(account.getUuid());
+                .setOwner(ctx.account.getUuid());
 
         return ok(nexusTagDAO.create(newTag));
     }
@@ -150,16 +164,16 @@ public class NexusTagsResource {
 
     @POST
     @Path("/{tagName}")
-    public Response updateTag(@Context HttpContext ctx,
+    public Response updateTag(@Context HttpContext context,
                               @PathParam("tagName") String tagName,
                               @Valid NexusTag nexusTag) {
 
-        final Account account = userPrincipal(ctx);
-        if (nexus == null) return notFound();
+        final NexusTagContext ctx = new NexusTagContext(context, true);
+        if (ctx.hasResponse()) return ctx.response;
 
         if (!nexusTag.getTagName().equals(tagName)) return invalid("err.tagName.mismatch");
 
-        final NexusTag found = nexusTagDAO.findByNexusAndOwnerAndName(nexus.getUuid(), account, tagName);
+        final NexusTag found = nexusTagDAO.findByNexusAndOwnerAndName(nexus.getUuid(), ctx.account, tagName);
         if (found == null) return notFound(tagName);
 
         final TagType tagType = tagTypeDAO.findByCanonicalName(found.getTagType());

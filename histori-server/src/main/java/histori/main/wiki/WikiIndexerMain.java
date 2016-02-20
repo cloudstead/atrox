@@ -9,6 +9,36 @@ import org.cobbzilla.wizard.main.MainBase;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+/**
+ * Split a massive Wikipedia dump into one file per article.
+ *
+ * bzcat /path/to/enwiki-YYYYMMDD-pages-articles-multistream.xml.bz2 | ./run.sh index -o /path/to/index/basedir
+ *
+ * You can also uncompress the archive and use 'cat' instead of 'bzcat'. This will be a bit faster than indexing
+ * the bzipp'ed archive.
+ *
+ * The individual articles are stored in a directory structure where the path is determined by
+ * the SHA-256 of the title, in the form /ab/cd/ef/first_100_chars_of_canonical_name_SHA256.json
+ *
+ * Where ab is the first 2 chars of the SHA, cd is the second 2 chars, and ef is the third 2 chars.
+ *
+ * This permits a directory structure with up to 256 subdirectories per level, and a total of 16M nested directories.
+ * This directory structure allows near-instant lookup of any article based on its title, and avoids the problem of
+ * having any single directory with thousands of files in it, which adversely affects filesystem performance.
+ *
+ * Stats:
+ *   There are approximately 16M articles in the 13GB full Wikipedia archive.
+ *   Uncompressed, the 13GB archive becomes about 56GB in size.
+ *   On an EC2 m3.medium node, it takes about 24 hours to index the entire archive.
+ *
+ * Recommendations:
+ *   When preparing a filesystem to write the index, some safe configuration parameters are:
+ *   Use an ext4 filesystem, with 350GB+ space and 80M+ inodes.
+ *   Mount with 'noatime'
+ *
+ * DO NOT create the index on a filesystem with less than 300GB of space or 100M inodes.
+ * Otherwise, you will run out of space or inodes before indexing completes.
+ */
 @Slf4j
 public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
 

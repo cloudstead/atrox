@@ -3,8 +3,6 @@ package histori.resources;
 import com.sun.jersey.api.core.HttpContext;
 import histori.dao.NexusDAO;
 import histori.dao.NexusTagDAO;
-import histori.dao.TagDAO;
-import histori.dao.TagTypeDAO;
 import histori.model.Account;
 import histori.model.Nexus;
 import histori.model.NexusTag;
@@ -21,8 +19,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-import static histori.ApiConstants.NEXUS_ENDPOINT;
 import static histori.ApiConstants.EP_TAGS;
+import static histori.ApiConstants.NEXUS_ENDPOINT;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
 import static org.cobbzilla.util.string.StringUtil.urlEncode;
@@ -52,8 +50,6 @@ public class NexusResource {
     @Autowired private HistoriConfiguration configuration;
     @Autowired private NexusDAO nexusDAO;
     @Autowired private NexusTagDAO nexusTagDAO;
-    @Autowired private TagDAO tagDAO;
-    @Autowired private TagTypeDAO tagTypeDAO;
 
     @Path("/{nameOrUuid}"+ EP_TAGS)
     public NexusTagsResource tagsResource (@Context HttpContext ctx,

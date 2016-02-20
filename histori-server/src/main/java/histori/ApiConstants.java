@@ -1,5 +1,6 @@
 package histori;
 
+import histori.model.SocialEntity;
 import org.apache.commons.lang3.RandomStringUtils;
 
 public class ApiConstants {
@@ -15,6 +16,7 @@ public class ApiConstants {
     public static final String SEARCH_ENDPOINT = "/search";
     public static final String TAGS_ENDPOINT = "/tags";
     public static final String TAG_TYPES_ENDPOINT = "/tag_types";
+    public static final String VOTES_ENDPOINT = "/votes";
     public static final String ARCHIVES_ENDPOINT = "/archives";
 
     public static final int NAME_MAXLEN = 200;
@@ -51,8 +53,22 @@ public class ApiConstants {
     public static final String BOUND_RANGE = "range";
     public static final String RANGE_SEP = "|";
 
+    // voting endpoints
+    public static final String EP_UPVOTE = "/up";
+    public static final String EP_DOWNVOTE = "/down";
+    public static final String EP_SUMMARY = "/summary";
+
     public static String anonymousEmail() {
         return ANONYMOUS_EMAIL.replace("#STAMP#", RandomStringUtils.randomAlphanumeric(10)+"-"+System.currentTimeMillis());
     }
 
+    public static String voteUri(SocialEntity entity) {
+        return VOTES_ENDPOINT + "/" + entity.getClass().getSimpleName() + "/" + entity.getUuid();
+    }
+    public static String upvoteUri(SocialEntity entity) {
+        return voteUri(entity) + EP_UPVOTE;
+    }
+    public static String downvoteUri(SocialEntity entity) {
+        return voteUri(entity)+ EP_DOWNVOTE;
+    }
 }

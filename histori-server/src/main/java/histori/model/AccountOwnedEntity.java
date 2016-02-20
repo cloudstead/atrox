@@ -13,8 +13,8 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 @MappedSuperclass @Accessors(chain=true)
 public class AccountOwnedEntity extends StrongIdentifiableBase {
 
-    @Column(nullable = false, length = UUID_MAXLEN) @Getter
-    @Setter private String owner;
+    @Column(length=UUID_MAXLEN, nullable=false)
+    @Getter @Setter private String owner;
     public boolean hasOwner() { return !empty(owner); }
     public boolean isOwner(String uuid) { return hasOwner() && getOwner().equals(uuid); }
 

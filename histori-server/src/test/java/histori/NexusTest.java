@@ -6,16 +6,13 @@ import histori.model.*;
 import histori.model.support.AccountAuthResponse;
 import histori.model.support.AutocompleteSuggestions;
 import histori.model.support.EntityCommentary;
-import org.apache.commons.lang3.RandomUtils;
+import histori.model.support.TimeRange;
 import org.cobbzilla.wizard.dao.SearchResults;
-import org.cobbzilla.wizard.util.RestResponse;
-import org.geojson.Point;
 import org.junit.Before;
 import org.junit.Test;
 
 import static histori.ApiConstants.*;
 import static histori.model.CanonicalEntity.canonicalize;
-import static histori.model.support.TimePoint.TP_SEP;
 import static org.cobbzilla.util.http.HttpStatusCodes.NOT_FOUND;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJson;
@@ -43,13 +40,11 @@ public class NexusTest extends ApiClientTestBase {
         apiDocs.startRecording(DOC_TARGET, "Add a nexus and associated data");
 
         // define a range of one day of a random year in the distant past
-        final int startYear = -1 * RandomUtils.nextInt(0, Integer.MAX_VALUE);
-        final int startMonth = RandomUtils.nextInt(0, 12);
-        final int startDay = RandomUtils.nextInt(0, 27);
-        final String startDate = ""+startYear+ TP_SEP +startMonth + TP_SEP + startDay;
-        final String endDate = ""+startYear+ TP_SEP +startMonth + TP_SEP + (startDay+1);
+        final TimeRange range = randomTimeRange();
+        final String startDate = range.getStartPoint().toString();
+        final String endDate = range.getEndPoint().toString();
 
-        apiDocs.addNote("Search the range ("+startDate+" to "+endDate+"), there should be nothing found");
+        apiDocs.addNote("Search the range ("+range.getStartPoint()+" to "+range.getEndPoint()+"), there should be nothing found");
         SearchResults<Nexus> searchResults = search(startDate, endDate);
         assertNull(searchResults.getTotalCount());
         assertEquals(0, searchResults.count());
@@ -63,19 +58,14 @@ public class NexusTest extends ApiClientTestBase {
 
         // Create a new Nexus
         final String headline = randomName();
-        final Nexus nexus = new Nexus();
-        nexus.setName(nexusName);
-        nexus.setTimeRange(startDate, endDate);
-        nexus.setGeo(new Point(0, 0));
-        nexus.initCommentary().setHeadline(headline);
+        final Nexus nexus = newNexus(startDate, endDate, nexusName, headline);
         nexus.addTag(tag1);
         nexus.addTag(tag2, "world actor");
         nexus.getTag("usa").setCommentary(new EntityCommentary(headline+" for the usa"));
         nexus.addTag(tag3, "citation");
 
         apiDocs.addNote("Define a new Nexus, and as a consequence, create some tags");
-        Nexus createdNexus = fromJson(put(NEXUS_ENDPOINT+"/"+urlEncode(nexusName), toJson(nexus)).json, Nexus.class);
-        assertEquals(nexusName, createdNexus.getName());
+        Nexus createdNexus = createNexus(nexusName, nexus);
 
         final String nexusPath = NEXUS_ENDPOINT + "/" + createdNexus.getUuid();
 
@@ -186,18 +176,6 @@ public class NexusTest extends ApiClientTestBase {
         apiDocs.addNote("Test autocomplete for only tags without a type");
         autoComplete = fromJson(get(autocompleteUri +"/" + MATCH_NULL_TYPE + acQuery).json, AutocompleteSuggestions.class);
         assertEquals(1, autoComplete.getSuggestions().size());
-    }
-
-    public void addTag(String nexusPath, NexusTag tag) throws Exception {
-        final String canonical = canonicalize(tag.getTagName());
-        final String tagPath = nexusPath + EP_TAGS + "/" + urlEncode(canonical);
-        final RestResponse response = put(tagPath, toJson(tag));
-        final NexusTag createdTag = fromJson(response.json, NexusTag.class);
-        assertEquals(createdTag.getTagName(), canonical);
-    }
-
-    public SearchResults<Nexus> search(String startDate, String endDate) throws Exception {
-        return simpleSearch(SEARCH_ENDPOINT + EP_DATE + "/" + startDate + "/" + endDate, new Nexus().getSearchResultType());
     }
 
 }

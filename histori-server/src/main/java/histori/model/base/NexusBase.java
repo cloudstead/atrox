@@ -101,6 +101,6 @@ public class NexusBase extends SocialEntity {
         return false;
     }
 
-    public int getTagCount() { return empty(tags) ? 0 : tags.size(); }
+    @JsonIgnore @Transient public int getTagCount() { return empty(tags) ? 0 : tags.size(); }
 
 }
