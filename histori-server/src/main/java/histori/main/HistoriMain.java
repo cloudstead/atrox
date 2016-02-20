@@ -14,7 +14,8 @@ public class HistoriMain {
     private static Map<String, Class<? extends MainBase>> mainClasses = MapBuilder.build(new Object[][]{
             {"index",  WikiIndexerMain.class},
             {"path",  ArticlePathMain.class},
-            {"nexus",  ArticleNexusMain.class}
+            {"nexus",  ArticleNexusMain.class},
+            {"import",  NexusImportMain.class}
     });
 
     public static void main(String[] args) throws Exception {
