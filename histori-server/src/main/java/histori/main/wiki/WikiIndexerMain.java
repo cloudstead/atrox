@@ -9,6 +9,8 @@ import org.cobbzilla.wizard.main.MainBase;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import static org.cobbzilla.util.daemon.ZillaRuntime.now;
+
 /**
  * Split a massive Wikipedia dump into one file per article.
  *
@@ -75,7 +77,7 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                             if (pageCount > skipPages) {
                                 parseState = WikiXmlParseState.seeking_title;
                             } else {
-                                if (pageCount % 1000 == 0) out("skipped "+pageCount+" articles: "+System.currentTimeMillis());
+                                if (pageCount % 1000 == 0) out("skipped "+pageCount+" articles: "+now());
                                 continue;
                             }
                         }

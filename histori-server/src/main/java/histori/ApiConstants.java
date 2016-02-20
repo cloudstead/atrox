@@ -3,6 +3,8 @@ package histori;
 import histori.model.SocialEntity;
 import org.apache.commons.lang3.RandomStringUtils;
 
+import static org.cobbzilla.util.daemon.ZillaRuntime.now;
+
 public class ApiConstants {
 
     // must match what is in api.js
@@ -59,7 +61,7 @@ public class ApiConstants {
     public static final String EP_SUMMARY = "/summary";
 
     public static String anonymousEmail() {
-        return ANONYMOUS_EMAIL.replace("#STAMP#", RandomStringUtils.randomAlphanumeric(10)+"-"+System.currentTimeMillis());
+        return ANONYMOUS_EMAIL.replace("#STAMP#", RandomStringUtils.randomAlphanumeric(10)+"-"+now());
     }
 
     public static String voteUri(SocialEntity entity) {

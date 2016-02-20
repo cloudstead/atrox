@@ -71,6 +71,7 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
     }
 
     public AccountAuthResponse newAnonymousAccount() throws Exception {
+        logout();
         final RegistrationRequest request = new RegistrationRequest();
         apiDocs.addNote("Register an anonymous account");
         AccountAuthResponse response = register(request);

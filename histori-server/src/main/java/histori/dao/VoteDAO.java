@@ -2,7 +2,6 @@ package histori.dao;
 
 import histori.model.Account;
 import histori.model.Vote;
-import org.cobbzilla.wizard.dao.AbstractCRUDDAO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,10 +9,10 @@ import java.util.List;
 import static org.hibernate.criterion.Restrictions.and;
 import static org.hibernate.criterion.Restrictions.eq;
 
-@Repository public class VoteDAO extends AbstractCRUDDAO<Vote> {
+@Repository public class VoteDAO extends VersionedEntityDAO<Vote> {
 
-    public List<Vote> findByEntity(String uuid) { return findByField("entity", "uuid"); }
-    public List<Vote> findByOwner (String uuid) { return findByField("owner", "uuid"); }
+    public List<Vote> findByEntity(String uuid) { return findByField("entity", uuid); }
+    public List<Vote> findByOwner (String uuid) { return findByField("owner", uuid); }
 
     public Vote upVote(Account account, String uuid) {
         final String accountUuid = account.getUuid();

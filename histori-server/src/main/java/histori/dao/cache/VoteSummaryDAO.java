@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
+import static org.cobbzilla.util.daemon.ZillaRuntime.now;
 
 @Repository @Slf4j
 public class VoteSummaryDAO extends AbstractRedisDAO<VoteSummary> {
@@ -29,6 +31,11 @@ public class VoteSummaryDAO extends AbstractRedisDAO<VoteSummary> {
     }
 
     private Map<String, VoteSummaryJobResult> jobs = new ConcurrentHashMap<>();
+
+    public boolean isRunning (String uuid) {
+        final VoteSummaryJobResult result = jobs.get(uuid);
+        return result != null && result.isRunning();
+    }
 
     private ExecutorService executor = Executors.newFixedThreadPool(20);
 
@@ -62,7 +69,8 @@ public class VoteSummaryDAO extends AbstractRedisDAO<VoteSummary> {
 
         @Override public VoteSummary call() throws Exception {
             final VoteSummary summary = new VoteSummary(uuid);
-            for (Vote vote : voteDAO.findByEntity(uuid)) {
+            final List<Vote> votes = voteDAO.findByEntity(uuid);
+            for (Vote vote : votes) {
                 summary.tally(vote);
             }
             return summary;
@@ -78,22 +86,24 @@ public class VoteSummaryDAO extends AbstractRedisDAO<VoteSummary> {
         private VoteSummary summary = null;
         private Long lastRun = null;
 
-        public boolean isRunning() { return summary == null; }
+        public boolean isRunning() { return getSummary() == null; }
 
-        public long getSummaryAge () { return lastRun == null ? Long.MAX_VALUE : System.currentTimeMillis() - lastRun; }
+        public long getSummaryAge () { return lastRun == null ? Long.MAX_VALUE : now() - lastRun; }
 
         public VoteSummary getSummary () {
             if (summary != null) return summary;
             try {
                 summary = future.get(50, TimeUnit.MILLISECONDS);
-                lastRun = System.currentTimeMillis();
+                lastRun = now();
                 update(summary);
+                return summary;
 
             } catch (InterruptedException|ExecutionException e) {
                 return die(e);
 
-            } catch (TimeoutException e) {}
-            return summary;
+            } catch (TimeoutException e) {
+                return null;
+            }
         }
     }
 }

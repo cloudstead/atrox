@@ -2,9 +2,12 @@ package histori.model.cache;
 
 import histori.model.Vote;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.cobbzilla.wizard.model.ExpirableBase;
 
+@NoArgsConstructor @Accessors(chain=true)
 public class VoteSummary extends ExpirableBase {
 
     public VoteSummary(String uuid) { setUuid(uuid); }

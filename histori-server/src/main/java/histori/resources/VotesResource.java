@@ -93,6 +93,7 @@ public class VotesResource {
         // Look up the thing to see who owns it
         final DAO<? extends SocialEntity> dao = configuration.getDaoForEntityClass(entityClass);
         final SocialEntity entity = dao.findByUuid(uuid);
+        if (entity == null) return notFound(uuid);
 
         final VoteSummary summary;
         switch (entity.getVisibility()) {
