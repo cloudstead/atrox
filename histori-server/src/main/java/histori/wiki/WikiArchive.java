@@ -37,6 +37,11 @@ public class WikiArchive {
     }
 
     public ParsedWikiArticle find (String title) {
+        final WikiArticle article = findUnparsed(title);
+        return article != null ? article.parse() : null;
+    }
+
+    public WikiArticle findUnparsed (String title) {
         AssetStream stream = null;
         try {
             final String articlePath = getArticlePath(title);
@@ -44,7 +49,7 @@ public class WikiArchive {
 
             stream = storage.load(articlePath);
             if (stream == null) return null;
-            return fromJson(stream.getStream(), WikiArticle.class).parse();
+            return fromJson(stream.getStream(), WikiArticle.class);
 
         } catch (Exception e) {
             log.warn("find: "+e);

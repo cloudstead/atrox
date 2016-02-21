@@ -61,13 +61,17 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
         final WikiArchive wiki = opts.getWikiArchive();
 
         final int skipPages = opts.getSkipPages();
+        final int skipLines = opts.getSkipLines();
 
         WikiXmlParseState parseState = WikiXmlParseState.seeking_page;
         WikiArticle article = new WikiArticle();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             String line;
+            int lineCount = 0;
             while ((line = reader.readLine()) != null) {
+                lineCount++;
+                if (lineCount <= skipLines) continue;
                 line = line.trim();
                 if (line.length() == 0) continue;
                 switch (parseState) {
@@ -115,6 +119,7 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                 }
             }
         }
+        out("Wiki Index Completed! now="+now());
     }
 
     private void store(final WikiArchive wiki, final WikiArticle article) {

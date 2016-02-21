@@ -1,7 +1,7 @@
 package histori.main.wiki;
 
 import cloudos.service.asset.AssetStorageService;
-import cloudos.service.asset.LocalAssetStorateService;
+import cloudos.service.asset.LocalAssetStorageService;
 import histori.wiki.WikiArchive;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +20,7 @@ public class ArticleNexusOptions extends BaseMainOptions {
     public static final String OPT_FILE = "-i";
     public static final String LONGOPT_FILE= "--input-file";
     @Option(name=OPT_FILE, aliases=LONGOPT_FILE, usage=USAGE_FILE, required=true)
-    @Getter @Setter private File file = null;
+    @Getter @Setter private String input = null;
 
     public static final String USAGE_OUTPUT_DIR = "Output directory. Default is to print to stdout";
     public static final String OPT_OUTPUT_DIR = "-o";
@@ -36,8 +36,8 @@ public class ArticleNexusOptions extends BaseMainOptions {
 
     public AssetStorageService getStorageService() {
         final Map<String, String> config = new HashMap<>();
-        config.put(LocalAssetStorateService.PROP_BASE, abs(wikiDir));
-        return new LocalAssetStorateService(config);
+        config.put(LocalAssetStorageService.PROP_BASE, abs(wikiDir));
+        return new LocalAssetStorageService(config);
     }
 
     public WikiArchive getWikiArchive() { return new WikiArchive(getStorageService()); }

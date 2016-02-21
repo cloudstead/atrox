@@ -1,7 +1,7 @@
 package histori.main.wiki;
 
 import cloudos.service.asset.AssetStorageService;
-import cloudos.service.asset.LocalAssetStorateService;
+import cloudos.service.asset.LocalAssetStorageService;
 import histori.wiki.WikiArchive;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +22,12 @@ public class WikiIndexerOptions extends BaseMainOptions {
     @Option(name=OPT_SKIP, aliases=LONGOPT_SKIP, usage=USAGE_SKIP)
     @Getter @Setter private int skipPages = 0;
 
+    public static final String USAGE_SKIP_LINES = "How many lines to skip at the start";
+    public static final String OPT_SKIP_LINES = "-L";
+    public static final String LONGOPT_SKIP_LINES= "--skip-lines";
+    @Option(name=OPT_SKIP_LINES, aliases=LONGOPT_SKIP_LINES, usage=USAGE_SKIP_LINES)
+    @Getter @Setter private int skipLines = 0;
+
     public static final String USAGE_OUTPUT_DIR = "Output directory";
     public static final String OPT_OUTPUT_DIR = "-o";
     public static final String LONGOPT_OUTPUT_DIR= "--output-dir";
@@ -29,9 +35,16 @@ public class WikiIndexerOptions extends BaseMainOptions {
     @Getter @Setter private File outputDir;
 
     public AssetStorageService getStorageService() {
+
         final Map<String, String> config = new HashMap<>();
-        config.put(LocalAssetStorateService.PROP_BASE, abs(outputDir));
-        return new LocalAssetStorateService(config);
+        config.put(LocalAssetStorageService.PROP_BASE, abs(outputDir));
+
+        final LocalAssetStorageService service = new LocalAssetStorageService(config);
+
+        // ensures that LocalAssetStorate does not write out .contentType companion files for every stored file
+        service.setContentType("application/json");
+
+        return service;
     }
 
     public WikiArchive getWikiArchive() { return new WikiArchive(getStorageService()); }

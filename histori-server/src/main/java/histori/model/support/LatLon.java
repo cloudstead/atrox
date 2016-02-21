@@ -22,9 +22,16 @@ public class LatLon {
         setLon(Double.parseDouble(coordinate.substring(commaPos+1).trim()));
     }
 
-    public LatLon(double latDeg, double latMin, double latSec, Cardinal latCardinal,
-                  double lonDeg, double lonMin, double lonSec, Cardinal lonCardinal) {
-        this.lat = latCardinal.getDirection() * ((latSec + 60*latMin)/3600 + latDeg);
-        this.lon = lonCardinal.getDirection() * ((lonSec + 60*lonMin)/3600 + lonDeg);
+    public LatLon(double latDeg, Double latMin, Double latSec, Cardinal latCardinal,
+                  double lonDeg, Double lonMin, Double lonSec, Cardinal lonCardinal) {
+        this.lat = latDeg;
+        if (latMin != null) this.lat += latMin / 60.0;
+        if (latSec != null) this.lat += latSec / 3600.0;
+        this.lat *= latCardinal.getDirection();
+
+        this.lon = lonDeg;
+        if (lonMin != null) this.lon += lonMin / 60.0d;
+        if (lonSec != null) this.lon += lonSec / 3600.0d;
+        this.lon *= lonCardinal.getDirection();
     }
 }

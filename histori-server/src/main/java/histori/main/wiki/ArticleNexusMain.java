@@ -40,7 +40,16 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
     @Override protected void run() throws Exception {
 
         final ArticleNexusOptions options = getOptions();
-        final File file = options.getFile();
+        final String input = options.getInput();
+        final File file = new File(input);
+        if (!file.exists()) {
+            // maybe it is an article name?
+            WikiArticle article = options.getWikiArchive().findUnparsed(input);
+            if (article == null) die("Article not found: "+input);
+            buildNexus(article);
+            return;
+        }
+
         final File outputDir = options.getOutputDir();
         if (outputDir != null && !outputDir.isDirectory()) die("Output directory does not exist or is not a directory: "+abs(outputDir));
 

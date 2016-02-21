@@ -26,8 +26,14 @@ public class VoteSummaryDAO extends AbstractRedisDAO<VoteSummary> {
 
     @Override public VoteSummary get(Serializable id) {
         final VoteSummary voteSummary = super.get(id);
+        final long ctime = Long.parseLong(super.getMetadata(metadataCtimeKey(voteSummary)));
+        if (now() - ctime > MAX_SUMMARY_AGE) queueJob(id.toString());
         if (voteSummary != null) return voteSummary;
         return queueJob(id.toString());
+    }
+
+    public String metadataCtimeKey(VoteSummary summary) {
+        return summary.getUuid()+".ctime";
     }
 
     private Map<String, VoteSummaryJobResult> jobs = new ConcurrentHashMap<>();
@@ -96,6 +102,9 @@ public class VoteSummaryDAO extends AbstractRedisDAO<VoteSummary> {
                 summary = future.get(50, TimeUnit.MILLISECONDS);
                 lastRun = now();
                 update(summary);
+                // record in redis when this was set, so if it gets too old we will kick off a job
+                setMetadata(metadataCtimeKey(summary), String.valueOf(summary.getCtime()));
+                jobs.remove(summary.getUuid());
                 return summary;
 
             } catch (InterruptedException|ExecutionException e) {

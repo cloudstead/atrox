@@ -88,6 +88,9 @@ public class VoteSummaryTest extends ApiClientTestBase {
         apiDocs.addNote("Get vote summary for a single nexus, should return valid summary from redis");
         final VoteSummary summary = fromJson(get(voteUri+EP_SUMMARY).json, VoteSummary.class);
         assertEquals(expectedTallies.get(uuid), (Long) summary.getTally());
+
+        apiDocs.addNote("Search in the time range of the nexuses, should see vote summaries for all three");
+
     }
 
 }

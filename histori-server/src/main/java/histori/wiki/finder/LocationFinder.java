@@ -32,6 +32,7 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
     public static final String ATTR_PLACE = "place";
 
     public static final String BATTLE_PREFIX = "battle of ";
+    public static final String BOXNAME_COORD = "Coord";
 
     public String getLocationNameFromTitle(ParsedWikiArticle art) {
         if (art.getName().toLowerCase().startsWith(BATTLE_PREFIX)) {
@@ -44,21 +45,25 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
 
     public LatLon find(ParsedWikiArticle art, boolean coordinatesOnly) {
         // todo: try all of these strategies in parallel? some may be long-running
+        LatLon latLon;
         try {
-            return parseCoordinates(art);
+            latLon = parseCoordinates(art);
+            if (latLon != null) return latLon;
         } catch (Exception e) {
             log.warn("Attempt at gleaning coordinates from infobox failed: " + e);
         }
         if (coordinatesOnly) return null;
 
         try {
-            return parseTitle(art);
+            latLon = parseTitle(art);
+            if (latLon != null) return latLon;
         } catch (Exception e) {
             log.warn("Attempt at gleaning coordinates based on a article title failed: " + e);
         }
 
         try {
-            return parsePlace(art);
+            latLon = parsePlace(art);
+            if (latLon != null) return latLon;
         } catch (Exception e) {
             log.warn("Attempt at gleaning coordinates based on a place name failed: " + e);
         }
@@ -125,6 +130,15 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
         for (WikiNode box : art.getInfoboxes()) {
             if (isIgnoredInfobox(box)) continue;
 
+            if (box.getName().equalsIgnoreCase(BOXNAME_COORD)) {
+                try {
+                    return fromCoordsValue(box.getChildren());
+                } catch (Exception e) {
+                    log.warn("Error parsing coords box: "+e, e);
+                }
+                continue;
+            }
+
             final WikiNode coordsAttr = box.findChildNamed(ATTR_COORDINATES);
             if (coordsAttr != null) {
                 try {
@@ -153,19 +167,60 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
 
     private LatLon parseCoordinates (WikiNode coordsAttr) throws Exception {
         WikiNode coordsValue = coordsAttr.getChildren().get(0);
-        if (coordsValue.getType() == WikiNodeType.infobox && coordsValue.getName().equals("Coord")) {
+        if (coordsValue.getType() == WikiNodeType.infobox && coordsValue.getName().equals(BOXNAME_COORD)) {
             final List<WikiNode> coordNumbers = coordsValue.getChildren();
-            final double latDeg = Float.valueOf(coordNumbers.get(0).findAllText());
-            final double latMin = Float.valueOf(coordNumbers.get(1).findAllText());
-            final double latSec = Float.valueOf(coordNumbers.get(2).findAllText());
-            final Cardinal latCardinal = Cardinal.create(coordNumbers.get(3).findAllText());
-            final double lonDeg = Float.valueOf(coordNumbers.get(4).findAllText());
-            final double lonMin = Float.valueOf(coordNumbers.get(5).findAllText());
-            final double lonSec = Float.valueOf(coordNumbers.get(6).findAllText());
-            final Cardinal lonCardinal = Cardinal.create(coordNumbers.get(7).findAllText());
-            return new LatLon(latDeg, latMin, latSec, latCardinal, lonDeg, lonMin, lonSec, lonCardinal);
+            return fromCoordsValue(coordNumbers);
         }
         return die("parseCoordinates: unparseable ("+coordsValue+")");
+    }
+
+    private LatLon fromCoordsValue(List<WikiNode> coordNumbers) {
+        final Cardinal latCardinal;
+        final Double latMin, latSec, lonMin, lonSec;
+        final Cardinal lonCardinal;
+        int lonStartIndex;
+        String val2, val3;
+
+        final double latDeg = Double.valueOf(coordNumbers.get(0).findAllText());
+        val2 = coordNumbers.get(1).findAllText();
+        if (Cardinal.isCardinal(val2)) {
+            latCardinal = Cardinal.create(val2);
+            latMin = latSec = null;
+            lonStartIndex = 2;
+
+        } else {
+            latMin = Double.parseDouble(val2);
+            val3 = coordNumbers.get(2).findAllText();
+            if (Cardinal.isCardinal(val3)) {
+                latCardinal = Cardinal.create(val3);
+                latSec = null;
+                lonStartIndex = 3;
+            } else {
+                latSec = Double.parseDouble(val3);
+                latCardinal = Cardinal.create(coordNumbers.get(3).findAllText());
+                lonStartIndex = 4;
+            }
+        }
+
+        final double lonDeg = Float.valueOf(coordNumbers.get(lonStartIndex).findAllText());
+        val2 = coordNumbers.get(lonStartIndex+1).findAllText();
+        if (Cardinal.isCardinal(val2)) {
+            lonCardinal = Cardinal.create(val2);
+            lonMin = lonSec = null;
+
+        } else {
+            lonMin = Double.parseDouble(val2);
+            val3 = coordNumbers.get(lonStartIndex+2).findAllText();
+            if (Cardinal.isCardinal(val3)) {
+                lonCardinal = Cardinal.create(val3);
+                lonSec = null;
+            } else {
+                lonSec = Double.parseDouble(val3);
+                lonCardinal = Cardinal.create(coordNumbers.get(lonStartIndex+3).findAllText());
+            }
+        }
+
+        return new LatLon(latDeg, latMin, latSec, latCardinal, lonDeg, lonMin, lonSec, lonCardinal);
     }
 
     private LatLon parseLatdLongd(WikiNode box) {
