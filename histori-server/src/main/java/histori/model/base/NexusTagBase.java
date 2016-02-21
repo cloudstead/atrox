@@ -5,7 +5,6 @@ import histori.model.SocialEntity;
 import histori.model.tag_schema.TagSchemaValue;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.cobbzilla.util.collection.ArrayUtil;
 
@@ -19,7 +18,7 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.json.JsonUtil.fromJsonOrDie;
 import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
 
-@MappedSuperclass @Accessors(chain=true) @ToString(of={"tagName", "tagType"})
+@MappedSuperclass @Accessors(chain=true)
 public class NexusTagBase extends SocialEntity {
 
     @Column(length=UUID_MAXLEN, nullable=false, updatable=false)
@@ -43,7 +42,7 @@ public class NexusTagBase extends SocialEntity {
     public TagSchemaValue[] getValues () { return empty(schemaValues) ? null : fromJsonOrDie(schemaValues, TagSchemaValue[].class); }
     public NexusTagBase setValues (TagSchemaValue[] values) { return setSchemaValues(empty(values) ? null : toJsonOrDie(values)); }
 
-    public void setValue(String field, String value) {
+    public NexusTagBase setValue(String field, String value) {
         TagSchemaValue[] values = getValues();
         if (values == null) {
             values = new TagSchemaValue[] { new TagSchemaValue(field, value) };
@@ -51,10 +50,12 @@ public class NexusTagBase extends SocialEntity {
             values = ArrayUtil.append(values, new TagSchemaValue(field, value));
         }
         setValues(values);
+        return this;
     }
 
     private static final String[] ID_FIELDS = new String[]{"owner", "nexus", "tagName"};
     @Override public String[] getIdentifiers() { return new String[] {getOwner(), getNexus(), getTagName()}; }
     @Override public String[] getIdentifierFields() { return ID_FIELDS; }
 
+    @Override public String toString() { return getTagType()+"/"+getTagName(); }
 }

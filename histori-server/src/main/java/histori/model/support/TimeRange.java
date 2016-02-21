@@ -37,7 +37,11 @@ public class TimeRange {
         setEndPoint(new TimePoint(endDate));
     }
 
-    public TimeRange(TimePoint start) { this.startPoint = start; }
+    public TimeRange(String startDate) {
+        setStartPoint(new TimePoint(startDate));
+    }
+
+    public TimeRange(TimePoint start) { this.startPoint = start.initInstant(); }
 
     @Override public String toString() { return hasEnd() ? startPoint + "_" + endPoint : startPoint.toString(); }
 

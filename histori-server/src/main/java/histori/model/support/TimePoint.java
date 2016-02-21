@@ -93,7 +93,7 @@ public class TimePoint {
     }
 
     @Getter @Setter private BigInteger instant;
-    public void initInstant () { initInstant(toString()); }
+    public TimePoint initInstant () { initInstant(toString()); return this; }
 
     @Min(value=MIN_YEAR, message="err.timePoint.year.tooEarly")
     @Max(value=MAX_YEAR, message="err.timePoint.year.tooLate")

@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 public class BattleTagFinder extends TagFinderBase {
 
     public static final String INFOBOX_MILITARY_CONFLICT = "Infobox military conflict";
-    public static final String HTML_LINEBREAK_REGEX = "<\\s*br\\s*/?\\s*>";
+    public static final String HTML_LINEBREAK_REGEX = "(<|&lt;)\\s*br\\s*/?\\s*(>|&gt;)";
 
     @Override public List<NexusTag> find() {
 
@@ -49,18 +49,19 @@ public class BattleTagFinder extends TagFinderBase {
                     final String[] combatants = child.findAllChildTextButNotLinkDescriptions().split(HTML_LINEBREAK_REGEX);
                     for (String combatant : combatants) {
                         tags.add(newTag(combatant.trim(), "world_actor", "role", RoleType.combatant.name()));
+                    }
 
-                        WikiNode commanderNode = infobox.findFirstAttributeWithName(child.getName().replace("combatant", "commander"));
-                        if (commanderNode != null) {
-                            final String[] commanders = commanderNode.findAllChildTextButNotLinkDescriptions().split(HTML_LINEBREAK_REGEX);
-                            for (String commander : commanders) {
-                                tag = newTag(commander.trim(), "person", "role", RoleType.commander.name());
-                                tag.setValue("world_actor", combatant.trim());
-                                tags.add(tag);
-                            }
+                    final WikiNode commanderNode = infobox.findFirstAttributeWithName(child.getName().replace("combatant", "commander"));
+                    if (commanderNode != null) {
+                        final String[] commanders = commanderNode.findAllChildTextButNotLinkDescriptions().split(HTML_LINEBREAK_REGEX);
+                        for (String commander : commanders) {
+                            tag = newTag(commander.trim(), "person", "role", RoleType.commander.name());
+                            addCombatants(tag, combatants);
+                            tags.add(tag);
                         }
                     }
-                    WikiNode casualtiesNode = infobox.findFirstAttributeWithName(child.getName().replace("combatant", "casualties"));
+
+                    final WikiNode casualtiesNode = infobox.findFirstAttributeWithName(child.getName().replace("combatant", "casualties"));
                     if (casualtiesNode != null) {
                         final String[] casualties = casualtiesNode.findAllChildTextButNotLinkDescriptions().split(HTML_LINEBREAK_REGEX);
                         for (String casualty : casualties) {
@@ -93,7 +94,11 @@ public class BattleTagFinder extends TagFinderBase {
     }
 
     public NexusTag newImpactTag(String[] combatants, Long estimate, String tagName) {
-        NexusTag tag = newTag(tagName, "impact", "estimate", estimate.toString());
+        final NexusTag tag = newTag(tagName, "impact", "estimate", estimate.toString());
+        return addCombatants(tag, combatants);
+    }
+
+    public NexusTag addCombatants(NexusTag tag, String[] combatants) {
         for (String combatant : combatants) {
             tag.setValue("world_actor", combatant.trim());
         }

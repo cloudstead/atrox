@@ -3,14 +3,26 @@ package histori.wiki;
 import cloudos.service.asset.AssetStorageService;
 import cloudos.service.asset.AssetStream;
 import com.amazonaws.util.StringInputStream;
+import histori.model.NexusTag;
+import histori.model.support.LatLon;
+import histori.model.support.NexusRequest;
+import histori.model.support.TimeRange;
+import histori.wiki.finder.DateRangeFinder;
+import histori.wiki.finder.LocationFinder;
+import histori.wiki.finder.TagFinder;
+import histori.wiki.finder.TagFinderFactory;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.security.ShaUtil;
 import org.cobbzilla.util.string.StringUtil;
+import org.geojson.Point;
+
+import java.util.List;
 
 import static histori.model.CanonicalEntity.canonicalize;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
+import static org.cobbzilla.util.string.StringUtil.urlEncode;
 
 @AllArgsConstructor @Slf4j
 public class WikiArchive {
@@ -73,5 +85,51 @@ public class WikiArchive {
                 + "/" + sha256.substring(2, 4)
                 + "/" + sha256.substring(4, 6)
                 + "/" + StringUtil.truncate(canonicalize(title), 100) + "_" + sha256 + ".json";
+    }
+
+    public NexusRequest toNexusRequest(String title) {
+        final WikiArticle article = findUnparsed(title);
+        return article == null ? null : toNexusRequest(article);
+    }
+
+    public NexusRequest toNexusRequest(WikiArticle article) {
+
+        final ParsedWikiArticle parsed = article.parse();
+        final TimeRange dateRange;
+        final LatLon coordinates;
+
+        if (article.getText().toLowerCase().startsWith("#redirect")) {
+            log.warn("toNexusRequest: "+article.getTitle()+ " is a redirect (skipping)");
+            return null;
+        }
+
+        // When was it?
+        dateRange = new DateRangeFinder().setWiki(this).setArticle(parsed).find();
+        if (dateRange == null) {
+            log.warn("toNexusRequest: "+article.getTitle()+ " had no date (skipping)");
+            return null;
+        }
+
+        // Where was it?
+        coordinates = new LocationFinder().setWiki(this).setArticle(parsed).find();
+        if (coordinates == null) {
+            log.warn("toNexusRequest: "+article.getTitle()+ " had no coordinates (skipping)");
+            return null;
+        }
+
+        NexusRequest nexusRequest = (NexusRequest) new NexusRequest()
+                .setPoint(new Point(coordinates.getLon(), coordinates.getLat()))
+                .setTimeRange(dateRange)
+                .setName(parsed.getName());
+
+        // extract additional tags
+        final TagFinder tagFinder = TagFinderFactory.build(parsed);
+        if (tagFinder != null) {
+            final List<NexusTag> tags = tagFinder.find();
+            nexusRequest.setTags(tags);
+            nexusRequest.addTag("https://en.wikipedia.org/wiki/"+urlEncode(nexusRequest.getName()), "citation");
+        }
+
+        return nexusRequest;
     }
 }

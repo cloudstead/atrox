@@ -2,8 +2,10 @@ package histori.wiki.finder;
 
 import histori.model.support.LatLon;
 import histori.wiki.ParsedWikiArticle;
+import histori.wiki.WikiArchive;
 import histori.wiki.WikiNode;
 import histori.wiki.WikiNodeType;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.math.Cardinal;
@@ -12,7 +14,7 @@ import java.util.List;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 
-@Accessors(chain=true) @Slf4j
+@NoArgsConstructor @Accessors(chain=true) @Slf4j
 public class LocationFinder extends WikiDataFinderBase<LatLon> {
 
     public static final String ATTR_COORDINATES = "coordinates";
@@ -33,6 +35,9 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
 
     public static final String BATTLE_PREFIX = "battle of ";
     public static final String BOXNAME_COORD = "Coord";
+
+    public LocationFinder(WikiArchive wiki) { super(wiki); }
+    public LocationFinder(WikiArchive wiki, ParsedWikiArticle article) { super(wiki, article); }
 
     public String getLocationNameFromTitle(ParsedWikiArticle art) {
         if (art.getName().toLowerCase().startsWith(BATTLE_PREFIX)) {

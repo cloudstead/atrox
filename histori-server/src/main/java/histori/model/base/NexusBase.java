@@ -96,7 +96,7 @@ public class NexusBase extends SocialEntity {
         if (empty(tags) || empty(name)) return false;
         final String canonical = canonicalize(name);
         for (NexusTag tag : tags) {
-            if (tag.getTagName().equals(canonical)) return true;
+            if (canonicalize(tag.getTagName()).equals(canonical)) return true;
         }
         return false;
     }
