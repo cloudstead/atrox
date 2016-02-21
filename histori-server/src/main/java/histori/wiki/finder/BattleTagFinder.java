@@ -46,14 +46,14 @@ public class BattleTagFinder extends TagFinderBase {
         for (WikiNode child : infobox.getChildren()) {
             if (child.getType() == WikiNodeType.attribute) {
                 if (child.getName().startsWith("combatant")) {
-                    final String[] combatants = child.findAllChildTextButNotLinkDescriptions().split(HTML_LINEBREAK_REGEX);
+                    final String[] combatants = parseTagNames(child);
                     for (String combatant : combatants) {
                         tags.add(newTag(combatant.trim(), "world_actor", "role", RoleType.combatant.name()));
                     }
 
                     final WikiNode commanderNode = infobox.findFirstAttributeWithName(child.getName().replace("combatant", "commander"));
                     if (commanderNode != null) {
-                        final String[] commanders = commanderNode.findAllChildTextButNotLinkDescriptions().split(HTML_LINEBREAK_REGEX);
+                        final String[] commanders = parseTagNames(commanderNode);
                         for (String commander : commanders) {
                             tag = newTag(commander.trim(), "person", "role", RoleType.commander.name());
                             addCombatants(tag, combatants);
@@ -91,6 +91,29 @@ public class BattleTagFinder extends TagFinderBase {
         }
 
         return tags;
+    }
+
+    public String[] parseTagNames(WikiNode combatantValue) {
+        final List<String> found = new ArrayList<>();
+        for (WikiNode child : combatantValue.getChildren()) {
+            switch (child.getType()) {
+                case string:
+                    for (String combatant : child.getName().split(HTML_LINEBREAK_REGEX)) {
+                        if (combatant.trim().length() > 0) found.add(combatant.trim());
+                    }
+                    break;
+                case link:
+                    if (!child.getName().toLowerCase().startsWith("file:")) {
+                        for (String combatant : child.getName().split(HTML_LINEBREAK_REGEX)) {
+                            if (combatant.trim().length() > 0) found.add(combatant.trim());
+                        }
+                    }
+                    break;
+
+                default: continue;
+            }
+        }
+        return found.toArray(new String[found.size()]);
     }
 
     public NexusTag newImpactTag(String[] combatants, Long estimate, String tagName) {

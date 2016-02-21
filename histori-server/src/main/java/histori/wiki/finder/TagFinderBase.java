@@ -11,6 +11,10 @@ public abstract class TagFinderBase implements TagFinder {
 
     public NexusTag newTag(String tagName, String tagType) {
         NexusTag tag;
+
+        // chop anything after a trailing HTML-encoded <
+        int openTagPos = tagName.indexOf("&lt;");
+        if (openTagPos != -1) tagName = tagName.substring(0, openTagPos);
         tag = new NexusTag();
         tag.setTagName(tagName);
         tag.setTagType(tagType);

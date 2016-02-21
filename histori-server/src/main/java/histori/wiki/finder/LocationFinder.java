@@ -63,7 +63,7 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
             latLon = parseTitle(art);
             if (latLon != null) return latLon;
         } catch (Exception e) {
-            log.warn("Attempt at gleaning coordinates based on a article title failed: " + e);
+            log.warn("Attempt at gleaning coordinates based on article title failed: " + e);
         }
 
         try {

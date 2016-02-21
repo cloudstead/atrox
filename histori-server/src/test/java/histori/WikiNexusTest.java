@@ -7,6 +7,7 @@ import histori.model.support.NexusRequest;
 import histori.model.support.TimeRange;
 import histori.model.tag_schema.TagSchemaValue;
 import histori.wiki.WikiArchive;
+import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.math.Cardinal;
 import org.geojson.Point;
 import org.junit.Test;
@@ -18,6 +19,7 @@ import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+@Slf4j
 public class WikiNexusTest {
 
     private WikiArchive wiki = new WikiArchive(new ResourceStorageService("wiki/index"));
@@ -43,20 +45,38 @@ public class WikiNexusTest {
                     .tag("person", "Cleopatra VII", "role", "commander", "world_actor", "Octavian's Roman and allied supporters and forces", "world_actor", "Ptolemaic Egypt")
                     .tag("impact", "dead", "estimate" , "5000", "world_actor", "Octavian's Roman and allied supporters and forces", "world_actor", "Ptolemaic Egypt")
                     .tag("impact", "ships sunk or captured", "estimate" , "200", "world_actor", "Octavian's Roman and allied supporters and forces", "world_actor", "Ptolemaic Egypt")
-                    .tag("citation", "https://en.wikipedia.org/wiki/Battle+of+Actium")
-            
+                    .tag("citation", "https://en.wikipedia.org/wiki/Battle+of+Actium"),
+
+            // Test case: a more obscure battle, we must lookup another wiki page to determine the location
+            new TestPage("Battle of Purandar")
+                    .location(new LatLon(18.0, 17.0, null, Cardinal.north, 73.0, 59.0, null, Cardinal.east))
+                    .range("1665")
+                    .tag("event_type", "battle")
+                    .tag("event", "Imperial Maratha Conquests", "relationship", "part_of")
+                    .tag("result", "Mughal Victory. Shivaji surrenders.")
+                    .tag("world_actor", "Maratha Empire", "role", "combatant")
+                    .tag("person", "Shivaji", "role", "commander", "world_actor", "Maratha Empire")
+                    .tag("person", "Murarbaji Deshpande", "role", "commander", "world_actor", "Maratha Empire")
+                    .tag("world_actor", "Mughal Empire", "role", "combatant")
+                    .tag("person", "Dilir Khan", "role", "commander", "world_actor", "Mughal Empire")
+                    .tag("person", "Mirza Jai Singh", "role", "commander", "world_actor", "Mughal Empire")
+                    .tag("citation", "https://en.wikipedia.org/wiki/Battle+of+Purandar")
     };
 
-    @Test public void testActium () throws Exception {
+    @Test public void testNexusCreationFromWiki() throws Exception {
         for (TestPage test : TESTS) {
-            final NexusRequest nexusRequest = wiki.toNexusRequest(test.title);
-            assertEquals(test.getGeoJson(), nexusRequest.getGeoJson());
-            assertEquals(test.range, nexusRequest.getTimeRange());
-            assertEquals(test.tags.size(), nexusRequest.getTagCount());
-            for (NexusTag tag : test.tags) {
-                assertTrue("missing tag: "+tag.getTagName(), nexusRequest.hasTag(tag.getTagName()));
-                assertTrue("tag doesn't match: "+tag.getTagName(), isSameTag(tag, nexusRequest.getTag(tag.getTagName())));
-            }
+            validateCorrectNexus(test);
+        }
+    }
+
+    public void validateCorrectNexus(TestPage test) {
+        final NexusRequest nexusRequest = wiki.toNexusRequest(test.title);
+        assertEquals(test.getGeoJson(), nexusRequest.getGeoJson());
+        assertEquals(test.range, nexusRequest.getTimeRange());
+        assertEquals(test.tags.size(), nexusRequest.getTagCount());
+        for (NexusTag tag : test.tags) {
+            assertTrue("missing tag: "+tag.getTagName(), nexusRequest.hasTag(tag.getTagName()));
+            assertTrue("tag doesn't match: "+tag.getTagName(), isSameTag(tag, nexusRequest.getTag(tag.getTagName())));
         }
     }
 
