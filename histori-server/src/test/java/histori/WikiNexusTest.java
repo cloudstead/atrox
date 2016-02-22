@@ -19,6 +19,7 @@ import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
 import static org.cobbzilla.util.math.Cardinal.east;
 import static org.cobbzilla.util.math.Cardinal.north;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @Slf4j
@@ -79,10 +80,26 @@ public class WikiNexusTest {
                     .tag("world_actor", "Poland", "role", "combatant")
                     .tag("person", "Piotr Dunin", "role", "commander", "world_actor", "Poland")
                     .tag("impact", "dead", "estimate", "250", "world_actor", "Poland")
-                    .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_%C5%9Awiecino")
+                    .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_%C5%9Awiecino"),
+
+            // Another big battle with lots of data to extract and a very large document (>100KB)
+            // Also a very complex infobox of combatants and commanders
+            new TestPage("Battle of the Bulge")
+                    .location(50, 15, north, 5, 40, east)
+                    .range("1944-12-16", "1945-01-25")
+                    .tag("event_type", "battle")
+                    .tag("event", "World War II", "relationship", "part_of")
+                    .tag("result", "Allied victory, German operational failure")
+                    .tag("world_actor", "United States", "role", "combatant")
+                    .tag("world_actor", "United Kingdom", "role", "combatant")
+                    .tag("world_actor", "Provisional Government of the French Republic", "role", "combatant")
+                    .tag("world_actor", "Belgium", "role", "combatant")
+                    .tag("world_actor", "Luxembourg Resistance", "role", "combatant")
+                    .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_the_Bulge"),
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
+        validateCorrectNexus(TESTS[TESTS.length-1]);
         for (TestPage test : TESTS) {
             validateCorrectNexus(test);
         }
@@ -90,6 +107,7 @@ public class WikiNexusTest {
 
     public void validateCorrectNexus(TestPage test) {
         final NexusRequest nexusRequest = wiki.toNexusRequest(test.title);
+        assertNotNull("error parsing article: "+test.title, nexusRequest);
         assertEquals(test.getGeoJson(), nexusRequest.getGeoJson());
         assertEquals(test.range, nexusRequest.getTimeRange());
         assertEquals(test.tags.size(), nexusRequest.getTagCount());
@@ -141,6 +159,7 @@ public class WikiNexusTest {
 
         public TimeRange range;
         public TestPage range(String date) { this.range = new TimeRange(date); return this; }
+        public TestPage range(String start, String end) { this.range = new TimeRange(start, end); return this; }
 
         public List<NexusTag> tags = new ArrayList<>();
         public TestPage tag(String tagType, String tagName) {

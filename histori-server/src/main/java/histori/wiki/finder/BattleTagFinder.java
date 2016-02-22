@@ -7,8 +7,7 @@ import histori.wiki.WikiNode;
 import histori.wiki.WikiNodeType;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +39,8 @@ public class BattleTagFinder extends TagFinderBase {
         }
 
         if (infobox.hasChildNamed("result")) {
-            tags.add(newTag(infobox.findFirstAttributeValueWithName("result"), "result"));
+            final String result = trimToFirstLine(infobox.findFirstAttributeValueWithName("result"));
+            tags.add(newTag(result, "result"));
         }
 
         for (WikiNode child : infobox.getChildren()) {
@@ -101,10 +101,22 @@ public class BattleTagFinder extends TagFinderBase {
         return tags;
     }
 
-    public String[] parseTagNames(WikiNode combatantValue) {
-        final List<String> found = new ArrayList<>();
+    public String trimToFirstLine(String result) {
+        int pos = result.indexOf("\n");
+        if (pos != -1) result = result.substring(0, pos);
+        pos = result.toLowerCase().indexOf("<br>");
+        if (pos != -1) result = result.substring(0, pos);
+        pos = result.toLowerCase().indexOf("&lt;br&gt;");
+        if (pos != -1) result = result.substring(0, pos);
+        pos = result.toLowerCase().indexOf("&lt;br/&gt;");
+        if (pos != -1) result = result.substring(0, pos);
+        return result;
+    }
+
+    public String[] parseTagNames(WikiNode targetNode) {
+        final Set<String> found = new LinkedHashSet<>();
         boolean skippingComment = false;
-        for (WikiNode child : combatantValue.getChildren()) {
+        for (WikiNode child : targetNode.getChildren()) {
             switch (child.getType()) {
                 case string:
                     // detect and skip HTML comments
@@ -127,6 +139,16 @@ public class BattleTagFinder extends TagFinderBase {
                         }
                     }
                     break;
+                case infobox:
+                    if (child.getName().equalsIgnoreCase("plainlist")) {
+                        for (WikiNode nestedChild : child.getChildren()) {
+                            if (nestedChild.getName().equals("flag")) continue;
+                            found.add(nestedChild.getName().trim());
+                            break;
+                        }
+                    } else if (child.getName().equalsIgnoreCase("flag") && child.hasChildren()) {
+                        found.add(child.getChildren().get(0).getName().trim());
+                    }
 
                 default: continue;
             }

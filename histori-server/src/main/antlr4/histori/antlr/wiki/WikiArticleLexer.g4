@@ -1,28 +1,39 @@
 lexer grammar WikiArticleLexer;
 
 // default mode: everything outside of an infobox
+START_PLAINLIST: StartPlainlist -> pushMode(IN_PLAINLIST) ;
 START_INFOBOX : StartInfoBox -> pushMode(IN_INFOBOX) ;
-END_INFOBOX : WS* '}}' WS* ;
+END_INFOBOX : EndInfoBox ;
 START_LINK : StartLink -> pushMode(IN_LINK) ;
 MARKUP : (~('{' | '[' | ']'))+ ;
+SL_MARKUP : (~('{' | '[' | ']' | '\n'))+ ;
+
+mode IN_PLAINLIST;
+NEWLINE : '\n' ;
+PL_INFOBOX : StartInfoBox -> pushMode(IN_INFOBOX), type(START_INFOBOX) ;
+PL_LINK : StartLink -> pushMode(IN_LINK), type(START_LINK) ;
+PL_MARKUP : (~'\n')+ -> type(MARKUP) ;
+END_PLAINLIST : EndPlainlist -> popMode ;
 
 mode IN_INFOBOX;
 INFOBOX_NAME : InfoBoxName ;
 INFOBOX_ATTRS : AttrSep -> pushMode(IN_ATTRS), type(ATTR_SEP) ;
 INFOBOX_LINK : StartLink -> pushMode(IN_LINK), type(START_LINK) ;
-END_IN_INFOBOX : WS* '}}' WS* -> popMode, type(END_INFOBOX) ;
+END_IN_INFOBOX : EndInfoBox -> popMode, type(END_INFOBOX) ;
 
 mode IN_ATTRS;
+ATTR_PLAINLIST: StartPlainlist -> pushMode(IN_PLAINLIST) ;
 ATTR_SEP : AttrSep ;
 //ATTR_EQ : {has_attr_values=true} WS* '=' WS* -> pushMode(IN_ATTR_VALUE);
 ATTR_EQ : WS* '=' WS* -> pushMode(IN_ATTR_VALUE);
-ATTR_NAME : NameChar (NameChar|':'|WS)* ;
+ATTR_NAME : NameChar (NameChar|','|':'|WS)* ;
 ATTR_LINK : StartLink -> pushMode(IN_LINK), type(START_LINK);
-END_ATTRS : WS* '}}' -> skip, popMode, popMode, type(END_INFOBOX) ;
+END_ATTRS : EndInfoBox -> skip, popMode, popMode, type(END_INFOBOX) ;
 
 mode IN_ATTR_VALUE;
+ATTR_VALUE_PLAINLIST: StartPlainlist -> pushMode(IN_PLAINLIST), type(START_PLAINLIST) ;
 ATTR_VALUE_END : AttrSep -> skip, popMode ;
-END_ALL_ATTRS : WS* '}}' -> popMode, popMode, popMode, type(END_INFOBOX) ;
+END_ALL_ATTRS : EndInfoBox -> popMode, popMode, popMode, type(END_INFOBOX) ;
 ATTR_BODY : AttrValueChar+ ;
 NEST_INFOBOX :  StartInfoBox -> pushMode(IN_INFOBOX), type(START_INFOBOX);
 ATTR_VALUE_LINK : StartLink -> pushMode(IN_LINK), type(START_LINK) ;
@@ -37,15 +48,23 @@ Directive : [A-Z]+ ;
 
 InfoBoxName : (Directive ':')? Name ;
 
-fragment AttrSep : WS* '|' WS* ;
+fragment AttrSep : WS* ('|' | '\'') WS* ;
 
 fragment StartInfoBox : '{{' WS* ;
+
+fragment EndInfoBox : WS* '}}' WS* ;
 
 fragment StartLink : '[' '['? WS* ;
 
 fragment Name : NameStartChar (NameChar|WS)* ;
 
 fragment AttrValueChar : NameChar | '\\' | ~[|\[\]{}] | WS ;
+
+fragment Plainlist : ('P'|'p')('L'|'l')('A'|'a')('I'|'i')('N'|'n')('L'|'l')('I'|'i')('S'|'s')('T'|'t') ;
+fragment EndPl : ('E'|'e')('N'|'n')('D'|'d') Plainlist ;
+
+fragment StartPlainlist : (StartInfoBox Plainlist WS* '|') | (StartInfoBox Plainlist '}}');
+fragment EndPlainlist : (StartInfoBox EndPl)? EndInfoBox;
 
 fragment NameChar
    : NameStartChar

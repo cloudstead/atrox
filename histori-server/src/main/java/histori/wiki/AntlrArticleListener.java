@@ -5,6 +5,7 @@ import histori.antlr.wiki.WikiArticleParserBaseListener;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +27,19 @@ public class AntlrArticleListener extends WikiArticleParserBaseListener {
     }
     public String text(ParserRuleContext ctx) { return ctx.getText().trim(); }
 
-    @Override public void exitInfobox(WikiArticleParser.InfoboxContext ctx) { pop(); }
-
-    @Override public void exitAttr(WikiArticleParser.AttrContext ctx) { pop(); }
-    @Override public void exitLink(WikiArticleParser.LinkContext ctx) { pop(); }
-    @Override public void enterAttrName(WikiArticleParser.AttrNameContext ctx) {
-        final WikiNode node = new WikiNode(WikiNodeType.attribute, text(ctx));
+    @Override public void enterPlainlist(WikiArticleParser.PlainlistContext ctx) {
+        final WikiNode node = new WikiNode(WikiNodeType.plainlist, text(ctx));
+        if (!stack.isEmpty()) stack.peek().addNode(node);
         stack.push(node);
+    }
+
+    @Override public void exitPlainlist(@NotNull WikiArticleParser.PlainlistContext ctx) { pop(); }
+
+    @Override public void enterPlainlistEntry(WikiArticleParser.PlainlistEntryContext ctx) {
+        // todo - we could categorize the entry has "regular", "header" or "header-item"
+        // depending if the first non-whitespace char is '*' ';' or ':' respectively
+        final WikiNode node = new WikiNode(WikiNodeType.plainlist_entry, text(ctx));
+        if (!stack.isEmpty()) stack.peek().addNode(node);
     }
 
     @Override public void enterInfoboxName(WikiArticleParser.InfoboxNameContext ctx) {
@@ -40,10 +47,18 @@ public class AntlrArticleListener extends WikiArticleParserBaseListener {
         if (!stack.isEmpty()) stack.peek().addNode(node);
         stack.push(node);
     }
+    @Override public void exitInfobox(WikiArticleParser.InfoboxContext ctx) { pop(); }
+
+    @Override public void enterAttrName(WikiArticleParser.AttrNameContext ctx) {
+        final WikiNode node = new WikiNode(WikiNodeType.attribute, text(ctx));
+        stack.push(node);
+    }
 
     @Override public void enterAttrText(WikiArticleParser.AttrTextContext ctx) {
         stack.peek().addNode(new WikiNode(WikiNodeType.string, text(ctx)));
     }
+
+    @Override public void exitAttr(WikiArticleParser.AttrContext ctx) { pop(); }
 
     @Override public void enterLinkTarget(WikiArticleParser.LinkTargetContext ctx) {
         final WikiNode node = new WikiNode(WikiNodeType.link, text(ctx));
@@ -54,6 +69,8 @@ public class AntlrArticleListener extends WikiArticleParserBaseListener {
         final WikiNode node = new WikiNode(WikiNodeType.string, text(ctx));
         stack.peek().addNode(node);
     }
+
+    @Override public void exitLink(WikiArticleParser.LinkContext ctx) { pop(); }
 
     @Override public void enterFreeform(WikiArticleParser.FreeformContext ctx) {
         final WikiNode node = new WikiNode(WikiNodeType.string, text(ctx));

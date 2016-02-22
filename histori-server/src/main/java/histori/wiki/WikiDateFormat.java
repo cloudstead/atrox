@@ -72,13 +72,17 @@ public class WikiDateFormat {
 
     public static final String SPACE = "\\s+";
     public static final String ANY_SPACES = "\\s*";
+    public static final String HYPHEN = "[-–]";
 
     public static final Object[][] RANGE_PATTERNS = {{
-            Pattern.compile(MATCH_DAY + ANY_SPACES + "[-–]" + ANY_SPACES + MATCH_DAY + SPACE + MATCH_MONTH + ",?" + SPACE + MATCH_YEAR),
+            Pattern.compile(MATCH_DAY + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + SPACE + MATCH_MONTH + ",?" + SPACE + MATCH_YEAR),
             "startDay", "endDay", "startMonth", "startYear"
     }, {
-            Pattern.compile(MATCH_MONTH + SPACE + MATCH_DAY + ANY_SPACES + "[-–]" + ANY_SPACES + MATCH_DAY + ",?" + SPACE + MATCH_YEAR),
+            Pattern.compile(MATCH_MONTH + SPACE + MATCH_DAY + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + ",?" + SPACE + MATCH_YEAR),
             "startMonth", "startDay", "endDay", "startYear"
+    }, {
+            Pattern.compile(MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR),
+            "startDay", "startMonth", "startYear", "endDay", "endMonth", "endYear"
     }, {
             Pattern.compile(MATCH_MONTH + ANY_SPACES + "or" + ANY_SPACES + MATCH_MONTH + "?," + ANY_SPACES + MATCH_YEAR),
             "startMonth", null, "startYear"

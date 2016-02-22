@@ -13,6 +13,7 @@ import org.cobbzilla.util.math.Cardinal;
 import java.util.List;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
+import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 
 @NoArgsConstructor @Accessors(chain=true) @Slf4j
 public class LocationFinder extends WikiDataFinderBase<LatLon> {
@@ -22,14 +23,14 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
     public static final String ATTR_LATITUDE = "latitude";
     public static final String ATTR_LONGITUDE = "longitude";
 
-    public static final String ATTR_LATD = "latd";
-    public static final String ATTR_LATM = "latm";
-    public static final String ATTR_LATS = "lats";
-    public static final String ATTR_LATNS = "latNS";
-    public static final String ATTR_LONGD = "longd";
-    public static final String ATTR_LONGM = "longm";
-    public static final String ATTR_LONGS = "longs";
-    public static final String ATTR_LONGEW = "longEW";
+    public static final String ATTR_LATD = "lat_d";
+    public static final String ATTR_LATM = "lat_m";
+    public static final String ATTR_LATS = "lat_s";
+    public static final String ATTR_LATNS = "lat_NS";
+    public static final String ATTR_LONGD = "long_d";
+    public static final String ATTR_LONGM = "long_m";
+    public static final String ATTR_LONGS = "long_s";
+    public static final String ATTR_LONGEW = "long_EW";
 
     public static final String ATTR_PLACE = "place";
 
@@ -253,8 +254,14 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
 
     private double parseCoordinate(WikiNode deg, WikiNode min, WikiNode sec, WikiNode card) {
         double latDeg = Double.parseDouble(deg.findAllChildText());
-        if (min != null) latDeg += Double.parseDouble(min.findAllChildText())/60.0;
-        if (sec != null) latDeg += Double.parseDouble(sec.findAllChildText())/3600.0;
+        if (min != null) {
+            String val = min.findAllChildText();
+            if (!empty(val)) latDeg += Double.parseDouble(val)/60.0;
+        }
+        if (sec != null) {
+            String val = sec.findAllChildText();
+            if (!empty(val)) latDeg += Double.parseDouble(val)/3600.0;
+        }
         if (card != null) latDeg *= (double) Cardinal.create(card.findAllChildText()).getDirection();
         return latDeg;
     }
