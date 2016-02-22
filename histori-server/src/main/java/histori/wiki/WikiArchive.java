@@ -127,9 +127,12 @@ public class WikiArchive {
         if (tagFinder != null) {
             final List<NexusTag> tags = tagFinder.find();
             nexusRequest.setTags(tags);
-            nexusRequest.addTag("https://en.wikipedia.org/wiki/"+urlEncode(nexusRequest.getName()), "citation");
+            nexusRequest.addTag("https://en.wikipedia.org/wiki/"+encodeTitleForUrl(nexusRequest.getName()), "citation");
         }
 
         return nexusRequest;
     }
+
+    public static String encodeTitleForUrl(String title) { return urlEncode(title.replace(" ", "_")); }
+
 }

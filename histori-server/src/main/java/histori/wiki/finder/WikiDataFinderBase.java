@@ -19,6 +19,8 @@ public abstract class WikiDataFinderBase<T> implements WikiDataFinder<T> {
 
     public static boolean isIgnoredInfobox(WikiNode box) {
         final String name = box.getName();
-        return name.equalsIgnoreCase(INFOBOX_REFIMPROVE) || name.equalsIgnoreCase(INFOBOX_COPYPASTE);
+        return name.equalsIgnoreCase(INFOBOX_REFIMPROVE)
+                || name.equalsIgnoreCase(INFOBOX_COPYPASTE)
+                || name.equalsIgnoreCase(INFOBOX_NO_FOOTNOTES);
     }
 }

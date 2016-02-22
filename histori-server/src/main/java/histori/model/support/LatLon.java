@@ -22,6 +22,12 @@ public class LatLon {
         setLon(Double.parseDouble(coordinate.substring(commaPos+1).trim()));
     }
 
+    public LatLon(int latDeg, Integer latMin, Integer latSec, Cardinal latCardinal,
+                  int lonDeg, Integer lonMin, Integer lonSec, Cardinal lonCardinal) {
+        this((double) latDeg, latMin == null ? null : latMin.doubleValue(), latSec == null ? null : latSec.doubleValue(), latCardinal,
+             (double) lonDeg, lonMin == null ? null : lonMin.doubleValue(), lonSec == null ? null : lonSec.doubleValue(), lonCardinal);
+    }
+
     public LatLon(double latDeg, Double latMin, Double latSec, Cardinal latCardinal,
                   double lonDeg, Double lonMin, Double lonSec, Cardinal lonCardinal) {
         this.lat = latDeg;

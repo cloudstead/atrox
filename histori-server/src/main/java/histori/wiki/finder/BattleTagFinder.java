@@ -55,9 +55,11 @@ public class BattleTagFinder extends TagFinderBase {
                     if (commanderNode != null) {
                         final String[] commanders = parseTagNames(commanderNode);
                         for (String commander : commanders) {
-                            tag = newTag(commander.trim(), "person", "role", RoleType.commander.name());
-                            addCombatants(tag, combatants);
-                            tags.add(tag);
+                            if (trimName(commander).length() > 0) {
+                                tag = newTag(commander.trim(), "person", "role", RoleType.commander.name());
+                                addCombatants(tag, combatants);
+                                tags.add(tag);
+                            }
                         }
                     }
 
@@ -83,6 +85,12 @@ public class BattleTagFinder extends TagFinderBase {
 
                             } else if (casualty.toLowerCase().contains("casualties")) {
                                 tags.add(newImpactTag(combatants, estimate, "casualties"));
+
+                            } else if (casualty.toLowerCase().contains("captured")) {
+                                tags.add(newImpactTag(combatants, estimate, "captured"));
+
+                            } else {
+                                tags.add(newImpactTag(combatants, estimate, "dead"));
                             }
                         }
                     }
@@ -95,17 +103,27 @@ public class BattleTagFinder extends TagFinderBase {
 
     public String[] parseTagNames(WikiNode combatantValue) {
         final List<String> found = new ArrayList<>();
+        boolean skippingComment = false;
         for (WikiNode child : combatantValue.getChildren()) {
             switch (child.getType()) {
                 case string:
+                    // detect and skip HTML comments
+                    if (child.getName().trim().startsWith("&lt;!--")) {
+                        skippingComment = true; continue;
+                    }
+                    if (child.getName().trim().endsWith("--&gt;")) {
+                        skippingComment = false; continue;
+                    }
+                    if (skippingComment) continue;
                     for (String combatant : child.getName().split(HTML_LINEBREAK_REGEX)) {
-                        if (combatant.trim().length() > 0) found.add(combatant.trim());
+                        if (trimName(combatant).length() > 0) found.add(combatant.trim());
                     }
                     break;
                 case link:
-                    if (!child.getName().toLowerCase().startsWith("file:")) {
+                    String name = child.getName().toLowerCase().trim();
+                    if (!name.startsWith("file:") && !name.startsWith("image:")) {
                         for (String combatant : child.getName().split(HTML_LINEBREAK_REGEX)) {
-                            if (combatant.trim().length() > 0) found.add(combatant.trim());
+                            if (trimName(combatant).length() > 0) found.add(combatant.trim());
                         }
                     }
                     break;
@@ -114,6 +132,10 @@ public class BattleTagFinder extends TagFinderBase {
             }
         }
         return found.toArray(new String[found.size()]);
+    }
+
+    private String trimName(String combatant) {
+        return combatant.replaceAll("\\W", "").toLowerCase().trim();
     }
 
     public NexusTag newImpactTag(String[] combatants, Long estimate, String tagName) {

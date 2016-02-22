@@ -184,10 +184,16 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
         final Double latMin, latSec, lonMin, lonSec;
         final Cardinal lonCardinal;
         int lonStartIndex;
-        String val2, val3;
+        String val1, val2, val3;
 
-        final double latDeg = Double.valueOf(coordNumbers.get(0).findAllText());
+        val1 = coordNumbers.get(0).findAllText();
         val2 = coordNumbers.get(1).findAllText();
+
+        final double latDeg = Double.valueOf(val1);
+        if (val1.contains(".") && val2.contains(".")) {
+            return new LatLon(latDeg, Double.valueOf(val2));
+        }
+
         if (Cardinal.isCardinal(val2)) {
             latCardinal = Cardinal.create(val2);
             latMin = latSec = null;
