@@ -9,7 +9,10 @@ import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.math.Cardinal;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
@@ -139,7 +142,7 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
 
     private LatLon parseCoordinates(ParsedWikiArticle art) {
         for (WikiNode box : art.getInfoboxes()) {
-            if (isIgnoredInfobox(box)) continue;
+            if (!isCoordinateInfoboxCandidate(box.getName())) continue;
 
             if (box.getName().equalsIgnoreCase(BOXNAME_COORD)) {
                 try {
@@ -174,6 +177,15 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
             }
         }
         return die("parseCoordinates: not found");
+    }
+
+    private final Set<String> COORD_BOX_CANDIDATES = new HashSet<>(Arrays.asList(
+            normalizeInfoboxName("Infobox military conflict"),
+            normalizeInfoboxName("Infobox protected area"),
+            normalizeInfoboxName("Coord")
+    ));
+    private boolean isCoordinateInfoboxCandidate(String name) {
+        return COORD_BOX_CANDIDATES.contains(normalizeInfoboxName(name));
     }
 
     private LatLon parseCoordinates (WikiNode coordsAttr) throws Exception {

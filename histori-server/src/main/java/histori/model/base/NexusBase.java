@@ -122,7 +122,7 @@ public class NexusBase extends SocialEntity {
                 if (match.hasSchemaValues()) continue;
                 return true;
             }
-            if (!match.hasSchemaValues()) continue;;
+            if (!match.hasSchemaValues()) continue;
 
             if (!tag.getSchemaValueMap().equals(match.getSchemaValueMap())) continue;
 

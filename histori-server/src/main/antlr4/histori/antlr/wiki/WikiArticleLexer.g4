@@ -65,9 +65,9 @@ fragment StartLink : '[' '['? WS* ;
 fragment StartWikiTable : '{|' ;
 fragment EndWikiTable : '|}' ;
 
-fragment Name : NameStartChar (NameChar|'?'|'-'|WS)* ;
+fragment Name : NameStartChar (NameChar|'?'|'-'|'('|')'|'–'|'+'|','|WS)* ;
 
-fragment AttrNameChar : NameChar | ' ' | '/' | '<' | '>' | ',' | ':' | '-' | '–' | '°' | '(' | ')' | '"' | '&' | '!' | '—' | '%' | '#' | '?';
+fragment AttrNameChar : NameChar | ' ' | '/' | '<' | '>' | ',' | ':' | '-' | '–' | '°' | '(' | ')' | '"' | '&' | '!' | '—' | '%' | '#' | '+' | '?';
 
 fragment AttrValueChar : AttrNameChar | '\\' | ~[|\[\]{}] | WS ;
 

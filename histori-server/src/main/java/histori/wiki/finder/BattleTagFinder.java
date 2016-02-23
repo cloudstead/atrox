@@ -48,7 +48,7 @@ public class BattleTagFinder extends TagFinderBase {
         }
 
         if (infobox.hasChildNamed("result")) {
-            final String result = trimToFirstLine(infobox.findFirstAttributeValueWithName("result"));
+            final String result = trimToFirstLine(infobox.findFirstAttributeWithName("result").findAllChildTextButNotLinkDescriptions());
             tags.add(newTag(result, "result"));
         }
 
@@ -104,7 +104,7 @@ public class BattleTagFinder extends TagFinderBase {
                                         }
                                         for (WikiNode refAttr : ref.getChildren()) {
                                             String refName = refAttr.getName();
-                                            if (extractEstimate(refName) != null && getCasualtyType(refName, null) != null) {
+                                            if (isValidCasualty(refName)) {
                                                 final NexusTag impactTag = impactTag(activeFlag, refName);
                                                 if (impactTag != null) tags.add(impactTag);
                                             }
@@ -126,8 +126,11 @@ public class BattleTagFinder extends TagFinderBase {
                             }
                         } else {
                             final String[] casualties = casualtiesNode.findAllChildTextButNotLinkDescriptions().split(HTML_TAG_REGEX);
+                            int validCasualties = 0;
+                            for (String casualty : casualties) if (isValidCasualty(casualty)) validCasualties++;
+                            final String defaultCasualtyType = validCasualties <= 1 ? "dead" : "casualties";
                             for (String casualty : casualties) {
-                                final NexusTag impactTag = impactTag(combatants, casualty);
+                                final NexusTag impactTag = impactTag(combatants, casualty, getCasualtyType(casualty, defaultCasualtyType));
                                 if (impactTag != null) tags.add(impactTag);
                             }
                         }
@@ -142,9 +145,14 @@ public class BattleTagFinder extends TagFinderBase {
     private boolean hasCasualties(WikiNode ref) {
         if (!ref.hasChildren()) return false;
         for (WikiNode child : ref.getChildren()) {
-            if (extractEstimate(child.getName()) != null && getCasualtyType(child.getName(), null) != null) return true;
+            final String casualty = child.getName();
+            if (isValidCasualty(casualty)) return true;
         }
         return false;
+    }
+
+    private boolean isValidCasualty(String casualty) {
+        return extractEstimate(casualty) != null && getCasualtyType(casualty, null) != null;
     }
 
     public NexusTag impactTag(String activeFlag, String casualty) {
@@ -162,23 +170,29 @@ public class BattleTagFinder extends TagFinderBase {
         return newImpactTag(activeFlags, estimate, getCasualtyType(casualty));
     }
 
+    public NexusTag impactTag(String[] activeFlags, String casualty, String casualtyType) {
+        final Long[] estimate = extractEstimate(casualty);
+        if (estimate == null) return null;
+        return newImpactTag(activeFlags, estimate, casualtyType);
+    }
+
     private String getCasualtyType(String casualty) { return getCasualtyType(casualty, "dead"); }
 
     private String getCasualtyType(String casualty, String defaultValue) {
-        final String c = casualty.toLowerCase();
+        final String c = casualty.toLowerCase().trim();
         if (c.contains("killed") || c.contains("dead")) return "dead";
         if (c.contains("wounded") || c.contains("injured")) return "wounded";
-        if (c.contains("ships sunk or captured")) return "ships sunk or captured";
+        if (c.contains("ships sunk or captured") || c.contains("ships captured or sunk")) return "ships sunk or captured";
         if (c.contains("ships sunk")) return "ships sunk";
         if (c.contains("ships captured")) return "ships captured";
         if (c.contains("aircraft lost")) return "aircraft lost";
-        if (c.contains("captured or missing")) return "captured or missing";
+        if (c.contains("captured or missing") || c.contains("missing or captured")) return "captured or missing";
         if (c.contains("captured")) return "captured";
         if (c.contains("missing")) return "missing";
-        if (c.contains("tanks and assault guns destroyed")) return "tanks/assault guns destroyed";
+        if (c.contains("tanks and assault guns destroyed") || c.contains("assault guns and tanks destroyed")) return "tanks/assault guns destroyed";
         if (c.contains("tanks destroyed")) return "tanks destroyed";
         if (c.contains("assault guns destroyed")) return "assault guns destroyed";
-        if (c.contains("casualties")) return "casualties";
+        if (c.contains("casualties") || c.endsWith("total")) return "casualties";
         return defaultValue;
     }
 
@@ -200,11 +214,9 @@ public class BattleTagFinder extends TagFinderBase {
     public String trimToFirstLine(String result) {
         int pos = result.indexOf("\n");
         if (pos != -1) result = result.substring(0, pos);
-        pos = result.toLowerCase().indexOf("<br>");
+        pos = result.toLowerCase().indexOf("<");
         if (pos != -1) result = result.substring(0, pos);
-        pos = result.toLowerCase().indexOf("&lt;br&gt;");
-        if (pos != -1) result = result.substring(0, pos);
-        pos = result.toLowerCase().indexOf("&lt;br/&gt;");
+        pos = result.toLowerCase().indexOf("&lt;");
         if (pos != -1) result = result.substring(0, pos);
         return result;
     }
@@ -356,7 +368,7 @@ public class BattleTagFinder extends TagFinderBase {
     }
 
     public NexusTag newImpactTag(String[] combatants, Long[] estimate, String tagName) {
-        if (estimate == null || estimate.length == 0) return null; // todo: log this?
+        if (estimate == null || estimate.length == 0 || tagName == null) return null; // todo: log this?
         final NexusTag tag;
         switch (estimate.length) {
             case 1:

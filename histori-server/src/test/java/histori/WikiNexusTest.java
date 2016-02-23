@@ -142,10 +142,31 @@ public class WikiNexusTest {
                     .range("-1274-05")
                     .tag("event_type", "battle")
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Kadesh"),
+
+            // Uses {{start date}} info block for date, complex casualties stats
+            new TestPage("Battle of the Crater", false)
+                    .location(37.2183, -77.3777)
+                    .range("1864-07-30")
+                    .tag("event_type", "battle")
+                    .tag("event", "American Civil War", "relationship", "part_of")
+                    .tag("result", "Confederate States of America victory")
+                    .tag("world_actor", "United States", "role", "combatant")
+                    .tag("world_actor", "Union (American Civil War)", "role", "combatant")
+                    .tag("impact", "casualties", "estimate", "3798", "world_actor", "United States", "world_actor", "Union (American Civil War)")
+                    .tag("impact", "dead", "estimate", "504", "world_actor", "United States", "world_actor", "Union (American Civil War)")
+                    .tag("impact", "wounded", "estimate", "1881", "world_actor", "United States", "world_actor", "Union (American Civil War)")
+                    .tag("impact", "captured or missing", "estimate", "1413", "world_actor", "United States", "world_actor", "Union (American Civil War)")
+                    .tag("world_actor", "Confederate States of America", "role", "combatant")
+                    .tag("impact", "casualties", "estimate", "1491", "world_actor", "Confederate States of America")
+                    .tag("impact", "dead", "estimate", "361", "world_actor", "Confederate States of America")
+                    .tag("impact", "wounded", "estimate", "727", "world_actor", "Confederate States of America")
+                    .tag("impact", "captured or missing", "estimate", "403", "world_actor", "Confederate States of America")
+                    .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_the_Crater"),
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
 //        validateCorrectNexus(TESTS[TESTS.length-1]);
+//        validateCorrectNexus(TESTS[2]);
         for (TestPage test : TESTS) {
             validateCorrectNexus(test);
         }
@@ -156,7 +177,7 @@ public class WikiNexusTest {
         assertNotNull("error parsing article: "+test.title, nexusRequest);
         assertEquals(test.getGeoJson(), nexusRequest.getGeoJson());
         assertEquals(test.range, nexusRequest.getTimeRange());
-        if (test.fullCheck) assertEquals(test.tags.size(), nexusRequest.getTagCount());
+        if (test.fullCheck) assertEquals("wrong # of tags for "+test.title, test.tags.size(), nexusRequest.getTagCount());
         for (NexusTag tag : test.tags) {
             assertTrue("missing tag: "+tag.getTagType()+"/"+tag.getTagName(), nexusRequest.hasTag(tag.getTagName()));
             assertTrue("tag doesn't match: "+tag.getTagName(), nexusRequest.hasExactTag(tag));
