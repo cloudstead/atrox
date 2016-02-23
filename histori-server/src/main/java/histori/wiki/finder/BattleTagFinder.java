@@ -179,11 +179,16 @@ public class BattleTagFinder extends TagFinderBase {
     private String getCasualtyType(String casualty) { return getCasualtyType(casualty, "dead"); }
 
     private String getCasualtyType(String casualty, String defaultValue) {
+
+        int ltPos = casualty.indexOf("&lt;");
+        if (ltPos != -1) casualty = casualty.substring(0, ltPos);
+
         final String c = casualty.toLowerCase().trim();
         if (c.contains("killed and wounded") || c.contains("wounded and killed")) return "dead and wounded";
         if (c.contains("dead and wounded") || c.contains("wounded and dead")) return "dead and wounded";
         if (c.contains("killed") || c.contains("dead")) return "dead";
         if (c.contains("wounded") || c.contains("injured")) return "wounded";
+        if (c.contains("deserted")) return "deserted";
         if (c.contains("ships sunk or captured") || c.contains("ships captured or sunk")) return "ships sunk or captured";
         if (c.contains("ships sunk")) return "ships sunk";
         if (c.contains("ships captured")) return "ships captured";

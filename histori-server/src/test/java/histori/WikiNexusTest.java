@@ -200,6 +200,13 @@ public class WikiNexusTest {
                     .tag("impact", "dead and wounded", "estimate", "700", "world_actor", "France", "world_actor", "First French Empire", "world_actor", "Switzerland", "world_actor", "Swiss Confederation (Napoleonic)")
                     .tag("impact", "guns captured", "estimate", "3", "world_actor", "France", "world_actor", "First French Empire", "world_actor", "Switzerland", "world_actor", "Swiss Confederation (Napoleonic)")
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Roli%C3%A7a"),
+
+            // fixing bug with casualty parsing
+            new TestPage("Battle of Chusto-Talasah", false)
+                    .location(36.2823, -95.9502)
+                    .range("1861-12-09")
+                    .tag("impact", "dead", "estimate", "9", "world_actor", "Creek (people)", "world_actor", "Seminole")
+                    .tag("impact", "casualties", "estimate", "500", "world_actor", "Creek (people)", "world_actor", "Seminole")
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
