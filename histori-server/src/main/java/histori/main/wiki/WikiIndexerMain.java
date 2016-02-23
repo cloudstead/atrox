@@ -153,12 +153,13 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
 
         if (!getOptions().isOverwrite() && wiki.exists(article)) return;
 
+        final String title = article.getTitle();
         try {
             wiki.store(article);
-            if (++storeCount % 1000 == 0) out("stored page # "+storeCount);
+            if (++storeCount % 1000 == 0) out("stored page # "+storeCount+" ("+ title +")");
 
         } catch (Exception e) {
-            die("error storing: " + article.getTitle() + " (page " + pageCount + "): " + e, e);
+            die("error storing: " + title + " (page " + pageCount + "): " + e, e);
         }
     }
 
