@@ -34,6 +34,12 @@ public class WikiIndexerOptions extends BaseMainOptions {
     @Option(name=OPT_OUTPUT_DIR, aliases=LONGOPT_OUTPUT_DIR, usage=USAGE_OUTPUT_DIR, required=true)
     @Getter @Setter private File outputDir;
 
+    public static final String USAGE_ARTICLE_LIST = "File containing a list of articles to read.";
+    public static final String OPT_ARTICLE_LIST = "-A";
+    public static final String LONGOPT_ARTICLE_LIST= "--articles";
+    @Option(name=OPT_ARTICLE_LIST, aliases=LONGOPT_ARTICLE_LIST, usage=USAGE_ARTICLE_LIST)
+    @Getter @Setter private File articleList;
+
     public AssetStorageService getStorageService() {
 
         final Map<String, String> config = new HashMap<>();

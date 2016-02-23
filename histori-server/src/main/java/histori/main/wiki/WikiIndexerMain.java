@@ -4,17 +4,22 @@ import histori.wiki.WikiArchive;
 import histori.wiki.WikiArticle;
 import histori.wiki.WikiXmlParseState;
 import lombok.extern.slf4j.Slf4j;
+import org.cobbzilla.util.io.FileUtil;
 import org.cobbzilla.wizard.main.MainBase;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.now;
+import static org.cobbzilla.util.io.FileUtil.abs;
 
 /**
  * Split a massive Wikipedia dump into one file per article.
  *
- * bzcat /path/to/enwiki-YYYYMMDD-pages-articles-multistream.xml.bz2 | ./run.sh index -o /path/to/index/basedir
+ * bzcat /path/to/enwiki-YYYYMMDD-pages-articles-multistream.xml.bz2 | ./run.sh index -o /path/to/index/basedir [-A [/path/to/article-titles.txt|-]]
  *
  * You can also uncompress the archive and use 'cat' instead of 'bzcat'. This will be a bit faster than indexing
  * the bzipp'ed archive.
@@ -40,6 +45,12 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.now;
  *
  * DO NOT create the index on a filesystem with less than 300GB of space or 100M inodes.
  * Otherwise, you will run out of space or inodes before indexing completes.
+ *
+ * "Spot" extracting individual articles
+ *
+ * While time consuming, sometimes a linear scan of the entire archive is what is required. You can limit the
+ * articles that are dumped using the -A or --articles command option. You can pass a file name, which is expected to
+ * contain article titles, one per line.
  */
 @Slf4j
 public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
@@ -59,6 +70,16 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
 
         final WikiIndexerOptions opts = getOptions();
         final WikiArchive wiki = opts.getWikiArchive();
+
+        Set<String> limitArticles = null;
+        final File articleList = opts.getArticleList();
+        if (articleList != null) {
+            if (articleList.exists()) {
+                limitArticles = new HashSet<>(FileUtil.toStringList(articleList));
+            } else {
+                die("Limit-article file does not exist: "+abs(articleList));
+            }
+        }
 
         final int skipPages = opts.getSkipPages();
         final int skipLines = opts.getSkipLines();
@@ -89,7 +110,13 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
 
                     case seeking_title:
                         if (line.startsWith(TITLE_TAG_OPEN) && line.endsWith(TITLE_TAG_CLOSE)) {
-                            article.setTitle(line.replace(TITLE_TAG_OPEN, "").replace(TITLE_TAG_CLOSE, ""));
+                            String title = line.replace(TITLE_TAG_OPEN, "").replace(TITLE_TAG_CLOSE, "");
+                            if (limitArticles != null && !limitArticles.contains(title)) {
+                                article = new WikiArticle();
+                                parseState = WikiXmlParseState.seeking_page;
+                                continue;
+                            }
+                            article.setTitle(title);
                             parseState = WikiXmlParseState.seeking_text;
                         }
                         continue;
