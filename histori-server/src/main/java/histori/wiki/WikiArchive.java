@@ -78,7 +78,7 @@ public class WikiArchive {
         return true;
     }
 
-    public static String getArticlePath(String title) { return getArticlePath(title, null);     }
+    public static String getArticlePath(String title) { return getArticlePath(title, null); }
 
     public static String getArticlePath(String title, String variant) {
         if (!isIndexable(title)) return null;
