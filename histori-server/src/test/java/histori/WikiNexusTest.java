@@ -105,7 +105,7 @@ public class WikiNexusTest {
                     .tag("impact", "wounded", "estimate", "47500", "world_actor", "United States")
                     .tag("impact", "captured or missing", "estimate", "23000", "world_actor", "United States")
                     .tag("impact", "tanks/assault guns destroyed", "low_estimate", "700", "estimate", "750", "high_estimate", "800", "world_actor", "United States")
-                    .tag("impact", "aircraft lost", "estimate", "647", "world_actor", "United States")
+                    .tag("impact", "aircraft destroyed", "estimate", "647", "world_actor", "United States")
                     .tag("impact", "casualties", "estimate", "1408", "world_actor", "United Kingdom")
                     .tag("impact", "dead", "estimate", "200", "world_actor", "United Kingdom")
                     .tag("impact", "wounded", "estimate", "969", "world_actor", "United Kingdom")
@@ -206,7 +206,22 @@ public class WikiNexusTest {
                     .location(36.2823, -95.9502)
                     .range("1861-12-09")
                     .tag("impact", "dead", "estimate", "9", "world_actor", "Creek (people)", "world_actor", "Seminole")
-                    .tag("impact", "casualties", "estimate", "500", "world_actor", "Creek (people)", "world_actor", "Seminole")
+                    .tag("impact", "casualties", "estimate", "500", "world_actor", "Creek (people)", "world_actor", "Seminole"),
+
+            // detection of "damaged" casualty that references previous line. complex casualty logic.
+            new TestPage("Battle of Britain Day", false)
+                    .tag("impact", "aircraft destroyed", "estimate", "29", "world_actor", "United Kingdom")
+                    .tag("impact", "aircraft damaged", "estimate", "21", "world_actor", "United Kingdom")
+                    .tag("impact", "dead", "low_estimate", "14", "estimate", "15", "high_estimate", "16", "world_actor", "United Kingdom")
+                    .tag("impact", "wounded", "estimate", "14", "world_actor", "United Kingdom")
+                    .tag("impact", "captured", "estimate", "1", "world_actor", "United Kingdom")
+                    .tag("impact", "dead", "low_estimate", "63", "estimate", "72", "high_estimate", "81", "world_actor", "Nazi Germany", "world_actor", "Germany")
+                    .tag("impact", "aircraft destroyed", "low_estimate", "57", "estimate", "59", "high_estimate", "61", "world_actor", "Nazi Germany", "world_actor", "Germany")
+                    .tag("impact", "aircraft damaged", "estimate", "20", "world_actor", "Nazi Germany", "world_actor", "Germany")
+                    .tag("impact", "captured", "low_estimate", "63", "estimate", "64", "high_estimate", "65", "world_actor", "Nazi Germany", "world_actor", "Germany")
+                    .tag("impact", "wounded", "low_estimate", "30", "estimate", "30", "high_estimate", "31", "world_actor", "Nazi Germany", "world_actor", "Germany")
+                    .tag("impact", "missing", "estimate", "21", "world_actor", "Nazi Germany", "world_actor", "Germany")
+
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
@@ -220,8 +235,8 @@ public class WikiNexusTest {
     public void validateCorrectNexus(TestPage test) {
         final NexusRequest nexusRequest = wiki.toNexusRequest(test.title);
         assertNotNull("error parsing article: "+test.title, nexusRequest);
-        assertEquals(test.getGeoJson(), nexusRequest.getGeoJson());
-        assertEquals(test.range, nexusRequest.getTimeRange());
+        if (test.location != null) assertEquals(test.getGeoJson(), nexusRequest.getGeoJson());
+        if (test.range != null) assertEquals(test.range, nexusRequest.getTimeRange());
         if (test.fullCheck) assertEquals("wrong # of tags for "+test.title, test.tags.size(), nexusRequest.getTagCount());
         for (NexusTag tag : test.tags) {
             assertTrue("missing tag: "+tag.getTagType()+"/"+tag.getTagName(), nexusRequest.hasTag(tag.getTagName()));
