@@ -135,6 +135,13 @@ public class WikiNexusTest {
                     .range("1815-06-18")
                     .tag("event_type", "battle")
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Waterloo"),
+
+            // Includes wikitables, increased parsing complexity
+            new TestPage("Battle of Kadesh", false)
+                    .location(34.57, 36.51)
+                    .range("-1274-05")
+                    .tag("event_type", "battle")
+                    .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Kadesh"),
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {

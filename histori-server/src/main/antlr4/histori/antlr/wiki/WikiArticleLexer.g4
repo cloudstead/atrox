@@ -5,11 +5,16 @@ START_PLAINLIST: StartPlainlist -> pushMode(IN_PLAINLIST) ;
 START_INFOBOX : StartInfoBox -> pushMode(IN_INFOBOX) ;
 END_INFOBOX : EndInfoBox ;
 START_LINK : StartLink -> pushMode(IN_LINK) ;
+START_WIKITABLE : StartWikiTable -> pushMode(IN_WIKITABLE) ;
 MARKUP : (~('{' | '[' | ']'))+ ;
 SL_MARKUP : (~('{' | '[' | ']' | '\n'))+ ;
 
+mode IN_WIKITABLE;
+WT_MARKUP : (WS | ~('\n'|'|') | ('|' ~'}'))+ -> type(MARKUP) ;
+END_WIKITABLE : EndWikiTable -> popMode ;
+
 mode IN_PLAINLIST;
-NEWLINE : '\n' ;
+PL_NEWLINE : '\n' ;
 PL_INFOBOX : StartInfoBox -> pushMode(IN_INFOBOX), type(START_INFOBOX) ;
 PL_LINK : StartLink -> pushMode(IN_LINK), type(START_LINK) ;
 PL_MARKUP : (~('\n'))+ -> type(MARKUP) ;
@@ -57,9 +62,12 @@ fragment EndInfoBox : WS* '}}' WS* ;
 
 fragment StartLink : '[' '['? WS* ;
 
-fragment Name : NameStartChar (NameChar|WS)* ;
+fragment StartWikiTable : '{|' ;
+fragment EndWikiTable : '|}' ;
 
-fragment AttrNameChar : NameChar | ' ' | '/' | '<' | '>' | ',' | ':' | '-' | '–' | '°' | '(' | ')' | '"' | '&' | '!' | '—' | '%' | '#';
+fragment Name : NameStartChar (NameChar|'?'|'-'|WS)* ;
+
+fragment AttrNameChar : NameChar | ' ' | '/' | '<' | '>' | ',' | ':' | '-' | '–' | '°' | '(' | ')' | '"' | '&' | '!' | '—' | '%' | '#' | '?';
 
 fragment AttrValueChar : AttrNameChar | '\\' | ~[|\[\]{}] | WS ;
 

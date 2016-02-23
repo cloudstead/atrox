@@ -4,7 +4,7 @@ options { tokenVocab=WikiArticleLexer; }
 
 freeform : MARKUP ;
 
-article : (plainlist | infobox | link | freeform)+;
+article : (plainlist | infobox | link | wikitable | freeform)+;
 
 linkTarget : LINK_PART ;
 linkMetaString : LINK_PART ;
@@ -16,8 +16,10 @@ attrText : ATTR_BODY ;
 attrValue : (plainlist | attrText | infobox | link)+ ;
 attr : attrName (ATTR_EQ attrValue?)? ATTR_SEP* ;
 
-plainlistEntry : (freeform | infobox | link)+ ;
-plainlist : START_PLAINLIST (NEWLINE plainlistEntry)+ END_PLAINLIST ;
+plainlistEntry : MARKUP+ ;
+plainlist : START_PLAINLIST (PL_NEWLINE plainlistEntry)+ END_PLAINLIST ;
 
 infoboxName : INFOBOX_NAME ;
 infobox : START_INFOBOX infoboxName (ATTR_SEP+ attr*)? WS* END_INFOBOX ;
+
+wikitable : START_WIKITABLE MARKUP+ END_WIKITABLE ;

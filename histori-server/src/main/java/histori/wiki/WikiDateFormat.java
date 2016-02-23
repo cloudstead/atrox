@@ -44,6 +44,10 @@ public class WikiDateFormat {
 
             {"'Early' yyyy", "y"},
             {"'Late' yyyy", "y"},
+            {"'Early' MMM yyyy", "yM"},
+            {"'Late' MMM yyyy", "yM"},
+            {"'Early' MMMM yyyy", "yM"},
+            {"'Late' MMMM yyyy", "yM"},
 
             {"yyyy", "y"},
     };
@@ -207,6 +211,8 @@ public class WikiDateFormat {
 
     private static String scrub(String date) {
         int pos = date.indexOf("<");
+        if (pos != -1) return date.substring(0, pos).trim();
+        pos = date.indexOf("&lt;");
         if (pos != -1) return date.substring(0, pos).trim();
         pos = date.indexOf("{{");
         if (pos != -1) return date.substring(0, pos).trim();

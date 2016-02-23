@@ -78,10 +78,16 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
     private LatLon parseTitle(ParsedWikiArticle art) {
 
         final String loc = getLocationNameFromTitle(art);
-        if (loc == null) return die("no location could be gleaned from title");
+        if (loc == null) {
+            log.warn("no location could be gleaned from title");
+            return null;
+        }
 
         final ParsedWikiArticle locArticle = getWiki().find(loc);
-        if (locArticle == null) return die("location gleaned from title was "+loc+" but locArticle was not found");
+        if (locArticle == null) {
+            log.warn("location gleaned from title was "+loc+" but locArticle was not found");
+            return null;
+        }
 
         return find(locArticle, true);
     }

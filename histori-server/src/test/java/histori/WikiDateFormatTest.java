@@ -10,6 +10,7 @@ import static org.junit.Assert.fail;
 public class WikiDateFormatTest {
 
 	public static final String[][] TESTS = new String[][] {
+            {" Late May 1274 BC<ref>Lorna Oakes, Pyramids, Temples & Tombs of Ancient Egypt: An Illustrated Atlas of the Land of the Pharaohs, Hermes House: 2003. P. 142.</ref>", "-1274-05"},
             {"16 December 1944 – 25 January 1945", "1944-12-16_1945-01-25"},
             {"15 September – 27 November 1944", "1944-09-15_1944-11-27"},
             {"5–6 June 1967", "1967-06-05_1967-06-06"},
