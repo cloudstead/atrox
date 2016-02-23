@@ -237,12 +237,14 @@ public class WikiNexusTest {
                     .tag("impact", "destroyers sunk", "estimate", "1", "world_actor", "Empire of Japan")
                     .tag("impact", "transports lost", "estimate", "4", "world_actor", "Empire of Japan")
                     .tag("impact", "aircraft destroyed", "estimate", "64", "world_actor", "Empire of Japan")
-                    .tag("impact", "dead", "estimate", "1900", "world_actor", "Empire of Japan")
+                    .tag("impact", "dead", "estimate", "1900", "world_actor", "Empire of Japan"),
 
+            new TestPage("Battle of Short Hills", false)
+                    .tag("person", "William Alexander (American general)", "role", "commander", "world_actor", "United States")
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
-//        validateCorrectNexus(TESTS[TESTS.length-1]);
+        validateCorrectNexus(TESTS[TESTS.length-1]);
 //        validateCorrectNexus(TESTS[2]);
         for (TestPage test : TESTS) {
             validateCorrectNexus(test);

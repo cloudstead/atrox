@@ -350,7 +350,7 @@ public class BattleTagFinder extends TagFinderBase {
                     if (skippingComment) continue;
                     if (foundFlags && state != seeking_commander) continue;
                     for (String name : child.getName().split(HTML_TAG_REGEX)) {
-                        if (trimName(name).length() > 0) {
+                        if (trimName(name).length() > 0 && !(name.startsWith("(") && name.endsWith(")"))) {
                             found.add(commander(name, side));
                             if (foundFlags) state = seeking_flag;
                         }
