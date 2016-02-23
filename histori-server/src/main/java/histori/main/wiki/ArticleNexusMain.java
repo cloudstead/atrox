@@ -104,7 +104,8 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
             final String nexusJson = toJson(nexusRequest);
             if (outputDir != null) {
                 final File out = getOutputFile(title);
-                if (!out.getParentFile().mkdirs()) die("Error creating parent dir: "+abs(out.getParentFile()));
+                final File parent = out.getParentFile();
+                if (!parent.exists() && !parent.mkdirs()) die("Error creating parent dir: "+abs(parent));
                 FileUtil.toFile(out, nexusJson);
                 out("\nWROTE: "+abs(out));
             } else {
