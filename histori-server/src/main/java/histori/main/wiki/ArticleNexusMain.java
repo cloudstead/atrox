@@ -54,7 +54,7 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
             // maybe it is an article name?
             article = options.getWikiArchive().findUnparsed(input);
             if (article != null) {
-                writeNexus(article);
+                writeAndLog(article);
             } else {
                 err("Article not found: "+input+", path: "+getArticlePath(input));
             }
@@ -66,7 +66,7 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
             for (File articleJson : listFiles(file, new FileSuffixFilter(".json"))) {
                 try {
                     article = fromJson(FileUtil.toString(articleJson), WikiArticle.class);
-                    writeNexus(article);
+                    writeAndLog(article);
 
                 } catch (Exception e) {
                     err("Error importing " + abs(articleJson) + ": " + e);
@@ -75,25 +75,34 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
         } else {
             // import a single file
             article = fromJson(FileUtil.toString(file), WikiArticle.class);
-            writeNexus(article);
+            writeAndLog(article);
         }
     }
 
-    private void writeNexus(WikiArticle article) {
+    private boolean writeAndLog(WikiArticle article) {
+        final ArticleNexusOptions options = getOptions();
+        boolean ok = writeNexus(article);
+        if (!ok && options.hasErrorLog()) {
+            FileUtil.toFileOrDie(options.getErrorLog(), "\n"+article.getTitle());
+        }
+        return ok;
+    }
+
+    private boolean writeNexus(WikiArticle article) {
 
         final ArticleNexusOptions options = getOptions();
         final File outputFile = getOutputFile(article.getTitle());
         if (outputFile.exists()) {
             if (!options.isOverwrite()) {
                 err("writeNexus: article file exists, not overwriting: "+ outputFile);
-                return;
+                return false;
             }
         }
 
         final NexusRequest nexusRequest = options.getWikiArchive().toNexusRequest(article);
         if (nexusRequest == null) {
             err("writeNexus: Error building NexusRequest");
-            return;
+            return false;
         }
 
         final File outputDir = options.getOutputDir();
@@ -111,9 +120,11 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
             } else {
                 out("\n----------\n" + nexusJson);
             }
+            return true;
 
         } catch (Exception e) {
             err("Error processing article: "+ title +": "+e);
+            return false;
         }
     }
 
