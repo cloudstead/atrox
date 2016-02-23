@@ -49,10 +49,7 @@ public class WikiArchive {
     public void store(WikiArticle article) throws Exception {
         final String articlePath = getArticlePath(article.getTitle());
         if (articlePath == null) {
-            log.info("refusing to index: "+article.getTitle());
-            return;
-        } else if (storage.exists(articlePath)) {
-            log.info("path already exists: "+articlePath);
+            log.warn("refusing to index: "+article.getTitle());
             return;
         }
         storage.store(new StringInputStream(toJsonOrDie(article)), articlePath, articlePath);
@@ -111,8 +108,15 @@ public class WikiArchive {
         final LatLon coordinates;
 
         if (article.getText().toLowerCase().startsWith("#redirect")) {
-            log.warn("toNexusRequest: "+article.getTitle()+ " is a redirect (skipping)");
-            return null;
+            final List<WikiNode> links = parsed.getLinks();
+            if (!empty(links)) {
+                final String target = links.get(0).getName();
+                log.info("toNexusRequest: "+article.getTitle()+ " is a redirect, following: "+target);
+                return toNexusRequest(target);
+            } else {
+                log.warn("toNexusRequest: "+article.getTitle()+ " is a redirect, but could not determine target: "+article.getText());
+                return null;
+            }
         }
 
         // When was it?

@@ -151,7 +151,7 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
 
     private void store(final WikiArchive wiki, final WikiArticle article) {
 
-        if (wiki.exists(article)) return;
+        if (!getOptions().isOverwrite() && wiki.exists(article)) return;
 
         try {
             wiki.store(article);

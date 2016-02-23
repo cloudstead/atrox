@@ -28,6 +28,12 @@ public class WikiBaseOptions extends BaseMainOptions {
     @Option(name=OPT_WIKI_DIR, aliases=LONGOPT_WIKI_DIR, usage=USAGE_WIKI_DIR, required=true)
     @Getter @Setter private File wikiDir;
 
+    public static final String USAGE_OVERWRITE = "Overwrite output files. Default is to preserve files.";
+    public static final String OPT_OVERWRITE = "-O";
+    public static final String LONGOPT_OVERWRITE= "--overwrite";
+    @Option(name=OPT_OVERWRITE, aliases=LONGOPT_OVERWRITE, usage=USAGE_OVERWRITE)
+    @Getter @Setter private boolean overwrite = false;
+
     public AssetStorageService getStorageService() {
 
         final Map<String, String> config = new HashMap<>();
