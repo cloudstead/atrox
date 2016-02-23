@@ -8,22 +8,23 @@ import histori.model.support.TimeRange;
 import histori.wiki.WikiArchive;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.math.Cardinal;
+import org.cobbzilla.util.system.CommandShell;
 import org.geojson.Point;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.cobbzilla.util.json.JsonUtil.fromJsonOrDie;
 import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
-import static org.cobbzilla.util.math.Cardinal.east;
-import static org.cobbzilla.util.math.Cardinal.north;
-import static org.cobbzilla.util.math.Cardinal.west;
+import static org.cobbzilla.util.math.Cardinal.*;
 import static org.junit.Assert.*;
 
 @Slf4j
 public class WikiNexusTest {
 
-    private WikiArchive wiki = new WikiArchive(new ResourceStorageService("wiki/index"));
+    private WikiArchive wiki = new WikiArchive(new ResourceStorageService("wiki/index"),
+            CommandShell.loadShellExportsOrDie(ApiClientTestBase.ENV_EXPORT_FILE).get(ApiClientTestBase.ENV_PLACES_API_KEY));
 
     public static TestPage[] TESTS = {
             // Test case: A very famous historical battle -- lots of tags to extract
@@ -222,6 +223,7 @@ public class WikiNexusTest {
                     .tag("impact", "wounded", "low_estimate", "30", "estimate", "30", "high_estimate", "31", "world_actor", "Nazi Germany", "world_actor", "Germany")
                     .tag("impact", "missing", "estimate", "21", "world_actor", "Nazi Germany", "world_actor", "Germany"),
 
+            // test naval casualties
             new TestPage("Naval Battle of Guadalcanal", false)
                     .tag("world_actor", "United States", "role", "combatant")
                     .tag("world_actor", "Empire of Japan", "role", "combatant")
@@ -239,12 +241,24 @@ public class WikiNexusTest {
                     .tag("impact", "aircraft destroyed", "estimate", "64", "world_actor", "Empire of Japan")
                     .tag("impact", "dead", "estimate", "1900", "world_actor", "Empire of Japan"),
 
-            new TestPage("Battle of Short Hills", false)
-                    .tag("person", "William Alexander (American general)", "role", "commander", "world_actor", "United States")
+            // yet another location coordinate scheme
+            new TestPage("Battle of Mount Elba", false)
+                    .location(33.0, 46.0, 35.401, north, 93.0, 21.0, 59.619, west)
+                    .range("1864-03-30"),
+
+            // article missing cardinal directions
+            new TestPage("Battle of Lechfeld (955)", false)
+                    .location(48, 22, north, 10, 54, east)
+                    .range("955-08-10"),
+
+            // Coord box embedded within place attribute of an infobox
+            new TestPage("Battle of Las Navas de Tolosa", false)
+                    .location(38.28443, -3.58286)
+                    .range("1212-07-16")
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
-        validateCorrectNexus(TESTS[TESTS.length-1]);
+//        validateCorrectNexus(TESTS[TESTS.length-1]);
 //        validateCorrectNexus(TESTS[2]);
         for (TestPage test : TESTS) {
             validateCorrectNexus(test);
@@ -254,7 +268,7 @@ public class WikiNexusTest {
     public void validateCorrectNexus(TestPage test) {
         final NexusRequest nexusRequest = wiki.toNexusRequest(test.title);
         assertNotNull("error parsing article: "+test.title, nexusRequest);
-        if (test.location != null) assertEquals(test.getGeoJson(), nexusRequest.getGeoJson());
+        if (test.location != null) test.assertSameLocation(nexusRequest.getGeoJson());
         if (test.range != null) assertEquals(test.range, nexusRequest.getTimeRange());
         if (test.fullCheck) assertEquals("wrong # of tags for "+test.title, test.tags.size(), nexusRequest.getTagCount());
         for (NexusTag tag : test.tags) {
@@ -275,6 +289,10 @@ public class WikiNexusTest {
         public TestPage location (LatLon location) { this.location = location; return this; }
         public TestPage location (double lat, double lon) { return location(new LatLon(lat, lon)); }
         public TestPage location (int latDeg, Integer latMin, Integer latSec, Cardinal latDir, int lonDeg, Integer lonMin, Integer lonSec, Cardinal lonDir) {
+            this.location = new LatLon(latDeg, latMin, latSec, latDir, lonDeg, lonMin, lonSec, lonDir);
+            return this;
+        }
+        public TestPage location (double latDeg, Double latMin, Double latSec, Cardinal latDir, double lonDeg, Double lonMin, Double lonSec, Cardinal lonDir) {
             this.location = new LatLon(latDeg, latMin, latSec, latDir, lonDeg, lonMin, lonSec, lonDir);
             return this;
         }
@@ -311,6 +329,16 @@ public class WikiNexusTest {
         public TestPage tag(String tagType, String tagName, String field1, String value1, String f2, String v2, String f3, String v3, String f4, String v4, String f5, String v5) {
             tags.add((NexusTag) new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1).setValue(f2, v2).setValue(f3, v3).setValue(f4, v4).setValue(f5, v5));
             return this;
+        }
+
+        public boolean assertSameLocation(String geoJson) {
+            // Always assume a point for now
+            final Point p = fromJsonOrDie(geoJson, Point.class);
+            assertNotNull(p);
+            assertNotNull(p.getCoordinates());
+            assertEquals("Latitude was off by too much", p.getCoordinates().getLatitude(), location.getLat(), 0.0001);
+            assertEquals("Longitude was off by too much", p.getCoordinates().getLongitude(), location.getLon(), 0.0001);
+            return true;
         }
     }
 }

@@ -34,6 +34,15 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
     public static final String ATTR_LONGS = "long_s";
     public static final String ATTR_LONGEW = "long_EW";
 
+    public static final String ATTR_LAT_DEG = "lat_deg";
+    public static final String ATTR_LAT_MIN = "lat_min";
+    public static final String ATTR_LAT_SEC = "lat_sec";
+    public static final String ATTR_LAT_DIR = "lat_dir";
+    public static final String ATTR_LON_DEG = "lon_deg";
+    public static final String ATTR_LON_MIN = "lon_min";
+    public static final String ATTR_LON_SEC = "lon_sec";
+    public static final String ATTR_LON_DIR = "lon_dir";
+
     public static final String ATTR_PLACE = "place";
 
     public static final String BATTLE_PREFIX = "battle of ";
@@ -99,6 +108,17 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
         for (WikiNode box : art.getInfoboxes()) {
             final WikiNode placeAttr = box.findChildNamed(ATTR_PLACE);
             if (placeAttr != null) {
+                // does it have a nested Coord box?
+                final WikiNode coordBox = placeAttr.findFirstInfoboxWithName(BOXNAME_COORD);
+                if (coordBox != null) {
+                    try {
+                        LatLon latLon = parseCoordinatesBox(coordBox);
+                        if (latLon != null) return latLon;
+                    } catch (Exception e) {
+                        log.warn("Error parsing Coord box within Place attribute: "+e);
+                    }
+                }
+
                 final List<WikiNode> links = placeAttr.getLinks();
 
                 // try the first link
@@ -156,7 +176,7 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
             final WikiNode coordsAttr = box.findChildNamed(ATTR_COORDINATES);
             if (coordsAttr != null) {
                 try {
-                    return parseCoordinates(coordsAttr);
+                    return parseCoordinatesAttribute(coordsAttr);
                 } catch (Exception ignored) { /* try next thing */ }
             }
 
@@ -175,6 +195,14 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
                     return parseLatdLongd(box);
                 } catch (Exception ignored) { /* try next thing */ }
             }
+
+            final WikiNode latdeg = box.findChildNamed(ATTR_LAT_DEG);
+            final WikiNode longdeg = box.findChildNamed(ATTR_LON_DEG);
+            if (latdeg != null && longdeg != null) {
+                try {
+                    return parseLatdegLongdeg(box);
+                } catch (Exception ignored) { /* try next thing */ }
+            }
         }
         return die("parseCoordinates: not found");
     }
@@ -185,16 +213,26 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
             normalizeInfoboxName("Coord")
     ));
     private boolean isCoordinateInfoboxCandidate(String name) {
-        return COORD_BOX_CANDIDATES.contains(normalizeInfoboxName(name));
+        return COORD_BOX_CANDIDATES.contains(normalizeInfoboxName(name))
+                || name.toLowerCase().endsWith(" location")
+                || name.toLowerCase().endsWith(" municipality")
+                || name.toLowerCase().endsWith(" site")
+                || name.toLowerCase().endsWith(" city")
+                || name.toLowerCase().endsWith(" settlement")
+                || name.toLowerCase().endsWith(" commune");
     }
 
-    private LatLon parseCoordinates (WikiNode coordsAttr) throws Exception {
+    private LatLon parseCoordinatesAttribute(WikiNode coordsAttr) throws Exception {
         final WikiNode coordsValue = coordsAttr.getChildren().get(0);
+        return parseCoordinatesBox(coordsValue);
+    }
+
+    private LatLon parseCoordinatesBox(WikiNode coordsValue) {
         if (coordsValue.getType().isInfobox() && coordsValue.getName().equalsIgnoreCase(BOXNAME_COORD)) {
             final List<WikiNode> coordNumbers = coordsValue.getChildren();
             return fromCoordsValue(coordNumbers);
         }
-        return die("parseCoordinates: unparseable ("+coordsValue+")");
+        return die("parseCoordinatesBox: unparseable ("+coordsValue+")");
     }
 
     private LatLon fromCoordsValue(List<WikiNode> coordNumbers) {
@@ -204,14 +242,19 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
         int lonStartIndex;
         String val1, val2, val3;
 
-        val1 = coordNumbers.get(0).findAllText();
-        val2 = coordNumbers.get(1).findAllText();
-        val3 = coordNumbers.get(2).findAllText();
+        val1 = coordNumbers.size() > 0 ? coordNumbers.get(0).findAllText() : null;
+        val2 = coordNumbers.size() > 1 ? coordNumbers.get(1).findAllText() : null;
+        val3 = coordNumbers.size() > 2 ? coordNumbers.get(2).findAllText() : null;
+
+        if (val1 == null || val2 == null) die("Invalid coordinates (a): "+coordNumbers);
 
         double latDeg = Double.valueOf(val1);
         if (val1.contains(".") && val2.contains(".")) {
             return new LatLon(latDeg, Double.valueOf(val2));
         }
+
+        if (val3 == null) die("Invalid coordinates (b): "+coordNumbers);
+
         if (val1.contains(".") && Cardinal.isCardinal(val2) && val3.contains(".")) {
             Cardinal latDir = Cardinal.create(val2);
             Cardinal lonDir = Cardinal.create(coordNumbers.get(3).findAllText());
@@ -261,6 +304,7 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
         return new LatLon(latDeg, latMin, latSec, latCardinal, lonDeg, lonMin, lonSec, lonCardinal);
     }
 
+    @SuppressWarnings("Duplicates")
     private LatLon parseLatdLongd(WikiNode box) {
         final WikiNode latd = box.findChildNamed(ATTR_LATD);
         final WikiNode latm = box.findChildNamed(ATTR_LATM);
@@ -271,6 +315,24 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
         final WikiNode longm = box.findChildNamed(ATTR_LONGM);
         final WikiNode longs = box.findChildNamed(ATTR_LONGS);
         final WikiNode longew = box.findChildNamed(ATTR_LONGEW);
+
+        double latDeg = parseCoordinate(latd, latm, lats, latns);
+        double longDeg = parseCoordinate(longd, longm, longs, longew);
+
+        return new LatLon(latDeg, longDeg);
+    }
+
+    @SuppressWarnings("Duplicates")
+    private LatLon parseLatdegLongdeg(WikiNode box) {
+        final WikiNode latd = box.findChildNamed(ATTR_LAT_DEG);
+        final WikiNode latm = box.findChildNamed(ATTR_LAT_MIN);
+        final WikiNode lats = box.findChildNamed(ATTR_LAT_SEC);
+        final WikiNode latns = box.findChildNamed(ATTR_LAT_DIR);
+
+        final WikiNode longd = box.findChildNamed(ATTR_LON_DEG);
+        final WikiNode longm = box.findChildNamed(ATTR_LON_MIN);
+        final WikiNode longs = box.findChildNamed(ATTR_LON_SEC);
+        final WikiNode longew = box.findChildNamed(ATTR_LON_DIR);
 
         double latDeg = parseCoordinate(latd, latm, lats, latns);
         double longDeg = parseCoordinate(longd, longm, longs, longew);

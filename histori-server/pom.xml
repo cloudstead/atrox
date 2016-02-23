@@ -132,6 +132,13 @@ For commercial use, please contact cloudstead.io
             <version>1.5.1</version>
         </dependency>
 
+        <!-- Google Places API -->
+        <dependency>
+            <groupId>se.walkercrou</groupId>
+            <artifactId>google-places-api-java</artifactId>
+            <version>2.1.2</version>
+        </dependency>
+
         <dependency>
             <groupId>org.cobbzilla</groupId>
             <artifactId>restex</artifactId>

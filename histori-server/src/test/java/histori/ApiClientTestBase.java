@@ -1,21 +1,22 @@
 package histori;
 
+import com.fasterxml.jackson.databind.JavaType;
 import histori.model.Nexus;
 import histori.model.NexusTag;
-import histori.model.support.AccountAuthResponse;
 import histori.model.auth.RegistrationRequest;
+import histori.model.support.AccountAuthResponse;
 import histori.model.support.NexusSummary;
 import histori.model.support.TimeRange;
 import histori.server.DbSeedListener;
 import histori.server.HistoriConfiguration;
 import histori.server.HistoriServer;
-import com.fasterxml.jackson.databind.JavaType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
 import org.cobbzilla.mail.sender.mock.MockTemplatedMailSender;
 import org.cobbzilla.mail.sender.mock.MockTemplatedMailService;
 import org.cobbzilla.util.collection.SingletonList;
 import org.cobbzilla.util.json.JsonUtil;
+import org.cobbzilla.util.system.CommandShell;
 import org.cobbzilla.wizard.dao.SearchResults;
 import org.cobbzilla.wizard.model.ResultPage;
 import org.cobbzilla.wizard.server.RestServer;
@@ -26,10 +27,12 @@ import org.cobbzilla.wizardtest.resources.ApiDocsResourceIT;
 import org.geojson.Point;
 
 import java.util.List;
+import java.util.Map;
 
 import static histori.ApiConstants.*;
 import static histori.model.CanonicalEntity.canonicalize;
 import static histori.model.support.TimePoint.TP_SEP;
+import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJson;
 import static org.cobbzilla.util.string.StringUtil.urlEncode;
@@ -40,8 +43,16 @@ import static org.junit.Assert.assertTrue;
 @Slf4j
 public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, HistoriServer> {
 
+    public static final String ENV_PLACES_API_KEY = "GOOGLE_PLACES_API_KEY";
+    public static final String ENV_EXPORT_FILE = ".histori-dev.env";
 
     protected String getTestConfig() { return "histori-config-test.yml"; }
+
+    @Override protected Map<String, String> getServerEnvironment() throws Exception {
+        final Map<String, String> env = CommandShell.loadShellExports(ENV_EXPORT_FILE);
+        if (!env.containsKey(ENV_PLACES_API_KEY)) die("getServerEnvironment: no GOOGLE_PLACES_API_KEY found in ~/"+ENV_EXPORT_FILE);
+        return env;
+    }
 
     @Override public void onStart(RestServer<HistoriConfiguration> server) { new DbSeedListener().onStart(server); }
 
@@ -59,9 +70,7 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
         return (MockTemplatedMailSender) getTemplatedMailService().getMailSender();
     }
 
-    protected boolean skipAdminCreation() {
-        return false;
-    }
+    protected boolean skipAdminCreation() { return false; }
 
     public static final String REGISTER_URL = ACCOUNTS_ENDPOINT + EP_REGISTER;
 

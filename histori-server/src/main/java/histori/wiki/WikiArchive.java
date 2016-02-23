@@ -12,14 +12,18 @@ import histori.wiki.finder.LocationFinder;
 import histori.wiki.finder.TagFinder;
 import histori.wiki.finder.TagFinderFactory;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.security.ShaUtil;
 import org.cobbzilla.util.string.StringUtil;
 import org.geojson.Point;
+import se.walkercrou.places.GooglePlaces;
 
 import java.util.List;
 
 import static histori.model.CanonicalEntity.canonicalize;
+import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
 import static org.cobbzilla.util.string.StringUtil.urlEncode;
@@ -28,6 +32,12 @@ import static org.cobbzilla.util.string.StringUtil.urlEncode;
 public class WikiArchive {
 
     private final AssetStorageService storage;
+
+    @Getter @Setter private String placesApiKey;
+    public boolean hasPlacesApiKey () { return !empty(placesApiKey); }
+
+    @Getter(lazy=true) private final GooglePlaces placesApi = initPlacesApi();
+    private GooglePlaces initPlacesApi() { return hasPlacesApiKey() ? new GooglePlaces(getPlacesApiKey()) : null; }
 
     public static final String[] SKIP_INDEX_PREFIXES = { "Category:", "Template:", "File:", "Template:" };
 
