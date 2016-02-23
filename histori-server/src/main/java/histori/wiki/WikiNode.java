@@ -178,4 +178,14 @@ public class WikiNode {
         for (WikiNode child : getChildren()) if (child.getType().isPlainlist()) listCount++;
         return listCount == 1;
     }
+
+    public WikiNode getParent(WikiNode node) {
+        if (!hasChildren()) return null;
+        for (WikiNode c : getChildren()) {
+            if (c == node) return this;
+            WikiNode found = c.getParent(node);
+            if (found != null) return found;
+        }
+        return null;
+    }
 }

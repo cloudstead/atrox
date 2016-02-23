@@ -180,6 +180,8 @@ public class BattleTagFinder extends TagFinderBase {
 
     private String getCasualtyType(String casualty, String defaultValue) {
         final String c = casualty.toLowerCase().trim();
+        if (c.contains("killed and wounded") || c.contains("wounded and killed")) return "dead and wounded";
+        if (c.contains("dead and wounded") || c.contains("wounded and dead")) return "dead and wounded";
         if (c.contains("killed") || c.contains("dead")) return "dead";
         if (c.contains("wounded") || c.contains("injured")) return "wounded";
         if (c.contains("ships sunk or captured") || c.contains("ships captured or sunk")) return "ships sunk or captured";
@@ -187,6 +189,7 @@ public class BattleTagFinder extends TagFinderBase {
         if (c.contains("ships captured")) return "ships captured";
         if (c.contains("aircraft lost")) return "aircraft lost";
         if (c.contains("captured or missing") || c.contains("missing or captured")) return "captured or missing";
+        if (c.contains("guns captured")) return "guns captured";
         if (c.contains("captured")) return "captured";
         if (c.contains("missing")) return "missing";
         if (c.contains("tanks and assault guns destroyed") || c.contains("assault guns and tanks destroyed")) return "tanks/assault guns destroyed";
@@ -206,6 +209,18 @@ public class BattleTagFinder extends TagFinderBase {
         if (flag != null) return flag.firstChildName();
 
         flag = node.findFirstWithName(WikiNodeType.infobox, "flagicon image");
+        if (flag != null) {
+            boolean found = false;
+            final List<WikiNode> siblings = article.getParent(node).getChildren();
+            for (WikiNode c : siblings) {
+                if (found) {
+                    if (c.getType().isLink()) return c.firstChildName();
+                    return c.findAllChildText();
+
+                } else if (c != flag) continue;
+                found = true;
+            }
+        }
         if (flag != null) return flag.firstChildName();
 
         return node.findAllChildText();
@@ -279,6 +294,7 @@ public class BattleTagFinder extends TagFinderBase {
     }
 
     public String addCombatant(Set<String> found, String flagText) {
+        if (flagText == null) return null;
         flagText = flagText.trim();
         if (flagText.toLowerCase().startsWith("flag of")) flagText = flagText.substring("flag of".length());
         int dotPos = flagText.indexOf('.');

@@ -178,6 +178,28 @@ public class WikiNexusTest {
                     .tag("person", "Jasper Tudor", "world_actor", "House of Lancaster", "role", "commander")
                     .tag("person", "James Butler", "world_actor", "House of Lancaster", "role", "commander")
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Mortimer%27s_Cross"),
+
+            // Had a Portuguese flag icon identified as a world_actor, also uses West cardinality, testing geo coordinate parsing
+            new TestPage("Battle of Roliça")
+                    .location(39.3136, -9.1836)
+                    .range("1808-08-17")
+                    .tag("event_type", "battle")
+                    .tag("event", "Peninsular War", "relationship", "part_of")
+                    .tag("result", "Anglo-Portuguese victory, tactical French retreat")
+                    .tag("world_actor", "United Kingdom", "role", "combatant")
+                    .tag("world_actor", "United Kingdom of Great Britain and Ireland", "role", "combatant")
+                    .tag("world_actor", "Portugal", "role", "combatant")
+                    .tag("world_actor", "Kingdom of Portugal", "role", "combatant")
+                    .tag("person", "Arthur Wellesley", "role", "commander", "world_actor", "United Kingdom")
+                    .tag("impact", "dead and wounded", "estimate", "487", "world_actor", "United Kingdom", "world_actor", "United Kingdom of Great Britain and Ireland", "world_actor", "Portugal", "world_actor", "Kingdom of Portugal")
+                    .tag("world_actor", "France", "role", "combatant")
+                    .tag("world_actor", "First French Empire", "role", "combatant")
+                    .tag("world_actor", "Switzerland", "role", "combatant")
+                    .tag("world_actor", "Swiss Confederation (Napoleonic)", "role", "combatant")
+                    .tag("person", "Henri Delaborde", "role", "commander", "world_actor", "France")
+                    .tag("impact", "dead and wounded", "estimate", "700", "world_actor", "France", "world_actor", "First French Empire", "world_actor", "Switzerland", "world_actor", "Swiss Confederation (Napoleonic)")
+                    .tag("impact", "guns captured", "estimate", "3", "world_actor", "France", "world_actor", "First French Empire", "world_actor", "Switzerland", "world_actor", "Swiss Confederation (Napoleonic)")
+                    .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Roli%C3%A7a"),
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
@@ -243,6 +265,10 @@ public class WikiNexusTest {
         }
         public TestPage tag(String tagType, String tagName, String field1, String value1, String f2, String v2, String f3, String v3, String f4, String v4) {
             tags.add((NexusTag) new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1).setValue(f2, v2).setValue(f3, v3).setValue(f4, v4));
+            return this;
+        }
+        public TestPage tag(String tagType, String tagName, String field1, String value1, String f2, String v2, String f3, String v3, String f4, String v4, String f5, String v5) {
+            tags.add((NexusTag) new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1).setValue(f2, v2).setValue(f3, v3).setValue(f4, v4).setValue(f5, v5));
             return this;
         }
     }

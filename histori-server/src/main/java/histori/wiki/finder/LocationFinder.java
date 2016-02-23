@@ -217,7 +217,7 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
             Cardinal lonDir = Cardinal.create(coordNumbers.get(3).findAllText());
             if (latDir != null && lonDir != null) {
                 latDeg *= (double) latDir.getDirection();
-                double lonDeg = ((double) latDir.getDirection()) * Double.valueOf(val3);
+                double lonDeg = ((double) lonDir.getDirection()) * Double.valueOf(val3);
                 return new LatLon(latDeg, lonDeg);
             }
         }
