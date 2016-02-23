@@ -35,7 +35,7 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.now;
  *
  * Recommendations:
  *   When preparing a filesystem to write the index, some safe configuration parameters are:
- *   Use an ext4 filesystem, with 350GB+ space and 80M+ inodes.
+ *   Use an ext4 filesystem, with 250GB+ space and 30M+ inodes.
  *   Mount with 'noatime'
  *
  * DO NOT create the index on a filesystem with less than 300GB of space or 100M inodes.

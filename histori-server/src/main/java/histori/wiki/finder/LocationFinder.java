@@ -188,10 +188,20 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
 
         val1 = coordNumbers.get(0).findAllText();
         val2 = coordNumbers.get(1).findAllText();
+        val3 = coordNumbers.get(2).findAllText();
 
-        final double latDeg = Double.valueOf(val1);
+        double latDeg = Double.valueOf(val1);
         if (val1.contains(".") && val2.contains(".")) {
             return new LatLon(latDeg, Double.valueOf(val2));
+        }
+        if (val1.contains(".") && Cardinal.isCardinal(val2) && val3.contains(".")) {
+            Cardinal latDir = Cardinal.create(val2);
+            Cardinal lonDir = Cardinal.create(coordNumbers.get(3).findAllText());
+            if (latDir != null && lonDir != null) {
+                latDeg *= (double) latDir.getDirection();
+                double lonDeg = ((double) latDir.getDirection()) * Double.valueOf(val3);
+                return new LatLon(latDeg, lonDeg);
+            }
         }
 
         if (Cardinal.isCardinal(val2)) {
@@ -201,7 +211,6 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
 
         } else {
             latMin = Double.parseDouble(val2);
-            val3 = coordNumbers.get(2).findAllText();
             if (Cardinal.isCardinal(val3)) {
                 latCardinal = Cardinal.create(val3);
                 latSec = null;

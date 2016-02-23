@@ -26,7 +26,7 @@ ATTR_PLAINLIST: StartPlainlist -> pushMode(IN_PLAINLIST) ;
 ATTR_SEP : AttrSep ;
 //ATTR_EQ : {has_attr_values=true} WS* '=' WS* -> pushMode(IN_ATTR_VALUE);
 ATTR_EQ : WS* '=' WS* -> pushMode(IN_ATTR_VALUE);
-ATTR_NAME : (NameChar|'°') (NameChar|','|':'|'-'|'–'|'°'|WS)* ;
+ATTR_NAME : AttrNameChar (AttrNameChar|WS)* ;
 ATTR_LINK : StartLink -> pushMode(IN_LINK), type(START_LINK);
 ATTR_INFOBOX :  StartInfoBox -> pushMode(IN_INFOBOX), type(START_INFOBOX);
 END_ATTRS : EndInfoBox -> skip, popMode, popMode, type(END_INFOBOX) ;
@@ -59,7 +59,9 @@ fragment StartLink : '[' '['? WS* ;
 
 fragment Name : NameStartChar (NameChar|WS)* ;
 
-fragment AttrValueChar : NameChar | '\\' | ~[|\[\]{}] | WS ;
+fragment AttrNameChar : NameChar | ' ' | '/' | '<' | '>' | ',' | ':' | '-' | '–' | '°' | '(' | ')' | '"' | '&' | '!' | '—' | '%' | '#';
+
+fragment AttrValueChar : AttrNameChar | '\\' | ~[|\[\]{}] | WS ;
 
 fragment Plainlist : ('P'|'p')('L'|'l')('A'|'a')('I'|'i')('N'|'n')('L'|'l')('I'|'i')('S'|'s')('T'|'t') ;
 fragment EndPl : ('E'|'e')('N'|'n')('D'|'d') Plainlist ;

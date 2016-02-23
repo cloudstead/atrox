@@ -129,10 +129,16 @@ public class WikiNexusTest {
                     .range("1944-09-15", "1944-11-27")
                     .tag("event_type", "battle")
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Peleliu"),
+
+            new TestPage("Battle of Waterloo", false)
+                    .location(50.68016, 4.41169)
+                    .range("1815-06-18")
+                    .tag("event_type", "battle")
+                    .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Waterloo"),
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
-        validateCorrectNexus(TESTS[TESTS.length-1]);
+//        validateCorrectNexus(TESTS[TESTS.length-1]);
         for (TestPage test : TESTS) {
             validateCorrectNexus(test);
         }

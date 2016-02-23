@@ -20,6 +20,8 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 public class WikiNode {
 
     public static WikiArticleParser.ArticleContext getArticleContext(String text) {
+        // remove all HTML comments
+        text = text.replaceAll("<!--.*?-->", "");
         final WikiArticleLexer lexer = new WikiArticleLexer(new ANTLRInputStream(text));
         final CommonTokenStream tokens = new CommonTokenStream(lexer);
         final WikiArticleParser parser = new WikiArticleParser(tokens);
