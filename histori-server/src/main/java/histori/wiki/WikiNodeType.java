@@ -2,7 +2,7 @@ package histori.wiki;
 
 public enum WikiNodeType {
 
-    article, string, link, infobox, attribute, plainlist, plainlist_entry;
+    article, string, link, infobox, attribute, plainlist, plainlist_entry, plainlist_header;
 
     public boolean isArticle () { return this == article; }
     public boolean isString () { return this == string; }
@@ -11,5 +11,6 @@ public enum WikiNodeType {
     public boolean isAttribute () { return this == attribute; }
     public boolean isPlainlist () { return this == plainlist; }
     public boolean isPlainlistEntry () { return this == plainlist_entry; }
+    public boolean isPlainlistHeader () { return this == plainlist_header; }
 
 }

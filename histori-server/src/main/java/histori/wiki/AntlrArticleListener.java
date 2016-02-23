@@ -5,7 +5,7 @@ import histori.antlr.wiki.WikiArticleParserBaseListener;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.misc.NotNull;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,17 +29,32 @@ public class AntlrArticleListener extends WikiArticleParserBaseListener {
 
     @Override public void enterPlainlist(WikiArticleParser.PlainlistContext ctx) {
         final WikiNode node = new WikiNode(WikiNodeType.plainlist, text(ctx));
-        if (!stack.isEmpty()) stack.peek().addNode(node);
         stack.push(node);
     }
 
-    @Override public void exitPlainlist(@NotNull WikiArticleParser.PlainlistContext ctx) { pop(); }
+    @Override public void exitPlainlist(WikiArticleParser.PlainlistContext ctx) { pop(); }
 
     @Override public void enterPlainlistEntry(WikiArticleParser.PlainlistEntryContext ctx) {
-        // todo - we could categorize the entry has "regular", "header" or "header-item"
-        // depending if the first non-whitespace char is '*' ';' or ':' respectively
-        final WikiNode node = new WikiNode(WikiNodeType.plainlist_entry, text(ctx));
+        final String text = text(ctx);
+        final WikiNode node;
+        if (text.startsWith(";")) {
+            final String body = text.substring(1).trim();
+            node = new WikiNode(WikiNodeType.plainlist_header, body);
+            addPlainlistEntries(node, body);
+        } else {
+            final String body = (text.startsWith("*") || text.startsWith(":")) ? text.substring(1).trim() : text;
+            node = new WikiNode(WikiNodeType.plainlist_entry, body);
+            addPlainlistEntries(node, body);
+        }
         if (!stack.isEmpty()) stack.peek().addNode(node);
+    }
+
+    private void addPlainlistEntries(WikiNode node, String body) {
+        final WikiArticleParser.ArticleContext context = WikiNode.getArticleContext(body);
+        final ParseTreeWalker walker = new ParseTreeWalker();
+        final AntlrArticleListener listener = new AntlrArticleListener();
+        walker.walk(listener, context);
+        node.addNodes(listener.getNodes());
     }
 
     @Override public void enterInfoboxName(WikiArticleParser.InfoboxNameContext ctx) {

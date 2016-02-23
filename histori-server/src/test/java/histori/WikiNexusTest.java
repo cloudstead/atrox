@@ -5,7 +5,6 @@ import histori.model.NexusTag;
 import histori.model.support.LatLon;
 import histori.model.support.NexusRequest;
 import histori.model.support.TimeRange;
-import histori.model.tag_schema.TagSchemaValue;
 import histori.wiki.WikiArchive;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.math.Cardinal;
@@ -18,9 +17,7 @@ import java.util.List;
 import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
 import static org.cobbzilla.util.math.Cardinal.east;
 import static org.cobbzilla.util.math.Cardinal.north;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @Slf4j
 public class WikiNexusTest {
@@ -42,12 +39,12 @@ public class WikiNexusTest {
                     .tag("impact", "dead", "estimate", "2500", "world_actor", "Octavian's Roman and allied supporters and forces")
                     .tag("world_actor", "Mark Antony's Roman and allied supporters", "role", "combatant")
                     .tag("world_actor", "Ptolemaic Egypt", "role", "combatant")
-                    .tag("person", "Mark Antony", "role", "commander", "world_actor", "Octavian's Roman and allied supporters and forces", "world_actor", "Ptolemaic Egypt")
-                    .tag("person", "Gaius Sosius", "role", "commander", "world_actor", "Octavian's Roman and allied supporters and forces", "world_actor", "Ptolemaic Egypt")
-                    .tag("person", "Marcus Octavius (admiral)", "role", "commander", "world_actor", "Octavian's Roman and allied supporters and forces", "world_actor", "Ptolemaic Egypt")
-                    .tag("person", "Cleopatra VII", "role", "commander", "world_actor", "Octavian's Roman and allied supporters and forces", "world_actor", "Ptolemaic Egypt")
-                    .tag("impact", "dead", "estimate" , "5000", "world_actor", "Octavian's Roman and allied supporters and forces", "world_actor", "Ptolemaic Egypt")
-                    .tag("impact", "ships sunk or captured", "estimate" , "200", "world_actor", "Octavian's Roman and allied supporters and forces", "world_actor", "Ptolemaic Egypt")
+                    .tag("person", "Mark Antony", "role", "commander", "world_actor", "Mark Antony's Roman and allied supporters", "world_actor", "Ptolemaic Egypt")
+                    .tag("person", "Gaius Sosius", "role", "commander", "world_actor", "Mark Antony's Roman and allied supporters", "world_actor", "Ptolemaic Egypt")
+                    .tag("person", "Marcus Octavius (admiral)", "role", "commander", "world_actor", "Mark Antony's Roman and allied supporters", "world_actor", "Ptolemaic Egypt")
+                    .tag("person", "Cleopatra VII", "role", "commander", "world_actor", "Mark Antony's Roman and allied supporters", "world_actor", "Ptolemaic Egypt")
+                    .tag("impact", "dead", "estimate" , "5000", "world_actor", "Mark Antony's Roman and allied supporters", "world_actor", "Ptolemaic Egypt")
+                    .tag("impact", "ships sunk or captured", "estimate" , "200", "world_actor", "Mark Antony's Roman and allied supporters", "world_actor", "Ptolemaic Egypt")
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Actium"),
 
             // Test case: a more obscure battle, we must lookup another wiki page to determine the location
@@ -92,14 +89,43 @@ public class WikiNexusTest {
                     .tag("result", "Allied victory, German operational failure")
                     .tag("world_actor", "United States", "role", "combatant")
                     .tag("world_actor", "United Kingdom", "role", "combatant")
-                    .tag("world_actor", "Provisional Government of the French Republic", "role", "combatant")
+                    .tag("world_actor", "Canada", "role", "combatant")
+                    .tag("world_actor", "France", "role", "combatant")
                     .tag("world_actor", "Belgium", "role", "combatant")
-                    .tag("world_actor", "Luxembourg Resistance", "role", "combatant")
+                    .tag("world_actor", "Luxembourg", "role", "combatant")
+                    .tag("person", "Dwight D. Eisenhower", "role", "commander", "world_actor", "United States")
+                    .tag("person", "Bernard Montgomery", "role", "commander", "world_actor", "United Kingdom")
+                    .tag("person", "Omar Bradley", "role", "commander", "world_actor", "United States")
+                    .tag("person", "Courtney Hodges", "role", "commander", "world_actor", "United States")
+                    .tag("person", "George S. Patton", "role", "commander", "world_actor", "United States")
+                    .tag("person", "Anthony McAuliffe", "role", "commander", "world_actor", "United States")
+                    .tag("impact", "casualties", "estimate", "89500", "world_actor", "United States")
+                    .tag("impact", "dead", "estimate", "19000", "world_actor", "United States")
+                    .tag("impact", "wounded", "estimate", "47500", "world_actor", "United States")
+                    .tag("impact", "captured or missing", "estimate", "23000", "world_actor", "United States")
+                    .tag("impact", "tanks/assault guns destroyed", "low_estimate", "700", "estimate", "750", "high_estimate", "800", "world_actor", "United States")
+                    .tag("impact", "aircraft lost", "estimate", "647", "world_actor", "United States")
+                    .tag("impact", "casualties", "estimate", "1408", "world_actor", "United Kingdom")
+                    .tag("impact", "dead", "estimate", "200", "world_actor", "United Kingdom")
+                    .tag("impact", "wounded", "estimate", "969", "world_actor", "United Kingdom")
+                    .tag("impact", "missing", "estimate", "239", "world_actor", "United Kingdom")
+                    .tag("world_actor", "Nazi Germany", "role", "combatant")
+                    .tag("person", "Adolf Hitler", "role", "commander", "world_actor", "Nazi Germany")
+                    .tag("person", "Walter Model", "role", "commander", "world_actor", "Nazi Germany")
+                    .tag("person", "Gerd von Rundstedt", "role", "commander", "world_actor", "Nazi Germany")
+                    .tag("person", "Hasso von Manteuffel", "role", "commander", "world_actor", "Nazi Germany")
+                    .tag("person", "Sepp Dietrich", "role", "commander", "world_actor", "Nazi Germany")
+                    .tag("person", "Erich Brandenberger", "role", "commander", "world_actor", "Nazi Germany")
+                    .tag("impact", "casualties", "low_estimate", "67459", "estimate", "96229", "high_estimate", "125000", "world_actor", "Nazi Germany")
+                    .tag("impact", "dead", "estimate", "10749", "world_actor", "Nazi Germany")
+                    .tag("impact", "wounded", "estimate", "34225", "world_actor", "Nazi Germany")
+                    .tag("impact", "captured", "estimate", "22487", "world_actor", "Nazi Germany")
+                    .tag("impact", "tanks/assault guns destroyed", "low_estimate", "600", "estimate", "700", "high_estimate", "800", "world_actor", "Nazi Germany")
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_the_Bulge"),
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
-        validateCorrectNexus(TESTS[TESTS.length-1]);
+//        validateCorrectNexus(TESTS[TESTS.length-1]);
         for (TestPage test : TESTS) {
             validateCorrectNexus(test);
         }
@@ -112,32 +138,9 @@ public class WikiNexusTest {
         assertEquals(test.range, nexusRequest.getTimeRange());
         assertEquals(test.tags.size(), nexusRequest.getTagCount());
         for (NexusTag tag : test.tags) {
-            assertTrue("missing tag: "+tag.getTagName(), nexusRequest.hasTag(tag.getTagName()));
-            assertTrue("tag doesn't match: "+tag.getTagName(), isSameTag(tag, nexusRequest.getTag(tag.getTagName())));
+            assertTrue("missing tag: "+tag.getTagType()+"/"+tag.getTagName(), nexusRequest.hasTag(tag.getTagName()));
+            assertTrue("tag doesn't match: "+tag.getTagName(), nexusRequest.hasExactTag(tag));
         }
-    }
-
-    private boolean isSameTag(NexusTag t1, NexusTag t2) {
-        if (!t1.getTagType().equalsIgnoreCase(t2.getTagType())) return false;
-        if (!t1.getTagName().equalsIgnoreCase(t2.getTagName())) return false;
-        if (!t1.hasSchemaValues()) return !t2.hasSchemaValues();
-
-        final TagSchemaValue[] t1schema = t1.getValues();
-        final TagSchemaValue[] t2schema = t1.getValues();
-        if (t1schema.length != t2schema.length) return false;
-
-        for (TagSchemaValue t1val : t1schema) {
-            boolean found = false;
-            for (TagSchemaValue t2val : t2schema) {
-                if (t1val.getField().equals(t2val.getField())
-                        && t1val.getValue().equals(t2val.getValue())) {
-                    found = true; break;
-                }
-            }
-            if (!found) return false;
-        }
-
-        return true;
     }
 
     private static class TestPage {
@@ -170,12 +173,16 @@ public class WikiNexusTest {
             tags.add((NexusTag) new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1));
             return this;
         }
-        public TestPage tag(String tagType, String tagName, String field1, String value1, String field2, String value2) {
-            tags.add((NexusTag) new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1).setValue(field2, value2));
+        public TestPage tag(String tagType, String tagName, String field1, String value1, String f2, String v2) {
+            tags.add((NexusTag) new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1).setValue(f2, v2));
             return this;
         }
-        public TestPage tag(String tagType, String tagName, String field1, String value1, String field2, String value2, String field3, String value3) {
-            tags.add((NexusTag) new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1).setValue(field2, value2).setValue(field3, value3));
+        public TestPage tag(String tagType, String tagName, String field1, String value1, String f2, String v2, String f3, String v3) {
+            tags.add((NexusTag) new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1).setValue(f2, v2).setValue(f3, v3));
+            return this;
+        }
+        public TestPage tag(String tagType, String tagName, String field1, String value1, String f2, String v2, String f3, String v3, String f4, String v4) {
+            tags.add((NexusTag) new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1).setValue(f2, v2).setValue(f3, v3).setValue(f4, v4));
             return this;
         }
     }

@@ -10,6 +10,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
@@ -18,22 +19,26 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 @Slf4j
 public class WikiNode {
 
-    public static List<WikiNode> parse(String text) {
+    public static WikiArticleParser.ArticleContext getArticleContext(String text) {
         final WikiArticleLexer lexer = new WikiArticleLexer(new ANTLRInputStream(text));
         final CommonTokenStream tokens = new CommonTokenStream(lexer);
         final WikiArticleParser parser = new WikiArticleParser(tokens);
+        return parser.article();
+    }
 
-        final WikiArticleParser.ArticleContext context = parser.article();
+    public static List<WikiNode> parse(String text) {
+        final WikiArticleParser.ArticleContext context = getArticleContext(text);
         final ParseTreeWalker walker = new ParseTreeWalker();
         final AntlrArticleListener listener = new AntlrArticleListener();
         walker.walk(listener, context);
-
         return listener.getNodes();
     }
 
     @Getter @Setter protected WikiNodeType type;
     @Getter @Setter protected String name;
+
     @Getter @Setter protected List<WikiNode> children;
+
     public boolean hasChildren() { return !empty(children); }
 
     @Getter(lazy=true) private final List<WikiNode> links = initLinks();
@@ -58,6 +63,11 @@ public class WikiNode {
         children.add(node);
     }
 
+    public void addNodes (Collection<WikiNode> nodes) {
+        if (children == null) children = new ArrayList<>();
+        children.addAll(nodes);
+    }
+
     @Override public String toString() { return toString(0); }
 
     private String toString(int indent) {
@@ -80,6 +90,8 @@ public class WikiNode {
 
     }
 
+    public String firstChildName () { return hasChildren() ? getChildren().get(0).getName() : null; }
+
     public WikiNode findFirstInfoboxWithName(String name) { return findFirstWithName(WikiNodeType.infobox, name); }
 
     public WikiNode findFirstAttributeWithName(String name) { return findFirstWithName(WikiNodeType.attribute, name); }
@@ -101,6 +113,16 @@ public class WikiNode {
         }
         return null;
     }
+
+    public WikiNode findFirstWithType(WikiNodeType type) { return findFirstWithType(type, this); }
+
+    public WikiNode findFirstWithType(WikiNodeType type, WikiNode node) {
+        if (node.hasChildren()) {
+            for (WikiNode child : node.getChildren()) if (child.getType() == type) return child;
+        }
+        return null;
+    }
+
 
     public String findAllChildText() {
         if (!hasChildren()) return null;
@@ -148,4 +170,10 @@ public class WikiNode {
 
     public boolean hasChildNamed(String name) { return findChildNamed(name) != null; }
 
+    public boolean hasSinglePlainlistChild() {
+        if (!hasChildren()) return false;
+        int listCount = 0;
+        for (WikiNode child : getChildren()) if (child.getType().isPlainlist()) listCount++;
+        return listCount == 1;
+    }
 }

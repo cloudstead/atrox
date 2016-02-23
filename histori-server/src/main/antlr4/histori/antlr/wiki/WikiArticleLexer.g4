@@ -12,7 +12,7 @@ mode IN_PLAINLIST;
 NEWLINE : '\n' ;
 PL_INFOBOX : StartInfoBox -> pushMode(IN_INFOBOX), type(START_INFOBOX) ;
 PL_LINK : StartLink -> pushMode(IN_LINK), type(START_LINK) ;
-PL_MARKUP : (~'\n')+ -> type(MARKUP) ;
+PL_MARKUP : (~('\n'))+ -> type(MARKUP) ;
 END_PLAINLIST : EndPlainlist -> popMode ;
 
 mode IN_INFOBOX;
@@ -28,6 +28,7 @@ ATTR_SEP : AttrSep ;
 ATTR_EQ : WS* '=' WS* -> pushMode(IN_ATTR_VALUE);
 ATTR_NAME : NameChar (NameChar|','|':'|WS)* ;
 ATTR_LINK : StartLink -> pushMode(IN_LINK), type(START_LINK);
+ATTR_INFOBOX :  StartInfoBox -> pushMode(IN_INFOBOX), type(START_INFOBOX);
 END_ATTRS : EndInfoBox -> skip, popMode, popMode, type(END_INFOBOX) ;
 
 mode IN_ATTR_VALUE;
@@ -48,7 +49,7 @@ Directive : [A-Z]+ ;
 
 InfoBoxName : (Directive ':')? Name ;
 
-fragment AttrSep : WS* ('|' | '\'') WS* ;
+fragment AttrSep : WS* ('|' | '\'' | ';') WS* ;
 
 fragment StartInfoBox : '{{' WS* ;
 

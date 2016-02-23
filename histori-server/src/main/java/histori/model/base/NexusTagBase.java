@@ -12,6 +12,9 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import static histori.ApiConstants.NAME_MAXLEN;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
@@ -58,4 +61,48 @@ public class NexusTagBase extends SocialEntity {
     @Override public String[] getIdentifierFields() { return ID_FIELDS; }
 
     @Override public String toString() { return getTagType()+"/"+getTagName(); }
+
+    public SchemaValueMap getSchemaValueMap() {
+        final SchemaValueMap map = new SchemaValueMap();
+        if (!hasSchemaValues()) return map;
+        for (TagSchemaValue val : getValues()) {
+            Set<String> found = map.get(val.getField());
+            if (found == null) {
+                found = new HashSet<>();
+                map.put(val.getField(), found);
+            }
+            found.add(val.getValue());
+        }
+        return map;
+    }
+
+    public class SchemaValueMap extends HashMap<String, Set<String>> {
+        @Override public boolean equals(Object o) {
+            if (!(o instanceof SchemaValueMap)) return false;
+
+            final SchemaValueMap m = (SchemaValueMap) o;
+
+            if (m.size() != this.size()) return false;
+
+            for (String field : this.keySet()) {
+                final Set<String> values = this.get(field);
+                final Set<String> mValues = m.get(field);
+
+                if (mValues == null) return values == null;
+                for (String val : values) if (!mValues.contains(val)) return false;
+                for (String val : mValues) if (!values.contains(val)) return false;
+            }
+
+            for (String field : m.keySet()) {
+                final Set<String> values = this.get(field);
+                final Set<String> mValues = m.get(field);
+
+                if (mValues == null) return values == null;
+                for (String val : values) if (!mValues.contains(val)) return false;
+                for (String val : mValues) if (!values.contains(val)) return false;
+            }
+
+            return true;
+        }
+    }
 }

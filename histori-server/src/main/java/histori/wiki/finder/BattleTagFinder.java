@@ -7,15 +7,24 @@ import histori.wiki.WikiNode;
 import histori.wiki.WikiNodeType;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static histori.wiki.finder.BattleParticipant.commander;
+import static histori.wiki.finder.BattleTagFinder.CommanderParseState.seeking_commander;
+import static histori.wiki.finder.BattleTagFinder.CommanderParseState.seeking_flag;
 
 @Slf4j
 public class BattleTagFinder extends TagFinderBase {
 
     public static final String INFOBOX_MILITARY_CONFLICT = "Infobox military conflict";
-    public static final String HTML_LINEBREAK_REGEX = "(<|&lt;)\\s*br\\s*/?\\s*(>|&gt;)";
+    public static final String HTML_TAG_REGEX = "(<|&lt;)\\s*\\w+\\s*/?\\s*(>|&gt;)";
+
+    public static final int MIN_VALID_NAME_LENGTH = 3;
 
     @Override public List<NexusTag> find() {
 
@@ -46,18 +55,22 @@ public class BattleTagFinder extends TagFinderBase {
         for (WikiNode child : infobox.getChildren()) {
             if (child.getType() == WikiNodeType.attribute) {
                 if (child.getName().startsWith("combatant")) {
-                    final String[] combatants = parseTagNames(child);
+                    final String[] combatants = parseCombatants(child);
                     for (String combatant : combatants) {
                         tags.add(newTag(combatant.trim(), "world_actor", "role", RoleType.combatant.name()));
                     }
 
                     final WikiNode commanderNode = infobox.findFirstAttributeWithName(child.getName().replace("combatant", "commander"));
                     if (commanderNode != null) {
-                        final String[] commanders = parseTagNames(commanderNode);
-                        for (String commander : commanders) {
-                            if (trimName(commander).length() > 0) {
-                                tag = newTag(commander.trim(), "person", "role", RoleType.commander.name());
-                                addCombatants(tag, combatants);
+                        final Set<BattleParticipant> commanders = parseCommanders(commanderNode);
+                        for (BattleParticipant commander : commanders) {
+                            if (commander.isValidName()) {
+                                tag = newTag(commander.name, "person", "role", RoleType.commander.name());
+                                if (commander.side != null) {
+                                    tag.setValue("world_actor", commander.side);
+                                } else {
+                                    addCombatants(tag, combatants);
+                                }
                                 tags.add(tag);
                             }
                         }
@@ -65,32 +78,57 @@ public class BattleTagFinder extends TagFinderBase {
 
                     final WikiNode casualtiesNode = infobox.findFirstAttributeWithName(child.getName().replace("combatant", "casualties"));
                     if (casualtiesNode != null) {
-                        final String[] casualties = casualtiesNode.findAllChildTextButNotLinkDescriptions().split(HTML_LINEBREAK_REGEX);
-                        for (String casualty : casualties) {
+                        if (casualtiesNode.hasSinglePlainlistChild()) {
+                            final List<WikiNode> entries = casualtiesNode.findFirstWithType(WikiNodeType.plainlist).getChildren();
+                            String activeFlag = null;
+                            for (WikiNode plEntry : entries) {
+                                if (plEntry.getType().isPlainlistHeader()) {
+                                    activeFlag = getFlagName(plEntry);
 
-                            final Long estimate = extractFirstNumber(casualty);
-                            if (estimate == null) continue;
+                                } else if (plEntry.getType().isPlainlistEntry()) {
+                                    final String casualty = plEntry.firstChildName();
+                                    WikiNode ref = plEntry.findFirstInfoboxWithName("efn");
+                                    if (ref == null) ref = plEntry.findFirstInfoboxWithName("sfn");
+                                    if (ref != null && hasCasualties(ref)) {
+                                        Long[] estimate1 = extractEstimate(casualty);
+                                        if (estimate1 != null) {
+                                            String continuationAfterRef = plEntry.getChildren().get(2).getName().trim();
+                                            if (continuationAfterRef.startsWith("}}")) continuationAfterRef = continuationAfterRef.substring(2).trim();
+                                            if (plEntry.getChildren().size() >= 3
+                                                    && (continuationAfterRef.startsWith("-")|| continuationAfterRef.startsWith("–"))) {
+                                                if (extractEstimate(continuationAfterRef) != null) {
+                                                    final NexusTag impactTag = impactTag(activeFlag, estimate1[0].toString() + continuationAfterRef);
+                                                    if (impactTag != null) tags.add(impactTag);
+                                                }
+                                            }
+                                        }
+                                        for (WikiNode refAttr : ref.getChildren()) {
+                                            String refName = refAttr.getName();
+                                            if (extractEstimate(refName) != null && getCasualtyType(refName, null) != null) {
+                                                final NexusTag impactTag = impactTag(activeFlag, refName);
+                                                if (impactTag != null) tags.add(impactTag);
+                                            }
+                                        }
 
-                            if (casualty.toLowerCase().contains("killed") || casualty.toLowerCase().contains("dead")) {
-                                tags.add(newImpactTag(combatants, estimate, "dead"));
+                                    } else if (casualty.contains("(") && casualty.contains(")") && casualty.indexOf("(") < casualty.indexOf(")")) {
+                                        tags.add(impactTag(activeFlag, casualty, "casualties")); // main casualty tag
+                                        String[] parts = casualty.substring(casualty.indexOf('(') + 1, casualty.indexOf(')')).split(",");
+                                        for (String part : parts) {
+                                            final NexusTag impactTag = impactTag(activeFlag, part.trim());
+                                            if (impactTag != null) tags.add(impactTag);
+                                        }
 
-                            } else if (casualty.toLowerCase().contains("ships sunk or captured")) {
-                                tags.add(newImpactTag(combatants, estimate, "ships sunk or captured"));
-
-                            } else if (casualty.toLowerCase().contains("ships sunk")) {
-                                tags.add(newImpactTag(combatants, estimate, "ships sunk"));
-
-                            } else if (casualty.toLowerCase().contains("ships captured")) {
-                                tags.add(newImpactTag(combatants, estimate, "ships captured"));
-
-                            } else if (casualty.toLowerCase().contains("casualties")) {
-                                tags.add(newImpactTag(combatants, estimate, "casualties"));
-
-                            } else if (casualty.toLowerCase().contains("captured")) {
-                                tags.add(newImpactTag(combatants, estimate, "captured"));
-
-                            } else {
-                                tags.add(newImpactTag(combatants, estimate, "dead"));
+                                    } else {
+                                        final NexusTag impactTag = impactTag(activeFlag, casualty);
+                                        if (impactTag != null) tags.add(impactTag);
+                                    }
+                                }
+                            }
+                        } else {
+                            final String[] casualties = casualtiesNode.findAllChildTextButNotLinkDescriptions().split(HTML_TAG_REGEX);
+                            for (String casualty : casualties) {
+                                final NexusTag impactTag = impactTag(combatants, casualty);
+                                if (impactTag != null) tags.add(impactTag);
                             }
                         }
                     }
@@ -99,6 +137,64 @@ public class BattleTagFinder extends TagFinderBase {
         }
 
         return tags;
+    }
+
+    private boolean hasCasualties(WikiNode ref) {
+        if (!ref.hasChildren()) return false;
+        for (WikiNode child : ref.getChildren()) {
+            if (extractEstimate(child.getName()) != null && getCasualtyType(child.getName(), null) != null) return true;
+        }
+        return false;
+    }
+
+    public NexusTag impactTag(String activeFlag, String casualty) {
+        return impactTag(activeFlag, casualty, getCasualtyType(casualty));
+    }
+
+    public NexusTag impactTag(String activeFlag, String casualty, String casualtyType) {
+        final Long[] estimate = extractEstimate(casualty);
+        return newImpactTag(new String[]{activeFlag}, estimate, casualtyType);
+    }
+
+    public NexusTag impactTag(String[] activeFlags, String casualty) {
+        final Long[] estimate = extractEstimate(casualty);
+        if (estimate == null) return null;
+        return newImpactTag(activeFlags, estimate, getCasualtyType(casualty));
+    }
+
+    private String getCasualtyType(String casualty) { return getCasualtyType(casualty, "dead"); }
+
+    private String getCasualtyType(String casualty, String defaultValue) {
+        final String c = casualty.toLowerCase();
+        if (c.contains("killed") || c.contains("dead")) return "dead";
+        if (c.contains("wounded") || c.contains("injured")) return "wounded";
+        if (c.contains("ships sunk or captured")) return "ships sunk or captured";
+        if (c.contains("ships sunk")) return "ships sunk";
+        if (c.contains("ships captured")) return "ships captured";
+        if (c.contains("aircraft lost")) return "aircraft lost";
+        if (c.contains("captured or missing")) return "captured or missing";
+        if (c.contains("captured")) return "captured";
+        if (c.contains("missing")) return "missing";
+        if (c.contains("tanks and assault guns destroyed")) return "tanks/assault guns destroyed";
+        if (c.contains("tanks destroyed")) return "tanks destroyed";
+        if (c.contains("assault guns destroyed")) return "assault guns destroyed";
+        if (c.contains("casualties")) return "casualties";
+        return defaultValue;
+    }
+
+    public String getFlagName(WikiNode node) {
+        WikiNode flag;
+
+        flag = node.findFirstWithName(WikiNodeType.infobox, "flag");
+        if (flag != null) return flag.firstChildName();
+
+        flag = node.findFirstWithName(WikiNodeType.infobox, "flagicon");
+        if (flag != null) return flag.firstChildName();
+
+        flag = node.findFirstWithName(WikiNodeType.infobox, "flagicon image");
+        if (flag != null) return flag.firstChildName();
+
+        return node.findAllChildText();
     }
 
     public String trimToFirstLine(String result) {
@@ -113,7 +209,7 @@ public class BattleTagFinder extends TagFinderBase {
         return result;
     }
 
-    public String[] parseTagNames(WikiNode targetNode) {
+    public String[] parseCombatants(WikiNode targetNode) {
         final Set<String> found = new LinkedHashSet<>();
         boolean skippingComment = false;
         for (WikiNode child : targetNode.getChildren()) {
@@ -127,27 +223,41 @@ public class BattleTagFinder extends TagFinderBase {
                         skippingComment = false; continue;
                     }
                     if (skippingComment) continue;
-                    for (String combatant : child.getName().split(HTML_LINEBREAK_REGEX)) {
+                    for (String combatant : child.getName().split(HTML_TAG_REGEX)) {
                         if (trimName(combatant).length() > 0) found.add(combatant.trim());
                     }
                     break;
                 case link:
                     String name = child.getName().toLowerCase().trim();
                     if (!name.startsWith("file:") && !name.startsWith("image:")) {
-                        for (String combatant : child.getName().split(HTML_LINEBREAK_REGEX)) {
+                        for (String combatant : child.getName().split(HTML_TAG_REGEX)) {
                             if (trimName(combatant).length() > 0) found.add(combatant.trim());
                         }
                     }
                     break;
+
+                case plainlist:
+                    if (!child.hasChildren()) continue;
+                    for (WikiNode entry : child.getChildren()) {
+                        if (entry.getType() == WikiNodeType.plainlist_entry) {
+                            String flagName = getFlagName(entry);
+                            addCombatant(found, flagName);
+                        }
+                    }
+                    break;
+
                 case infobox:
                     if (child.getName().equalsIgnoreCase("plainlist")) {
                         for (WikiNode nestedChild : child.getChildren()) {
                             if (nestedChild.getName().equals("flag")) continue;
-                            found.add(nestedChild.getName().trim());
+                            addCombatant(found, getFlagName(nestedChild));
                             break;
                         }
-                    } else if (child.getName().equalsIgnoreCase("flag") && child.hasChildren()) {
-                        found.add(child.getChildren().get(0).getName().trim());
+                    } else if (child.hasChildren()
+                            && (child.getName().equalsIgnoreCase("flag")
+                             || child.getName().equalsIgnoreCase("flagicon")
+                             || child.getName().equalsIgnoreCase("flagicon image"))) {
+                        addCombatant(found, getFlagName(child));
                     }
 
                 default: continue;
@@ -156,12 +266,111 @@ public class BattleTagFinder extends TagFinderBase {
         return found.toArray(new String[found.size()]);
     }
 
+    public String addCombatant(Set<String> found, String flagText) {
+        flagText = flagText.trim();
+        if (flagText.toLowerCase().startsWith("flag of")) flagText = flagText.substring("flag of".length());
+        int dotPos = flagText.indexOf('.');
+        if (dotPos != -1 && dotPos > flagText.length() - 6) flagText = flagText.substring(0, dotPos);
+        if (flagText.length() < 2) return null; // todo: log this?
+        flagText = flagText.trim();
+        found.add(flagText);
+        return flagText;
+    }
+
+    enum CommanderParseState {
+        seeking_commander, seeking_flag
+    }
+    public Set<BattleParticipant> parseCommanders(WikiNode targetNode) {
+        final Set<BattleParticipant> found = new LinkedHashSet<>();
+        boolean skippingComment = false;
+        String side = null;
+        boolean foundFlags = false;
+        CommanderParseState state = seeking_commander;
+        for (WikiNode child : targetNode.getChildren()) {
+            switch (child.getType()) {
+                case string:
+                    // detect and skip HTML comments
+                    if (child.getName().trim().startsWith("&lt;!--")) {
+                        skippingComment = true; continue;
+                    }
+                    if (child.getName().trim().endsWith("--&gt;")) {
+                        skippingComment = false; continue;
+                    }
+                    if (skippingComment) continue;
+                    if (foundFlags && state != seeking_commander) continue;
+                    for (String name : child.getName().split(HTML_TAG_REGEX)) {
+                        if (trimName(name).length() > 0) {
+                            found.add(commander(name, side));
+                            if (foundFlags) state = seeking_flag;
+                        }
+                    }
+                    break;
+
+                case link:
+                    if (foundFlags && state != seeking_commander) continue;
+                    String name = child.getName().toLowerCase().trim();
+                    if (!name.startsWith("file:") && !name.startsWith("image:")) {
+                        for (String subname : child.getName().split(HTML_TAG_REGEX)) {
+                            if (trimName(subname).length() > 0) {
+                                found.add(commander(subname, side));
+                                if (foundFlags) state = seeking_flag;
+                            }
+                        }
+                    }
+                    break;
+
+                case plainlist:
+                    log.info("in plainlist"); break;
+                case plainlist_entry:
+                    log.info("in plainlist_entry"); break;
+
+                case infobox:
+                    if (child.getName().equalsIgnoreCase("plainlist")) {
+                        for (WikiNode nestedChild : child.getChildren()) {
+                            if (nestedChild.getName().equals("flag")) {
+                                foundFlags = true;
+                                state = seeking_commander;
+                                side = nestedChild.getName().trim();
+
+                            } else {
+                                found.add(commander(nestedChild.getName(), side));
+                                if (foundFlags) state = seeking_flag;
+                            }
+                            break;
+                        }
+
+                    } else if ((child.getName().equalsIgnoreCase("flag") || child.getName().equalsIgnoreCase("flagicon")) && child.hasChildren()) {
+                        foundFlags = true;
+                        state = seeking_commander;
+                        side = child.firstChildName().trim();
+                    }
+
+                default: continue;
+            }
+        }
+        return found;
+    }
+
     private String trimName(String combatant) {
         return combatant.replaceAll("\\W", "").toLowerCase().trim();
     }
 
-    public NexusTag newImpactTag(String[] combatants, Long estimate, String tagName) {
-        final NexusTag tag = newTag(tagName, "impact", "estimate", estimate.toString());
+    public NexusTag newImpactTag(String[] combatants, Long[] estimate, String tagName) {
+        if (estimate == null || estimate.length == 0) return null; // todo: log this?
+        final NexusTag tag;
+        switch (estimate.length) {
+            case 1:
+                tag = newTag(tagName, "impact", "estimate", estimate[0].toString());
+                break;
+            case 2:
+                tag = newTag(tagName, "impact", "low_estimate", estimate[0].toString());
+                tag.setValue("high_estimate", estimate[1].toString());
+                tag.setValue("estimate", String.valueOf(((estimate[0] + estimate[1]) / 2L)));
+                break;
+            default:
+                log.warn("newTagImpact: invalid estimate: "+estimate);
+                return null;
+        }
         return addCombatants(tag, combatants);
     }
 
@@ -172,16 +381,29 @@ public class BattleTagFinder extends TagFinderBase {
         return tag;
     }
 
-    public static final Pattern FIND_NUMBER_PATTERN = Pattern.compile("\\s*([,\\d])+\\s*");
+    public static final Pattern FIND_NUMBER_PATTERN = Pattern.compile("\\s*([,\\d]+)(\\s*[-–]\\s*([,\\d]+))?\\s*");
 
-    private Long extractFirstNumber(String val) {
+    private Long[] extractEstimate(String val) {
         final Matcher m = FIND_NUMBER_PATTERN.matcher(val);
         if (!m.find()) return null;
         try {
-            return Long.parseLong(m.group(0).trim().replace(",", ""));
+            if (m.groupCount() >= 3) {
+                if (m.group(2) == null) {
+                    return new Long[]{estimateToLong(m.group(1))};
+                } else {
+                    return new Long[]{estimateToLong(m.group(1)), estimateToLong(m.group(3))};
+                }
+            } else {
+                log.warn("extractEstimate: error handling '"+val+"'");
+                return null;
+            }
         } catch (Exception e) {
             log.warn("Error parsing ("+val+"): "+e);
             return null;
         }
+    }
+
+    private long estimateToLong(String group) {
+        return Long.parseLong(group.trim().replace(",", ""));
     }
 }

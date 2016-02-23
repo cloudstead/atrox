@@ -92,6 +92,15 @@ public class NexusBase extends SocialEntity {
         return null;
     }
 
+    public NexusTag getTag(String tagType, String name) {
+        if (empty(tags)) return null;
+        final String canonical = canonicalize(name);
+        for (NexusTag tag : tags) {
+            if (tag.getTagType().equalsIgnoreCase(tagType) && canonicalize(tag.getTagName()).equals(canonical)) return tag;
+        }
+        return null;
+    }
+
     public boolean hasTag(String name) {
         if (empty(tags) || empty(name)) return false;
         final String canonical = canonicalize(name);
@@ -102,5 +111,24 @@ public class NexusBase extends SocialEntity {
     }
 
     @JsonIgnore @Transient public int getTagCount() { return empty(tags) ? 0 : tags.size(); }
+
+    public boolean hasExactTag(NexusTag match) {
+        if (!hasTags()) return false;
+        for (NexusTag tag : getTags()) {
+            if (!tag.getTagName().equalsIgnoreCase(match.getTagName())) continue;
+            if (!tag.getTagType().equalsIgnoreCase(match.getTagType())) continue;
+
+            if (!tag.hasSchemaValues()) {
+                if (match.hasSchemaValues()) continue;
+                return true;
+            }
+            if (!match.hasSchemaValues()) continue;;
+
+            if (!tag.getSchemaValueMap().equals(match.getSchemaValueMap())) continue;
+
+            return true;
+        }
+        return false;
+    }
 
 }
