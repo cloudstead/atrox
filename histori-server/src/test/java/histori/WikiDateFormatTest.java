@@ -10,6 +10,8 @@ import static org.junit.Assert.fail;
 public class WikiDateFormatTest {
 
 	public static final String[][] TESTS = new String[][] {
+            {"16 December 1944 – 25 January 1945", "1944-12-16_1945-01-25"},
+            {"15 September – 27 November 1944", "1944-09-15_1944-11-27"},
             {"5–6 June 1967", "1967-06-05_1967-06-06"},
 			{"September 2, 31 BC", "-31-09-02"},
             {"11 September 1865<ref name=\"Bancroft\" />{{rp", "1865-09-11"},

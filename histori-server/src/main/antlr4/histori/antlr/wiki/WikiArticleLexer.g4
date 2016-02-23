@@ -26,7 +26,7 @@ ATTR_PLAINLIST: StartPlainlist -> pushMode(IN_PLAINLIST) ;
 ATTR_SEP : AttrSep ;
 //ATTR_EQ : {has_attr_values=true} WS* '=' WS* -> pushMode(IN_ATTR_VALUE);
 ATTR_EQ : WS* '=' WS* -> pushMode(IN_ATTR_VALUE);
-ATTR_NAME : NameChar (NameChar|','|':'|WS)* ;
+ATTR_NAME : (NameChar|'°') (NameChar|','|':'|'-'|'–'|'°'|WS)* ;
 ATTR_LINK : StartLink -> pushMode(IN_LINK), type(START_LINK);
 ATTR_INFOBOX :  StartInfoBox -> pushMode(IN_INFOBOX), type(START_INFOBOX);
 END_ATTRS : EndInfoBox -> skip, popMode, popMode, type(END_INFOBOX) ;

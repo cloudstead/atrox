@@ -122,10 +122,17 @@ public class WikiNexusTest {
                     .tag("impact", "captured", "estimate", "22487", "world_actor", "Nazi Germany")
                     .tag("impact", "tanks/assault guns destroyed", "low_estimate", "600", "estimate", "700", "high_estimate", "800", "world_actor", "Nazi Germany")
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_the_Bulge"),
+
+            // Another one with coordinates that are difficult to find
+            new TestPage("Battle of Peleliu", false)
+                    .location(7, 0, north, 134, 15, east)
+                    .range("1944-09-15", "1944-11-27")
+                    .tag("event_type", "battle")
+                    .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Peleliu"),
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
-//        validateCorrectNexus(TESTS[TESTS.length-1]);
+        validateCorrectNexus(TESTS[TESTS.length-1]);
         for (TestPage test : TESTS) {
             validateCorrectNexus(test);
         }
@@ -136,7 +143,7 @@ public class WikiNexusTest {
         assertNotNull("error parsing article: "+test.title, nexusRequest);
         assertEquals(test.getGeoJson(), nexusRequest.getGeoJson());
         assertEquals(test.range, nexusRequest.getTimeRange());
-        assertEquals(test.tags.size(), nexusRequest.getTagCount());
+        if (test.fullCheck) assertEquals(test.tags.size(), nexusRequest.getTagCount());
         for (NexusTag tag : test.tags) {
             assertTrue("missing tag: "+tag.getTagType()+"/"+tag.getTagName(), nexusRequest.hasTag(tag.getTagName()));
             assertTrue("tag doesn't match: "+tag.getTagName(), nexusRequest.hasExactTag(tag));
@@ -146,7 +153,10 @@ public class WikiNexusTest {
     private static class TestPage {
 
         public String title;
-        public TestPage (String title) { this.title = title; }
+        public boolean fullCheck;
+
+        public TestPage (String title) { this(title, true); }
+        public TestPage (String title, boolean fullCheck) { this.title = title; this.fullCheck = fullCheck; }
 
         public LatLon location;
         public TestPage location (LatLon location) { this.location = location; return this; }

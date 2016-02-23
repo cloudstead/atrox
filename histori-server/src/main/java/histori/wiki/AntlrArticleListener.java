@@ -59,7 +59,7 @@ public class AntlrArticleListener extends WikiArticleParserBaseListener {
 
     @Override public void enterInfoboxName(WikiArticleParser.InfoboxNameContext ctx) {
         final WikiNode node = new WikiNode(WikiNodeType.infobox, text(ctx));
-        if (!stack.isEmpty()) stack.peek().addNode(node);
+//        if (!stack.isEmpty()) stack.peek().addNode(node);
         stack.push(node);
     }
     @Override public void exitInfobox(WikiArticleParser.InfoboxContext ctx) { pop(); }

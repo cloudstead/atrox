@@ -4,7 +4,6 @@ import histori.model.support.LatLon;
 import histori.wiki.ParsedWikiArticle;
 import histori.wiki.WikiArchive;
 import histori.wiki.WikiNode;
-import histori.wiki.WikiNodeType;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
@@ -172,8 +171,8 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
     }
 
     private LatLon parseCoordinates (WikiNode coordsAttr) throws Exception {
-        WikiNode coordsValue = coordsAttr.getChildren().get(0);
-        if (coordsValue.getType() == WikiNodeType.infobox && coordsValue.getName().equals(BOXNAME_COORD)) {
+        final WikiNode coordsValue = coordsAttr.getChildren().get(0);
+        if (coordsValue.getType().isInfobox() && coordsValue.getName().equalsIgnoreCase(BOXNAME_COORD)) {
             final List<WikiNode> coordNumbers = coordsValue.getChildren();
             return fromCoordsValue(coordNumbers);
         }

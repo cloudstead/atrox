@@ -84,6 +84,9 @@ public class WikiDateFormat {
             Pattern.compile(MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR),
             "startDay", "startMonth", "startYear", "endDay", "endMonth", "endYear"
     }, {
+            Pattern.compile(MATCH_DAY + SPACE + MATCH_MONTH + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR),
+            "startDay", "startMonth", "endDay", "endMonth", "startYear"
+    }, {
             Pattern.compile(MATCH_MONTH + ANY_SPACES + "or" + ANY_SPACES + MATCH_MONTH + "?," + ANY_SPACES + MATCH_YEAR),
             "startMonth", null, "startYear"
     }};
