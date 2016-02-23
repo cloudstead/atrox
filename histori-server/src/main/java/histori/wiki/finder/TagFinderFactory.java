@@ -11,7 +11,7 @@ public class TagFinderFactory {
     }
 
     private static TagFinder _build(ParsedWikiArticle parsed) {
-        if (parsed.getName().toLowerCase().startsWith("battle of")) {
+        if (parsed.getName().toLowerCase().contains("battle of")) {
             return new BattleTagFinder();
         }
         return null;

@@ -50,9 +50,9 @@ LINK_PART : '\\' | ~[|\[\]]+ ;
 NEST_LINK : StartLink -> pushMode(IN_LINK), type(START_LINK);
 END_LINK : WS* ']' ']'? -> popMode ;
 
-Directive : [A-Z]+ ;
+Directive : [A-Za-z]+ ;
 
-InfoBoxName : (Directive ':')? Name ;
+InfoBoxName : ('#'? Directive ':')? Name ;
 
 fragment AttrSep : WS* ('|' | '\'' | ';') WS* ;
 

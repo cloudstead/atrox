@@ -220,7 +220,24 @@ public class WikiNexusTest {
                     .tag("impact", "aircraft damaged", "estimate", "20", "world_actor", "Nazi Germany", "world_actor", "Germany")
                     .tag("impact", "captured", "low_estimate", "63", "estimate", "64", "high_estimate", "65", "world_actor", "Nazi Germany", "world_actor", "Germany")
                     .tag("impact", "wounded", "low_estimate", "30", "estimate", "30", "high_estimate", "31", "world_actor", "Nazi Germany", "world_actor", "Germany")
-                    .tag("impact", "missing", "estimate", "21", "world_actor", "Nazi Germany", "world_actor", "Germany")
+                    .tag("impact", "missing", "estimate", "21", "world_actor", "Nazi Germany", "world_actor", "Germany"),
+
+            new TestPage("Naval Battle of Guadalcanal", false)
+                    .tag("world_actor", "United States", "role", "combatant")
+                    .tag("world_actor", "Empire of Japan", "role", "combatant")
+                    .tag("impact", "light cruisers sunk", "estimate", "2", "world_actor", "United States")
+                    .tag("impact", "destroyers sunk", "estimate", "3", "world_actor", "United States")
+                    .tag("impact", "destroyers sunk", "estimate", "4", "world_actor", "United States")
+                    .tag("impact", "aircraft destroyed", "estimate", "36", "world_actor", "United States")
+                    .tag("impact", "dead", "estimate", "1732", "world_actor", "United States")
+                    .tag("impact", "battleships sunk", "estimate", "1", "world_actor", "Empire of Japan")
+                    .tag("impact", "destroyers sunk", "estimate", "2", "world_actor", "Empire of Japan")
+                    .tag("impact", "transports lost", "estimate", "7", "world_actor", "Empire of Japan")
+                    .tag("impact", "battleships sunk", "estimate", "1", "world_actor", "Empire of Japan")
+                    .tag("impact", "destroyers sunk", "estimate", "1", "world_actor", "Empire of Japan")
+                    .tag("impact", "transports lost", "estimate", "4", "world_actor", "Empire of Japan")
+                    .tag("impact", "aircraft destroyed", "estimate", "64", "world_actor", "Empire of Japan")
+                    .tag("impact", "dead", "estimate", "1900", "world_actor", "Empire of Japan")
 
     };
 

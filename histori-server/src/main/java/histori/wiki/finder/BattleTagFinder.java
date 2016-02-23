@@ -129,14 +129,20 @@ public class BattleTagFinder extends TagFinderBase {
                             final String[] casualties = casualtiesNode.findAllChildTextButNotLinkDescriptions().split(HTML_BR_REGEX);
                             int validCasualties = 0;
                             for (String casualty : casualties) if (isValidCasualty(casualty)) validCasualties++;
-                            final String defaultCasualtyType = validCasualties <= 1 ? "dead" : "casualties";
+                            final String defaultCasualtyType = validCasualties <= 1 ? "dead" : null;
                             String lastCasualty = null;
+                            boolean first = true;
                             for (String casualty : casualties) {
-                                final NexusTag impactTag = impactTag(combatants, casualty, getCasualtyType(casualty, defaultCasualtyType, lastCasualty));
+                                String ctype = getCasualtyType(casualty, lastCasualty);
+                                if (ctype == null) {
+                                    if (first) { ctype = validCasualties <= 1 ? "dead" : "casualties"; } else if (validCasualties <= 1) { ctype = defaultCasualtyType; }
+                                }
+                                final NexusTag impactTag = impactTag(combatants, casualty, ctype);
                                 if (impactTag != null) {
                                     lastCasualty = casualty;
                                     tags.add(impactTag);
                                 }
+                                first = false;
                             }
                         }
                     }
@@ -178,9 +184,7 @@ public class BattleTagFinder extends TagFinderBase {
 
     private String getCasualtyType(String casualty) { return getCasualtyType(casualty, "dead"); }
 
-    private String getCasualtyType(String casualty, String defaultValue) { return getCasualtyType(casualty, defaultValue, null); }
-
-    private String getCasualtyType(String casualty, String defaultValue, String last) {
+    private String getCasualtyType(String casualty, String last) {
 
         final String c = removeTags(casualty).toLowerCase().trim();
 
@@ -192,7 +196,7 @@ public class BattleTagFinder extends TagFinderBase {
         if (c.contains("ships sunk or captured") || c.contains("ships captured or sunk")) return "ships sunk or captured";
         if (c.contains("ships sunk")) return "ships sunk";
         if (c.contains("ships captured")) return "ships captured";
-        if (c.contains("aircraft lost") || c.contains("aircraft destroyed")) return "aircraft destroyed";
+        if (c.contains("aircraft lost") || c.contains("aircraft destroyed") || c.contains("aircraft")) return "aircraft destroyed";
         if (c.contains("captured or missing") || c.contains("missing or captured")) return "captured or missing";
         if (c.contains("guns captured")) return "guns captured";
         if (c.contains("captured")) return "captured";
@@ -200,9 +204,13 @@ public class BattleTagFinder extends TagFinderBase {
         if (c.contains("tanks and assault guns destroyed") || c.contains("assault guns and tanks destroyed")) return "tanks/assault guns destroyed";
         if (c.contains("tanks destroyed")) return "tanks destroyed";
         if (c.contains("assault guns destroyed")) return "assault guns destroyed";
+        if (c.contains("light cruiser")) return "light cruisers sunk";
+        if (c.contains("destroyer")) return "destroyers sunk";
+        if (c.contains("battleship")) return "battleships sunk";
+        if (c.contains("transport")) return "transports lost";
         if (c.contains("casualties") || c.endsWith("total")) return "casualties";
         if (c.contains("damaged") && last != null) return getFirstNonNumberWord(removeTags(last)) + " damaged";
-        return defaultValue;
+        return null;
     }
 
     private String getFirstNonNumberWord(String line) {
