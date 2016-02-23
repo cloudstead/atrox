@@ -1,7 +1,6 @@
 package histori.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.JavaType;
 import histori.ApiConstants;
 import histori.model.cache.VoteSummary;
 import histori.model.support.EntityCommentary;
@@ -10,7 +9,6 @@ import histori.model.support.TimePoint;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.cobbzilla.wizard.dao.SearchResults;
 import org.cobbzilla.wizard.model.ResultPage;
 
 import javax.persistence.*;
@@ -31,8 +29,6 @@ public abstract class SocialEntity extends AccountOwnedEntity implements Version
         if (commentary == null) commentary = new EntityCommentary();
         return commentary;
     }
-
-    @Transient @JsonIgnore public JavaType getSearchResultType() { return SearchResults.jsonType(getClass()); }
 
     @Column(nullable=false, length=20)
     @Enumerated(EnumType.STRING)

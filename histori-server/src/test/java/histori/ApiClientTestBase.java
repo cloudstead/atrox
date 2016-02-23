@@ -4,6 +4,7 @@ import histori.model.Nexus;
 import histori.model.NexusTag;
 import histori.model.support.AccountAuthResponse;
 import histori.model.auth.RegistrationRequest;
+import histori.model.support.NexusSummary;
 import histori.model.support.TimeRange;
 import histori.server.DbSeedListener;
 import histori.server.HistoriConfiguration;
@@ -101,8 +102,8 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
         return JsonUtil.PUBLIC_MAPPER.readValue(response.json, resultType);
     }
 
-    public SearchResults<Nexus> search(String startDate, String endDate) throws Exception {
-        return simpleSearch(SEARCH_ENDPOINT + EP_DATE + "/" + startDate + "/" + endDate, new Nexus().getSearchResultType());
+    public SearchResults<NexusSummary> search(String startDate, String endDate) throws Exception {
+        return simpleSearch(SEARCH_ENDPOINT + EP_DATE + "/" + startDate + "/" + endDate, NexusSummary.SEARCH_RESULT_TYPE);
     }
 
     public Nexus dummyNexus () {

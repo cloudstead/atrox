@@ -3,10 +3,7 @@ package histori;
 import histori.archive.NexusArchive;
 import histori.archive.NexusTagArchive;
 import histori.model.*;
-import histori.model.support.AccountAuthResponse;
-import histori.model.support.AutocompleteSuggestions;
-import histori.model.support.EntityCommentary;
-import histori.model.support.TimeRange;
+import histori.model.support.*;
 import org.cobbzilla.wizard.dao.SearchResults;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +32,7 @@ public class NexusTest extends ApiClientTestBase {
     @Test public void testNexusCrud () throws Exception {
 
         Nexus found;  // when we lookup by id
-        Nexus result; // when we use the search api
+        NexusSummary result; // when we use the search api
 
         apiDocs.startRecording(DOC_TARGET, "Add a nexus and associated data");
 
@@ -45,7 +42,7 @@ public class NexusTest extends ApiClientTestBase {
         final String endDate = range.getEndPoint().toString();
 
         apiDocs.addNote("Search the range ("+range.getStartPoint()+" to "+range.getEndPoint()+"), there should be nothing found");
-        SearchResults<Nexus> searchResults = search(startDate, endDate);
+        SearchResults<NexusSummary> searchResults = search(startDate, endDate);
         assertNull(searchResults.getTotalCount());
         assertEquals(0, searchResults.count());
         assertTrue(searchResults.getResults().isEmpty());
@@ -89,8 +86,8 @@ public class NexusTest extends ApiClientTestBase {
         searchResults = search(startDate, endDate);
         assertEquals(1, searchResults.count());
         result = searchResults.getResult(0);
-        assertEquals(nexusName, result.getName());
-        assertEquals(3, result.getTags().size());
+        assertEquals(nexusName, result.getPrimary().getName());
+        assertEquals(3, result.getPrimary().getTags().size());
 
         apiDocs.addNote("Update our nexus with new name, this should create a new version");
         final String updatedName = nexusName + " -- update";
@@ -115,9 +112,9 @@ public class NexusTest extends ApiClientTestBase {
         searchResults = search(startDate, endDate);
         assertEquals(1, searchResults.count());
         result = searchResults.getResult(0);
-        assertEquals(nexusName, result.getName());
-        assertEquals(4, result.getTags().size());
-        assertTrue(result.hasTag(tag4.toLowerCase()));
+        assertEquals(nexusName, result.getPrimary().getName());
+        assertEquals(4, result.getPrimary().getTags().size());
+        assertTrue(result.getPrimary().hasTag(tag4.toLowerCase()));
 
         apiDocs.addNote("Update a tag");
         final String tagComments = randomName();
@@ -159,7 +156,7 @@ public class NexusTest extends ApiClientTestBase {
 
         apiDocs.addNote("Find all tag types");
         final TagType[] tagTypes = fromJson(get(TAG_TYPES_ENDPOINT).json, TagType[].class);
-        assertEquals(7, tagTypes.length);
+        assertEquals(8, tagTypes.length);
 
         final String autocompleteUri = TAGS_ENDPOINT + EP_AUTOCOMPLETE;
         final String acQuery = "?" + QPARAM_AUTOCOMPLETE + "=f";

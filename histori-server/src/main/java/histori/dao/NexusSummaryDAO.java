@@ -1,6 +1,7 @@
 package histori.dao;
 
 import histori.dao.cache.VoteSummaryDAO;
+import histori.model.Account;
 import histori.model.Nexus;
 import histori.model.cache.VoteSummary;
 import histori.model.support.EntityVisibility;
@@ -31,10 +32,12 @@ public class NexusSummaryDAO {
      * @param range the time range to search
      * @return a List of NexusSummary objects
      */
-    public SearchResults<NexusSummary> findByTimeRange(TimeRange range) {
+    public SearchResults<NexusSummary> findByTimeRange(TimeRange range) { return findByTimeRange(range, null, EntityVisibility.everyone); }
+
+    public SearchResults<NexusSummary> findByTimeRange(TimeRange range, Account account, EntityVisibility visibility) {
 
         final SearchResults<NexusSummary> results = new SearchResults<>();
-        final List<Nexus> found = nexusDAO.findByTimeRange(range);
+        final List<Nexus> found = account == null ? nexusDAO.findByTimeRange(range) : nexusDAO.findByTimeRange(account, range);
         if (found.isEmpty()) return results;
 
         // Collect nexus by name and rank them
@@ -50,19 +53,23 @@ public class NexusSummaryDAO {
         }
 
         for (SortedSet<Nexus> group : rollup.values()) {
-            results.addResult(buildSummary(group));
+            results.addResult(buildSummary(group, account, visibility));
         }
 
         return results;
     }
 
-    private NexusSummary buildSummary(SortedSet<Nexus> group) {
+    private NexusSummary buildSummary(SortedSet<Nexus> group) { return buildSummary(group, null, EntityVisibility.everyone); }
+
+    private NexusSummary buildSummary(SortedSet<Nexus> group, Account account, EntityVisibility visibility) {
 
         final NexusSummary summary = new NexusSummary();
         if (group.isEmpty()) return summary; // should never happen
 
         // set primary
-        summary.setPrimary(group.first());
+        final Nexus primary = group.first();
+        summary.setPrimary(primary);
+        primary.setTags(nexusTagDAO.findByNexus(account, primary.getUuid(), visibility));
 
         // set total count
         summary.setTotalCount(group.size());
@@ -88,6 +95,10 @@ public class NexusSummaryDAO {
         @Override public int compare(Nexus n1, Nexus n2) {
             final VoteSummary n1summary = voteSummaryDAO.get(n1.getUuid());
             final VoteSummary n2summary = voteSummaryDAO.get(n2.getUuid());
+
+            if (n1summary == null) return n2summary == null ? 0 : -1;
+            if (n2summary == null) return 1;
+
             if (n1summary.getTally() > n2summary.getTally()) return 1;
             if (n1summary.getTally() < n2summary.getTally()) return -1;
 
