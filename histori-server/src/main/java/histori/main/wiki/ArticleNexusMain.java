@@ -83,7 +83,7 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
         final ArticleNexusOptions options = getOptions();
         boolean ok = writeNexus(article);
         if (!ok && options.hasErrorLog()) {
-            FileUtil.toFileOrDie(options.getErrorLog(), "\n"+article.getTitle());
+            FileUtil.toFileOrDie(options.getErrorLog(), "\n"+article.getTitle(), true);
         }
         return ok;
     }
