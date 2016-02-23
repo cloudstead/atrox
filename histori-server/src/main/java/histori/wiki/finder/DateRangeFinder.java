@@ -9,13 +9,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@NoArgsConstructor @Accessors(chain=true)
+@NoArgsConstructor @Accessors(chain=true) @Slf4j
 public class DateRangeFinder extends WikiDataFinderBase<TimeRange> {
 
     public static final String ATTR_DATE = "date";
@@ -26,7 +27,16 @@ public class DateRangeFinder extends WikiDataFinderBase<TimeRange> {
     public DateRangeFinder(WikiArchive wiki, ParsedWikiArticle article) { super(wiki, article); }
 
     @Override public TimeRange find() {
-        for (WikiNode box : article.getInfoboxes()) {
+        final List<WikiNode> infoboxes = article.getInfoboxes();
+        TimeRange dateAttr = findRange(infoboxes);
+        if (dateAttr != null) return dateAttr;
+        dateAttr = findRange(article.getInfoboxesRecursive());
+        if (dateAttr != null) return dateAttr;
+        return null;
+    }
+
+    public TimeRange findRange(List<WikiNode> infoboxes) {
+        for (WikiNode box : infoboxes) {
             if (!isDateInfoboxCandidate(box.getName())) continue;
             WikiNode dateAttr = box.findChildNamed(ATTR_DATE);
             if (dateAttr != null) {

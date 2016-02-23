@@ -49,10 +49,23 @@ public class WikiNode {
     @Getter(lazy=true) private final List<WikiNode> infoboxes = initInfoboxes();
     private List<WikiNode> initInfoboxes() { return findByType(WikiNodeType.infobox); }
 
+    @Getter(lazy=true) private final List<WikiNode> wikitables = initWikitables();
+    private List<WikiNode> initWikitables () { return findByType(WikiNodeType.wikitable); }
+
     public List<WikiNode> findByType(WikiNodeType type) {
-        final List<WikiNode> links = new ArrayList<>();
-        if (hasChildren()) for (WikiNode n : getChildren()) if (n.getType() == type) links.add(n);
-        return links;
+        final List<WikiNode> matches = new ArrayList<>();
+        if (hasChildren()) for (WikiNode n : getChildren()) if (n.getType() == type) matches.add(n);
+        return matches;
+    }
+
+    @Getter(lazy=true) private final List<WikiNode> infoboxesRecursive = initInfoboxesRecursive();
+    private List<WikiNode> initInfoboxesRecursive() { return findByTypeRecursive(WikiNodeType.infobox); }
+
+    public List<WikiNode> findByTypeRecursive(WikiNodeType type) {
+        final List<WikiNode> matches = new ArrayList<>();
+        if (this.getType() == type) matches.add(this);
+        if (hasChildren()) for (WikiNode n : getChildren()) matches.addAll(n.findByTypeRecursive(type));
+        return matches;
     }
 
     public WikiNode(WikiNodeType type, String name) {

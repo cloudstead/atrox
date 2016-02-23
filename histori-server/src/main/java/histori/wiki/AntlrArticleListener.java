@@ -27,6 +27,37 @@ public class AntlrArticleListener extends WikiArticleParserBaseListener {
     }
     public String text(ParserRuleContext ctx) { return ctx.getText().trim(); }
 
+    /**
+     * Parse the body and append all nodes to node
+     * @param node Parsed nodes will be appended to this node as children
+     * @param body The wiki text to parse
+     */
+    private void parse(WikiNode node, String body) {
+        final WikiArticleParser.ArticleContext context = WikiNode.getArticleContext(body);
+        final ParseTreeWalker walker = new ParseTreeWalker();
+        final AntlrArticleListener listener = new AntlrArticleListener();
+        walker.walk(listener, context);
+        node.addNodes(listener.getNodes());
+    }
+
+    @Override public void enterWikitable(WikiArticleParser.WikitableContext ctx) {
+        final String raw = text(ctx);
+        final WikiNode node = new WikiNode(WikiNodeType.wikitable, raw);
+        if (stack.isEmpty()) {
+            nodes.add(node);
+        } else {
+            stack.peek().addNode(node);
+        }
+        String inner;
+        int nlPos = raw.indexOf('\n');
+        inner = (nlPos != -1) ? raw.substring(nlPos).trim() : raw.trim();
+        if (inner.startsWith("|") && inner.length() > 1) inner = inner.substring(1);
+
+        int closePos = inner.lastIndexOf("|}");
+        inner = closePos != -1 ? inner.substring(0, closePos) : inner;
+        parse(node, inner);
+    }
+
     @Override public void enterPlainlist(WikiArticleParser.PlainlistContext ctx) {
         final WikiNode node = new WikiNode(WikiNodeType.plainlist, text(ctx));
         stack.push(node);
@@ -40,21 +71,13 @@ public class AntlrArticleListener extends WikiArticleParserBaseListener {
         if (text.startsWith(";")) {
             final String body = text.substring(1).trim();
             node = new WikiNode(WikiNodeType.plainlist_header, body);
-            addPlainlistEntries(node, body);
+            parse(node, body);
         } else {
             final String body = (text.startsWith("*") || text.startsWith(":")) ? text.substring(1).trim() : text;
             node = new WikiNode(WikiNodeType.plainlist_entry, body);
-            addPlainlistEntries(node, body);
+            parse(node, body);
         }
         if (!stack.isEmpty()) stack.peek().addNode(node);
-    }
-
-    private void addPlainlistEntries(WikiNode node, String body) {
-        final WikiArticleParser.ArticleContext context = WikiNode.getArticleContext(body);
-        final ParseTreeWalker walker = new ParseTreeWalker();
-        final AntlrArticleListener listener = new AntlrArticleListener();
-        walker.walk(listener, context);
-        node.addNodes(listener.getNodes());
     }
 
     @Override public void enterInfoboxName(WikiArticleParser.InfoboxNameContext ctx) {

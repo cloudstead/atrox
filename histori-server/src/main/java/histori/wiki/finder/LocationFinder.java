@@ -161,7 +161,23 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
     }
 
     private LatLon parseCoordinates(ParsedWikiArticle art) {
-        for (WikiNode box : art.getInfoboxes()) {
+
+        List<WikiNode> infoboxes;
+        LatLon box;
+
+        infoboxes = art.getInfoboxes();
+        box = findCoordinates(infoboxes);
+        if (box != null) return box;
+
+        infoboxes = art.getInfoboxesRecursive();
+        box = findCoordinates(infoboxes);
+        if (box != null) return box;
+
+        return die("parseCoordinates: not found");
+    }
+
+    private LatLon findCoordinates(List<WikiNode> infoboxes) {
+        for (WikiNode box : infoboxes) {
             if (!isCoordinateInfoboxCandidate(box.getName())) continue;
 
             if (box.getName().equalsIgnoreCase(BOXNAME_COORD)) {
@@ -204,7 +220,7 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
                 } catch (Exception ignored) { /* try next thing */ }
             }
         }
-        return die("parseCoordinates: not found");
+        return null;
     }
 
     private final Set<String> COORD_BOX_CANDIDATES = new HashSet<>(Arrays.asList(

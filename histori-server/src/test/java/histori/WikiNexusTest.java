@@ -242,19 +242,16 @@ public class WikiNexusTest {
                     .tag("impact", "dead", "estimate", "1900", "world_actor", "Empire of Japan"),
 
             // yet another location coordinate scheme
-            new TestPage("Battle of Mount Elba", false)
-                    .location(33.0, 46.0, 35.401, north, 93.0, 21.0, 59.619, west)
-                    .range("1864-03-30"),
+            new TestPage("Battle of Mount Elba", false).location(33.0, 46.0, 35.401, north, 93.0, 21.0, 59.619, west).range("1864-03-30"),
 
             // article missing cardinal directions
-            new TestPage("Battle of Lechfeld (955)", false)
-                    .location(48, 22, north, 10, 54, east)
-                    .range("955-08-10"),
+            new TestPage("Battle of Lechfeld (955)", false).location(48, 22, north, 10, 54, east).range("955-08-10"),
 
             // Coord box embedded within place attribute of an infobox
-            new TestPage("Battle of Las Navas de Tolosa", false)
-                    .location(38.28443, -3.58286)
-                    .range("1212-07-16")
+            new TestPage("Battle of Las Navas de Tolosa", false).location(38.28443, -3.58286).range("1212-07-16"),
+
+            // infobox with date and location is within a wikitable
+            new TestPage("Battle of Evesham", false).location(52.1058726, -1.9445372).range("1265-08-04")
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
