@@ -62,7 +62,7 @@ public class NexusTagBase extends SocialEntity {
 
     @Override public String toString() { return getTagType()+"/"+getTagName(); }
 
-    public SchemaValueMap getSchemaValueMap() {
+    @JsonIgnore @Transient public SchemaValueMap getSchemaValueMap() {
         final SchemaValueMap map = new SchemaValueMap();
         if (!hasSchemaValues()) return map;
         for (TagSchemaValue val : getValues()) {
