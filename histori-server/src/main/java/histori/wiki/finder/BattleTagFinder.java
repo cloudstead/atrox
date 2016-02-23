@@ -321,6 +321,10 @@ public class BattleTagFinder extends TagFinderBase {
                 case link:
                     if (foundFlags && state != seeking_commander) continue;
                     String name = child.getName().toLowerCase().trim();
+
+                    // If the link is all-chars, this is not a person
+                    if (child.hasChildren() && isAllNonWordChars(child.firstChildName())) continue;
+
                     if (!name.startsWith("file:") && !name.startsWith("image:")) {
                         for (String subname : child.getName().split(HTML_TAG_REGEX)) {
                             if (trimName(subname).length() > 0) {
@@ -363,8 +367,12 @@ public class BattleTagFinder extends TagFinderBase {
         return found;
     }
 
-    private String trimName(String combatant) {
-        return combatant.replaceAll("\\W", "").toLowerCase().trim();
+    private boolean isAllNonWordChars(String name) {
+        return trimName(name).length() == 0 && name.trim().length() > 0;
+    }
+
+    private String trimName(String name) {
+        return name == null ? "" : name.replaceAll("\\W", "").toLowerCase().trim();
     }
 
     public NexusTag newImpactTag(String[] combatants, Long[] estimate, String tagName) {

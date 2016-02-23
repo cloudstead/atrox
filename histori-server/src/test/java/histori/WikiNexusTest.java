@@ -17,6 +17,7 @@ import java.util.List;
 import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
 import static org.cobbzilla.util.math.Cardinal.east;
 import static org.cobbzilla.util.math.Cardinal.north;
+import static org.cobbzilla.util.math.Cardinal.west;
 import static org.junit.Assert.*;
 
 @Slf4j
@@ -162,6 +163,21 @@ public class WikiNexusTest {
                     .tag("impact", "wounded", "estimate", "727", "world_actor", "Confederate States of America")
                     .tag("impact", "captured or missing", "estimate", "403", "world_actor", "Confederate States of America")
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_the_Crater"),
+
+            // Had a funky link that was being parsed as a commander, now fixed. Keep to avoid regressing
+            new TestPage("Battle of Mortimer's Cross")
+                    .location(52, 19, 7, north, 2, 52, 9, west)
+                    .range("1461-02-02")
+                    .tag("event_type", "battle")
+                    .tag("event", "Wars of the Roses", "relationship", "part_of")
+                    .tag("result", "Decisive Yorkist victory")
+                    .tag("world_actor", "House of York", "role", "combatant")
+                    .tag("person", "Edward IV of England", "world_actor", "House of York", "role", "commander")
+                    .tag("world_actor", "House of Lancaster", "role", "combatant")
+                    .tag("person", "Owen Tudor", "world_actor", "House of Lancaster", "role", "commander")
+                    .tag("person", "Jasper Tudor", "world_actor", "House of Lancaster", "role", "commander")
+                    .tag("person", "James Butler", "world_actor", "House of Lancaster", "role", "commander")
+                    .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Mortimer%27s_Cross"),
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
