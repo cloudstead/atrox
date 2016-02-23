@@ -71,6 +71,10 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
         if (!file.exists()) {
             // maybe it is an article name?
             article = options.getWikiArchive().findUnparsed(input);
+            if (article == null) {
+                status("article not found: "+input);
+                return;
+            }
             writeNexus(article);
             return;
         }
