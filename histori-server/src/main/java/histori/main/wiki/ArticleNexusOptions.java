@@ -14,16 +14,16 @@ public class ArticleNexusOptions extends WikiBaseOptions {
     @Option(name=OPT_FILE, aliases=LONGOPT_FILE, usage=USAGE_FILE)
     @Getter @Setter private String input = null;
 
+    public static final String USAGE_OUTPUT_DIR = "Output directory";
+    public static final String OPT_OUTPUT_DIR = "-o";
+    public static final String LONGOPT_OUTPUT_DIR= "--output-dir";
+    @Option(name=OPT_OUTPUT_DIR, aliases=LONGOPT_OUTPUT_DIR, usage=USAGE_OUTPUT_DIR, required=true)
+    @Getter @Setter private File outputDir;
+
     public static final String USAGE_OVERWRITE = "Overwrite output files. Default is to preserve files.";
     public static final String OPT_OVERWRITE = "-O";
     public static final String LONGOPT_OVERWRITE= "--overwrite";
     @Option(name=OPT_OVERWRITE, aliases=LONGOPT_OVERWRITE, usage=USAGE_OVERWRITE)
     @Getter @Setter private boolean overwrite = false;
-
-    public static final String USAGE_WIKI_DIR = "Base directory for wiki archive";
-    public static final String OPT_WIKI_DIR = "-w";
-    public static final String LONGOPT_WIKI_DIR= "--wiki-dir";
-    @Option(name=OPT_WIKI_DIR, aliases=LONGOPT_WIKI_DIR, usage=USAGE_WIKI_DIR, required=true)
-    @Getter @Setter private File wikiDir;
 
 }
