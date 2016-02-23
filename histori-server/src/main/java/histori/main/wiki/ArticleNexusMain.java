@@ -138,7 +138,7 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
                 final File out = new File(abs(outputDir) + "/" + path);
                 if (!out.getParentFile().mkdirs()) die("Error creating parent dir: "+abs(out.getParentFile()));
                 FileUtil.toFile(out, nexusJson);
-                out("WROTE: "+abs(out));
+                out("\nWROTE: "+abs(out));
             } else {
                 out("\n----------\n" + nexusJson);
             }
