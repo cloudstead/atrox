@@ -5,11 +5,14 @@ import histori.wiki.WikiArticle;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.io.FileSuffixFilter;
 import org.cobbzilla.util.io.FileUtil;
+import org.cobbzilla.util.string.StringUtil;
 import org.cobbzilla.wizard.main.MainBase;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import static histori.wiki.WikiArchive.getArticlePath;
 import static org.cobbzilla.util.io.FileUtil.abs;
@@ -21,6 +24,8 @@ import static org.cobbzilla.util.json.JsonUtil.toJson;
 public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
 
     public static void main(String[] args) { main(ArticleNexusMain.class, args); }
+
+    private List<String> disposition = null;
 
     @Override protected void run() throws Exception {
 
@@ -35,15 +40,24 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
                     nexus(line);
                 } catch (Exception e) {
                     err("Error processing: "+line+": "+e);
+                } finally {
+                    if (options.hasErrorLog())  FileUtil.toFileOrDie(options.getErrorLog(), "\n"+line+" : "+ dispositionString(), true);
                 }
             }
         } else {
-            nexus(input);
+            try {
+                nexus(input);
+            } finally {
+                if (options.hasErrorLog()) FileUtil.toFileOrDie(options.getErrorLog(), "\n"+input+" : "+ dispositionString(), true);
+            }
         }
     }
 
+    private String dispositionString() { return StringUtil.toString(disposition, "|").replace("\n", "\\n"); }
+
     private void nexus(String input) throws Exception {
 
+        disposition = new ArrayList<>();
         input = input.trim(); // no sane input would have leading/trailing whitespace, but a line from a file or stdin just might. play it safe.
 
         WikiArticle article;
@@ -53,55 +67,35 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
         if (!file.exists()) {
             // maybe it is an article name?
             article = options.getWikiArchive().findUnparsed(input);
-            if (article != null) {
-                writeAndLog(article);
-            } else {
-                err("Article not found: "+input+", path: "+getArticlePath(input));
-            }
+            writeNexus(article);
             return;
         }
 
         if (file.isDirectory()) {
             // import all json files in directory, if they are valid WikiArticle json files
             for (File articleJson : listFiles(file, new FileSuffixFilter(".json"))) {
-                try {
-                    article = fromJson(FileUtil.toString(articleJson), WikiArticle.class);
-                    writeAndLog(article);
-
-                } catch (Exception e) {
-                    err("Error importing " + abs(articleJson) + ": " + e);
-                }
+                article = fromJson(FileUtil.toString(articleJson), WikiArticle.class);
+                writeNexus(article);
             }
         } else {
             // import a single file
             article = fromJson(FileUtil.toString(file), WikiArticle.class);
-            writeAndLog(article);
+            writeNexus(article);
         }
-    }
-
-    private boolean writeAndLog(WikiArticle article) {
-        final ArticleNexusOptions options = getOptions();
-        boolean ok = writeNexus(article);
-        if (!ok && options.hasErrorLog()) {
-            FileUtil.toFileOrDie(options.getErrorLog(), "\n"+article.getTitle(), true);
-        }
-        return ok;
     }
 
     private boolean writeNexus(WikiArticle article) {
 
         final ArticleNexusOptions options = getOptions();
         final File outputFile = getOutputFile(article.getTitle());
-        if (outputFile.exists()) {
-            if (!options.isOverwrite()) {
-                err("writeNexus: article file exists, not overwriting: "+ outputFile);
-                return false;
-            }
+        if (!options.isOverwrite() && outputFile.exists()) {
+            status("writeNexus: article file exists, not overwriting (" + outputFile + ")");
+            return false;
         }
 
         final NexusRequest nexusRequest = options.getWikiArchive().toNexusRequest(article);
         if (nexusRequest == null) {
-            err("writeNexus: Error building NexusRequest");
+            status("writeNexus: Error building NexusRequest");
             return false;
         }
 
@@ -120,17 +114,18 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
             } else {
                 out("\n----------\n" + nexusJson);
             }
+            status("SUCCESS");
             return true;
 
         } catch (Exception e) {
-            err("Error processing article: "+ title +": "+e);
+            status("Error processing article: "+ title +": "+e);
             return false;
         }
     }
 
-    private boolean articleFileExists (String title) {
-        final String path = getArticlePath(title);
-        return path != null && new File(path).exists();
+    private void status(String message) {
+        if (disposition != null) disposition.add(message);
+        if (!message.equals("SUCCESS")) err(message);
     }
 
     private File getOutputFile(String title) {
