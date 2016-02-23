@@ -37,7 +37,11 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
             BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
             String line;
             while ((line = r.readLine()) != null) {
-                nexus(line);
+                try {
+                    nexus(line);
+                } catch (Exception e) {
+                    err("Error processing: "+line+": "+e);
+                }
             }
         } else {
             nexus(input);
