@@ -41,16 +41,20 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
                 } catch (Exception e) {
                     err("Error processing: "+line+": "+e);
                 } finally {
-                    if (options.hasErrorLog())  FileUtil.toFileOrDie(options.getErrorLog(), "\n"+line+" : "+ dispositionString(), true);
+                    logStatus(options, line);
                 }
             }
         } else {
             try {
                 nexus(input);
             } finally {
-                if (options.hasErrorLog()) FileUtil.toFileOrDie(options.getErrorLog(), "\n"+input+" : "+ dispositionString(), true);
+                logStatus(options, input);
             }
         }
+    }
+
+    private void logStatus(ArticleNexusOptions options, String line) {
+        if (options.hasErrorLog()) FileUtil.toFileOrDie(options.getErrorLog(), "\n"+line+"\t: "+ dispositionString(), true);
     }
 
     private String dispositionString() { return StringUtil.toString(disposition, "|").replace("\n", "\\n"); }
