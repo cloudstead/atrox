@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.concurrent.*;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
+import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.daemon.ZillaRuntime.now;
 
 @Repository @Slf4j
@@ -26,10 +27,25 @@ public class VoteSummaryDAO extends AbstractRedisDAO<VoteSummary> {
 
     @Override public VoteSummary get(Serializable id) {
         final VoteSummary voteSummary = super.get(id);
-        final long ctime = Long.parseLong(super.getMetadata(metadataCtimeKey(voteSummary)));
-        if (now() - ctime > MAX_SUMMARY_AGE) queueJob(id.toString());
-        if (voteSummary != null) return voteSummary;
-        return queueJob(id.toString());
+        if (voteSummary != null) {
+            if (!voteSummary.hasUuid()) {
+                // should never happen
+                log.warn("get("+id+"): job was missing UUID, re-adding");
+                voteSummary.setUuid(id.toString());
+            }
+            final String ctimeString = super.getMetadata(metadataCtimeKey(voteSummary));
+            if (!empty(ctimeString)) {
+                try {
+                    final long ctime = Long.parseLong(ctimeString);
+                    if (now() - ctime > MAX_SUMMARY_AGE) queueJob(id.toString());
+                } catch (Exception e) {
+                    log.warn("get("+id+"): error checking job status: "+e);
+                }
+            }
+            return voteSummary;
+        } else {
+            return queueJob(id.toString());
+        }
     }
 
     public String metadataCtimeKey(VoteSummary summary) {

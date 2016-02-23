@@ -34,18 +34,19 @@ public class AuthTest extends ApiClientTestBase {
 
         apiDocs.startRecording(DOC_TARGET, "Register an anonymous account, then register it as a normal account and verify the email address");
         AccountAuthResponse anonResponse = newAnonymousAccount();
+        final MockTemplatedMailSender mockSender = getTemplatedMailSender();
+        mockSender.reset();
 
         String email = randomEmail();
         String password = randomName();
 
         apiDocs.addNote("Call register again, and because we are logged in anonymously, this should register the current account as a normal account");
-        AccountAuthResponse normalResponse = register((RegistrationRequest) new RegistrationRequest(email, password));
+        AccountAuthResponse normalResponse = register(new RegistrationRequest(email, password));
 
         assertNotEquals(anonResponse.getSessionId(), normalResponse.getSessionId()); // a new session
         assertEquals(anonResponse.getAccount().getUuid(), normalResponse.getAccount().getUuid()); // but the same account uuid
         assertFalse(normalResponse.getAccount().isAnonymous()); // and is no longer anonymous
 
-        final MockTemplatedMailSender mockSender = getTemplatedMailSender();
         assertEquals(1, mockSender.messageCount());
         assertEquals(email, mockSender.first().getToEmail());
         final String url = mockSender.first().getParameters().get("activationUrl").toString();
