@@ -1,0 +1,106 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Purandar",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 16650000000000,
+      "year" : 1665
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Imperial Maratha Conquests",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Mughal Victory. Shivaji surrenders.",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Maratha Empire",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Shivaji",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Maratha Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Murarbaji Deshpande",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Maratha Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Mughal Empire",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Dilir Khan",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mughal Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Mirza Jai Singh",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mughal Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Purandar",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 73.983333333, 18.283333333 ]
+  }
+}
