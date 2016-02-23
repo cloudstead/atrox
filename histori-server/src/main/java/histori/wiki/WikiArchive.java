@@ -78,13 +78,15 @@ public class WikiArchive {
         return true;
     }
 
-    public static String getArticlePath(String title) {
+    public static String getArticlePath(String title) { return getArticlePath(title, null);     }
+
+    public static String getArticlePath(String title, String variant) {
         if (!isIndexable(title)) return null;
         final String sha256 = ShaUtil.sha256_hex(title);
         return sha256.substring(0, 2)
                 + "/" + sha256.substring(2, 4)
                 + "/" + sha256.substring(4, 6)
-                + "/" + StringUtil.truncate(canonicalize(title), 100) + "_" + sha256 + ".json";
+                + "/" + StringUtil.truncate(canonicalize(title), 100) + "_" + sha256 + (variant == null ? "" : "_"+variant) + ".json";
     }
 
     public NexusRequest toNexusRequest(String title) {

@@ -12,8 +12,10 @@ import org.cobbzilla.util.io.FileUtil;
 import org.cobbzilla.util.json.JsonUtil;
 import org.cobbzilla.wizard.main.MainBase;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.zip.GZIPInputStream;
 
 import static org.cobbzilla.util.io.FileUtil.abs;
@@ -29,7 +31,22 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
     @Override protected void run() throws Exception {
 
         final ArticleNexusOptions options = getOptions();
-        final String input = options.getInput();
+
+        String input = options.getInput();
+        if (input == null) {
+            BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
+            String line;
+            while ((line = r.readLine()) != null) {
+                nexus(line);
+            }
+        } else {
+            nexus(input);
+        }
+    }
+
+    private void nexus(String input) throws Exception {
+        input = input.trim(); // no sane input would have leading/trailing whitespace, but a line from a file or stdin just might. play it safe.
+        final ArticleNexusOptions options = getOptions();
         final File file = new File(input);
         if (!file.exists()) {
             // maybe it is an article name?
@@ -115,7 +132,7 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
         try {
             final String nexusJson = toJson(nexusRequest);
             if (outputDir != null) {
-                final String path = WikiArchive.getArticlePath(nexusRequest.getName());
+                final String path = WikiArchive.getArticlePath(nexusRequest.getName(), "nexus");
                 if (path == null) die("Cannot save: "+nexusRequest.getName());
 
                 final File out = new File(abs(outputDir) + "/" + path);

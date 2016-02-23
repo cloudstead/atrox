@@ -16,10 +16,10 @@ import static org.cobbzilla.util.io.FileUtil.abs;
 
 public class ArticleNexusOptions extends BaseMainOptions {
 
-    public static final String USAGE_FILE = "Input: WikiArticle json file, or directory of json files";
+    public static final String USAGE_FILE = "Input: WikiArticle json file, or directory of json files. Default is to read a list of files or article names from stdin";
     public static final String OPT_FILE = "-i";
     public static final String LONGOPT_FILE= "--input-file";
-    @Option(name=OPT_FILE, aliases=LONGOPT_FILE, usage=USAGE_FILE, required=true)
+    @Option(name=OPT_FILE, aliases=LONGOPT_FILE, usage=USAGE_FILE)
     @Getter @Setter private String input = null;
 
     public static final String USAGE_OUTPUT_DIR = "Output directory. Default is to print to stdout";
