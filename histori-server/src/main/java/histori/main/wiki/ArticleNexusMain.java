@@ -57,9 +57,6 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
             return;
         }
 
-        final File outputDir = options.getOutputDir();
-        if (outputDir != null && !outputDir.isDirectory()) die("Output directory does not exist or is not a directory: "+abs(outputDir));
-
         WikiArticle article;
 
         if (file.isDirectory()) {
@@ -97,6 +94,7 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
         }
 
         final File outputDir = options.getOutputDir();
+        if (outputDir != null && !outputDir.isDirectory()) die("Output directory does not exist or is not a directory: "+abs(outputDir));
 
         String title = nexusRequest.getName();
         try {
