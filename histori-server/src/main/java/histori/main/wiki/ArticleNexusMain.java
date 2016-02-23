@@ -97,7 +97,7 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
             return false;
         }
 
-        final NexusRequest nexusRequest = options.getWikiArchive().toNexusRequest(article);
+        final NexusRequest nexusRequest = options.getWikiArchive().toNexusRequest(article, disposition);
         if (nexusRequest == null) {
             status("writeNexus: Error building NexusRequest");
             return false;

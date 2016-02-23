@@ -20,6 +20,7 @@ import org.cobbzilla.util.string.StringUtil;
 import org.geojson.Point;
 import se.walkercrou.places.GooglePlaces;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static histori.model.CanonicalEntity.canonicalize;
@@ -97,11 +98,19 @@ public class WikiArchive {
     }
 
     public NexusRequest toNexusRequest(String title) {
+        return toNexusRequest(title, new ArrayList<String>());
+    }
+
+    public NexusRequest toNexusRequest(String title, List<String> disposition) {
         final WikiArticle article = findUnparsed(title);
-        return article == null ? null : toNexusRequest(article);
+        return article == null ? null : toNexusRequest(article, disposition);
     }
 
     public NexusRequest toNexusRequest(WikiArticle article) {
+        return toNexusRequest(article, new ArrayList<String>());
+    }
+
+    public NexusRequest toNexusRequest(WikiArticle article, List<String> disposition) {
 
         final ParsedWikiArticle parsed = article.parse();
         final TimeRange dateRange;
@@ -111,10 +120,14 @@ public class WikiArchive {
             final List<WikiNode> links = parsed.getLinks();
             if (!empty(links)) {
                 final String target = links.get(0).getName();
-                log.info("toNexusRequest: "+article.getTitle()+ " is a redirect, following: "+target);
-                return toNexusRequest(target);
+                String msg = "toNexusRequest: " + article.getTitle() + " is a redirect, following: " + target;
+                log.info(msg);
+                disposition.add(msg);
+                return toNexusRequest(target, disposition);
             } else {
-                log.warn("toNexusRequest: "+article.getTitle()+ " is a redirect, but could not determine target: "+article.getText());
+                String msg = "toNexusRequest: " + article.getTitle() + " is a redirect, but could not determine target: " + article.getText();
+                log.warn(msg);
+                disposition.add(msg);
                 return null;
             }
         }
@@ -122,14 +135,18 @@ public class WikiArchive {
         // When was it?
         dateRange = new DateRangeFinder().setWiki(this).setArticle(parsed).find();
         if (dateRange == null) {
-            log.warn("toNexusRequest: "+article.getTitle()+ " had no date (skipping)");
+            String msg = "toNexusRequest: " + article.getTitle() + " had no date (skipping)";
+            log.warn(msg);
+            disposition.add(msg);
             return null;
         }
 
         // Where was it?
         coordinates = new LocationFinder().setWiki(this).setArticle(parsed).find();
         if (coordinates == null) {
-            log.warn("toNexusRequest: "+article.getTitle()+ " had no coordinates (skipping)");
+            String msg = "toNexusRequest: " + article.getTitle() + " had no coordinates (skipping)";
+            log.warn(msg);
+            disposition.add(msg);
             return null;
         }
 
