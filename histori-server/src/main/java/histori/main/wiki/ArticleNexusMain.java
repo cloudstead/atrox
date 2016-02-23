@@ -39,7 +39,7 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
                 try {
                     nexus(line);
                 } catch (Exception e) {
-                    err("Error processing: "+line+": "+e);
+                    status("Error processing: "+line+": "+e);
                 } finally {
                     logStatus(options, line);
                 }
