@@ -52,7 +52,7 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
             if (article != null) {
                 writeNexus(article);
             } else {
-                err("Article not found: "+input);
+                err("Article not found: "+input+", path: "+getArticleFile(input));
             }
             return;
         }
