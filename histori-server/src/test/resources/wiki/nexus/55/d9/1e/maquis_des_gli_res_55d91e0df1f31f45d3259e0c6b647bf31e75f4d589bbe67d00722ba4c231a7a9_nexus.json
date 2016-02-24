@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Maquis des Glières",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19440131000000,
+      "year" : 1944,
+      "month" : 1,
+      "day" : 31
+    },
+    "endPoint" : {
+      "instant" : 19440326000000,
+      "year" : 1944,
+      "month" : 3,
+      "day" : 26
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 6.333888889, 45.965 ]
+  }
+}

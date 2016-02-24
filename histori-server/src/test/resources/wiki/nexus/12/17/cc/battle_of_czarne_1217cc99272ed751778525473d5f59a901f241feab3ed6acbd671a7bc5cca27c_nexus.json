@@ -1,0 +1,102 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Czarne",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 16270412000000,
+      "year" : 1627,
+      "month" : 4,
+      "day" : 12
+    },
+    "endPoint" : {
+      "instant" : 16270417000000,
+      "year" : 1627,
+      "month" : 4,
+      "day" : 17
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Polish–Swedish War (1626–1629)",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Polish victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Polish–Lithuanian Commonwealth",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Stanisław Koniecpolski",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Polish–Lithuanian Commonwealth"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Swedish Empire",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Johann Streiff",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Swedish Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Maximilian Teuffel",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Swedish Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Czarne",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 16.95, 53.683333333 ]
+  }
+}

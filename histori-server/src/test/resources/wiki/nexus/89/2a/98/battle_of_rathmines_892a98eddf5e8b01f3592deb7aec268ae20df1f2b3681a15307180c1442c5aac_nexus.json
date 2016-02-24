@@ -1,0 +1,132 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Rathmines",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 16490802000000,
+      "year" : 1649,
+      "month" : 8,
+      "day" : 2
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Irish Confederate Wars",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "English Parliamentarian Victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Irish",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Confederate Ireland",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "and English Royalists",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "James Butler",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Irish"
+    }, {
+      "field" : "world_actor",
+      "value" : "Confederate Ireland"
+    }, {
+      "field" : "world_actor",
+      "value" : "and English Royalists"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "600"
+    }, {
+      "field" : "high_estimate",
+      "value" : "1500"
+    }, {
+      "field" : "estimate",
+      "value" : "1050"
+    }, {
+      "field" : "world_actor",
+      "value" : "Irish"
+    }, {
+      "field" : "world_actor",
+      "value" : "Confederate Ireland"
+    }, {
+      "field" : "world_actor",
+      "value" : "and English Royalists"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "English Parliamentarains",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Michael Jones (soldier)",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "English Parliamentarains"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Rathmines",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -6.265, 53.325 ]
+  }
+}

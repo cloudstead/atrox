@@ -1,0 +1,123 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Skerries",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 13160126000000,
+      "year" : 1316,
+      "month" : 1,
+      "day" : 26
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Bruce campaign in Ireland",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Scottish/Irish victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kingdom of Scotland",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "and Irish allies",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Edward Bruce",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Scotland"
+    }, {
+      "field" : "world_actor",
+      "value" : "and Irish allies"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Lordship of Ireland",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "and Irish allies",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Edmund Butler",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Lordship of Ireland"
+    }, {
+      "field" : "world_actor",
+      "value" : "and Irish allies"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Maurice FitzGerald",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Lordship of Ireland"
+    }, {
+      "field" : "world_actor",
+      "value" : "and Irish allies"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Skerries",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -6.56874, 53.29807 ]
+  }
+}

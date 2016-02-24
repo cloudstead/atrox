@@ -1,0 +1,171 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Somerset",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18630331000000,
+      "year" : 1863,
+      "month" : 3,
+      "day" : 31
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "American Civil War",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Union victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "USA",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "United States",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Union (American Civil War)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Quincy A. Gillmore",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "USA"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    }, {
+      "field" : "world_actor",
+      "value" : "Union (American Civil War)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "10"
+    }, {
+      "field" : "world_actor",
+      "value" : "USA"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    }, {
+      "field" : "world_actor",
+      "value" : "Union (American Civil War)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "25"
+    }, {
+      "field" : "world_actor",
+      "value" : "USA"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    }, {
+      "field" : "world_actor",
+      "value" : "Union (American Civil War)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "CSA",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Confederate States of America",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "John Pegram (general)",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "CSA"
+    }, {
+      "field" : "world_actor",
+      "value" : "Confederate States of America"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "casualties",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "290"
+    }, {
+      "field" : "world_actor",
+      "value" : "CSA"
+    }, {
+      "field" : "world_actor",
+      "value" : "Confederate States of America"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Somerset",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -84.609444444, 37.083055556 ]
+  }
+}

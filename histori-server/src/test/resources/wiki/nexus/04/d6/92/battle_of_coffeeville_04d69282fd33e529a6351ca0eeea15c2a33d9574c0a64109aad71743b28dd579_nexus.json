@@ -1,0 +1,144 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Coffeeville",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18621205000000,
+      "year" : 1862,
+      "month" : 12,
+      "day" : 5
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "American Civil War",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Confederate States of America victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Theophilus Lyle Dickey",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "USA"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "10"
+    }, {
+      "field" : "high_estimate",
+      "value" : "34"
+    }, {
+      "field" : "estimate",
+      "value" : "22"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "54"
+    }, {
+      "field" : "high_estimate",
+      "value" : "234"
+    }, {
+      "field" : "estimate",
+      "value" : "144"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "captured",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "43"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Mansfield Lovell",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "CSA"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Lloyd Tilghman",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "CSA"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "7"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "43"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "missing",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "10"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Coffeeville",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -89.677222222, 33.977777778 ]
+  }
+}

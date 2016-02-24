@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Zamboanga City crisis",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 20130909000000,
+      "year" : 2013,
+      "month" : 9,
+      "day" : 9
+    },
+    "endPoint" : {
+      "instant" : 20130928000000,
+      "year" : 2013,
+      "month" : 9,
+      "day" : 28
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 122.066667, 6.9 ]
+  }
+}

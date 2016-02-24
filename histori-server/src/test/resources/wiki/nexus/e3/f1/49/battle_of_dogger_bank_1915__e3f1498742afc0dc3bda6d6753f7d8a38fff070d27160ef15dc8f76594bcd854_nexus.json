@@ -1,0 +1,171 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Dogger Bank (1915)",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19150124000000,
+      "year" : 1915,
+      "month" : 1,
+      "day" : 24
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "World War I",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "British victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "David Beatty",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "UK"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "casualties",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "destroyers sunk",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "15"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "32"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "German Empire",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Franz von Hipper",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "German Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "casualties",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1"
+    }, {
+      "field" : "world_actor",
+      "value" : "German Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "armoured damaged",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1"
+    }, {
+      "field" : "world_actor",
+      "value" : "German Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "954"
+    }, {
+      "field" : "world_actor",
+      "value" : "German Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "80"
+    }, {
+      "field" : "world_actor",
+      "value" : "German Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "captured",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "189"
+    }, {
+      "field" : "world_actor",
+      "value" : "German Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Dogger_Bank_%281915%29",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 5.463888889, 54.557777778 ]
+  }
+}

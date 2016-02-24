@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Operation Storm",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19950804000000,
+      "year" : 1995,
+      "month" : 8,
+      "day" : 4
+    },
+    "endPoint" : {
+      "instant" : 19950807000000,
+      "year" : 1995,
+      "month" : 8,
+      "day" : 7
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 16.2, 44.04 ]
+  }
+}

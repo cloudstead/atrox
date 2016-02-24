@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Skirmish at Farnham Church",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18141206000000,
+      "year" : 1814,
+      "month" : 12,
+      "day" : 6
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -76.625277778, 37.886388889 ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Siege of Antwerp (1832)",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18321115000000,
+      "year" : 1832,
+      "month" : 11,
+      "day" : 15
+    },
+    "endPoint" : {
+      "instant" : 18321223000000,
+      "year" : 1832,
+      "month" : 12,
+      "day" : 23
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 4.4, 51.216666667 ]
+  }
+}

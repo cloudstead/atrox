@@ -1,0 +1,252 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of the Thames",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18131005000000,
+      "year" : 1813,
+      "month" : 10,
+      "day" : 5
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Tecumseh's War",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "American victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Tecumseh's Confederacy",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "United Kingdom",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "United Kingdom of Great Britain and Ireland",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Tecumseh",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Tecumseh's Confederacy"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom of Great Britain and Ireland"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Henry Procter (British Army officer)",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "16"
+    }, {
+      "field" : "high_estimate",
+      "value" : "33"
+    }, {
+      "field" : "estimate",
+      "value" : "24"
+    }, {
+      "field" : "world_actor",
+      "value" : "Tecumseh's Confederacy"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom of Great Britain and Ireland"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "12"
+    }, {
+      "field" : "high_estimate",
+      "value" : "18"
+    }, {
+      "field" : "estimate",
+      "value" : "15"
+    }, {
+      "field" : "world_actor",
+      "value" : "Tecumseh's Confederacy"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom of Great Britain and Ireland"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "22"
+    }, {
+      "field" : "high_estimate",
+      "value" : "35"
+    }, {
+      "field" : "estimate",
+      "value" : "28"
+    }, {
+      "field" : "world_actor",
+      "value" : "Tecumseh's Confederacy"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom of Great Britain and Ireland"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "captured",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "566"
+    }, {
+      "field" : "high_estimate",
+      "value" : "579"
+    }, {
+      "field" : "estimate",
+      "value" : "572"
+    }, {
+      "field" : "world_actor",
+      "value" : "Tecumseh's Confederacy"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom of Great Britain and Ireland"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "United States",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "William Henry Harrison",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "10"
+    }, {
+      "field" : "high_estimate",
+      "value" : "27"
+    }, {
+      "field" : "estimate",
+      "value" : "18"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "17"
+    }, {
+      "field" : "high_estimate",
+      "value" : "57"
+    }, {
+      "field" : "estimate",
+      "value" : "37"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_the_Thames",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -81.931388889, 42.5625 ]
+  }
+}

@@ -1,0 +1,284 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Șelimbăr",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 15991018000000,
+      "year" : 1599,
+      "month" : 10,
+      "day" : 18
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Long War (Ottoman wars)",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Wallachian victory, Michael the Brave was elected as prince of Transylvania",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Wallachia",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Székely",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "s",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Balkan",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "hajduks",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Cossack",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "and",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Hungarians",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "mercenaries ",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Mihai Viteazul",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Wallachia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Székely"
+    }, {
+      "field" : "world_actor",
+      "value" : "s"
+    }, {
+      "field" : "world_actor",
+      "value" : "Balkan"
+    }, {
+      "field" : "world_actor",
+      "value" : "hajduks"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cossack"
+    }, {
+      "field" : "world_actor",
+      "value" : "and"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hungarians"
+    }, {
+      "field" : "world_actor",
+      "value" : "mercenaries &lt;ref name=Panaitescu&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "200"
+    }, {
+      "field" : "high_estimate",
+      "value" : "1000"
+    }, {
+      "field" : "estimate",
+      "value" : "600"
+    }, {
+      "field" : "world_actor",
+      "value" : "Wallachia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Székely"
+    }, {
+      "field" : "world_actor",
+      "value" : "s"
+    }, {
+      "field" : "world_actor",
+      "value" : "Balkan"
+    }, {
+      "field" : "world_actor",
+      "value" : "hajduks"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cossack"
+    }, {
+      "field" : "world_actor",
+      "value" : "and"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hungarians"
+    }, {
+      "field" : "world_actor",
+      "value" : "mercenaries &lt;ref name=Panaitescu&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Principality of Transylvania (1571–1711)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Cossacks",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "mercenaries",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Andrew Báthory",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Principality of Transylvania (1571–1711)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cossacks"
+    }, {
+      "field" : "world_actor",
+      "value" : "mercenaries"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "1200"
+    }, {
+      "field" : "high_estimate",
+      "value" : "1500"
+    }, {
+      "field" : "estimate",
+      "value" : "1350"
+    }, {
+      "field" : "world_actor",
+      "value" : "Principality of Transylvania (1571–1711)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cossacks"
+    }, {
+      "field" : "world_actor",
+      "value" : "mercenaries"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_%C8%98elimb%C4%83r",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 24.2, 45.766666667 ]
+  }
+}

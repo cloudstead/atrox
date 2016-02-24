@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "First Battle of Artois",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19141217000000,
+      "year" : 1914,
+      "month" : 12,
+      "day" : 17
+    },
+    "endPoint" : {
+      "instant" : 19150113000000,
+      "year" : 1915,
+      "month" : 1,
+      "day" : 13
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 2.5, 50.5 ]
+  }
+}

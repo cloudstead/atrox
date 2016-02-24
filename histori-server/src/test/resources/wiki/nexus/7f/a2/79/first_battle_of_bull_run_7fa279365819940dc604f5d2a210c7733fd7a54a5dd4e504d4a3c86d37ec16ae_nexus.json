@@ -1,0 +1,237 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "First Battle of Bull Run",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18610721000000,
+      "year" : 1861,
+      "month" : 7,
+      "day" : 21
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "American Civil War",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Confederate States of America victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "US",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "United States",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Union (American Civil War)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Irvin McDowell",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "US"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    }, {
+      "field" : "world_actor",
+      "value" : "Union (American Civil War)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Robert Patterson",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "US"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    }, {
+      "field" : "world_actor",
+      "value" : "Union (American Civil War)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "2896"
+    }, {
+      "field" : "world_actor",
+      "value" : "US"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    }, {
+      "field" : "world_actor",
+      "value" : "Union (American Civil War)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1124"
+    }, {
+      "field" : "world_actor",
+      "value" : "US"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    }, {
+      "field" : "world_actor",
+      "value" : "Union (American Civil War)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "captured",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1312"
+    }, {
+      "field" : "world_actor",
+      "value" : "US"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    }, {
+      "field" : "world_actor",
+      "value" : "Union (American Civil War)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "CSA",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Confederate States of America",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Joseph E. Johnston",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "CSA"
+    }, {
+      "field" : "world_actor",
+      "value" : "Confederate States of America"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1982"
+    }, {
+      "field" : "world_actor",
+      "value" : "CSA"
+    }, {
+      "field" : "world_actor",
+      "value" : "Confederate States of America"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1582"
+    }, {
+      "field" : "world_actor",
+      "value" : "CSA"
+    }, {
+      "field" : "world_actor",
+      "value" : "Confederate States of America"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "missing",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "13"
+    }, {
+      "field" : "world_actor",
+      "value" : "CSA"
+    }, {
+      "field" : "world_actor",
+      "value" : "Confederate States of America"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/First_Battle_of_Bull_Run",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -77.5227, 38.8147 ]
+  }
+}

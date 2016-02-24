@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Skirmish of Pastrengo (1848)",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18480430000000,
+      "year" : 1848,
+      "month" : 4,
+      "day" : 30
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 10.81, 45.489444444 ]
+  }
+}

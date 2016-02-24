@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle at Springmartin",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19720513000000,
+      "year" : 1972,
+      "month" : 5,
+      "day" : 13
+    },
+    "endPoint" : {
+      "instant" : 19720514000000,
+      "year" : 1972,
+      "month" : 5,
+      "day" : 14
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -5.987222222, 54.594722222 ]
+  }
+}

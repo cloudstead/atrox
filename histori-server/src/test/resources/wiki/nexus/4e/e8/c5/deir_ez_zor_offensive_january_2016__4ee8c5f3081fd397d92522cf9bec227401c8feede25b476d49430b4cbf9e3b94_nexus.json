@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Deir ez-Zor offensive (January 2016)",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 20160116000000,
+      "year" : 2016,
+      "month" : 1,
+      "day" : 16
+    },
+    "endPoint" : {
+      "instant" : 20160121000000,
+      "year" : 2016,
+      "month" : 1,
+      "day" : 21
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 40.15, 35.3333 ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Action off Cape Bougaroun",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19431106000000,
+      "year" : 1943,
+      "month" : 11,
+      "day" : 6
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 6.35, 37.216666667 ]
+  }
+}

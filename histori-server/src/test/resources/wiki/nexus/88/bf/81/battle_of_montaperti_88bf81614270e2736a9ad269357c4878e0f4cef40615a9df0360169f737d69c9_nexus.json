@@ -1,0 +1,494 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Montaperti",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 12600904000000,
+      "year" : 1260,
+      "month" : 9,
+      "day" : 4
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Guelphs and Ghibellines",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Guelphs and Ghibellines ",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Guelphs and Ghibellines",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "''' ",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Siena",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Manfred of Sicily",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Podestà Troghisio",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Guelphs and Ghibellines"
+    }, {
+      "field" : "world_actor",
+      "value" : "''' &lt;ref name=LEO&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;&lt;ref name=BLA&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Siena"
+    }, {
+      "field" : "world_actor",
+      "value" : "Manfred of Sicily"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Giordano d'Anglano",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Guelphs and Ghibellines"
+    }, {
+      "field" : "world_actor",
+      "value" : "''' &lt;ref name=LEO&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;&lt;ref name=BLA&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Siena"
+    }, {
+      "field" : "world_actor",
+      "value" : "Manfred of Sicily"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Guelphs and Ghibellines"
+    }, {
+      "field" : "world_actor",
+      "value" : "''' &lt;ref name=LEO&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;&lt;ref name=BLA&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Siena"
+    }, {
+      "field" : "world_actor",
+      "value" : "Manfred of Sicily"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Guelphs and Ghibellines"
+    }, {
+      "field" : "world_actor",
+      "value" : "''' &lt;ref name=LEO&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;&lt;ref name=BLA&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Siena"
+    }, {
+      "field" : "world_actor",
+      "value" : "Manfred of Sicily"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Guelphs and Ghibellines"
+    }, {
+      "field" : "world_actor",
+      "value" : "''' &lt;ref name=LEO&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;&lt;ref name=BLA&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Siena"
+    }, {
+      "field" : "world_actor",
+      "value" : "Manfred of Sicily"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Guelphs and Ghibellines"
+    }, {
+      "field" : "world_actor",
+      "value" : "''' &lt;ref name=LEO&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;&lt;ref name=BLA&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Siena"
+    }, {
+      "field" : "world_actor",
+      "value" : "Manfred of Sicily"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "600"
+    }, {
+      "field" : "world_actor",
+      "value" : "Guelphs and Ghibellines"
+    }, {
+      "field" : "world_actor",
+      "value" : "''' &lt;ref name=LEO&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;&lt;ref name=BLA&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Siena"
+    }, {
+      "field" : "world_actor",
+      "value" : "Manfred of Sicily"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "400"
+    }, {
+      "field" : "world_actor",
+      "value" : "Guelphs and Ghibellines"
+    }, {
+      "field" : "world_actor",
+      "value" : "''' &lt;ref name=LEO&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;&lt;ref name=BLA&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Siena"
+    }, {
+      "field" : "world_actor",
+      "value" : "Manfred of Sicily"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Guelphs and Ghibellines",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "''' ",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Florence",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Perugia",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "and",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Orvieto",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Podestà Rangoni",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Guelphs and Ghibellines"
+    }, {
+      "field" : "world_actor",
+      "value" : "''' &lt;ref name=LEO/&gt;&lt;ref name=BLA/&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Florence"
+    }, {
+      "field" : "world_actor",
+      "value" : "Perugia"
+    }, {
+      "field" : "world_actor",
+      "value" : "and"
+    }, {
+      "field" : "world_actor",
+      "value" : "Orvieto"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Monaldo Monaldeschi",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Guelphs and Ghibellines"
+    }, {
+      "field" : "world_actor",
+      "value" : "''' &lt;ref name=LEO/&gt;&lt;ref name=BLA/&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Florence"
+    }, {
+      "field" : "world_actor",
+      "value" : "Perugia"
+    }, {
+      "field" : "world_actor",
+      "value" : "and"
+    }, {
+      "field" : "world_actor",
+      "value" : "Orvieto"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Guelphs and Ghibellines"
+    }, {
+      "field" : "world_actor",
+      "value" : "''' &lt;ref name=LEO/&gt;&lt;ref name=BLA/&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Florence"
+    }, {
+      "field" : "world_actor",
+      "value" : "Perugia"
+    }, {
+      "field" : "world_actor",
+      "value" : "and"
+    }, {
+      "field" : "world_actor",
+      "value" : "Orvieto"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "2500"
+    }, {
+      "field" : "world_actor",
+      "value" : "Guelphs and Ghibellines"
+    }, {
+      "field" : "world_actor",
+      "value" : "''' &lt;ref name=LEO/&gt;&lt;ref name=BLA/&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Florence"
+    }, {
+      "field" : "world_actor",
+      "value" : "Perugia"
+    }, {
+      "field" : "world_actor",
+      "value" : "and"
+    }, {
+      "field" : "world_actor",
+      "value" : "Orvieto"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "captured",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1500"
+    }, {
+      "field" : "world_actor",
+      "value" : "Guelphs and Ghibellines"
+    }, {
+      "field" : "world_actor",
+      "value" : "''' &lt;ref name=LEO/&gt;&lt;ref name=BLA/&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Florence"
+    }, {
+      "field" : "world_actor",
+      "value" : "Perugia"
+    }, {
+      "field" : "world_actor",
+      "value" : "and"
+    }, {
+      "field" : "world_actor",
+      "value" : "Orvieto"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Montaperti",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 11.439413889, 43.315411111 ]
+  }
+}

@@ -1,0 +1,282 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Königgrätz",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18660703000000,
+      "year" : 1866,
+      "month" : 7,
+      "day" : 3
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Austro-Prussian War",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Decisive Prussian victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Prussia",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kingdom of Prussia",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Helmuth Karl Bernhard von Moltke",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Prussia"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Prince Friedrich Karl of Prussia (1828-1885)",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Prussia"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Frederick III",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Prussia"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "General",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Prussia"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "casualties",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "9172"
+    }, {
+      "field" : "world_actor",
+      "value" : "Prussia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Prussia"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1935"
+    }, {
+      "field" : "world_actor",
+      "value" : "Prussia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Prussia"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "7237"
+    }, {
+      "field" : "world_actor",
+      "value" : "Prussia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Prussia"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Austrian Empire",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Saxony",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kingdom of Saxony",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Ludwig von Benedek",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Austrian Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "casualties",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "31434"
+    }, {
+      "field" : "world_actor",
+      "value" : "Austrian Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Saxony"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Saxony"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "5793"
+    }, {
+      "field" : "world_actor",
+      "value" : "Austrian Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Saxony"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Saxony"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "missing",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "7836"
+    }, {
+      "field" : "world_actor",
+      "value" : "Austrian Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Saxony"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Saxony"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "8514"
+    }, {
+      "field" : "world_actor",
+      "value" : "Austrian Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Saxony"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Saxony"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "captured",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "9291"
+    }, {
+      "field" : "world_actor",
+      "value" : "Austrian Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Saxony"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Saxony"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_K%C3%B6niggr%C3%A4tz",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 15.83, 50.21 ]
+  }
+}

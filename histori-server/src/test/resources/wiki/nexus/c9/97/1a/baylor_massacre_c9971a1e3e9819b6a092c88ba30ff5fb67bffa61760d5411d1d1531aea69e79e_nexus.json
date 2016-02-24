@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Baylor Massacre",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 17780927000000,
+      "year" : 1778,
+      "month" : 9,
+      "day" : 27
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -74.008144, 41.012896 ]
+  }
+}

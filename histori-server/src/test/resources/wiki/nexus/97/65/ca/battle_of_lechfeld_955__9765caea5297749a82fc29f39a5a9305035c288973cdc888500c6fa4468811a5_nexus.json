@@ -1,0 +1,419 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Lechfeld (955)",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 9550810000000,
+      "year" : 955,
+      "month" : 8,
+      "day" : 10
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Hungarian invasions of Europe",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Decisive Germanic-Slavic victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Duchy of Saxony",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "and",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Duchy of Thuringia",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Duchy of Bavaria",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Duchy of Swabia",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "East Francia",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Duchy of Bohemia",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Chutizi (",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Sorbs",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : ")",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Otto I",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Saxony"
+    }, {
+      "field" : "world_actor",
+      "value" : "and"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Thuringia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Bavaria"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Swabia"
+    }, {
+      "field" : "world_actor",
+      "value" : "East Francia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Bohemia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Chutizi ("
+    }, {
+      "field" : "world_actor",
+      "value" : "Sorbs"
+    }, {
+      "field" : "world_actor",
+      "value" : ")&lt;ref name=&quot;Robert F. Barkowski&quot;&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Conrad",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Saxony"
+    }, {
+      "field" : "world_actor",
+      "value" : "and"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Thuringia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Bavaria"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Swabia"
+    }, {
+      "field" : "world_actor",
+      "value" : "East Francia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Bohemia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Chutizi ("
+    }, {
+      "field" : "world_actor",
+      "value" : "Sorbs"
+    }, {
+      "field" : "world_actor",
+      "value" : ")&lt;ref name=&quot;Robert F. Barkowski&quot;&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Burchard_III,_Duke_of_Swabia",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Saxony"
+    }, {
+      "field" : "world_actor",
+      "value" : "and"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Thuringia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Bavaria"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Swabia"
+    }, {
+      "field" : "world_actor",
+      "value" : "East Francia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Bohemia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Chutizi ("
+    }, {
+      "field" : "world_actor",
+      "value" : "Sorbs"
+    }, {
+      "field" : "world_actor",
+      "value" : ")&lt;ref name=&quot;Robert F. Barkowski&quot;&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "3000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Saxony"
+    }, {
+      "field" : "world_actor",
+      "value" : "and"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Thuringia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Bavaria"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Swabia"
+    }, {
+      "field" : "world_actor",
+      "value" : "East Francia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Bohemia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Chutizi ("
+    }, {
+      "field" : "world_actor",
+      "value" : "Sorbs"
+    }, {
+      "field" : "world_actor",
+      "value" : ")&lt;ref name=&quot;Robert F. Barkowski&quot;&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Hungarian people",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Horka (title)",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hungarian people"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Bulcsú",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hungarian people"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "chieftains",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hungarian people"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Lehel",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hungarian people"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "and Súr",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hungarian people"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "4000"
+    }, {
+      "field" : "high_estimate",
+      "value" : "5000"
+    }, {
+      "field" : "estimate",
+      "value" : "4500"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hungarian people"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1500"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hungarian people"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "2000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hungarian people"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Lechfeld_%28955%29",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 10.9, 48.366666667 ]
+  }
+}

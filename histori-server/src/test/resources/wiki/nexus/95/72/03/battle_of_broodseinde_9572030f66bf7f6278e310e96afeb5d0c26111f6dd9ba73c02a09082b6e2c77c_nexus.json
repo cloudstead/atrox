@@ -1,0 +1,252 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Broodseinde",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19171004000000,
+      "year" : 1917,
+      "month" : 10,
+      "day" : 4
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Battle of Passchendaele",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Allied victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "British Empire",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Australia",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Military history of Australia during World War I",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "New Zealand",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Dominion of New Zealand",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Douglas Haig",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Herbert Plumer",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "UK"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Hubert Gough",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "UK"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "casualties",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "20000"
+    }, {
+      "field" : "world_actor",
+      "value" : "British Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Australia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Military history of Australia during World War I"
+    }, {
+      "field" : "world_actor",
+      "value" : "New Zealand"
+    }, {
+      "field" : "world_actor",
+      "value" : "Dominion of New Zealand"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "6423"
+    }, {
+      "field" : "world_actor",
+      "value" : "British Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Australia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Military history of Australia during World War I"
+    }, {
+      "field" : "world_actor",
+      "value" : "New Zealand"
+    }, {
+      "field" : "world_actor",
+      "value" : "Dominion of New Zealand"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1853"
+    }, {
+      "field" : "world_actor",
+      "value" : "British Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Australia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Military history of Australia during World War I"
+    }, {
+      "field" : "world_actor",
+      "value" : "New Zealand"
+    }, {
+      "field" : "world_actor",
+      "value" : "Dominion of New Zealand"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "German Empire",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Erich Ludendorff",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "German Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Rupprecht",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "German Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Friedrich Bertram Sixt von Armin",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "German Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "35000"
+    }, {
+      "field" : "world_actor",
+      "value" : "German Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Broodseinde",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 2.890691667, 50.852016667 ]
+  }
+}

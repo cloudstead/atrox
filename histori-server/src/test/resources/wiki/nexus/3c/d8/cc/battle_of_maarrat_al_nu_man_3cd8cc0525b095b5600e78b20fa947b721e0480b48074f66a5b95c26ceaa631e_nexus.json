@@ -1,0 +1,158 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Maarrat al-Nu'man",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 20121008000000,
+      "year" : 2012,
+      "month" : 10,
+      "day" : 8
+    },
+    "endPoint" : {
+      "instant" : 20121013000000,
+      "year" : 2012,
+      "month" : 10,
+      "day" : 13
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Idlib Governorate clashes (June 2012–April 2013)",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Rebel victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Free Syrian Army",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Al-Nusra Front",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Free Syrian Army"
+    }, {
+      "field" : "world_actor",
+      "value" : "Al-Nusra Front"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "108"
+    }, {
+      "field" : "world_actor",
+      "value" : "Free Syrian Army"
+    }, {
+      "field" : "world_actor",
+      "value" : "Al-Nusra Front"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Syria",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Syrian Armed Forces",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Unknown",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Syria"
+    }, {
+      "field" : "world_actor",
+      "value" : "Syrian Armed Forces"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "190"
+    }, {
+      "field" : "world_actor",
+      "value" : "Syria"
+    }, {
+      "field" : "world_actor",
+      "value" : "Syrian Armed Forces"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "17"
+    }, {
+      "field" : "world_actor",
+      "value" : "Syria"
+    }, {
+      "field" : "world_actor",
+      "value" : "Syrian Armed Forces"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Maarrat_al-Nu%27man",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 36.671666667, 35.638611111 ]
+  }
+}

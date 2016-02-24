@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Siege of Kamenets",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 16720918000000,
+      "year" : 1672,
+      "month" : 9,
+      "day" : 18
+    },
+    "endPoint" : {
+      "instant" : 16720927000000,
+      "year" : 1672,
+      "month" : 9,
+      "day" : 27
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 26.583333333, 48.683333333 ]
+  }
+}

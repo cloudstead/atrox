@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Occupation of Gori",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 20080813000000,
+      "year" : 2008,
+      "month" : 8,
+      "day" : 13
+    },
+    "endPoint" : {
+      "instant" : 20080822000000,
+      "year" : 2008,
+      "month" : 8,
+      "day" : 22
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 44.109541667, 41.98135 ]
+  }
+}

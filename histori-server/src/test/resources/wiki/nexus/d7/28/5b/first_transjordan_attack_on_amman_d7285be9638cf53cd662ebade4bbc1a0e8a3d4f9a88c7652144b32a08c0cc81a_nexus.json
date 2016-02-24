@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "First Transjordan attack on Amman",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19180321000000,
+      "year" : 1918,
+      "month" : 3,
+      "day" : 21
+    },
+    "endPoint" : {
+      "instant" : 19180402000000,
+      "year" : 1918,
+      "month" : 4,
+      "day" : 2
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 35.933333333, 31.933333333 ]
+  }
+}

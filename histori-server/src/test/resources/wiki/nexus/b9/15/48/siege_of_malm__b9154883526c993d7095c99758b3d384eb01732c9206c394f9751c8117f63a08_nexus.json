@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Siege of Malmö",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 16770626000000,
+      "year" : 1677,
+      "month" : 6,
+      "day" : 26
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 13.0181, 55.5944 ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Tuyuhun invasion of Gansu",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 6230000000000,
+      "year" : 623
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 103.452083333, 35.844694444 ]
+  }
+}

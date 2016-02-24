@@ -1,0 +1,221 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Maol Ruadh",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 16880800000000,
+      "year" : 1688,
+      "month" : 8
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Scottish clan",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Rebel victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Rebels:",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan MacDonald of Keppoch",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Cameron",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Coll MacDonald of Keppoch",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Rebels:"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan MacDonald of Keppoch"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Cameron"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Government backed troops:",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Chattan Confederation",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "led by",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Mackintosh",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Highland Independent Company:",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Mackenzie",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Lachlan MacKintosh of Torcastle",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Government backed troops:"
+    }, {
+      "field" : "world_actor",
+      "value" : "Chattan Confederation"
+    }, {
+      "field" : "world_actor",
+      "value" : "led by"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackintosh"
+    }, {
+      "field" : "world_actor",
+      "value" : "Highland Independent Company:"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackenzie"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kenneth Mackenzie of Suddie (killed in action)",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Government backed troops:"
+    }, {
+      "field" : "world_actor",
+      "value" : "Chattan Confederation"
+    }, {
+      "field" : "world_actor",
+      "value" : "led by"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackintosh"
+    }, {
+      "field" : "world_actor",
+      "value" : "Highland Independent Company:"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackenzie"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Simpson",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Government backed troops:"
+    }, {
+      "field" : "world_actor",
+      "value" : "Chattan Confederation"
+    }, {
+      "field" : "world_actor",
+      "value" : "led by"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackintosh"
+    }, {
+      "field" : "world_actor",
+      "value" : "Highland Independent Company:"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackenzie"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Maol_Ruadh",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -4.838611111, 56.903055556 ]
+  }
+}

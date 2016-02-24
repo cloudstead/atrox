@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Glorious First of June",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 17940601000000,
+      "year" : 1794,
+      "month" : 6,
+      "day" : 1
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -17.45, 47.4 ]
+  }
+}

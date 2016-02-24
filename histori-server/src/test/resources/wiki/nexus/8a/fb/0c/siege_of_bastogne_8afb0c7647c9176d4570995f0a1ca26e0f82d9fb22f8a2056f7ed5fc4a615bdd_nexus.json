@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Siege of Bastogne",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19441220000000,
+      "year" : 1944,
+      "month" : 12,
+      "day" : 20
+    },
+    "endPoint" : {
+      "instant" : 19441227000000,
+      "year" : 1944,
+      "month" : 12,
+      "day" : 27
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 5.7214, 50.0 ]
+  }
+}

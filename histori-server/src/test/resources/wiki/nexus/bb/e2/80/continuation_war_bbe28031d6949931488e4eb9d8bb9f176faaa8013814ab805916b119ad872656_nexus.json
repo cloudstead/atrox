@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Continuation War",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19410625000000,
+      "year" : 1941,
+      "month" : 6,
+      "day" : 25
+    },
+    "endPoint" : {
+      "instant" : 19440919000000,
+      "year" : 1944,
+      "month" : 9,
+      "day" : 19
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 26.0, 64.0 ]
+  }
+}

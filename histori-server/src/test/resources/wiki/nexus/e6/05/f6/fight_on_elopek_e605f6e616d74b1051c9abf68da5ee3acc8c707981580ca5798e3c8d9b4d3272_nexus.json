@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Fight on Čelopek",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19050416000000,
+      "year" : 1905,
+      "month" : 4,
+      "day" : 16
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 21.826389, 42.226944 ]
+  }
+}

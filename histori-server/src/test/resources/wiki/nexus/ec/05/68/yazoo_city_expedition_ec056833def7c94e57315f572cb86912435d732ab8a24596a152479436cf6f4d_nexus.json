@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Yazoo City Expedition",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18640504000000,
+      "year" : 1864,
+      "month" : 5,
+      "day" : 4
+    },
+    "endPoint" : {
+      "instant" : 18640521000000,
+      "year" : 1864,
+      "month" : 5,
+      "day" : 21
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -90.4, 32.78 ]
+  }
+}

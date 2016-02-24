@@ -1,0 +1,194 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of the Gediz",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19201024000000,
+      "year" : 1920,
+      "month" : 10,
+      "day" : 24
+    },
+    "endPoint" : {
+      "instant" : 19201112000000,
+      "year" : 1920,
+      "month" : 11,
+      "day" : 12
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Greco-Turkish War (1919–22)",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "*Tactically inconclusive",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kingdom of Greece",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Leonidas Paraskevopoulos",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Greece"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "42"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Greece"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "123"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Greece"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Ottoman Empire",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Government of the Grand National Assembly",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kuva-yi Milliye",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Ali Fuat Cebesoy",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ottoman Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Çerkes Ethem",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ottoman Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "181"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ottoman Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Government of the Grand National Assembly"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kuva-yi Milliye"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/small&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "135"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ottoman Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Government of the Grand National Assembly"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kuva-yi Milliye"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/small&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_the_Gediz",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 26.815833333, 38.588333333 ]
+  }
+}

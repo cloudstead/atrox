@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Dieppe Raid",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19420819000000,
+      "year" : 1942,
+      "month" : 8,
+      "day" : 19
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 1.0833, 49.9333 ]
+  }
+}

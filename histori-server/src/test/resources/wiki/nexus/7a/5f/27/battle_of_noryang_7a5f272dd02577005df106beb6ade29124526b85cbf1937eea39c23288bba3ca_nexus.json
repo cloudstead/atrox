@@ -1,0 +1,255 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Noryang",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 15981216000000,
+      "year" : 1598,
+      "month" : 12,
+      "day" : 16
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Japanese invasions of Korea (1592–1598)",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Tactical victory Joseon-Ming victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Azuchi–Momoyama period",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "as governed by the",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Council of Five Elders",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Shimazu Yoshihiro",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Azuchi–Momoyama period"
+    }, {
+      "field" : "world_actor",
+      "value" : "as governed by the"
+    }, {
+      "field" : "world_actor",
+      "value" : "Council of Five Elders"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Tachibana Muneshige",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Azuchi–Momoyama period"
+    }, {
+      "field" : "world_actor",
+      "value" : "as governed by the"
+    }, {
+      "field" : "world_actor",
+      "value" : "Council of Five Elders"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "''War history of Japan: Chousen-eki'' (1924)",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Azuchi–Momoyama period"
+    }, {
+      "field" : "world_actor",
+      "value" : "as governed by the"
+    }, {
+      "field" : "world_actor",
+      "value" : "Council of Five Elders"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Konishi Yukinaga",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Azuchi–Momoyama period"
+    }, {
+      "field" : "world_actor",
+      "value" : "as governed by the"
+    }, {
+      "field" : "world_actor",
+      "value" : "Council of Five Elders"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "So Yoshitoshi",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Azuchi–Momoyama period"
+    }, {
+      "field" : "world_actor",
+      "value" : "as governed by the"
+    }, {
+      "field" : "world_actor",
+      "value" : "Council of Five Elders"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "ships sunk",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "200"
+    }, {
+      "field" : "world_actor",
+      "value" : "Azuchi–Momoyama period"
+    }, {
+      "field" : "world_actor",
+      "value" : "as governed by the"
+    }, {
+      "field" : "world_actor",
+      "value" : "Council of Five Elders"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Joseon",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Ming Dynasty",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Yi Sun-sin",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Joseon"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ming Dynasty"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Chen Lin (Ming dynasty)",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Joseon"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ming Dynasty"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Deng Zilong",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Joseon"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ming Dynasty"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "500"
+    }, {
+      "field" : "world_actor",
+      "value" : "Joseon"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ming Dynasty"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Noryang",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 127.876388889, 34.945277778 ]
+  }
+}

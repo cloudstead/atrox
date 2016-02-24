@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Third Battle of Winchester",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18640919000000,
+      "year" : 1864,
+      "month" : 9,
+      "day" : 19
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -78.1325, 39.1956 ]
+  }
+}

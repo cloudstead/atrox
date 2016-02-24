@@ -1,0 +1,195 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Cape Lopez",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 17220210000000,
+      "year" : 1722,
+      "month" : 2,
+      "day" : 10
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Golden Age of Piracy",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "British victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kingdom of Great Britain",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Chaloner Ogle",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Great Britain"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Great Britain"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Bartholomew Roberts",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "'s",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Pirate",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "s",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Bartholomew Roberts",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Bartholomew Roberts"
+    }, {
+      "field" : "world_actor",
+      "value" : "'s"
+    }, {
+      "field" : "world_actor",
+      "value" : "Pirate"
+    }, {
+      "field" : "world_actor",
+      "value" : "s"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "3"
+    }, {
+      "field" : "world_actor",
+      "value" : "Bartholomew Roberts"
+    }, {
+      "field" : "world_actor",
+      "value" : "'s"
+    }, {
+      "field" : "world_actor",
+      "value" : "Pirate"
+    }, {
+      "field" : "world_actor",
+      "value" : "s"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "captured",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "272"
+    }, {
+      "field" : "world_actor",
+      "value" : "Bartholomew Roberts"
+    }, {
+      "field" : "world_actor",
+      "value" : "'s"
+    }, {
+      "field" : "world_actor",
+      "value" : "Pirate"
+    }, {
+      "field" : "world_actor",
+      "value" : "s"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "captured",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1"
+    }, {
+      "field" : "world_actor",
+      "value" : "Bartholomew Roberts"
+    }, {
+      "field" : "world_actor",
+      "value" : "'s"
+    }, {
+      "field" : "world_actor",
+      "value" : "Pirate"
+    }, {
+      "field" : "world_actor",
+      "value" : "s"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Cape_Lopez",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 8.7, -0.633 ]
+  }
+}

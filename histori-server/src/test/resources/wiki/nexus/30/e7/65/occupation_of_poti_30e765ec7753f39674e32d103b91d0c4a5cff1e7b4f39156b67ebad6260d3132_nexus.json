@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Occupation of Poti",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 20080811000000,
+      "year" : 2008,
+      "month" : 8,
+      "day" : 11
+    },
+    "endPoint" : {
+      "instant" : 20080913000000,
+      "year" : 2008,
+      "month" : 9,
+      "day" : 13
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 41.6667, 42.15 ]
+  }
+}

@@ -1,0 +1,319 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Chengpu",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : -6320000000000,
+      "year" : -632
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Spring and Autumn period",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Decisive Jin victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Jin (Chinese state)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Qi (state)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Qin (state)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Song (state)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Hu Mao",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Jin (Chinese state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Qi (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Qin (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Song (state)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Hu Yan",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Jin (Chinese state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Qi (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Qin (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Song (state)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Xian Zhen",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Jin (Chinese state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Qi (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Qin (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Song (state)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Xi Zhen",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Jin (Chinese state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Qi (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Qin (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Song (state)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Xu Chen (Zhou dynasty)",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Jin (Chinese state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Qi (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Qin (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Song (state)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Luan Zhi",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Jin (Chinese state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Qi (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Qin (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Song (state)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Chu (state)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Chen (state)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Cai (state)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Shen (state)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Xi (state)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Cheng Dechen",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Chu (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Chen (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cai (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Shen (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Xi (state)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Zishang",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Chu (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Chen (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cai (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Shen (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Xi (state)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Zixi (Zhou dynasty)",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Chu (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Chen (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cai (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Shen (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Xi (state)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Chengpu",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 114.529, 34.6711 ]
+  }
+}

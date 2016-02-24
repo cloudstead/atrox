@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Operation Medak Pocket",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19930909000000,
+      "year" : 1993,
+      "month" : 9,
+      "day" : 9
+    },
+    "endPoint" : {
+      "instant" : 19930917000000,
+      "year" : 1993,
+      "month" : 9,
+      "day" : 17
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 15.507222222, 44.456111111 ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Combat of the Thirty",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 13510326000000,
+      "year" : 1351,
+      "month" : 3,
+      "day" : 26
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -3.0, 48.0 ]
+  }
+}

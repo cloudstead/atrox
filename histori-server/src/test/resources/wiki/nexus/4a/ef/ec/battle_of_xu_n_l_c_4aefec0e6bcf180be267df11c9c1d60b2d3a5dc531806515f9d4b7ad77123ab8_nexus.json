@@ -1,0 +1,156 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Xuân Lộc",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19750409000000,
+      "year" : 1975,
+      "month" : 4,
+      "day" : 9
+    },
+    "endPoint" : {
+      "instant" : 19750421000000,
+      "year" : 1975,
+      "month" : 4,
+      "day" : 21
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Vietnam War",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "North Vietnamese strategic victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Vietnam",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "North Vietnam",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Viet Cong",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Hoàng Cầm (general)",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Vietnam"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead and wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "50000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Vietnam"
+    }, {
+      "field" : "world_actor",
+      "value" : "North Vietnam"
+    }, {
+      "field" : "world_actor",
+      "value" : "Viet Cong"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "460"
+    }, {
+      "field" : "world_actor",
+      "value" : "Vietnam"
+    }, {
+      "field" : "world_actor",
+      "value" : "North Vietnam"
+    }, {
+      "field" : "world_actor",
+      "value" : "Viet Cong"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "South Vietnam",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Lê Minh Đảo",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "South Vietnam"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead and wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "2036"
+    }, {
+      "field" : "world_actor",
+      "value" : "South Vietnam"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Xu%C3%A2n_L%E1%BB%99c",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 107.234166667, 10.932222222 ]
+  }
+}

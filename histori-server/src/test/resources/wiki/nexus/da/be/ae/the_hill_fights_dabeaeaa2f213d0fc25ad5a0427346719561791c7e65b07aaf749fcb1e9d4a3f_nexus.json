@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "The Hill Fights",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19670424000000,
+      "year" : 1967,
+      "month" : 4,
+      "day" : 24
+    },
+    "endPoint" : {
+      "instant" : 19670511000000,
+      "year" : 1967,
+      "month" : 5,
+      "day" : 11
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 106.686944444, 16.676666667 ]
+  }
+}

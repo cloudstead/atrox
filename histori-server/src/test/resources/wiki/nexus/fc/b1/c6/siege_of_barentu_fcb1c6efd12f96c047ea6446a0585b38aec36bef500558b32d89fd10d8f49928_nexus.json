@@ -1,0 +1,15 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Siege of Barentu",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19770000000000,
+      "year" : 1977
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 37.6, 15.116666667 ]
+  }
+}

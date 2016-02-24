@@ -1,0 +1,225 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Hatcher's Run",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18650205000000,
+      "year" : 1865,
+      "month" : 2,
+      "day" : 5
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "American Civil War",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "United States of America victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "USA",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "United States (",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Union (American Civil War)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Andrew A. Humphreys",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "USA"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States ("
+    }, {
+      "field" : "world_actor",
+      "value" : "Union (American Civil War)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Gouverneur K. Warren",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "USA"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States ("
+    }, {
+      "field" : "world_actor",
+      "value" : "Union (American Civil War)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "casualties",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1539"
+    }, {
+      "field" : "world_actor",
+      "value" : "USA"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States ("
+    }, {
+      "field" : "world_actor",
+      "value" : "Union (American Civil War)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "171"
+    }, {
+      "field" : "world_actor",
+      "value" : "USA"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States ("
+    }, {
+      "field" : "world_actor",
+      "value" : "Union (American Civil War)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1181"
+    }, {
+      "field" : "world_actor",
+      "value" : "USA"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States ("
+    }, {
+      "field" : "world_actor",
+      "value" : "Union (American Civil War)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "captured",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "187"
+    }, {
+      "field" : "world_actor",
+      "value" : "USA"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States ("
+    }, {
+      "field" : "world_actor",
+      "value" : "Union (American Civil War)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "CSA",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Confederate States of America",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "John Brown Gordon",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "CSA"
+    }, {
+      "field" : "world_actor",
+      "value" : "Confederate States of America"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "casualties",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1161"
+    }, {
+      "field" : "world_actor",
+      "value" : "CSA"
+    }, {
+      "field" : "world_actor",
+      "value" : "Confederate States of America"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Hatcher%27s_Run",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -77.4853, 37.1305 ]
+  }
+}

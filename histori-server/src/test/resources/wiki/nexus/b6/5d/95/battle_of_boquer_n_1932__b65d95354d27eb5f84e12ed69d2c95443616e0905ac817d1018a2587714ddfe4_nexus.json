@@ -1,0 +1,234 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Boquerón (1932)",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19320907000000,
+      "year" : 1932,
+      "month" : 9,
+      "day" : 7
+    },
+    "endPoint" : {
+      "instant" : 19320929000000,
+      "year" : 1932,
+      "month" : 9,
+      "day" : 29
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Chaco War",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Decisive Paraguayan victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Bolivia",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Republic of Bolivia",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Filiberto Osorio",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Bolivia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Republic of Bolivia"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Quintanilla",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Bolivia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Republic of Bolivia"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "F.Peña",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Bolivia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Republic of Bolivia"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Manuel Marzana",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Bolivia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Republic of Bolivia"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "2200"
+    }, {
+      "field" : "world_actor",
+      "value" : "Bolivia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Republic of Bolivia"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Paraguay",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Republic of Paraguay",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "José Félix Estigarribia",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Paraguay"
+    }, {
+      "field" : "world_actor",
+      "value" : "Republic of Paraguay"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Carlos Fernandez",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Paraguay"
+    }, {
+      "field" : "world_actor",
+      "value" : "Republic of Paraguay"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Luis Ayala",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Paraguay"
+    }, {
+      "field" : "world_actor",
+      "value" : "Republic of Paraguay"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "500"
+    }, {
+      "field" : "world_actor",
+      "value" : "Paraguay"
+    }, {
+      "field" : "world_actor",
+      "value" : "Republic of Paraguay"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1500"
+    }, {
+      "field" : "world_actor",
+      "value" : "Paraguay"
+    }, {
+      "field" : "world_actor",
+      "value" : "Republic of Paraguay"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Boquer%C3%B3n_%281932%29",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -59.940861, -22.773639 ]
+  }
+}

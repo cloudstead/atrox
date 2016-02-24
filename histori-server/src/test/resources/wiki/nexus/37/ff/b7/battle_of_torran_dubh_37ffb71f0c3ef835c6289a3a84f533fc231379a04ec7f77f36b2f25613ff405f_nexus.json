@@ -1,0 +1,226 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Torran Dubh",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 15170000000000,
+      "year" : 1517
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Scottish clan",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Sutherland victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Sutherland",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "supported by men from the",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Gordon",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Gunn",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Sinclair, Thomas. (1890). ''The Gunns''. pp. 36.",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Alexander Sutherland",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Sutherland"
+    }, {
+      "field" : "world_actor",
+      "value" : "supported by men from the"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Gordon"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Gunn"
+    }, {
+      "field" : "world_actor",
+      "value" : "Sinclair, Thomas. (1890). ''The Gunns''. pp. 36.&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Murray of Aberscross",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Sutherland"
+    }, {
+      "field" : "world_actor",
+      "value" : "supported by men from the"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Gordon"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Gunn"
+    }, {
+      "field" : "world_actor",
+      "value" : "Sinclair, Thomas. (1890). ''The Gunns''. pp. 36.&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "William Mackames of Clan Gunn",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Sutherland"
+    }, {
+      "field" : "world_actor",
+      "value" : "supported by men from the"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Gordon"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Gunn"
+    }, {
+      "field" : "world_actor",
+      "value" : "Sinclair, Thomas. (1890). ''The Gunns''. pp. 36.&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "38"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Sutherland"
+    }, {
+      "field" : "world_actor",
+      "value" : "supported by men from the"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Gordon"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Gunn"
+    }, {
+      "field" : "world_actor",
+      "value" : "Sinclair, Thomas. (1890). ''The Gunns''. pp. 36.&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Mackay",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "John Mackay of Strathnaver",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackay"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Donald Mackay",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackay"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "216"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackay"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Torran_Dubh",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -4.179, 58.003 ]
+  }
+}

@@ -1,0 +1,384 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Boyacá",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18190807000000,
+      "year" : 1819,
+      "month" : 8,
+      "day" : 7
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Bolivar in New Granada",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Decisive Republican victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Independentist army\n*'''",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Foreign volunteers",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "British Legions",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "General-in-Chief",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Independentist army\n*'''"
+    }, {
+      "field" : "world_actor",
+      "value" : "Foreign volunteers"
+    }, {
+      "field" : "world_actor",
+      "value" : "British Legions"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Simón Antonio Bolívar",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Independentist army\n*'''"
+    }, {
+      "field" : "world_actor",
+      "value" : "Foreign volunteers"
+    }, {
+      "field" : "world_actor",
+      "value" : "British Legions"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Brigade General",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Independentist army\n*'''"
+    }, {
+      "field" : "world_actor",
+      "value" : "Foreign volunteers"
+    }, {
+      "field" : "world_actor",
+      "value" : "British Legions"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Francisco de Paula Santander",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Independentist army\n*'''"
+    }, {
+      "field" : "world_actor",
+      "value" : "Foreign volunteers"
+    }, {
+      "field" : "world_actor",
+      "value" : "British Legions"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Jose Antonio Anzoátegui",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Independentist army\n*'''"
+    }, {
+      "field" : "world_actor",
+      "value" : "Foreign volunteers"
+    }, {
+      "field" : "world_actor",
+      "value" : "British Legions"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Carlos Soublette",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Independentist army\n*'''"
+    }, {
+      "field" : "world_actor",
+      "value" : "Foreign volunteers"
+    }, {
+      "field" : "world_actor",
+      "value" : "British Legions"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "13"
+    }, {
+      "field" : "world_actor",
+      "value" : "Independentist army\n*'''"
+    }, {
+      "field" : "world_actor",
+      "value" : "Foreign volunteers"
+    }, {
+      "field" : "world_actor",
+      "value" : "British Legions"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Mid-nineteenth century Spain",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Hispanic America",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "n",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Royalist (Hispanic American Revolution)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "s",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Colonel",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mid-nineteenth century Spain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hispanic America"
+    }, {
+      "field" : "world_actor",
+      "value" : "n"
+    }, {
+      "field" : "world_actor",
+      "value" : "Royalist (Hispanic American Revolution)"
+    }, {
+      "field" : "world_actor",
+      "value" : "s"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "José María Barreiro",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mid-nineteenth century Spain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hispanic America"
+    }, {
+      "field" : "world_actor",
+      "value" : "n"
+    }, {
+      "field" : "world_actor",
+      "value" : "Royalist (Hispanic American Revolution)"
+    }, {
+      "field" : "world_actor",
+      "value" : "s"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Colonel Francisco Jiménez .",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mid-nineteenth century Spain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hispanic America"
+    }, {
+      "field" : "world_actor",
+      "value" : "n"
+    }, {
+      "field" : "world_actor",
+      "value" : "Royalist (Hispanic American Revolution)"
+    }, {
+      "field" : "world_actor",
+      "value" : "s"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Colonel Sebastián Díaz",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mid-nineteenth century Spain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hispanic America"
+    }, {
+      "field" : "world_actor",
+      "value" : "n"
+    }, {
+      "field" : "world_actor",
+      "value" : "Royalist (Hispanic American Revolution)"
+    }, {
+      "field" : "world_actor",
+      "value" : "s"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Decreto de Guerra a Muerte",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mid-nineteenth century Spain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hispanic America"
+    }, {
+      "field" : "world_actor",
+      "value" : "n"
+    }, {
+      "field" : "world_actor",
+      "value" : "Royalist (Hispanic American Revolution)"
+    }, {
+      "field" : "world_actor",
+      "value" : "s"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "100"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mid-nineteenth century Spain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hispanic America"
+    }, {
+      "field" : "world_actor",
+      "value" : "n"
+    }, {
+      "field" : "world_actor",
+      "value" : "Royalist (Hispanic American Revolution)"
+    }, {
+      "field" : "world_actor",
+      "value" : "s"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Boyac%C3%A1",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -73.429166667, 5.45 ]
+  }
+}

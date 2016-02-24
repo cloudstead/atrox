@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Crimean Offensive",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19440408000000,
+      "year" : 1944,
+      "month" : 4,
+      "day" : 8
+    },
+    "endPoint" : {
+      "instant" : 19440512000000,
+      "year" : 1944,
+      "month" : 5,
+      "day" : 12
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 34.4, 45.3 ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Hundred Regiments Offensive",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19400820000000,
+      "year" : 1940,
+      "month" : 8,
+      "day" : 20
+    },
+    "endPoint" : {
+      "instant" : 19401205000000,
+      "year" : 1940,
+      "month" : 12,
+      "day" : 5
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 116.3, 37.45 ]
+  }
+}

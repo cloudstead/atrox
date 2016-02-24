@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Kilmichael Ambush",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19201128000000,
+      "year" : 1920,
+      "month" : 11,
+      "day" : 28
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -9.039, 51.812 ]
+  }
+}

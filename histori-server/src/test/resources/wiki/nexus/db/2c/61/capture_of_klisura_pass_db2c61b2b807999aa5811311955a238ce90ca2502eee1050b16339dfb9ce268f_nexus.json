@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Capture of Klisura Pass",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19410106000000,
+      "year" : 1941,
+      "month" : 1,
+      "day" : 6
+    },
+    "endPoint" : {
+      "instant" : 19410111000000,
+      "year" : 1941,
+      "month" : 1,
+      "day" : 11
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 20.168, 40.298 ]
+  }
+}

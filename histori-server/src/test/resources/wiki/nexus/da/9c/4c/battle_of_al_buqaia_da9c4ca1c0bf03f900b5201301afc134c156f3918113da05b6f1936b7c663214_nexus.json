@@ -1,0 +1,202 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of al-Buqaia",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 11630000000000,
+      "year" : 1163
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Crusade",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Crusade r victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kingdom of Jerusalem",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Byzantine Empire",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Principality of Antioch",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "County of Tripoli",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Amalric I of Jerusalem",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Jerusalem"
+    }, {
+      "field" : "world_actor",
+      "value" : "Byzantine Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Principality of Antioch"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Tripoli"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Konstantinos Kalamanos",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Jerusalem"
+    }, {
+      "field" : "world_actor",
+      "value" : "Byzantine Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Principality of Antioch"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Tripoli"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Bohemund III of Antioch",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Jerusalem"
+    }, {
+      "field" : "world_actor",
+      "value" : "Byzantine Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Principality of Antioch"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Tripoli"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Raymond III of Tripoli",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Jerusalem"
+    }, {
+      "field" : "world_actor",
+      "value" : "Byzantine Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Principality of Antioch"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Tripoli"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Hugh VIII of Lusignan",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Jerusalem"
+    }, {
+      "field" : "world_actor",
+      "value" : "Byzantine Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Principality of Antioch"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Tripoli"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Zengids",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Nur ad-Din Zangi",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Zengids"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_al-Buqaia",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 36.145277778, 34.008888889 ]
+  }
+}

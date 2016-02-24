@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Second Battle of Jaunde",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19151009000000,
+      "year" : 1915,
+      "month" : 10,
+      "day" : 9
+    },
+    "endPoint" : {
+      "instant" : 19160101000000,
+      "year" : 1916,
+      "month" : 1,
+      "day" : 1
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 11.516666667, 3.866666667 ]
+  }
+}

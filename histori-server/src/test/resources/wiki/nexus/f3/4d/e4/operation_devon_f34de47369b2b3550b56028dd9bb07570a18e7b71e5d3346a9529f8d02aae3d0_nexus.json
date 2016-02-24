@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Operation Devon",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19431003000000,
+      "year" : 1943,
+      "month" : 10,
+      "day" : 3
+    },
+    "endPoint" : {
+      "instant" : 19431006000000,
+      "year" : 1943,
+      "month" : 10,
+      "day" : 6
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 14.98, 42.0 ]
+  }
+}

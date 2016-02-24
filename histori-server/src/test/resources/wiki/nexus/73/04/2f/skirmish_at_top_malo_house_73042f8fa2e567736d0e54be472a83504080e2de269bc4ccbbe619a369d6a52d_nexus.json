@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Skirmish at Top Malo House",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19820531000000,
+      "year" : 1982,
+      "month" : 5,
+      "day" : 31
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -58.45, -51.616666667 ]
+  }
+}

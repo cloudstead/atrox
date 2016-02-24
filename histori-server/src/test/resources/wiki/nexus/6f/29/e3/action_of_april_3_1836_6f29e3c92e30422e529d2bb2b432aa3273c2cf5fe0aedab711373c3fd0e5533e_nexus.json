@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Action of April 3, 1836",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18360403000000,
+      "year" : 1836,
+      "month" : 4,
+      "day" : 3
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -97.504166667, 25.879722222 ]
+  }
+}

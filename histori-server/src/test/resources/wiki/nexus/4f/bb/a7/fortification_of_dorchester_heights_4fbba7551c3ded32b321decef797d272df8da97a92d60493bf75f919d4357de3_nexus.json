@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Fortification of Dorchester Heights",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 17760304000000,
+      "year" : 1776,
+      "month" : 3,
+      "day" : 4
+    },
+    "endPoint" : {
+      "instant" : 17760305000000,
+      "year" : 1776,
+      "month" : 3,
+      "day" : 5
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -71.046388889, 42.332777778 ]
+  }
+}

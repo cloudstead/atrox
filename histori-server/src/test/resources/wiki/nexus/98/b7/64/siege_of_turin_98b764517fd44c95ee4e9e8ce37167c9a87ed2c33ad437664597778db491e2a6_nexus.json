@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Siege of Turin",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 17060514000000,
+      "year" : 1706,
+      "month" : 5,
+      "day" : 14
+    },
+    "endPoint" : {
+      "instant" : 17060907000000,
+      "year" : 1706,
+      "month" : 9,
+      "day" : 7
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 7.7, 45.0667 ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Operation Torch",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19421108000000,
+      "year" : 1942,
+      "month" : 11,
+      "day" : 8
+    },
+    "endPoint" : {
+      "instant" : 19421116000000,
+      "year" : 1942,
+      "month" : 11,
+      "day" : 16
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -2.029, 35.085 ]
+  }
+}

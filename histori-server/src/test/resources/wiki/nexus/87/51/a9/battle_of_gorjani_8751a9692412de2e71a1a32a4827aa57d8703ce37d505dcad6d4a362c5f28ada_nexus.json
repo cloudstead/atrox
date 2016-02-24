@@ -1,0 +1,240 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Gorjani",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 15371009000000,
+      "year" : 1537,
+      "month" : 10,
+      "day" : 9
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Little War in Hungary",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Ottoman victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Holy Roman empire",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kingdom of Hungary",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kingdom of Croatia (Habsburg)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Johann Katzianer",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Holy Roman empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Hungary"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Croatia (Habsburg)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Šimun Erdödy",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Holy Roman empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Hungary"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Croatia (Habsburg)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Ban of Croatia",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Holy Roman empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Hungary"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Croatia (Habsburg)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Ivan Ungnad",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Holy Roman empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Hungary"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Croatia (Habsburg)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Ludwig Lodron",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Holy Roman empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Hungary"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Croatia (Habsburg)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Pavle Bakić",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Holy Roman empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Hungary"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Croatia (Habsburg)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "20000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Holy Roman empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Hungary"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Croatia (Habsburg)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Ottoman Empire",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Unknown (perhaps",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ottoman Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Sanjak of Smederevo",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ottoman Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Mehmed",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ottoman Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Gorjani",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 18.366666667, 45.4 ]
+  }
+}

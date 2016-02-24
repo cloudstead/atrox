@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Friendly fire incident at Sangin",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 20060329000000,
+      "year" : 2006,
+      "month" : 3,
+      "day" : 29
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 64.3633, 31.5892 ]
+  }
+}

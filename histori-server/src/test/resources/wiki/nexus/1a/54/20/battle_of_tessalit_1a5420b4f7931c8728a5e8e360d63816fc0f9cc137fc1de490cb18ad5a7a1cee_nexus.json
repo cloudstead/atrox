@@ -1,0 +1,324 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Tessalit",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 20120118000000,
+      "year" : 2012,
+      "month" : 1,
+      "day" : 18
+    },
+    "endPoint" : {
+      "instant" : 20120311000000,
+      "year" : 2012,
+      "month" : 3,
+      "day" : 11
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "2012 Tuareg rebellion",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "MNLA victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Mali",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Malian Army",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Didier Dakou",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mali"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "El Haji Ag Gamou",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mali"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Ould Meydou",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mali"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kassim Goita",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mali"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "32"
+    }, {
+      "field" : "high_estimate",
+      "value" : "49"
+    }, {
+      "field" : "estimate",
+      "value" : "40"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mali"
+    }, {
+      "field" : "world_actor",
+      "value" : "Malian Army"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "20"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mali"
+    }, {
+      "field" : "world_actor",
+      "value" : "Malian Army"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "captured",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "62"
+    }, {
+      "field" : "high_estimate",
+      "value" : "71"
+    }, {
+      "field" : "estimate",
+      "value" : "66"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mali"
+    }, {
+      "field" : "world_actor",
+      "value" : "Malian Army"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "captured",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "6"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mali"
+    }, {
+      "field" : "world_actor",
+      "value" : "Malian Army"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "captured",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "2"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mali"
+    }, {
+      "field" : "world_actor",
+      "value" : "Malian Army"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Azawad",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "National Movement for the Liberation of Azawad",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Ansar Dine",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "AQIM",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Bayes Ag Dicknane",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Azawad"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "7"
+    }, {
+      "field" : "high_estimate",
+      "value" : "17"
+    }, {
+      "field" : "estimate",
+      "value" : "12"
+    }, {
+      "field" : "world_actor",
+      "value" : "Azawad"
+    }, {
+      "field" : "world_actor",
+      "value" : "National Movement for the Liberation of Azawad"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ansar Dine"
+    }, {
+      "field" : "world_actor",
+      "value" : "AQIM"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "6"
+    }, {
+      "field" : "high_estimate",
+      "value" : "8"
+    }, {
+      "field" : "estimate",
+      "value" : "7"
+    }, {
+      "field" : "world_actor",
+      "value" : "Azawad"
+    }, {
+      "field" : "world_actor",
+      "value" : "National Movement for the Liberation of Azawad"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ansar Dine"
+    }, {
+      "field" : "world_actor",
+      "value" : "AQIM"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "captured",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "7"
+    }, {
+      "field" : "world_actor",
+      "value" : "Azawad"
+    }, {
+      "field" : "world_actor",
+      "value" : "National Movement for the Liberation of Azawad"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ansar Dine"
+    }, {
+      "field" : "world_actor",
+      "value" : "AQIM"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Tessalit",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 0.9911, 20.2572 ]
+  }
+}

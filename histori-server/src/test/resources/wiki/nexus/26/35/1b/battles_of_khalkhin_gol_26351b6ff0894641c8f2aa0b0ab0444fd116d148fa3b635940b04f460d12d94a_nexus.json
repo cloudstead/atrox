@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battles of Khalkhin Gol",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19390511000000,
+      "year" : 1939,
+      "month" : 5,
+      "day" : 11
+    },
+    "endPoint" : {
+      "instant" : 19390915000000,
+      "year" : 1939,
+      "month" : 9,
+      "day" : 15
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 118.59, 47.730277778 ]
+  }
+}

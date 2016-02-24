@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Lebanese Civil War",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19750413000000,
+      "year" : 1975,
+      "month" : 4,
+      "day" : 13
+    },
+    "endPoint" : {
+      "instant" : 19901013000000,
+      "year" : 1990,
+      "month" : 10,
+      "day" : 13
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 35.833333333, 33.833333333 ]
+  }
+}

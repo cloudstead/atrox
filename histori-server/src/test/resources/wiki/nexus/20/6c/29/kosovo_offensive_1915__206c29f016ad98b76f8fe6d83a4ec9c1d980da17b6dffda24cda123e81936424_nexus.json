@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Kosovo Offensive (1915)",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19151110000000,
+      "year" : 1915,
+      "month" : 11,
+      "day" : 10
+    },
+    "endPoint" : {
+      "instant" : 19151204000000,
+      "year" : 1915,
+      "month" : 12,
+      "day" : 4
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 21.0, 42.583333333 ]
+  }
+}

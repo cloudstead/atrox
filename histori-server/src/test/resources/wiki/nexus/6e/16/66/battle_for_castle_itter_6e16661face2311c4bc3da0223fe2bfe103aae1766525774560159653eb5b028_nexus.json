@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle for Castle Itter",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19450505000000,
+      "year" : 1945,
+      "month" : 5,
+      "day" : 5
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 12.139536111, 47.470505556 ]
+  }
+}

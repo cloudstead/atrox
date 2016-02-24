@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Second Battle of Homs",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 12811029000000,
+      "year" : 1281,
+      "month" : 10,
+      "day" : 29
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 36.714462, 34.723185 ]
+  }
+}

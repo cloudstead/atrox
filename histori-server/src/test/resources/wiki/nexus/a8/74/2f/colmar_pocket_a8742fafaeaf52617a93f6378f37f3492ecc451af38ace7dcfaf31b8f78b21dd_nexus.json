@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Colmar Pocket",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19450120000000,
+      "year" : 1945,
+      "month" : 1,
+      "day" : 20
+    },
+    "endPoint" : {
+      "instant" : 19450209000000,
+      "year" : 1945,
+      "month" : 2,
+      "day" : 9
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 7.36, 48.080555556 ]
+  }
+}

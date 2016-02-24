@@ -1,0 +1,153 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Cremona",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 17020201000000,
+      "year" : 1702,
+      "month" : 2,
+      "day" : 1
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "War of the Spanish Succession",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Indecisive",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Habsburg Monarchy",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Prince Eugene of Savoy",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Habsburg Monarchy"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "500"
+    }, {
+      "field" : "world_actor",
+      "value" : "Habsburg Monarchy"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kingdom of France",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "1911 Encyclopædia Britannica, 11th Edition, New York 1910, Vol.X, p.460: &quot;The oriflamme and the Chape de St Martin were succeeded at the end of the 16th century, when Henry III., the last of the house of Valois, came to the throne, by the white standard powdered with fleurs-de-lis. This in turn gave place to the famous tricolour.&quot;George Ripley, Charles Anderson Dana, ''The American Cyclopaedia'', New York, 1874, p. 250, &quot;...the standard of France was white, sprinkled with golden fleur de lis...&quot;. *",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "http://www.anyflag.com/history/fleur23.htm",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "The original Banner of France was strewn with fleurs-de-lis.",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "François de Neufville",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of France"
+    }, {
+      "field" : "world_actor",
+      "value" : "1911 Encyclopædia Britannica, 11th Edition, New York 1910, Vol.X, p.460: &quot;The oriflamme and the Chape de St Martin were succeeded at the end of the 16th century, when Henry III., the last of the house of Valois, came to the throne, by the white standard powdered with fleurs-de-lis. This in turn gave place to the famous tricolour.&quot;George Ripley, Charles Anderson Dana, ''The American Cyclopaedia'', New York, 1874, p. 250, &quot;...the standard of France was white, sprinkled with golden fleur de lis...&quot;. *"
+    }, {
+      "field" : "world_actor",
+      "value" : "http://www.anyflag.com/history/fleur23.htm"
+    }, {
+      "field" : "world_actor",
+      "value" : "The original Banner of France was strewn with fleurs-de-lis.&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of France"
+    }, {
+      "field" : "world_actor",
+      "value" : "1911 Encyclopædia Britannica, 11th Edition, New York 1910, Vol.X, p.460: &quot;The oriflamme and the Chape de St Martin were succeeded at the end of the 16th century, when Henry III., the last of the house of Valois, came to the throne, by the white standard powdered with fleurs-de-lis. This in turn gave place to the famous tricolour.&quot;George Ripley, Charles Anderson Dana, ''The American Cyclopaedia'', New York, 1874, p. 250, &quot;...the standard of France was white, sprinkled with golden fleur de lis...&quot;. *"
+    }, {
+      "field" : "world_actor",
+      "value" : "http://www.anyflag.com/history/fleur23.htm"
+    }, {
+      "field" : "world_actor",
+      "value" : "The original Banner of France was strewn with fleurs-de-lis.&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Cremona",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 10.0333, 45.1333 ]
+  }
+}

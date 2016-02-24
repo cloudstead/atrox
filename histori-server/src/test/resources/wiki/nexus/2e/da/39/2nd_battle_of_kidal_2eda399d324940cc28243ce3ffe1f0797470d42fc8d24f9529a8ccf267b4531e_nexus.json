@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "2nd Battle of Kidal",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 20140516000000,
+      "year" : 2014,
+      "month" : 5,
+      "day" : 16
+    },
+    "endPoint" : {
+      "instant" : 20140521000000,
+      "year" : 2014,
+      "month" : 5,
+      "day" : 21
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 1.4072, 18.4411 ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Spafford Farm massacre",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18320614000000,
+      "year" : 1832,
+      "month" : 6,
+      "day" : 14
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -89.928888889, 42.575 ]
+  }
+}

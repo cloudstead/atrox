@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "First Battle of Garua",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19140829000000,
+      "year" : 1914,
+      "month" : 8,
+      "day" : 29
+    },
+    "endPoint" : {
+      "instant" : 19140831000000,
+      "year" : 1914,
+      "month" : 8,
+      "day" : 31
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 13.4, 9.3 ]
+  }
+}

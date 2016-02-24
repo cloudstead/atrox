@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Siege of Damietta (1249)",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 12490606000000,
+      "year" : 1249,
+      "month" : 6,
+      "day" : 6
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 31.8167, 31.4167 ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Action of Khan Baghdadi",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19180326000000,
+      "year" : 1918,
+      "month" : 3,
+      "day" : 26
+    },
+    "endPoint" : {
+      "instant" : 19180327000000,
+      "year" : 1918,
+      "month" : 3,
+      "day" : 27
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 42.55, 33.85 ]
+  }
+}

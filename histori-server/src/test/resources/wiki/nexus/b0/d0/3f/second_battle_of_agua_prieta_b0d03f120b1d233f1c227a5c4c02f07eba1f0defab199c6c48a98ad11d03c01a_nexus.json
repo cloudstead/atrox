@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Second Battle of Agua Prieta",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19151101000000,
+      "year" : 1915,
+      "month" : 11,
+      "day" : 1
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -109.548888889, 31.325833333 ]
+  }
+}

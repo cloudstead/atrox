@@ -1,0 +1,489 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Ayacucho",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18241209000000,
+      "year" : 1824,
+      "month" : 12,
+      "day" : 9
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Peruvian War of Independence",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Decisive Independentist Victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "'''Independentists''' ",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Peru",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Gran Colombia",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Argentina",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "United Provinces of the River Plate",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "''Provincias Unidas del Río de la Plata: un escuadrón del",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Regiment of Mounted Grenadiers (Argentina)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "de Buenos Aires (mencionado también como Granaderos montados de los Andes), fue mandado reorganizar por Bolívar con los jinetes que amotinados en Lurín apresando a sus jefes, no se unieron a los sublevados del Callao.'' (''Memorias del general O'Leary'', pág. 139. S.B. O'Leary, 1883.)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Chile",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "''República de Chile: no hubo unidades chilenas en Ayacucho, pero sí jefes y soldados, la mayoría de los 300 reclutas que llegaron de Chile al puerto de Santa en diciembre de 1823 al mando del coronel Pedro Santiago Aldunate para completar las formaciones chilenas y fueron incorporados a la caballería colombiana y al Batallón Vargas por intercambio por reclutas peruanos, se dispersaron en la batalla de Corpahuaico, reuniéndose con el Ejército de Sucre luego de la batalla de Ayacucho. Los que sí estuvieron en la batalla, lo hicieron formando parte de los batallones colombianos y peruanos.'' (''Los Peruanos y su Independencia'', pág. 95. José Augusto De Izcue. BiblioBazaar, LLC, 2008. ISBN 0-559-43532-0, ISBN 978-0-559-43532-4)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Foreign volunteers",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "British Legions",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "&quot;At Ayacucho, the remains of the regiment were part of the Patriot order of battle but remained in the reserve and did not take part on the fighting.&quot;",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "http://www.irlandeses.org/0703_78to80.pdf Arthur Sandes",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Hughes pg. 349",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Antonio José de Sucre",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "'''Independentists''' &lt;/center&gt;\n*"
+    }, {
+      "field" : "world_actor",
+      "value" : "Peru"
+    }, {
+      "field" : "world_actor",
+      "value" : "Gran Colombia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Argentina"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Provinces of the River Plate"
+    }, {
+      "field" : "world_actor",
+      "value" : "''Provincias Unidas del Río de la Plata: un escuadrón del"
+    }, {
+      "field" : "world_actor",
+      "value" : "Regiment of Mounted Grenadiers (Argentina)"
+    }, {
+      "field" : "world_actor",
+      "value" : "de Buenos Aires (mencionado también como Granaderos montados de los Andes), fue mandado reorganizar por Bolívar con los jinetes que amotinados en Lurín apresando a sus jefes, no se unieron a los sublevados del Callao.'' (''Memorias del general O'Leary'', pág. 139. S.B. O'Leary, 1883.)"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;\n*"
+    }, {
+      "field" : "world_actor",
+      "value" : "Chile"
+    }, {
+      "field" : "world_actor",
+      "value" : "''República de Chile: no hubo unidades chilenas en Ayacucho, pero sí jefes y soldados, la mayoría de los 300 reclutas que llegaron de Chile al puerto de Santa en diciembre de 1823 al mando del coronel Pedro Santiago Aldunate para completar las formaciones chilenas y fueron incorporados a la caballería colombiana y al Batallón Vargas por intercambio por reclutas peruanos, se dispersaron en la batalla de Corpahuaico, reuniéndose con el Ejército de Sucre luego de la batalla de Ayacucho. Los que sí estuvieron en la batalla, lo hicieron formando parte de los batallones colombianos y peruanos.'' (''Los Peruanos y su Independencia'', pág. 95. José Augusto De Izcue. BiblioBazaar, LLC, 2008. ISBN 0-559-43532-0, ISBN 978-0-559-43532-4)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Foreign volunteers"
+    }, {
+      "field" : "world_actor",
+      "value" : "British Legions"
+    }, {
+      "field" : "world_actor",
+      "value" : "&quot;At Ayacucho, the remains of the regiment were part of the Patriot order of battle but remained in the reserve and did not take part on the fighting.&quot;"
+    }, {
+      "field" : "world_actor",
+      "value" : "http://www.irlandeses.org/0703_78to80.pdf Arthur Sandes"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hughes pg. 349&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Agustín Gamarra",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "'''Independentists''' &lt;/center&gt;\n*"
+    }, {
+      "field" : "world_actor",
+      "value" : "Peru"
+    }, {
+      "field" : "world_actor",
+      "value" : "Gran Colombia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Argentina"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Provinces of the River Plate"
+    }, {
+      "field" : "world_actor",
+      "value" : "''Provincias Unidas del Río de la Plata: un escuadrón del"
+    }, {
+      "field" : "world_actor",
+      "value" : "Regiment of Mounted Grenadiers (Argentina)"
+    }, {
+      "field" : "world_actor",
+      "value" : "de Buenos Aires (mencionado también como Granaderos montados de los Andes), fue mandado reorganizar por Bolívar con los jinetes que amotinados en Lurín apresando a sus jefes, no se unieron a los sublevados del Callao.'' (''Memorias del general O'Leary'', pág. 139. S.B. O'Leary, 1883.)"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;\n*"
+    }, {
+      "field" : "world_actor",
+      "value" : "Chile"
+    }, {
+      "field" : "world_actor",
+      "value" : "''República de Chile: no hubo unidades chilenas en Ayacucho, pero sí jefes y soldados, la mayoría de los 300 reclutas que llegaron de Chile al puerto de Santa en diciembre de 1823 al mando del coronel Pedro Santiago Aldunate para completar las formaciones chilenas y fueron incorporados a la caballería colombiana y al Batallón Vargas por intercambio por reclutas peruanos, se dispersaron en la batalla de Corpahuaico, reuniéndose con el Ejército de Sucre luego de la batalla de Ayacucho. Los que sí estuvieron en la batalla, lo hicieron formando parte de los batallones colombianos y peruanos.'' (''Los Peruanos y su Independencia'', pág. 95. José Augusto De Izcue. BiblioBazaar, LLC, 2008. ISBN 0-559-43532-0, ISBN 978-0-559-43532-4)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Foreign volunteers"
+    }, {
+      "field" : "world_actor",
+      "value" : "British Legions"
+    }, {
+      "field" : "world_actor",
+      "value" : "&quot;At Ayacucho, the remains of the regiment were part of the Patriot order of battle but remained in the reserve and did not take part on the fighting.&quot;"
+    }, {
+      "field" : "world_actor",
+      "value" : "http://www.irlandeses.org/0703_78to80.pdf Arthur Sandes"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hughes pg. 349&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "979"
+    }, {
+      "field" : "world_actor",
+      "value" : "'''Independentists''' &lt;/center&gt;\n*"
+    }, {
+      "field" : "world_actor",
+      "value" : "Peru"
+    }, {
+      "field" : "world_actor",
+      "value" : "Gran Colombia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Argentina"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Provinces of the River Plate"
+    }, {
+      "field" : "world_actor",
+      "value" : "''Provincias Unidas del Río de la Plata: un escuadrón del"
+    }, {
+      "field" : "world_actor",
+      "value" : "Regiment of Mounted Grenadiers (Argentina)"
+    }, {
+      "field" : "world_actor",
+      "value" : "de Buenos Aires (mencionado también como Granaderos montados de los Andes), fue mandado reorganizar por Bolívar con los jinetes que amotinados en Lurín apresando a sus jefes, no se unieron a los sublevados del Callao.'' (''Memorias del general O'Leary'', pág. 139. S.B. O'Leary, 1883.)"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;\n*"
+    }, {
+      "field" : "world_actor",
+      "value" : "Chile"
+    }, {
+      "field" : "world_actor",
+      "value" : "''República de Chile: no hubo unidades chilenas en Ayacucho, pero sí jefes y soldados, la mayoría de los 300 reclutas que llegaron de Chile al puerto de Santa en diciembre de 1823 al mando del coronel Pedro Santiago Aldunate para completar las formaciones chilenas y fueron incorporados a la caballería colombiana y al Batallón Vargas por intercambio por reclutas peruanos, se dispersaron en la batalla de Corpahuaico, reuniéndose con el Ejército de Sucre luego de la batalla de Ayacucho. Los que sí estuvieron en la batalla, lo hicieron formando parte de los batallones colombianos y peruanos.'' (''Los Peruanos y su Independencia'', pág. 95. José Augusto De Izcue. BiblioBazaar, LLC, 2008. ISBN 0-559-43532-0, ISBN 978-0-559-43532-4)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Foreign volunteers"
+    }, {
+      "field" : "world_actor",
+      "value" : "British Legions"
+    }, {
+      "field" : "world_actor",
+      "value" : "&quot;At Ayacucho, the remains of the regiment were part of the Patriot order of battle but remained in the reserve and did not take part on the fighting.&quot;"
+    }, {
+      "field" : "world_actor",
+      "value" : "http://www.irlandeses.org/0703_78to80.pdf Arthur Sandes"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hughes pg. 349&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Monarchy of Spain",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Spain",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Mid-nineteenth century Spain",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Viceroyalty of Perú",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Viceroy",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Spain"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "José de Canterac",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Spain"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "2100"
+    }, {
+      "field" : "world_actor",
+      "value" : "Monarchy of Spain"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/center&gt;\n*"
+    }, {
+      "field" : "world_actor",
+      "value" : "Spain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mid-nineteenth century Spain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Viceroyalty of Perú"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "3500"
+    }, {
+      "field" : "world_actor",
+      "value" : "Monarchy of Spain"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;/center&gt;\n*"
+    }, {
+      "field" : "world_actor",
+      "value" : "Spain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mid-nineteenth century Spain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Viceroyalty of Perú"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Ayacucho",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -74.131666667, -13.0425 ]
+  }
+}

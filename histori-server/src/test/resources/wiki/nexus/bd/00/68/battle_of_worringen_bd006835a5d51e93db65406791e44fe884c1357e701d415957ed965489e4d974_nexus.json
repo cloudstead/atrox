@@ -1,0 +1,795 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Worringen",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 12880605000000,
+      "year" : 1288,
+      "month" : 6,
+      "day" : 5
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "War of the Limburg Succession",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Decisive Brabantian victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "County of Guelders",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "County of Luxembourg",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "List of Counts of Ligny",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Nassau (state)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "House of Plettenberg",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Hülchrath",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Tomburg Castle",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Siegfried II of Westerburg",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Guelders"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Luxembourg"
+    }, {
+      "field" : "world_actor",
+      "value" : "List of Counts of Ligny"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nassau (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "House of Plettenberg"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hülchrath"
+    }, {
+      "field" : "world_actor",
+      "value" : "Tomburg Castle"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Reginald I of Guelders",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Guelders"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Luxembourg"
+    }, {
+      "field" : "world_actor",
+      "value" : "List of Counts of Ligny"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nassau (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "House of Plettenberg"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hülchrath"
+    }, {
+      "field" : "world_actor",
+      "value" : "Tomburg Castle"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Henry VI of Luxembourg",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Guelders"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Luxembourg"
+    }, {
+      "field" : "world_actor",
+      "value" : "List of Counts of Ligny"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nassau (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "House of Plettenberg"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hülchrath"
+    }, {
+      "field" : "world_actor",
+      "value" : "Tomburg Castle"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Waleran I of Luxembourg",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Guelders"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Luxembourg"
+    }, {
+      "field" : "world_actor",
+      "value" : "List of Counts of Ligny"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nassau (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "House of Plettenberg"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hülchrath"
+    }, {
+      "field" : "world_actor",
+      "value" : "Tomburg Castle"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Adolf",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Guelders"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Luxembourg"
+    }, {
+      "field" : "world_actor",
+      "value" : "List of Counts of Ligny"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nassau (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "House of Plettenberg"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hülchrath"
+    }, {
+      "field" : "world_actor",
+      "value" : "Tomburg Castle"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Dietrich Luf II",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Guelders"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Luxembourg"
+    }, {
+      "field" : "world_actor",
+      "value" : "List of Counts of Ligny"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nassau (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "House of Plettenberg"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hülchrath"
+    }, {
+      "field" : "world_actor",
+      "value" : "Tomburg Castle"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1100"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Guelders"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Luxembourg"
+    }, {
+      "field" : "world_actor",
+      "value" : "List of Counts of Ligny"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nassau (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "House of Plettenberg"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hülchrath"
+    }, {
+      "field" : "world_actor",
+      "value" : "Tomburg Castle"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Duchy of Brabant",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Cologne",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Berg (state)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "County of Mark",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "County of Loon",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "County of Jülich",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "County of Tecklenburg",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Waldeck (state)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "County of Ziegenhain",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Vianden",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "John I",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Brabant"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cologne"
+    }, {
+      "field" : "world_actor",
+      "value" : "Berg (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Mark"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Loon"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Jülich"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Tecklenburg"
+    }, {
+      "field" : "world_actor",
+      "value" : "Waldeck (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Ziegenhain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Vianden"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Adolf VIII of Berg",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Brabant"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cologne"
+    }, {
+      "field" : "world_actor",
+      "value" : "Berg (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Mark"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Loon"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Jülich"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Tecklenburg"
+    }, {
+      "field" : "world_actor",
+      "value" : "Waldeck (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Ziegenhain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Vianden"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Eberhard II",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Brabant"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cologne"
+    }, {
+      "field" : "world_actor",
+      "value" : "Berg (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Mark"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Loon"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Jülich"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Tecklenburg"
+    }, {
+      "field" : "world_actor",
+      "value" : "Waldeck (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Ziegenhain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Vianden"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "County of Loon#Counts of Loon",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Brabant"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cologne"
+    }, {
+      "field" : "world_actor",
+      "value" : "Berg (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Mark"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Loon"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Jülich"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Tecklenburg"
+    }, {
+      "field" : "world_actor",
+      "value" : "Waldeck (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Ziegenhain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Vianden"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Walram",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Brabant"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cologne"
+    }, {
+      "field" : "world_actor",
+      "value" : "Berg (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Mark"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Loon"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Jülich"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Tecklenburg"
+    }, {
+      "field" : "world_actor",
+      "value" : "Waldeck (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Ziegenhain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Vianden"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Bentheim-Tecklenburg",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Brabant"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cologne"
+    }, {
+      "field" : "world_actor",
+      "value" : "Berg (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Mark"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Loon"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Jülich"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Tecklenburg"
+    }, {
+      "field" : "world_actor",
+      "value" : "Waldeck (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Ziegenhain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Vianden"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Otto I of Waldeck",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Brabant"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cologne"
+    }, {
+      "field" : "world_actor",
+      "value" : "Berg (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Mark"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Loon"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Jülich"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Tecklenburg"
+    }, {
+      "field" : "world_actor",
+      "value" : "Waldeck (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Ziegenhain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Vianden"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Gottfried VI of Ziegenhain",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Brabant"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cologne"
+    }, {
+      "field" : "world_actor",
+      "value" : "Berg (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Mark"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Loon"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Jülich"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Tecklenburg"
+    }, {
+      "field" : "world_actor",
+      "value" : "Waldeck (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Ziegenhain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Vianden"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Geoffrey I of Vianden",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Brabant"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cologne"
+    }, {
+      "field" : "world_actor",
+      "value" : "Berg (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Mark"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Loon"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Jülich"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Tecklenburg"
+    }, {
+      "field" : "world_actor",
+      "value" : "Waldeck (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Ziegenhain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Vianden"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "40"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Brabant"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cologne"
+    }, {
+      "field" : "world_actor",
+      "value" : "Berg (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Mark"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Loon"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Jülich"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Tecklenburg"
+    }, {
+      "field" : "world_actor",
+      "value" : "Waldeck (state)"
+    }, {
+      "field" : "world_actor",
+      "value" : "County of Ziegenhain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Vianden"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Worringen",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 6.887777778, 51.0425 ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Siege of Abadan",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19801106000000,
+      "year" : 1980,
+      "month" : 11,
+      "day" : 6
+    },
+    "endPoint" : {
+      "instant" : 19810927000000,
+      "year" : 1981,
+      "month" : 9,
+      "day" : 27
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 48.2833, 30.3333 ]
+  }
+}

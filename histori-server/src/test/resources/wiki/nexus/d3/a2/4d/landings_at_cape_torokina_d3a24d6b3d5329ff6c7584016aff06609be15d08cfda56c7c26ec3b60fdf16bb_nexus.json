@@ -1,0 +1,16 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Landings at Cape Torokina",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19431100000000,
+      "year" : 1943,
+      "month" : 11
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 155.383888889, -6.244444444 ]
+  }
+}

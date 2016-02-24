@@ -1,0 +1,184 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Ayn al-Tamr",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 6330000000000,
+      "year" : 633
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Islamic conquest of Persia",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Decisive Muslim victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Rashidun Caliphate",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Khalid ibn al-Walid",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Rashidun Caliphate"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Sassanid",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Empire",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "troops",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "''Annals of the Early Caliphate'' by William Muir pg. 85",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Arab Christian",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "auxiliaries",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "''Iraq After the Muslim Conquest'' by Michael G. Morony, pg 224",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Mihran Bahram-i Chubin",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Sassanid"
+    }, {
+      "field" : "world_actor",
+      "value" : "Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "troops"
+    }, {
+      "field" : "world_actor",
+      "value" : "''Annals of the Early Caliphate'' by William Muir pg. 85&lt;/ref&gt; along with their"
+    }, {
+      "field" : "world_actor",
+      "value" : "Arab Christian"
+    }, {
+      "field" : "world_actor",
+      "value" : "auxiliaries"
+    }, {
+      "field" : "world_actor",
+      "value" : "''Iraq After the Muslim Conquest'' by Michael G. Morony, pg 224&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Aqqa ibn Qays ibn Bashir",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Sassanid"
+    }, {
+      "field" : "world_actor",
+      "value" : "Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "troops"
+    }, {
+      "field" : "world_actor",
+      "value" : "''Annals of the Early Caliphate'' by William Muir pg. 85&lt;/ref&gt; along with their"
+    }, {
+      "field" : "world_actor",
+      "value" : "Arab Christian"
+    }, {
+      "field" : "world_actor",
+      "value" : "auxiliaries"
+    }, {
+      "field" : "world_actor",
+      "value" : "''Iraq After the Muslim Conquest'' by Michael G. Morony, pg 224&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Ayn_al-Tamr",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 44.0, 33.0 ]
+  }
+}

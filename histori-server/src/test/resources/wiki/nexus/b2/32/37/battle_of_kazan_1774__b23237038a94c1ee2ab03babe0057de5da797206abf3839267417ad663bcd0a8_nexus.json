@@ -1,0 +1,369 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Kazan (1774)",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 17740712000000,
+      "year" : 1774,
+      "month" : 7,
+      "day" : 12
+    },
+    "endPoint" : {
+      "instant" : 17740715000000,
+      "year" : 1774,
+      "month" : 7,
+      "day" : 15
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Pugachev War",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kazan , except the Kazan Kremlin was sacked by Pugachev Rebellion , but later rebels were defeated by governmental forces",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Russian Imperial Army",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Russian Nobility",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Ivan Ivanovich Michelson",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Russian Imperial Army"
+    }, {
+      "field" : "world_actor",
+      "value" : "Russian Nobility"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Pavel Potemkin",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Russian Imperial Army"
+    }, {
+      "field" : "world_actor",
+      "value" : "Russian Nobility"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Jakob von Brandt",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Russian Imperial Army"
+    }, {
+      "field" : "world_actor",
+      "value" : "Russian Nobility"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "215"
+    }, {
+      "field" : "world_actor",
+      "value" : "Russian Imperial Army"
+    }, {
+      "field" : "world_actor",
+      "value" : "Russian Nobility"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Cossack",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "and",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "peasant",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "rebels",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Volga Tatars",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Bashkirs",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Yemelyan Pugachev",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cossack"
+    }, {
+      "field" : "world_actor",
+      "value" : "and"
+    }, {
+      "field" : "world_actor",
+      "value" : "peasant"
+    }, {
+      "field" : "world_actor",
+      "value" : "rebels"
+    }, {
+      "field" : "world_actor",
+      "value" : "Volga Tatars"
+    }, {
+      "field" : "world_actor",
+      "value" : "Bashkirs"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Ivan Beloborodov",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cossack"
+    }, {
+      "field" : "world_actor",
+      "value" : "and"
+    }, {
+      "field" : "world_actor",
+      "value" : "peasant"
+    }, {
+      "field" : "world_actor",
+      "value" : "rebels"
+    }, {
+      "field" : "world_actor",
+      "value" : "Volga Tatars"
+    }, {
+      "field" : "world_actor",
+      "value" : "Bashkirs"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Andrei Ovchinnikov (cossack)",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cossack"
+    }, {
+      "field" : "world_actor",
+      "value" : "and"
+    }, {
+      "field" : "world_actor",
+      "value" : "peasant"
+    }, {
+      "field" : "world_actor",
+      "value" : "rebels"
+    }, {
+      "field" : "world_actor",
+      "value" : "Volga Tatars"
+    }, {
+      "field" : "world_actor",
+      "value" : "Bashkirs"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Mineyev",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cossack"
+    }, {
+      "field" : "world_actor",
+      "value" : "and"
+    }, {
+      "field" : "world_actor",
+      "value" : "peasant"
+    }, {
+      "field" : "world_actor",
+      "value" : "rebels"
+    }, {
+      "field" : "world_actor",
+      "value" : "Volga Tatars"
+    }, {
+      "field" : "world_actor",
+      "value" : "Bashkirs"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Bakhmutov",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cossack"
+    }, {
+      "field" : "world_actor",
+      "value" : "and"
+    }, {
+      "field" : "world_actor",
+      "value" : "peasant"
+    }, {
+      "field" : "world_actor",
+      "value" : "rebels"
+    }, {
+      "field" : "world_actor",
+      "value" : "Volga Tatars"
+    }, {
+      "field" : "world_actor",
+      "value" : "Bashkirs"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "2000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cossack"
+    }, {
+      "field" : "world_actor",
+      "value" : "and"
+    }, {
+      "field" : "world_actor",
+      "value" : "peasant"
+    }, {
+      "field" : "world_actor",
+      "value" : "rebels"
+    }, {
+      "field" : "world_actor",
+      "value" : "Volga Tatars"
+    }, {
+      "field" : "world_actor",
+      "value" : "Bashkirs"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "captured",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "10000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Cossack"
+    }, {
+      "field" : "world_actor",
+      "value" : "and"
+    }, {
+      "field" : "world_actor",
+      "value" : "peasant"
+    }, {
+      "field" : "world_actor",
+      "value" : "rebels"
+    }, {
+      "field" : "world_actor",
+      "value" : "Volga Tatars"
+    }, {
+      "field" : "world_actor",
+      "value" : "Bashkirs"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Kazan_%281774%29",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 49.166666667, 55.783333333 ]
+  }
+}

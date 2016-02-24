@@ -1,0 +1,192 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Whitestone Hill",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18630903000000,
+      "year" : 1863,
+      "month" : 9,
+      "day" : 3
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Sioux Wars",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "United States victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "United States of America",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Alfred Sully",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States of America"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "22"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States of America"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Yanktonai, Santee, and Teton (",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Hunkpapa",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "and",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Sihasapa",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Sioux",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Inkpaduta",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Yanktonai, Santee, and Teton ("
+    }, {
+      "field" : "world_actor",
+      "value" : "Hunkpapa"
+    }, {
+      "field" : "world_actor",
+      "value" : "and"
+    }, {
+      "field" : "world_actor",
+      "value" : "Sihasapa"
+    }, {
+      "field" : "world_actor",
+      "value" : "Sioux"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead and wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "200"
+    }, {
+      "field" : "world_actor",
+      "value" : "Yanktonai, Santee, and Teton ("
+    }, {
+      "field" : "world_actor",
+      "value" : "Hunkpapa"
+    }, {
+      "field" : "world_actor",
+      "value" : "and"
+    }, {
+      "field" : "world_actor",
+      "value" : "Sihasapa"
+    }, {
+      "field" : "world_actor",
+      "value" : "Sioux"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "156"
+    }, {
+      "field" : "world_actor",
+      "value" : "Yanktonai, Santee, and Teton ("
+    }, {
+      "field" : "world_actor",
+      "value" : "Hunkpapa"
+    }, {
+      "field" : "world_actor",
+      "value" : "and"
+    }, {
+      "field" : "world_actor",
+      "value" : "Sihasapa"
+    }, {
+      "field" : "world_actor",
+      "value" : "Sioux"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Whitestone_Hill",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -98.8557, 46.1697 ]
+  }
+}

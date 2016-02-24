@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Sinking of SS Kaiser Wilhelm der Grosse",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19140826000000,
+      "year" : 1914,
+      "month" : 8,
+      "day" : 26
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -15.9347, 23.7219 ]
+  }
+}

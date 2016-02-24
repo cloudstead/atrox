@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Falaise Pocket",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19440812000000,
+      "year" : 1944,
+      "month" : 8,
+      "day" : 12
+    },
+    "endPoint" : {
+      "instant" : 19440821000000,
+      "year" : 1944,
+      "month" : 8,
+      "day" : 21
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -0.191944444, 48.892777778 ]
+  }
+}

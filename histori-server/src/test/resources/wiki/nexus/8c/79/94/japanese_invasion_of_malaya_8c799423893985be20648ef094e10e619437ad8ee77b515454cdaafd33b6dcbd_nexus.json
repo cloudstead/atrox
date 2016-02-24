@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Japanese invasion of Malaya",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19411208000000,
+      "year" : 1941,
+      "month" : 12,
+      "day" : 8
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -75.0, 43.0 ]
+  }
+}

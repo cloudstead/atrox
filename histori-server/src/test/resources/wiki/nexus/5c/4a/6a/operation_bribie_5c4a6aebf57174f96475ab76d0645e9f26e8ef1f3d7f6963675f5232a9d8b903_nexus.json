@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Operation Bribie",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19670217000000,
+      "year" : 1967,
+      "month" : 2,
+      "day" : 17
+    },
+    "endPoint" : {
+      "instant" : 19670218000000,
+      "year" : 1967,
+      "month" : 2,
+      "day" : 18
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 107.283333333, 10.45 ]
+  }
+}

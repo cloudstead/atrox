@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "First Invasion of Onitsha",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19671004000000,
+      "year" : 1967,
+      "month" : 10,
+      "day" : 4
+    },
+    "endPoint" : {
+      "instant" : 19671012000000,
+      "year" : 1967,
+      "month" : 10,
+      "day" : 12
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 6.783333333, 6.166666667 ]
+  }
+}

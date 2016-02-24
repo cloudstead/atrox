@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Operation Nasr",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19810105000000,
+      "year" : 1981,
+      "month" : 1,
+      "day" : 5
+    },
+    "endPoint" : {
+      "instant" : 19810109000000,
+      "year" : 1981,
+      "month" : 1,
+      "day" : 9
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 48.4667, 32.3833 ]
+  }
+}

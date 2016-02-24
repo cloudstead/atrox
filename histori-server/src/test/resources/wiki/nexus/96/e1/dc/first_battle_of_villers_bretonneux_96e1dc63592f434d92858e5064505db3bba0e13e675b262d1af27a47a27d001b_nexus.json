@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "First Battle of Villers-Bretonneux",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19180330000000,
+      "year" : 1918,
+      "month" : 3,
+      "day" : 30
+    },
+    "endPoint" : {
+      "instant" : 19180405000000,
+      "year" : 1918,
+      "month" : 4,
+      "day" : 5
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 2.520833333, 49.8675 ]
+  }
+}

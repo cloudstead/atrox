@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle on the Elster",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 10801014000000,
+      "year" : 1080,
+      "month" : 10,
+      "day" : 14
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 12.098055556, 51.156388889 ]
+  }
+}

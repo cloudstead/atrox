@@ -1,0 +1,201 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Chotusitz",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 17420517000000,
+      "year" : 1742,
+      "month" : 5,
+      "day" : 17
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "War of the Austrian Succession",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Prussian Victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Habsburg Monarchy",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "''1911 Encyclopædia Britannica'', entry National Flags: &quot;The Austrian imperial standard has, on a yellow ground, the black double-headed eagle, on the breast and wings of which are imposed shields bearing the arms of the provinces of the empire . The flag is bordered all round, the border being composed of equal-sided triangles with their apices alternately inwards and outwards, those with their apices pointing inwards being alternately yellow and white, the others alternately scarlet and black .&quot; Also, Whitney Smith, ''Flags through the ages and across the world'', McGraw-Hill, England, 1975 ISBN 0-07-059093-1, pp.114 - 119, &quot;The imperial banner  was a golden yellow cloth...bearing a black eagle...The double-headed eagle was finally established by Sigismund as regent...&quot;.",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Prince Charles Alexander of Lorraine",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Habsburg Monarchy"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "casualties",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "7000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Habsburg Monarchy"
+    }, {
+      "field" : "world_actor",
+      "value" : "''1911 Encyclopædia Britannica'', entry National Flags: &quot;The Austrian imperial standard has, on a yellow ground, the black double-headed eagle, on the breast and wings of which are imposed shields bearing the arms of the provinces of the empire . The flag is bordered all round, the border being composed of equal-sided triangles with their apices alternately inwards and outwards, those with their apices pointing inwards being alternately yellow and white, the others alternately scarlet and black .&quot; Also, Whitney Smith, ''Flags through the ages and across the world'', McGraw-Hill, England, 1975 ISBN 0-07-059093-1, pp.114 - 119, &quot;The imperial banner  was a golden yellow cloth...bearing a black eagle...The double-headed eagle was finally established by Sigismund as regent...&quot;.&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1052"
+    }, {
+      "field" : "world_actor",
+      "value" : "Habsburg Monarchy"
+    }, {
+      "field" : "world_actor",
+      "value" : "''1911 Encyclopædia Britannica'', entry National Flags: &quot;The Austrian imperial standard has, on a yellow ground, the black double-headed eagle, on the breast and wings of which are imposed shields bearing the arms of the provinces of the empire . The flag is bordered all round, the border being composed of equal-sided triangles with their apices alternately inwards and outwards, those with their apices pointing inwards being alternately yellow and white, the others alternately scarlet and black .&quot; Also, Whitney Smith, ''Flags through the ages and across the world'', McGraw-Hill, England, 1975 ISBN 0-07-059093-1, pp.114 - 119, &quot;The imperial banner  was a golden yellow cloth...bearing a black eagle...The double-headed eagle was finally established by Sigismund as regent...&quot;.&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "5000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Habsburg Monarchy"
+    }, {
+      "field" : "world_actor",
+      "value" : "''1911 Encyclopædia Britannica'', entry National Flags: &quot;The Austrian imperial standard has, on a yellow ground, the black double-headed eagle, on the breast and wings of which are imposed shields bearing the arms of the provinces of the empire . The flag is bordered all round, the border being composed of equal-sided triangles with their apices alternately inwards and outwards, those with their apices pointing inwards being alternately yellow and white, the others alternately scarlet and black .&quot; Also, Whitney Smith, ''Flags through the ages and across the world'', McGraw-Hill, England, 1975 ISBN 0-07-059093-1, pp.114 - 119, &quot;The imperial banner  was a golden yellow cloth...bearing a black eagle...The double-headed eagle was finally established by Sigismund as regent...&quot;.&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "captured",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Habsburg Monarchy"
+    }, {
+      "field" : "world_actor",
+      "value" : "''1911 Encyclopædia Britannica'', entry National Flags: &quot;The Austrian imperial standard has, on a yellow ground, the black double-headed eagle, on the breast and wings of which are imposed shields bearing the arms of the provinces of the empire . The flag is bordered all round, the border being composed of equal-sided triangles with their apices alternately inwards and outwards, those with their apices pointing inwards being alternately yellow and white, the others alternately scarlet and black .&quot; Also, Whitney Smith, ''Flags through the ages and across the world'', McGraw-Hill, England, 1975 ISBN 0-07-059093-1, pp.114 - 119, &quot;The imperial banner  was a golden yellow cloth...bearing a black eagle...The double-headed eagle was finally established by Sigismund as regent...&quot;.&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Prussia",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Frederick the Great",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Prussia"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "casualties",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "7000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Prussia"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1905"
+    }, {
+      "field" : "world_actor",
+      "value" : "Prussia"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "wounded",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "4000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Prussia"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "captured",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Prussia"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Chotusitz",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 15.383333333, 49.933333333 ]
+  }
+}

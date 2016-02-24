@@ -1,0 +1,683 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Tours",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 7321010000000,
+      "year" : 732,
+      "month" : 10,
+      "day" : 10
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Islamic invasion of Gaul",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Decisive Frankish victory, withdrawal of the Umayyad army.",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Merovingian dynasty",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Franks",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : ":\n* Forces from",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Austrasia",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : ":ar:محمد عبد الله عنان",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Page 96&quot;&gt;&quot;The state of Islam in Al Andalus&quot;, written by",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : ", ((The first era-The first section, from the conquest until the beginning of the era of Al-Nasir)). Fourth edition, published by Khanji library in Cairo. Page 96",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Neustria",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Page 96&quot;/&gt;\n*",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kingdom of Burgundy",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Dawn of Al-Andalus, by DR.",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : ":ar:حسين مؤنس",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : ", a study of the history of Muslim Spain from the Arab conquest in 711 C.E. till the rise of the Umayyad Emirate of Cordova in 756 C.E., published in Dar Al-Manahel and Al-Asr Al-Hadith, Beirut, Lebanon.&quot;First Edition&quot;. Page 330",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Duke of Swabia",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Balat Al-Shuhada, led by Abd Ar-Rahman Al-Ghafiqi, by Dr.",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : ":ar:شوقي أبو خليل",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : ", published in Dar Al-Fekr, Damascus, Syria, and Dar Al-Fekr Al-Mo-aser, Beirut, Lebanon. &quot;Third Edition&quot;. ISBN 1-57547-503-0. Page 34",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Duchy of Aquitaine",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kingdom of the Lombards",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "in Italy",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : ", published in Dar Al-Fekr, Damascus, Syria, and Dar Al-Fekr Al-Mo-aser, Beirut, Lebanon. &quot;Third Edition&quot;. ISBN 1-57547-503-0. Page34",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Balat Al-Shuhada battle, in Islamic and European history, by Dr. Abd Al-Fattah Muqallid Al-Ghunaymi, published in Alam Alkotob, Cairo, Egypt. &quot;First Edition&quot;. ISBN 977-232-081-9. Page:128",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Balat Al-Shuhada, Led by Abd Ar-Rahman Al-Ghafiqi, by Dr.",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : ", published in Dar Al-Fekr, Damascus, Syria, and Dar Al-Fekr Al-Mo-aser, Beirut, Lebanon. &quot;Third Edition&quot;. ISBN 1-57547-503-0. Page 29,30",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "The Andalusian History, from the Islamic conquest till the fall of Granada 92–897 A.H. (711–1492 C.E.), by Professor",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : ":ar:عبد الرحمن علي الحجي",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : ", a professor of the Islamic history at Baghdad University, published in Dar Al-Qalam, in Damascus, and in Beirut. &quot;Second Edition&quot;. Page 202",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Primary Islamic sources used the name &quot;Franks&quot; to refer to all the nations of Europe except Goths and Romans",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Charles Martel",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Merovingian dynasty"
+    }, {
+      "field" : "world_actor",
+      "value" : "Franks"
+    }, {
+      "field" : "world_actor",
+      "value" : ":\n* Forces from"
+    }, {
+      "field" : "world_actor",
+      "value" : "Austrasia"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;ref name=&quot;"
+    }, {
+      "field" : "world_actor",
+      "value" : ":ar:محمد عبد الله عنان"
+    }, {
+      "field" : "world_actor",
+      "value" : "Page 96&quot;&gt;&quot;The state of Islam in Al Andalus&quot;, written by"
+    }, {
+      "field" : "world_actor",
+      "value" : ", ((The first era-The first section, from the conquest until the beginning of the era of Al-Nasir)). Fourth edition, published by Khanji library in Cairo. Page 96&lt;/ref&gt;\n*"
+    }, {
+      "field" : "world_actor",
+      "value" : "Neustria"
+    }, {
+      "field" : "world_actor",
+      "value" : "Page 96&quot;/&gt;\n*"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Burgundy"
+    }, {
+      "field" : "world_actor",
+      "value" : "Dawn of Al-Andalus, by DR."
+    }, {
+      "field" : "world_actor",
+      "value" : ":ar:حسين مؤنس"
+    }, {
+      "field" : "world_actor",
+      "value" : ", a study of the history of Muslim Spain from the Arab conquest in 711 C.E. till the rise of the Umayyad Emirate of Cordova in 756 C.E., published in Dar Al-Manahel and Al-Asr Al-Hadith, Beirut, Lebanon.&quot;First Edition&quot;. Page 330&lt;/ref&gt;\n*"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duke of Swabia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Balat Al-Shuhada, led by Abd Ar-Rahman Al-Ghafiqi, by Dr."
+    }, {
+      "field" : "world_actor",
+      "value" : ":ar:شوقي أبو خليل"
+    }, {
+      "field" : "world_actor",
+      "value" : ", published in Dar Al-Fekr, Damascus, Syria, and Dar Al-Fekr Al-Mo-aser, Beirut, Lebanon. &quot;Third Edition&quot;. ISBN 1-57547-503-0. Page 34&lt;/ref&gt;\n*"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Aquitaine"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of the Lombards"
+    }, {
+      "field" : "world_actor",
+      "value" : "in Italy&lt;ref name=&quot;Balat Al-Shuhada battle Page 128&quot;&gt;Balat Al-Shuhada battle, in Islamic and European history, by DR. Abd Al-Fattah Muqallid Al-Ghunaymi, published in Alam Alkotob, Cairo, Egypt. &quot;First Edition&quot;. ISBN 977-232-081-9. Page 128&lt;/ref&gt;\n* Pagan mercenaries from areas around the Rhine River"
+    }, {
+      "field" : "world_actor",
+      "value" : ", published in Dar Al-Fekr, Damascus, Syria, and Dar Al-Fekr Al-Mo-aser, Beirut, Lebanon. &quot;Third Edition&quot;. ISBN 1-57547-503-0. Page34&lt;/ref&gt;\n* Other forces from Europe"
+    }, {
+      "field" : "world_actor",
+      "value" : "Balat Al-Shuhada battle, in Islamic and European history, by Dr. Abd Al-Fattah Muqallid Al-Ghunaymi, published in Alam Alkotob, Cairo, Egypt. &quot;First Edition&quot;. ISBN 977-232-081-9. Page:128&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Balat Al-Shuhada, Led by Abd Ar-Rahman Al-Ghafiqi, by Dr."
+    }, {
+      "field" : "world_actor",
+      "value" : ", published in Dar Al-Fekr, Damascus, Syria, and Dar Al-Fekr Al-Mo-aser, Beirut, Lebanon. &quot;Third Edition&quot;. ISBN 1-57547-503-0. Page 29,30&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "The Andalusian History, from the Islamic conquest till the fall of Granada 92–897 A.H. (711–1492 C.E.), by Professor"
+    }, {
+      "field" : "world_actor",
+      "value" : ":ar:عبد الرحمن علي الحجي"
+    }, {
+      "field" : "world_actor",
+      "value" : ", a professor of the Islamic history at Baghdad University, published in Dar Al-Qalam, in Damascus, and in Beirut. &quot;Second Edition&quot;. Page 202&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Primary Islamic sources used the name &quot;Franks&quot; to refer to all the nations of Europe except Goths and Romans&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Odo the Great",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Merovingian dynasty"
+    }, {
+      "field" : "world_actor",
+      "value" : "Franks"
+    }, {
+      "field" : "world_actor",
+      "value" : ":\n* Forces from"
+    }, {
+      "field" : "world_actor",
+      "value" : "Austrasia"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;ref name=&quot;"
+    }, {
+      "field" : "world_actor",
+      "value" : ":ar:محمد عبد الله عنان"
+    }, {
+      "field" : "world_actor",
+      "value" : "Page 96&quot;&gt;&quot;The state of Islam in Al Andalus&quot;, written by"
+    }, {
+      "field" : "world_actor",
+      "value" : ", ((The first era-The first section, from the conquest until the beginning of the era of Al-Nasir)). Fourth edition, published by Khanji library in Cairo. Page 96&lt;/ref&gt;\n*"
+    }, {
+      "field" : "world_actor",
+      "value" : "Neustria"
+    }, {
+      "field" : "world_actor",
+      "value" : "Page 96&quot;/&gt;\n*"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Burgundy"
+    }, {
+      "field" : "world_actor",
+      "value" : "Dawn of Al-Andalus, by DR."
+    }, {
+      "field" : "world_actor",
+      "value" : ":ar:حسين مؤنس"
+    }, {
+      "field" : "world_actor",
+      "value" : ", a study of the history of Muslim Spain from the Arab conquest in 711 C.E. till the rise of the Umayyad Emirate of Cordova in 756 C.E., published in Dar Al-Manahel and Al-Asr Al-Hadith, Beirut, Lebanon.&quot;First Edition&quot;. Page 330&lt;/ref&gt;\n*"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duke of Swabia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Balat Al-Shuhada, led by Abd Ar-Rahman Al-Ghafiqi, by Dr."
+    }, {
+      "field" : "world_actor",
+      "value" : ":ar:شوقي أبو خليل"
+    }, {
+      "field" : "world_actor",
+      "value" : ", published in Dar Al-Fekr, Damascus, Syria, and Dar Al-Fekr Al-Mo-aser, Beirut, Lebanon. &quot;Third Edition&quot;. ISBN 1-57547-503-0. Page 34&lt;/ref&gt;\n*"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Aquitaine"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of the Lombards"
+    }, {
+      "field" : "world_actor",
+      "value" : "in Italy&lt;ref name=&quot;Balat Al-Shuhada battle Page 128&quot;&gt;Balat Al-Shuhada battle, in Islamic and European history, by DR. Abd Al-Fattah Muqallid Al-Ghunaymi, published in Alam Alkotob, Cairo, Egypt. &quot;First Edition&quot;. ISBN 977-232-081-9. Page 128&lt;/ref&gt;\n* Pagan mercenaries from areas around the Rhine River"
+    }, {
+      "field" : "world_actor",
+      "value" : ", published in Dar Al-Fekr, Damascus, Syria, and Dar Al-Fekr Al-Mo-aser, Beirut, Lebanon. &quot;Third Edition&quot;. ISBN 1-57547-503-0. Page34&lt;/ref&gt;\n* Other forces from Europe"
+    }, {
+      "field" : "world_actor",
+      "value" : "Balat Al-Shuhada battle, in Islamic and European history, by Dr. Abd Al-Fattah Muqallid Al-Ghunaymi, published in Alam Alkotob, Cairo, Egypt. &quot;First Edition&quot;. ISBN 977-232-081-9. Page:128&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Balat Al-Shuhada, Led by Abd Ar-Rahman Al-Ghafiqi, by Dr."
+    }, {
+      "field" : "world_actor",
+      "value" : ", published in Dar Al-Fekr, Damascus, Syria, and Dar Al-Fekr Al-Mo-aser, Beirut, Lebanon. &quot;Third Edition&quot;. ISBN 1-57547-503-0. Page 29,30&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "The Andalusian History, from the Islamic conquest till the fall of Granada 92–897 A.H. (711–1492 C.E.), by Professor"
+    }, {
+      "field" : "world_actor",
+      "value" : ":ar:عبد الرحمن علي الحجي"
+    }, {
+      "field" : "world_actor",
+      "value" : ", a professor of the Islamic history at Baghdad University, published in Dar Al-Qalam, in Damascus, and in Beirut. &quot;Second Edition&quot;. Page 202&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Primary Islamic sources used the name &quot;Franks&quot; to refer to all the nations of Europe except Goths and Romans&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1500"
+    }, {
+      "field" : "world_actor",
+      "value" : "Merovingian dynasty"
+    }, {
+      "field" : "world_actor",
+      "value" : "Franks"
+    }, {
+      "field" : "world_actor",
+      "value" : ":\n* Forces from"
+    }, {
+      "field" : "world_actor",
+      "value" : "Austrasia"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;ref name=&quot;"
+    }, {
+      "field" : "world_actor",
+      "value" : ":ar:محمد عبد الله عنان"
+    }, {
+      "field" : "world_actor",
+      "value" : "Page 96&quot;&gt;&quot;The state of Islam in Al Andalus&quot;, written by"
+    }, {
+      "field" : "world_actor",
+      "value" : ", ((The first era-The first section, from the conquest until the beginning of the era of Al-Nasir)). Fourth edition, published by Khanji library in Cairo. Page 96&lt;/ref&gt;\n*"
+    }, {
+      "field" : "world_actor",
+      "value" : "Neustria"
+    }, {
+      "field" : "world_actor",
+      "value" : "Page 96&quot;/&gt;\n*"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Burgundy"
+    }, {
+      "field" : "world_actor",
+      "value" : "Dawn of Al-Andalus, by DR."
+    }, {
+      "field" : "world_actor",
+      "value" : ":ar:حسين مؤنس"
+    }, {
+      "field" : "world_actor",
+      "value" : ", a study of the history of Muslim Spain from the Arab conquest in 711 C.E. till the rise of the Umayyad Emirate of Cordova in 756 C.E., published in Dar Al-Manahel and Al-Asr Al-Hadith, Beirut, Lebanon.&quot;First Edition&quot;. Page 330&lt;/ref&gt;\n*"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duke of Swabia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Balat Al-Shuhada, led by Abd Ar-Rahman Al-Ghafiqi, by Dr."
+    }, {
+      "field" : "world_actor",
+      "value" : ":ar:شوقي أبو خليل"
+    }, {
+      "field" : "world_actor",
+      "value" : ", published in Dar Al-Fekr, Damascus, Syria, and Dar Al-Fekr Al-Mo-aser, Beirut, Lebanon. &quot;Third Edition&quot;. ISBN 1-57547-503-0. Page 34&lt;/ref&gt;\n*"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Aquitaine"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of the Lombards"
+    }, {
+      "field" : "world_actor",
+      "value" : "in Italy&lt;ref name=&quot;Balat Al-Shuhada battle Page 128&quot;&gt;Balat Al-Shuhada battle, in Islamic and European history, by DR. Abd Al-Fattah Muqallid Al-Ghunaymi, published in Alam Alkotob, Cairo, Egypt. &quot;First Edition&quot;. ISBN 977-232-081-9. Page 128&lt;/ref&gt;\n* Pagan mercenaries from areas around the Rhine River"
+    }, {
+      "field" : "world_actor",
+      "value" : ", published in Dar Al-Fekr, Damascus, Syria, and Dar Al-Fekr Al-Mo-aser, Beirut, Lebanon. &quot;Third Edition&quot;. ISBN 1-57547-503-0. Page34&lt;/ref&gt;\n* Other forces from Europe"
+    }, {
+      "field" : "world_actor",
+      "value" : "Balat Al-Shuhada battle, in Islamic and European history, by Dr. Abd Al-Fattah Muqallid Al-Ghunaymi, published in Alam Alkotob, Cairo, Egypt. &quot;First Edition&quot;. ISBN 977-232-081-9. Page:128&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Balat Al-Shuhada, Led by Abd Ar-Rahman Al-Ghafiqi, by Dr."
+    }, {
+      "field" : "world_actor",
+      "value" : ", published in Dar Al-Fekr, Damascus, Syria, and Dar Al-Fekr Al-Mo-aser, Beirut, Lebanon. &quot;Third Edition&quot;. ISBN 1-57547-503-0. Page 29,30&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "The Andalusian History, from the Islamic conquest till the fall of Granada 92–897 A.H. (711–1492 C.E.), by Professor"
+    }, {
+      "field" : "world_actor",
+      "value" : ":ar:عبد الرحمن علي الحجي"
+    }, {
+      "field" : "world_actor",
+      "value" : ", a professor of the Islamic history at Baghdad University, published in Dar Al-Qalam, in Damascus, and in Beirut. &quot;Second Edition&quot;. Page 202&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Primary Islamic sources used the name &quot;Franks&quot; to refer to all the nations of Europe except Goths and Romans&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Umayyad Caliphate",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : ":\n* Arabs",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Balat Al-Shuhada, led by Abd Ar-Rahman Al-Ghafiqi, by Dr.",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : ":ar:شوقي أبو خليل",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : ", published in Dar Al-Fekr, Damascus, Syria, and Dar Al-Fekr Al-Mo-aser, Beirut, Lebanon. &quot;Third Edition&quot;. ISBN 1-57547-503-0. Page:25",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Abdul Rahman Al Ghafiqi",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Umayyad Caliphate"
+    }, {
+      "field" : "world_actor",
+      "value" : ":\n* Arabs"
+    }, {
+      "field" : "world_actor",
+      "value" : "Balat Al-Shuhada, led by Abd Ar-Rahman Al-Ghafiqi, by Dr."
+    }, {
+      "field" : "world_actor",
+      "value" : ":ar:شوقي أبو خليل"
+    }, {
+      "field" : "world_actor",
+      "value" : ", published in Dar Al-Fekr, Damascus, Syria, and Dar Al-Fekr Al-Mo-aser, Beirut, Lebanon. &quot;Third Edition&quot;. ISBN 1-57547-503-0. Page:25&lt;/ref&gt;\n* Berbers"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "12000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Umayyad Caliphate"
+    }, {
+      "field" : "world_actor",
+      "value" : ":\n* Arabs"
+    }, {
+      "field" : "world_actor",
+      "value" : "Balat Al-Shuhada, led by Abd Ar-Rahman Al-Ghafiqi, by Dr."
+    }, {
+      "field" : "world_actor",
+      "value" : ":ar:شوقي أبو خليل"
+    }, {
+      "field" : "world_actor",
+      "value" : ", published in Dar Al-Fekr, Damascus, Syria, and Dar Al-Fekr Al-Mo-aser, Beirut, Lebanon. &quot;Third Edition&quot;. ISBN 1-57547-503-0. Page:25&lt;/ref&gt;\n* Berbers"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Tours",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 0.6892, 47.3936 ]
+  }
+}

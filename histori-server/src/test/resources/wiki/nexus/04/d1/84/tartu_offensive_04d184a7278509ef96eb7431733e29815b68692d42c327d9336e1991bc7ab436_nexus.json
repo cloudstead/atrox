@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Tartu Offensive",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19440810000000,
+      "year" : 1944,
+      "month" : 8,
+      "day" : 10
+    },
+    "endPoint" : {
+      "instant" : 19440906000000,
+      "year" : 1944,
+      "month" : 9,
+      "day" : 6
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 26.716666667, 58.366666667 ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battles of Parczew, Jabłoń and Milanów",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19390929000000,
+      "year" : 1939,
+      "month" : 9,
+      "day" : 29
+    },
+    "endPoint" : {
+      "instant" : 19390930000000,
+      "year" : 1939,
+      "month" : 9,
+      "day" : 30
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 22.9, 51.633333333 ]
+  }
+}

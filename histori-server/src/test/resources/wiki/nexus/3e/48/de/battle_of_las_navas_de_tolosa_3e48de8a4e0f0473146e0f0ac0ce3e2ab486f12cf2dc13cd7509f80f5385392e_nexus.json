@@ -1,0 +1,399 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Las Navas de Tolosa",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 12120716000000,
+      "year" : 1212,
+      "month" : 7,
+      "day" : 16
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Reconquista",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Decisive Christian victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kingdom of Castile",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Crown of Aragon",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kingdom of Portugal",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kingdom of Navarre",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Order of Santiago",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kingdom of France",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "volunteers",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kingdom of León",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Alfonso VIII of Castile",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Castile"
+    }, {
+      "field" : "world_actor",
+      "value" : "Crown of Aragon"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Portugal"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Navarre"
+    }, {
+      "field" : "world_actor",
+      "value" : "Order of Santiago"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of France"
+    }, {
+      "field" : "world_actor",
+      "value" : "volunteers"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of León"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "-center",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Castile"
+    }, {
+      "field" : "world_actor",
+      "value" : "Crown of Aragon"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Portugal"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Navarre"
+    }, {
+      "field" : "world_actor",
+      "value" : "Order of Santiago"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of France"
+    }, {
+      "field" : "world_actor",
+      "value" : "volunteers"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of León"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Rodrigo Jiménez de Rada",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Castile"
+    }, {
+      "field" : "world_actor",
+      "value" : "Crown of Aragon"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Portugal"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Navarre"
+    }, {
+      "field" : "world_actor",
+      "value" : "Order of Santiago"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of France"
+    }, {
+      "field" : "world_actor",
+      "value" : "volunteers"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of León"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Sancho VII of Navarre",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Castile"
+    }, {
+      "field" : "world_actor",
+      "value" : "Crown of Aragon"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Portugal"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Navarre"
+    }, {
+      "field" : "world_actor",
+      "value" : "Order of Santiago"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of France"
+    }, {
+      "field" : "world_actor",
+      "value" : "volunteers"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of León"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "-right wing",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Castile"
+    }, {
+      "field" : "world_actor",
+      "value" : "Crown of Aragon"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Portugal"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Navarre"
+    }, {
+      "field" : "world_actor",
+      "value" : "Order of Santiago"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of France"
+    }, {
+      "field" : "world_actor",
+      "value" : "volunteers"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of León"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Pedro II of Aragon",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Castile"
+    }, {
+      "field" : "world_actor",
+      "value" : "Crown of Aragon"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Portugal"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Navarre"
+    }, {
+      "field" : "world_actor",
+      "value" : "Order of Santiago"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of France"
+    }, {
+      "field" : "world_actor",
+      "value" : "volunteers"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of León"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "-left wing",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Castile"
+    }, {
+      "field" : "world_actor",
+      "value" : "Crown of Aragon"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Portugal"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Navarre"
+    }, {
+      "field" : "world_actor",
+      "value" : "Order of Santiago"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of France"
+    }, {
+      "field" : "world_actor",
+      "value" : "volunteers"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of León"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Setton",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Castile"
+    }, {
+      "field" : "world_actor",
+      "value" : "Crown of Aragon"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Portugal"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Navarre"
+    }, {
+      "field" : "world_actor",
+      "value" : "Order of Santiago"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of France"
+    }, {
+      "field" : "world_actor",
+      "value" : "volunteers"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of León"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Almohad",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Muhammad an-Nasir",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Almohad"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Las_Navas_de_Tolosa",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -3.58286, 38.28443 ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Capture of Fort Ticonderoga",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 17750510000000,
+      "year" : 1775,
+      "month" : 5,
+      "day" : 10
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -73.388055556, 43.841388889 ]
+  }
+}

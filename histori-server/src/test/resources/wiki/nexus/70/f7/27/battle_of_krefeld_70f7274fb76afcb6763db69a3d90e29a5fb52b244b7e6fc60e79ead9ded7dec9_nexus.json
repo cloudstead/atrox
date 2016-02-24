@@ -1,0 +1,180 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Krefeld",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 17580623000000,
+      "year" : 1758,
+      "month" : 6,
+      "day" : 23
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Seven Years' War",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Allied victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Prussia",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Hanover",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Electorate of Hanover",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Duke Ferdinand of Brunswick",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hanover"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "2200"
+    }, {
+      "field" : "world_actor",
+      "value" : "Prussia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hanover"
+    }, {
+      "field" : "world_actor",
+      "value" : "Electorate of Hanover"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "George Ripley, Charles Anderson Dana, ''The American Cyclopaedia'', New York, 1874, p. 250, &quot;...the standard of France was white, sprinkled with golden fleur de lis...&quot;. *",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "http://www.anyflag.com/history/fleur23.htm",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "The original Banner of France was strewn with fleurs-de-lis. *",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "http://digitalgallery.nypl.org/nypldigital/dgdisplaylargemeta.cfm?strucID=585779&amp;imageID=1236061&amp;parent_id=585395&amp;word=&amp;s=&amp;notword=&amp;d=&amp;c=&amp;f=&amp;sScope=&amp;sLevel=&amp;sLabel=&amp;lword=&amp;lfield=&amp;num=0&amp;imgs=12&amp;total=98&amp;pos=1&amp;snum=",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : ":on the reverse of this plate it says: &quot;Le pavillon royal était véritablement le drapeau national au dix-huitième siècle...Vue du château d'arrière d'un vaisseau de guerre de haut rang portant le pavillon royal (blanc, avec les armes de France).&quot;",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Louis de Bourbon (1709–1771)",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of France"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "3000"
+    }, {
+      "field" : "world_actor",
+      "value" : "George Ripley, Charles Anderson Dana, ''The American Cyclopaedia'', New York, 1874, p. 250, &quot;...the standard of France was white, sprinkled with golden fleur de lis...&quot;. *"
+    }, {
+      "field" : "world_actor",
+      "value" : "http://www.anyflag.com/history/fleur23.htm"
+    }, {
+      "field" : "world_actor",
+      "value" : "The original Banner of France was strewn with fleurs-de-lis. *"
+    }, {
+      "field" : "world_actor",
+      "value" : "http://digitalgallery.nypl.org/nypldigital/dgdisplaylargemeta.cfm?strucID=585779&amp;imageID=1236061&amp;parent_id=585395&amp;word=&amp;s=&amp;notword=&amp;d=&amp;c=&amp;f=&amp;sScope=&amp;sLevel=&amp;sLabel=&amp;lword=&amp;lfield=&amp;num=0&amp;imgs=12&amp;total=98&amp;pos=1&amp;snum="
+    }, {
+      "field" : "world_actor",
+      "value" : ":on the reverse of this plate it says: &quot;Le pavillon royal était véritablement le drapeau national au dix-huitième siècle...Vue du château d'arrière d'un vaisseau de guerre de haut rang portant le pavillon royal (blanc, avec les armes de France).&quot;&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Krefeld",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 6.5109, 51.3028 ]
+  }
+}

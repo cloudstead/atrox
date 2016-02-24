@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "First Battle of Heglig",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 20120326000000,
+      "year" : 2012,
+      "month" : 3,
+      "day" : 26
+    },
+    "endPoint" : {
+      "instant" : 20120328000000,
+      "year" : 2012,
+      "month" : 3,
+      "day" : 28
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 29.398611, 9.999444 ]
+  }
+}

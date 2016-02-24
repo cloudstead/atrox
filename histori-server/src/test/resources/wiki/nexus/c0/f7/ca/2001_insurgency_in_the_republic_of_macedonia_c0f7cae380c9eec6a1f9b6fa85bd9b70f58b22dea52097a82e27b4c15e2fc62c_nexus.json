@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "2001 insurgency in the Republic of Macedonia",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 20010122000000,
+      "year" : 2001,
+      "month" : 1,
+      "day" : 22
+    },
+    "endPoint" : {
+      "instant" : 20011112000000,
+      "year" : 2001,
+      "month" : 11,
+      "day" : 12
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 29.616666667, 46.833333333 ]
+  }
+}

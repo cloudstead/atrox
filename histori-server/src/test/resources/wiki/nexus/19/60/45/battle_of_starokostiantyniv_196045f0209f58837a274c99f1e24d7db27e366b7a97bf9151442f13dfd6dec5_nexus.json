@@ -1,0 +1,141 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Starokostiantyniv",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 16480726000000,
+      "year" : 1648,
+      "month" : 7,
+      "day" : 26
+    },
+    "endPoint" : {
+      "instant" : 16480728000000,
+      "year" : 1648,
+      "month" : 7,
+      "day" : 28
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Khmelnytsky Uprising",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Polish victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Polish-Lithuanian Commonwealth",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Jeremi Wiśniowiecki",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Polish-Lithuanian Commonwealth"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "200"
+    }, {
+      "field" : "high_estimate",
+      "value" : "300"
+    }, {
+      "field" : "estimate",
+      "value" : "250"
+    }, {
+      "field" : "world_actor",
+      "value" : "Polish-Lithuanian Commonwealth"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "&amp;nbsp;",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Zaporozhian Host",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Maksym Kryvonis",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "&amp;nbsp;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Zaporozhian Host"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "10000"
+    }, {
+      "field" : "high_estimate",
+      "value" : "15000"
+    }, {
+      "field" : "estimate",
+      "value" : "12500"
+    }, {
+      "field" : "world_actor",
+      "value" : "&amp;nbsp;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Zaporozhian Host"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Starokostiantyniv",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 27.220833333, 49.755555556 ]
+  }
+}

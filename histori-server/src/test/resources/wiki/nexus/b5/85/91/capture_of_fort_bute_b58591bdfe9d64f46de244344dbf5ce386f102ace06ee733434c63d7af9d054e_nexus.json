@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Capture of Fort Bute",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 17790907000000,
+      "year" : 1779,
+      "month" : 9,
+      "day" : 7
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -91.136944444, 30.323611111 ]
+  }
+}

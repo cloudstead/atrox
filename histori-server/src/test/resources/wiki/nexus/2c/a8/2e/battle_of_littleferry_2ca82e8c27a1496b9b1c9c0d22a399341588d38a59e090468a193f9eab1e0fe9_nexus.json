@@ -1,0 +1,303 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Littleferry",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 17460415000000,
+      "year" : 1746,
+      "month" : 4,
+      "day" : 15
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Jacobite Rising of 1745",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Hanoverian victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kingdom of Great Britain",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Scottish",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Hanoverians",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Independent Highland Companies",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : ", drawn from:",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Mackay",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Mackay, Angus, M.A. (1906). (St Andrews University). ''The Book of Mackay''. pp. 190 - 191.",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Sutherland",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Mackay of Aberach#John Mackay of Moudale",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Great Britain"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Jacobites",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Jacobitism",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "drawn from:",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Mackenzie",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Gregor",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Mackinnon",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "George Mackenzie",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Jacobites"
+    }, {
+      "field" : "world_actor",
+      "value" : "Jacobitism"
+    }, {
+      "field" : "world_actor",
+      "value" : "drawn from:"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackenzie"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;ref name=&quot;SIMPSON.LITTLEFERRY&quot;/&gt;&lt;ref name=&quot;Sutherland5&quot;/&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Gregor"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;ref name=&quot;SIMPSON.LITTLEFERRY&quot;/&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackinnon"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "100"
+    }, {
+      "field" : "world_actor",
+      "value" : "Jacobites"
+    }, {
+      "field" : "world_actor",
+      "value" : "Jacobitism"
+    }, {
+      "field" : "world_actor",
+      "value" : "drawn from:"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackenzie"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;ref name=&quot;SIMPSON.LITTLEFERRY&quot;/&gt;&lt;ref name=&quot;Sutherland5&quot;/&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Gregor"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;ref name=&quot;SIMPSON.LITTLEFERRY&quot;/&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackinnon"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "150"
+    }, {
+      "field" : "world_actor",
+      "value" : "Jacobites"
+    }, {
+      "field" : "world_actor",
+      "value" : "Jacobitism"
+    }, {
+      "field" : "world_actor",
+      "value" : "drawn from:"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackenzie"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;ref name=&quot;SIMPSON.LITTLEFERRY&quot;/&gt;&lt;ref name=&quot;Sutherland5&quot;/&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Gregor"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;ref name=&quot;SIMPSON.LITTLEFERRY&quot;/&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackinnon"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Littleferry",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -4.003055556, 57.960277778 ]
+  }
+}

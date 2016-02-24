@@ -1,0 +1,23 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Operation Roast",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19450401000000,
+      "year" : 1945,
+      "month" : 4,
+      "day" : 1
+    },
+    "endPoint" : {
+      "instant" : 19450402000000,
+      "year" : 1945,
+      "month" : 4,
+      "day" : 2
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 12.166944444, 44.615277778 ]
+  }
+}

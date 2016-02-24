@@ -1,0 +1,37 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Shopian",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18190703000000,
+      "year" : 1819,
+      "month" : 7,
+      "day" : 3
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Afghan-Sikh Wars",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Shopian",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 74.83, 33.72 ]
+  }
+}

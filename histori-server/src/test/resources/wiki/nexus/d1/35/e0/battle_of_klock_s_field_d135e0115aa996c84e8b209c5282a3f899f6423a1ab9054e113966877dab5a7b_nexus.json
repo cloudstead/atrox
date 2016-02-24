@@ -1,0 +1,282 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Klock's Field",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 17801019000000,
+      "year" : 1780,
+      "month" : 10,
+      "day" : 19
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "American Revolutionary War",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "American victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "United States",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Albany County militia",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Tryon County militia",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Oneida Indians",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Lieutenant Colonel John Harper's Levies",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Colonel Lewis DuBois Levies",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Colonel John Brown's Levies",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Robert Van Rensselaer",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    }, {
+      "field" : "world_actor",
+      "value" : "Albany County militia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Tryon County militia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Oneida Indians"
+    }, {
+      "field" : "world_actor",
+      "value" : "Lieutenant Colonel John Harper's Levies"
+    }, {
+      "field" : "world_actor",
+      "value" : "Colonel Lewis DuBois Levies"
+    }, {
+      "field" : "world_actor",
+      "value" : "Colonel John Brown's Levies"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "39"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    }, {
+      "field" : "world_actor",
+      "value" : "Albany County militia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Tryon County militia"
+    }, {
+      "field" : "world_actor",
+      "value" : "Oneida Indians"
+    }, {
+      "field" : "world_actor",
+      "value" : "Lieutenant Colonel John Harper's Levies"
+    }, {
+      "field" : "world_actor",
+      "value" : "Colonel Lewis DuBois Levies"
+    }, {
+      "field" : "world_actor",
+      "value" : "Colonel John Brown's Levies"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "King's Royal Regiment of New York",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Butler's Rangers",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Brant's Volunteers",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "34th Regiment of Foot",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Canadian Indian Department",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "John Johnson (Loyalist)",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "King's Royal Regiment of New York"
+    }, {
+      "field" : "world_actor",
+      "value" : "Butler's Rangers"
+    }, {
+      "field" : "world_actor",
+      "value" : "Brant's Volunteers"
+    }, {
+      "field" : "world_actor",
+      "value" : "34th Regiment of Foot"
+    }, {
+      "field" : "world_actor",
+      "value" : "Canadian Indian Department"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Joseph Brant",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "King's Royal Regiment of New York"
+    }, {
+      "field" : "world_actor",
+      "value" : "Butler's Rangers"
+    }, {
+      "field" : "world_actor",
+      "value" : "Brant's Volunteers"
+    }, {
+      "field" : "world_actor",
+      "value" : "34th Regiment of Foot"
+    }, {
+      "field" : "world_actor",
+      "value" : "Canadian Indian Department"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "40"
+    }, {
+      "field" : "world_actor",
+      "value" : "King's Royal Regiment of New York"
+    }, {
+      "field" : "world_actor",
+      "value" : "Butler's Rangers"
+    }, {
+      "field" : "world_actor",
+      "value" : "Brant's Volunteers"
+    }, {
+      "field" : "world_actor",
+      "value" : "34th Regiment of Foot"
+    }, {
+      "field" : "world_actor",
+      "value" : "Canadian Indian Department"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Klock%27s_Field",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -74.708333333, 42.999444444 ]
+  }
+}

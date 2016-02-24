@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Second Battle of Panipat",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 15561105000000,
+      "year" : 1556,
+      "month" : 11,
+      "day" : 5
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 76.97, 29.39 ]
+  }
+}

@@ -1,0 +1,210 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Lens",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 16480820000000,
+      "year" : 1648,
+      "month" : 8,
+      "day" : 20
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Thirty Years' War",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Decisive French victory",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "George Ripley, Charles Anderson Dana, ''The American Cyclopaedia'', New York, 1874, p. 250, &quot;...the standard of France was white, sprinkled with golden fleur de lis...&quot;. *",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "http://www.anyflag.com/history/fleur23.htm",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "The original Banner of France was strewn with fleurs-de-lis. *",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "http://digitalgallery.nypl.org/nypldigital/dgdisplaylargemeta.cfm?strucID=585779&amp;imageID=1236061&amp;parent_id=585395&amp;word=&amp;s=&amp;notword=&amp;d=&amp;c=&amp;f=&amp;sScope=&amp;sLevel=&amp;sLabel=&amp;lword=&amp;lfield=&amp;num=0&amp;imgs=12&amp;total=98&amp;pos=1&amp;snum=",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : ":on the reverse of this plate it says: &quot;Le pavillon royal était véritablement le drapeau national au dix-huitième siecle...Vue du chateau d'arrière d'un vaisseau de guerre de haut rang portant le pavillon royal (blanc, avec les armes de France).&quot;",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "http://www.1911encyclopedia.org/Flag",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "from the 1911 Encyclopædia Britannica: &quot;The oriflamme and the Chape de St Martin were succeeded at the end of the 16th century, when Henry III., the last of the house of Valois, came to the throne, by the white standard powdered with fleurs-de-lis. This in turn gave place to the famous tricolour.&quot;",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Louis II de Bourbon",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "George Ripley, Charles Anderson Dana, ''The American Cyclopaedia'', New York, 1874, p. 250, &quot;...the standard of France was white, sprinkled with golden fleur de lis...&quot;. *"
+    }, {
+      "field" : "world_actor",
+      "value" : "http://www.anyflag.com/history/fleur23.htm"
+    }, {
+      "field" : "world_actor",
+      "value" : "The original Banner of France was strewn with fleurs-de-lis. *"
+    }, {
+      "field" : "world_actor",
+      "value" : "http://digitalgallery.nypl.org/nypldigital/dgdisplaylargemeta.cfm?strucID=585779&amp;imageID=1236061&amp;parent_id=585395&amp;word=&amp;s=&amp;notword=&amp;d=&amp;c=&amp;f=&amp;sScope=&amp;sLevel=&amp;sLabel=&amp;lword=&amp;lfield=&amp;num=0&amp;imgs=12&amp;total=98&amp;pos=1&amp;snum="
+    }, {
+      "field" : "world_actor",
+      "value" : ":on the reverse of this plate it says: &quot;Le pavillon royal était véritablement le drapeau national au dix-huitième siecle...Vue du chateau d'arrière d'un vaisseau de guerre de haut rang portant le pavillon royal (blanc, avec les armes de France).&quot;"
+    }, {
+      "field" : "world_actor",
+      "value" : "http://www.1911encyclopedia.org/Flag"
+    }, {
+      "field" : "world_actor",
+      "value" : "from the 1911 Encyclopædia Britannica: &quot;The oriflamme and the Chape de St Martin were succeeded at the end of the 16th century, when Henry III., the last of the house of Valois, came to the throne, by the white standard powdered with fleurs-de-lis. This in turn gave place to the famous tricolour.&quot;&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "3500"
+    }, {
+      "field" : "world_actor",
+      "value" : "George Ripley, Charles Anderson Dana, ''The American Cyclopaedia'', New York, 1874, p. 250, &quot;...the standard of France was white, sprinkled with golden fleur de lis...&quot;. *"
+    }, {
+      "field" : "world_actor",
+      "value" : "http://www.anyflag.com/history/fleur23.htm"
+    }, {
+      "field" : "world_actor",
+      "value" : "The original Banner of France was strewn with fleurs-de-lis. *"
+    }, {
+      "field" : "world_actor",
+      "value" : "http://digitalgallery.nypl.org/nypldigital/dgdisplaylargemeta.cfm?strucID=585779&amp;imageID=1236061&amp;parent_id=585395&amp;word=&amp;s=&amp;notword=&amp;d=&amp;c=&amp;f=&amp;sScope=&amp;sLevel=&amp;sLabel=&amp;lword=&amp;lfield=&amp;num=0&amp;imgs=12&amp;total=98&amp;pos=1&amp;snum="
+    }, {
+      "field" : "world_actor",
+      "value" : ":on the reverse of this plate it says: &quot;Le pavillon royal était véritablement le drapeau national au dix-huitième siecle...Vue du chateau d'arrière d'un vaisseau de guerre de haut rang portant le pavillon royal (blanc, avec les armes de France).&quot;"
+    }, {
+      "field" : "world_actor",
+      "value" : "http://www.1911encyclopedia.org/Flag"
+    }, {
+      "field" : "world_actor",
+      "value" : "from the 1911 Encyclopædia Britannica: &quot;The oriflamme and the Chape de St Martin were succeeded at the end of the 16th century, when Henry III., the last of the house of Valois, came to the throne, by the white standard powdered with fleurs-de-lis. This in turn gave place to the famous tricolour.&quot;&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Spain",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Archduke Leopold Wilhelm of Austria",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Spain"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "3000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Spain"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "captured",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "5000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Spain"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Lens",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 2.833333333, 50.416666667 ]
+  }
+}

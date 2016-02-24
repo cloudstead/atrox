@@ -1,0 +1,438 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Corrichie",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 15621028000000,
+      "year" : 1562,
+      "month" : 10,
+      "day" : 28
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Mary, Queen of Scots Civil Wars",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Victory for Queen Mary's forces",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Queen Mary's forces:",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Fraser",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Munro",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Mackenzie",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Mackintosh",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Mackay",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Forbes",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Mackay, Angus. (1906). ''The Book of Mackay''. (St Andrew’s University). Printed by William Rae, Wick. p. 100",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Cameron",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "http://www.clan-cameron.org/battles/1562.html The Battle of Corrichie October 28, 1562",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "clan-cameron.org. Retrieved December 12, 2014.",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "James Stewart",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Queen Mary's forces:"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Fraser"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;ref name=&quot;GordonPage&quot;&gt;''The Scottish Clans and Their Tartans'' .(1886). (Library edition). W. &amp; A. K. Johnston Limited. Edinburgh and London. p. 25.&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Munro"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;ref name=&quot;GordonPage&quot;/&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackenzie"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackintosh"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackay"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;ref name=&quot;Mackay1&quot;&gt;Mackay, Robert. (1829). ''History of the House and Clan of the Name MacKay''. pp. 131 - 133: Quoting 'Scots Acts of Parliament'.&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Forbes"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mackay, Angus. (1906). ''The Book of Mackay''. (St Andrew’s University). Printed by William Rae, Wick. p. 100&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Cameron"
+    }, {
+      "field" : "world_actor",
+      "value" : "http://www.clan-cameron.org/battles/1562.html The Battle of Corrichie October 28, 1562"
+    }, {
+      "field" : "world_actor",
+      "value" : "clan-cameron.org. Retrieved December 12, 2014.&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "John Stewart",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Queen Mary's forces:"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Fraser"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;ref name=&quot;GordonPage&quot;&gt;''The Scottish Clans and Their Tartans'' .(1886). (Library edition). W. &amp; A. K. Johnston Limited. Edinburgh and London. p. 25.&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Munro"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;ref name=&quot;GordonPage&quot;/&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackenzie"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackintosh"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackay"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;ref name=&quot;Mackay1&quot;&gt;Mackay, Robert. (1829). ''History of the House and Clan of the Name MacKay''. pp. 131 - 133: Quoting 'Scots Acts of Parliament'.&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Forbes"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mackay, Angus. (1906). ''The Book of Mackay''. (St Andrew’s University). Printed by William Rae, Wick. p. 100&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Cameron"
+    }, {
+      "field" : "world_actor",
+      "value" : "http://www.clan-cameron.org/battles/1562.html The Battle of Corrichie October 28, 1562"
+    }, {
+      "field" : "world_actor",
+      "value" : "clan-cameron.org. Retrieved December 12, 2014.&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "James Douglas",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Queen Mary's forces:"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Fraser"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;ref name=&quot;GordonPage&quot;&gt;''The Scottish Clans and Their Tartans'' .(1886). (Library edition). W. &amp; A. K. Johnston Limited. Edinburgh and London. p. 25.&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Munro"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;ref name=&quot;GordonPage&quot;/&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackenzie"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackintosh"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Mackay"
+    }, {
+      "field" : "world_actor",
+      "value" : "&lt;ref name=&quot;Mackay1&quot;&gt;Mackay, Robert. (1829). ''History of the House and Clan of the Name MacKay''. pp. 131 - 133: Quoting 'Scots Acts of Parliament'.&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Forbes"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mackay, Angus. (1906). ''The Book of Mackay''. (St Andrew’s University). Printed by William Rae, Wick. p. 100&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Cameron"
+    }, {
+      "field" : "world_actor",
+      "value" : "http://www.clan-cameron.org/battles/1562.html The Battle of Corrichie October 28, 1562"
+    }, {
+      "field" : "world_actor",
+      "value" : "clan-cameron.org. Retrieved December 12, 2014.&lt;/ref&gt;"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Earl of Huntly's forces:",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Gordon",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Bain (1893), p.230",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Clan Brodie",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "George Gordon",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Earl of Huntly's forces:"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Gordon"
+    }, {
+      "field" : "world_actor",
+      "value" : "Bain (1893), p.230&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Brodie"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Bain (1893), p.230",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Earl of Huntly's forces:"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Gordon"
+    }, {
+      "field" : "world_actor",
+      "value" : "Bain (1893), p.230&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Brodie"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "120"
+    }, {
+      "field" : "world_actor",
+      "value" : "Earl of Huntly's forces:"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Gordon"
+    }, {
+      "field" : "world_actor",
+      "value" : "Bain (1893), p.230&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Brodie"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "captured",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "100"
+    }, {
+      "field" : "world_actor",
+      "value" : "Earl of Huntly's forces:"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Gordon"
+    }, {
+      "field" : "world_actor",
+      "value" : "Bain (1893), p.230&lt;/ref&gt;"
+    }, {
+      "field" : "world_actor",
+      "value" : "Clan Brodie"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Corrichie",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -2.444, 57.1018 ]
+  }
+}

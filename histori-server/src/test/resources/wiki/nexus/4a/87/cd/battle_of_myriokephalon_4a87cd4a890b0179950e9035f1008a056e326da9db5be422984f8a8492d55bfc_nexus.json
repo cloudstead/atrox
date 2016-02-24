@@ -1,0 +1,252 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Myriokephalon",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 11760917000000,
+      "year" : 1176,
+      "month" : 9,
+      "day" : 17
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Byzantine–Seljuq Wars",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Seljuk  Strategic victory ",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Byzantine Empire",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kingdom of Hungary",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Principality of Antioch",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Manuel I Komnenos",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Byzantine Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Hungary"
+    }, {
+      "field" : "world_actor",
+      "value" : "Principality of Antioch"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Baldwin of Antioch",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Byzantine Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Hungary"
+    }, {
+      "field" : "world_actor",
+      "value" : "Principality of Antioch"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "John Kantakouzenos (sebastos)",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Byzantine Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Hungary"
+    }, {
+      "field" : "world_actor",
+      "value" : "Principality of Antioch"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Theodore Mavrozomes",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Byzantine Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Hungary"
+    }, {
+      "field" : "world_actor",
+      "value" : "Principality of Antioch"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Andronikos Kontostephanos",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Byzantine Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Hungary"
+    }, {
+      "field" : "world_actor",
+      "value" : "Principality of Antioch"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Andronikos Lampardas",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Byzantine Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Hungary"
+    }, {
+      "field" : "world_actor",
+      "value" : "Principality of Antioch"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Constantine Makrodoukas",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Byzantine Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Hungary"
+    }, {
+      "field" : "world_actor",
+      "value" : "Principality of Antioch"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Ampud",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Byzantine Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Hungary"
+    }, {
+      "field" : "world_actor",
+      "value" : "Principality of Antioch"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Leustachius Rátót",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Byzantine Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Hungary"
+    }, {
+      "field" : "world_actor",
+      "value" : "Principality of Antioch"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Seljuk Sultanate of Rûm",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kilij Arslan II",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Seljuk Sultanate of Rûm"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Myriokephalon",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 31.55, 37.7833 ]
+  }
+}

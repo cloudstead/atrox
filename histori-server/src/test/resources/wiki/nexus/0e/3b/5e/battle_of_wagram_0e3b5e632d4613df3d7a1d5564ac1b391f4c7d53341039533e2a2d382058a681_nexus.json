@@ -1,0 +1,201 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battle of Wagram",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18090705000000,
+      "year" : 1809,
+      "month" : 7,
+      "day" : 5
+    },
+    "endPoint" : {
+      "instant" : 18090706000000,
+      "year" : 1809,
+      "month" : 7,
+      "day" : 6
+    }
+  },
+  "tags" : [ {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "battle",
+    "tagType" : "event_type"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "War of the Fifth Coalition",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Decisive French victory:",
+    "tagType" : "result"
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Austrian Empire",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Archduke Charles",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Austrian Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "30000"
+    }, {
+      "field" : "high_estimate",
+      "value" : "40000"
+    }, {
+      "field" : "estimate",
+      "value" : "35000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Austrian Empire"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "France",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "First French Empire",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Saxony",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kingdom of Saxony",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Napoleonic Italy",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Kingdom of Italy (Napoleonic)",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "Napoleon I",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "France"
+    }, {
+      "field" : "world_actor",
+      "value" : "First French Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Saxony"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Saxony"
+    }, {
+      "field" : "world_actor",
+      "value" : "Napoleonic Italy"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Italy (Napoleonic)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "25000"
+    }, {
+      "field" : "high_estimate",
+      "value" : "37000"
+    }, {
+      "field" : "estimate",
+      "value" : "31000"
+    }, {
+      "field" : "world_actor",
+      "value" : "France"
+    }, {
+      "field" : "world_actor",
+      "value" : "First French Empire"
+    }, {
+      "field" : "world_actor",
+      "value" : "Saxony"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Saxony"
+    }, {
+      "field" : "world_actor",
+      "value" : "Napoleonic Italy"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Italy (Napoleonic)"
+    } ]
+  }, {
+    "visibility" : "everyone",
+    "version" : 0,
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Wagram",
+    "tagType" : "citation"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 16.564444444, 48.299444444 ]
+  }
+}

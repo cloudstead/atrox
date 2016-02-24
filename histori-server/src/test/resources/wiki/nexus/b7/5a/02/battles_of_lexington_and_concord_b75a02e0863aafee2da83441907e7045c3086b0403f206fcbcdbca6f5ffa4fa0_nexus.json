@@ -1,0 +1,17 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "name" : "Battles of Lexington and Concord",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 17750419000000,
+      "year" : 1775,
+      "month" : 4,
+      "day" : 19
+    }
+  },
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -71.230833333, 42.449638889 ]
+  }
+}
