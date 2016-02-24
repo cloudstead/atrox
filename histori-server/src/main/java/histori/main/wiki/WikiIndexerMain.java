@@ -123,8 +123,19 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
 
                     case seeking_text:
                         if (line.startsWith(TEXT_TAG_OPEN)) {
-                            article.addText(line.substring(line.indexOf(">")+1));
-                            parseState = WikiXmlParseState.seeking_text_end;
+                            if (!line.endsWith(TEXT_TAG_CLOSE)) {
+                                article.addText(line.substring(line.indexOf(">") + 1));
+                                parseState = WikiXmlParseState.seeking_text_end;
+                            } else {
+                                // otherwise, this is a single-line entry
+                                line = line.substring(line.indexOf(">") + 1);
+                                line = line.substring(0, line.length() - TEXT_TAG_CLOSE.length());
+                                article.addText(line);
+
+                                store(wiki, article);
+                                article = new WikiArticle();
+                                parseState = WikiXmlParseState.seeking_page;
+                            }
                         }
                         continue;
 
@@ -133,7 +144,6 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                             article.addText("\n"+line.substring(0, line.length() - TEXT_TAG_CLOSE.length()));
 
                             store(wiki, article);
-
                             article = new WikiArticle();
                             parseState = WikiXmlParseState.seeking_page;
                         } else {
