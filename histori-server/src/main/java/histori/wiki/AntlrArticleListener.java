@@ -55,7 +55,7 @@ public class AntlrArticleListener extends WikiArticleParserBaseListener {
 
         int closePos = inner.lastIndexOf("|}");
         inner = closePos != -1 ? inner.substring(0, closePos) : inner;
-        parse(node, inner);
+        if (!inner.endsWith("<missing END_WIKITABLE>")) parse(node, inner);
     }
 
     @Override public void enterPlainlist(WikiArticleParser.PlainlistContext ctx) {

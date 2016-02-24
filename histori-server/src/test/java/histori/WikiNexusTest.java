@@ -251,11 +251,14 @@ public class WikiNexusTest {
             new TestPage("Battle of Las Navas de Tolosa", false).location(38.28443, -3.58286).range("1212-07-16"),
 
             // infobox with date and location is within a wikitable
-            new TestPage("Battle of Evesham", false).location(52.1058726, -1.9445372).range("1265-08-04")
+            new TestPage("Battle of Evesham", false).location(52.1058726, -1.9445372).range("1265-08-04"),
+
+            // unparseable -- not actually a battle (it's a TV show)
+            new TestPage("Battle of the Seasons", false).unparseable(true)
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
-//        validateCorrectNexus(TESTS[TESTS.length-1]);
+        validateCorrectNexus(TESTS[TESTS.length-1]);
 //        validateCorrectNexus(TESTS[2]);
         for (TestPage test : TESTS) {
             validateCorrectNexus(test);
@@ -264,7 +267,11 @@ public class WikiNexusTest {
 
     public void validateCorrectNexus(TestPage test) {
         final NexusRequest nexusRequest = wiki.toNexusRequest(test.title);
-        assertNotNull("error parsing article: "+test.title, nexusRequest);
+        if (test.unparseable) {
+            assertNull("parsed article that should have been unparseable: " + test.title, nexusRequest);
+        } else {
+            assertNotNull("error parsing article: " + test.title, nexusRequest);
+        }
         if (test.location != null) test.assertSameLocation(nexusRequest.getGeoJson());
         if (test.range != null) assertEquals(test.range, nexusRequest.getTimeRange());
         if (test.fullCheck) assertEquals("wrong # of tags for "+test.title, test.tags.size(), nexusRequest.getTagCount());
@@ -278,6 +285,9 @@ public class WikiNexusTest {
 
         public String title;
         public boolean fullCheck;
+
+        public boolean unparseable = false;
+        public TestPage unparseable(boolean b) { this.unparseable = b; return this; }
 
         public TestPage (String title) { this(title, true); }
         public TestPage (String title, boolean fullCheck) { this.title = title; this.fullCheck = fullCheck; }
