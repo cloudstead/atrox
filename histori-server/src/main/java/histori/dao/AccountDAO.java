@@ -40,7 +40,7 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
         if (empty(account.getName())) account.setName(account.getEmail());
         account.setFirstName(".");
         account.setLastName(".");
-        account.setHashedPassword(new HashedPassword(randomAlphanumeric(30)));
+        if (account.getHashedPassword() == null) account.setHashedPassword(new HashedPassword(randomAlphanumeric(30)));
         account.setMobilePhone(ApiConstants.PLACEHOLDER_MOBILE_PHONE);
         account.setMobilePhoneCountryCode(1);
         return super.preCreate(account);
@@ -84,7 +84,9 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
 
         audit.log(request, "register", "creating account for: '"+ name + "'");
 
-        Account newAccount = (Account) new Account().setEmail(name);
+        Account newAccount = (Account) new Account()
+                .setEmail(name)
+                .setHashedPassword(new HashedPassword(password));
         newAccount.initEmailVerificationCode();
 
         newAccount = create(newAccount);

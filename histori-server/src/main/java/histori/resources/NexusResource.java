@@ -23,7 +23,7 @@ import static histori.ApiConstants.EP_TAGS;
 import static histori.ApiConstants.NEXUS_ENDPOINT;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
-import static org.cobbzilla.util.string.StringUtil.urlEncode;
+import static org.cobbzilla.util.string.StringUtil.urlDecode;
 import static org.cobbzilla.wizard.resources.ResourceUtil.*;
 import static org.cobbzilla.wizard.util.SpringUtil.autowire;
 
@@ -44,8 +44,8 @@ import static org.cobbzilla.wizard.util.SpringUtil.autowire;
 @Service @Slf4j
 public class NexusResource {
 
-    private static final String[] CREATE_FIELDS = {"name", "geoJson", "timeRange", "commentary", "visibility"};
-    private static final String[] UPDATE_FIELDS = {"geoJson", "timeRange", "commentary", "visibility"};
+    public static final String[] CREATE_FIELDS = {"name", "geoJson", "timeRange", "commentary", "visibility"};
+    public static final String[] UPDATE_FIELDS = {"geoJson", "timeRange", "commentary", "visibility"};
 
     @Autowired private HistoriConfiguration configuration;
     @Autowired private NexusDAO nexusDAO;
@@ -56,6 +56,8 @@ public class NexusResource {
                                            @PathParam("nameOrUuid") String nameOrUuid) {
         // todo: cache these?
         final Account account = optionalUserPrincipal(ctx);
+
+        nameOrUuid = urlDecode(nameOrUuid); // no url-encoded chars allowed
         final Nexus nexus = nexusDAO.findByOwnerAndNameOrUuid(account, nameOrUuid);
         if (nexus == null) throw notFoundEx(nameOrUuid);
 
@@ -69,6 +71,8 @@ public class NexusResource {
                          @PathParam("nameOrUuid") String nameOrUuid,
                          @QueryParam("visibility") String visibility) {
         final Account account = userPrincipal(ctx);
+
+        nameOrUuid = urlDecode(nameOrUuid); // no url-encoded chars allowed
         final Nexus found = nexusDAO.findByOwnerAndNameOrUuid(account, nameOrUuid);
         if (found == null) return notFound(nameOrUuid);
 
@@ -85,10 +89,11 @@ public class NexusResource {
 
         final Account account = userPrincipal(ctx);
 
+        name = urlDecode(name); // no url-encoded chars allowed
         final Nexus found = nexusDAO.findByOwnerAndName(account, name);
         if (found != null) return invalid("err.name.notUnique");
 
-        if (!name.equals(urlEncode(request.getName()))) return invalid("err.name.mismatch");
+        if (!name.equals(request.getName())) return invalid("err.name.mismatch");
 
         final Nexus nexus = new Nexus();
         copy(nexus, request, CREATE_FIELDS);
@@ -104,6 +109,7 @@ public class NexusResource {
 
         final Account account = userPrincipal(ctx);
 
+        nameOrUuid = urlDecode(nameOrUuid); // no url-encoded chars allowed
         Nexus nexus = nexusDAO.findByOwnerAndNameOrUuid(account, nameOrUuid);
         if (nexus == null) return notFound(nameOrUuid);
 
@@ -120,6 +126,7 @@ public class NexusResource {
 
         final Account account = userPrincipal(ctx);
 
+        nameOrUuid = urlDecode(nameOrUuid); // no url-encoded chars allowed
         Nexus nexus = nexusDAO.findByOwnerAndNameOrUuid(account, nameOrUuid);
         if (nexus == null) return notFound(nameOrUuid);
 

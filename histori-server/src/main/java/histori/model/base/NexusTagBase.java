@@ -56,8 +56,8 @@ public class NexusTagBase extends SocialEntity {
         return this;
     }
 
-    private static final String[] ID_FIELDS = new String[]{"owner", "nexus", "tagName"};
-    @Override public String[] getIdentifiers() { return new String[] {getOwner(), getNexus(), getTagName()}; }
+    private static final String[] ID_FIELDS = new String[]{"owner", "nexus", "tagName", "schemaValues"};
+    @Override public String[] getIdentifiers() { return new String[] {getOwner(), getNexus(), getTagName(), getSchemaValues()}; }
     @Override public String[] getIdentifierFields() { return ID_FIELDS; }
 
     @Override public String toString() { return getTagType()+"/"+getTagName(); }

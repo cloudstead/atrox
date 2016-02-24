@@ -150,18 +150,6 @@ public class NexusTagsResource {
         return ok(nexusTagDAO.create(newTag));
     }
 
-    public Response validateTagSchema(@Valid NexusTag nexusTag, TagType tagType) {
-        if (tagType == null || !tagType.hasSchema()) {
-            if (nexusTag.hasSchemaValues()) return invalid("err.tag.noValuesAllowed");
-
-        } else {
-            final TagSchema schema = tagType.getSchema();
-            final ValidationResult validationResult = validateTagSchemaValues(schema, nexusTag.getValues());
-            if (!validationResult.isEmpty()) return invalid(validationResult);
-        }
-        return null;
-    }
-
     @POST
     @Path("/{tagName}")
     public Response updateTag(@Context HttpContext context,
@@ -185,6 +173,24 @@ public class NexusTagsResource {
         return ok(nexusTagDAO.update(found));
     }
 
+    public Response validateTagSchema(@Valid NexusTag nexusTag, TagType tagType) {
+        if (tagType == null || !tagType.hasSchema()) {
+            if (nexusTag.hasSchemaValues()) return invalid("err.tag.noValuesAllowed");
+
+        } else {
+            final TagSchema schema;
+            try {
+                schema = tagType.getSchema();
+            } catch (Exception e) {
+                log.warn("validateTagSchema: error calling tagType.getSchema: "+e);
+                return invalid("err.schemaJson.invalid", tagType.getSchemaJson());
+            }
+            final ValidationResult validationResult = validateTagSchemaValues(schema, nexusTag.getValues());
+            if (!validationResult.isEmpty()) return invalid(validationResult);
+        }
+        return null;
+    }
+
     private ValidationResult validateTagSchemaValues(TagSchema schema, TagSchemaValue[] schemaValues) {
 
         final ValidationResult result = new ValidationResult();
@@ -204,25 +210,25 @@ public class NexusTagsResource {
             final String fieldName = field.getName();
             final String value = values.get(fieldName);
             if (empty(value)) {
-                if (field.isRequired()) result.addViolation("err." + fieldName + ".required");
+                if (field.isRequired()) addViolation(result, fieldName, "required");
                 continue;
             }
             Tag found;
             switch (field.getFieldType()) {
                 case integer:
                     if (!ValidationRegexes.INTEGER_PATTERN.matcher(value).matches()) {
-                        result.addViolation("err." + fieldName + ".notAnInteger");
+                        addViolation(result, fieldName, "notInteger");
                     }
                     break;
 
                 case decimal:
                     if (!ValidationRegexes.DECIMAL_PATTERN.matcher(value).matches()) {
-                        result.addViolation("err." + fieldName + ".notAnInteger");
+                        addViolation(result, fieldName, "notDecimal");
                     }
                     break;
 
                 case world_actor:
-                case world_event:
+                case event:
                 case event_type:
                 case person:
                 case idea:
@@ -236,13 +242,13 @@ public class NexusTagsResource {
                         newTag = tagDAO.create(newTag);
 
                     } else if (!found.getTagType().equals(field.getFieldType().name())) {
-                        result.addViolation("err." + fieldName + ".wrongType");
+                        addViolation(result, fieldName, "wrongType");
                     }
                     break;
 
                 case citation:
                     if (!ValidationRegexes.URL_PATTERN.matcher(value).matches()) {
-                        result.addViolation("err." + fieldName + ".notURL");
+                        addViolation(result, fieldName, "notURL");
                     } else {
                         found = tagDAO.findByCanonicalName(value);
                         if (found == null) {
@@ -251,29 +257,33 @@ public class NexusTagsResource {
                             newTag = tagDAO.create(newTag);
 
                         } else if (!found.getTagType().equals(TagSchemaFieldType.citation.name())) {
-                            result.addViolation("err." + fieldName + ".wrongType");
+                            addViolation(result, fieldName, "wrongType");
                         }
                     }
                     break;
 
                 case relationship_type:
                     if (!RelationshipType.isValid(value)) {
-                        result.addViolation("err." + fieldName + ".invalidRelationshipType");
+                        addViolation(result, fieldName, "invalidRelationshipType");
                     }
                     break;
 
                 case role_type:
                     if (!RoleType.isValid(value)) {
-                        result.addViolation("err." + fieldName + ".invalidRoleType");
+                        addViolation(result, fieldName, "invalidRoleType");
                     }
                     break;
 
                 default:
-                    result.addViolation("err." + fieldName + ".unknownFieldType");
+                    addViolation(result, fieldName, "unknownFieldType");
             }
         }
 
         return result;
+    }
+
+    private void addViolation(ValidationResult result, String fieldName, String err) {
+        result.addViolation("err.field."+err, "field "+fieldName+" had an error", fieldName);
     }
 
 }

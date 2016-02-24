@@ -19,10 +19,10 @@
     }
   },
   {
-    "name": "World Event",
+    "name": "Event",
     "schema": {
       "fields": [
-        {"name": "name", "fieldType": "world_event", "multiple": false},
+        {"name": "name", "fieldType": "event", "multiple": false},
         {"name": "relationship", "fieldType": "relationship_type", "multiple": true}
       ]
     }

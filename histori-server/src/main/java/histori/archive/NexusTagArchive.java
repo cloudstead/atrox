@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity @Accessors(chain=true)
-@Table(uniqueConstraints = @UniqueConstraint(name = "nexus_archive_uniq", columnNames = {"owner", "nexus", "tagName", "version"}))
+@Table(uniqueConstraints = @UniqueConstraint(name = "nexus_archive_uniq", columnNames = {"owner", "nexus", "tagName", "schemaValues", "version"}))
 public class NexusTagArchive extends NexusTagBase implements EntityArchive {
 
     @Column(length=UUID_MAXLEN*10, nullable=false, updatable=false)
