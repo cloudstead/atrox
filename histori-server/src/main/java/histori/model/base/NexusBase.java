@@ -66,8 +66,8 @@ public class NexusBase extends SocialEntity {
         final GeoJsonObject geo = getGeo();
         if (geo instanceof Point) {
             final Point p = (Point) geo;
-            bounds = new GeoBounds(p.getCoordinates().getLatitude(), p.getCoordinates().getLongitude(),
-                                   p.getCoordinates().getLatitude(), p.getCoordinates().getLongitude());
+            bounds = new GeoBounds(p.getCoordinates().getLatitude(), p.getCoordinates().getLatitude(),
+                                   p.getCoordinates().getLongitude(), p.getCoordinates().getLongitude());
         } else if (geo instanceof Geometry) {
             bounds =  GeoBounds.blank();
             final Geometry g = (Geometry) geo;
