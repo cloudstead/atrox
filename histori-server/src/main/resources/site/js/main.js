@@ -608,7 +608,8 @@ function update_map (data) {
             if (result.primary.geo.type == "Point") {
                 var marker = new google.maps.Marker({
                     position: {lat: result.primary.geo.coordinates[1], lng: result.primary.geo.coordinates[0]},
-                    title: result.name,
+                    title: result.primary.name,
+                    //icon: '/icons/battle.png',
                     map: map
                 });
                 active_markers.push(marker);

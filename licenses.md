@@ -234,3 +234,7 @@
 # GeoJSON Country Border Data
   * Site: http://data.okfn.org/data/datasets/geo-boundaries-world-110m#data
   * License: https://okfn.org/terms-of-use/
+
+# Google Maps Custom Markers
+  * Site: http://www.benjaminkeen.com/google-maps-coloured-markers/
+  * License: This is freely available under MIT or GPL licenses. Whichever you prefer: no restrictions. Use it commercially if you want.

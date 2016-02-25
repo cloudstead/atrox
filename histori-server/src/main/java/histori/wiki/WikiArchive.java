@@ -40,7 +40,7 @@ public class WikiArchive {
     @Getter(lazy=true) private final GooglePlaces placesApi = initPlacesApi();
     private GooglePlaces initPlacesApi() { return hasPlacesApiKey() ? new GooglePlaces(getPlacesApiKey()) : null; }
 
-    public static final String[] SKIP_INDEX_PREFIXES = { "Category:", "Template:", "File:", "Template:" };
+    public static final String[] SKIP_INDEX_PREFIXES = { "Template:", "File:", "Wikipedia:" };
 
     public boolean exists (WikiArticle article) {
         final String articlePath = getArticlePath(article.getTitle());
