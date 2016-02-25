@@ -257,18 +257,20 @@ function initMap () {
         document.getElementById('sliderOriginLabel').innerHTML = sliderControl.sliderLabels(0);
         document.getElementById('sliderCurrentLabel').innerHTML = sliderControl.sliderLabels(1);
     };
-    timeRangeSlider.attachEvent("onChange", function () { sliderControl.updateHistoryRange(); } );
+    timeRangeSlider.attachEvent("onChange", function () { sliderControl.updateHistoryRange(); refresh_map(); } );
     document.body.onkeydown = function (e) {
         e = e || window.event;
         if (e.keyCode == '37') {
             // left arrow
             timeRangeSlider.setValue(sliderControl.decrementLast());
             sliderControl.updateHistoryRange();
+            refresh_map();
         }
         else if (e.keyCode == '39') {
             // right arrow
             timeRangeSlider.setValue(sliderControl.incrementLast());
             sliderControl.updateHistoryRange();
+            refresh_map();
         }
     };
     zoomToDates(-10000, thisYear);
@@ -318,6 +320,10 @@ function initMap () {
         path.push(clickEvent.latLng);
         //poly = new google.maps.Polygon({ map: map, path: path, strokeColor: "#FF0000", strokeOpacity: 0.8, strokeWeight: 2, fillColor: "#FF0000", fillOpacity: 0.35 });
         markers.push(marker);
+    });
+
+    google.maps.event.addListener(map, 'bounds_changed', function () {
+        refresh_map();
     });
 }
 
@@ -373,7 +379,9 @@ TimeRangeControl.prototype.updateHistoryRange = function () {
     document.getElementById('sliderCurrentLabel').innerHTML = currentNew;
 
     this.updateRangeLabels(sliderControl.sliderDates[0], sliderControl.sliderDates[1]);
+};
 
+function refresh_map () {
     var bounds = map.getBounds();
     return Api.find_nexuses(sliderControl.sliderDates[0],
                             sliderControl.sliderDates[1],
@@ -382,7 +390,8 @@ TimeRangeControl.prototype.updateHistoryRange = function () {
                             bounds.getNorthEast().lng(),
                             bounds.getSouthWest().lng(),
                             update_map);
-};
+}
+
 TimeRangeControl.prototype.updateRangeLabels = function (start, end) {
     var startDate = document.getElementById('startDate');
     if (startDate != null) startDate.value = start;
