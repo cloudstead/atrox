@@ -582,8 +582,17 @@ function inspectLocation (clickEvent) {
     console.log('inspecting: ' + clickEvent);
 }
 
+var active_markers = [];
+
 function update_map (data) {
     if (data && data.results && data.results instanceof Array) {
+
+        // clear existing markers
+        for (var i = 0; i < active_markers.length; i++) {
+            active_markers[i].setMap(null);
+        }
+        active_markers = [];
+
         for (var i = 0; i < data.results.length; i++) {
             var result = data.results[i];
             console.log("update_map: result[" + i + "] is: " + result);
@@ -593,6 +602,7 @@ function update_map (data) {
                     title: result.name,
                     map: map
                 });
+                active_markers.push(marker);
             }
         }
     }
