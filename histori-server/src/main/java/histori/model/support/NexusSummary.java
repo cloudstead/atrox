@@ -5,9 +5,12 @@ import com.fasterxml.jackson.databind.JavaType;
 import histori.model.Nexus;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.cobbzilla.wizard.dao.SearchResults;
+import org.cobbzilla.wizard.model.ExpirableBase;
 
-public class NexusSummary {
+@Accessors(chain=true)
+public class NexusSummary extends ExpirableBase {
 
     public static final JavaType SEARCH_RESULT_TYPE = new NexusSummary().getSearchResultType();
     @JsonIgnore public JavaType getSearchResultType() { return SearchResults.jsonType(getClass()); }

@@ -27,6 +27,7 @@ class BattleParticipant {
             int numWordsAfterComma = new StringTokenizer(name.substring(pos+1)).countTokens();
             if (numWordsAfterComma > 1) name = name.substring(0, pos);
         }
+        if (name.endsWith("*")) name = name.substring(0, name.length()-1);
         return new BattleParticipant(name.trim(), side == null ? null : side.trim());
     }
 }

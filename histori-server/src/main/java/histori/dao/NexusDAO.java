@@ -16,6 +16,8 @@ import static org.hibernate.criterion.Restrictions.*;
 @Repository
 public class NexusDAO extends VersionedEntityDAO<Nexus> {
 
+    public static final int MAX_RESULTS = 40;
+
     @Override public Object preCreate(@Valid Nexus entity) {
         entity.initTimeInstants();
         return super.preCreate(entity);
@@ -58,7 +60,7 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
                         and(ge("timeRange.startPoint.instant", start), le("timeRange.startPoint.instant", end)),
                         and(ge("timeRange.endPoint.instant", start), le("timeRange.endPoint.instant", end))),
                 eq("visibility", EntityVisibility.everyone)
-        )).addOrder(Order.desc("timeRange.startPoint.instant")), 0, 1000);
+        )).addOrder(Order.desc("timeRange.startPoint.instant")), 0, MAX_RESULTS);
     }
 
     /**
@@ -75,7 +77,7 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
                         and(ge("timeRange.startPoint.instant", start), le("timeRange.startPoint.instant", end)),
                         and(ge("timeRange.endPoint.instant", start), le("timeRange.endPoint.instant", end))),
                 or(eq("owner", account.getUuid()), eq("visibility", EntityVisibility.everyone)))
-        ).addOrder(Order.desc("timeRange.startPoint.instant")), 0, 1000);
+        ).addOrder(Order.desc("timeRange.startPoint.instant")), 0, MAX_RESULTS);
     }
 
 }

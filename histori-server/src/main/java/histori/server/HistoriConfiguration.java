@@ -5,6 +5,7 @@ import cloudos.service.asset.AssetStorageService;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.map.DefaultedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.cobbzilla.mail.SimpleEmailMessage;
 import org.cobbzilla.mail.sender.SmtpMailConfig;
@@ -45,6 +46,7 @@ public class HistoriConfiguration extends RestServerConfiguration
     @Getter @Setter private String emailTemplateRoot;
 
     @Getter @Setter private String sessionPassphrase;
+    @Getter @Setter private Map<String, Integer> threadPoolSizes = new DefaultedMap(2);
 
     @Getter @Setter private AssetStorageConfiguration assetStorage;
     @Getter(lazy=true) private final AssetStorageService assetStorageService = initStorageService();

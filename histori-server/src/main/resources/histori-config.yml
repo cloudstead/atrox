@@ -66,3 +66,7 @@ assetStorage:
     bucket: {{ASSETS_S3_BUCKET}}
     prefix: {{ASSETS_S3_PREFIX}}
     localCache: {{ASSETS_LOCAL_CACHE_DIR}}
+
+threadPoolSizes:
+  VoteSummaryDAO: 10
+  NexusSummaryDAO: 10

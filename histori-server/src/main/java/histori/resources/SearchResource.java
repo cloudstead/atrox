@@ -1,9 +1,7 @@
 package histori.resources;
 
 import com.sun.jersey.api.core.HttpContext;
-import histori.dao.NexusDAO;
 import histori.dao.NexusSummaryDAO;
-import histori.dao.NexusTagDAO;
 import histori.model.Account;
 import histori.model.support.NexusSummary;
 import histori.model.support.TimeRange;
@@ -27,9 +25,7 @@ import static org.cobbzilla.wizard.resources.ResourceUtil.*;
 @Service @Slf4j
 public class SearchResource {
 
-    @Autowired private NexusDAO nexusDAO;
     @Autowired private NexusSummaryDAO nexusSummaryDAO;
-    @Autowired private NexusTagDAO nexusTagDAO;
 
     @GET
     @Path(EP_DATE+"/{from}/{to}")

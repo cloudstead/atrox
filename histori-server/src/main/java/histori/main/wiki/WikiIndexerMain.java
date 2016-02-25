@@ -40,8 +40,9 @@ import static org.cobbzilla.util.io.FileUtil.abs;
  *
  * Recommendations:
  *   When preparing a filesystem to write the index, some safe configuration parameters are:
- *   Use an ext4 filesystem, with 250GB+ space and 30M+ inodes.
+ *   Use an ext4 filesystem with 300GB+ space and 40M+ inodes
  *   Mount with 'noatime'
+ *   Any other best-practices for filesystems with a large number of small files
  *
  * DO NOT create the index on a filesystem with less than 300GB of space or 100M inodes.
  * Otherwise, you will run out of space or inodes before indexing completes.

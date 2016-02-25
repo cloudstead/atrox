@@ -7,25 +7,38 @@ import histori.model.cache.VoteSummary;
 import histori.model.support.EntityVisibility;
 import histori.model.support.NexusSummary;
 import histori.model.support.TimeRange;
+import histori.server.HistoriConfiguration;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.cobbzilla.util.collection.FieldTransfomer;
+import org.cobbzilla.wizard.dao.BackgroundFetcherDAO;
 import org.cobbzilla.wizard.dao.SearchResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 import static org.apache.commons.collections.CollectionUtils.collect;
+import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
 
 @Repository
-public class NexusSummaryDAO {
+public class NexusSummaryDAO extends BackgroundFetcherDAO<NexusSummary> {
 
     private static final int MAX_OTHER_NEXUS = 10;
+
+    @Override public long getRecalculateInterval() { return TimeUnit.MINUTES.toMillis(3); }
+
+    public static final String CTX_ACCOUNT = "account";
+    public static final String CTX_GROUP = "group";
+    public static final String CTX_VISIBILITY = "visibility";
 
     @Autowired private NexusDAO nexusDAO;
     @Autowired private NexusTagDAO nexusTagDAO;
     @Autowired private VoteSummaryDAO voteSummaryDAO;
+    @Autowired private HistoriConfiguration configuration;
 
     /**
      * Find publicly-visible NexusSummaries within the provided range
@@ -53,39 +66,77 @@ public class NexusSummaryDAO {
         }
 
         for (SortedSet<Nexus> group : rollup.values()) {
-            results.addResult(buildSummary(group, account, visibility));
+            final NexusSummary summary = buildSummary(group, account, visibility);
+            if (summary != null) results.addResult(summary);
         }
 
         return results;
     }
 
-    private NexusSummary buildSummary(SortedSet<Nexus> group) { return buildSummary(group, null, EntityVisibility.everyone); }
-
     private NexusSummary buildSummary(SortedSet<Nexus> group, Account account, EntityVisibility visibility) {
 
-        final NexusSummary summary = new NexusSummary();
-        if (group.isEmpty()) return summary; // should never happen
+        if (group.size() == 0) return null;
 
-        // set primary
-        final Nexus primary = group.first();
-        summary.setPrimary(primary);
-        primary.setTags(nexusTagDAO.findByNexus(account, primary.getUuid(), visibility));
+        final String cacheKey
+                = "account:" + (account == null ? "null" : account.getUuid())
+                + "-" + sha256_hex(group.first().getName())
+                + "-" + visibility.name();
 
-        // set total count
-        summary.setTotalCount(group.size());
+        final Map<String, Object> ctx = new HashMap<>();
+        ctx.put(CTX_ACCOUNT, account);
+        ctx.put(CTX_GROUP, group);
+        ctx.put(CTX_VISIBILITY, visibility);
 
-        // collect uuids of top 100 others
-        final List<Nexus> others = new ArrayList<>(group);
-        if (!others.isEmpty()) others.remove(0);
-        while (others.size() > MAX_OTHER_NEXUS) {
-            others.remove(others.size()-1);
+        final NexusSummary found = get(cacheKey, ctx);
+        if (found != null) {
+            return found;
         }
-        final String[] othersArray = new String[others.size()];
-        summary.setOthers((String[]) collect(others, new FieldTransfomer("name")).toArray(othersArray));
+        // create a simple summary
+        return new NexusSummary().setPrimary(group.first()).setTotalCount(group.size());
+    }
 
-        // find top tags for
+    @Override public int getThreadPoolSize() { return configuration.getThreadPoolSizes().get(getClass().getSimpleName()); }
 
-        return summary;
+    @Override protected Callable<NexusSummary> newEntityJob(String uuid, Map<String, Object> context) {
+        return new NexusSummaryJob(uuid,
+                (Account) context.get(CTX_ACCOUNT),
+                (SortedSet<Nexus>) context.get(CTX_GROUP),
+                (EntityVisibility) context.get(CTX_VISIBILITY));
+    }
+
+    @AllArgsConstructor
+    class NexusSummaryJob implements Callable<NexusSummary> {
+
+        private String cacheKey;
+        private Account account;
+        private SortedSet<Nexus> group;
+        private EntityVisibility visibility;
+
+        @Override public NexusSummary call() throws Exception {
+            final NexusSummary summary = new NexusSummary();
+            summary.setUuid(cacheKey);
+            if (group.isEmpty()) return summary; // should never happen
+
+            // set primary
+            final Nexus primary = group.first();
+            summary.setPrimary(primary);
+            primary.setTags(nexusTagDAO.findByNexus(account, primary.getUuid(), visibility));
+
+            // set total count
+            summary.setTotalCount(group.size());
+
+            // collect uuids of top 100 others
+            final List<Nexus> others = new ArrayList<>(group);
+            if (!others.isEmpty()) others.remove(0);
+            while (others.size() > MAX_OTHER_NEXUS) {
+                others.remove(others.size() - 1);
+            }
+            final String[] othersArray = new String[others.size()];
+            summary.setOthers((String[]) collect(others, new FieldTransfomer("name")).toArray(othersArray));
+
+            // todo: find top tags?
+            return summary;
+        }
     }
 
     private class NexusRankComparator implements Comparator<Nexus> {
