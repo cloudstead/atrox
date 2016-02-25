@@ -3,6 +3,8 @@ package histori.resources;
 import com.sun.jersey.api.core.HttpContext;
 import histori.dao.NexusSummaryDAO;
 import histori.model.Account;
+import histori.model.support.EntityVisibility;
+import histori.model.support.GeoBounds;
 import histori.model.support.NexusSummary;
 import histori.model.support.TimeRange;
 import lombok.extern.slf4j.Slf4j;
@@ -28,13 +30,17 @@ public class SearchResource {
     @Autowired private NexusSummaryDAO nexusSummaryDAO;
 
     @GET
-    @Path(EP_DATE+"/{from}/{to}")
+    @Path(EP_DATE+"/{from}/{to}/{north}/{south}/{east}/{west}")
     public Response findByDateRange (@Context HttpContext ctx,
                                      @PathParam("from") String from,
                                      @PathParam("to") String to,
+                                     @PathParam("north") double north,
+                                     @PathParam("south") double south,
+                                     @PathParam("east") double east,
+                                     @PathParam("west") double west,
                                      @QueryParam("visibility") String visibility) {
 
-        final Account account = optionalUserPrincipal(ctx);
+        final Account account = userPrincipal(ctx);
 
         final TimeRange range;
         try {
@@ -43,7 +49,11 @@ public class SearchResource {
             return invalid("err.timeRange.invalid", e.getMessage());
         }
 
-        final SearchResults<NexusSummary> found = nexusSummaryDAO.findByTimeRange(range);
+        final GeoBounds bounds = new GeoBounds(north, south, east, west);
+        final EntityVisibility vis = EntityVisibility.create(visibility, EntityVisibility.everyone);
+
+        final SearchResults<NexusSummary> found = nexusSummaryDAO.findByTimeRange(account, vis, range, bounds);
+
         return ok(found);
     }
 

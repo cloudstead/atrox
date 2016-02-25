@@ -3,12 +3,16 @@ package histori.model.base;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import histori.model.NexusTag;
 import histori.model.SocialEntity;
+import histori.model.support.GeoBounds;
 import histori.model.support.TimeRange;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.geojson.GeoJsonObject;
+import org.geojson.Geometry;
+import org.geojson.LngLatAlt;
+import org.geojson.Point;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -34,29 +38,51 @@ public class NexusBase extends SocialEntity {
     @Size(min=2, max=NAME_MAXLEN, message="err.name.length")
     @Getter @Setter private String name;
 
+    @Embedded @Getter @Setter private TimeRange timeRange;
+
     @Size(max=GEOJSON_MAXLEN, message="err.geolocation.tooLong")
     @Column(length=GEOJSON_MAXLEN, nullable=false)
     @JsonIgnore @Getter @Setter private String geoJson;
 
-    @Transient private GeoJsonObject geo = null;
+    @Embedded @Getter @Setter private GeoBounds bounds;
 
+    @Transient private GeoJsonObject geo = null;
     public GeoJsonObject getGeo() {
         if (geo == null) geo = fromJsonOrDie(geoJson, GeoJsonObject.class);
         return geo;
     }
-
     public void setGeo(GeoJsonObject geo) {
         this.geo = geo;
         this.geoJson = toJsonOrDie(geo);
     }
 
-    @Embedded @Getter @Setter private TimeRange timeRange;
-
-    public void initTimeInstants() {
+    public void prepareForSave() {
         if (timeRange == null) throw invalidEx("err.timeRange.empty");
         if (!timeRange.hasStart()) throw invalidEx("err.timeRange.start.empty");
         timeRange.getStartPoint().initInstant();
         if (timeRange.hasEnd()) timeRange.getEndPoint().initInstant();
+
+        // recalculate bounding coordinates
+        final GeoJsonObject geo = getGeo();
+        if (geo instanceof Point) {
+            final Point p = (Point) geo;
+            bounds = new GeoBounds(p.getCoordinates().getLatitude(), p.getCoordinates().getLongitude(),
+                                   p.getCoordinates().getLatitude(), p.getCoordinates().getLongitude());
+        } else if (geo instanceof Geometry) {
+            bounds =  GeoBounds.blank();
+            final Geometry g = (Geometry) geo;
+            for (Object coordinates : g.getCoordinates()) {
+                if (coordinates instanceof LngLatAlt) {
+                    final LngLatAlt coord = (LngLatAlt) coordinates;
+                    bounds.expandToFit(coord.getLatitude(), coord.getLongitude());
+                }
+                if (coordinates instanceof List) {
+                    for (LngLatAlt coord : (List<LngLatAlt>) coordinates) {
+                        bounds.expandToFit(coord.getLatitude(), coord.getLongitude());
+                    }
+                }
+            }
+        }
     }
 
     private static final String[] ID_FIELDS = {"owner", "name"};

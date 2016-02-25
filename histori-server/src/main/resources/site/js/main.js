@@ -374,7 +374,14 @@ TimeRangeControl.prototype.updateHistoryRange = function () {
 
     this.updateRangeLabels(sliderControl.sliderDates[0], sliderControl.sliderDates[1]);
 
-    return Api.find_histories(sliderControl.sliderDates[0], sliderControl.sliderDates[1], update_map);
+    var bounds = map.getBounds();
+    return Api.find_nexuses(sliderControl.sliderDates[0],
+                            sliderControl.sliderDates[1],
+                            bounds.getNorthEast().lat,
+                            bounds.getSouthWest().lat,
+                            bounds.getNorthEast().lng,
+                            bounds.getSouthWest().lng,
+                            update_map);
 };
 TimeRangeControl.prototype.updateRangeLabels = function (start, end) {
     var startDate = document.getElementById('startDate');

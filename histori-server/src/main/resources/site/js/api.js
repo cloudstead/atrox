@@ -101,20 +101,20 @@ Api = {
         }
     },
 
-    _find_history_timer: -1,
-    _find_history_request: [],
+    _find_nexuses_timer: -1,
+    _find_nexuses_request: [],
 
-    find_histories: function (origin, current, success, fail) {
-        //console.log('find_histories::'+origin+", "+current);
-        Api._find_history_request = [origin, current];
-        if (Api._find_history_timer != -1) {
-            window.clearTimeout(Api._find_history_timer);
+    find_nexuses: function (origin, current, north, south, east, west, success, fail) {
+        //console.log('find_nexuses::'+origin+", "+current);
+        Api._find_nexuses_request = [origin, current];
+        if (Api._find_nexuses_timer != -1) {
+            window.clearTimeout(Api._find_nexuses_timer);
         }
-        Api._find_history_timer = window.setTimeout(function () {
-            var start = Api._find_history_request[0];
-            var end = Api._find_history_request[1];
-            //console.log('NOW calling API .... find_histories::'+ start+", "+ end);
-            Api._get('search/date/'+start+'/'+end, success, fail);
+        Api._find_nexuses_timer = window.setTimeout(function () {
+            var start = Api._find_nexuses_request[0];
+            var end = Api._find_nexuses_request[1];
+            //console.log('NOW calling API .... find_nexuses:'+ start+", "+ end);
+            Api._get('search/date/'+start+'/'+end+'/'+north+'/'+south+'/'+east+'/'+west, success, fail);
         }, 1000);
     },
 

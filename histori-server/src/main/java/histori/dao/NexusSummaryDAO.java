@@ -5,6 +5,7 @@ import histori.model.Account;
 import histori.model.Nexus;
 import histori.model.cache.VoteSummary;
 import histori.model.support.EntityVisibility;
+import histori.model.support.GeoBounds;
 import histori.model.support.NexusSummary;
 import histori.model.support.TimeRange;
 import histori.server.HistoriConfiguration;
@@ -41,16 +42,16 @@ public class NexusSummaryDAO extends BackgroundFetcherDAO<NexusSummary> {
     @Autowired private HistoriConfiguration configuration;
 
     /**
-     * Find publicly-visible NexusSummaries within the provided range
+     * Find NexusSummaries within the provided range and region
      * @param range the time range to search
      * @return a List of NexusSummary objects
      */
-    public SearchResults<NexusSummary> findByTimeRange(TimeRange range) { return findByTimeRange(range, null, EntityVisibility.everyone); }
-
-    public SearchResults<NexusSummary> findByTimeRange(TimeRange range, Account account, EntityVisibility visibility) {
+    public SearchResults<NexusSummary> findByTimeRange(Account account, EntityVisibility visibility, TimeRange range, GeoBounds bounds) {
 
         final SearchResults<NexusSummary> results = new SearchResults<>();
-        final List<Nexus> found = account == null ? nexusDAO.findByTimeRange(range) : nexusDAO.findByTimeRange(account, range);
+        final List<Nexus> found = account == null
+                ? nexusDAO.findByTimeRange(range, bounds)
+                : nexusDAO.findByTimeRange(account, range, bounds, visibility);
         if (found.isEmpty()) return results;
 
         // Collect nexus by name and rank them
