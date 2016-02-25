@@ -106,13 +106,17 @@ Api = {
 
     find_nexuses: function (origin, current, north, south, east, west, success, fail) {
         //console.log('find_nexuses::'+origin+", "+current);
-        Api._find_nexuses_request = [origin, current];
+        Api._find_nexuses_request = [origin, current, north, south, east, west];
         if (Api._find_nexuses_timer != -1) {
             window.clearTimeout(Api._find_nexuses_timer);
         }
         Api._find_nexuses_timer = window.setTimeout(function () {
             var start = Api._find_nexuses_request[0];
             var end = Api._find_nexuses_request[1];
+            var north = Api._find_nexuses_request[2];
+            var south = Api._find_nexuses_request[3];
+            var east = Api._find_nexuses_request[4];
+            var west = Api._find_nexuses_request[5];
             //console.log('NOW calling API .... find_nexuses:'+ start+", "+ end);
             Api._get('search/date/'+start+'/'+end+'/'+north+'/'+south+'/'+east+'/'+west, success, fail);
         }, 1000);

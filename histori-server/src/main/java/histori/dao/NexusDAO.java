@@ -6,7 +6,6 @@ import histori.model.support.EntityVisibility;
 import histori.model.support.GeoBounds;
 import histori.model.support.TimeRange;
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Repository;
 
@@ -98,12 +97,17 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
         }
     }
 
-    public Disjunction boundsClause(GeoBounds bounds) {
+    public Criterion boundsClause(GeoBounds bounds) {
         return or(
-                and(le("bounds.north", bounds.getNorth()), ge("bounds.north", bounds.getSouth())),
-                and(le("bounds.south", bounds.getNorth()), ge("bounds.south", bounds.getSouth())),
-                and(le("bounds.east", bounds.getEast()), ge("bounds.east", bounds.getWest())),
-                and(le("bounds.west", bounds.getEast()), ge("bounds.west", bounds.getWest()))
+                // check if northeast or northwest corner is within bounds
+                and(le("bounds.north", bounds.getNorth()), ge("bounds.north", bounds.getSouth()),
+                    or(and(le("bounds.east", bounds.getEast()), ge("bounds.east", bounds.getWest())),
+                       and(le("bounds.west", bounds.getEast()), ge("bounds.west", bounds.getWest())))),
+
+                // check if southeast or southwest corner is within bounds
+                and(le("bounds.south", bounds.getNorth()), ge("bounds.south", bounds.getSouth()),
+                    or(and(le("bounds.east", bounds.getEast()), ge("bounds.east", bounds.getWest())),
+                       and(le("bounds.west", bounds.getEast()), ge("bounds.west", bounds.getWest()))))
         );
     }
 }

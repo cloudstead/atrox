@@ -377,10 +377,10 @@ TimeRangeControl.prototype.updateHistoryRange = function () {
     var bounds = map.getBounds();
     return Api.find_nexuses(sliderControl.sliderDates[0],
                             sliderControl.sliderDates[1],
-                            bounds.getNorthEast().lat,
-                            bounds.getSouthWest().lat,
-                            bounds.getNorthEast().lng,
-                            bounds.getSouthWest().lng,
+                            bounds.getNorthEast().lat(),
+                            bounds.getSouthWest().lat(),
+                            bounds.getNorthEast().lng(),
+                            bounds.getSouthWest().lng(),
                             update_map);
 };
 TimeRangeControl.prototype.updateRangeLabels = function (start, end) {
@@ -587,9 +587,9 @@ function update_map (data) {
         for (var i = 0; i < data.results.length; i++) {
             var result = data.results[i];
             console.log("update_map: result[" + i + "] is: " + result);
-            if (result.geo.type == "Point") {
+            if (result.primary.geo.type == "Point") {
                 var marker = new google.maps.Marker({
-                    position: {lat: result.geo.coordinates[1], lng: result.geo.coordinates[0]},
+                    position: {lat: result.primary.geo.coordinates[1], lng: result.primary.geo.coordinates[0]},
                     title: result.name,
                     map: map
                 });
