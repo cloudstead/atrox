@@ -32,11 +32,11 @@ import static org.cobbzilla.wizard.util.SpringUtil.autowire;
  * PUT    /{name}                   -- create a nexus
  * POST   /{nameOrUuid}             -- update a nexus
  * DELETE /{nameOrUuid}             -- delete a nexus
- * GET    /{nameOrUuid}/tags        -- find tags for a nexus
- * GET    /{nameOrUuid}/tags/{name} -- find a single tag by name
+ * GET    /{nameOrUuid}/tags        -- find all tags for a nexus
+ * GET    /{nameOrUuid}/tags/{name} -- find all tags with name
  * PUT    /{nameOrUuid}/tags/{name} -- create a single tag by name
- * POST   /{nameOrUuid}/tags/{name} -- update a single tag by name
- * DELETE /{nameOrUuid}/tags/{name} -- delete a single tag by name
+ * POST   /{nameOrUuid}/tags/{uuid} -- update a single tag by uuid
+ * DELETE /{nameOrUuid}/tags/{uuid} -- delete a single tag by uuid
  */
 @Consumes(APPLICATION_JSON)
 @Produces(APPLICATION_JSON)
@@ -86,7 +86,6 @@ public class NexusResource {
     public Response create(@Context HttpContext ctx,
                            @PathParam("name") String name,
                            @Valid NexusRequest request) {
-
         final Account account = userPrincipal(ctx);
 
         name = urlDecode(name); // no url-encoded chars allowed
@@ -102,16 +101,16 @@ public class NexusResource {
     }
 
     @POST
-    @Path("/{nameOrUuid: .+}")
+    @Path("/{uuid: .+}")
     public Response update(@Context HttpContext ctx,
-                           @PathParam("nameOrUuid") String nameOrUuid,
+                           @PathParam("uuid") String uuid,
                            @Valid NexusRequest request) {
 
         final Account account = userPrincipal(ctx);
 
-        nameOrUuid = urlDecode(nameOrUuid); // no url-encoded chars allowed
-        Nexus nexus = nexusDAO.findByOwnerAndNameOrUuid(account, nameOrUuid);
-        if (nexus == null) return notFound(nameOrUuid);
+        uuid = urlDecode(uuid); // no url-encoded chars allowed
+        Nexus nexus = nexusDAO.findByOwnerAndUuid(account, uuid);
+        if (nexus == null) return notFound(uuid);
 
         if (!account.isAdmin() && !account.getUuid().equals(nexus.getOwner())) return forbidden();
 
@@ -120,15 +119,15 @@ public class NexusResource {
     }
 
     @DELETE
-    @Path("/{nameOrUuid: .+}")
+    @Path("/{uuid: .+}")
     public Response delete(@Context HttpContext ctx,
-                           @PathParam("nameOrUuid") String nameOrUuid) {
+                           @PathParam("uuid") String uuid) {
 
         final Account account = userPrincipal(ctx);
 
-        nameOrUuid = urlDecode(nameOrUuid); // no url-encoded chars allowed
-        Nexus nexus = nexusDAO.findByOwnerAndNameOrUuid(account, nameOrUuid);
-        if (nexus == null) return notFound(nameOrUuid);
+        uuid = urlDecode(uuid); // no url-encoded chars allowed
+        Nexus nexus = nexusDAO.findByOwnerAndUuid(account, uuid);
+        if (nexus == null) return notFound(uuid);
 
         if (!account.isAdmin() && !account.getUuid().equals(nexus.getOwner())) return forbidden();
 

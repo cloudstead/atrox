@@ -83,22 +83,28 @@ public class NexusBase extends SocialEntity {
         return this;
     }
 
-    public NexusTag getTag(String name) {
-        if (empty(tags)) return null;
-        final String canonical = canonicalize(name);
-        for (NexusTag tag : tags) {
-            if (canonicalize(tag.getTagName()).equals(canonical)) return tag;
+    public List<NexusTag> getTag(String name) {
+        final List<NexusTag> found = new ArrayList<>();
+        if (!empty(tags)) {
+            final String canonical = canonicalize(name);
+            for (NexusTag tag : tags) {
+                if (canonicalize(tag.getTagName()).equals(canonical)) found.add(tag);
+            }
         }
-        return null;
+        return found;
     }
 
-    public NexusTag getTag(String tagType, String name) {
-        if (empty(tags)) return null;
-        final String canonical = canonicalize(name);
-        for (NexusTag tag : tags) {
-            if (tag.getTagType().equalsIgnoreCase(tagType) && canonicalize(tag.getTagName()).equals(canonical)) return tag;
+    public List<NexusTag> getTag(String tagType, String name) {
+        final List<NexusTag> found = new ArrayList<>();
+        if (!empty(tags)) {
+            final String canonical = canonicalize(name);
+            for (NexusTag tag : tags) {
+                if (tag.getTagType().equalsIgnoreCase(tagType) && canonicalize(tag.getTagName()).equals(canonical)) {
+                    found.add(tag);
+                }
+            }
         }
-        return null;
+        return found;
     }
 
     public boolean hasTag(String name) {
@@ -131,4 +137,8 @@ public class NexusBase extends SocialEntity {
         return false;
     }
 
+    public NexusTag getFirstTag(String name) {
+        final List<NexusTag> found = getTag(name);
+        return empty(found) ? null : found.get(0);
+    }
 }

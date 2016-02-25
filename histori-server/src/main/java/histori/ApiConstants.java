@@ -21,7 +21,7 @@ public class ApiConstants {
     public static final String VOTES_ENDPOINT = "/votes";
     public static final String ARCHIVES_ENDPOINT = "/archives";
 
-    public static final int NAME_MAXLEN = 200;
+    public static final int NAME_MAXLEN = 1024;
     public static final int GEOJSON_MAXLEN = 64000;
 
     public static final String ERR_ALREADY_LOGGED_IN = "err.alreadyLoggedIn";

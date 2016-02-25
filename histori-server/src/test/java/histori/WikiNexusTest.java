@@ -15,6 +15,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.json.JsonUtil.fromJsonOrDie;
 import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
 import static org.cobbzilla.util.math.Cardinal.*;
@@ -153,11 +154,10 @@ public class WikiNexusTest {
                     .tag("event", "American Civil War", "relationship", "part_of")
                     .tag("result", "Confederate States of America victory")
                     .tag("world_actor", "United States", "role", "combatant")
-                    .tag("world_actor", "Union (American Civil War)", "role", "combatant")
-                    .tag("impact", "casualties", "estimate", "3798", "world_actor", "United States", "world_actor", "Union (American Civil War)")
-                    .tag("impact", "dead", "estimate", "504", "world_actor", "United States", "world_actor", "Union (American Civil War)")
-                    .tag("impact", "wounded", "estimate", "1881", "world_actor", "United States", "world_actor", "Union (American Civil War)")
-                    .tag("impact", "captured or missing", "estimate", "1413", "world_actor", "United States", "world_actor", "Union (American Civil War)")
+                    .tag("impact", "casualties", "estimate", "3798", "world_actor", "United States")
+                    .tag("impact", "dead", "estimate", "504", "world_actor", "United States")
+                    .tag("impact", "wounded", "estimate", "1881", "world_actor", "United States")
+                    .tag("impact", "captured or missing", "estimate", "1413", "world_actor", "United States")
                     .tag("world_actor", "Confederate States of America", "role", "combatant")
                     .tag("impact", "casualties", "estimate", "1491", "world_actor", "Confederate States of America")
                     .tag("impact", "dead", "estimate", "361", "world_actor", "Confederate States of America")
@@ -188,18 +188,14 @@ public class WikiNexusTest {
                     .tag("event", "Peninsular War", "relationship", "part_of")
                     .tag("result", "Anglo-Portuguese victory, tactical French retreat")
                     .tag("world_actor", "United Kingdom", "role", "combatant")
-                    .tag("world_actor", "United Kingdom of Great Britain and Ireland", "role", "combatant")
                     .tag("world_actor", "Portugal", "role", "combatant")
-                    .tag("world_actor", "Kingdom of Portugal", "role", "combatant")
                     .tag("person", "Arthur Wellesley", "role", "commander", "world_actor", "United Kingdom")
-                    .tag("impact", "dead and wounded", "estimate", "487", "world_actor", "United Kingdom", "world_actor", "United Kingdom of Great Britain and Ireland", "world_actor", "Portugal", "world_actor", "Kingdom of Portugal")
+                    .tag("impact", "dead and wounded", "estimate", "487", "world_actor", "United Kingdom", "world_actor", "Portugal")
                     .tag("world_actor", "France", "role", "combatant")
-                    .tag("world_actor", "First French Empire", "role", "combatant")
                     .tag("world_actor", "Switzerland", "role", "combatant")
-                    .tag("world_actor", "Swiss Confederation (Napoleonic)", "role", "combatant")
                     .tag("person", "Henri Delaborde", "role", "commander", "world_actor", "France")
-                    .tag("impact", "dead and wounded", "estimate", "700", "world_actor", "France", "world_actor", "First French Empire", "world_actor", "Switzerland", "world_actor", "Swiss Confederation (Napoleonic)")
-                    .tag("impact", "guns captured", "estimate", "3", "world_actor", "France", "world_actor", "First French Empire", "world_actor", "Switzerland", "world_actor", "Swiss Confederation (Napoleonic)")
+                    .tag("impact", "dead and wounded", "estimate", "700", "world_actor", "France", "world_actor", "Switzerland")
+                    .tag("impact", "guns captured", "estimate", "3", "world_actor", "France", "world_actor", "Switzerland")
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Roli%C3%A7a"),
 
             // fixing bug with casualty parsing
@@ -216,12 +212,12 @@ public class WikiNexusTest {
                     .tag("impact", "dead", "low_estimate", "14", "estimate", "15", "high_estimate", "16", "world_actor", "United Kingdom")
                     .tag("impact", "wounded", "estimate", "14", "world_actor", "United Kingdom")
                     .tag("impact", "captured", "estimate", "1", "world_actor", "United Kingdom")
-                    .tag("impact", "dead", "low_estimate", "63", "estimate", "72", "high_estimate", "81", "world_actor", "Nazi Germany", "world_actor", "Germany")
-                    .tag("impact", "aircraft destroyed", "low_estimate", "57", "estimate", "59", "high_estimate", "61", "world_actor", "Nazi Germany", "world_actor", "Germany")
-                    .tag("impact", "aircraft damaged", "estimate", "20", "world_actor", "Nazi Germany", "world_actor", "Germany")
-                    .tag("impact", "captured", "low_estimate", "63", "estimate", "64", "high_estimate", "65", "world_actor", "Nazi Germany", "world_actor", "Germany")
-                    .tag("impact", "wounded", "low_estimate", "30", "estimate", "30", "high_estimate", "31", "world_actor", "Nazi Germany", "world_actor", "Germany")
-                    .tag("impact", "missing", "estimate", "21", "world_actor", "Nazi Germany", "world_actor", "Germany"),
+                    .tag("impact", "dead", "low_estimate", "63", "estimate", "72", "high_estimate", "81", "world_actor", "Nazi Germany")
+                    .tag("impact", "aircraft destroyed", "low_estimate", "57", "estimate", "59", "high_estimate", "61", "world_actor", "Nazi Germany")
+                    .tag("impact", "aircraft damaged", "estimate", "20", "world_actor", "Nazi Germany")
+                    .tag("impact", "captured", "low_estimate", "63", "estimate", "64", "high_estimate", "65", "world_actor", "Nazi Germany")
+                    .tag("impact", "wounded", "low_estimate", "30", "estimate", "30", "high_estimate", "31", "world_actor", "Nazi Germany")
+                    .tag("impact", "missing", "estimate", "21", "world_actor", "Nazi Germany"),
 
             // test naval casualties
             new TestPage("Naval Battle of Guadalcanal", false)
@@ -254,15 +250,38 @@ public class WikiNexusTest {
             new TestPage("Battle of Evesham", false).location(52.1058726, -1.9445372).range("1265-08-04"),
 
             // unparseable -- not actually a battle (it's a TV show)
-            new TestPage("Battle of the Seasons", false).unparseable(true)
+            new TestPage("Battle of the Seasons", false).unparseable(true),
+
+            // trouble parsing world_actors
+            new TestPage("Battle of Marsaglia", false)
+                    .tag("world_actor", "Kingdom of France", "role", "combatant")
+                    .tag("world_actor", "Duchy of Savoy", "role", "combatant")
+                    .tag("world_actor", "Spain", "role", "combatant"),
+
+            new TestPage("Battle of Ayacucho", false)
+                    .tag("world_actor", "Peru", "role", "combatant")
+                    .tag("world_actor", "Gran Colombia", "role", "combatant")
+                    .tag("world_actor", "Argentina", "role", "combatant")
+                    .tag("world_actor", "Chile", "role", "combatant")
+                    .tag("world_actor", "Foreign volunteers", "role", "combatant")
+                    .tag("world_actor", "British Legions", "role", "combatant")
+                    .tag("world_actor", "Monarchy of Spain", "role", "combatant")
+                    .tag("world_actor", "Spain", "role", "combatant")
+                    .tag("world_actor", "Viceroyalty of Perú", "role", "combatant")
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
-        validateCorrectNexus(TESTS[TESTS.length-1]);
-//        validateCorrectNexus(TESTS[2]);
+//        validateCorrectNexus(TESTS[TESTS.length-1]);
+//        validateCorrectNexus(TESTS[9]);
+//        validateCorrectNexus(findTest("Battle of Ayacucho"));
         for (TestPage test : TESTS) {
             validateCorrectNexus(test);
         }
+    }
+
+    private TestPage findTest(String title) {
+        for (TestPage p : TESTS) if (p.title.equals(title)) return p;
+        return die("findTest: not found: "+title);
     }
 
     public void validateCorrectNexus(TestPage test) {
@@ -276,8 +295,8 @@ public class WikiNexusTest {
         if (test.range != null) assertEquals(test.range, nexusRequest.getTimeRange());
         if (test.fullCheck) assertEquals("wrong # of tags for "+test.title, test.tags.size(), nexusRequest.getTagCount());
         for (NexusTag tag : test.tags) {
-            assertTrue("missing tag: "+tag.getTagType()+"/"+tag.getTagName(), nexusRequest.hasTag(tag.getTagName()));
-            assertTrue("tag doesn't match: "+tag.getTagName(), nexusRequest.hasExactTag(tag));
+            assertTrue("missing tag ("+test.title+"): "+tag.getTagType()+"/"+tag.getTagName(), nexusRequest.hasTag(tag.getTagName()));
+            assertTrue("tag doesn't match ("+test.title+"): "+tag.getTagName(), nexusRequest.hasExactTag(tag));
         }
     }
 

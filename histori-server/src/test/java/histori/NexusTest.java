@@ -58,7 +58,7 @@ public class NexusTest extends ApiClientTestBase {
         final Nexus nexus = newNexus(startDate, endDate, nexusName, headline);
         nexus.addTag(tag1);
         nexus.addTag(tag2, "world actor");
-        nexus.getTag("usa").setCommentary(new EntityCommentary(headline+" for the usa"));
+        nexus.getFirstTag("usa").setCommentary(new EntityCommentary(headline+" for the usa"));
         nexus.addTag(tag3, "citation");
 
         apiDocs.addNote("Define a new Nexus, and as a consequence, create some tags");
@@ -99,7 +99,7 @@ public class NexusTest extends ApiClientTestBase {
         apiDocs.addNote("Add another tag");
         String tag4 = "Foobar";
         nexus.addTag(tag4);
-        addTag(nexusPath, nexus.getTag("foobar"));
+        addTag(nexusPath, nexus.getFirstTag("foobar"));
 
         apiDocs.addNote("Lookup the Nexus we updated by uuid, verify updated changes");
         found = fromJson(get(nexusPath).json, Nexus.class);
@@ -118,18 +118,18 @@ public class NexusTest extends ApiClientTestBase {
 
         apiDocs.addNote("Update a tag");
         final String tagComments = randomName();
-        post(nexusPath+EP_TAGS+"/foobar", toJson(found.getTag(tag4).setCommentary(new EntityCommentary(tagComments))));
+        post(nexusPath+EP_TAGS+"/"+found.getFirstTag(tag4).getUuid(), toJson(found.getFirstTag(tag4).setCommentary(new EntityCommentary(tagComments))));
 
         apiDocs.addNote("Lookup Nexus again, verify updated tag");
         found = fromJson(get(nexusPath).json, Nexus.class);
-        assertEquals(tagComments, found.getTag(tag4.toLowerCase()).initCommentary().getHeadline());
+        assertEquals(tagComments, found.getFirstTag(tag4.toLowerCase()).initCommentary().getHeadline());
 
         apiDocs.addNote("Lookup previous versions, there should now be 2");
         NexusArchive[] archives = fromJson(get(ARCHIVES_ENDPOINT+"/Nexus/"+found.getUuid()).json, NexusArchive[].class);
         assertEquals(2, archives.length);
 
         apiDocs.addNote("Lookup previous versions of tag we just edited, there should now be 2");
-        NexusTagArchive[] tagArchives = fromJson(get(ARCHIVES_ENDPOINT+"/NexusTag/"+found.getTag(tag4.toLowerCase()).getUuid()).json, NexusTagArchive[].class);
+        NexusTagArchive[] tagArchives = fromJson(get(ARCHIVES_ENDPOINT+"/NexusTag/"+found.getFirstTag(tag4.toLowerCase()).getUuid()).json, NexusTagArchive[].class);
         assertEquals(2, tagArchives.length);
 
         apiDocs.addNote("Delete the nexus");

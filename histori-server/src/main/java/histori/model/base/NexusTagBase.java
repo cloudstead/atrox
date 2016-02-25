@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.cobbzilla.util.collection.ArrayUtil;
+import org.cobbzilla.wizard.validation.HasValue;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -36,10 +37,11 @@ public class NexusTagBase extends SocialEntity {
     @Column(length=NAME_MAXLEN)
     @Getter @Setter private String tagType;
 
-    @Size(max=32000, message="err.schemaValues.tooLong")
+    @HasValue(message="err.schemaValue.empty")
+    @Size(min=2, max=32000, message="err.schemaValues.tooLong")
     @Column(length=32000)
-    @JsonIgnore @Getter @Setter private String schemaValues;
-    public boolean hasSchemaValues () { return !empty(schemaValues); }
+    @JsonIgnore @Getter @Setter private String schemaValues = "[]";
+    public boolean hasSchemaValues () { return !empty(getValues()); }
 
     @Transient
     public TagSchemaValue[] getValues () { return empty(schemaValues) ? null : fromJsonOrDie(schemaValues, TagSchemaValue[].class); }
@@ -56,8 +58,8 @@ public class NexusTagBase extends SocialEntity {
         return this;
     }
 
-    private static final String[] ID_FIELDS = new String[]{"owner", "nexus", "tagName", "schemaValues"};
-    @Override public String[] getIdentifiers() { return new String[] {getOwner(), getNexus(), getTagName(), getSchemaValues()}; }
+    private static final String[] ID_FIELDS = new String[]{"uuid"};
+    @Override public String[] getIdentifiers() { return new String[] {getUuid()}; }
     @Override public String[] getIdentifierFields() { return ID_FIELDS; }
 
     @Override public String toString() { return getTagType()+"/"+getTagName(); }

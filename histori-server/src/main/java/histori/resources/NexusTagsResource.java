@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.string.ValidationRegexes;
 import org.cobbzilla.wizard.validation.ValidationResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -25,17 +26,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static histori.model.CanonicalEntity.canonicalize;
+import static histori.model.tag_schema.TagSchemaFieldType.event;
+import static histori.model.tag_schema.TagSchemaFieldType.person;
+import static histori.model.tag_schema.TagSchemaFieldType.world_actor;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
+import static org.cobbzilla.util.string.StringUtil.urlDecode;
 import static org.cobbzilla.wizard.resources.ResourceUtil.*;
 
 /**
- * GET    /{nameOrUuid}/tags        -- find tags for a nexus
- * GET    /{nameOrUuid}/tags/{name} -- find tags with a name
+ * GET    /{nameOrUuid}/tags        -- find all tags for a nexus
+ * GET    /{nameOrUuid}/tags/{name} -- find all tags with name
  * PUT    /{nameOrUuid}/tags/{name} -- create tag by name
- * POST   /{nameOrUuid}/tags/{name} -- update tag by name
- * DELETE /{nameOrUuid}/tags/{name} -- delete tag by name
+ * POST   /{nameOrUuid}/tags/{uuid} -- update tag by uuid
+ * DELETE /{nameOrUuid}/tags/{uuid} -- delete tag by uuid
  */
 @SuppressWarnings("SpringJavaAutowiredMembersInspection")
 @Consumes(APPLICATION_JSON)
@@ -45,6 +50,8 @@ public class NexusTagsResource {
 
     private static final String[] CREATE_FIELDS = {"schemaValues", "commentary"};
     private static final String[] UPDATE_FIELDS = CREATE_FIELDS;
+
+    public static final String ENCODE_PREFIX = "~";
 
     @Autowired private NexusTagDAO nexusTagDAO;
     @Autowired private TagDAO tagDAO;
@@ -56,9 +63,12 @@ public class NexusTagsResource {
 
     class NexusTagContext {
         public Account account;
+        public NexusTag nexusTag;
         public Response response;
-        public boolean requireOwner = false;
         public boolean hasResponse () { return response != null; }
+
+        public NexusTagContext (HttpContext ctx) { this(ctx, true); }
+
         public NexusTagContext(HttpContext ctx, boolean requireOwner) {
             account = (Account) (requireOwner ? userPrincipal(ctx) : optionalUserPrincipal(ctx));
             if (nexus == null) response = notFound();
@@ -66,7 +76,13 @@ public class NexusTagsResource {
                 if (account == null || !nexus.getOwner().equals(account.getUuid())) response = forbidden();
             }
         }
-        public NexusTagContext (HttpContext ctx) { this(ctx, true); }
+
+        public NexusTagContext(HttpContext ctx, String uuid) {
+            this(ctx, true);
+            nexusTag = nexusTagDAO.findByUuid(uuid);
+            if (nexusTag == null) response = notFound(uuid);
+            if (account == null || !nexusTag.getOwner().equals(account.getUuid())) response = forbidden();
+        }
     }
 
     /**
@@ -97,7 +113,7 @@ public class NexusTagsResource {
      * @return a list of tags
      */
     @GET
-    @Path("/{tagName}")
+    @Path("/{tagName: .+}")
     public Response findTag(@Context HttpContext context,
                             @PathParam("tagName") String tagName,
                             @QueryParam("visibility") String visibility) {
@@ -105,24 +121,24 @@ public class NexusTagsResource {
         final NexusTagContext ctx = new NexusTagContext(context);
         if (ctx.hasResponse()) return ctx.response;
 
+        while (tagName.startsWith(ENCODE_PREFIX)) tagName = urlDecode(tagName.substring(1));
+
         final EntityVisibility vis = EntityVisibility.create(visibility, EntityVisibility.everyone);
         return ok(nexusTagDAO.findByNexusAndName(ctx.account, nexus.getUuid(), tagName, vis));
     }
 
     @PUT
-    @Path("/{tagName}")
+    @Path("/{tagName: .+}")
     public Response createTag(@Context HttpContext context,
                               @PathParam("tagName") String tagName,
                               @Valid NexusTag nexusTag) {
-
         final NexusTagContext ctx = new NexusTagContext(context, true);
         if (ctx.hasResponse()) return ctx.response;
 
+        while (tagName.startsWith(ENCODE_PREFIX)) tagName = urlDecode(tagName.substring(1));
+
         final String canonical = canonicalize(tagName);
         if (!canonicalize(nexusTag.getTagName()).equals(canonical)) return invalid("err.tagName.mismatch");
-
-        final NexusTag found = nexusTagDAO.findByNexusAndOwnerAndName(nexus.getUuid(), ctx.account, tagName);
-        if (found != null) return invalid("err.tagExists");
 
         TagType tagType = tagTypeDAO.findByCanonicalName(nexusTag.getTagType());
         if (tagType == null) {
@@ -139,38 +155,50 @@ public class NexusTagsResource {
         final Response validationResult = validateTagSchema(nexusTag, tagType);
         if (validationResult != null) return validationResult;
 
-        final NexusTag newTag = new NexusTag();
+        NexusTag newTag = new NexusTag();
         copy(newTag, nexusTag, CREATE_FIELDS);
-        newTag
-                .setNexus(nexus.getUuid())
+        newTag.setNexus(nexus.getUuid())
                 .setTagName(canonical)
                 .setTagType(tagType == null ? null : tagType.getCanonicalName())
                 .setOwner(ctx.account.getUuid());
 
-        return ok(nexusTagDAO.create(newTag));
+        try {
+            newTag = nexusTagDAO.create(newTag);
+        } catch (DataIntegrityViolationException e) {
+            log.warn("Duplicate tag, not creating: " + newTag);
+        }
+        return ok(newTag);
     }
 
     @POST
-    @Path("/{tagName}")
+    @Path("/{uuid: .+}")
     public Response updateTag(@Context HttpContext context,
-                              @PathParam("tagName") String tagName,
+                              @PathParam("uuid") String tagUuid,
                               @Valid NexusTag nexusTag) {
 
-        final NexusTagContext ctx = new NexusTagContext(context, true);
+        final NexusTagContext ctx = new NexusTagContext(context, tagUuid);
         if (ctx.hasResponse()) return ctx.response;
 
-        if (!nexusTag.getTagName().equals(tagName)) return invalid("err.tagName.mismatch");
-
-        final NexusTag found = nexusTagDAO.findByNexusAndOwnerAndName(nexus.getUuid(), ctx.account, tagName);
-        if (found == null) return notFound(tagName);
-
-        final TagType tagType = tagTypeDAO.findByCanonicalName(found.getTagType());
+        final TagType tagType = tagTypeDAO.findByCanonicalName(ctx.nexusTag.getTagType());
         final Response validationResult = validateTagSchema(nexusTag, tagType);
         if (validationResult != null) return validationResult;
 
-        copy(found, nexusTag, UPDATE_FIELDS);
+        copy(ctx.nexusTag, nexusTag, UPDATE_FIELDS);
+        ctx.nexusTag.setNexus(nexus.getUuid());
 
-        return ok(nexusTagDAO.update(found));
+        return ok(nexusTagDAO.update(ctx.nexusTag));
+    }
+
+    @DELETE
+    @Path("/{uuid: .+}")
+    public Response deleteTag(@Context HttpContext context,
+                              @PathParam("uuid") String tagUuid) {
+
+        final NexusTagContext ctx = new NexusTagContext(context, tagUuid);
+        if (ctx.hasResponse()) return ctx.response;
+
+        nexusTagDAO.delete(ctx.nexusTag.getUuid());
+        return ok();
     }
 
     public Response validateTagSchema(@Valid NexusTag nexusTag, TagType tagType) {
@@ -234,6 +262,10 @@ public class NexusTagsResource {
                 case idea:
                 case result:
                 case tag:
+                    if (value.length() < 2) {
+                        log.warn("Ignoring short value: "+value);
+                        continue;
+                    }
                     found = tagDAO.findByCanonicalName(value);
                     if (found == null) {
                         // create a new tag...
@@ -242,7 +274,14 @@ public class NexusTagsResource {
                         newTag = tagDAO.create(newTag);
 
                     } else if (!found.getTagType().equals(field.getFieldType().name())) {
-                        addViolation(result, fieldName, "wrongType");
+                        // allow "persons" and "events" to be upgraded to "world actor"
+                        if ((found.getTagType().equals(person.name()) || found.getTagType().equals(event.name()))
+                                && field.getFieldType().equals(world_actor)) {
+                            found.setTagType(world_actor.name());
+                            tagDAO.update(found);
+                        } else {
+                            addViolation(result, fieldName, "wrongType");
+                        }
                     }
                     break;
 

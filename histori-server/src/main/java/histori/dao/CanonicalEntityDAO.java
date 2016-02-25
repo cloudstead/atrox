@@ -1,6 +1,7 @@
 package histori.dao;
 
 import histori.model.CanonicalEntity;
+import org.cobbzilla.wizard.dao.AbstractCRUDDAO;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.Valid;
@@ -14,7 +15,7 @@ import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
 import static org.hibernate.criterion.Restrictions.in;
 
 @Repository
-public class CanonicalEntityDAO<E extends CanonicalEntity> extends VersionedEntityDAO<E> {
+public class CanonicalEntityDAO<E extends CanonicalEntity> extends AbstractCRUDDAO<E> {
 
     @Override public Object preCreate(@Valid E entity) {
         if (findByCanonicalName(entity.getCanonicalName()) != null) throw invalidEx("err.name.notUnique");

@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import org.cobbzilla.wizard.model.Identifiable;
 import org.cobbzilla.wizard.validation.HasValue;
 
 import javax.persistence.*;
@@ -15,7 +16,7 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
 
 @MappedSuperclass @NoArgsConstructor @Accessors(chain=true) @ToString(of="canonicalName")
-public abstract class CanonicalEntity implements VersionedEntity {
+public abstract class CanonicalEntity implements Identifiable {
 
     public CanonicalEntity(String name) { setName(name); }
 
@@ -39,7 +40,7 @@ public abstract class CanonicalEntity implements VersionedEntity {
 
     @Column(length=NAME_MAXLEN, unique=true, nullable=false)
     @HasValue(message="err.name.empty")
-    @Size(min=2, max=NAME_MAXLEN, message="err.name.tooLong")
+    @Size(min=2, max=NAME_MAXLEN, message="err.name.length")
     @Getter private String name;
     public CanonicalEntity setName (String val) {
         final String canonical = canonicalize(val);
@@ -53,9 +54,4 @@ public abstract class CanonicalEntity implements VersionedEntity {
     @Getter @Setter private String aliasFor;
 
     @Getter @Setter private int version;
-
-    private static final String[] ID_FIELDS = {"canonicalName"};
-    @Override public String[] getIdentifiers() { return new String[] { getCanonicalName() }; }
-    @Override public String[] getIdentifierFields() { return ID_FIELDS; }
-
 }

@@ -3,6 +3,7 @@ package histori.main;
 import histori.model.Nexus;
 import histori.model.NexusTag;
 import histori.model.support.NexusRequest;
+import histori.model.tag_schema.TagSchemaFieldType;
 import org.apache.commons.io.FileUtils;
 import org.cobbzilla.wizard.client.ApiClientBase;
 
@@ -11,6 +12,8 @@ import java.util.Iterator;
 
 import static histori.ApiConstants.EP_TAGS;
 import static histori.ApiConstants.NEXUS_ENDPOINT;
+import static histori.resources.NexusTagsResource.ENCODE_PREFIX;
+import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.http.HttpStatusCodes.NOT_FOUND;
 import static org.cobbzilla.util.io.FileUtil.abs;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
@@ -51,11 +54,25 @@ public class NexusImportMain extends HistoriApiMain<NexusImportOptions> {
             final Nexus created = fromJson(api.put(path, toJson(request)).json, Nexus.class);
             if (request.hasTags()) {
                 for (NexusTag tag : request.getTags()) {
-                    tag.setNexus(created.getUuid());
-                    api.put(path + "/" + EP_TAGS + "/" + urlEncode(tag.getTagName()), toJson(tag));
+                    if (empty(tag.getTagName())) {
+                        out("Empty tag: "+tag);
+                        continue;
+
+                    } else if (!tag.getTagType().equals(TagSchemaFieldType.result.name()) && tag.getTagName().length() > 100) {
+                        err("Suspiciously long tag name (title="+request.getName()+"), skipping: "+tag);
+                        continue;
+
+                    } else if (tag.getTagName().length() < 2) {
+                        err("Suspiciously short tag name (title="+request.getName()+"), skipping: "+tag);
+                        continue;
+                    }
+                    String encoded = urlEncode(ENCODE_PREFIX + urlEncode(tag.getTagName()));
+                    api.put(path + EP_TAGS + "/" + encoded, toJson(tag));
                 }
             }
+            out("imported: "+request.getName()+" (with "+request.getTagCount()+" tags)");
+        } else {
+            out("already imported: "+request.getName()+" (with "+request.getTagCount()+" tags)");
         }
-        out("imported: "+request.getName()+" (with "+request.getTagCount()+" tags)");
     }
 }

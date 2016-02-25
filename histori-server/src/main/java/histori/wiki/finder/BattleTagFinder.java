@@ -6,11 +6,9 @@ import histori.model.support.RoleType;
 import histori.wiki.WikiNode;
 import histori.wiki.WikiNodeType;
 import lombok.extern.slf4j.Slf4j;
+import org.cobbzilla.util.collection.SingletonSet;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,6 +22,8 @@ public class BattleTagFinder extends TagFinderBase {
     public static final String INFOBOX_MILITARY_CONFLICT = "Infobox military conflict";
     public static final String HTML_TAG_REGEX = "(<|&lt;)\\s*\\w+\\s*/?\\s*(>|&gt;)";
     public static final String HTML_BR_REGEX = "(<|&lt;)\\s*([Bb][Rr])\\s*/?\\s*(>|&gt;)";
+    public static final Pattern HTML_BR_PATTERN = Pattern.compile(".*"+HTML_BR_REGEX+".*");
+    public static final Pattern HTML_CENTER_PATTERN = Pattern.compile(".*(<|&lt;)\\s*center\\s*\\s*(>|&gt;).+?(<|&lt;)\\s*/center\\s*\\s*(>|&gt;).*", Pattern.MULTILINE|Pattern.DOTALL);
 
     public static final int MIN_VALID_NAME_LENGTH = 3;
 
@@ -56,7 +56,7 @@ public class BattleTagFinder extends TagFinderBase {
         for (WikiNode child : infobox.getChildren()) {
             if (child.getType() == WikiNodeType.attribute) {
                 if (child.getName().startsWith("combatant")) {
-                    final String[] combatants = parseCombatants(child);
+                    final Set<String> combatants = parseCombatants(child);
                     for (String combatant : combatants) {
                         tags.add(newTag(combatant.trim(), "world_actor", "role", RoleType.combatant.name()));
                     }
@@ -173,10 +173,10 @@ public class BattleTagFinder extends TagFinderBase {
     public NexusTag impactTag(String activeFlag, String casualty, String casualtyType) {
         final Long[] estimate = extractEstimate(casualty);
         if (casualtyType == null) casualtyType = getCasualtyType(casualty);
-        return newImpactTag(new String[]{activeFlag}, estimate, casualtyType);
+        return newImpactTag(new SingletonSet<>(activeFlag), estimate, casualtyType);
     }
 
-    public NexusTag impactTag(String[] activeFlags, String casualty, String casualtyType) {
+    public NexusTag impactTag(Set<String> activeFlags, String casualty, String casualtyType) {
         final Long[] estimate = extractEstimate(casualty);
         if (estimate == null) return null;
         return newImpactTag(activeFlags, estimate, casualtyType);
@@ -228,6 +228,9 @@ public class BattleTagFinder extends TagFinderBase {
         flag = node.findFirstWithName(WikiNodeType.infobox, "flag");
         if (flag != null) return flag.firstChildName();
 
+        flag = node.findFirstWithName(WikiNodeType.infobox, "flagcountry");
+        if (flag != null) return flag.firstChildName();
+
         flag = node.findFirstWithName(WikiNodeType.infobox, "flagicon");
         if (flag != null) return flag.firstChildName();
 
@@ -259,61 +262,94 @@ public class BattleTagFinder extends TagFinderBase {
         return result;
     }
 
-    public String[] parseCombatants(WikiNode targetNode) {
+    public Set<String> parseCombatants(WikiNode targetNode) {
         final Set<String> found = new LinkedHashSet<>();
         boolean skippingComment = false;
+        // group tags separated by a <br>
+        final List<List<WikiNode>> nodeGroups = new ArrayList<>();
+        List<WikiNode> activeGroup = new ArrayList<>();
+        nodeGroups.add(activeGroup);
         for (WikiNode child : targetNode.getChildren()) {
-            switch (child.getType()) {
-                case string:
-                    // detect and skip HTML comments
-                    if (child.getName().trim().startsWith("&lt;!--")) {
-                        skippingComment = true; continue;
-                    }
-                    if (child.getName().trim().endsWith("--&gt;")) {
-                        skippingComment = false; continue;
-                    }
-                    if (skippingComment) continue;
-                    for (String combatant : child.getName().split(HTML_TAG_REGEX)) {
-                        if (trimName(combatant).length() > 0) found.add(combatant.trim());
-                    }
-                    break;
-                case link:
-                    String name = child.getName().toLowerCase().trim();
-                    if (!name.startsWith("file:") && !name.startsWith("image:")) {
-                        for (String combatant : child.getName().split(HTML_TAG_REGEX)) {
-                            if (trimName(combatant).length() > 0) found.add(combatant.trim());
-                        }
-                    }
-                    break;
-
-                case plainlist:
-                    if (!child.hasChildren()) continue;
-                    for (WikiNode entry : child.getChildren()) {
-                        if (entry.getType() == WikiNodeType.plainlist_entry) {
-                            String flagName = getFlagName(entry);
-                            addCombatant(found, flagName);
-                        }
-                    }
-                    break;
-
-                case infobox:
-                    if (child.getName().equalsIgnoreCase("plainlist")) {
-                        for (WikiNode nestedChild : child.getChildren()) {
-                            if (nestedChild.getName().equals("flag")) continue;
-                            addCombatant(found, getFlagName(nestedChild));
-                            break;
-                        }
-                    } else if (child.hasChildren()
-                            && (child.getName().equalsIgnoreCase("flag")
-                             || child.getName().equalsIgnoreCase("flagicon")
-                             || child.getName().equalsIgnoreCase("flagicon image"))) {
-                        addCombatant(found, getFlagName(child));
-                    }
-
-                default: continue;
+            if (child.getType().isString()
+                    && hasLineTerminator(child)
+                    && !activeGroup.isEmpty()) {
+                activeGroup = new ArrayList<>();
+                nodeGroups.add(activeGroup);
+            }
+            activeGroup.add(child);
+            if (child.getType().isString() && (child.getName().trim().endsWith("\n*") || HTML_BR_PATTERN.matcher(child.getName().trim().toLowerCase()).matches())) {
+                activeGroup = new ArrayList<>();
+                nodeGroups.add(activeGroup);
             }
         }
-        return found.toArray(new String[found.size()]);
+        // iterate over node groups, max 1 world_actor per group
+        for (List<WikiNode> nodeGroup : nodeGroups) {
+            final Set<String> foundInGroup = new HashSet<>();
+            for (WikiNode child : nodeGroup) {
+                switch (child.getType()) {
+                    case string:
+                        // detect and skip HTML comments
+                        String trimmed = child.getName().trim();
+                        String trimmedLower = trimmed.toLowerCase();
+                        if (trimmedLower.startsWith("&lt;!--")) {
+                            skippingComment = true;
+                            continue;
+                        }
+                        if (trimmedLower.endsWith("--&gt;")) {
+                            skippingComment = false;
+                            continue;
+                        }
+                        if (skippingComment) continue;
+                        if (trimmed.length() == 0 || trimmedLower.startsWith("&lt;ref")) continue;
+                        if (HTML_CENTER_PATTERN.matcher(trimmedLower).matches()) continue;
+                        for (String combatant : child.getName().split(HTML_TAG_REGEX)) {
+                            if (trimName(combatant).length() > 0) foundInGroup.add(combatant.trim());
+                        }
+                        break;
+
+                    case link:
+                        String name = child.getName().toLowerCase().trim();
+                        if (!name.startsWith("file:") && !name.startsWith("image:")) {
+                            for (String combatant : child.getName().split(HTML_TAG_REGEX)) {
+                                if (trimName(combatant).length() > 0) foundInGroup.add(combatant.trim());
+                            }
+                        }
+                        break;
+
+                    case plainlist:
+                        if (!child.hasChildren()) continue;
+                        for (WikiNode entry : child.getChildren()) {
+                            if (entry.getType() == WikiNodeType.plainlist_entry) {
+                                String flagName = getFlagName(entry);
+                                addCombatant(foundInGroup, flagName);
+                            }
+                        }
+                        break;
+
+                    case infobox:
+                        if (child.getName().equalsIgnoreCase("plainlist")) {
+                            for (WikiNode nestedChild : child.getChildren()) {
+                                if (nestedChild.getName().equals("flag")) continue;
+                                addCombatant(foundInGroup, getFlagName(nestedChild));
+                                break;
+                            }
+                        } else if (child.hasChildren()
+                                && (child.getName().equalsIgnoreCase("flag")
+                                || child.getName().equalsIgnoreCase("flagcountry")
+                                || child.getName().equalsIgnoreCase("flagicon")
+                                || child.getName().equalsIgnoreCase("flagicon image"))) {
+                            addCombatant(foundInGroup, getFlagName(child));
+                        }
+                }
+                if (!foundInGroup.isEmpty()) break;
+            }
+            found.addAll(foundInGroup);
+        }
+        return found;
+    }
+
+    public boolean hasLineTerminator(WikiNode child) {
+        return HTML_BR_PATTERN.matcher(child.getName()).matches() || child.getName().trim().matches("\\*+");
     }
 
     public String addCombatant(Set<String> found, String flagText) {
@@ -414,7 +450,7 @@ public class BattleTagFinder extends TagFinderBase {
         return name == null ? "" : name.replaceAll("\\W", "").toLowerCase().trim();
     }
 
-    public NexusTag newImpactTag(String[] combatants, Long[] estimate, String tagName) {
+    public NexusTag newImpactTag(Set<String> combatants, Long[] estimate, String tagName) {
         if (estimate == null || estimate.length == 0 || tagName == null) return null; // todo: log this?
         final NexusTag tag;
         switch (estimate.length) {
@@ -433,7 +469,7 @@ public class BattleTagFinder extends TagFinderBase {
         return addCombatants(tag, combatants);
     }
 
-    public NexusTag addCombatants(NexusTag tag, String[] combatants) {
+    public NexusTag addCombatants(NexusTag tag, Set<String> combatants) {
         for (String combatant : combatants) {
             tag.setValue("world_actor", combatant.trim());
         }

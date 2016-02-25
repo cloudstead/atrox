@@ -39,6 +39,12 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
                         eq("name", nameOrUuid) ))));
     }
 
+    public Nexus findByOwnerAndUuid(Account account, String uuid) {
+        return uniqueResult(criteria().add(and(
+                eq("owner", account.getUuid()),
+                eq("uuid", uuid))));
+    }
+
     /**
      * Find all publicly-viewable nexus in the range
      * @param range the time range to search
