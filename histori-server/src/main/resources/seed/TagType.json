@@ -72,7 +72,7 @@
   { "name": "Meta",
     "schema": {
       "fields": [
-        {"name": "name", "fieldType": "meta_type", "multiple": false},
+        {"name": "name", "fieldType": "string", "multiple": false},
         {"name": "value", "fieldType": "string", "multiple": true}
       ]
     }
