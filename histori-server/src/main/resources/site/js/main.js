@@ -622,7 +622,7 @@ function update_map (data) {
 var marker_colors = ['blue', 'brown', 'darkgreen', 'green', 'orange', 'paleblue', 'pink', 'purple', 'red', 'yellow'];
 function get_marker_image (nexus) {
     if (typeof nexus.nexusType != "undefined" && nexus.nexusType != null) {
-        var color = marker_colors[ nexus.nexusType.hashCode() % marker_colors.length ];
+        var color = marker_colors[ Math.abs((nexus.nexusType.hashCode() + 6) % marker_colors.length) ];
         var initial = nexus.nexusType.charAt(0).toUpperCase();
         return '/markers/' + color + '_Marker' + initial + '.png';
     }
