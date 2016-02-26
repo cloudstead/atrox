@@ -38,6 +38,12 @@ public class NexusBase extends SocialEntity {
     @Size(min=2, max=NAME_MAXLEN, message="err.name.length")
     @Getter @Setter private String name;
 
+    // Which event_type tag is "primary" (if there is only 1 then it is here by default)
+    @Column(length=NAME_MAXLEN)
+    @Size(max=NAME_MAXLEN, message="err.nexusType.length")
+    @Getter @Setter private String nexusType;
+    public boolean hasNexusType () { return !empty(nexusType); }
+
     @Embedded @Getter @Setter private TimeRange timeRange;
 
     @Size(max=GEOJSON_MAXLEN, message="err.geolocation.tooLong")

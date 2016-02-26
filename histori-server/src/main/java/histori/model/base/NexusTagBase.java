@@ -1,6 +1,7 @@
 package histori.model.base;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import histori.model.NexusTag;
 import histori.model.SocialEntity;
 import histori.model.tag_schema.TagSchemaValue;
 import lombok.Getter;
@@ -13,9 +14,7 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static histori.ApiConstants.NAME_MAXLEN;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
@@ -76,6 +75,23 @@ public class NexusTagBase extends SocialEntity {
             found.add(val.getValue());
         }
         return map;
+    }
+
+    public static List<NexusTag> filterByType(List<NexusTag> tags, String type) {
+        final List<NexusTag> found = new ArrayList<>();
+        if (!empty(tags)) {
+            for (NexusTag tag : tags) {
+                if (tag.getTagType().equalsIgnoreCase(type)) found.add(tag);
+            }
+        }
+        return found;
+    }
+
+    public static boolean containsEventTypeTag(List<NexusTag> tags, String type) {
+        if (!empty(tags)) {
+            for (NexusTag tag : tags) if (tag.getTagType().equalsIgnoreCase(type)) return true;
+        }
+        return false;
     }
 
     public class SchemaValueMap extends HashMap<String, Set<String>> {

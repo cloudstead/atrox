@@ -44,8 +44,8 @@ import static org.cobbzilla.wizard.util.SpringUtil.autowire;
 @Service @Slf4j
 public class NexusResource {
 
-    public static final String[] CREATE_FIELDS = {"name", "geoJson", "timeRange", "commentary", "visibility"};
-    public static final String[] UPDATE_FIELDS = {"geoJson", "timeRange", "commentary", "visibility"};
+    public static final String[] CREATE_FIELDS = {"name", "nexusType", "geoJson", "timeRange", "commentary", "visibility"};
+    public static final String[] UPDATE_FIELDS = {"geoJson", "nexusType", "timeRange", "commentary", "visibility"};
 
     @Autowired private HistoriConfiguration configuration;
     @Autowired private NexusDAO nexusDAO;
@@ -115,7 +115,9 @@ public class NexusResource {
         if (!account.isAdmin() && !account.getUuid().equals(nexus.getOwner())) return forbidden();
 
         copy(nexus, request, UPDATE_FIELDS);
-        return ok(nexusDAO.update(nexus));
+        final Nexus updated = nexusDAO.update(nexus);
+        updated.setTags(nexusTagDAO.findByNexusAndOwner(account, nexus.getUuid()));
+        return ok(updated);
     }
 
     @DELETE

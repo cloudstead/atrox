@@ -2,11 +2,13 @@ package histori.dao;
 
 import histori.model.Account;
 import histori.model.Nexus;
+import histori.model.NexusTag;
 import histori.model.support.EntityVisibility;
 import histori.model.support.GeoBounds;
 import histori.model.support.TimeRange;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.Valid;
@@ -20,14 +22,58 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
 
     public static final int MAX_RESULTS = 40;
 
+    @Autowired private NexusTagDAO nexusTagDAO;
+
     @Override public Object preCreate(@Valid Nexus entity) {
         entity.prepareForSave();
+
+        // ensure tag is present, or create it if not
+        if (entity.hasNexusType()) {
+            return new NexusTag().setTagName(entity.getNexusType()).setTagType("event_type");
+        }
+
         return super.preCreate(entity);
     }
 
     @Override public Object preUpdate(@Valid Nexus entity) {
         entity.prepareForSave();
+
+        // what tags already exist?
+        final List<NexusTag> nexusTags = nexusTagDAO.findByNexusAndOwner(entity.getOwner(), entity.getUuid());
+
+        // ensure event_type tag corresponding to nexusType is present, or create it if not
+        if (entity.hasNexusType()) {
+            if (!NexusTag.containsEventTypeTag(nexusTags, entity.getNexusType())) {
+                return new NexusTag().setTagName(entity.getNexusType()).setTagType("event_type");
+            } else {
+                // nexusType already matches one of the event_type tags
+            }
+        } else {
+            final List<NexusTag> eventTypeTags = NexusTag.filterByType(nexusTags, "event_type");
+            if (!eventTypeTags.isEmpty()) {
+                entity.setNexusType(eventTypeTags.get(0).getTagName());
+            }
+        }
+
         return super.preUpdate(entity);
+    }
+
+    @Override public Nexus postCreate(Nexus entity, Object context) {
+        createEventTypeTag(entity, context);
+        return super.postCreate(entity, context);
+    }
+
+    @Override public Nexus postUpdate(@Valid Nexus entity, Object context) {
+        createEventTypeTag(entity, context);
+        return super.postUpdate(entity, context);
+    }
+
+    public void createEventTypeTag(Nexus entity, Object context) {
+        if (context instanceof NexusTag) {
+            final NexusTag tag = (NexusTag) context;
+            // create the event_type tag
+            nexusTagDAO.create((NexusTag) tag.setNexus(entity.getUuid()).setOwner(entity.getOwner()));
+        }
     }
 
     public Nexus findByOwnerAndName(Account account, String name) {

@@ -36,7 +36,7 @@ public abstract class SocialEntity extends AccountOwnedEntity implements Version
 
     @Getter @Setter private int version;
 
-    @Transient private VoteSummary votes;
+    @Transient @Getter @Setter private VoteSummary votes;
 
     public Map<String, String> getBounds(TimePoint start, TimePoint end) {
         final Map<String, String> bounds = new HashMap<>();

@@ -28,10 +28,22 @@ public class NexusTagDAO extends VersionedEntityDAO<NexusTag> {
      * @return list of NexusTags
      */
     public List<NexusTag> findByNexusAndOwner(Account account, String uuid) {
+        return findByNexusAndOwner(account.getUuid(), uuid);
+    }
+
+    public List<NexusTag> findByNexusAndOwner(String accountUuid, String nexusUuid) {
         return list(criteria().add(
                 and(
-                        eq("nexus", uuid),
-                        eq("owner", account.getUuid()))));
+                        eq("nexus", nexusUuid),
+                        eq("owner", accountUuid))));
+    }
+
+    public List<NexusTag> findByNexusAndOwnerAndType(String accountUuid, String nexusUuid, String tagType) {
+        return list(criteria().add(
+                and(
+                        eq("nexus", nexusUuid),
+                        eq("tagType", tagType),
+                        eq("owner", accountUuid))));
     }
 
     public List<NexusTag> findByNexus(Account account, String uuid, EntityVisibility visibility) {
@@ -49,12 +61,12 @@ public class NexusTagDAO extends VersionedEntityDAO<NexusTag> {
                     // return public stuff + anything owned by the caller that is not hidden
                     return list(criteria().add(
                             and(eq("nexus", uuid),
-                                or(
-                                        eq("visibility", EntityVisibility.everyone),
-                                        and(
-                                                eq("owner", account.getUuid()),
-                                                ne("visibility", EntityVisibility.hidden))
-                                        ))));
+                                    or(
+                                            eq("visibility", EntityVisibility.everyone),
+                                            and(
+                                                    eq("owner", account.getUuid()),
+                                                    ne("visibility", EntityVisibility.hidden))
+                                    ))));
                 }
 
             case owner:
@@ -93,7 +105,7 @@ public class NexusTagDAO extends VersionedEntityDAO<NexusTag> {
                     // return public stuff + anything owned by the caller that is not hidden
                     return list(criteria().add(
                             and(eq("nexus", uuid),
-                                eq("tagName", tagName),
+                                    eq("tagName", tagName),
                                     or(
                                             eq("visibility", EntityVisibility.everyone),
                                             and(

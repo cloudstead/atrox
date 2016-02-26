@@ -8,6 +8,8 @@ import org.cobbzilla.wizard.dao.SearchResults;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static histori.ApiConstants.*;
 import static histori.model.CanonicalEntity.canonicalize;
 import static org.cobbzilla.util.http.HttpStatusCodes.NOT_FOUND;
@@ -61,7 +63,7 @@ public class NexusTest extends ApiClientTestBase {
         nexus.getFirstTag("usa").setCommentary(new EntityCommentary(headline+" for the usa"));
         nexus.addTag(tag3, "citation");
 
-        apiDocs.addNote("Define a new Nexus, and as a consequence, create some tags");
+        apiDocs.addNote("Define a new Nexus");
         Nexus createdNexus = createNexus(nexusName, nexus);
 
         final String nexusPath = NEXUS_ENDPOINT + "/" + createdNexus.getUuid();
@@ -173,6 +175,56 @@ public class NexusTest extends ApiClientTestBase {
         apiDocs.addNote("Test autocomplete for only tags without a type");
         autoComplete = fromJson(get(autocompleteUri +"/" + MATCH_NULL_TYPE + acQuery).json, AutocompleteSuggestions.class);
         assertEquals(1, autoComplete.getSuggestions().size());
+    }
+
+    @Test public void testEventTypeAutoTagging () throws Exception {
+
+        Nexus found;  // when we lookup by id
+        NexusSummary result; // when we use the search api
+
+        apiDocs.startRecording(DOC_TARGET, "Verify auto-tagging from Nexus.nexusType <-> NexusTag(event_type, name)");
+
+        // define a range of one day of a random year in the distant past
+        final TimeRange range = randomTimeRange();
+        final String startDate = range.getStartPoint().toString();
+        final String endDate = range.getEndPoint().toString();
+
+        final String nexusName = randomName();
+
+        // Create a new Nexus with a random event_type
+        final String headline = randomName();
+        final Nexus nexus = newNexus(startDate, endDate, nexusName, headline);
+        final String nexusType = randomName();
+        nexus.setNexusType(nexusType);
+
+        apiDocs.addNote("Define a new Nexus with a nexusType, should automatically create an eventType tag");
+        Nexus createdNexus = createNexus(nexusName, nexus);
+
+        final String nexusPath = NEXUS_ENDPOINT + "/" + createdNexus.getUuid();
+
+        apiDocs.addNote("Lookup the Nexus we created by name, verify it has a single event_type tag");
+        found = fromJson(get(NEXUS_ENDPOINT+"/"+urlEncode(nexus.getName())).json, Nexus.class);
+        assertEquals(nexusName, found.getName());
+        assertEquals(nexusType, found.getNexusType());
+        assertEquals(1, found.getTags().size());
+        assertEquals("event_type", found.getTags().get(0).getTagType());
+        assertEquals(nexusType, found.getTags().get(0).getTagName());
+
+        apiDocs.addNote("Update our nexus with a new nexusType, this should create another event_type tag");
+        final String updatedType = nexusType + " -- update";
+        nexus.setNexusType(updatedType);
+        final Nexus updatedNexus = fromJson(post(nexusPath, toJson(nexus)).json, Nexus.class);
+        assertEquals(updatedType, updatedNexus.getNexusType());
+        assertEquals(2, updatedNexus.getTags().size());
+        final List<NexusTag> typeTags = NexusTag.filterByType(updatedNexus.getTags(), "event_type");
+        assertEquals(2, typeTags.size());
+        assertEquals("event_type", typeTags.get(0).getTagType());
+        assertEquals("event_type", typeTags.get(1).getTagType());
+        if (typeTags.get(0).getTagName().equals(nexusType)) {
+            assertEquals(updatedType, typeTags.get(1).getTagName());
+        } else {
+            assertEquals(nexusType, typeTags.get(0).getTagName());
+        }
     }
 
 }
