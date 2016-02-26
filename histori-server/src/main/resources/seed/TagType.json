@@ -68,5 +68,13 @@
         {"name": "name", "fieldType": "event_type", "multiple": false}
       ]
     }
+  },
+  { "name": "Meta",
+    "schema": {
+      "fields": [
+        {"name": "name", "fieldType": "meta_type", "multiple": false}
+        {"name": "value", "fieldType": "string", "multiple": true},
+      ]
+    }
   }
 ]
