@@ -2,6 +2,9 @@ package histori.wiki;
 
 import histori.antlr.wiki.WikiArticleLexer;
 import histori.antlr.wiki.WikiArticleParser;
+import histori.wiki.matcher.InfoboxMatcher;
+import histori.wiki.matcher.InfoboxNameMatcher;
+import histori.wiki.matcher.NodeMatcher;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +25,7 @@ public class WikiNode {
     public static WikiArticleParser.ArticleContext getArticleContext(String text) {
         // remove all HTML comments
         text = text.replaceAll("<!--.*?-->", "");
+        text = text.replaceAll("&lt;!--.*?--&gt;", "");
         final WikiArticleLexer lexer = new WikiArticleLexer(new ANTLRInputStream(text));
         final CommonTokenStream tokens = new CommonTokenStream(lexer);
         final WikiArticleParser parser = new WikiArticleParser(tokens);
@@ -40,8 +44,9 @@ public class WikiNode {
     @Getter @Setter protected String name;
 
     @Getter @Setter protected List<WikiNode> children;
-
     public boolean hasChildren() { return !empty(children); }
+    public int getChildCount() { return empty(children) ? 0 : children.size(); }
+    public WikiNode getChild(int i) { return empty(children) ? null : children.get(i); }
 
     @Getter(lazy=true) private final List<WikiNode> links = initLinks();
     private List<WikiNode> initLinks() { return findByType(WikiNodeType.link); }
@@ -107,7 +112,8 @@ public class WikiNode {
 
     public String firstChildName () { return hasChildren() ? getChildren().get(0).getName() : null; }
 
-    public WikiNode findFirstInfoboxWithName(String name) { return findFirstWithName(WikiNodeType.infobox, name); }
+    public WikiNode findFirstInfoboxWithName(String name) { return findFirstMatch(new InfoboxNameMatcher(name)); }
+    public WikiNode findFirstInfoboxMatch(InfoboxMatcher matcher) { return findFirstMatch(matcher); }
 
     public WikiNode findFirstAttributeWithName(String name) { return findFirstWithName(WikiNodeType.attribute, name); }
 
@@ -123,6 +129,19 @@ public class WikiNode {
         if (node.hasChildren()) {
             for (WikiNode child : node.getChildren()) {
                 final WikiNode found = findFirstWithName(type, name, child);
+                if (found != null) return found;
+            }
+        }
+        return null;
+    }
+
+    public WikiNode findFirstMatch(NodeMatcher matcher) { return findFirstMatch(matcher, this); }
+
+    public WikiNode findFirstMatch(NodeMatcher matcher, WikiNode node) {
+        if (matcher.matches(node)) return node;
+        if (node.hasChildren()) {
+            for (WikiNode child : node.getChildren()) {
+                final WikiNode found = findFirstMatch(matcher, child);
                 if (found != null) return found;
             }
         }

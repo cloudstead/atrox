@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 public enum RoleType {
 
-    participant, combatant, observer, commander;
+    participant, combatant, observer, commander, founder;
 
     @JsonCreator public static RoleType create (String val) { return valueOf(val.toLowerCase()); }
 

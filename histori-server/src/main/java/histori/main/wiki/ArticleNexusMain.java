@@ -1,5 +1,6 @@
 package histori.main.wiki;
 
+import histori.model.support.MultiNexusRequest;
 import histori.model.support.NexusRequest;
 import histori.wiki.WikiArticle;
 import lombok.extern.slf4j.Slf4j;
@@ -92,42 +93,61 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
         }
     }
 
-    private boolean writeNexus(WikiArticle article) {
+    /**
+     * @param article the article to write nexus data about
+     * @return number of nexus requests created
+     */
+    private int writeNexus(WikiArticle article) {
 
         final ArticleNexusOptions options = getOptions();
         final File outputFile = getOutputFile(article.getTitle());
         if (!options.isOverwrite() && outputFile.exists()) {
             status("writeNexus: article file exists, not overwriting (" + outputFile + ")");
-            return false;
+            return 0;
         }
 
         final NexusRequest nexusRequest = options.getWikiArchive().toNexusRequest(article, disposition);
         if (nexusRequest == null) {
             status("writeNexus: Error building NexusRequest");
-            return false;
+            return 0;
         }
 
         final File outputDir = options.getOutputDir();
         if (outputDir != null && !outputDir.isDirectory()) die("Output directory does not exist or is not a directory: "+abs(outputDir));
 
+        if (nexusRequest instanceof MultiNexusRequest) {
+            MultiNexusRequest multi = (MultiNexusRequest) nexusRequest;
+            if (!multi.hasRequests()) return 0;
+            int count = 0;
+            for (NexusRequest request : multi.getRequests()) {
+                count += writeSingleRequest(request, outputDir);
+            }
+            return count;
+
+        } else {
+            return writeSingleRequest(nexusRequest, outputDir);
+        }
+    }
+
+    private int writeSingleRequest(NexusRequest nexusRequest, File outputDir) {
         String title = nexusRequest.getName();
         try {
             final String nexusJson = toJson(nexusRequest);
             if (outputDir != null) {
                 final File out = getOutputFile(title);
                 final File parent = out.getParentFile();
-                if (!parent.exists() && !parent.mkdirs()) die("Error creating parent dir: "+abs(parent));
+                if (!parent.exists() && !parent.mkdirs()) die("Error creating parent dir: " + abs(parent));
                 FileUtil.toFile(out, nexusJson);
-                out("\nWROTE: "+abs(out));
+                out("\nWROTE: " + abs(out));
             } else {
                 out("\n----------\n" + nexusJson);
             }
             status("SUCCESS");
-            return true;
+            return 1;
 
         } catch (Exception e) {
-            status("Error processing article: "+ title +": "+e);
-            return false;
+            status("Error processing article: " + title + ": " + e);
+            return 0;
         }
     }
 

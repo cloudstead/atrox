@@ -1,8 +1,6 @@
 package histori.wiki.finder;
 
 import histori.model.support.TimeRange;
-import histori.wiki.ParsedWikiArticle;
-import histori.wiki.WikiArchive;
 import histori.wiki.WikiDateFormat;
 import histori.wiki.WikiNode;
 import lombok.Getter;
@@ -17,14 +15,11 @@ import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor @Accessors(chain=true) @Slf4j
-public class DateRangeFinder extends WikiDataFinderBase<TimeRange> {
+public class DateRangeFinder extends FinderBase<TimeRange> {
 
     public static final String ATTR_DATE = "date";
 
     @Getter @Setter private String attrName = ATTR_DATE;
-
-    public DateRangeFinder(WikiArchive wiki) { super(wiki); }
-    public DateRangeFinder(WikiArchive wiki, ParsedWikiArticle article) { super(wiki, article); }
 
     @Override public TimeRange find() {
         final List<WikiNode> infoboxes = article.getInfoboxes();

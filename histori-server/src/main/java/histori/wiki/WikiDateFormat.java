@@ -50,6 +50,7 @@ public class WikiDateFormat {
             {"'Late' MMMM yyyy", "yM"},
 
             {"yyyy", "y"},
+            {"'Circa' yyyy", "y"}
     };
     private static final String[] FORMAT_SUFFIXES = {
             "", "BC", "B.C.", "BCE", "B.C.E", "AD", "A.D.", "CE", "C.E."
@@ -79,19 +80,19 @@ public class WikiDateFormat {
     public static final String HYPHEN = "[-–]";
 
     public static final Object[][] RANGE_PATTERNS = {{
-            Pattern.compile(MATCH_DAY + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + SPACE + MATCH_MONTH + ",?" + SPACE + MATCH_YEAR),
+            Pattern.compile(MATCH_DAY + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + SPACE + MATCH_MONTH + ",?" + SPACE + MATCH_YEAR, Pattern.CASE_INSENSITIVE),
             "startDay", "endDay", "startMonth", "startYear"
     }, {
-            Pattern.compile(MATCH_MONTH + SPACE + MATCH_DAY + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + ",?" + SPACE + MATCH_YEAR),
+            Pattern.compile(MATCH_MONTH + SPACE + MATCH_DAY + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + ",?" + SPACE + MATCH_YEAR, Pattern.CASE_INSENSITIVE),
             "startMonth", "startDay", "endDay", "startYear"
     }, {
-            Pattern.compile(MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR),
+            Pattern.compile(MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR, Pattern.CASE_INSENSITIVE),
             "startDay", "startMonth", "startYear", "endDay", "endMonth", "endYear"
     }, {
-            Pattern.compile(MATCH_DAY + SPACE + MATCH_MONTH + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR),
+            Pattern.compile(MATCH_DAY + SPACE + MATCH_MONTH + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR, Pattern.CASE_INSENSITIVE),
             "startDay", "startMonth", "endDay", "endMonth", "startYear"
     }, {
-            Pattern.compile(MATCH_MONTH + ANY_SPACES + "or" + ANY_SPACES + MATCH_MONTH + "?," + ANY_SPACES + MATCH_YEAR),
+            Pattern.compile(MATCH_MONTH + ANY_SPACES + "or" + ANY_SPACES + MATCH_MONTH + "?," + ANY_SPACES + MATCH_YEAR, Pattern.CASE_INSENSITIVE),
             "startMonth", null, "startYear"
     }};
 
@@ -215,6 +216,8 @@ public class WikiDateFormat {
         pos = date.indexOf("&lt;");
         if (pos != -1) return date.substring(0, pos).trim();
         pos = date.indexOf("{{");
+        if (pos != -1) return date.substring(0, pos).trim();
+        pos = date.indexOf("(");
         if (pos != -1) return date.substring(0, pos).trim();
         return date.trim();
     }

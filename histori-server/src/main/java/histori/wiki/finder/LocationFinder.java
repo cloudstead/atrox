@@ -2,37 +2,44 @@ package histori.wiki.finder;
 
 import histori.model.support.LatLon;
 import histori.wiki.ParsedWikiArticle;
-import histori.wiki.WikiArchive;
 import histori.wiki.WikiNode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.math.Cardinal;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
+import static histori.wiki.finder.InfoboxNames.BOXNAME_COORD;
+import static histori.wiki.finder.InfoboxNames.isCoordinateInfoboxCandidate;
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 
 @NoArgsConstructor @Accessors(chain=true) @Slf4j
-public class LocationFinder extends WikiDataFinderBase<LatLon> {
+public class LocationFinder extends FinderBase<LatLon> {
 
     public static final String ATTR_COORDINATES = "coordinates";
 
     public static final String ATTR_LATITUDE = "latitude";
     public static final String ATTR_LONGITUDE = "longitude";
 
-    public static final String ATTR_LATD = "lat_d";
-    public static final String ATTR_LATM = "lat_m";
-    public static final String ATTR_LATS = "lat_s";
-    public static final String ATTR_LATNS = "lat_NS";
-    public static final String ATTR_LONGD = "long_d";
-    public static final String ATTR_LONGM = "long_m";
-    public static final String ATTR_LONGS = "long_s";
-    public static final String ATTR_LONGEW = "long_EW";
+    public static final String ATTR_LAT_D = "lat_d";
+    public static final String ATTR_LAT_M = "lat_m";
+    public static final String ATTR_LAT_S = "lat_s";
+    public static final String ATTR_LAT_NS = "lat_NS";
+    public static final String ATTR_LONG_D = "long_d";
+    public static final String ATTR_LONG_M = "long_m";
+    public static final String ATTR_LONG_S = "long_s";
+    public static final String ATTR_LONG_EW = "long_EW";
+
+    public static final String ATTR_LATD = ATTR_LAT_D.replace("_", "");
+    public static final String ATTR_LATM = ATTR_LAT_M.replace("_", "");
+    public static final String ATTR_LATS = ATTR_LAT_S.replace("_", "");
+    public static final String ATTR_LATNS = ATTR_LAT_NS.replace("_", "");
+    public static final String ATTR_LONGD = ATTR_LONG_D.replace("_", "");
+    public static final String ATTR_LONGM = ATTR_LONG_M.replace("_", "");
+    public static final String ATTR_LONGS = ATTR_LONG_S.replace("_", "");
+    public static final String ATTR_LONGEW = ATTR_LONG_EW.replace("_", "");
 
     public static final String ATTR_LAT_DEG = "lat_deg";
     public static final String ATTR_LAT_MIN = "lat_min";
@@ -46,10 +53,6 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
     public static final String ATTR_PLACE = "place";
 
     public static final String BATTLE_PREFIX = "battle of ";
-    public static final String BOXNAME_COORD = "Coord";
-
-    public LocationFinder(WikiArchive wiki) { super(wiki); }
-    public LocationFinder(WikiArchive wiki, ParsedWikiArticle article) { super(wiki, article); }
 
     public String getLocationNameFromTitle(ParsedWikiArticle art) {
         if (art.getName().toLowerCase().startsWith(BATTLE_PREFIX)) {
@@ -212,6 +215,14 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
                 } catch (Exception ignored) { /* try next thing */ }
             }
 
+            final WikiNode lat_d = box.findChildNamed(ATTR_LAT_D);
+            final WikiNode long_d = box.findChildNamed(ATTR_LONG_D);
+            if (lat_d != null && long_d != null) {
+                try {
+                    return parseLat_dLong_d(box);
+                } catch (Exception ignored) { /* try next thing */ }
+            }
+
             final WikiNode latdeg = box.findChildNamed(ATTR_LAT_DEG);
             final WikiNode longdeg = box.findChildNamed(ATTR_LON_DEG);
             if (latdeg != null && longdeg != null) {
@@ -221,21 +232,6 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
             }
         }
         return null;
-    }
-
-    private final Set<String> COORD_BOX_CANDIDATES = new HashSet<>(Arrays.asList(
-            normalizeInfoboxName("Infobox military conflict"),
-            normalizeInfoboxName("Infobox protected area"),
-            normalizeInfoboxName("Coord")
-    ));
-    private boolean isCoordinateInfoboxCandidate(String name) {
-        return COORD_BOX_CANDIDATES.contains(normalizeInfoboxName(name))
-                || name.toLowerCase().endsWith(" location")
-                || name.toLowerCase().endsWith(" municipality")
-                || name.toLowerCase().endsWith(" site")
-                || name.toLowerCase().endsWith(" city")
-                || name.toLowerCase().endsWith(" settlement")
-                || name.toLowerCase().endsWith(" commune");
     }
 
     private LatLon parseCoordinatesAttribute(WikiNode coordsAttr) throws Exception {
@@ -331,6 +327,24 @@ public class LocationFinder extends WikiDataFinderBase<LatLon> {
         final WikiNode longm = box.findChildNamed(ATTR_LONGM);
         final WikiNode longs = box.findChildNamed(ATTR_LONGS);
         final WikiNode longew = box.findChildNamed(ATTR_LONGEW);
+
+        double latDeg = parseCoordinate(latd, latm, lats, latns);
+        double longDeg = parseCoordinate(longd, longm, longs, longew);
+
+        return new LatLon(latDeg, longDeg);
+    }
+
+    @SuppressWarnings("Duplicates")
+    private LatLon parseLat_dLong_d(WikiNode box) {
+        final WikiNode latd = box.findChildNamed(ATTR_LAT_D);
+        final WikiNode latm = box.findChildNamed(ATTR_LAT_M);
+        final WikiNode lats = box.findChildNamed(ATTR_LAT_S);
+        final WikiNode latns = box.findChildNamed(ATTR_LAT_NS);
+
+        final WikiNode longd = box.findChildNamed(ATTR_LONG_D);
+        final WikiNode longm = box.findChildNamed(ATTR_LONG_M);
+        final WikiNode longs = box.findChildNamed(ATTR_LONG_S);
+        final WikiNode longew = box.findChildNamed(ATTR_LONG_EW);
 
         double latDeg = parseCoordinate(latd, latm, lats, latns);
         double longDeg = parseCoordinate(longd, longm, longs, longew);

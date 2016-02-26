@@ -1,36 +1,18 @@
 package histori;
 
-import cloudos.service.asset.ResourceStorageService;
-import histori.model.NexusTag;
-import histori.model.support.LatLon;
 import histori.model.support.NexusRequest;
-import histori.model.support.TimeRange;
-import histori.wiki.WikiArchive;
 import lombok.extern.slf4j.Slf4j;
-import org.cobbzilla.util.math.Cardinal;
-import org.cobbzilla.util.system.CommandShell;
-import org.geojson.Point;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static histori.model.TagType.EVENT_TYPE;
-import static org.cobbzilla.util.daemon.ZillaRuntime.die;
-import static org.cobbzilla.util.json.JsonUtil.fromJsonOrDie;
-import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
 import static org.cobbzilla.util.math.Cardinal.*;
-import static org.junit.Assert.*;
 
 @Slf4j
-public class WikiNexusTest {
+public class WikiNexusTest extends WikiTest {
 
-    private WikiArchive wiki = new WikiArchive(new ResourceStorageService("wiki/index"),
-            CommandShell.loadShellExportsOrDie(ApiClientTestBase.ENV_EXPORT_FILE).get(ApiClientTestBase.ENV_PLACES_API_KEY));
-
-    public static TestPage[] TESTS = {
+    public static ArticleNexusExpectedResult[] TESTS = {
             // Test case: A very famous historical battle -- lots of tags to extract
-            new TestPage("Battle of Actium")
+            new ArticleNexusExpectedResult("Battle of Actium")
                     .location(38, 56, 4, north, 20, 44, 19, east)
                     .range("-31-09-02")
                     .tag(EVENT_TYPE, "battle")
@@ -52,7 +34,7 @@ public class WikiNexusTest {
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Actium"),
 
             // Test case: a more obscure battle, we must lookup another wiki page to determine the location
-            new TestPage("Battle of Purandar")
+            new ArticleNexusExpectedResult("Battle of Purandar")
                     .location(18, 17, north, 73, 59, east)
                     .range("1665")
                     .tag(EVENT_TYPE, "battle")
@@ -67,7 +49,7 @@ public class WikiNexusTest {
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Purandar"),
 
             // A page title with non-ASCII characters, and 'commanders' that contain special characters
-            new TestPage("Battle of Świecino")
+            new ArticleNexusExpectedResult("Battle of Świecino")
                     .location(54.787222, 18.087778)
                     .range("1462-09-17")
                     .tag(EVENT_TYPE, "battle")
@@ -85,7 +67,7 @@ public class WikiNexusTest {
 
             // Another big battle with lots of data to extract and a very large document (>100KB)
             // Also a very complex infobox of combatants and commanders
-            new TestPage("Battle of the Bulge")
+            new ArticleNexusExpectedResult("Battle of the Bulge")
                     .location(50, 15, north, 5, 40, east)
                     .range("1944-12-16", "1945-01-25")
                     .tag(EVENT_TYPE, "battle")
@@ -128,27 +110,27 @@ public class WikiNexusTest {
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_the_Bulge"),
 
             // Another one with coordinates that are difficult to find
-            new TestPage("Battle of Peleliu", false)
+            new ArticleNexusExpectedResult("Battle of Peleliu", false)
                     .location(7, 0, north, 134, 15, east)
                     .range("1944-09-15", "1944-11-27")
                     .tag(EVENT_TYPE, "battle")
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Peleliu"),
 
-            new TestPage("Battle of Waterloo", false)
+            new ArticleNexusExpectedResult("Battle of Waterloo", false)
                     .location(50.68016, 4.41169)
                     .range("1815-06-18")
                     .tag(EVENT_TYPE, "battle")
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Waterloo"),
 
             // Includes wikitables, increased parsing complexity
-            new TestPage("Battle of Kadesh", false)
+            new ArticleNexusExpectedResult("Battle of Kadesh", false)
                     .location(34.57, 36.51)
                     .range("-1274-05")
                     .tag(EVENT_TYPE, "battle")
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Kadesh"),
 
             // Uses {{start date}} info block for date, complex casualties stats
-            new TestPage("Battle of the Crater", false)
+            new ArticleNexusExpectedResult("Battle of the Crater", false)
                     .location(37.2183, -77.3777)
                     .range("1864-07-30")
                     .tag(EVENT_TYPE, "battle")
@@ -167,7 +149,7 @@ public class WikiNexusTest {
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_the_Crater"),
 
             // Had a funky link that was being parsed as a commander, now fixed. Keep to avoid regressing
-            new TestPage("Battle of Mortimer's Cross")
+            new ArticleNexusExpectedResult("Battle of Mortimer's Cross")
                     .location(52, 19, 7, north, 2, 52, 9, west)
                     .range("1461-02-02")
                     .tag(EVENT_TYPE, "battle")
@@ -182,7 +164,7 @@ public class WikiNexusTest {
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Mortimer%27s_Cross"),
 
             // Had a Portuguese flag icon identified as a world_actor, also uses West cardinality, testing geo coordinate parsing
-            new TestPage("Battle of Roliça")
+            new ArticleNexusExpectedResult("Battle of Roliça")
                     .location(39.3136, -9.1836)
                     .range("1808-08-17")
                     .tag(EVENT_TYPE, "battle")
@@ -200,14 +182,14 @@ public class WikiNexusTest {
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Roli%C3%A7a"),
 
             // fixing bug with casualty parsing
-            new TestPage("Battle of Chusto-Talasah", false)
+            new ArticleNexusExpectedResult("Battle of Chusto-Talasah", false)
                     .location(36.2823, -95.9502)
                     .range("1861-12-09")
                     .tag("impact", "dead", "estimate", "9", "world_actor", "Creek (people)", "world_actor", "Seminole")
                     .tag("impact", "casualties", "estimate", "500", "world_actor", "Creek (people)", "world_actor", "Seminole"),
 
             // detection of "damaged" casualty that references previous line. complex casualty logic.
-            new TestPage("Battle of Britain Day", false)
+            new ArticleNexusExpectedResult("Battle of Britain Day", false)
                     .tag("impact", "aircraft destroyed", "estimate", "29", "world_actor", "United Kingdom")
                     .tag("impact", "aircraft damaged", "estimate", "21", "world_actor", "United Kingdom")
                     .tag("impact", "dead", "low_estimate", "14", "estimate", "15", "high_estimate", "16", "world_actor", "United Kingdom")
@@ -221,7 +203,7 @@ public class WikiNexusTest {
                     .tag("impact", "missing", "estimate", "21", "world_actor", "Nazi Germany"),
 
             // test naval casualties
-            new TestPage("Naval Battle of Guadalcanal", false)
+            new ArticleNexusExpectedResult("Naval Battle of Guadalcanal", false)
                     .tag("world_actor", "United States", "role", "combatant")
                     .tag("world_actor", "Empire of Japan", "role", "combatant")
                     .tag("impact", "light cruisers sunk", "estimate", "2", "world_actor", "United States")
@@ -239,27 +221,27 @@ public class WikiNexusTest {
                     .tag("impact", "dead", "estimate", "1900", "world_actor", "Empire of Japan"),
 
             // yet another location coordinate scheme
-            new TestPage("Battle of Mount Elba", false).location(33.0, 46.0, 35.401, north, 93.0, 21.0, 59.619, west).range("1864-03-30"),
+            new ArticleNexusExpectedResult("Battle of Mount Elba", false).location(33.0, 46.0, 35.401, north, 93.0, 21.0, 59.619, west).range("1864-03-30"),
 
             // article missing cardinal directions
-            new TestPage("Battle of Lechfeld (955)", false).location(48, 22, north, 10, 54, east).range("955-08-10"),
+            new ArticleNexusExpectedResult("Battle of Lechfeld (955)", false).location(48, 22, north, 10, 54, east).range("955-08-10"),
 
             // Coord box embedded within place attribute of an infobox
-            new TestPage("Battle of Las Navas de Tolosa", false).location(38.28443, -3.58286).range("1212-07-16"),
+            new ArticleNexusExpectedResult("Battle of Las Navas de Tolosa", false).location(38.28443, -3.58286).range("1212-07-16"),
 
             // infobox with date and location is within a wikitable
-            new TestPage("Battle of Evesham", false).location(52.1058726, -1.9445372).range("1265-08-04"),
+            new ArticleNexusExpectedResult("Battle of Evesham", false).location(52.1058726, -1.9445372).range("1265-08-04"),
 
             // unparseable -- not actually a battle (it's a TV show)
-            new TestPage("Battle of the Seasons", false).unparseable(true),
+            new ArticleNexusExpectedResult("Battle of the Seasons", false).unparseable(true),
 
             // trouble parsing world_actors
-            new TestPage("Battle of Marsaglia", false)
+            new ArticleNexusExpectedResult("Battle of Marsaglia", false)
                     .tag("world_actor", "Kingdom of France", "role", "combatant")
                     .tag("world_actor", "Duchy of Savoy", "role", "combatant")
                     .tag("world_actor", "Spain", "role", "combatant"),
 
-            new TestPage("Battle of Ayacucho", false)
+            new ArticleNexusExpectedResult("Battle of Ayacucho", false)
                     .tag("world_actor", "Peru", "role", "combatant")
                     .tag("world_actor", "Gran Colombia", "role", "combatant")
                     .tag("world_actor", "Argentina", "role", "combatant")
@@ -275,97 +257,18 @@ public class WikiNexusTest {
 //        validateCorrectNexus(TESTS[TESTS.length-1]);
 //        validateCorrectNexus(TESTS[9]);
 //        validateCorrectNexus(findTest("Battle of Ayacucho"));
-        for (TestPage test : TESTS) {
+        for (ArticleNexusExpectedResult test : TESTS) {
             validateCorrectNexus(test);
         }
     }
 
-    private TestPage findTest(String title) {
-        for (TestPage p : TESTS) if (p.title.equals(title)) return p;
-        return die("findTest: not found: "+title);
+    private ArticleNexusExpectedResult findTest(String title) {
+        return findTest(title, TESTS);
     }
 
-    public void validateCorrectNexus(TestPage test) {
+    public void validateCorrectNexus(ArticleNexusExpectedResult test) {
         final NexusRequest nexusRequest = wiki.toNexusRequest(test.title);
-        if (test.unparseable) {
-            assertNull("parsed article that should have been unparseable: " + test.title, nexusRequest);
-        } else {
-            assertNotNull("error parsing article: " + test.title, nexusRequest);
-        }
-        if (test.location != null) test.assertSameLocation(nexusRequest.getGeoJson());
-        if (test.range != null) assertEquals(test.range, nexusRequest.getTimeRange());
-        if (test.fullCheck) assertEquals("wrong # of tags for "+test.title, test.tags.size(), nexusRequest.getTagCount());
-        for (NexusTag tag : test.tags) {
-            assertTrue("missing tag ("+test.title+"): "+tag.getTagType()+"/"+tag.getTagName(), nexusRequest.hasTag(tag.getTagName()));
-            assertTrue("tag doesn't match ("+test.title+"): "+tag.getTagName(), nexusRequest.hasExactTag(tag));
-        }
+        test.verify(nexusRequest);
     }
 
-    private static class TestPage {
-
-        public String title;
-        public boolean fullCheck;
-
-        public boolean unparseable = false;
-        public TestPage unparseable(boolean b) { this.unparseable = b; return this; }
-
-        public TestPage (String title) { this(title, true); }
-        public TestPage (String title, boolean fullCheck) { this.title = title; this.fullCheck = fullCheck; }
-
-        public LatLon location;
-        public TestPage location (LatLon location) { this.location = location; return this; }
-        public TestPage location (double lat, double lon) { return location(new LatLon(lat, lon)); }
-        public TestPage location (int latDeg, Integer latMin, Integer latSec, Cardinal latDir, int lonDeg, Integer lonMin, Integer lonSec, Cardinal lonDir) {
-            this.location = new LatLon(latDeg, latMin, latSec, latDir, lonDeg, lonMin, lonSec, lonDir);
-            return this;
-        }
-        public TestPage location (double latDeg, Double latMin, Double latSec, Cardinal latDir, double lonDeg, Double lonMin, Double lonSec, Cardinal lonDir) {
-            this.location = new LatLon(latDeg, latMin, latSec, latDir, lonDeg, lonMin, lonSec, lonDir);
-            return this;
-        }
-        public TestPage location (int latDeg, Integer latMin, Cardinal latDir, int lonDeg, Integer lonMin, Cardinal lonDir) {
-            return location(latDeg, latMin, null, latDir, lonDeg, lonMin, null, lonDir);
-        }
-        public String getGeoJson() { return toJsonOrDie(new Point(location.getLon(), location.getLat())); }
-
-        public TimeRange range;
-        public TestPage range(String date) { this.range = new TimeRange(date); return this; }
-        public TestPage range(String start, String end) { this.range = new TimeRange(start, end); return this; }
-
-        public List<NexusTag> tags = new ArrayList<>();
-        public TestPage tag(String tagType, String tagName) {
-            tags.add((NexusTag) new NexusTag().setTagType(tagType).setTagName(tagName));
-            return this;
-        }
-        public TestPage tag(String tagType, String tagName, String field1, String value1) {
-            tags.add((NexusTag) new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1));
-            return this;
-        }
-        public TestPage tag(String tagType, String tagName, String field1, String value1, String f2, String v2) {
-            tags.add((NexusTag) new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1).setValue(f2, v2));
-            return this;
-        }
-        public TestPage tag(String tagType, String tagName, String field1, String value1, String f2, String v2, String f3, String v3) {
-            tags.add((NexusTag) new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1).setValue(f2, v2).setValue(f3, v3));
-            return this;
-        }
-        public TestPage tag(String tagType, String tagName, String field1, String value1, String f2, String v2, String f3, String v3, String f4, String v4) {
-            tags.add((NexusTag) new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1).setValue(f2, v2).setValue(f3, v3).setValue(f4, v4));
-            return this;
-        }
-        public TestPage tag(String tagType, String tagName, String field1, String value1, String f2, String v2, String f3, String v3, String f4, String v4, String f5, String v5) {
-            tags.add((NexusTag) new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1).setValue(f2, v2).setValue(f3, v3).setValue(f4, v4).setValue(f5, v5));
-            return this;
-        }
-
-        public boolean assertSameLocation(String geoJson) {
-            // Always assume a point for now
-            final Point p = fromJsonOrDie(geoJson, Point.class);
-            assertNotNull(p);
-            assertNotNull(p.getCoordinates());
-            assertEquals("Latitude was off by too much", p.getCoordinates().getLatitude(), location.getLat(), 0.0001);
-            assertEquals("Longitude was off by too much", p.getCoordinates().getLongitude(), location.getLon(), 0.0001);
-            return true;
-        }
-    }
 }

@@ -1,10 +1,13 @@
-package histori.wiki.finder;
+package histori.wiki.finder.impl;
 
 import histori.model.NexusTag;
+import histori.model.support.NexusRequest;
 import histori.model.support.RelationshipType;
 import histori.model.support.RoleType;
+import histori.wiki.finder.InfoboxNames;
 import histori.wiki.WikiNode;
 import histori.wiki.WikiNodeType;
+import histori.wiki.finder.FinderBase;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.collection.SingletonSet;
 
@@ -13,14 +16,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static histori.model.TagType.EVENT_TYPE;
-import static histori.wiki.finder.BattleParticipant.commander;
-import static histori.wiki.finder.BattleTagFinder.CommanderParseState.seeking_commander;
-import static histori.wiki.finder.BattleTagFinder.CommanderParseState.seeking_flag;
+import static histori.wiki.finder.impl.BattleParticipant.commander;
+import static histori.wiki.finder.impl.BattleFinder.CommanderParseState.seeking_commander;
+import static histori.wiki.finder.impl.BattleFinder.CommanderParseState.seeking_flag;
 
 @Slf4j
-public class BattleTagFinder extends TagFinderBase {
+public class BattleFinder extends FinderBase<NexusRequest> {
 
-    public static final String INFOBOX_MILITARY_CONFLICT = "Infobox military conflict";
     public static final String HTML_TAG_REGEX = "(<|&lt;)\\s*\\w+\\s*/?\\s*(>|&gt;)";
     public static final String HTML_BR_REGEX = "(<|&lt;)\\s*([Bb][Rr])\\s*/?\\s*(>|&gt;)";
     public static final Pattern HTML_BR_PATTERN = Pattern.compile(".*"+HTML_BR_REGEX+".*");
@@ -28,11 +30,14 @@ public class BattleTagFinder extends TagFinderBase {
 
     public static final int MIN_VALID_NAME_LENGTH = 3;
 
-    @Override public List<NexusTag> find() {
+    @Override public NexusRequest find() {
+
+        final NexusRequest request = new NexusRequest();
+        addStandardTags(wiki, request);
 
         final List<NexusTag> tags = new ArrayList<>();
-        final WikiNode infobox = article.findFirstInfoboxWithName(INFOBOX_MILITARY_CONFLICT);
-        if (infobox == null) return tags;
+        final WikiNode infobox = article.findFirstInfoboxWithName(InfoboxNames.INFOBOX_MILITARY_CONFLICT);
+        if (infobox == null) return request;
 
         NexusTag tag;
         tags.add(newTag("battle", EVENT_TYPE));
@@ -151,7 +156,8 @@ public class BattleTagFinder extends TagFinderBase {
             }
         }
 
-        return tags;
+        request.setTags(tags);
+        return request;
     }
 
     private boolean hasCasualties(WikiNode ref) {

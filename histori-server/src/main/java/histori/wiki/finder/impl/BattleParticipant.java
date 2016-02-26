@@ -1,4 +1,4 @@
-package histori.wiki.finder;
+package histori.wiki.finder.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 import java.util.StringTokenizer;
 
 @NoArgsConstructor @AllArgsConstructor @Accessors(chain = true) @EqualsAndHashCode(of = {"name", "side"})
-class BattleParticipant {
+public class BattleParticipant {
 
     public String name;
     public String side;
@@ -17,7 +17,7 @@ class BattleParticipant {
 
     public boolean isValidName() {
         // must have at least 3 word chars
-        return name.replaceAll("\\W", "").toLowerCase().trim().length() > BattleTagFinder.MIN_VALID_NAME_LENGTH;
+        return name.replaceAll("\\W", "").toLowerCase().trim().length() > BattleFinder.MIN_VALID_NAME_LENGTH;
     }
 
     public static BattleParticipant commander(String name, String side) {

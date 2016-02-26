@@ -1,5 +1,6 @@
 package histori.main.wiki;
 
+import histori.wiki.matcher.NodeMatcher;
 import histori.wiki.WikiArchive;
 import histori.wiki.WikiArticle;
 import histori.wiki.WikiXmlParseState;
@@ -84,6 +85,7 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
 
         final int skipPages = opts.getSkipPages();
         final int skipLines = opts.getSkipLines();
+        final int stopLines = opts.getStopLines();
 
         WikiXmlParseState parseState = WikiXmlParseState.seeking_page;
         WikiArticle article = new WikiArticle();
@@ -93,6 +95,12 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
             int lineCount = 0;
             while ((line = reader.readLine()) != null) {
                 lineCount++;
+                if (stopLines > 0 && lineCount - skipLines > stopLines) {
+                    if (parseState == WikiXmlParseState.seeking_page) {
+                        out("reached limit of " + stopLines + " lines of data, exiting");
+                        break;
+                    }
+                }
                 if (lineCount <= skipLines) continue;
                 line = line.trim();
                 if (line.length() == 0) continue;
@@ -162,15 +170,29 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
 
     private void store(final WikiArchive wiki, final WikiArticle article) {
 
-        if (!getOptions().isOverwrite() && wiki.exists(article)) return;
+        final WikiIndexerOptions options = getOptions();
 
-        final String title = article.getTitle();
-        try {
-            wiki.store(article);
-            if (++storeCount % 1000 == 0) out("stored page # "+storeCount+" ("+ title +")");
+        if (options.hasFilter()) {
+            NodeMatcher matcher = options.getFilterObject();
+            try {
+                if (article.parse().findFirstMatch(matcher) != null) {
+                    out(article.getTitle());
+                }
+            } catch (Exception e) {
+                err("Error applying filter to article ("+article.getTitle()+"): "+e);
+            }
 
-        } catch (Exception e) {
-            die("error storing: " + title + " (page " + pageCount + "): " + e, e);
+        } else {
+            if (!options.isOverwrite() && wiki.exists(article)) return;
+
+            final String title = article.getTitle();
+            try {
+                wiki.store(article);
+                if (++storeCount % 1000 == 0) out("stored page # " + storeCount + " (" + title + ")");
+
+            } catch (Exception e) {
+                die("error storing: " + title + " (page " + pageCount + "): " + e, e);
+            }
         }
     }
 

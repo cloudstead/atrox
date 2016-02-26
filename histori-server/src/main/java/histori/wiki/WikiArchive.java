@@ -3,21 +3,17 @@ package histori.wiki;
 import cloudos.service.asset.AssetStorageService;
 import cloudos.service.asset.AssetStream;
 import com.amazonaws.util.StringInputStream;
-import histori.model.NexusTag;
-import histori.model.support.LatLon;
+import histori.model.support.MultiNexusRequest;
 import histori.model.support.NexusRequest;
-import histori.model.support.TimeRange;
-import histori.wiki.finder.DateRangeFinder;
-import histori.wiki.finder.LocationFinder;
-import histori.wiki.finder.TagFinder;
-import histori.wiki.finder.TagFinderFactory;
+import histori.wiki.finder.FinderFactory;
+import histori.wiki.finder.MultiNexusFinder;
+import histori.wiki.finder.WikiDataFinder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.security.ShaUtil;
 import org.cobbzilla.util.string.StringUtil;
-import org.geojson.Point;
 import se.walkercrou.places.GooglePlaces;
 
 import java.util.ArrayList;
@@ -106,15 +102,11 @@ public class WikiArchive {
         return article == null ? null : toNexusRequest(article, disposition);
     }
 
-    public NexusRequest toNexusRequest(WikiArticle article) {
-        return toNexusRequest(article, new ArrayList<String>());
-    }
+    public NexusRequest toNexusRequest(WikiArticle article) { return toNexusRequest(article, new ArrayList<String>()); }
 
     public NexusRequest toNexusRequest(WikiArticle article, List<String> disposition) {
 
         final ParsedWikiArticle parsed = article.parse();
-        final TimeRange dateRange;
-        final LatLon coordinates;
 
         if (article.getText().toLowerCase().startsWith("#redirect")) {
             final List<WikiNode> links = parsed.getLinks();
@@ -132,40 +124,38 @@ public class WikiArchive {
             }
         }
 
-        // When was it?
-        dateRange = new DateRangeFinder().setWiki(this).setArticle(parsed).find();
-        if (dateRange == null) {
-            String msg = "toNexusRequest: " + article.getTitle() + " had no date (skipping)";
-            log.warn(msg);
-            disposition.add(msg);
-            return null;
-        }
-
-        // Where was it?
-        coordinates = new LocationFinder().setWiki(this).setArticle(parsed).find();
-        if (coordinates == null) {
-            String msg = "toNexusRequest: " + article.getTitle() + " had no coordinates (skipping)";
-            log.warn(msg);
-            disposition.add(msg);
-            return null;
-        }
-
-        NexusRequest nexusRequest = (NexusRequest) new NexusRequest()
-                .setPoint(new Point(coordinates.getLon(), coordinates.getLat()))
-                .setTimeRange(dateRange)
-                .setName(parsed.getName());
-
         // extract additional tags
-        final TagFinder tagFinder = TagFinderFactory.build(parsed);
-        if (tagFinder != null) {
-            final List<NexusTag> tags = tagFinder.find();
-            nexusRequest.setTags(tags);
-            nexusRequest.addTag("https://en.wikipedia.org/wiki/"+encodeTitleForUrl(nexusRequest.getName()), "citation");
+        final WikiDataFinder finder = FinderFactory.build(this, parsed);
+        if (finder != null) {
+            if (finder instanceof MultiNexusFinder) {
+                final List<NexusRequest> requests = ((MultiNexusFinder) finder).find();
+                if (empty(requests)) return null;
+
+                final MultiNexusRequest multi = new MultiNexusRequest();
+                for (NexusRequest request : requests) {
+                    multi.add(finalize(request, parsed.getName()));
+                }
+                return multi;
+
+            } else {
+                final NexusRequest nexusRequest = (NexusRequest) finder.find();
+                return finalize(nexusRequest);
+            }
         }
 
+        return null;
+    }
+
+    public NexusRequest finalize(NexusRequest nexusRequest) { return finalize(nexusRequest, null); }
+
+    public NexusRequest finalize(NexusRequest nexusRequest, String title) {
         // Did we detect an event_type?
         if (!nexusRequest.hasNexusType()) nexusRequest.setNexusType(nexusRequest.getFirstEventType());
+        return addCitation(nexusRequest, title == null ? nexusRequest.getName() : title);
+    }
 
+    public NexusRequest addCitation(NexusRequest nexusRequest, String title) {
+        nexusRequest.addTag("https://en.wikipedia.org/wiki/"+encodeTitleForUrl(title), "citation");
         return nexusRequest;
     }
 

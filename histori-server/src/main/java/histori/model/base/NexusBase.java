@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import org.cobbzilla.util.collection.MapBuilder;
 import org.geojson.GeoJsonObject;
 import org.geojson.Geometry;
 import org.geojson.LngLatAlt;
@@ -38,6 +39,7 @@ public class NexusBase extends SocialEntity {
     @Column(length=NAME_MAXLEN, nullable=false, updatable=false)
     @Size(min=2, max=NAME_MAXLEN, message="err.name.length")
     @Getter @Setter private String name;
+    public boolean hasName() { return !empty(name); }
 
     // Which event_type tag is "primary" (if there is only 1 then it is here by default)
     @Column(length=NAME_MAXLEN)
@@ -46,6 +48,7 @@ public class NexusBase extends SocialEntity {
     public boolean hasNexusType () { return !empty(nexusType); }
 
     @Embedded @Getter @Setter private TimeRange timeRange;
+    public boolean hasRange () { return timeRange != null && timeRange.hasStart(); }
 
     @Size(max=GEOJSON_MAXLEN, message="err.geolocation.tooLong")
     @Column(length=GEOJSON_MAXLEN, nullable=false)
@@ -107,10 +110,18 @@ public class NexusBase extends SocialEntity {
 
     public NexusBase addTag (String name, Map<String, String> tagFields) { return addTag(name, null, tagFields); }
 
+    public NexusBase addTag (String name, String tagType, String field, String value) {
+        return addTag(name, tagType, MapBuilder.build(field, value));
+    }
+
     public NexusBase addTag (String name, String tagType, Map<String, String> tagFields) {
         if (tags == null) tags = new ArrayList<>();
         final NexusTag tag = (NexusTag) new NexusTag().setTagName(name);
-        if (!empty(tagFields)) tag.setSchemaValues(toJsonOrDie(tagFields));
+        if (!empty(tagFields)) {
+            for (Map.Entry<String, String> field : tagFields.entrySet()) {
+                tag.setValue(field.getKey(), field.getValue());
+            }
+        }
         if (!empty(tagType)) tag.setTagType(tagType);
         tags.add(tag);
         return this;
@@ -189,4 +200,5 @@ public class NexusBase extends SocialEntity {
         }
         return null;
     }
+
 }
