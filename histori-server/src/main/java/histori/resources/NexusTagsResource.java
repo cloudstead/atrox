@@ -1,6 +1,7 @@
 package histori.resources;
 
 import com.sun.jersey.api.core.HttpContext;
+import histori.dao.AccountDAO;
 import histori.dao.NexusTagDAO;
 import histori.dao.TagDAO;
 import histori.dao.TagTypeDAO;
@@ -26,9 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static histori.model.CanonicalEntity.canonicalize;
-import static histori.model.tag_schema.TagSchemaFieldType.event;
-import static histori.model.tag_schema.TagSchemaFieldType.person;
-import static histori.model.tag_schema.TagSchemaFieldType.world_actor;
+import static histori.model.tag_schema.TagSchemaFieldType.*;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
@@ -53,6 +52,7 @@ public class NexusTagsResource {
 
     public static final String ENCODE_PREFIX = "~";
 
+    @Autowired private AccountDAO accountDAO;
     @Autowired private NexusTagDAO nexusTagDAO;
     @Autowired private TagDAO tagDAO;
     @Autowired private TagTypeDAO tagTypeDAO;
@@ -152,7 +152,7 @@ public class NexusTagsResource {
 
         final Tag tag = tagDAO.findOrCreateByCanonical(new Tag(nexusTag.getTagName(), tagType));
 
-        final Response validationResult = validateTagSchema(nexusTag, tagType);
+        final Response validationResult = validateTagSchema(ctx.account, nexusTag, tagType);
         if (validationResult != null) return validationResult;
 
         NexusTag newTag = new NexusTag();
@@ -180,7 +180,7 @@ public class NexusTagsResource {
         if (ctx.hasResponse()) return ctx.response;
 
         final TagType tagType = tagTypeDAO.findByCanonicalName(ctx.nexusTag.getTagType());
-        final Response validationResult = validateTagSchema(nexusTag, tagType);
+        final Response validationResult = validateTagSchema(ctx.account, nexusTag, tagType);
         if (validationResult != null) return validationResult;
 
         copy(ctx.nexusTag, nexusTag, UPDATE_FIELDS);
@@ -201,7 +201,7 @@ public class NexusTagsResource {
         return ok();
     }
 
-    public Response validateTagSchema(@Valid NexusTag nexusTag, TagType tagType) {
+    public Response validateTagSchema(Account account, @Valid NexusTag nexusTag, TagType tagType) {
         if (tagType == null || !tagType.hasSchema()) {
             if (nexusTag.hasSchemaValues()) return invalid("err.tag.noValuesAllowed");
 
@@ -213,13 +213,13 @@ public class NexusTagsResource {
                 log.warn("validateTagSchema: error calling tagType.getSchema: "+e);
                 return invalid("err.schemaJson.invalid", tagType.getSchemaJson());
             }
-            final ValidationResult validationResult = validateTagSchemaValues(schema, nexusTag.getValues());
+            final ValidationResult validationResult = validateTagSchemaValues(account, schema, nexusTag.getValues());
             if (!validationResult.isEmpty()) return invalid(validationResult);
         }
         return null;
     }
 
-    private ValidationResult validateTagSchemaValues(TagSchema schema, TagSchemaValue[] schemaValues) {
+    private ValidationResult validateTagSchemaValues(Account account, TagSchema schema, TagSchemaValue[] schemaValues) {
 
         final ValidationResult result = new ValidationResult();
 

@@ -1,6 +1,7 @@
 package histori.model.internal;
 
 import cloudos.model.auth.LoginRequest;
+import histori.model.auth.RegistrationRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,13 @@ public class AuditLog extends StrongIdentifiableBase {
         setName(login.hasName() ? login.getName() : "-empty-");
         setContext(context);
         setUserAgent(login.getUserAgent());
+        setNotes(notes);
+    }
+
+    public AuditLog(RegistrationRequest reg, String context, String notes) {
+        setName(reg.hasName() ? reg.getName() : "-empty-");
+        setContext(context);
+        setUserAgent(reg.getUserAgent());
         setNotes(notes);
     }
 

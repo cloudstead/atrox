@@ -11,7 +11,6 @@ import org.cobbzilla.wizard.main.MainApiOptionsBase;
 import org.cobbzilla.wizard.util.RestResponse;
 
 import static histori.ApiConstants.*;
-import static histori.model.auth.RegistrationRequest.ANONYMOUS;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJson;
 
@@ -41,7 +40,7 @@ public abstract class HistoriApiMain<OPT extends MainApiOptionsBase> extends Mai
         final String registrationUri = ACCOUNTS_ENDPOINT + EP_REGISTER;
         if (!options.hasAccount()) {
             try {
-                response = api.post(registrationUri, toJson(ANONYMOUS));
+                response = api.post(registrationUri, toJson(new RegistrationRequest()));
                 api.pushToken(getSessionId(response));
 
             } catch (Exception e) {

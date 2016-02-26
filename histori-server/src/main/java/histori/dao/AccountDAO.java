@@ -18,7 +18,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.validation.Valid;
 
+import static histori.ApiConstants.anonymousEmail;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
+import static org.cobbzilla.mail.service.TemplatedMailService.PARAM_ACCOUNT;
 import static org.cobbzilla.mail.service.TemplatedMailService.T_WELCOME;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
@@ -66,27 +68,34 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
     }
 
     public Account register(RegistrationRequest request) {
+        final String email = request.getEmail();
         final String name = request.getName();
         final String password = request.getPassword();
 
         audit.log(request, "register", "starting for '"+name+"'");
 
-        if (empty(name) || empty(password)) {
-            audit.log(request, "register", "no name ("+name+") or password, returning anonymous account");
+        if (empty(email) || empty(name) || empty(password)) {
+            audit.log(request, "register", "no name ("+name+"), email ("+email+") or password, returning anonymous account");
             return anonymousAccount();
         }
 
-        final Account account = findByEmail(name);
+        Account account = findByEmail(email);
+        if (account != null) {
+            audit.log(request, "register", "email exists ("+email+"), returning error");
+            throw invalidEx("err.email.notUnique");
+        }
+        account = findByName(name);
         if (account != null) {
             audit.log(request, "register", "name exists ("+name+"), returning error");
-            throw invalidEx("err.email.notUnique");
+            throw invalidEx("err.name.notUnique");
         }
 
         audit.log(request, "register", "creating account for: '"+ name + "'");
 
         Account newAccount = (Account) new Account()
-                .setEmail(name)
-                .setHashedPassword(new HashedPassword(password));
+                .setEmail(email)
+                .setHashedPassword(new HashedPassword(password))
+                .setName(name);
         newAccount.initEmailVerificationCode();
 
         newAccount = create(newAccount);
@@ -96,6 +105,7 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
     }
 
     public Account registerAnonymous(Account account, RegistrationRequest request) {
+        final String email = request.getEmail();
         final String name = request.getName();
         final String password = request.getPassword();
 
@@ -105,7 +115,7 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
             return null;
         }
 
-        final Account exists = findByEmail(name);
+        final Account exists = findByName(request.getName());
         if (exists != null) {
             audit.log(request, "registerAnonymous", "name exists ("+name+"), returning error");
             throw invalidEx("err.email.notUnique");
@@ -124,7 +134,7 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
 
         audit.log(request, "registerAnonymous", "anon user "+found.getEmail()+" now registered as "+name+"");
         found.setName(name);
-        found.setEmail(name);
+        found.setEmail(email);
         found.setPassword(request.getPassword());
         found.setAnonymous(false);
         found.initEmailVerificationCode();
@@ -140,11 +150,11 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
         final String code = account.initEmailVerificationCode();
         final TemplatedMail mail = new TemplatedMail()
                 .setToEmail(account.getEmail())
-//                .setToName(account.getFullName())
+                .setToName(account.getName())
                 .setFromName(welcomeSender.getFromName())
                 .setFromEmail(welcomeSender.getFromEmail())
                 .setTemplateName(T_WELCOME)
-                .setParameter(TemplatedMailService.PARAM_ACCOUNT, account)
+                .setParameter(PARAM_ACCOUNT, account)
                 .setParameter("activationUrl", configuration.getPublicUriBase() + "/#/activate/" + code);
         try {
             mailService.getMailSender().deliverMessage(mail);
@@ -155,7 +165,7 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
 
     public Account anonymousAccount() {
         final Account account = new Account();
-        account.setEmail(ApiConstants.anonymousEmail());
+        account.setEmail(anonymousEmail());
         account.setAnonymous(true);
         return create(account);
     }

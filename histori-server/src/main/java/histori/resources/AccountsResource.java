@@ -1,17 +1,16 @@
 package histori.resources;
 
-import histori.ApiConstants;
-import histori.dao.AccountDAO;
-import histori.dao.SessionDAO;
-import histori.model.Account;
-import histori.model.support.AccountAuthResponse;
-import histori.model.auth.HistoriLoginRequest;
-import histori.model.auth.RegistrationRequest;
-import histori.server.HistoriConfiguration;
 import cloudos.model.auth.AuthResponse;
 import cloudos.model.auth.AuthenticationException;
 import cloudos.resources.AuthResourceBase;
 import com.sun.jersey.api.core.HttpContext;
+import histori.dao.AccountDAO;
+import histori.dao.SessionDAO;
+import histori.model.Account;
+import histori.model.auth.HistoriLoginRequest;
+import histori.model.auth.RegistrationRequest;
+import histori.model.support.AccountAuthResponse;
+import histori.server.HistoriConfiguration;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.mail.service.TemplatedMailService;
@@ -21,10 +20,10 @@ import org.springframework.stereotype.Service;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
 import static histori.ApiConstants.*;
+import static javax.ws.rs.core.HttpHeaders.USER_AGENT;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.cobbzilla.wizard.resources.ResourceUtil.*;
 
@@ -64,10 +63,10 @@ public class AccountsResource extends AuthResourceBase<Account> {
     public Response login (@Context HttpContext ctx, HistoriLoginRequest request) {
 
         final Account alreadyLoggedIn = optionalUserPrincipal(ctx);
-        if (alreadyLoggedIn != null) throw invalidEx(ApiConstants.ERR_ALREADY_LOGGED_IN);
+        if (alreadyLoggedIn != null) throw invalidEx(ERR_ALREADY_LOGGED_IN);
 
         try {
-            request.setUserAgent(ctx.getRequest().getHeaderValue(HttpHeaders.USER_AGENT));
+            request.setUserAgent(ctx.getRequest().getHeaderValue(USER_AGENT));
             Account account = accountDAO.authenticate(request);
             return account != null ? ok(startSession(account)) : notFound(request.getName());
 
@@ -94,12 +93,12 @@ public class AccountsResource extends AuthResourceBase<Account> {
     @Path(EP_REGISTER)
     public Response register (@Context HttpContext ctx, @Valid RegistrationRequest request) {
 
-        request.setUserAgent(ctx.getRequest().getHeaderValue(HttpHeaders.USER_AGENT));
+        request.setUserAgent(ctx.getRequest().getHeaderValue(USER_AGENT));
 
         final Account alreadyLoggedIn = optionalUserPrincipal(ctx);
         final Account account;
         if (alreadyLoggedIn != null) {
-            if (!alreadyLoggedIn.isAnonymous()) throw invalidEx(ApiConstants.ERR_ALREADY_LOGGED_IN);
+            if (!alreadyLoggedIn.isAnonymous()) return invalid(ERR_ALREADY_LOGGED_IN);
 
             // already logged in, but this request has no name/password -- just start a new session
             if (request.isEmpty()) return ok(startSession(alreadyLoggedIn));
