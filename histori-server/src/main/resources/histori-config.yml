@@ -51,9 +51,10 @@ emailSenderNames:
     fromEmail: {{RESET_PASSWORD_SENDER_EMAIL}}
 
 smtp:
-  host: 127.0.0.1
-  user: {{SYSTEM_MAILER_USERNAME}}
-  password: {{SYSTEM_MAILER_PASSWORD}}
+  host: {{HISTORI_SMTP_SERVER}}
+  port: {{HISTORI_SMTP_PORT}}
+  user: {{HISTORI_SMTP_USER}}
+  password: {{HISTORI_SMTP_PASS}}
   tlsEnabled: true
 
 sessionPassphrase: {{HISTORI_DATAKEY}}

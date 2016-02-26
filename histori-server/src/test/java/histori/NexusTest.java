@@ -2,6 +2,7 @@ package histori;
 
 import histori.archive.NexusArchive;
 import histori.archive.NexusTagArchive;
+import histori.dao.NexusSummaryDAO;
 import histori.model.*;
 import histori.model.support.*;
 import org.cobbzilla.wizard.dao.SearchResults;
@@ -16,6 +17,7 @@ import static org.cobbzilla.util.http.HttpStatusCodes.NOT_FOUND;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJson;
 import static org.cobbzilla.util.string.StringUtil.urlEncode;
+import static org.cobbzilla.util.system.Sleep.sleep;
 import static org.cobbzilla.wizardtest.RandomUtil.randomName;
 import static org.junit.Assert.*;
 
@@ -84,7 +86,17 @@ public class NexusTest extends ApiClientTestBase {
         assertEquals(nexusName, found.getName());
         assertEquals(3, found.getTags().size());
 
-        apiDocs.addNote("Search for nexus in the same range, should see our new nexus");
+        apiDocs.addNote("Search for nexus in the same range, should see our new nexus, but probably without tags");
+        searchResults = search(startDate, endDate);
+        assertEquals(1, searchResults.count());
+        result = searchResults.getResult(0);
+        assertEquals(nexusName, result.getPrimary().getName());
+
+        // wait for tags to exist (a background job will do this)
+        final NexusSummaryDAO summaryDAO = getBean(NexusSummaryDAO.class);
+        while (summaryDAO.get(summaryDAO.cacheKey(nexus, account, EntityVisibility.everyone)) == null) sleep(50);
+
+        apiDocs.addNote("Search for nexus in the same range, should see our new nexus, now with tags");
         searchResults = search(startDate, endDate);
         assertEquals(1, searchResults.count());
         result = searchResults.getResult(0);
@@ -109,14 +121,6 @@ public class NexusTest extends ApiClientTestBase {
         assertEquals(4, found.getTags().size());
         assertTrue(found.hasTag(tag4));
         assertTrue(found.hasTag(tag4.toLowerCase()));
-
-        apiDocs.addNote("Search again, verify updated changes");
-        searchResults = search(startDate, endDate);
-        assertEquals(1, searchResults.count());
-        result = searchResults.getResult(0);
-        assertEquals(nexusName, result.getPrimary().getName());
-        assertEquals(4, result.getPrimary().getTags().size());
-        assertTrue(result.getPrimary().hasTag(tag4.toLowerCase()));
 
         apiDocs.addNote("Update a tag");
         final String tagComments = randomName();
