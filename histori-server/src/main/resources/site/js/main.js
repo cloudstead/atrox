@@ -606,14 +606,25 @@ function update_map (data) {
             var result = data.results[i];
             console.log("update_map: result[" + i + "] is: " + result);
             if (result.primary.geo.type == "Point") {
+                markerImage = get_marker_image(result.primary);
                 var marker = new google.maps.Marker({
                     position: {lat: result.primary.geo.coordinates[1], lng: result.primary.geo.coordinates[0]},
                     title: result.primary.name,
-                    //icon: '/icons/battle.png',
+                    icon: markerImage,
                     map: map
                 });
                 active_markers.push(marker);
             }
         }
     }
+}
+
+var marker_colors = ['blue', 'brown', 'darkgreen', 'green', 'orange', 'paleblue', 'pink', 'purple', 'red', 'yellow'];
+function get_marker_image (nexus) {
+    if (typeof nexus.nexusType != "undefined" && nexus.nexusType != null) {
+        var color = marker_colors[ nexus.nexusType.hashCode() % marker_colors.length ];
+        var initial = nexus.nexusType.charAt(0).toUpperCase();
+        return '/markers/' + color + '_Marker' + initial + '.png';
+    }
+    return null;
 }

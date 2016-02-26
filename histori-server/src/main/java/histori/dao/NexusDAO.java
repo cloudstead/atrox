@@ -50,10 +50,7 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
                 // nexusType already matches one of the event_type tags
             }
         } else {
-            final List<NexusTag> eventTypeTags = NexusTag.filterByType(nexusTags, TagType.EVENT_TYPE);
-            if (!eventTypeTags.isEmpty()) {
-                entity.setNexusType(eventTypeTags.get(0).getTagName());
-            }
+            entity.setNexusType(entity.getFirstEventType());
         }
 
         return super.preUpdate(entity);

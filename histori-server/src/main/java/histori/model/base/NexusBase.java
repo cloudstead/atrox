@@ -26,6 +26,7 @@ import java.util.Map;
 import static histori.ApiConstants.GEOJSON_MAXLEN;
 import static histori.ApiConstants.NAME_MAXLEN;
 import static histori.model.CanonicalEntity.canonicalize;
+import static histori.model.TagType.EVENT_TYPE;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.json.JsonUtil.fromJsonOrDie;
 import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
@@ -172,5 +173,20 @@ public class NexusBase extends SocialEntity {
     public NexusTag getFirstTag(String name) {
         final List<NexusTag> found = getTag(name);
         return empty(found) ? null : found.get(0);
+    }
+
+    public List<NexusTag> getTagsByType(String type) {
+        final List<NexusTag> found = new ArrayList<>();
+        if (hasTags()) {
+            for (NexusTag tag : tags) if (tag.getTagType().equalsIgnoreCase(type)) found.add(tag);
+        }
+        return found;
+    }
+
+    @JsonIgnore @Transient public String getFirstEventType () {
+        if (hasTags()) {
+            for (NexusTag tag : tags) if (tag.getTagType().equalsIgnoreCase(EVENT_TYPE)) return tag.getTagName();
+        }
+        return null;
     }
 }

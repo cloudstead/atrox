@@ -163,6 +163,9 @@ public class WikiArchive {
             nexusRequest.addTag("https://en.wikipedia.org/wiki/"+encodeTitleForUrl(nexusRequest.getName()), "citation");
         }
 
+        // Did we detect an event_type?
+        if (!nexusRequest.hasNexusType()) nexusRequest.setNexusType(nexusRequest.getFirstEventType());
+
         return nexusRequest;
     }
 

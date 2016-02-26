@@ -51,6 +51,8 @@ public class NexusImportMain extends HistoriApiMain<NexusImportOptions> {
         final String path = NEXUS_ENDPOINT + "/" + urlEncode(request.getName());
 
         if (api.doGet(path).status == NOT_FOUND) {
+            if (!request.hasNexusType()) request.setNexusType(request.getFirstEventType());
+
             final Nexus created = fromJson(api.put(path, toJson(request)).json, Nexus.class);
             if (request.hasTags()) {
                 for (NexusTag tag : request.getTags()) {
