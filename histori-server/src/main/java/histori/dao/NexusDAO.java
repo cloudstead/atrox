@@ -3,6 +3,7 @@ package histori.dao;
 import histori.model.Account;
 import histori.model.Nexus;
 import histori.model.NexusTag;
+import histori.model.TagType;
 import histori.model.support.EntityVisibility;
 import histori.model.support.GeoBounds;
 import histori.model.support.TimeRange;
@@ -29,7 +30,7 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
 
         // ensure tag is present, or create it if not
         if (entity.hasNexusType()) {
-            return new NexusTag().setTagName(entity.getNexusType()).setTagType("event_type");
+            return new NexusTag().setTagName(entity.getNexusType()).setTagType(TagType.EVENT_TYPE);
         }
 
         return super.preCreate(entity);
@@ -43,13 +44,13 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
 
         // ensure event_type tag corresponding to nexusType is present, or create it if not
         if (entity.hasNexusType()) {
-            if (!NexusTag.containsEventTypeTag(nexusTags, entity.getNexusType())) {
-                return new NexusTag().setTagName(entity.getNexusType()).setTagType("event_type");
+            if (!NexusTag.containsEventTypeTag(nexusTags, TagType.EVENT_TYPE)) {
+                return new NexusTag().setTagName(entity.getNexusType()).setTagType(TagType.EVENT_TYPE);
             } else {
                 // nexusType already matches one of the event_type tags
             }
         } else {
-            final List<NexusTag> eventTypeTags = NexusTag.filterByType(nexusTags, "event_type");
+            final List<NexusTag> eventTypeTags = NexusTag.filterByType(nexusTags, TagType.EVENT_TYPE);
             if (!eventTypeTags.isEmpty()) {
                 entity.setNexusType(eventTypeTags.get(0).getTagName());
             }

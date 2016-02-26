@@ -12,6 +12,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static histori.model.TagType.EVENT_TYPE;
 import static histori.wiki.finder.BattleParticipant.commander;
 import static histori.wiki.finder.BattleTagFinder.CommanderParseState.seeking_commander;
 import static histori.wiki.finder.BattleTagFinder.CommanderParseState.seeking_flag;
@@ -34,7 +35,7 @@ public class BattleTagFinder extends TagFinderBase {
         if (infobox == null) return tags;
 
         NexusTag tag;
-        tags.add(newTag("battle", "event_type"));
+        tags.add(newTag("battle", EVENT_TYPE));
 
         if (infobox.hasChildNamed("partof")) {
             WikiNode partof = infobox.findChildNamed("partof");

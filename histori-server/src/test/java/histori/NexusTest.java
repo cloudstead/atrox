@@ -13,6 +13,7 @@ import java.util.List;
 
 import static histori.ApiConstants.*;
 import static histori.model.CanonicalEntity.canonicalize;
+import static histori.model.TagType.EVENT_TYPE;
 import static org.cobbzilla.util.http.HttpStatusCodes.NOT_FOUND;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJson;
@@ -184,7 +185,6 @@ public class NexusTest extends ApiClientTestBase {
     @Test public void testEventTypeAutoTagging () throws Exception {
 
         Nexus found;  // when we lookup by id
-        NexusSummary result; // when we use the search api
 
         apiDocs.startRecording(DOC_TARGET, "Verify auto-tagging from Nexus.nexusType <-> NexusTag(event_type, name)");
 
@@ -211,7 +211,7 @@ public class NexusTest extends ApiClientTestBase {
         assertEquals(nexusName, found.getName());
         assertEquals(nexusType, found.getNexusType());
         assertEquals(1, found.getTags().size());
-        assertEquals("event_type", found.getTags().get(0).getTagType());
+        assertEquals(EVENT_TYPE, found.getTags().get(0).getTagType());
         assertEquals(nexusType, found.getTags().get(0).getTagName());
 
         apiDocs.addNote("Update our nexus with a new nexusType, this should create another event_type tag");
@@ -220,10 +220,10 @@ public class NexusTest extends ApiClientTestBase {
         final Nexus updatedNexus = fromJson(post(nexusPath, toJson(nexus)).json, Nexus.class);
         assertEquals(updatedType, updatedNexus.getNexusType());
         assertEquals(2, updatedNexus.getTags().size());
-        final List<NexusTag> typeTags = NexusTag.filterByType(updatedNexus.getTags(), "event_type");
+        final List<NexusTag> typeTags = NexusTag.filterByType(updatedNexus.getTags(), EVENT_TYPE);
         assertEquals(2, typeTags.size());
-        assertEquals("event_type", typeTags.get(0).getTagType());
-        assertEquals("event_type", typeTags.get(1).getTagType());
+        assertEquals(EVENT_TYPE, typeTags.get(0).getTagType());
+        assertEquals(EVENT_TYPE, typeTags.get(1).getTagType());
         if (typeTags.get(0).getTagName().equals(nexusType)) {
             assertEquals(updatedType, typeTags.get(1).getTagName());
         } else {

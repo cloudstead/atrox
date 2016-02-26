@@ -15,6 +15,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static histori.model.TagType.EVENT_TYPE;
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.json.JsonUtil.fromJsonOrDie;
 import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
@@ -32,7 +33,7 @@ public class WikiNexusTest {
             new TestPage("Battle of Actium")
                     .location(38, 56, 4, north, 20, 44, 19, east)
                     .range("-31-09-02")
-                    .tag("event_type", "battle")
+                    .tag(EVENT_TYPE, "battle")
                     .tag("event", "Final War of the Roman Republic", "relationship", "part_of")
                     .tag("result", "Decisive Octavian victory")
                     .tag("world_actor", "Octavian's Roman and allied supporters and forces", "role", "combatant")
@@ -54,7 +55,7 @@ public class WikiNexusTest {
             new TestPage("Battle of Purandar")
                     .location(18, 17, north, 73, 59, east)
                     .range("1665")
-                    .tag("event_type", "battle")
+                    .tag(EVENT_TYPE, "battle")
                     .tag("event", "Imperial Maratha Conquests", "relationship", "part_of")
                     .tag("result", "Mughal Victory. Shivaji surrenders.")
                     .tag("world_actor", "Maratha Empire", "role", "combatant")
@@ -69,7 +70,7 @@ public class WikiNexusTest {
             new TestPage("Battle of Świecino")
                     .location(54.787222, 18.087778)
                     .range("1462-09-17")
-                    .tag("event_type", "battle")
+                    .tag(EVENT_TYPE, "battle")
                     .tag("event", "Thirteen Years' War (1454–66)", "relationship", "part_of")
                     .tag("result", "Decisive Polish Victory")
                     .tag("world_actor", "Teutonic Order", "role", "combatant")
@@ -87,7 +88,7 @@ public class WikiNexusTest {
             new TestPage("Battle of the Bulge")
                     .location(50, 15, north, 5, 40, east)
                     .range("1944-12-16", "1945-01-25")
-                    .tag("event_type", "battle")
+                    .tag(EVENT_TYPE, "battle")
                     .tag("event", "World War II", "relationship", "part_of")
                     .tag("result", "Allied victory, German operational failure")
                     .tag("world_actor", "United States", "role", "combatant")
@@ -130,27 +131,27 @@ public class WikiNexusTest {
             new TestPage("Battle of Peleliu", false)
                     .location(7, 0, north, 134, 15, east)
                     .range("1944-09-15", "1944-11-27")
-                    .tag("event_type", "battle")
+                    .tag(EVENT_TYPE, "battle")
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Peleliu"),
 
             new TestPage("Battle of Waterloo", false)
                     .location(50.68016, 4.41169)
                     .range("1815-06-18")
-                    .tag("event_type", "battle")
+                    .tag(EVENT_TYPE, "battle")
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Waterloo"),
 
             // Includes wikitables, increased parsing complexity
             new TestPage("Battle of Kadesh", false)
                     .location(34.57, 36.51)
                     .range("-1274-05")
-                    .tag("event_type", "battle")
+                    .tag(EVENT_TYPE, "battle")
                     .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Kadesh"),
 
             // Uses {{start date}} info block for date, complex casualties stats
             new TestPage("Battle of the Crater", false)
                     .location(37.2183, -77.3777)
                     .range("1864-07-30")
-                    .tag("event_type", "battle")
+                    .tag(EVENT_TYPE, "battle")
                     .tag("event", "American Civil War", "relationship", "part_of")
                     .tag("result", "Confederate States of America victory")
                     .tag("world_actor", "United States", "role", "combatant")
@@ -169,7 +170,7 @@ public class WikiNexusTest {
             new TestPage("Battle of Mortimer's Cross")
                     .location(52, 19, 7, north, 2, 52, 9, west)
                     .range("1461-02-02")
-                    .tag("event_type", "battle")
+                    .tag(EVENT_TYPE, "battle")
                     .tag("event", "Wars of the Roses", "relationship", "part_of")
                     .tag("result", "Decisive Yorkist victory")
                     .tag("world_actor", "House of York", "role", "combatant")
@@ -184,7 +185,7 @@ public class WikiNexusTest {
             new TestPage("Battle of Roliça")
                     .location(39.3136, -9.1836)
                     .range("1808-08-17")
-                    .tag("event_type", "battle")
+                    .tag(EVENT_TYPE, "battle")
                     .tag("event", "Peninsular War", "relationship", "part_of")
                     .tag("result", "Anglo-Portuguese victory, tactical French retreat")
                     .tag("world_actor", "United Kingdom", "role", "combatant")

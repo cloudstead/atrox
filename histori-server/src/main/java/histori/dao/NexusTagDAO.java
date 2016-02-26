@@ -1,8 +1,11 @@
 package histori.dao;
 
 import histori.model.Account;
+import histori.model.Nexus;
 import histori.model.NexusTag;
+import histori.model.TagType;
 import histori.model.support.EntityVisibility;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -12,6 +15,17 @@ import static org.hibernate.criterion.Restrictions.*;
 
 @Repository
 public class NexusTagDAO extends VersionedEntityDAO<NexusTag> {
+
+    @Autowired private NexusDAO nexusDAO;
+
+    @Override public NexusTag postCreate(NexusTag entity, Object context) {
+        if (entity.getTagType().equalsIgnoreCase(TagType.EVENT_TYPE)) {
+            final Nexus nexus = nexusDAO.findByUuid(entity.getNexus());
+            if (!nexus.hasNexusType()) nexus.setNexusType(entity.getTagName());
+            nexusDAO.update(nexus);
+        }
+        return entity;
+    }
 
     public NexusTag findByNexusAndOwnerAndName(String uuid, Account account, String tagName) {
         return uniqueResult(criteria().add(
