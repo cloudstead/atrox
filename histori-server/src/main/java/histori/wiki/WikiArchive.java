@@ -124,7 +124,6 @@ public class WikiArchive {
             }
         }
 
-        // extract additional tags
         final WikiDataFinder finder = FinderFactory.build(this, parsed);
         if (finder != null) {
             if (finder instanceof MultiNexusFinder) {

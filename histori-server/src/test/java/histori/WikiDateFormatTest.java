@@ -10,6 +10,13 @@ import static org.junit.Assert.fail;
 public class WikiDateFormatTest {
 
     public static final String[][] TESTS = new String[][]{
+            {"711 or 712", "711"},
+            {"Saturday, April 18, 1942", "1942-04-18"},
+            {"September 19 - November 21, 1618&lt;br&gt;( Age in years, months, weeks and days month1 09\nday1 19 year1 1618 month2 11 day2 21 year2 1618 )", "1618-09-19_1618-11-21"},
+            {"December 1850 – August 1864", "1850-12_1864-08"},
+            {"March 26 – June 3, 1885", "1885-03-26_1885-06-03"},
+            {"Summer of 718 or 722", "718"},
+            {"268 or early 269", "268"},
             {"19 July 1870&amp;nbsp;– 10 May 1871&lt;br /&gt;( age in years, months, weeks and days month1 07 day1 19 year1 1870 month2 05 day2 10 year2 1871 )", "1870-07-19_1871-05-10"},
             {"11 September 1865<ref name=\"Bancroft\" />{{rp", "1865-09-11"},
             {"1223–1240", "1223_1240"},

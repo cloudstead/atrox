@@ -41,6 +41,12 @@ public class WikiDateFormat {
             {"'Winter' yyyy", "y"},
             {"'Spring' yyyy", "y"},
 
+            {"'Summer of' yyyy", "y"},
+            {"'Fall of' yyyy", "y"},
+            {"'Autumn of' yyyy", "y"},
+            {"'Winter of' yyyy", "y"},
+            {"'Spring of' yyyy", "y"},
+
             {"'Early' yyyy", "y"},
             {"'Late' yyyy", "y"},
             {"'Early' MMM yyyy", "yM"},
@@ -61,7 +67,21 @@ public class WikiDateFormat {
             {"'Circa' MMM, yy", "yM"},
             {"'Circa' MMMM, y", "yM"},
             {"'Circa' MMM, y", "yM"},
-            {"'Circa' MMMM, y", "yM"}
+            {"'Circa' MMMM, y", "yM"},
+
+            {"EEEE, MMM yyyy", "yM"},
+            {"EEEE, MMMM yyyy", "yM"},
+            {"EEEE, MMMM dd yyyy", "yMd"},
+            {"EEEE, MMMM dd, yyyy", "yMd"},
+            {"EEEE, MMMM d yyyy", "yMd"},
+            {"EEEE, MMMM d, yyyy", "yMd"},
+            {"E, MMM yyyy", "yM"},
+            {"E, MMMM yyyy", "yM"},
+            {"E, MMMM dd yyyy", "yMd"},
+            {"E, MMMM dd, yyyy", "yMd"},
+            {"E, MMMM d yyyy", "yMd"},
+            {"EEE, MMMM d, yyyy", "yMd"},
+
     };
     private static final String[] ERA_SUFFIXES = {
             "", "BC", "B.C.", "BCE", "B.C.E", "AD", "A.D.", "CE", "C.E.", "Common Era C.E."
@@ -97,14 +117,23 @@ public class WikiDateFormat {
             new RangePattern(MATCH_MONTH + SPACE + MATCH_DAY + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + ",?" + SPACE + MATCH_YEAR,
                     "startMonth", "startDay", "endDay", "startYear"),
 
+            new RangePattern(MATCH_MONTH + SPACE + MATCH_DAY + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_MONTH + ANY_SPACES + MATCH_DAY + ",?" + SPACE + MATCH_YEAR,
+                    "startMonth", "startDay", "endMonth", "endDay", "startYear"),
+
             new RangePattern(MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR,
                     "startDay", "startMonth", "startYear", "endDay", "endMonth", "endYear"),
+
+            new RangePattern(MATCH_MONTH + SPACE + MATCH_YEAR + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_MONTH + ANY_SPACES + SPACE + MATCH_YEAR,
+                    "startMonth", "startYear", "endMonth", "endYear"),
 
             new RangePattern(MATCH_DAY + SPACE + MATCH_MONTH + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR,
                     "startDay", "startMonth", "endDay", "endMonth", "startYear"),
 
-            new RangePattern(MATCH_MONTH + ANY_SPACES + "or" + ANY_SPACES + MATCH_MONTH + "?," + ANY_SPACES + MATCH_YEAR,
+            new RangePattern(MATCH_MONTH + ANY_SPACES + "or(?:\\s+(?:early|late))?" + ANY_SPACES + MATCH_MONTH + ",?" + ANY_SPACES + MATCH_YEAR,
                     "startMonth", null, "startYear"),
+
+            new RangePattern(MATCH_YEAR + ANY_SPACES + "or(?:\\s+(?:early|late))?" + ANY_SPACES + MATCH_YEAR,
+                    "startYear", null, null),
 
             new RangePattern(MATCH_YEAR + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_YEAR,
                     "startYear", "endYear"),
@@ -125,7 +154,7 @@ public class WikiDateFormat {
 
     public static TimeRange parse(String input) {
 
-        final String date = scrub(input);
+        String date = scrub(input);
         final boolean bce = isBce(date);
         final TimePoint start = new TimePoint();
         final TimePoint end = new TimePoint();
@@ -181,6 +210,9 @@ public class WikiDateFormat {
             end.initInstant();
             return new TimeRange(start, end);
         }
+
+        int orIndex = date.indexOf(" or ");
+        if (orIndex != -1) date = date.substring(0, orIndex);
 
         final String[][] ALL_FORMATS = getFormats();
         for (int i=0; i<DATE_FORMATTERS.length; i++) {
