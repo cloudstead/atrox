@@ -1,9 +1,9 @@
 package histori.main.wiki;
 
-import histori.wiki.matcher.NodeMatcher;
 import histori.wiki.WikiArchive;
 import histori.wiki.WikiArticle;
 import histori.wiki.WikiXmlParseState;
+import histori.wiki.linematcher.LineMatcher;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.io.FileUtil;
 import org.cobbzilla.wizard.main.MainBase;
@@ -86,6 +86,7 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
         final int skipPages = opts.getSkipPages();
         final int skipLines = opts.getSkipLines();
         final int stopLines = opts.getStopLines();
+        final LineMatcher lineMatcher = opts.getLineMatcher();
 
         WikiXmlParseState parseState = WikiXmlParseState.seeking_page;
         WikiArticle article = new WikiArticle();
@@ -133,15 +134,28 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                     case seeking_text:
                         if (line.startsWith(TEXT_TAG_OPEN)) {
                             if (!line.endsWith(TEXT_TAG_CLOSE)) {
-                                article.addText(line.substring(line.indexOf(">") + 1));
+                                if (lineMatcher != null && lineMatcher.matches(line)) {
+                                    logMatch(article.getTitle());
+                                    parseState = WikiXmlParseState.seeking_page;
+                                    continue;
+                                } else if (lineMatcher == null) {
+                                    article.addText(line.substring(line.indexOf(">") + 1));
+                                }
                                 parseState = WikiXmlParseState.seeking_text_end;
                             } else {
                                 // otherwise, this is a single-line entry
                                 line = line.substring(line.indexOf(">") + 1);
                                 line = line.substring(0, line.length() - TEXT_TAG_CLOSE.length());
-                                article.addText(line);
 
-                                store(wiki, article);
+                                if (lineMatcher != null && lineMatcher.matches(line)) {
+                                    logMatch(article.getTitle());
+                                    parseState = WikiXmlParseState.seeking_page;
+                                    continue;
+
+                                } else if (lineMatcher == null) {
+                                    article.addText(line);
+                                    store(wiki, article);
+                                }
                                 article = new WikiArticle();
                                 parseState = WikiXmlParseState.seeking_page;
                             }
@@ -150,12 +164,18 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
 
                     case seeking_text_end:
                         if (line.endsWith(TEXT_TAG_CLOSE)) {
-                            article.addText("\n"+line.substring(0, line.length() - TEXT_TAG_CLOSE.length()));
-
-                            store(wiki, article);
+                            if (lineMatcher != null && lineMatcher.matches(line)) {
+                                logMatch(article.getTitle());
+                                parseState = WikiXmlParseState.seeking_page;
+                                continue;
+                            } else if (lineMatcher == null) {
+                                article.addText("\n" + line.substring(0, line.length() - TEXT_TAG_CLOSE.length()));
+                                store(wiki, article);
+                            }
                             article = new WikiArticle();
                             parseState = WikiXmlParseState.seeking_page;
-                        } else {
+
+                        } else if (lineMatcher == null) {
                             article.addText("\n"+line);
                         }
                         continue;
@@ -172,27 +192,24 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
 
         final WikiIndexerOptions options = getOptions();
 
-        if (options.hasFilter()) {
-            NodeMatcher matcher = options.getFilterObject();
-            try {
-                if (article.parse().findFirstMatch(matcher) != null) {
-                    out(article.getTitle());
-                }
-            } catch (Exception e) {
-                err("Error applying filter to article ("+article.getTitle()+"): "+e);
-            }
+        if (!options.isOverwrite() && wiki.exists(article)) return;
 
+        final String title = article.getTitle();
+        try {
+            wiki.store(article);
+            if (++storeCount % 1000 == 0) out("stored page # " + storeCount + " (" + title + ")");
+
+        } catch (Exception e) {
+            die("error storing: " + title + " (page " + pageCount + "): " + e, e);
+        }
+    }
+
+    private void logMatch(String title) {
+        final WikiIndexerOptions options = getOptions();
+        if (options.hasFilterLog()) {
+            FileUtil.toFileOrDie(options.getFilterLog(), title.trim()+"\n", true);
         } else {
-            if (!options.isOverwrite() && wiki.exists(article)) return;
-
-            final String title = article.getTitle();
-            try {
-                wiki.store(article);
-                if (++storeCount % 1000 == 0) out("stored page # " + storeCount + " (" + title + ")");
-
-            } catch (Exception e) {
-                die("error storing: " + title + " (page " + pageCount + "): " + e, e);
-            }
+            out("FILTER-MATCH: " + title);
         }
     }
 

@@ -41,4 +41,20 @@ public class InfoboxNames {
                 || nameLower.endsWith(INFOBOX_SETTLEMENT_SUFFIX)
                 || nameLower.endsWith(INFOBOX_COMMUNE_SUFFIX);
     }
+
+    public static boolean lineMatchesLocationInfobox(String line) {
+        final String lineLower = line.trim().toLowerCase();
+        int infoboxIndex = lineLower.indexOf("{{infobox");
+        if (infoboxIndex == -1) return false;
+        final StringBuilder infoboxName = new StringBuilder();
+        for (int i=infoboxIndex; i<line.length(); i++) {
+            char c = line.charAt(i);
+            if (c != '\n' && c != '|') {
+                infoboxName.append(c);
+            } else {
+                break;
+            }
+        }
+        return isLocationInfobox(infoboxName.toString().trim());
+    }
 }
