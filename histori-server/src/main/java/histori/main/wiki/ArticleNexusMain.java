@@ -4,6 +4,7 @@ import histori.model.support.MultiNexusRequest;
 import histori.model.support.NexusRequest;
 import histori.wiki.WikiArticle;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.cobbzilla.util.io.FileSuffixFilter;
 import org.cobbzilla.util.io.FileUtil;
 import org.cobbzilla.util.string.StringUtil;
@@ -40,7 +41,7 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
                 try {
                     nexus(line);
                 } catch (Exception e) {
-                    status("Error processing: "+line+": "+e);
+                    status("Error processing: "+line+": "+e+(e instanceof NullPointerException ? " ("+ ExceptionUtils.getStackTrace(e).replace("\n", " -- ") + ")" : ""));
                 } finally {
                     logStatus(options, line);
                 }
