@@ -12,7 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.reflect.ReflectionUtil.get;
@@ -52,14 +51,14 @@ public class WikiDateFormat {
             {"yyyy", "y"},
             {"'Circa' yyyy", "y"}
     };
-    private static final String[] FORMAT_SUFFIXES = {
+    private static final String[] ERA_SUFFIXES = {
             "", "BC", "B.C.", "BCE", "B.C.E", "AD", "A.D.", "CE", "C.E."
     };
     @Getter(lazy=true) private static final String[][] formats = initFormats();
     private static String[][] initFormats () {
         List<String[]> allFormats = new ArrayList<>();
         for (String[] format : FORMAT_BASES) {
-            for (String suffix : FORMAT_SUFFIXES) {
+            for (String suffix : ERA_SUFFIXES) {
                 if (suffix.length() > 0) suffix = " '" + suffix + "'";
                 allFormats.add(new String[] {format[0] + suffix, format[1]});
                 suffix = "," + suffix;
@@ -79,22 +78,25 @@ public class WikiDateFormat {
     public static final String ANY_SPACES = "\\s*";
     public static final String HYPHEN = "[-–]";
 
-    public static final Object[][] RANGE_PATTERNS = {{
-            Pattern.compile(MATCH_DAY + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + SPACE + MATCH_MONTH + ",?" + SPACE + MATCH_YEAR, Pattern.CASE_INSENSITIVE),
-            "startDay", "endDay", "startMonth", "startYear"
-    }, {
-            Pattern.compile(MATCH_MONTH + SPACE + MATCH_DAY + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + ",?" + SPACE + MATCH_YEAR, Pattern.CASE_INSENSITIVE),
-            "startMonth", "startDay", "endDay", "startYear"
-    }, {
-            Pattern.compile(MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR, Pattern.CASE_INSENSITIVE),
-            "startDay", "startMonth", "startYear", "endDay", "endMonth", "endYear"
-    }, {
-            Pattern.compile(MATCH_DAY + SPACE + MATCH_MONTH + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR, Pattern.CASE_INSENSITIVE),
-            "startDay", "startMonth", "endDay", "endMonth", "startYear"
-    }, {
-            Pattern.compile(MATCH_MONTH + ANY_SPACES + "or" + ANY_SPACES + MATCH_MONTH + "?," + ANY_SPACES + MATCH_YEAR, Pattern.CASE_INSENSITIVE),
-            "startMonth", null, "startYear"
-    }};
+    public static final RangePattern[] RANGE_PATTERNS = {
+            new RangePattern(MATCH_DAY + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + SPACE + MATCH_MONTH + ",?" + SPACE + MATCH_YEAR,
+                    "startDay", "endDay", "startMonth", "startYear"),
+
+            new RangePattern(MATCH_MONTH + SPACE + MATCH_DAY + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + ",?" + SPACE + MATCH_YEAR,
+                    "startMonth", "startDay", "endDay", "startYear"),
+
+            new RangePattern(MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR,
+                    "startDay", "startMonth", "startYear", "endDay", "endMonth", "endYear"),
+
+            new RangePattern(MATCH_DAY + SPACE + MATCH_MONTH + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR,
+                    "startDay", "startMonth", "endDay", "endMonth", "startYear"),
+
+            new RangePattern(MATCH_MONTH + ANY_SPACES + "or" + ANY_SPACES + MATCH_MONTH + "?," + ANY_SPACES + MATCH_YEAR,
+                    "startMonth", null, "startYear"),
+
+            new RangePattern(MATCH_YEAR + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_YEAR,
+                    "startYear", "endYear")
+    };
 
     private static DateTimeFormatter[] DATE_FORMATTERS;
     static {
@@ -102,6 +104,10 @@ public class WikiDateFormat {
         DATE_FORMATTERS = new DateTimeFormatter[ALL_FORMATS.length];
         for (int i = 0; i< ALL_FORMATS.length; i++) {
             DATE_FORMATTERS[i] = DateTimeFormat.forPattern(ALL_FORMATS[i][0]);
+        }
+
+        for (RangePattern rangePattern : RANGE_PATTERNS) {
+            rangePattern.setEras(ERA_SUFFIXES);
         }
     }
 
@@ -112,15 +118,16 @@ public class WikiDateFormat {
         final TimePoint start = new TimePoint();
         final TimePoint end = new TimePoint();
 
-        for (Object[] rangePattern : RANGE_PATTERNS) {
-            final Pattern pattern = (Pattern) rangePattern[0];
-            final Matcher matcher = pattern.matcher(date);
-            if (!matcher.matches()) continue;
+        for (RangePattern rangePattern : RANGE_PATTERNS) {
+
+            final Matcher matcher = rangePattern.matches(date);
+            if (matcher == null) continue;
 
             final Set<String> wroteToStart = new HashSet<>();
             final Set<String> wroteToEnd = new HashSet<>();
-            for (int i=1; i<rangePattern.length; i++) {
-                String field = (String) rangePattern[i];
+            for (int i=0; i<rangePattern.getNumFields(); i++) {
+                String field = rangePattern.getField(i);
+                final int groupIndex = i+1;
                 if (field == null) continue;
                 TimePoint target;
                 if (field.startsWith("end")) {
@@ -135,15 +142,15 @@ public class WikiDateFormat {
                 }
 
                 if (field.equals("year")) {
-                    set(target, field, Long.parseLong(matcher.group(i)));
+                    set(target, field, Long.parseLong(matcher.group(groupIndex)));
                     if (bce) target.invertYear();
 
                 } else if (field.equals("month")) {
-                    final Byte month = parseMonth(matcher.group(i));
+                    final Byte month = parseMonth(matcher.group(groupIndex));
                     if (month != null) set(target, field, month);
 
                 } else {
-                    set(target, field, Byte.parseByte(matcher.group(i)));
+                    set(target, field, Byte.parseByte(matcher.group(groupIndex)));
                 }
             }
             // if we wrote fields to start, but not to end, copy their values from start -> end

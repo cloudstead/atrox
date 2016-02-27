@@ -9,13 +9,14 @@ import static org.junit.Assert.fail;
 
 public class WikiDateFormatTest {
 
-	public static final String[][] TESTS = new String[][] {
-			{"circa 43 AD (as Londinium )", "43"},
+    public static final String[][] TESTS = new String[][] {
+            {"264–241 BC", "-264_-241"},
+            {"circa 43 AD (as Londinium )", "43"},
             {" Late May 1274 BC<ref>Lorna Oakes, Pyramids, Temples & Tombs of Ancient Egypt: An Illustrated Atlas of the Land of the Pharaohs, Hermes House: 2003. P. 142.</ref>", "-1274-05"},
             {"16 December 1944 – 25 January 1945", "1944-12-16_1945-01-25"},
             {"15 September – 27 November 1944", "1944-09-15_1944-11-27"},
             {"5–6 June 1967", "1967-06-05_1967-06-06"},
-			{"September 2, 31 BC", "-31-09-02"},
+            {"September 2, 31 BC", "-31-09-02"},
             {"11 September 1865<ref name=\"Bancroft\" />{{rp", "1865-09-11"},
             {"July or August, 251", "251-07"},
             {"May 2014", "2014-05"},
@@ -28,15 +29,15 @@ public class WikiDateFormatTest {
             {"20 August 917", "917-08-20"},
             {" 18–19 January 1991<br>(", "1991-01-18_1991-01-19"},
             {"January 22–24, 1599", "1599-01-22_1599-01-24"},
-			{"2010", "2010"},
-			{"September 13, 533", "533-09-13"},
-			{" {{Start date", null},
-			{"September 2008", "2008-09"},
-			{"1254", "1254"},
-			{"9 August 378", "378-08-09"},
-			{" 1 March 1896", "1896-03-01"},
-			{"Early 255 BC", "-255"},
-			{" Summer 217 BC", "-217"},
+            {"2010", "2010"},
+            {"September 13, 533", "533-09-13"},
+            {" {{Start date", null},
+            {"September 2008", "2008-09"},
+            {"1254", "1254"},
+            {"9 August 378", "378-08-09"},
+            {" 1 March 1896", "1896-03-01"},
+            {"Early 255 BC", "-255"},
+            {" Summer 217 BC", "-217"},
             {"28 May 2011 ", "2011-05-28"},
             {"June 2013", "2013-06"},
             {"4 May 1823", "1823-05-04"},
@@ -54,16 +55,16 @@ public class WikiDateFormatTest {
             {"20 April 1809", "1809-04-20"},
             {"April 2012", "2012-04"},
             {"13 September 1644", "1644-09-13"},
-	};
+    };
 
-	@Test public void testDateParsing () throws Exception {
-		int failCount = 0;
-		int totalCount = 0;
-		StringBuilder failures = new StringBuilder();
-		for (String[] test : TESTS) {
-			totalCount++;
-			final String input = test[0];
-			final String expected = test[1];
+    @Test public void testDateParsing () throws Exception {
+        int failCount = 0;
+        int totalCount = 0;
+        StringBuilder failures = new StringBuilder();
+        for (String[] test : TESTS) {
+            totalCount++;
+            final String input = test[0];
+            final String expected = test[1];
             final TimeRange times;
             boolean parsedOk = false;
             String output = null;
@@ -71,25 +72,25 @@ public class WikiDateFormatTest {
                 times = WikiDateFormat.parse(input);
                 parsedOk = true;
                 output = times.toString();
-				if (expected != null && !output.equals(expected)) {
+                if (expected != null && !output.equals(expected)) {
                     die("expected "+input+" -> "+expected+" but got "+output);
                 } else if (expected == null) {
                     die("expected "+input+" -> FAIL, but got "+output);
                 }
 
-			} catch (Exception e) {
+            } catch (Exception e) {
                 // a null expected value means that we expect parsing to fail
                 if (expected != null || parsedOk) {
                     failures.append("\ninput=" + input+", expected="+expected+", parsed="+output);
                     failCount++;
                 }
             }
-		}
-		if (failures.length() > 0) {
-			failures.append("\n\ndate parsing tests: "+totalCount);
-			failures.append("\nfailed date parsing tests: "+failCount);
-			fail(failures.toString());
-		}
-	}
+        }
+        if (failures.length() > 0) {
+            failures.append("\n\ndate parsing tests: "+totalCount);
+            failures.append("\nfailed date parsing tests: "+failCount);
+            fail(failures.toString());
+        }
+    }
 
 }
