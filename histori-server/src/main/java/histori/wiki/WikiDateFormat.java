@@ -49,10 +49,22 @@ public class WikiDateFormat {
             {"'Late' MMMM yyyy", "yM"},
 
             {"yyyy", "y"},
-            {"'Circa' yyyy", "y"}
+            {"'Circa' yyyy", "y"},
+            {"'Circa' MMM yyyy", "yM"},
+            {"'Circa' MMMM yyyy", "yM"},
+            {"'Circa' MMM yy", "yM"},
+            {"'Circa' MMMM y", "yM"},
+            {"'Circa' MMM y", "yM"},
+            {"'Circa' MMMM y", "yM"},
+            {"'Circa' MMM, yyyy", "yM"},
+            {"'Circa' MMMM, yyyy", "yM"},
+            {"'Circa' MMM, yy", "yM"},
+            {"'Circa' MMMM, y", "yM"},
+            {"'Circa' MMM, y", "yM"},
+            {"'Circa' MMMM, y", "yM"}
     };
     private static final String[] ERA_SUFFIXES = {
-            "", "BC", "B.C.", "BCE", "B.C.E", "AD", "A.D.", "CE", "C.E."
+            "", "BC", "B.C.", "BCE", "B.C.E", "AD", "A.D.", "CE", "C.E.", "Common Era C.E."
     };
     @Getter(lazy=true) private static final String[][] formats = initFormats();
     private static String[][] initFormats () {
@@ -76,7 +88,7 @@ public class WikiDateFormat {
 
     public static final String SPACE = "\\s+";
     public static final String ANY_SPACES = "\\s*";
-    public static final String HYPHEN = "[-–]";
+    public static final String HYPHEN = "(?:[-–]|spaced\\s*&?ndash|&?ndash)";
 
     public static final RangePattern[] RANGE_PATTERNS = {
             new RangePattern(MATCH_DAY + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + SPACE + MATCH_MONTH + ",?" + SPACE + MATCH_YEAR,
@@ -95,7 +107,7 @@ public class WikiDateFormat {
                     "startMonth", null, "startYear"),
 
             new RangePattern(MATCH_YEAR + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_YEAR,
-                    "startYear", "endYear")
+                    "startYear", "endYear"),
     };
 
     private static DateTimeFormatter[] DATE_FORMATTERS;
@@ -160,6 +172,11 @@ public class WikiDateFormat {
                 }
             }
 
+            // If the endYear is 2 digits, prepend the first 2 digits of the start year
+            if (String.valueOf(Math.abs(end.getYear())).length() == 2) {
+                end.setYear((100*(start.getYear() / 100)) + end.getYear());
+            }
+
             start.initInstant();
             end.initInstant();
             return new TimeRange(start, end);
@@ -219,13 +236,18 @@ public class WikiDateFormat {
 
     private static String scrub(String date) {
         int pos = date.indexOf("<");
-        if (pos != -1) return date.substring(0, pos).trim();
+        if (pos != -1) date = date.substring(0, pos).trim();
         pos = date.indexOf("&lt;");
-        if (pos != -1) return date.substring(0, pos).trim();
+        if (pos != -1) date = date.substring(0, pos).trim();
         pos = date.indexOf("{{");
-        if (pos != -1) return date.substring(0, pos).trim();
+        if (pos != -1) date = date.substring(0, pos).trim();
         pos = date.indexOf("(");
-        if (pos != -1) return date.substring(0, pos).trim();
+        if (pos != -1) date = date.substring(0, pos).trim();
+
+        date = date.replace("&amp;nbsp;", "")
+                .replace("&amp;", "").replace("amp;", "")
+                .replace("&nbsp;", "").replace("nbsp;", "");
+
         return date.trim();
     }
 

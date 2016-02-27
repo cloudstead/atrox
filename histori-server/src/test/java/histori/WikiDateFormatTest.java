@@ -9,7 +9,14 @@ import static org.junit.Assert.fail;
 
 public class WikiDateFormatTest {
 
-    public static final String[][] TESTS = new String[][] {
+    public static final String[][] TESTS = new String[][]{
+            {"19 July 1870&amp;nbsp;– 10 May 1871&lt;br /&gt;( age in years, months, weeks and days month1 07 day1 19 year1 1870 month2 05 day2 10 year2 1871 )", "1870-07-19_1871-05-10"},
+            {"11 September 1865<ref name=\"Bancroft\" />{{rp", "1865-09-11"},
+            {"1223–1240", "1223_1240"},
+            {"circa September, 9 Common Era C.E.", "9-09"},
+            {"1835–36", "1835_1836"},
+            {"218–201 BC", "-218_-201"},
+            {"2 April spaced ndash 14 June 1982", "1982-04-02_1982-06-14"},
             {"264–241 BC", "-264_-241"},
             {"circa 43 AD (as Londinium )", "43"},
             {" Late May 1274 BC<ref>Lorna Oakes, Pyramids, Temples & Tombs of Ancient Egypt: An Illustrated Atlas of the Land of the Pharaohs, Hermes House: 2003. P. 142.</ref>", "-1274-05"},
@@ -17,7 +24,6 @@ public class WikiDateFormatTest {
             {"15 September – 27 November 1944", "1944-09-15_1944-11-27"},
             {"5–6 June 1967", "1967-06-05_1967-06-06"},
             {"September 2, 31 BC", "-31-09-02"},
-            {"11 September 1865<ref name=\"Bancroft\" />{{rp", "1865-09-11"},
             {"July or August, 251", "251-07"},
             {"May 2014", "2014-05"},
             {"February 7, 1866", "1866-02-07"},
