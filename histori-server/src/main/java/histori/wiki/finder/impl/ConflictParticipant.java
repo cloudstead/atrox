@@ -8,19 +8,19 @@ import lombok.experimental.Accessors;
 import java.util.StringTokenizer;
 
 @NoArgsConstructor @AllArgsConstructor @Accessors(chain = true) @EqualsAndHashCode(of = {"name", "side"})
-public class BattleParticipant {
+public class ConflictParticipant {
 
     public String name;
     public String side;
 
-    public BattleParticipant(String name) { this.name = name; }
+    public ConflictParticipant(String name) { this.name = name; }
 
     public boolean isValidName() {
         // must have at least 3 word chars
-        return name.replaceAll("\\W", "").toLowerCase().trim().length() > BattleFinder.MIN_VALID_NAME_LENGTH;
+        return name.replaceAll("\\W", "").toLowerCase().trim().length() > ConflictFinder.MIN_VALID_NAME_LENGTH;
     }
 
-    public static BattleParticipant commander(String name, String side) {
+    public static ConflictParticipant commander(String name, String side) {
         int pos = name.indexOf(',');
         if (pos == -1) pos = name.indexOf('.');
         if (pos != -1 && pos != name.length()-1) {
@@ -28,6 +28,6 @@ public class BattleParticipant {
             if (numWordsAfterComma > 1) name = name.substring(0, pos);
         }
         if (name.endsWith("*")) name = name.substring(0, name.length()-1);
-        return new BattleParticipant(name.trim(), side == null ? null : side.trim());
+        return new ConflictParticipant(name.trim(), side == null ? null : side.trim());
     }
 }

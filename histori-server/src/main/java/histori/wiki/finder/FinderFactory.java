@@ -2,7 +2,7 @@ package histori.wiki.finder;
 
 import histori.wiki.ParsedWikiArticle;
 import histori.wiki.WikiArchive;
-import histori.wiki.finder.impl.BattleFinder;
+import histori.wiki.finder.impl.ConflictFinder;
 import histori.wiki.finder.impl.MetroFinder;
 import histori.wiki.matcher.LocationInfoboxMatcher;
 
@@ -23,7 +23,7 @@ public class FinderFactory {
 
     private static WikiDataFinder _build(ParsedWikiArticle parsed) {
         if (parsed.findFirstInfoboxWithName(INFOBOX_MILITARY_CONFLICT) != null) {
-            return new BattleFinder();
+            return new ConflictFinder();
         } else if (parsed.findFirstInfoboxMatch(LOCATION_MATCHER) != null) {
             return new MetroFinder();
         }

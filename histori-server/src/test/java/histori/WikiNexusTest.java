@@ -185,11 +185,13 @@ public class WikiNexusTest extends WikiTest {
             new ArticleNexusExpectedResult("Battle of Chusto-Talasah", false)
                     .location(36.2823, -95.9502)
                     .range("1861-12-09")
+                    .tag(EVENT_TYPE, "battle")
                     .tag("impact", "dead", "estimate", "9", "world_actor", "Creek (people)", "world_actor", "Seminole")
                     .tag("impact", "casualties", "estimate", "500", "world_actor", "Creek (people)", "world_actor", "Seminole"),
 
             // detection of "damaged" casualty that references previous line. complex casualty logic.
             new ArticleNexusExpectedResult("Battle of Britain Day", false)
+                    .tag(EVENT_TYPE, "battle")
                     .tag("impact", "aircraft destroyed", "estimate", "29", "world_actor", "United Kingdom")
                     .tag("impact", "aircraft damaged", "estimate", "21", "world_actor", "United Kingdom")
                     .tag("impact", "dead", "low_estimate", "14", "estimate", "15", "high_estimate", "16", "world_actor", "United Kingdom")
@@ -204,6 +206,7 @@ public class WikiNexusTest extends WikiTest {
 
             // test naval casualties
             new ArticleNexusExpectedResult("Naval Battle of Guadalcanal", false)
+                    .tag(EVENT_TYPE, "battle")
                     .tag("world_actor", "United States", "role", "combatant")
                     .tag("world_actor", "Empire of Japan", "role", "combatant")
                     .tag("impact", "light cruisers sunk", "estimate", "2", "world_actor", "United States")
@@ -221,27 +224,41 @@ public class WikiNexusTest extends WikiTest {
                     .tag("impact", "dead", "estimate", "1900", "world_actor", "Empire of Japan"),
 
             // yet another location coordinate scheme
-            new ArticleNexusExpectedResult("Battle of Mount Elba", false).location(33.0, 46.0, 35.401, north, 93.0, 21.0, 59.619, west).range("1864-03-30"),
+            new ArticleNexusExpectedResult("Battle of Mount Elba", false)
+                    .tag(EVENT_TYPE, "battle")
+                    .location(33.0, 46.0, 35.401, north, 93.0, 21.0, 59.619, west)
+                    .range("1864-03-30"),
 
             // article missing cardinal directions
-            new ArticleNexusExpectedResult("Battle of Lechfeld (955)", false).location(48, 22, north, 10, 54, east).range("955-08-10"),
+            new ArticleNexusExpectedResult("Battle of Lechfeld (955)", false)
+                    .tag(EVENT_TYPE, "battle")
+                    .location(48, 22, north, 10, 54, east)
+                    .range("955-08-10"),
 
             // Coord box embedded within place attribute of an infobox
-            new ArticleNexusExpectedResult("Battle of Las Navas de Tolosa", false).location(38.28443, -3.58286).range("1212-07-16"),
+            new ArticleNexusExpectedResult("Battle of Las Navas de Tolosa", false)
+                    .tag(EVENT_TYPE, "battle")
+                    .location(38.28443, -3.58286)
+                    .range("1212-07-16"),
 
             // infobox with date and location is within a wikitable
-            new ArticleNexusExpectedResult("Battle of Evesham", false).location(52.1058726, -1.9445372).range("1265-08-04"),
+            new ArticleNexusExpectedResult("Battle of Evesham", false)
+                    .tag(EVENT_TYPE, "battle")
+                    .location(52.1058726, -1.9445372)
+                    .range("1265-08-04"),
 
             // unparseable -- not actually a battle (it's a TV show)
             new ArticleNexusExpectedResult("Battle of the Seasons", false).unparseable(true),
 
             // trouble parsing world_actors
             new ArticleNexusExpectedResult("Battle of Marsaglia", false)
+                    .tag(EVENT_TYPE, "battle")
                     .tag("world_actor", "Kingdom of France", "role", "combatant")
                     .tag("world_actor", "Duchy of Savoy", "role", "combatant")
                     .tag("world_actor", "Spain", "role", "combatant"),
 
             new ArticleNexusExpectedResult("Battle of Ayacucho", false)
+                    .tag(EVENT_TYPE, "battle")
                     .tag("world_actor", "Peru", "role", "combatant")
                     .tag("world_actor", "Gran Colombia", "role", "combatant")
                     .tag("world_actor", "Argentina", "role", "combatant")
@@ -250,7 +267,9 @@ public class WikiNexusTest extends WikiTest {
                     .tag("world_actor", "British Legions", "role", "combatant")
                     .tag("world_actor", "Monarchy of Spain", "role", "combatant")
                     .tag("world_actor", "Spain", "role", "combatant")
-                    .tag("world_actor", "Viceroyalty of Perú", "role", "combatant")
+                    .tag("world_actor", "Viceroyalty of Perú", "role", "combatant"),
+
+            new ArticleNexusExpectedResult("Second Punic War", false).unparseable(true)
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {

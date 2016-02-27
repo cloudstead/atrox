@@ -16,12 +16,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static histori.model.TagType.EVENT_TYPE;
-import static histori.wiki.finder.impl.BattleParticipant.commander;
-import static histori.wiki.finder.impl.BattleFinder.CommanderParseState.seeking_commander;
-import static histori.wiki.finder.impl.BattleFinder.CommanderParseState.seeking_flag;
+import static histori.wiki.finder.impl.ConflictParticipant.commander;
+import static histori.wiki.finder.impl.ConflictFinder.CommanderParseState.seeking_commander;
+import static histori.wiki.finder.impl.ConflictFinder.CommanderParseState.seeking_flag;
 
 @Slf4j
-public class BattleFinder extends FinderBase<NexusRequest> {
+public class ConflictFinder extends FinderBase<NexusRequest> {
 
     public static final String HTML_TAG_REGEX = "(<|&lt;)\\s*\\w+\\s*/?\\s*(>|&gt;)";
     public static final String HTML_BR_REGEX = "(<|&lt;)\\s*([Bb][Rr])\\s*/?\\s*(>|&gt;)";
@@ -33,7 +33,7 @@ public class BattleFinder extends FinderBase<NexusRequest> {
     @Override public NexusRequest find() {
 
         final NexusRequest request = new NexusRequest();
-        addStandardTags(wiki, request);
+        if (!addStandardTags(wiki, request)) return null;
 
         final List<NexusTag> tags = new ArrayList<>();
         final WikiNode infobox = article.findFirstInfoboxWithName(InfoboxNames.INFOBOX_MILITARY_CONFLICT);
@@ -69,8 +69,8 @@ public class BattleFinder extends FinderBase<NexusRequest> {
 
                     final WikiNode commanderNode = infobox.findFirstAttributeWithName(child.getName().replace("combatant", "commander"));
                     if (commanderNode != null) {
-                        final Set<BattleParticipant> commanders = parseCommanders(commanderNode);
-                        for (BattleParticipant commander : commanders) {
+                        final Set<ConflictParticipant> commanders = parseCommanders(commanderNode);
+                        for (ConflictParticipant commander : commanders) {
                             if (commander.isValidName()) {
                                 tag = newTag(commander.name, "person", "role", RoleType.commander.name());
                                 if (commander.side != null) {
@@ -374,8 +374,8 @@ public class BattleFinder extends FinderBase<NexusRequest> {
     enum CommanderParseState {
         seeking_commander, seeking_flag
     }
-    public Set<BattleParticipant> parseCommanders(WikiNode targetNode) {
-        final Set<BattleParticipant> found = new LinkedHashSet<>();
+    public Set<ConflictParticipant> parseCommanders(WikiNode targetNode) {
+        final Set<ConflictParticipant> found = new LinkedHashSet<>();
         boolean skippingComment = false;
         String side = null;
         boolean foundFlags = false;

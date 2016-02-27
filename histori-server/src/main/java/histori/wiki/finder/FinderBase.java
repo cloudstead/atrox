@@ -20,21 +20,22 @@ public abstract class FinderBase<T> implements WikiDataFinder<T> {
 
     public static String normalizeInfoboxName(String s) { return s.toLowerCase().replaceAll("\\s", ""); }
 
-    public void addStandardTags (WikiArchive wiki, NexusRequest nexusRequest) {
+    public boolean addStandardTags (WikiArchive wiki, NexusRequest nexusRequest) {
         // When was it?
         TimeRange dateRange = new DateRangeFinder().setWiki(wiki).setArticle(article).find();
         if (dateRange == null) {
             String msg = "toNexusRequest: " + article.getName() + " had no date (skipping)";
             log.warn(msg);
-            return;
+            return false;
         }
 
         LatLon coordinates = getLatLon(wiki);
-        if (coordinates == null) return;
+        if (coordinates == null) return false;
 
         nexusRequest.setPoint(new Point(coordinates.getLon(), coordinates.getLat()))
                 .setTimeRange(dateRange)
                 .setName(article.getName());
+        return true;
     }
 
     public LatLon getLatLon(WikiArchive wiki) { return getLatLon(wiki, this.article); }

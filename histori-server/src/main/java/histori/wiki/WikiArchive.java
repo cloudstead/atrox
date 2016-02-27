@@ -139,6 +139,7 @@ public class WikiArchive {
 
             } else {
                 final NexusRequest nexusRequest = (NexusRequest) finder.find();
+                if (nexusRequest == null || !nexusRequest.hasName()) return null;
                 return finalize(nexusRequest);
             }
         }
@@ -155,6 +156,7 @@ public class WikiArchive {
     }
 
     public NexusRequest addCitation(NexusRequest nexusRequest, String title) {
+        if (empty(title)) return null;
         nexusRequest.addTag("https://en.wikipedia.org/wiki/"+encodeTitleForUrl(title), "citation");
         return nexusRequest;
     }
