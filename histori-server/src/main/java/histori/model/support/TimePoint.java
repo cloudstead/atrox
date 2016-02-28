@@ -1,6 +1,7 @@
 package histori.model.support;
 
 import histori.ApiConstants;
+import histori.wiki.OrdinalCentury;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -98,6 +99,9 @@ public class TimePoint {
     @Min(value=MIN_YEAR, message="err.timePoint.year.tooEarly")
     @Max(value=MAX_YEAR, message="err.timePoint.year.tooLate")
     @Getter @Setter private long year;
+
+    public String getCentury () { return OrdinalCentury.forYear(getYear()); }
+    public void setCentury (String ordinal) { setYear(OrdinalCentury.getYear(ordinal)); }
 
     public void invertYear() { year *= -1; }
 

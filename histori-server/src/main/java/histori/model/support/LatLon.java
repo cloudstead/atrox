@@ -31,8 +31,8 @@ public class LatLon {
     public LatLon(double latDeg, Double latMin, Double latSec, Cardinal latCardinal,
                   double lonDeg, Double lonMin, Double lonSec, Cardinal lonCardinal) {
         this.lat = latDeg;
-        if (latMin != null) this.lat += latMin / 60.0;
-        if (latSec != null) this.lat += latSec / 3600.0;
+        if (latMin != null) this.lat += latMin / 60.0d;
+        if (latSec != null) this.lat += latSec / 3600.0d;
         this.lat *= latCardinal.getDirection();
 
         this.lon = lonDeg;

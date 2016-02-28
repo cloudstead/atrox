@@ -40,4 +40,12 @@ public class RangePattern {
         }
         return null;
     }
+
+    public Matcher find(String date) {
+        for (Pattern p : getPatterns()) {
+            final Matcher m = p.matcher(date);
+            if (m.find()) return m;
+        }
+        return null;
+    }
 }

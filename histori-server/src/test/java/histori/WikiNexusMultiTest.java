@@ -36,11 +36,24 @@ public class WikiNexusMultiTest extends WikiTest {
                     .tag("event_type", "founding")
                     .tag("citation", "https://en.wikipedia.org/wiki/San_Francisco")),
 
+            new ArticleNexusExpectedResult("Glasnevin")
+                    .nexus(new ArticleNexusExpectedResult("Glasnevin founded")
+                    .location(53.371859, -6.267357)
+                    .range("500")
+                    .tag("event_type", "founding")
+                    .tag("citation", "https://en.wikipedia.org/wiki/Glasnevin")),
+
+            new ArticleNexusExpectedResult("Albion, Michigan")
+                    .nexus(new ArticleNexusExpectedResult("Albion, Michigan settled")
+                    .location(42, 14, 48, north, 84, 45, 12, west)
+                    .range("1833")
+                    .tag("event_type", "founding")
+                    .tag("citation", "https://en.wikipedia.org/wiki/Albion%2C_Michigan")),
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
-//        validateCorrectNexus(TESTS[TESTS.length-1]);
-//        validateCorrectNexus(TESTS[9]);
+        validateCorrectNexuses(TESTS[TESTS.length-1]);
+//        validateCorrectNexuses(TESTS[9]);
         for (ArticleNexusExpectedResult test : TESTS) {
             validateCorrectNexuses(test);
         }

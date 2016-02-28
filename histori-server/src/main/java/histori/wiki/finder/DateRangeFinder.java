@@ -35,18 +35,28 @@ public class DateRangeFinder extends FinderBase<TimeRange> {
             if (!isDateInfoboxCandidate(box.getName())) continue;
             WikiNode dateAttr = box.findChildNamed(ATTR_DATE);
             if (dateAttr != null) {
-                WikiNode startDateBox = dateAttr.findFirstInfoboxWithName("start date");
+
+                final WikiNode startDateBox = dateAttr.findFirstInfoboxWithName("start date");
                 if (startDateBox != null) {
-                    List<WikiNode> dateBoxNodes = startDateBox.getChildren();
-                    int numChildren = dateBoxNodes.size();
-                    if (numChildren > 0) {
-                        String dateString = dateBoxNodes.get(0).getName();
-                        if (numChildren > 0) dateString += "-" + dateBoxNodes.get(1).getName();
-                        if (numChildren > 1) dateString += "-" + dateBoxNodes.get(2).getName();
-                        return WikiDateFormat.parse(dateString);
-                    }
+                    final TimeRange range = fromStartDateInfobox(startDateBox);
+                    if (range != null) return range;
                 }
+
                 return WikiDateFormat.parse(dateAttr.findAllChildText());
+            }
+        }
+        return null;
+    }
+
+    public static TimeRange fromStartDateInfobox(WikiNode startDateBox) {
+        if (startDateBox != null) {
+            List<WikiNode> dateBoxNodes = startDateBox.getChildren();
+            int numChildren = dateBoxNodes.size();
+            if (numChildren > 0) {
+                String dateString = dateBoxNodes.get(0).getName();
+                if (numChildren > 0) dateString += "-" + dateBoxNodes.get(1).getName();
+                if (numChildren > 1) dateString += "-" + dateBoxNodes.get(2).getName();
+                return WikiDateFormat.parse(dateString);
             }
         }
         return null;

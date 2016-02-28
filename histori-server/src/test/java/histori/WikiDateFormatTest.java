@@ -10,6 +10,18 @@ import static org.junit.Assert.fail;
 public class WikiDateFormatTest {
 
     public static final String[][] TESTS = new String[][]{
+            {"Founded in 1867", "1867"},
+            {"Circa 1947-1951", "1947_1951"},
+            {"1963 under a new name", "1963"},
+            {"19 July 1870&amp;nbsp;– 10 May 1871&lt;br /&gt;( age in years, months, weeks and days month1 07 day1 19 year1 1870 month2 05 day2 10 year2 1871 )", "1870-07-19_1871-05-10"},
+            {"1860, as Orchard Place, Colorado", "1860"},
+            {"1885 as DeSpain&amp;nbsp;Junction, later Harris", "1885"},
+            {"Early 1830s", "1830"},
+            {"first century BCE", "-1"},
+            {"first century", "1"},
+            {"sixth (or seventh) century", "500"},
+            {"Circa March 22, 1816", "1816-03-22"},
+            {"c. 1230", "1230"},
             {"711 or 712", "711"},
             {"Saturday, April 18, 1942", "1942-04-18"},
             {"September 19 - November 21, 1618&lt;br&gt;( Age in years, months, weeks and days month1 09\nday1 19 year1 1618 month2 11 day2 21 year2 1618 )", "1618-09-19_1618-11-21"},
@@ -17,7 +29,6 @@ public class WikiDateFormatTest {
             {"March 26 – June 3, 1885", "1885-03-26_1885-06-03"},
             {"Summer of 718 or 722", "718"},
             {"268 or early 269", "268"},
-            {"19 July 1870&amp;nbsp;– 10 May 1871&lt;br /&gt;( age in years, months, weeks and days month1 07 day1 19 year1 1870 month2 05 day2 10 year2 1871 )", "1870-07-19_1871-05-10"},
             {"11 September 1865<ref name=\"Bancroft\" />{{rp", "1865-09-11"},
             {"1223–1240", "1223_1240"},
             {"circa September, 9 Common Era C.E.", "9-09"},
