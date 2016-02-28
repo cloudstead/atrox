@@ -9,6 +9,7 @@ import histori.wiki.WikiNode;
 import histori.wiki.finder.DateRangeFinder;
 import histori.wiki.finder.MultiNexusFinder;
 import histori.wiki.finder.TextEventFinder;
+import histori.wiki.finder.TextEventFinderResult;
 import histori.wiki.matcher.LocationInfoboxMatcher;
 import lombok.extern.slf4j.Slf4j;
 import org.geojson.Point;
@@ -17,8 +18,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static histori.wiki.finder.TextEventFinder.DATE_GROUP;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Slf4j
 public class MetroFinder extends MultiNexusFinder {
@@ -26,7 +27,10 @@ public class MetroFinder extends MultiNexusFinder {
     public static final LocationInfoboxMatcher LOCATION_MATCHER = new LocationInfoboxMatcher();
     public static final String ESTABLISHED_DATE = "established_date";
     public static final String ESTABLISHED_TITLE = "established_title";
-    public static final String HISTORY_HEADER = "==History==\n";
+
+    public static final String HISTORY_HEADER = "==History==";
+    public static final Pattern INTRO_TERMINATOR = Pattern.compile("==");
+    public static final Pattern HISTORY_TERMINATOR = Pattern.compile("==\\w+[^=]+==");
 
     @Override
     public List<NexusRequest> find() {
@@ -86,13 +90,17 @@ public class MetroFinder extends MultiNexusFinder {
 
         if (found.isEmpty()) {
             // Look in (1) opening paragraph of the article and (2) first paragraph of "History" section, if there is one
-            final String firstParagraph = getIntroduction();
+            final String introduction = getIntroduction();
             final String historySection = getHistoryParagraph();
 
-            NexusRequest request;
-            request = findFoundingDate(historySection);
-            if (request == null) request = findFoundingDate(firstParagraph);
-            if (request != null) found.add(request);
+            TextEventFinderResult finderResult = TextEventFinder.find(historySection);
+            if (finderResult == null) finderResult = TextEventFinder.find(introduction);
+            if (finderResult != null) {
+                NexusRequest request = (NexusRequest) new NexusRequest()
+                        .setTimeRange(finderResult.getRange())
+                        .setName(article.getName() + " " + finderResult.getDescription());
+                found.add(request);
+            }
         }
 
         for (NexusRequest r : found) {
@@ -101,26 +109,6 @@ public class MetroFinder extends MultiNexusFinder {
             r.addTag("founding", TagType.EVENT_TYPE);
         }
         return found;
-    }
-
-    public static final TextEventFinder[] TEXT_FINDERS = new TextEventFinder[] {
-            new TextEventFinder("first\\s+.*?settlers?.+?arrived\\s+(?:in|on)\\s+"+ DATE_GROUP, "settled"),
-            new TextEventFinder("was formed\\s+(?:in|on)\\s+"+ DATE_GROUP, "formed"),
-            new TextEventFinder("founded\\s+by\\s+.+?in\\s+the\\s+(.+?\\s+century)", "founded"),
-            new TextEventFinder("in\\s+"+DATE_GROUP+"\\s.+?(:?formed by|founded by)", "founded")
-    };
-
-    private NexusRequest findFoundingDate(String paragraph) {
-        TimeRange range = null;
-        TextEventFinder matched = null;
-        for (TextEventFinder finder : TEXT_FINDERS) {
-            range = finder.find(paragraph);
-            if (range != null) {
-                matched = finder;
-                break;
-            }
-        }
-        return range == null ? null : (NexusRequest) new NexusRequest().setTimeRange(range).setName(article.getName()+" "+matched.getDescription());
     }
 
     public NexusRequest getNexusRequest(Map<String, NexusRequest> requests, WikiNode child, String prefix) {
@@ -142,7 +130,7 @@ public class MetroFinder extends MultiNexusFinder {
                 found = true;
             }
             if (found) {
-                if (appendParagraphNode(b, node, nodeName, "==")) break;
+                if (appendParagraphNode(b, node, nodeName, INTRO_TERMINATOR)) break;
             }
         }
         return b.toString();
@@ -152,7 +140,7 @@ public class MetroFinder extends MultiNexusFinder {
     private String getHistoryParagraph() {
         final StringBuilder b = new StringBuilder();
         boolean found = false;
-        String terminator = null;
+        Pattern terminator = null;
         for (WikiNode node : article.getChildren()) {
             String nodeName = node.getName();
             if (node.getType().isString() && nodeName.contains(HISTORY_HEADER)) {
@@ -161,17 +149,20 @@ public class MetroFinder extends MultiNexusFinder {
             }
             if (found) {
                 if (appendParagraphNode(b, node, nodeName, terminator)) break;
-                terminator = "==";
+                if (b.length() > 100) terminator = HISTORY_TERMINATOR;
             }
         }
         return b.toString();
     }
 
-    private boolean appendParagraphNode(StringBuilder b, WikiNode node, String nodeName, String terminator) {
+    private boolean appendParagraphNode(StringBuilder b, WikiNode node, String nodeName, Pattern terminator) {
         if (node.getType().isString()) {
-            if (terminator != null && nodeName.contains(terminator)) {
-                b.append(nodeName.substring(0, nodeName.indexOf(terminator)));
-                return true;
+            if (terminator != null) {
+                final Matcher matcher = terminator.matcher(nodeName);
+                if (matcher.find()) {
+                    b.append(nodeName.substring(0, matcher.start(0)));
+                    return true;
+                }
             }
             b.append(nodeName).append(" ");
 

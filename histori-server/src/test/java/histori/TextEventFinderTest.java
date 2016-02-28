@@ -2,7 +2,6 @@ package histori;
 
 import histori.model.support.TimeRange;
 import histori.wiki.finder.TextEventFinder;
-import histori.wiki.finder.impl.MetroFinder;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -22,20 +21,28 @@ public class TextEventFinderTest {
     }, {
             "In 1971 Motala Municipality was formed by the ",
             "1971"
+    }, {
+            "\n\nSince the 19th century, the built-up area of Paris has grown far beyond its administrative borders; together with its suburbs, the whole agglomeration has a population of 10,550,350 (Jan. 2012 census).[2] Paris' metropolitan area spans most of the Paris region and has a population of 12,341,418 (Jan. 2012 census),[3] or one-fifth of the population of France.[6] The administrative region covers 12,012 km² (4,638 mi²), with approximately 12 million inhabitants as of 2014, and has its own regional council and president.[7]\n\nParis was founded in the 3rd century BC by a Celtic people called the Parisii, who gave the city its name. By the 12th century, Paris was the largest city in the western world, a prosperous trading centre, and the home of the University of Paris, one of the first in Europe. In the 18th century, it was the centre stage for the French Revolution, and became an important centre of finance, commerce, fashion, science, and the arts, a position it still retains today.",
+            "200"
     }};
 
     @Test public void testTextFinders () {
+        findText(TESTS[TESTS.length-1]);
         for (String[] test : TESTS) {
-            boolean ok = false;
-            for (TextEventFinder finder : MetroFinder.TEXT_FINDERS) {
-                TimeRange found = finder.find(test[0]);
-                if (found != null) {
-                    assertEquals(test[1], found.toString());
-                    ok = true;
-                    break;
-                }
-            }
-            if (!ok) fail("no finder matched: "+test[0]);
+            findText(test);
         }
+    }
+
+    public void findText(String[] test) {
+        boolean ok = false;
+        for (TextEventFinder finder : TextEventFinder.FINDERS) {
+            TimeRange found = finder.findRange(test[0]);
+            if (found != null) {
+                assertEquals(test[1], found.toString());
+                ok = true;
+                break;
+            }
+        }
+        if (!ok) fail("no finder matched: "+test[0]);
     }
 }

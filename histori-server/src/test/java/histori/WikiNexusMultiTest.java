@@ -49,6 +49,13 @@ public class WikiNexusMultiTest extends WikiTest {
                     .range("1833")
                     .tag("event_type", "founding")
                     .tag("citation", "https://en.wikipedia.org/wiki/Albion%2C_Michigan")),
+
+            new ArticleNexusExpectedResult("Paris")
+                    .nexus(new ArticleNexusExpectedResult("Paris founded")
+                    .location(48.8567, 2.3508)
+                    .range("200")
+                    .tag("event_type", "founding")
+                    .tag("citation", "https://en.wikipedia.org/wiki/Paris")),
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
