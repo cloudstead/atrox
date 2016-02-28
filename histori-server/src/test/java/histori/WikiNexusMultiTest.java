@@ -72,7 +72,7 @@ public class WikiNexusMultiTest extends WikiTest {
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
-        validateCorrectNexuses(TESTS[TESTS.length-1]);
+//        validateCorrectNexuses(TESTS[TESTS.length-1]);
 //        validateCorrectNexuses(TESTS[9]);
         for (ArticleNexusExpectedResult test : TESTS) {
             validateCorrectNexuses(test);
