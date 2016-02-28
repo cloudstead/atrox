@@ -6,12 +6,14 @@ import histori.model.support.NexusRequest;
 import histori.model.support.TimeRange;
 import histori.wiki.WikiDateFormat;
 import histori.wiki.WikiNode;
+import histori.wiki.WikiNodeType;
 import histori.wiki.finder.DateRangeFinder;
 import histori.wiki.finder.MultiNexusFinder;
 import histori.wiki.finder.TextEventFinder;
 import histori.wiki.finder.TextEventFinderResult;
 import histori.wiki.matcher.LocationInfoboxMatcher;
 import lombok.extern.slf4j.Slf4j;
+import org.cobbzilla.util.string.StringUtil;
 import org.geojson.Point;
 
 import java.util.ArrayList;
@@ -43,6 +45,7 @@ public class MetroFinder extends MultiNexusFinder {
         final Map<String, NexusRequest> requests = new HashMap<>();
         for (WikiNode child : infobox.getChildren()) {
             if (child.getType().isAttribute() && child.getName().toLowerCase().startsWith("established_")) {
+                final String childText = child.findAllChildText();
                 if (child.getName().toLowerCase().startsWith(ESTABLISHED_DATE)) {
 
                     final NexusRequest r = getNexusRequest(requests, child, ESTABLISHED_DATE);
@@ -52,18 +55,27 @@ public class MetroFinder extends MultiNexusFinder {
                         range = DateRangeFinder.fromStartDateInfobox(startDateBox);
                     }
                     if (range == null) {
-                        range = WikiDateFormat.parse(child.findAllChildText());
+                        range = WikiDateFormat.parse(childText);
                     }
                     if (range == null) {
-                        log.warn("Unparseable range: " + child.findAllChildText());
+                        log.warn("Unparseable range: " + childText);
                     } else {
                         r.setTimeRange(range);
                     }
 
                 } else if (child.getName().toLowerCase().startsWith(ESTABLISHED_TITLE)) {
 
+                    if (childText == null) continue;
+
                     final NexusRequest r = getNexusRequest(requests, child, ESTABLISHED_TITLE);
-                    r.setName(article.getName() + " " + child.findAllChildTextButNotLinkDescriptions());
+                    String establishType;
+                    if (childText.contains(" by ") && !child.findByType(WikiNodeType.link).isEmpty()) {
+                        establishType = child.findAllChildTextButNotLinkDescriptions();
+                    } else {
+                        establishType = child.findAllChildTextButNotLinkTargets();
+                    }
+                    if (!establishType.trim().contains(" ")) establishType = StringUtil.uncapitalize(establishType);
+                    r.setName(article.getName() + " " + establishType);
 
                     if (r.getName().contains(" by ") || r.getName().contains(" by the ")) {
                         for (int i = 0; i < child.getChildCount(); i++) {

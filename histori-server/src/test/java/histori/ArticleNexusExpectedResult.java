@@ -61,6 +61,10 @@ public class ArticleNexusExpectedResult {
         return location(new LatLon(lat, lon));
     }
 
+    public ArticleNexusExpectedResult location(double lat, Cardinal latDir, double lon, Cardinal lonDir) {
+        return location(new LatLon(lat * (double) latDir.getDirection(), lon * (double) lonDir.getDirection()));
+    }
+
     public ArticleNexusExpectedResult location(int latDeg, Integer latMin, Integer latSec, Cardinal latDir, int lonDeg, Integer lonMin, Integer lonSec, Cardinal lonDir) {
         this.location = new LatLon(latDeg, latMin, latSec, latDir, lonDeg, lonMin, lonSec, lonDir);
         return this;

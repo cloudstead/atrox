@@ -24,13 +24,13 @@ public class WikiNexusMultiTest extends WikiTest {
 
             new ArticleNexusExpectedResult("San Francisco")
 
-                    .nexus(new ArticleNexusExpectedResult("San Francisco Mission")
+                    .nexus(new ArticleNexusExpectedResult("San Francisco mission")
                             .location(37, 47, north, 122, 25, west)
                             .range("1776-06-29")
                             .tag("event_type", "founding")
                             .tag("citation", "https://en.wikipedia.org/wiki/San_Francisco"))
 
-                    .nexus(new ArticleNexusExpectedResult("San Francisco Municipal incorporation")
+                    .nexus(new ArticleNexusExpectedResult("San Francisco incorporated")
                     .location(37, 47, north, 122, 25, west)
                     .range("1850-04-15")
                     .tag("event_type", "founding")
@@ -56,6 +56,19 @@ public class WikiNexusMultiTest extends WikiTest {
                     .range("200")
                     .tag("event_type", "founding")
                     .tag("citation", "https://en.wikipedia.org/wiki/Paris")),
+
+            new ArticleNexusExpectedResult("New York City")
+                    .nexus(new ArticleNexusExpectedResult("New York City settled")
+                    .location(40.7127, north, 74.0059, west)
+                    .range("1624")
+                    .tag("event_type", "founding")
+                    .tag("citation", "https://en.wikipedia.org/wiki/New_York_City"))
+
+                    .nexus(new ArticleNexusExpectedResult("New York City consolidated")
+                    .location(40.7127, north, 74.0059, west)
+                    .range("1898")
+                    .tag("event_type", "founding")
+                    .tag("citation", "https://en.wikipedia.org/wiki/New_York_City")),
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
