@@ -9,6 +9,10 @@ var markers = [];
 var timeRangeSlider;
 var sliderControl;
 
+function is_array (x) {
+    return Object.prototype.toString.call( x ) === '[object Array]'
+}
+
 // get locale -- todo: fetch from server at /locale
 locale = "en-US";
 language = "en";
@@ -138,8 +142,8 @@ function openNexusDetails (nexus) {
         $('#nexusTypeContainer').html("("+nexus.nexusType+")");
     }
 
-    if (typeof nexus.tags != "undefined" && Object.prototype.toString.call( nexus.tags ) === '[object Array]') {
-        names = [];
+    if (typeof nexus.tags != "undefined" && is_array(nexus.tags)) {
+        var names = [];
         var tagsContainer = $('#nexusTagsContainer');
         var tagsTable = $('<table id="nexusTagsTable">');
 
@@ -161,16 +165,38 @@ function openNexusDetails (nexus) {
             var tagType = TAG_TYPES[typeIndex];
             if (typeof tagsByType[tagType] == "undefined") continue;
 
-            var tagRow = $('<tr>');
+            var tagRow = $('<tr class="tagTypeRow">');
             tagRow.append($('<td class="tagTypeCell">'+TAG_TYPE_NAMES[typeIndex]+'</td>'));
             tbody.append(tagRow);
 
             var listOfTags = "";
             var tags = tagsByType[tagType];
             for (var j=0; j<tags.length; j++) {
-                // todo: show schema key/value pairs
-                listOfTags += "<div class='nexusTag' id='nexusTag_"+tags[j].tagName+"'>" + tags[j].displayName + "</div>";
-                names.push(tags[j].tagName);
+                var nexusTagId = 'nexusTag_'+j+'_'+tags[j].tagName;
+                listOfTags += "<div class='nexusTag'><div id='"+nexusTagId+"'>" + tags[j].displayName + "</div>";
+                if (typeof tags[j].values != "undefined" && is_array(tags[j].values)) {
+                    var prevField = '';
+                    var numValues = tags[j].values.length;
+                    for (var k=0; k<numValues; k++) {
+                        var schemaVal = tags[j].values[k];
+                        var displayField;
+                        var schemaValueId = nexusTagId+'_'+k+'_'+schemaVal.value;
+                        var schemaTypeIndex = $.inArray(schemaVal.field, TAG_TYPES);
+                        if (schemaTypeIndex != -1) {
+                            displayField = TAG_TYPE_NAMES[schemaTypeIndex];
+                            names.push({tag: schemaVal.value, id: schemaValueId});
+                        } else {
+                            displayField = schemaVal.field;
+                        }
+                        if (numValues > 1 && prevField != displayField) {
+                            //listOfTags += "<div class='schema_field'>"+ displayField.replace('_', ' ') + "</div>";
+                            prevField = displayField;
+                        }
+                        listOfTags += "<div id='"+schemaValueId+"' class='schema_value'>" + schemaVal.value.replace('_', ' ') +"</div>";
+                    }
+                }
+                listOfTags += "</div>";
+                names.push({tag: tags[j].tagName, id: nexusTagId});
             }
             tagRow.append($('<td class="tagCell">'+listOfTags+'</td>'));
         }
@@ -180,16 +206,24 @@ function openNexusDetails (nexus) {
     container.css('zIndex', 1);
 }
 
-function update_tag_display_name (name, displayName) {
+function update_tag_display_name (id, displayName) {
     if (displayName.lastIndexOf('http://', 0) === 0 || displayName.lastIndexOf('https://', 0) === 0) {
         displayName = '<a target="_blank" href=' + displayName + '>' + unescape(displayName) + "</a>";
     }
-    $('#nexusTag_'+name).html(displayName);
+    $('#'+id).html(displayName);
 }
 
 function closeNexusDetails () {
     var container = $('#nexusDetailsContainer');
     container.css('zIndex', -1);
+}
+
+function editNexusDetails () {
+    // todo
+}
+
+function viewNexusVersions () {
+    // todo
 }
 
 map_image_mode = 'image';
@@ -697,7 +731,7 @@ function update_map (data) {
         for (var i = 0; i < data.results.length; i++) {
             var result = data.results[i];
             console.log("update_map: result[" + i + "] is: " + result);
-            if (result.primary.geo.type == "Point") {
+            if (typeof result.primary != "undefined" && typeof result.primary.geo != "undefined" && result.primary.geo != null && result.primary.geo.type == "Point") {
                 markerImage = get_marker_image(result.primary);
                 var marker = new google.maps.Marker({
                     position: {lat: result.primary.geo.coordinates[1], lng: result.primary.geo.coordinates[0]},

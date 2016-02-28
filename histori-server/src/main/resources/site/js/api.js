@@ -151,12 +151,41 @@ Api = {
         xhr.send(fd);
     },
 
-    resolve_tags: function (tags, callback) {
-        // todo: if tags.length > 100, chunk into requests of 100 each
+    /**
+     * resolve tags
+     * @param tagsToIds an array of {tag: 'tag-name', id: 'dom-id'}
+     * @param callback the callback to pass the tag name and DOM id to
+     */
+    resolve_tags: function (tagsToIds, callback) {
+        var tagMap = {};
+        var tags = [];
+        if (tagsToIds.length == 0) return;
+        if (tagsToIds.length > 100) {
+            var firstChunk = tagsToIds.slice(0, 99);
+            var remainder = tagsToIds.slice(100);
+            Api.resolve_tags(firstChunk, callback);
+            //Api.resolve_tags(remainder, callback);
+            return;
+        }
+        for (var i=0; i<tagsToIds.length; i++) {
+            var spec = tagsToIds[i];
+            if (typeof tagMap[spec.tag] == "undefined") {
+                tagMap[spec.tag] = [];
+                tags.push(spec.tag);
+            }
+            tagMap[spec.tag].push(spec.id);
+        }
+
         Api._post('tags/resolve', tags, function (data, status, jqXHR) {
-            if (typeof data == "undefined" || Object.prototype.toString.call( data ) != '[object Array]') return;
+            if (typeof data == "undefined" || !is_array(data)) return;
             for (var i=0; i<data.length; i++) {
-                callback(data[i].canonicalName, data[i].name);
+                var tag = data[i];
+                if (typeof tagMap[tag.canonicalName] != "undefined" && is_array(tagMap[tag.canonicalName])) {
+                    var ids = tagMap[tag.canonicalName];
+                    for (var j=0; j<ids.length; j++) {
+                        callback(ids[j], data[i].name);
+                    }
+                }
             }
         }, null, true);
     },

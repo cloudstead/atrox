@@ -78,26 +78,27 @@ input[type=file] {
     float: right;
     position : absolute;
     overflow: hidden;
-    pointer-events: none;
+    pointer-events: visible;
     opacity: 0.7;
+    overflow-y: scroll;
 }
 
 .nexusDetailsControl {
     font-family: Tahoma,sans-serif;
-    margin: 40px;
+    width: 100%;
     position : relative;
     overflow: hidden;
-    float: right;
     pointer-events: visible;
 }
 
 .nexusButton {
     font-family: Tahoma,sans-serif;
-    margin: 0px;
-    position : relative;
+    padding: 5px;
+    margin: 20px;
     overflow: hidden;
-    float: right;
     pointer-events: visible;
+    float: right;
+    clear: right;
 }
 
 #nexusNameContainer {
@@ -106,10 +107,18 @@ input[type=file] {
     font-weight: bold;
 }
 
+.tagTypeRow {
+    font-family: Tahoma,sans-serif;
+    font-size: small;
+    pointer-events: visible;
+}
+
 .tagTypeCell {
     font-family: Tahoma,sans-serif;
     font-size: small;
     pointer-events: visible;
+    border: 2px solid darkblue;
+    text-align: center;
 }
 
 .tagCell {
@@ -133,4 +142,17 @@ input[type=file] {
     font-size: small;
     border:1px solid blue;
     pointer-events: visible;
+}
+
+.schema_field {
+    font-family: Tahoma,sans-serif;
+    font-size: xx-small;
+    pointer-events: visible;
+    font-weight: bold;
+}
+.schema_value  {
+    font-family: Tahoma,sans-serif;
+    font-size: xx-small;
+    pointer-events: visible;
+    font-weight: normal;
 }
