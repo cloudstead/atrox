@@ -21,7 +21,7 @@ import static org.hibernate.criterion.Restrictions.*;
 @Repository
 public class NexusDAO extends VersionedEntityDAO<Nexus> {
 
-    public static final int MAX_RESULTS = 40;
+    public static final int MAX_RESULTS = 500;
 
     @Autowired private NexusTagDAO nexusTagDAO;
 
