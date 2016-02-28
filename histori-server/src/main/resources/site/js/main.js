@@ -142,12 +142,13 @@ function openNexusDetails (nexus) {
         $('#nexusTypeContainer').html("("+nexus.nexusType+")");
     }
 
+    var tagsContainer = $('#nexusTagsContainer');
+    tagsContainer.empty();
+
     if (typeof nexus.tags != "undefined" && is_array(nexus.tags)) {
         var names = [];
-        var tagsContainer = $('#nexusTagsContainer');
         var tagsTable = $('<table id="nexusTagsTable">');
 
-        tagsContainer.empty();
         tagsContainer.append(tagsTable);
 
         var tagsByType = new Object();
