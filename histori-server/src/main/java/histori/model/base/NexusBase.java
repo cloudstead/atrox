@@ -41,6 +41,9 @@ public class NexusBase extends SocialEntity {
     @Getter @Setter private String name;
     public boolean hasName() { return !empty(name); }
 
+    @Transient public String getDisplayName () { return name.replace("_", " ").trim(); }
+    public void setDisplayName (String name) {/* noop */}
+
     // Which event_type tag is "primary" (if there is only 1 then it is here by default)
     @Column(length=NAME_MAXLEN)
     @Size(max=NAME_MAXLEN, message="err.nexusType.length")

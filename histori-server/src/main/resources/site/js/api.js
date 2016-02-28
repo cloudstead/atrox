@@ -27,25 +27,25 @@ Api = {
 
     _get: function (url, success, fail) {
         if (get_token() == NO_TOKEN) Api.create_anonymous_session();
-        var results = null;
+        var result = null;
         $.ajax({
             type: 'GET',
             url: API_PREFIX + url,
             async: (typeof success != "undefined" && success != null),
             beforeSend: add_api_auth,
             success: function (data, status, jqXHR) {
-                results = data;
-                if (typeof success != "undefined" && success != null) success(data);
+                result = data;
+                if (typeof success != "undefined" && success != null) success(result);
             },
             error: function (jqXHR, status, error) {
                 if (typeof fail != "undefined" && fail != null) fail(jqXHR, status, error);
             }
         });
-        return results;
+        return result;
     },
 
     _update: function (method, url, data, success, fail, skipTokenCheck) {
-        if (get_token() == NO_TOKEN && (typeof skipTokenCheck == "undefined") && skipTokenCheck == false) Api.create_anonymous_session();
+        if (get_token() == NO_TOKEN && (typeof skipTokenCheck == "undefined" || skipTokenCheck == false)) Api.create_anonymous_session();
         var result = null;
         $.ajax({
             type: method,
@@ -54,12 +54,12 @@ Api = {
             contentType: 'application/json',
             data: JSON.stringify(data),
             beforeSend: add_api_auth,
-            success: function (response, status, jqXHR) {
-                result = response;
-                if (typeof success != "undefined" && success != null) success(data);
+            success: function (data, status, jqXHR) {
+                result = data;
+                if (typeof success != "undefined" && success != null) success(result);
             },
             error: function (jqXHR, status, error) {
-                alert('error POSTing to '+url+': '+error);
+                //alert('error POSTing to '+url+': '+error);
                 console.log('setup error: status='+status+', error='+error);
                 if (typeof fail != "undefined" && fail != null) fail(jqXHR, status, error);
             }
@@ -149,6 +149,16 @@ Api = {
             }
         };
         xhr.send(fd);
+    },
+
+    resolve_tags: function (tags, callback) {
+        // todo: if tags.length > 100, chunk into requests of 100 each
+        Api._post('tags/resolve', tags, function (data, status, jqXHR) {
+            if (typeof data == "undefined" || Object.prototype.toString.call( data ) != '[object Array]') return;
+            for (var i=0; i<data.length; i++) {
+                callback(data[i].canonicalName, data[i].name);
+            }
+        }, null, true);
     },
 
     transform_image: function (src, width, height) {

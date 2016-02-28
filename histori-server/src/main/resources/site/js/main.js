@@ -104,6 +104,94 @@ function closeMapImages () {
     container.css('zIndex', -1);
 }
 
+MONTHS = [null, 'January', 'February', 'March', 'April','May','June','July','August','September','October','November','December'];
+
+function formatTimePoint(date) {
+    var year = date.year;
+    var day = (typeof date.day == "undefined" || date.day == null) ? "" : date.day;
+    var month = (typeof date.day == "undefined" || date.month == null) ? "" : MONTHS[date.month];
+
+    return day + " " + month + " " + year;
+}
+function formatRange (range) {
+    // todo: use locale-specific date formatting
+    if (typeof range == "undefined" || range == null) return "";
+    if (typeof range.startPoint == "undefined" || range.startPoint == null) return "";
+
+    var start = range.startPoint;
+    if (typeof start.year == "undefined" || start.year == null) return "";
+    var value = formatTimePoint(start);
+
+    if (typeof range.endPoint == "undefined" || range.endPoint == null) return value;
+
+    var end = range.endPoint;
+    if (typeof end.year == "undefined" || end.year == null) return value;
+    return value + " - " + formatTimePoint(end);
+}
+
+TAG_TYPES = ['world_actor', 'person', 'event', 'result', 'impact', 'citation', 'idea', 'event_type', 'meta'];
+TAG_TYPE_NAMES = ['world actors', 'persons', 'events', 'results', 'impacts', 'citations', 'ideas', 'event types', 'meta'];
+function openNexusDetails (nexus) {
+    $('#nexusNameContainer').html(nexus.name);
+    $('#nexusRangeContainer').html(formatRange(nexus.timeRange));
+    if (typeof nexus.nexusType != "undefined" && nexus.nexusType != null) {
+        $('#nexusTypeContainer').html("("+nexus.nexusType+")");
+    }
+
+    if (typeof nexus.tags != "undefined" && Object.prototype.toString.call( nexus.tags ) === '[object Array]') {
+        names = [];
+        var tagsContainer = $('#nexusTagsContainer');
+        var tagsTable = $('<table id="nexusTagsTable">');
+
+        tagsContainer.empty();
+        tagsContainer.append(tagsTable);
+
+        var tagsByType = new Object();
+        for (var i=0; i<nexus.tags.length; i++) {
+            var tag = nexus.tags[i];
+            if (typeof tagsByType[tag.tagType] == "undefined") {
+                tagsByType[tag.tagType] = [];
+            }
+            tagsByType[tag.tagType].push(tag);
+        }
+
+        var tbody = $('<tbody>');
+        tagsTable.append(tbody);
+        for (var typeIndex=0; typeIndex<TAG_TYPES.length; typeIndex++) {
+            var tagType = TAG_TYPES[typeIndex];
+            if (typeof tagsByType[tagType] == "undefined") continue;
+
+            var tagRow = $('<tr>');
+            tagRow.append($('<td class="tagTypeCell">'+TAG_TYPE_NAMES[typeIndex]+'</td>'));
+            tbody.append(tagRow);
+
+            var listOfTags = "";
+            var tags = tagsByType[tagType];
+            for (var j=0; j<tags.length; j++) {
+                // todo: show schema key/value pairs
+                listOfTags += "<div class='nexusTag' id='nexusTag_"+tags[j].tagName+"'>" + tags[j].displayName + "</div>";
+                names.push(tags[j].tagName);
+            }
+            tagRow.append($('<td class="tagCell">'+listOfTags+'</td>'));
+        }
+        Api.resolve_tags(names, update_tag_display_name);
+    }
+    var container = $('#nexusDetailsContainer');
+    container.css('zIndex', 1);
+}
+
+function update_tag_display_name (name, displayName) {
+    if (displayName.lastIndexOf('http://', 0) === 0 || displayName.lastIndexOf('https://', 0) === 0) {
+        displayName = '<a target="_blank" href=' + displayName + '>' + unescape(displayName) + "</a>";
+    }
+    $('#nexusTag_'+name).html(displayName);
+}
+
+function closeNexusDetails () {
+    var container = $('#nexusDetailsContainer');
+    container.css('zIndex', -1);
+}
+
 map_image_mode = 'image';
 function toggleMapImageMode() {
     if (map_image_mode == 'image') {
@@ -593,6 +681,10 @@ function inspectLocation (clickEvent) {
 
 var active_markers = [];
 
+function newMarkerListener(nexus) {
+    return function() { openNexusDetails(nexus); }
+}
+
 function update_map (data) {
     if (data && data.results && data.results instanceof Array) {
 
@@ -613,6 +705,10 @@ function update_map (data) {
                     icon: markerImage,
                     map: map
                 });
+
+                var nexus = result.primary;
+                marker.addListener('click', newMarkerListener(nexus));
+
                 active_markers.push(marker);
             }
         }

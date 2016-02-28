@@ -64,3 +64,73 @@ input[type=file] {
     float: right;
     pointer-events: visible;
 }
+
+#nexusDetailsContainer {
+    font-family: Tahoma,sans-serif;
+    width: 40%;
+    height: 80%;
+    top: 20px;
+    right: 20px;
+    /*border:1px solid red;*/
+    z-index: -1;
+    margin-left:auto; margin-right:0;
+    background-color: whitesmoke;
+    float: right;
+    position : absolute;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.nexusDetailsControl {
+    font-family: Tahoma,sans-serif;
+    margin: 40px;
+    position : relative;
+    overflow: hidden;
+    float: right;
+    pointer-events: visible;
+}
+
+.nexusButton {
+    font-family: Tahoma,sans-serif;
+    margin: 0px;
+    position : relative;
+    overflow: hidden;
+    float: right;
+    pointer-events: visible;
+}
+
+#nexusNameContainer {
+    font-family: Tahoma,sans-serif;
+    font-size: large;
+    font-weight: bold;
+}
+
+.tagTypeCell {
+    font-family: Tahoma,sans-serif;
+    font-size: small;
+    pointer-events: visible;
+}
+
+.tagCell {
+    font-family: Tahoma,sans-serif;
+    font-size: x-small;
+    pointer-events: visible;
+}
+
+.tagValuesCell {
+    font-family: Tahoma,sans-serif;
+    font-size: xx-small;
+    pointer-events: visible;
+}
+
+.nexusTag {
+    font-family: Tahoma,sans-serif;
+    float: left;
+    padding-left: 2px;
+    padding-right: 2px;
+    margin: 2px;
+    font-size: small;
+    border:1px solid blue;
+    pointer-events: visible;
+}

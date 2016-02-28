@@ -31,6 +31,9 @@ public class NexusTagBase extends SocialEntity {
     @Column(length=NAME_MAXLEN, nullable=false, updatable=false)
     @Getter @Setter private String tagName;
 
+    @Transient public String getDisplayName () { return tagName.replace("_", " ").trim(); }
+    public void setDisplayName (String name) {/* noop */}
+
     // denormalized
     @Size(max=NAME_MAXLEN, message="err.tagType.tooLong")
     @Column(length=NAME_MAXLEN)
