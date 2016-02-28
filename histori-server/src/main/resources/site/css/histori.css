@@ -79,7 +79,7 @@ input[type=file] {
     position : absolute;
     overflow: hidden;
     pointer-events: visible;
-    opacity: 0.7;
+    opacity: 0.85;
     overflow-y: scroll;
 }
 
@@ -141,6 +141,8 @@ input[type=file] {
     margin: 2px;
     font-size: small;
     border:1px solid blue;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
     pointer-events: visible;
 }
 

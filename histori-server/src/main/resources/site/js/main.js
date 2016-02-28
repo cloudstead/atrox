@@ -133,8 +133,8 @@ function formatRange (range) {
     return value + " - " + formatTimePoint(end);
 }
 
-TAG_TYPES = ['world_actor', 'person', 'event', 'result', 'impact', 'citation', 'idea', 'event_type', 'meta'];
-TAG_TYPE_NAMES = ['world actors', 'persons', 'events', 'results', 'impacts', 'citations', 'ideas', 'event types', 'meta'];
+TAG_TYPES = ['event_type', 'world_actor', 'result', 'impact', 'person', 'event', 'citation', 'idea', 'meta'];
+TAG_TYPE_NAMES = ['event types', 'world actors', 'results', 'impacts', 'persons', 'events', 'citations', 'ideas', 'meta'];
 function openNexusDetails (nexus) {
     $('#nexusNameContainer').html(nexus.name);
     $('#nexusRangeContainer').html(formatRange(nexus.timeRange));
