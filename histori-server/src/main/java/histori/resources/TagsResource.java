@@ -1,6 +1,8 @@
 package histori.resources;
 
+import histori.dao.AccountDAO;
 import histori.dao.TagDAO;
+import histori.model.Account;
 import histori.model.CanonicalEntity;
 import histori.model.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,7 @@ public class TagsResource {
     public static final String TYPE_DELIM = "~";
 
     @Autowired private TagDAO tagDAO;
+    @Autowired private AccountDAO accountDAO;
 
     @GET
     @Path(EP_TAG + "/{name: .+}")
@@ -38,6 +41,13 @@ public class TagsResource {
     public Response findTags (String[] names) {
         if (names.length > 100) return invalid("err.names.tooMany");
         return ok(tagDAO.findByCanonicalNames(names));
+    }
+
+    @GET
+    @Path(EP_OWNER+"/{uuid}")
+    public Response findOwner (@PathParam("uuid") String uuid) {
+        final Account found = accountDAO.findByUuid(uuid);
+        return found == null ? notFound(uuid) : ok(found.getName());
     }
 
     @GET

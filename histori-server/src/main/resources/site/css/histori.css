@@ -107,6 +107,12 @@ input[type=file] {
     font-weight: bold;
 }
 
+#nexusAuthorContainer {
+    font-family: Tahoma,sans-serif;
+    font-size: x-small;
+    font-weight: bold;
+}
+
 .tagTypeRow {
     font-family: Tahoma,sans-serif;
     font-size: small;

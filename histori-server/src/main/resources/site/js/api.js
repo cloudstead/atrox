@@ -38,7 +38,11 @@ Api = {
                 if (typeof success != "undefined" && success != null) success(result);
             },
             error: function (jqXHR, status, error) {
-                if (typeof fail != "undefined" && fail != null) fail(jqXHR, status, error);
+                if (jqXHR.status == 200 && typeof success != "undefined" && success != null) {
+                    success(jqXHR.responseText);
+                } else if (typeof fail != "undefined" && fail != null) {
+                    fail(jqXHR, status, error);
+                }
             }
         });
         return result;
@@ -188,6 +192,12 @@ Api = {
                 }
             }
         }, null, true);
+    },
+
+    owner_name: function (uuid, id) {
+        Api._get('tags/owner/'+uuid, function (data) {
+            $(id).html(data);
+        });
     },
 
     transform_image: function (src, width, height) {

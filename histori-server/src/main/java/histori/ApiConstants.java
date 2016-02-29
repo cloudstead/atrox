@@ -48,6 +48,7 @@ public class ApiConstants {
     public static final String EP_TAG = "/tag";
     public static final String EP_AUTOCOMPLETE = "/autocomplete";
     public static final String EP_RESOLVE = "/resolve";
+    public static final String EP_OWNER = "/owner";
     public static final String QPARAM_AUTOCOMPLETE = "q";
     public static final String MATCH_NULL_TYPE = "no-type";
 

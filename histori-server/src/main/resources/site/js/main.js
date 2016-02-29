@@ -137,6 +137,7 @@ TAG_TYPES = ['event_type', 'world_actor', 'result', 'impact', 'person', 'event',
 TAG_TYPE_NAMES = ['event types', 'world actors', 'results', 'impacts', 'persons', 'events', 'citations', 'ideas', 'meta'];
 function openNexusDetails (nexus) {
     $('#nexusNameContainer').html(nexus.name);
+    Api.owner_name(nexus.owner, '#nexusAuthorContainer');
     $('#nexusRangeContainer').html(formatRange(nexus.timeRange));
     if (typeof nexus.nexusType != "undefined" && nexus.nexusType != null) {
         $('#nexusTypeContainer').html("("+nexus.nexusType+")");
@@ -151,7 +152,7 @@ function openNexusDetails (nexus) {
 
         tagsContainer.append(tagsTable);
 
-        var tagsByType = new Object();
+        var tagsByType = {};
         for (var i=0; i<nexus.tags.length; i++) {
             var tag = nexus.tags[i];
             if (typeof tagsByType[tag.tagType] == "undefined") {
