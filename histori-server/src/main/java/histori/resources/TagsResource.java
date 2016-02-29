@@ -1,5 +1,6 @@
 package histori.resources;
 
+import edu.emory.mathcs.backport.java.util.Collections;
 import histori.dao.AccountDAO;
 import histori.dao.TagDAO;
 import histori.model.Account;
@@ -40,6 +41,7 @@ public class TagsResource {
     @Path(EP_RESOLVE)
     public Response findTags (String[] names) {
         if (names.length > 100) return invalid("err.names.tooMany");
+        if (names.length == 0) return ok(Collections.emptyList());
         return ok(tagDAO.findByCanonicalNames(names));
     }
 

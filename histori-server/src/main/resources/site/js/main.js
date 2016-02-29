@@ -167,14 +167,20 @@ function openNexusDetails (nexus) {
             var tagType = TAG_TYPES[typeIndex];
             if (typeof tagsByType[tagType] == "undefined") continue;
 
+            var tags = tagsByType[tagType];
+
+            var tagTypeName = TAG_TYPE_NAMES[typeIndex];
+            if (tags.length == 1 && tagTypeName.endsWith("s")) {
+                tagTypeName = tagTypeName.substring(0, tagTypeName.length-1);
+            }
+
             var tagRow = $('<tr class="tagTypeRow">');
-            tagRow.append($('<td class="tagTypeCell">'+TAG_TYPE_NAMES[typeIndex]+'</td>'));
+            tagRow.append($('<td class="tagTypeCell">'+ tagTypeName+'</td>'));
             tbody.append(tagRow);
 
             var listOfTags = "";
-            var tags = tagsByType[tagType];
             for (var j=0; j<tags.length; j++) {
-                var nexusTagId = 'nexusTag_'+j+'_'+tags[j].tagName;
+                var nexusTagId = 'nexusTag_'+tags[j].uuid+'_'+tags[j].tagName;
                 listOfTags += "<div class='nexusTag'><div id='"+nexusTagId+"'>" + tags[j].displayName + "</div>";
                 if (typeof tags[j].values != "undefined" && is_array(tags[j].values)) {
                     var prevField = '';
@@ -210,7 +216,7 @@ function openNexusDetails (nexus) {
 
 function update_tag_display_name (id, displayName) {
     if (displayName.lastIndexOf('http://', 0) === 0 || displayName.lastIndexOf('https://', 0) === 0) {
-        displayName = '<a target="_blank" href=' + displayName + '>' + unescape(displayName) + "</a>";
+        displayName = '<a target="_blank" href=' + displayName + '>' + window.decodeURI(displayName) + "</a>";
     }
     $('#'+id).html(displayName);
 }
@@ -406,6 +412,10 @@ function initMap () {
     isClosed = false;
 
     google.maps.event.addListener(map, 'click', function (clickEvent) {
+
+        // always close nexus details upon map click (unless pinned)
+        closeNexusDetails();
+
         if (mode == 'inspect') {
             inspectLocation(clickEvent);
             return;

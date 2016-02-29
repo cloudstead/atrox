@@ -155,6 +155,8 @@ Api = {
         xhr.send(fd);
     },
 
+    _tag_cache: null, // todo: fix tag caching
+
     /**
      * resolve tags
      * @param tagsToIds an array of {tag: 'tag-name', id: 'dom-id'}
@@ -164,21 +166,25 @@ Api = {
         var tagMap = {};
         var tags = [];
         if (tagsToIds.length == 0) return;
-        if (tagsToIds.length > 100) {
-            var firstChunk = tagsToIds.slice(0, 99);
-            var remainder = tagsToIds.slice(100);
-            Api.resolve_tags(firstChunk, callback);
-            //Api.resolve_tags(remainder, callback);
-            return;
-        }
+        var added = 0;
         for (var i=0; i<tagsToIds.length; i++) {
             var spec = tagsToIds[i];
-            if (typeof tagMap[spec.tag] == "undefined") {
-                tagMap[spec.tag] = [];
-                tags.push(spec.tag);
+            if (Api._tag_cache != null && typeof Api._tag_cache[spec.tag] != "undefined") {
+                callback(spec.id, Api._tag_cache[spec.tag]);
+            } else {
+                if (typeof tagMap[spec.tag] == "undefined") {
+                    tagMap[spec.tag] = [];
+                    tags.push(spec.tag);
+                }
+                tagMap[spec.tag].push(spec.id);
+                if (added++ > 100) {
+                    var remainder = tagsToIds.slice(i);
+                    window.setTimeout(Api._resolve_remainder(remainder, callback), 100);
+                    break;
+                }
             }
-            tagMap[spec.tag].push(spec.id);
         }
+        if (tags.length == 0) return; // we found everything in cache. cool.
 
         Api._post('tags/resolve', tags, function (data, status, jqXHR) {
             if (typeof data == "undefined" || !is_array(data)) return;
@@ -187,11 +193,16 @@ Api = {
                 if (typeof tagMap[tag.canonicalName] != "undefined" && is_array(tagMap[tag.canonicalName])) {
                     var ids = tagMap[tag.canonicalName];
                     for (var j=0; j<ids.length; j++) {
+                        if (Api._tag_cache != null) { Api._tag_cache[spec.tag] = data[i].name; }
                         callback(ids[j], data[i].name);
                     }
                 }
             }
         }, null, true);
+    },
+
+    _resolve_remainder: function (tagsToIds, callback) {
+        return function () { Api.resolve_tags(tagsToIds, callback); }
     },
 
     owner_name: function (uuid, id) {
