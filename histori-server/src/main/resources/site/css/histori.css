@@ -1,3 +1,8 @@
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
+}
+
 .mode_button {
     height: 20px;
     width: 120px;

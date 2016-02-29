@@ -199,7 +199,7 @@ function openNexusDetails (nexusSummary, tries) {
     var commentaryContainer = $('#nexusCommentaryContainer');
     commentaryContainer.empty();
     if (typeof nexus.markdown != "undefined") {
-        commentaryContainer.append('<p class="commentaryMarkdown">'+markupConverter.makeHtml(nexus.commentary.markdown)+'</p>');
+        commentaryContainer.append('<p class="commentaryMarkdown">'+markupConverter.makeHtml(nexus.markdown)+'</p>');
     }
 
     var tagsContainer = $('#nexusTagsContainer');
