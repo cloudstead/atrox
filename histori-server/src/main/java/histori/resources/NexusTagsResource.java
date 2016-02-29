@@ -47,7 +47,7 @@ import static org.cobbzilla.wizard.resources.ResourceUtil.*;
 @Slf4j
 public class NexusTagsResource {
 
-    private static final String[] CREATE_FIELDS = {"schemaValues", "commentary"};
+    private static final String[] CREATE_FIELDS = {"schemaValues", "markdown"};
     private static final String[] UPDATE_FIELDS = CREATE_FIELDS;
 
     public static final String ENCODE_PREFIX = "~";

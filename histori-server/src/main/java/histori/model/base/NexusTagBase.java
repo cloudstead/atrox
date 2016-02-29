@@ -38,6 +38,7 @@ public class NexusTagBase extends SocialEntity {
     @Size(max=NAME_MAXLEN, message="err.tagType.tooLong")
     @Column(length=NAME_MAXLEN)
     @Getter @Setter private String tagType;
+    public boolean hasTagType () { return !empty(tagType); }
 
     @HasValue(message="err.schemaValue.empty")
     @Size(min=2, max=32000, message="err.schemaValues.tooLong")

@@ -44,8 +44,8 @@ import static org.cobbzilla.wizard.util.SpringUtil.autowire;
 @Service @Slf4j
 public class NexusResource {
 
-    public static final String[] CREATE_FIELDS = {"name", "nexusType", "geoJson", "timeRange", "commentary", "visibility"};
-    public static final String[] UPDATE_FIELDS = {"geoJson", "nexusType", "timeRange", "commentary", "visibility"};
+    public static final String[] CREATE_FIELDS = {"name", "nexusType", "geoJson", "timeRange", "markdown", "visibility"};
+    public static final String[] UPDATE_FIELDS = {"geoJson", "nexusType", "timeRange", "markdown", "visibility"};
 
     @Autowired private HistoriConfiguration configuration;
     @Autowired private NexusDAO nexusDAO;

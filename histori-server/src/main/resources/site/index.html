@@ -60,27 +60,15 @@
     <div id="nexusTitleContainer">
         <span id="nexusNameContainer"></span>
         <span id="nexusDetailsControl">
-            <button class="nexusButton" onclick="editNexusDetails(); return false;">edit</button>
             <button id="btn_nexusVersions" class="nexusButton" onclick="viewNexusVersions(); return false;">versions</button>
         </span>
     </div>
     <div id="nexusRangeContainer"></div>
     <div id="nexusAuthorContainer"></div>
     <div id="nexusTagsContainer"></div>
+    <div id="nexusCommentaryContainer"></div>
     <div id="nexusNearbyContainer"></div>
     <div id="nexusVersionsContainer"></div>
-</div>
-
-<div id="nexusEditContainer">
-    <div id="nexusEditDetailsControl">
-        <button class="nexusButton" onclick="saveEditNexusDetails(); return false;">save</button>
-        <button class="nexusButton" onclick="closeEditNexusDetails(); return false;">close</button>
-    </div>
-    <form id="nexusEditForm" action="." onsubmit="return false;">
-        <div id="nexusEditNameContainer"></div>
-        <label for="nexusRangeStart">start: </label><input type="text" id="nexusRangeStart"/>
-        <label for="nexusRangeEnd">end: </label><input type="text" id="nexusRangeEnd"/>
-    </form>
 </div>
 
 <div id="sliderContainer" style="visibility: hidden">
@@ -156,6 +144,7 @@
 <script src="js/dhtmlxcommon.js"></script>
 <script src="js/dhtmlxslider.js"></script>
 <script src="js/image_resizer.js"></script>
+<script src="js/showdown.js"></script>
 <script src="js/api.js"></script>
 <script src="js/histori.js"></script>
 <script src="js/main.js"></script>

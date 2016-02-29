@@ -121,15 +121,15 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
     }
 
     public Nexus dummyNexus (TimeRange range) {
-        return newNexus(range.getStartPoint().toString(), range.getEndPoint().toString(), "nexus-"+randomName(), "headline-"+randomName());
+        return newNexus(range.getStartPoint().toString(), range.getEndPoint().toString(), "nexus-"+randomName(), "markdown-"+randomName());
     }
 
-    public Nexus newNexus(String startDate, String endDate, String nexusName, String headline) {
+    public Nexus newNexus(String startDate, String endDate, String nexusName, String markdown) {
         final Nexus nexus = new Nexus();
         nexus.setName(nexusName);
         nexus.setTimeRange(startDate, endDate);
         nexus.setGeo(new Point(0, 0));
-        nexus.initCommentary().setHeadline(headline);
+        nexus.setMarkdown(markdown);
         return nexus;
     }
 

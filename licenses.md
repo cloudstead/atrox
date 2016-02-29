@@ -238,3 +238,7 @@
 # Google Maps Custom Markers
   * Site: http://www.benjaminkeen.com/google-maps-coloured-markers/
   * License: This is freely available under MIT or GPL licenses. Whichever you prefer: no restrictions. Use it commercially if you want.
+
+# Showdown
+  * Site: https://github.com/showdownjs/showdown
+  * License: https://raw.githubusercontent.com/showdownjs/showdown/master/license.txt

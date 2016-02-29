@@ -5,6 +5,7 @@ import histori.model.Nexus;
 import histori.model.NexusTag;
 import histori.model.TagType;
 import histori.model.support.EntityVisibility;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -13,18 +14,20 @@ import java.util.List;
 
 import static org.hibernate.criterion.Restrictions.*;
 
-@Repository
+@Repository @Slf4j
 public class NexusTagDAO extends VersionedEntityDAO<NexusTag> {
 
     @Autowired private NexusDAO nexusDAO;
 
-    @Override public NexusTag postCreate(NexusTag entity, Object context) {
-        if (entity.getTagType().equalsIgnoreCase(TagType.EVENT_TYPE)) {
-            final Nexus nexus = nexusDAO.findByUuid(entity.getNexus());
-            if (!nexus.hasNexusType()) nexus.setNexusType(entity.getTagName());
-            nexusDAO.update(nexus);
+    @Override public NexusTag postCreate(NexusTag nexusTag, Object context) {
+        if (nexusTag.hasTagType()) {
+            if (nexusTag.getTagType().equalsIgnoreCase(TagType.EVENT_TYPE)) {
+                final Nexus nexus = nexusDAO.findByUuid(nexusTag.getNexus());
+                if (!nexus.hasNexusType()) nexus.setNexusType(nexusTag.getTagName());
+                nexusDAO.update(nexus);
+            }
         }
-        return entity;
+        return nexusTag;
     }
 
     public NexusTag findByNexusAndOwnerAndName(String uuid, Account account, String tagName) {

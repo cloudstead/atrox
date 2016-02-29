@@ -107,6 +107,12 @@ public class NexusBase extends SocialEntity {
     @Transient @Getter @Setter private List<NexusTag> tags;
     public boolean hasTags () { return !empty(tags); }
 
+    public NexusBase addTag (NexusTag tag) {
+        if (tags == null) tags = new ArrayList<>();
+        tags.add(tag);
+        return this;
+    }
+
     public NexusBase addTag (String name) { return addTag(name, null, null); }
 
     public NexusBase addTag (String name, String tagType) { return addTag(name, tagType, null); }

@@ -3,7 +3,6 @@ package histori.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import histori.ApiConstants;
 import histori.model.cache.VoteSummary;
-import histori.model.support.EntityCommentary;
 import histori.model.support.EntityVisibility;
 import histori.model.support.TimePoint;
 import lombok.Getter;
@@ -12,6 +11,7 @@ import lombok.experimental.Accessors;
 import org.cobbzilla.wizard.model.ResultPage;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,11 +24,10 @@ public abstract class SocialEntity extends AccountOwnedEntity implements Version
     @Column(length=UUID_MAXLEN, updatable=false)
     @Getter @Setter private String origin;
 
-    @Embedded @Getter @Setter private EntityCommentary commentary;
-    public EntityCommentary initCommentary() {
-        if (commentary == null) commentary = new EntityCommentary();
-        return commentary;
-    }
+    public static final int MARKDOWN_MAXLEN = 100000;
+    @Size(max=MARKDOWN_MAXLEN, message="err.markdown.tooLong")
+    @Column(length=MARKDOWN_MAXLEN)
+    @Getter @Setter private String markdown;
 
     @Column(nullable=false, length=20)
     @Enumerated(EnumType.STRING)

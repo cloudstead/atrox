@@ -39,13 +39,16 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
     @Override public Object preUpdate(@Valid Nexus entity) {
         entity.prepareForSave();
 
-        // what tags already exist?
-        final List<NexusTag> nexusTags = nexusTagDAO.findByNexusAndOwner(entity.getOwner(), entity.getUuid());
-
         // ensure event_type tag corresponding to nexusType is present, or create it if not
         if (entity.hasNexusType()) {
-            if (!NexusTag.containsEventTypeTag(nexusTags, TagType.EVENT_TYPE)) {
-                return new NexusTag().setTagName(entity.getNexusType()).setTagType(TagType.EVENT_TYPE);
+            // what tags already exist?
+            final List<NexusTag> nexusTags = nexusTagDAO.findByNexusAndOwner(entity.getOwner(), entity.getUuid());
+            entity.setTags(nexusTags);
+
+            final NexusTag typeTag = (NexusTag) new NexusTag().setTagName(entity.getNexusType()).setTagType(TagType.EVENT_TYPE);
+            if (!entity.hasExactTag(typeTag)) {
+                entity.addTag(typeTag);
+                return typeTag;
             } else {
                 // nexusType already matches one of the event_type tags
             }
@@ -70,7 +73,10 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
         if (context instanceof NexusTag) {
             final NexusTag tag = (NexusTag) context;
             // create the event_type tag
-            nexusTagDAO.create((NexusTag) tag.setNexus(entity.getUuid()).setOwner(entity.getOwner()));
+            final NexusTag typeTag = (NexusTag) tag.setNexus(entity.getUuid()).setOwner(entity.getOwner());
+            if (!entity.hasExactTag(typeTag)) {
+                nexusTagDAO.create(typeTag);
+            }
         }
     }
 

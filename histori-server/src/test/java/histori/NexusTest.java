@@ -59,11 +59,11 @@ public class NexusTest extends ApiClientTestBase {
         final String tag3 = "http://example.com/citation.html";
 
         // Create a new Nexus
-        final String headline = randomName();
-        final Nexus nexus = newNexus(startDate, endDate, nexusName, headline);
+        final String markdown = randomName();
+        final Nexus nexus = newNexus(startDate, endDate, nexusName, markdown);
         nexus.addTag(tag1);
         nexus.addTag(tag2, "world actor");
-        nexus.getFirstTag("usa").setCommentary(new EntityCommentary(headline+" for the usa"));
+        nexus.getFirstTag("usa").setMarkdown(markdown);
         nexus.addTag(tag3, "citation");
 
         apiDocs.addNote("Define a new Nexus");
@@ -80,7 +80,7 @@ public class NexusTest extends ApiClientTestBase {
         found = fromJson(get(nexusPath).json, Nexus.class);
         assertEquals(nexusName, found.getName());
         assertEquals(3, found.getTags().size());
-        assertEquals(headline, found.initCommentary().getHeadline());
+        assertEquals(markdown, found.getMarkdown());
 
         apiDocs.addNote("Lookup the Nexus we created by name");
         found = fromJson(get(NEXUS_ENDPOINT+"/"+urlEncode(nexus.getName())).json, Nexus.class);
@@ -107,7 +107,7 @@ public class NexusTest extends ApiClientTestBase {
         apiDocs.addNote("Update our nexus with new name, this should create a new version");
         final String updatedName = nexusName + " -- update";
         nexus.setName(updatedName);
-        nexus.initCommentary().setHeadline(headline + " -- update");
+        nexus.setMarkdown(markdown + " -- update");
         final Nexus updatedNexus = fromJson(post(nexusPath, toJson(nexus)).json, Nexus.class);
         assertEquals(nexusName, updatedNexus.getName());
 
@@ -125,15 +125,15 @@ public class NexusTest extends ApiClientTestBase {
 
         apiDocs.addNote("Update a tag");
         final String tagComments = randomName();
-        post(nexusPath+EP_TAGS+"/"+found.getFirstTag(tag4).getUuid(), toJson(found.getFirstTag(tag4).setCommentary(new EntityCommentary(tagComments))));
+        post(nexusPath+EP_TAGS+"/"+found.getFirstTag(tag4).getUuid(), toJson(found.getFirstTag(tag4).setMarkdown(tagComments)));
 
         apiDocs.addNote("Lookup Nexus again, verify updated tag");
         found = fromJson(get(nexusPath).json, Nexus.class);
-        assertEquals(tagComments, found.getFirstTag(tag4.toLowerCase()).initCommentary().getHeadline());
+        assertEquals(tagComments, found.getFirstTag(tag4.toLowerCase()).getMarkdown());
 
-        apiDocs.addNote("Lookup previous versions, there should now be 2");
+        apiDocs.addNote("Lookup previous versions, there should now be 3 (the extra version comes from the implicit assignment of an event-type)");
         NexusArchive[] archives = fromJson(get(ARCHIVES_ENDPOINT+"/Nexus/"+found.getUuid()).json, NexusArchive[].class);
-        assertEquals(2, archives.length);
+        assertEquals(3, archives.length);
 
         apiDocs.addNote("Lookup previous versions of tag we just edited, there should now be 2");
         NexusTagArchive[] tagArchives = fromJson(get(ARCHIVES_ENDPOINT+"/NexusTag/"+found.getFirstTag(tag4.toLowerCase()).getUuid()).json, NexusTagArchive[].class);
@@ -163,7 +163,7 @@ public class NexusTest extends ApiClientTestBase {
 
         apiDocs.addNote("Find all tag types");
         final TagType[] tagTypes = fromJson(get(TAG_TYPES_ENDPOINT).json, TagType[].class);
-        assertEquals(8, tagTypes.length);
+        assertEquals(9, tagTypes.length);
 
         final String autocompleteUri = TAGS_ENDPOINT + EP_AUTOCOMPLETE;
         final String acQuery = "?" + QPARAM_AUTOCOMPLETE + "=f";
