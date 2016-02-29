@@ -136,6 +136,7 @@ function formatRange (range) {
 TAG_TYPES = ['event_type', 'world_actor', 'result', 'impact', 'person', 'event', 'citation', 'idea', 'meta'];
 TAG_TYPE_NAMES = ['event types', 'world actors', 'results', 'impacts', 'persons', 'events', 'citations', 'ideas', 'meta'];
 function openNexusDetails (nexus) {
+    $('#nexusUuidContainer').html(nexus.uuid);
     $('#nexusNameContainer').html(nexus.name);
     Api.owner_name(nexus.owner, '#nexusAuthorContainer');
     $('#nexusRangeContainer').html(formatRange(nexus.timeRange));
