@@ -187,7 +187,7 @@ function openNexusDetails (nexusSummary, recurse) {
     if (recurse && nexusSummary.incomplete) {
         Api.find_nexus(nexus.uuid, function (data) {
             activeNexusSummary = data;
-            openNexusDetails(activeNexus, false);
+            openNexusDetails(activeNexusSummary, false);
         }, null);
 
     } else if (typeof nexus.tags != "undefined" && is_array(nexus.tags)) {
@@ -273,9 +273,13 @@ function closeNexusDetails () {
 function editNexusDetails () {
     closeNexusDetails();
 
-    $('#nexusEditNameContainer').html(activeNexus.name);
-    $('#nexusRangeStart').val(formatEditTimePoint(activeNexus.timeRange.startPoint));
-    $('#nexusRangeEnd').val(formatEditTimePoint(activeNexus.timeRange.endPoint));
+    if (typeof activeNexusSummary == "undefined" || activeNexusSummary == null) return;
+
+    var nexus = activeNexusSummary.primary;
+
+    $('#nexusEditNameContainer').html(nexus.name);
+    $('#nexusRangeStart').val(formatEditTimePoint(nexus.timeRange.startPoint));
+    $('#nexusRangeEnd').val(formatEditTimePoint(nexus.timeRange.endPoint));
 
 
     var container = $('#nexusEditContainer');
