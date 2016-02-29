@@ -110,7 +110,16 @@ function closeMapImages () {
 
 MONTHS = [null, 'January', 'February', 'March', 'April','May','June','July','August','September','October','November','December'];
 
+function formatEditTimePoint(date) {
+    if (typeof date == "undefined" || date == null) return "";
+    var year = date.year;
+    var month = (typeof date.day == "undefined" || date.month == null) ? "" : "-" + date.month;
+    var day = (typeof date.day == "undefined" || date.day == null) ? "" : "-" + date.day;
+
+    return year + month + day;
+}
 function formatTimePoint(date) {
+    if (typeof date == "undefined" || date == null) return "";
     var year = date.year;
     var day = (typeof date.day == "undefined" || date.day == null) ? "" : date.day;
     var month = (typeof date.day == "undefined" || date.month == null) ? "" : MONTHS[date.month];
@@ -135,10 +144,13 @@ function formatRange (range) {
 
 TAG_TYPES = ['event_type', 'world_actor', 'result', 'impact', 'person', 'event', 'citation', 'idea', 'meta'];
 TAG_TYPE_NAMES = ['event types', 'world actors', 'results', 'impacts', 'persons', 'events', 'citations', 'ideas', 'meta'];
+var activeNexus = null;
+
 function openNexusDetails (nexus) {
-    $('#nexusUuidContainer').html(nexus.uuid);
+    closeEditNexusDetails();
+    activeNexus = nexus;
     $('#nexusNameContainer').html(nexus.name);
-    Api.owner_name(nexus.owner, '#nexusAuthorContainer');
+    Api.owner_name(nexus.owner, '#nexusAuthorContainer', "created by: ");
     $('#nexusRangeContainer').html(formatRange(nexus.timeRange));
     if (typeof nexus.nexusType != "undefined" && nexus.nexusType != null) {
         $('#nexusTypeContainer').html("("+nexus.nexusType+")");
@@ -228,7 +240,20 @@ function closeNexusDetails () {
 }
 
 function editNexusDetails () {
-    // todo
+    closeNexusDetails();
+
+    $('#nexusEditNameContainer').html(activeNexus.name);
+    $('#nexusRangeStart').val(formatEditTimePoint(activeNexus.timeRange.startPoint));
+    $('#nexusRangeEnd').val(formatEditTimePoint(activeNexus.timeRange.endPoint));
+
+
+    var container = $('#nexusEditContainer');
+    container.css('zIndex', 1);
+}
+
+function closeEditNexusDetails () {
+    var container = $('#nexusEditContainer');
+    container.css('zIndex', -2);
 }
 
 function viewNexusVersions () {
@@ -415,7 +440,7 @@ function initMap () {
     google.maps.event.addListener(map, 'click', function (clickEvent) {
 
         // always close nexus details upon map click (unless pinned)
-        closeNexusDetails();
+        closeNexusDetails(); closeEditNexusDetails();
 
         if (mode == 'inspect') {
             inspectLocation(clickEvent);

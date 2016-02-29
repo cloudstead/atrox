@@ -205,9 +205,9 @@ Api = {
         return function () { Api.resolve_tags(tagsToIds, callback); }
     },
 
-    owner_name: function (uuid, id) {
+    owner_name: function (uuid, id, prefix) {
         Api._get('tags/owner/'+uuid, function (data) {
-            $(id).html(data);
+            $(id).html(prefix + " " + data);
         });
     },
 

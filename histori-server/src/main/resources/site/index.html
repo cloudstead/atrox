@@ -57,7 +57,6 @@
 </div>
 
 <div id="nexusDetailsContainer">
-    <div id="nexusUuidContainer" style="visibility: hidden"></div>
     <div id="nexusDetailsControl">
         <button class="nexusButton" onclick="closeNexusDetails(); return false;">close</button>
         <button class="nexusButton" onclick="editNexusDetails(); return false;">edit</button>
@@ -70,6 +69,14 @@
     <div id="nexusTagsContainer"></div>
     <div id="nexusNearbyContainer"></div>
     <div id="nexusVersionsContainer"></div>
+</div>
+
+<div id="nexusEditContainer">
+    <form id="nexusEditForm" action="." onsubmit="return false;">
+        <div id="nexusEditNameContainer"></div>
+        <label for="nexusRangeStart">start: </label><input type="text" id="nexusRangeStart"/>
+        <label for="nexusRangeEnd">end: </label><input type="text" id="nexusRangeEnd"/>
+    </form>
 </div>
 
 <div id="sliderContainer" style="visibility: hidden">
