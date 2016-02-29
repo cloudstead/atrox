@@ -207,10 +207,10 @@ function openNexusDetails (nexusSummary, tries) {
                     openNexusDetails(data, tries + 1);
                 }, null);
             }, tries * 2000);
-            showLoadingMessage("(data still loading)");
+            showLoadingMessage("Loading nexus...");
 
         } else {
-            showLoadingMessage("(data loading failed after " + tries + " tries)");
+            showLoadingMessage("Loading nexus failed, maybe try again later");
         }
     } else {
         hideLoadingMessage();
