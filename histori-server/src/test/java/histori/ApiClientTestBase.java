@@ -112,7 +112,7 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
     }
 
     public SearchResults<NexusSummary> search(String startDate, String endDate) throws Exception {
-        return simpleSearch(SEARCH_ENDPOINT + EP_DATE + "/" + startDate + "/" + endDate + "/180/-180/180/-180", NexusSummary.SEARCH_RESULT_TYPE);
+        return simpleSearch(SEARCH_ENDPOINT + EP_QUERY + "/" + startDate + "/" + endDate + "/180/-180/180/-180", NexusSummary.SEARCH_RESULT_TYPE);
     }
 
     public Nexus dummyNexus () {

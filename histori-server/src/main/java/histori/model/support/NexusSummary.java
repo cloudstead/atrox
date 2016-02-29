@@ -9,10 +9,21 @@ import lombok.experimental.Accessors;
 import org.cobbzilla.wizard.dao.SearchResults;
 import org.cobbzilla.wizard.model.ExpirableBase;
 
+import java.util.SortedSet;
+
 @Accessors(chain=true)
 public class NexusSummary extends ExpirableBase {
 
     public static final JavaType SEARCH_RESULT_TYPE = new NexusSummary().getSearchResultType();
+
+    public static NexusSummary simpleSummary(SortedSet<Nexus> group) {
+        return new NexusSummary().setIncomplete(true).setPrimary(group.first()).setTotalCount(group.size());
+    }
+
+    public static NexusSummary simpleSummary(Nexus nexus) {
+        return new NexusSummary().setIncomplete(true).setPrimary(nexus);
+    }
+
     @JsonIgnore public JavaType getSearchResultType() { return SearchResults.jsonType(getClass()); }
 
     @Getter @Setter private Nexus primary;
@@ -24,5 +35,8 @@ public class NexusSummary extends ExpirableBase {
 
     // Number of nexuses with this name, in total
     @Getter @Setter private int totalCount;
+
+    // If true, this is a stub and the client can ask for the summary again to receive more data
+    @Getter @Setter private boolean incomplete;
 
 }

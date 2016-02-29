@@ -122,8 +122,12 @@ Api = {
             var east = Api._find_nexuses_request[4];
             var west = Api._find_nexuses_request[5];
             //console.log('NOW calling API .... find_nexuses:'+ start+", "+ end);
-            Api._get('search/date/'+start+'/'+end+'/'+north+'/'+south+'/'+east+'/'+west, success, fail);
+            Api._get('search/q/'+start+'/'+end+'/'+north+'/'+south+'/'+east+'/'+west, success, fail);
         }, 1000);
+    },
+
+    find_nexus: function (uuid, success, fail) {
+        Api._get('search/n/'+uuid, success, fail);
     },
 
     autocomplete: function (matchType) {

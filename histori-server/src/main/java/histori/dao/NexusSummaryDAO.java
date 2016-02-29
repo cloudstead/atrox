@@ -12,7 +12,9 @@ import histori.server.HistoriConfiguration;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.collection.FieldTransfomer;
+import org.cobbzilla.util.collection.Mappy;
 import org.cobbzilla.wizard.dao.BackgroundFetcherDAO;
 import org.cobbzilla.wizard.dao.SearchResults;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 import static org.apache.commons.collections.CollectionUtils.collect;
 import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
 
-@Repository
+@Repository @Slf4j
 public class NexusSummaryDAO extends BackgroundFetcherDAO<NexusSummary> {
 
     private static final int MAX_OTHER_NEXUS = 10;
@@ -46,7 +48,7 @@ public class NexusSummaryDAO extends BackgroundFetcherDAO<NexusSummary> {
      * @param range the time range to search
      * @return a List of NexusSummary objects
      */
-    public SearchResults<NexusSummary> findByTimeRange(Account account, EntityVisibility visibility, TimeRange range, GeoBounds bounds) {
+    public SearchResults<NexusSummary> search(Account account, EntityVisibility visibility, TimeRange range, GeoBounds bounds) {
 
         final SearchResults<NexusSummary> results = new SearchResults<>();
         final List<Nexus> found = account == null
@@ -56,17 +58,9 @@ public class NexusSummaryDAO extends BackgroundFetcherDAO<NexusSummary> {
 
         // Collect nexus by name and rank them
         // Highest rank is the one with the most upvotes
-        final Map<String, SortedSet<Nexus>> rollup = new HashMap<>();
-        for (Nexus nexus : found) {
-            SortedSet<Nexus> matches = rollup.get(nexus.getName());
-            if (matches == null) {
-                matches = new TreeSet<>(new NexusRankComparator());
-                rollup.put(nexus.getName(), matches);
-            }
-            matches.add(nexus);
-        }
+        final NexusRollup rollup = new NexusRollup(found);
 
-        for (SortedSet<Nexus> group : rollup.values()) {
+        for (SortedSet<Nexus> group : rollup.allValues()) {
             final NexusSummary summary = buildSummary(group, account, visibility);
             if (summary != null) results.addResult(summary);
         }
@@ -100,16 +94,35 @@ public class NexusSummaryDAO extends BackgroundFetcherDAO<NexusSummary> {
             return found;
         }
         // create a simple summary
-        return new NexusSummary().setPrimary(group.first()).setTotalCount(group.size());
+        return NexusSummary.simpleSummary(group);
     }
 
     @Override public int getThreadPoolSize() { return configuration.getThreadPoolSizes().get(getClass().getSimpleName()); }
 
     @Override protected Callable<NexusSummary> newEntityJob(String uuid, Map<String, Object> context) {
-        return new NexusSummaryJob(uuid,
-                (Account) context.get(CTX_ACCOUNT),
-                (SortedSet<Nexus>) context.get(CTX_GROUP),
-                (EntityVisibility) context.get(CTX_VISIBILITY));
+        try {
+            if (context == null) {
+                final List<Nexus> found = nexusDAO.findByName(nexusDAO.findByUuid(uuid).getName());
+                if (found.size() == 0) return null;
+                return new NexusSummaryJob(uuid,
+                        null,
+                        new NexusRollup(found).allValues().iterator().next(),
+                        EntityVisibility.everyone);
+            } else {
+                return new NexusSummaryJob(uuid,
+                        (Account) context.get(CTX_ACCOUNT),
+                        (SortedSet<Nexus>) context.get(CTX_GROUP),
+                        (EntityVisibility) context.get(CTX_VISIBILITY));
+            }
+        } catch (NullPointerException npe) {
+            log.error("wtf: "+npe);
+            throw npe;
+        }
+    }
+
+    private class NexusRollup extends Mappy<String, Nexus, SortedSet<Nexus>> {
+        public NexusRollup(List<Nexus> list) { for (Nexus n : list) put(n.getName(), n); }
+        @Override protected SortedSet<Nexus> newCollection() { return new TreeSet<>(new NexusRankComparator()); }
     }
 
     @AllArgsConstructor

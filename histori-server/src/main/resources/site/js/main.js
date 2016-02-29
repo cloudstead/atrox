@@ -144,22 +144,53 @@ function formatRange (range) {
 
 TAG_TYPES = ['event_type', 'world_actor', 'result', 'impact', 'person', 'event', 'citation', 'idea', 'meta'];
 TAG_TYPE_NAMES = ['event types', 'world actors', 'results', 'impacts', 'persons', 'events', 'citations', 'ideas', 'meta'];
-var activeNexus = null;
+var activeNexusSummary = null;
 
-function openNexusDetails (nexus) {
+function openNexusDetails (nexusSummary, recurse) {
+
     closeEditNexusDetails();
-    activeNexus = nexus;
+
+    if (typeof nexusSummary == "undefined" || nexusSummary == null) return;
+
+    activeNexusSummary = nexusSummary;
+    var nexus = activeNexusSummary.primary;
+
     $('#nexusNameContainer').html(nexus.name);
     Api.owner_name(nexus.owner, '#nexusAuthorContainer', "created by: ");
     $('#nexusRangeContainer').html(formatRange(nexus.timeRange));
-    if (typeof nexus.nexusType != "undefined" && nexus.nexusType != null) {
-        $('#nexusTypeContainer').html("("+nexus.nexusType+")");
+    //if (typeof nexus.nexusType != "undefined" && nexus.nexusType != null) {
+    //    $('#nexusTypeContainer').html("("+nexus.nexusType+")");
+    //}
+
+    var otherVersionCount = 0;
+    if (typeof nexus.others != "undefined" && is_array(nexus.others)) {
+        otherVersionCount = nexus.others.length;
+    }
+    var btnNexusVersions = $('#btn_nexusVersions');
+    switch (otherVersionCount) {
+        case 0:
+            btnNexusVersions.css('visibility', 'hidden');
+            break;
+        case 1:
+            btnNexusVersions.html('1 other version');
+            btnNexusVersions.css('visibility', 'visible');
+            break;
+        default:
+            btnNexusVersions.html(otherVersionCount + ' other versions');
+            btnNexusVersions.css('visibility', 'visible');
+            break;
     }
 
     var tagsContainer = $('#nexusTagsContainer');
     tagsContainer.empty();
 
-    if (typeof nexus.tags != "undefined" && is_array(nexus.tags)) {
+    if (recurse && nexusSummary.incomplete) {
+        Api.find_nexus(nexus.uuid, function (data) {
+            activeNexusSummary = data;
+            openNexusDetails(activeNexus, false);
+        }, null);
+
+    } else if (typeof nexus.tags != "undefined" && is_array(nexus.tags)) {
         var names = [];
         var tagsTable = $('<table id="nexusTagsTable">');
 
@@ -254,6 +285,10 @@ function editNexusDetails () {
 function closeEditNexusDetails () {
     var container = $('#nexusEditContainer');
     container.css('zIndex', -2);
+}
+
+function saveEditNexusDetails () {
+    // todo
 }
 
 function viewNexusVersions () {
@@ -753,8 +788,8 @@ function inspectLocation (clickEvent) {
 
 var active_markers = [];
 
-function newMarkerListener(nexus) {
-    return function() { openNexusDetails(nexus); }
+function newMarkerListener(nexusSummary) {
+    return function() { openNexusDetails(nexusSummary, true); }
 }
 
 function update_map (data) {
@@ -779,7 +814,7 @@ function update_map (data) {
                 });
 
                 var nexus = result.primary;
-                marker.addListener('click', newMarkerListener(nexus));
+                marker.addListener('click', newMarkerListener(result));
 
                 active_markers.push(marker);
             }

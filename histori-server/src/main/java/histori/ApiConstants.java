@@ -42,7 +42,8 @@ public class ApiConstants {
     public static final String EP_TAGS = "/tags";
 
     // search endpoints
-    public static final String EP_DATE = "/date";
+    public static final String EP_QUERY = "/q";
+    public static final String EP_NEXUS = "/n";
 
     // tag endpoints and query params
     public static final String EP_TAG = "/tag";

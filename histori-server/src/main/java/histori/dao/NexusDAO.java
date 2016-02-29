@@ -74,6 +74,8 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
         }
     }
 
+    public List<Nexus> findByName(String name) { return findByField("name", name); }
+
     public Nexus findByOwnerAndName(Account account, String name) {
         return uniqueResult(criteria().add(and(
                 eq("owner", account.getUuid()),
@@ -154,4 +156,5 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
                        and(le("bounds.west", bounds.getEast()), ge("bounds.west", bounds.getWest()))))
         );
     }
+
 }
