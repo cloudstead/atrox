@@ -198,16 +198,8 @@ function openNexusDetails (nexusSummary, tries) {
 
     var commentaryContainer = $('#nexusCommentaryContainer');
     commentaryContainer.empty();
-    if (typeof nexus.commentary != "undefined") {
-        if (typeof nexus.commentary.headline != "undefined") {
-            commentaryContainer.append('<h3>'+nexus.commentary.headline+'</h3>');
-        }
-        if (typeof nexus.commentary.subhead != "undefined") {
-            commentaryContainer.append('<h5>'+nexus.commentary.subhead+'</h5>');
-        }
-        if (typeof nexus.commentary.markdown != "undefined") {
-            commentaryContainer.append('<p class="commentaryMarkdown">'+markupConverter.makeHtml(nexus.commentary.markdown)+'</p>');
-        }
+    if (typeof nexus.markdown != "undefined") {
+        commentaryContainer.append('<p class="commentaryMarkdown">'+markupConverter.makeHtml(nexus.commentary.markdown)+'</p>');
     }
 
     var tagsContainer = $('#nexusTagsContainer');
