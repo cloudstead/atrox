@@ -17,10 +17,12 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 
 import static histori.ApiConstants.EP_TAGS;
 import static histori.ApiConstants.NEXUS_ENDPOINT;
+import static histori.model.support.EntityVisibility.everyone;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
 import static org.cobbzilla.util.string.StringUtil.urlDecode;
@@ -76,7 +78,7 @@ public class NexusResource {
         final Nexus found = nexusDAO.findByOwnerAndNameOrUuid(account, nameOrUuid);
         if (found == null) return notFound(nameOrUuid);
 
-        final EntityVisibility vis = EntityVisibility.create(visibility, EntityVisibility.everyone);
+        final EntityVisibility vis = EntityVisibility.create(visibility, everyone);
         found.setTags(nexusTagDAO.findByNexus(account, found.getUuid(), vis));
         return ok(found);
     }
@@ -113,20 +115,79 @@ public class NexusResource {
         if (nexus == null) return notFound(uuid);
 
         if (!account.isAdmin() && !account.getUuid().equals(nexus.getOwner())) {
-            // make a copy
-            final Nexus copy = new Nexus();
-            copy(copy, request, CREATE_FIELDS);
-            copy.setName(nexus.getName()); // name cannot change
-            copy.setOrigin(nexus.getUuid()); // record where we copied from
-            copy.setUuid(null); // mark as new nexus
-            copy.setOwner(account.getUuid()); // ensure owner is caller
-            return ok(nexusDAO.create(copy));
+            // do they already have a version? update that one
+            Nexus callerNexus = nexusDAO.findByOwnerAndName(account, nexus.getName());
+            if (callerNexus != null) {
+                callerNexus = updateNexusWithTags(account, request, nexus, callerNexus);
+
+            } else {
+                // create a new copy of the nexus for this account
+                callerNexus = new Nexus();
+                copy(callerNexus, request, CREATE_FIELDS);
+                callerNexus.setName(nexus.getName()) // name cannot change
+                        .setOrigin(nexus.getUuid())  // record where we copied from
+                        .setVersion(0)               // restart version numbers for our copy
+                        .setOwner(account.getUuid()) // ensure caller is the owner
+                        .setUuid(null);              // mark as new nexus
+                callerNexus = nexusDAO.create(callerNexus);
+
+                // copy all tags
+                for (NexusTag nexusTag : nexusTagDAO.findByNexusAndOwner(account, callerNexus.getUuid())) {
+                    final NexusTag tag = (NexusTag) new NexusTag(nexusTag) // copy name/type/schema
+                            .setNexus(callerNexus.getUuid()) // belongs to caller's nexus
+                            .setOrigin(nexusTag.getUuid())   // where we came from
+                            .setVersion(0)                   // restart versioning
+                            .setOwner(account.getUuid());    // belongs to caller
+                    try {
+                        nexusTagDAO.create(tag);
+                    } catch (Exception e) {
+                        log.warn("error copying tag ("+tag+"): "+e);
+                    }
+                    callerNexus.addTag(tag);
+                }
+            }
+            return ok(callerNexus);
         }
 
-        copy(nexus, request, UPDATE_FIELDS);
-        final Nexus updated = nexusDAO.update(nexus);
-        updated.setTags(nexusTagDAO.findByNexusAndOwner(account, nexus.getUuid()));
-        return ok(updated);
+        return ok(updateNexusWithTags(account, request, nexus, nexus));
+    }
+
+    public Nexus updateNexusWithTags(Account account, @Valid NexusRequest request, Nexus nexus, Nexus callerNexus) {
+        // update it
+        copy(callerNexus, request, UPDATE_FIELDS);
+        callerNexus.setOrigin(nexus.getUuid()); // record where we copied from
+        callerNexus = nexusDAO.update(callerNexus);
+        if (request.hasTags()) {
+            // list of those that exist in storage but are missing from the request -> delete from storage
+            final List<NexusTag> toDelete = new ArrayList<>();
+
+            // list of those found in the request that don't exist in storage -> add to storage
+            final List<NexusTag> toAdd = new ArrayList<>();
+
+            // only look at public tags
+            final List<NexusTag> existingTags = nexusTagDAO.findByNexus(account, nexus.getUuid(), everyone);
+            for (NexusTag tag : existingTags) {
+                boolean found = false;
+                for (NexusTag requestTag : request.getTags()) {
+                    if (requestTag.getUuid().equals(tag.getUuid())) {
+                        // only schema values can be updated. name/type are immutable.
+                        tag.setSchemaValues(requestTag.getSchemaValues());
+                        nexusTagDAO.update(tag);
+                        found = true;
+                    } else if (!existingTags.contains(requestTag)) {
+                        toAdd.add((NexusTag) new NexusTag(requestTag).setNexus(callerNexus.getUuid()));
+                    }
+                }
+                if (!found) toDelete.add(tag);
+            }
+
+            for (NexusTag tag : toAdd) callerNexus.addTag(nexusTagDAO.create(tag));
+            for (NexusTag tag : toDelete) {
+                nexusTagDAO.delete(tag.getUuid());
+                callerNexus.removeTag(tag.getUuid());
+            }
+        }
+        return callerNexus;
     }
 
     @DELETE

@@ -232,7 +232,7 @@ Api = {
     },
 
     edit_nexus: function (nexus, success, fail) {
-        Api._post('nexus/', nexus, success, fail);
+        Api._post('nexus/' + nexus.uuid, nexus, success, fail);
     },
 
     transform_image: function (src, width, height) {

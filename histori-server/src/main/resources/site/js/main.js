@@ -236,6 +236,28 @@ function hideLoadingMessage () {
 }
 
 var markupConverter = new showdown.Converter()
+
+function findNexus(nexus, tries) {
+    Api.find_nexus(nexus.uuid, function (data) {
+        console.log('find_nexus for try #' + tries + ' returned nexus, incomplete=' + data.incomplete);
+        nexusSummariesByUuid[nexus.uuid] = data;
+        openNexusDetails(nexus.uuid, tries + 1);
+    }, null);
+}
+
+function displayTimeRange(timeRange) {
+    var rangeStart = $('.nexusRangeStart');
+    var rangeHyphen = $('.nexusRangeHyphen');
+    var rangeEnd = $('.nexusRangeEnd');
+    rangeStart.empty();
+    rangeHyphen.empty();
+    rangeEnd.empty();
+    rangeStart.html(formatTimePoint(timeRange.startPoint));
+    if (typeof timeRange.endPoint != "undefined" && timeRange.endPoint != null && ((typeof timeRange.endPoint.year != "undefined") && timeRange.endPoint.year != null && timeRange.endPoint.year > 0)) {
+        rangeHyphen.html(' - ');
+        rangeEnd.html(formatTimePoint(timeRange.endPoint));
+    }
+}
 function openNexusDetails (uuid, tries) {
 
     var nexusSummary = nexusSummariesByUuid[uuid];
@@ -252,18 +274,7 @@ function openNexusDetails (uuid, tries) {
 
     $('#nexusNameContainer').html(nexus.name);
     Api.owner_name(nexus.owner, '#nexusAuthorContainer', "v" + nexus.version +" created by: ");
-
-    var rangeStart = $('#nexusRangeStart');
-    var rangeHyphen = $('#nexusRangeHyphen');
-    var rangeEnd = $('#nexusRangeEnd');
-    rangeStart.empty();
-    rangeHyphen.empty();
-    rangeEnd.empty();
-    rangeStart.html(formatTimePoint(nexus.timeRange.startPoint));
-    if (typeof nexus.timeRange.endPoint != "undefined") {
-        rangeHyphen.html(' - ');
-        rangeEnd.html(formatTimePoint(nexus.timeRange.endPoint));
-    }
+    displayTimeRange(nexus.timeRange);
 
     var otherVersionCount = 0;
     if (typeof nexus.others != "undefined" && is_array(nexus.others)) {
@@ -297,11 +308,7 @@ function openNexusDetails (uuid, tries) {
         if (tries < 5) {
             window.setTimeout(function () {
                 console.log('trying to find nexus, try #' + tries);
-                Api.find_nexus(nexus.uuid, function (data) {
-                    console.log('find_nexus for try #' + tries + ' returned nexus, incomplete=' + data.incomplete);
-                    nexusSummariesByUuid[nexus.uuid] = data;
-                    openNexusDetails(nexus.uuid, tries + 1);
-                }, null);
+                findNexus(nexus, tries);
             }, tries * 2000);
             showLoadingMessage("Loading nexus...");
 
@@ -940,67 +947,62 @@ function get_marker_image (nexus) {
     return null;
 }
 
-var activeField = null;
-
 function update_time_point (timePoint, value) {
 
     if (typeof value == "undefined" || value == null) return false;
 
     var dateParts = value.split('-');
-    if (dateParts.length == 0 || dateParts.length > 6) return false;
+    if (dateParts.length == 0 || dateParts.length > 6 || (dateParts.length == 1 && dateParts[0].length == 0)) return false;
 
-    timePoint.year = dateParts[0];
+    timePoint.year = parseInt(dateParts[0]);
     var instant = '' + timePoint.year;
     if (dateParts.length > 1) {
         if (dateParts[1] < 1 || dateParts[1] > 12) return false;
-        timePoint.month = dateParts[1];
-        instant = '' + timePoint.month + '' + instant
+        timePoint.month = parseInt(dateParts[1]);
+        instant += (timePoint.month < 10 ? "0" : "") + timePoint.month;
     } else {
         instant += '00';
     }
     if (dateParts.length > 2) {
         if (dateParts[2] < 1 || dateParts[2] > 31) return false;
-        timePoint.day = dateParts[2];
-        instant = '' + timePoint.day + '' + instant
+        timePoint.day = parseInt(dateParts[2]);
+        instant += (timePoint.day < 10 ? "0" : "") + timePoint.day;
     } else {
         instant += '00';
     }
     if (dateParts.length > 3) {
         if (dateParts[3] < 0 || dateParts[3] > 23) return false;
-        timePoint.hour = dateParts[3];
-        instant = '' + timePoint.hour + '' + instant
+        timePoint.hour = parseInt(dateParts[3]);
+        instant += (timePoint.hour < 10 ? "0" : "") + timePoint.hour;
     } else {
         instant += '00';
     }
     if (dateParts.length > 4) {
         if (dateParts[4] < 1 || dateParts[4] > 59) return false;
-        timePoint.minute = dateParts[4];
-        instant = '' + timePoint.minute + '' + instant
+        timePoint.minute = parseInt(dateParts[4]);
+        instant += (timePoint.minute < 10 ? "0" : "") + timePoint.minute;
     } else {
         instant += '00';
     }
     if (dateParts.length > 5) {
         if (dateParts[5] < 1 || dateParts[5] > 59) return false;
-        timePoint.second = dateParts[5];
-        instant = '' + timePoint.second + '' + instant
+        timePoint.second = parseInt(dateParts[5]);
+        instant += (timePoint.second < 10 ? "0" : "") + timePoint.second;
     } else {
         instant += '00';
     }
-    timePoint.instant = instant;
+    timePoint.instant = parseInt(instant);
     return true;
 }
 
 function commitNexusEdits () {
-    save_field(activeField);
+    //save_fields();
 
     if (activeNexusSummary != null) {
         var nexusSummary = nexusSummariesByUuid[activeNexusSummary.uuid];
         if (typeof nexusSummary != "undefined" && typeof nexusSummary.primary != "undefined") {
             Histori.edit_nexus(nexusSummary.primary, function (data) {
-                if (typeof data != "undefined") {
-                    nexusSummariesByUuid[activeNexusSummary.uuid] = nexusSummariesByUuid[data.uuid] = data;
-                    openNexusDetails(data.uuid, 0);
-                }
+                findNexus(data, 0);
             });
             nexusSummary.dirty = false;
         }
@@ -1009,62 +1011,81 @@ function commitNexusEdits () {
 
 function save_field(name) {
     console.log('save_field: '+name);
-    if (activeField == null) return;
-    var jqElement = $('#'+activeField);
     if (name == "nexusRangeStart" || name == "nexusRangeEnd") {
-        var timePoint = {};
-        var editField = $('#edit_'+activeField);
-        var value = editField.val();
-        if (!update_time_point(timePoint, value)) {
-            display_error_field(editField);
-            return;
+        var timeRange = { startPoint: {}, endPoint: {} };
+        var startField = $('.edit_nexusRangeStart');
+        var endField = $('.edit_nexusRangeEnd');
+        var ok = true;
+        if (!update_time_point(timeRange.startPoint, startField.val())) {
+            display_error_field(startField);
+            ok = false;
         }
+        var endVal = endField.val();
+        if (typeof endVal == "undefined" || endVal.length == 0) {
+            timeRange.endPoint = null;
+        } else {
+            if (!update_time_point(timeRange.endPoint, endVal)) {
+                display_error_field(endField);
+                ok = false;
+            }
+        }
+        if (timeRange.endPoint != null && timeRange.endPoint.instant < timeRange.startPoint.instant) {
+            display_error_field(endField);
+            ok = false;
+        }
+        if (!ok) return false;
+
         // todo: if it did not change, do not mark as dirty
         nexusSummariesByUuid[activeNexusSummary.uuid].dirty = true;
-        if (name == "nexusRangeStart") {
-            activeNexusSummary.primary.timeRange.startPoint = timePoint;
-        } else {
-            activeNexusSummary.primary.timeRange.endPoint = timePoint;
-        }
-        clear_error_field(editField);
-        jqElement.html(formatTimePoint(timePoint));
-        editField.css('visibility', 'hidden');
+        console.log('updating in-mem timeRange: '+timeRange);
+        nexusSummariesByUuid[activeNexusSummary.uuid].primary.timeRange = timeRange;
+
+        $('#btn_nexusSave').css('visibility', 'visible');
+
+        var rangeStart = $('.nexusRangeStart');
+        var rangeEnd = $('.nexusRangeEnd');
+        rangeStart.off("keyup");
+        rangeEnd.off("keyup");
+        clear_error_field(startField);
+        clear_error_field(endField);
+        displayTimeRange(timeRange);
     }
-    activeField = null;
 }
 
 function display_error_field(field) { field.css('border', '3px solid red'); }
 function clear_error_field(field) { field.css('border', 'none'); }
 
-function edit_nexus_field (element) {
-    console.log('edit_nexus_field: '+element.id);
-    if (activeField != null) {
-        if (activeField == element.id) return;
-        save_field(activeField);
-    }
-    activeField = element.id;
-    var field = null;
-    var jqElement = $('#'+activeField);
-    if (activeField == "nexusRangeStart" || activeField == "nexusRangeEnd") {
-        var timePoint = (activeField == "nexusRangeStart") ? activeNexusSummary.primary.timeRange.startPoint : activeNexusSummary.primary.timeRange.endPoint;
-        var editFieldId = 'edit_'+activeField;
-        field = $('#'+editFieldId);
-        if (!field.length) {
-            field = $('<input type="text" id="' + editFieldId + '" value="' + formatEditTimePoint(timePoint) + '"/>').keyup(function (e) {
-                if (e.keyCode == 13) {
-                    save_field(activeField);
-                }
-            });
-        }
+function timePointInputBox(id, timePoint) {
+    var val = (timePoint == null ? '' : formatEditTimePoint(timePoint));
+    return $('<input type="text" class="edit_' + id + '" value="' + val + '"/>');
+}
+function edit_nexus_field (id) {
+    if (id == "nexusRangeStart" || id == "nexusRangeEnd") {
+        console.log('edit_nexus_field (range): '+id);
+        var timeRange = activeNexusSummary.primary.timeRange;
+        var startField = $('.edit_nexusRangeStart');
+        var endField = $('.edit_nexusRangeEnd');
+
+        if (!startField.length) startField = timePointInputBox('nexusRangeStart', timeRange.startPoint);
+        if (!endField.length) endField = timePointInputBox('nexusRangeEnd', timeRange.endPoint);
+
+        var rangeStart = $('.nexusRangeStart');
+        rangeStart.on("keyup", function (e) {
+            if (e.keyCode == 13) save_field('nexusRangeStart');
+        });
+        var rangeHyphen = $('.nexusRangeHyphen');
+        var rangeEnd = $('.nexusRangeEnd');
+        rangeEnd.on("keyup", function (e) {
+            if (e.keyCode == 13) save_field('nexusRangeEnd');
+        });
+        rangeStart.empty(); rangeHyphen.empty(); rangeEnd.empty();
+        rangeStart.append(startField);
+        rangeHyphen.html(' - ');
+        rangeEnd.append(endField);
+        if (id == "nexusRangeStart") startField.focus();
+        if (id == "nexusRangeEnd") endField.focus();
     } else {
-        console.log('edit_nexus_field: ' + activeField);
-    }
-    if (field != null) {
-        $('#btn_nexusSave').css('visibility', 'visible');
-        jqElement.empty();
-        jqElement.append(field);
-        field.css('visibility', 'visible');
-        field.focus();
+        console.log('edit_nexus_field (unknown): ' + id);
     }
 }
 

@@ -21,6 +21,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -210,4 +211,11 @@ public class NexusBase extends SocialEntity {
         return null;
     }
 
+    public void removeTag(String uuid) {
+        if (!hasTags()) return;
+        for (Iterator<NexusTag> iter = tags.iterator(); iter.hasNext(); ) {
+            final NexusTag tag = iter.next();
+            if (tag.hasUuid() && tag.getUuid().equals(uuid)) iter.remove();
+        }
+    }
 }

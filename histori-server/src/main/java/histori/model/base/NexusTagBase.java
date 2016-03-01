@@ -24,6 +24,9 @@ import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
 @MappedSuperclass @Accessors(chain=true)
 public class NexusTagBase extends SocialEntity {
 
+    public static final String[] COPY_FIELDS = {"nexus", "tagName", "tagType", "schemaValues"};
+    public static final String[] VALUE_FIELDS = {"tagName", "tagType", "schemaValues"};
+
     @Column(length=UUID_MAXLEN, nullable=false, updatable=false)
     @Getter @Setter private String nexus;
 

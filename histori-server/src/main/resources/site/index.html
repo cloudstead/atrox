@@ -65,7 +65,10 @@
             <button id="btn_nexusVersions" class="nexusButton" onclick="viewNexusVersions(); return false;">versions</button>
         </span>
     </div>
-    <div id="nexusRangeContainer"><span id="nexusRangeStart" onclick="edit_nexus_field(this);"></span><span id="nexusRangeHyphen"></span><span id="nexusRangeEnd" onclick="edit_nexus_field(this);"></span></div>
+    <div id="nexusRangeContainer">
+        <span class="nexusRangeStart" onclick="edit_nexus_field('nexusRangeStart');"></span>
+        <span class="nexusRangeHyphen"></span>
+        <span class="nexusRangeEnd" onclick="edit_nexus_field('nexusRangeEnd');"></span></div>
     <div id="nexusAuthorContainer"></div>
     <div id="nexusTagsContainer"></div>
     <div id="nexusCommentaryContainer"></div>
