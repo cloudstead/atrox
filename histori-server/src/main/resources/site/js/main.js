@@ -80,8 +80,13 @@ function closeForm(id) {
     $(".authError").empty();
 }
 
+function isAnonymous() {
+    return (get_token() == NO_TOKEN || ((typeof Histori.account() == 'undefined') || (typeof Histori.account().email == 'undefined')));
+}
+
 function showLoginForm () {
-    var anonymous = (get_token() == NO_TOKEN || ((typeof Histori.account() == 'undefined') || (typeof Histori.account().email == 'undefined')));
+
+    var anonymous = isAnonymous();
     if (anonymous) {
         showForm('loginContainer');
     } else {
@@ -93,6 +98,8 @@ function showAccountForm () {
     var accountContainer = $('#accountContainer');
     accountContainer.find('input[name="name"]').val(account.name);
     accountContainer.find('input[name="email"]').val(account.email);
+    accountContainer.find('input[name="currentPassword"]').val('');
+    accountContainer.find('input[name="newPassword"]').val('');
     showForm('accountContainer');
 }
 function showRegForm () { showForm('regContainer'); }
@@ -603,7 +610,7 @@ function init() {
     $(document).ready(function () {
         google.maps.event.addDomListener(window, "load", initMap);
         var keyParam = getParameterByName('key');
-        if (keyParam != null && keyParam.length > 5) {
+        if (keyParam != null && keyParam.length > 5 && isAnonymous()) {
             showResetPassForm();
         }
     });
