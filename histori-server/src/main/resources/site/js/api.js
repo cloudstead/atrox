@@ -215,6 +215,10 @@ Api = {
         });
     },
 
+    save_nexus: function (nexus, success, fail) {
+        Api._post('nexus/', nexus, success, fail);
+    },
+
     transform_image: function (src, width, height) {
         return src.replace("/public/image/", "/public/transform/w_"+width+"-h_"+height+"/");
     }

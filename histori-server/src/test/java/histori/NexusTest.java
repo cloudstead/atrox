@@ -5,6 +5,7 @@ import histori.archive.NexusTagArchive;
 import histori.dao.NexusSummaryDAO;
 import histori.model.*;
 import histori.model.support.*;
+import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.wizard.dao.SearchResults;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +23,7 @@ import static org.cobbzilla.util.system.Sleep.sleep;
 import static org.cobbzilla.wizardtest.RandomUtil.randomName;
 import static org.junit.Assert.*;
 
+@Slf4j
 public class NexusTest extends ApiClientTestBase {
 
     private static final String DOC_TARGET = "Add world events to the map";
@@ -229,6 +231,46 @@ public class NexusTest extends ApiClientTestBase {
         } else {
             assertEquals(nexusType, typeTags.get(0).getTagName());
         }
+    }
+
+    @Test public void testCopyOnWrite () throws Exception {
+
+        apiDocs.startRecording(DOC_TARGET, "Edit someone else's nexus, this creates a copy");
+
+        // define a range of one day of a random year in the distant past
+        final TimeRange range = randomTimeRange();
+        final String startDate = range.getStartPoint().toString();
+        final String endDate = range.getEndPoint().toString();
+
+        final String nexusName = randomName();
+
+        // Create a new Nexus with a random event_type
+        final String headline = randomName();
+        final Nexus nexus = newNexus(startDate, endDate, nexusName, headline);
+        final String nexusType = randomName();
+        nexus.setNexusType(nexusType);
+
+        apiDocs.addNote("Define a new Nexus with a nexusType, should automatically create an eventType tag");
+        Nexus createdNexus = createNexus(nexusName, nexus);
+
+        apiDocs.addNote("Register another user account");
+        newAnonymousAccount();
+
+        apiDocs.addNote("Edit the nexus created by the first user, verify we get a copy");
+        final String nexusPath = NEXUS_ENDPOINT + "/" + createdNexus.getUuid();
+        final String markdown = randomName();
+        createdNexus.setMarkdown(markdown);
+        createdNexus.setVisibility(EntityVisibility.everyone);
+        final Nexus updatedNexus = fromJson(post(nexusPath, toJson(createdNexus)).json, Nexus.class);
+        assertNotEquals(createdNexus.getUuid(), updatedNexus.getUuid());
+        assertEquals(markdown, updatedNexus.getMarkdown());
+
+        apiDocs.addNote("Do search, we should see a single summary with both versions");
+        SearchResults<NexusSummary> results = search(startDate, endDate);
+        assertEquals(1, results.getResults().size());
+        assertNotNull(results.getResult(0).getOthers());
+        assertEquals(1, results.getResult(0).getOthers().length);
+        log.info("results="+results);
     }
 
 }

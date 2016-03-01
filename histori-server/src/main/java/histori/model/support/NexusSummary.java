@@ -9,6 +9,8 @@ import lombok.experimental.Accessors;
 import org.cobbzilla.wizard.dao.SearchResults;
 import org.cobbzilla.wizard.model.ExpirableBase;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.SortedSet;
 
 @Accessors(chain=true)
@@ -17,7 +19,17 @@ public class NexusSummary extends ExpirableBase {
     public static final JavaType SEARCH_RESULT_TYPE = new NexusSummary().getSearchResultType();
 
     public static NexusSummary simpleSummary(SortedSet<Nexus> group) {
-        return new NexusSummary().setIncomplete(true).setPrimary(group.first()).setTotalCount(group.size());
+        boolean first = true;
+        final List<String> others = new ArrayList<>();
+        for (Nexus n : group) {
+            if (!first) others.add(n.getUuid());
+            first = false;
+        }
+        return new NexusSummary()
+                .setIncomplete(true)
+                .setPrimary(group.first())
+                .setOthers(others.toArray(new String[others.size()]))
+                .setTotalCount(group.size());
     }
 
     public static NexusSummary simpleSummary(Nexus nexus) {

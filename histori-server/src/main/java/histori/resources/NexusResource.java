@@ -109,10 +109,19 @@ public class NexusResource {
         final Account account = userPrincipal(ctx);
 
         uuid = urlDecode(uuid); // no url-encoded chars allowed
-        Nexus nexus = nexusDAO.findByOwnerAndUuid(account, uuid);
+        Nexus nexus = nexusDAO.findByUuid(uuid);
         if (nexus == null) return notFound(uuid);
 
-        if (!account.isAdmin() && !account.getUuid().equals(nexus.getOwner())) return forbidden();
+        if (!account.isAdmin() && !account.getUuid().equals(nexus.getOwner())) {
+            // make a copy
+            final Nexus copy = new Nexus();
+            copy(copy, request, CREATE_FIELDS);
+            copy.setName(nexus.getName()); // name cannot change
+            copy.setOrigin(nexus.getUuid()); // record where we copied from
+            copy.setUuid(null); // mark as new nexus
+            copy.setOwner(account.getUuid()); // ensure owner is caller
+            return ok(nexusDAO.create(copy));
+        }
 
         copy(nexus, request, UPDATE_FIELDS);
         final Nexus updated = nexusDAO.update(nexus);
