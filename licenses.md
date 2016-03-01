@@ -219,10 +219,6 @@
   * Site: https://useiconic.com/open
   * License: https://raw.githubusercontent.com/iconic/open-iconic/master/FONT-LICENSE and https://raw.githubusercontent.com/iconic/open-iconic/master/ICON-LICENSE
 
-# Palette icon
-  * Site: https://commons.wikimedia.org/wiki/File:Ic_palette_48px.svg
-  * License: https://creativecommons.org/licenses/by-sa/4.0/deed.en
-
 # ANTLR
   * Site: http://www.antlr.org/
   * License: http://www.antlr.org/license.html

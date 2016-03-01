@@ -118,12 +118,12 @@
 </div>
 
 <div id="mainControlPanel">
-    <table border="0">
+    <table border="0" cellpadding="3">
         <thead>
           <tr>
-              <td>&nbsp;<img src="iconic/png/person-2x.png" onclick="showLoginForm()"/></td>
-              <td>&nbsp;<img width="24" src="icons/200px-Ic_palette_48px.svg.png"/></td>
+              <td>&nbsp;<img src="iconic/png/magnifying-glass-2x.png"/></td>
               <td>&nbsp;<img src="iconic/png/plus-2x.png"/></td>
+              <td>&nbsp;<img src="iconic/png/person-2x.png" onclick="showLoginForm()"/></td>
               <td>&nbsp;<img src="iconic/png/question-mark-2x.png"/>&nbsp;</td>
           </tr>
         </thead>
@@ -133,7 +133,7 @@
 <div id="loginContainer" class="authContainer">
     <div class="authError"></div>
     <div id="loginForm">
-        <form name="login" onsubmit="Histori.login(this.elements['email'].value, this.elements['password'].value, closeLoginForm, handleAuthError('login')); return false;" method="post">
+        <form name="login" onsubmit="Histori.login(this.elements['email'].value, this.elements['password'].value, successfulLogin, handleAuthError('login')); return false;" method="post">
             <table border="0">
                 <tbody>
                 <tr>

@@ -119,6 +119,10 @@ function closeAccountForm () {
     closeForm('accountContainer');
 }
 
+function successfulLogin () {
+    closeLoginForm();
+}
+
 function successfulPasswordReset () {
     showLoginForm();
     var authError = $(".authError");
