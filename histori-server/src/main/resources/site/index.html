@@ -114,23 +114,155 @@
 <span id="sliderCurrent" style="visibility: hidden"></span>
 </div>
 
-<div id="loginContainer" style="visibility: hidden">
+<div id="mainControlPanel">
+    <table border="0">
+        <thead>
+          <tr>
+              <td>&nbsp;<img src="iconic/png/person-2x.png" onclick="showLoginForm()"/></td>
+              <td>&nbsp;<img width="24" src="icons/200px-Ic_palette_48px.svg.png"/></td>
+              <td>&nbsp;<img src="iconic/png/plus-2x.png"/></td>
+              <td>&nbsp;<img src="iconic/png/question-mark-2x.png"/>&nbsp;</td>
+          </tr>
+        </thead>
+    </table>
+</div>
+
+<div id="loginContainer" class="authContainer">
+    <div class="authError"></div>
     <div id="loginForm">
-        <form name="login" onsubmit="Histori.login(this.elements['email'].value, this.elements['password'].value, closeLoginForm, handleError); return false;" method="post">
-        Email: <input type="text" name="email"/><br/>
-        Password: <input type="password" name="password"/><br/>
-        <input type="submit" value="Sign In"/>
+        <form name="login" onsubmit="Histori.login(this.elements['email'].value, this.elements['password'].value, closeLoginForm, handleAuthError('login')); return false;" method="post">
+            <table border="0">
+                <tbody>
+                <tr>
+                    <td>nickname/email:</td>
+                    <td><input type="text" name="email"/></td>
+                </tr>
+                <tr>
+                    <td>password:</td>
+                    <td><input type="password" name="password"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="sign in"/>
+                        <button onclick="closeLoginForm(); showRegForm(); return false; ">sign up</button>
+                        <button onclick="closeLoginForm(); showForgotPassForm(); return false; ">forgot password</button>
+                        <button onclick="closeLoginForm(); return false; ">close</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </form>
     </div>
 </div>
 
-<div id="regContainer" style="visibility: hidden">
+<div id="forgotPassContainer" class="authContainer">
+    <div class="authError"></div>
+    <form name="forgot_password" onsubmit="Histori.forgot_password(this.elements['email'].value, successfulForgotPassword, handleAuthError('forgotPass')); return false;" method="post">
+        <table border="0">
+            <tbody>
+            <tr>
+                <td>email:</td>
+                <td><input type="text" name="email"/></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="reset password"/>
+                    <button onclick="closeForgotPassForm(); return false; ">close</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+
+<div id="resetPassContainer" class="authContainer">
+    <div class="authError"></div>
+    <div id="resetPassForm">
+        <form name="resetPass" onsubmit="Histori.reset_password(getParameterByName('key'), this.elements['password'].value, successfulPasswordReset, handleAuthError('resetPass')); return false;" method="post">
+            <table border="0">
+                <tbody>
+                <tr>
+                    <td>new password:</td>
+                    <td><input type="password" name="password"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="set new password"/>
+                        <button onclick="closeResetPassForm(); return false; ">close</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+<div id="regContainer" class="authContainer">
+    <div class="authError"></div>
     <div id="regForm">
-        <form name="reg" onsubmit="Histori.register(this.elements['email'].value); return false;" method="post">
-        Email: <input type="text" name="email"/><br/>
-        <input type="submit" value="Sign Up"/><br/>
-        You will receive an email to set your password
-        <div class="g-recaptcha" data-sitekey="6LeWURcTAAAAAPfQtEuykB8YJEhC0kEE63AjmJV7"></div>
+        <form name="reg" onsubmit="Histori.register(this.elements['name'].value, this.elements['email'].value, this.elements['password'].value, closeRegForm(), handleAuthError('reg')); return false;" method="post">
+            <table border="0">
+                <tbody>
+                <tr>
+                    <td>nickname:</td>
+                    <td><input type="text" name="name"/></td>
+                </tr>
+                <tr>
+                    <td>email:</td>
+                    <td><input type="text" name="email"/></td>
+                </tr>
+                <tr>
+                    <td>password:</td>
+                    <td><input type="password" name="password"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="g-recaptcha" data-sitekey="6LeWURcTAAAAAPfQtEuykB8YJEhC0kEE63AjmJV7"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="sign up"/>
+                        <button onclick="closeRegForm(); return false; ">close</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+<div id="accountContainer" class="authContainer">
+    <div id="accountForm">
+        <div class="authError"></div>
+        <form name="reg" onsubmit="Histori.update_account(this.elements['name'].value, this.elements['email'].value, this.elements['password'].value, closeRegForm(), handleAuthError('reg')); return false;" method="post">
+            <table border="0">
+                <tbody>
+                <tr>
+                    <td>nickname:</td>
+                    <td><input type="text" name="name"/></td>
+                </tr>
+                <tr>
+                    <td>email:</td>
+                    <td><input type="text" name="email"/></td>
+                </tr>
+                <tr>
+                    <td>current password:</td>
+                    <td><input type="password" name="currentPassword"/></td>
+                </tr>
+                <tr>
+                    <td>new password:</td>
+                    <td><input type="password" name="newPassword"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="update"/>
+                        <button onclick="Histori.logout(); closeAccountForm(); return false; ">sign out</button>
+                        <button onclick="closeAccountForm(); return false; ">close</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </form>
     </div>
 </div>

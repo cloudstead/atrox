@@ -215,9 +215,13 @@
   * Site: https://github.com/devbridge/jQuery-Autocomplete
   * License: https://raw.githubusercontent.com/devbridge/jQuery-Autocomplete/master/license.txt
 
-# PICOL fonts and icons
-  * Site: http://picol.org/
-  * License: http://creativecommons.org/licenses/by/3.0/
+# Open Iconic
+  * Site: https://useiconic.com/open
+  * License: https://raw.githubusercontent.com/iconic/open-iconic/master/FONT-LICENSE and https://raw.githubusercontent.com/iconic/open-iconic/master/ICON-LICENSE
+
+# Palette icon
+  * Site: https://commons.wikimedia.org/wiki/File:Ic_palette_48px.svg
+  * License: https://creativecommons.org/licenses/by-sa/4.0/deed.en
 
 # ANTLR
   * Site: http://www.antlr.org/

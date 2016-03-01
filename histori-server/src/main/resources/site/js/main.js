@@ -25,17 +25,6 @@ var localizer = {
     }
 };
 
-function updateAuthMessage() {
-    var authMessageSlot = document.getElementById('authMessageSlot');
-    if (get_token() == NO_TOKEN || ((typeof Histori.account == 'undefined') || (typeof Histori.account.email == 'undefined'))) {
-        authMessageSlot.innerHTML
-            = 'Currently anonymous. <a href="." onclick="showLoginForm(); return false;">Sign in</a> or '
-            + '<a href="." onclick="showRegistrationForm(); return false;">Sign up</a>';
-    } else {
-        authMessageSlot.innerHTML
-            = 'Currently logged in as ' + Histori.account.email + ' <a href="." onclick="Histori.logout(); return false;">Log out</a>';
-    }
-}
 var openAddRegionWindow = function (map, marker) {
     addRegionWindow.open(map, marker);
 
@@ -68,39 +57,100 @@ var openAddRegionWindow = function (map, marker) {
         noSuggestionNotice: 'Sorry, no matching results',
         groupBy: 'category'
     });
-
-
-    updateAuthMessage();
 };
 
+var activeAuthForm = null;
+function showForm(id) {
+    var container = $('#'+id);
+    if (container.css('z-index') > 0) {
+        container.css('z-index', -1);
+    } else {
+        if (activeAuthForm != null) {
+            closeForm(activeAuthForm);
+        }
+        container.center();
+        container.css('z-index', 1);
+        activeAuthForm = id;
+    }
+}
+
+function closeForm(id) {
+    var container = $('#'+id);
+    container.css('z-index', -1);
+    $(".authError").empty();
+}
+
 function showLoginForm () {
-    var loginForm = document.getElementById('loginForm');
-    var authFormSlot = document.getElementById('authFormSlot');
-    authFormSlot.innerHTML = '';
-    authFormSlot.appendChild(loginForm);
+    var anonymous = (get_token() == NO_TOKEN || ((typeof Histori.account() == 'undefined') || (typeof Histori.account().email == 'undefined')));
+    if (anonymous) {
+        showForm('loginContainer');
+    } else {
+        showAccountForm();
+    }
+}
+function showAccountForm () {
+    var account = Histori.account();
+    var accountContainer = $('#accountContainer');
+    accountContainer.find('input[name="name"]').val(account.name);
+    accountContainer.find('input[name="email"]').val(account.email);
+    showForm('accountContainer');
+}
+function showRegForm () { showForm('regContainer'); }
+function showForgotPassForm () { showForm('forgotPassContainer'); }
+function showResetPassForm () { showForm('resetPassContainer'); }
+
+function closeLoginForm () { closeForm('loginContainer'); }
+function closeRegForm () { closeForm('regContainer'); }
+function closeForgotPassForm () { closeForm('forgotPassContainer'); }
+function closeResetPassForm () { closeForm('resetPassContainer'); }
+function closeAccountForm () { closeForm('accountContainer'); }
+
+function successfulPasswordReset () {
+    showLoginForm();
+    var authError = $(".authError");
+    authError.css('color', 'green');
+    authError.html('Your password was successfully updated');
+}
+function successfulForgotPassword () {
+    var authError = $(".authError");
+    authError.css('color', 'green');
+    authError.html('We sent you an email to reset your password');
 }
 
-function closeLoginForm () {
-    var loginForm = document.getElementById('loginForm');
-    var loginContainer = document.getElementById('loginContainer');
-    loginContainer.appendChild(loginForm);
-    updateAuthMessage();
-}
+function handleAuthError (authType) {
+    return function (jqXHR, status, error) {
 
-function handleLoginError () {
-    var authMessageSlot = document.getElementById('authMessageSlot');
-    var loginContainer = document.getElementById('loginContainer');
-    var loginForm = document.getElementById('loginForm');
-    authMessageSlot.innerHTML = '<b>oops, there was an error</b>';
-    loginContainer.appendChild(loginForm)
-    updateAuthMessage();
-}
+        if (jqXHR.status == 200) {
+            console.log('not an error: '+jqXHR.status);
+            return;
+        }
 
-function showRegistrationForm () {
-    var regForm = document.getElementById('regForm');
-    var authFormSlot = document.getElementById('authFormSlot');
-    authFormSlot.innerHTML = '';
-    authFormSlot.appendChild(regForm);
+        var authError = $(".authError");
+        authError.css('color', 'red');
+        if (jqXHR.status == 404) {
+            authError.html("account not found");
+
+        } else if (jqXHR.status == 422) {
+            if (typeof jqXHR.responseJSON != "undefined" && is_array(jqXHR.responseJSON)) {
+                var msg = '';
+                for (var i=0; i<jqXHR.responseJSON.length; i++) {
+                    if (msg.length > 0) msg += '<br/>';
+                    if (typeof jqXHR.responseJSON[i].message != "undefined") {
+                        msg += jqXHR.responseJSON[i].message;
+                    } else {
+                        msg += jqXHR.responseJSON[i].messageTemplate;
+                    }
+                }
+            }
+            authError.html(msg);
+
+        } else if (authType == 'login') {
+            authError.html("login error");
+
+        } else {
+            authError.html("authentication error");
+        }
+    }
 }
 
 function closeMapImages () {
@@ -552,6 +602,10 @@ function initMap () {
 function init() {
     $(document).ready(function () {
         google.maps.event.addDomListener(window, "load", initMap);
+        var keyParam = getParameterByName('key');
+        if (keyParam != null && keyParam.length > 5) {
+            showResetPassForm();
+        }
     });
 }
 
@@ -917,7 +971,7 @@ function commitNexusEdits () {
     if (activeNexusSummary != null) {
         var nexusSummary = nexusSummariesByUuid[activeNexusSummary.uuid];
         if (typeof nexusSummary != "undefined" && typeof nexusSummary.primary != "undefined") {
-            Api.save_nexus(nexusSummary.primary, function (data) {
+            Histori.edit_nexus(nexusSummary.primary, function (data) {
                 if (typeof data != "undefined") {
                     nexusSummariesByUuid[activeNexusSummary.uuid] = nexusSummariesByUuid[data.uuid] = data;
                     openNexusDetails(data.uuid, 0);

@@ -93,9 +93,21 @@ Api = {
         return ok;
     },
 
-    login: function (email, password, success, fail) { return Api._post('accounts/login', {'name': email, 'password': password}, success, fail); },
+    login: function (email, password, success, fail) {
+        return Api._post('accounts/login', {'name': email, 'password': password}, success, fail);
+    },
 
-    register: function (email, password, success, fail) { return Api._post('accounts/register', {'name': email, 'password': password}, success, fail); },
+    register: function (name, email, password, success, fail) {
+        return Api._post('accounts/register', {'name': name, 'email': email, 'password': password}, success, fail);
+    },
+
+    forgot_password: function (email, success, fail) {
+        Api._post('accounts/forgot_password', email, success, fail);
+    },
+
+    reset_password: function (key, password, success, fail) {
+        Api._post('accounts/reset_password', {'token': key, 'password': password}, success, fail);
+    },
 
     create_anonymous_session: function () {
         var auth_response = Api._post('accounts/register', {}, null, null, true);
@@ -215,7 +227,7 @@ Api = {
         });
     },
 
-    save_nexus: function (nexus, success, fail) {
+    edit_nexus: function (nexus, success, fail) {
         Api._post('nexus/', nexus, success, fail);
     },
 

@@ -30,7 +30,7 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 public class HistoriConfiguration extends RestServerConfiguration
     implements HasDatabaseConfiguration, TemplatedMailSenderConfiguration, HasRedisConfiguration {
 
-    public static final String RESET_PASSWORD_URI = "/reset_password.html?key=";
+    public static final String RESET_PASSWORD_URI = "/?key=";
 
     @Setter private DatabaseConfiguration database;
     @Bean public DatabaseConfiguration getDatabase() { return database; }

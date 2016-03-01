@@ -38,6 +38,11 @@ public class AccountsResource extends AuthResourceBase<Account> {
     @Autowired @Getter private AccountDAO accountDAO;
     @Autowired @Getter private TemplatedMailService templatedMailService;
 
+    // only allow password resets via email
+    @Override public Account findAccountForForgotPassword(String name) {
+        return getAccountDAO().findByEmail(name);
+    }
+
     /**
      * Get info about the currently logged in user
      * @param ctx session info
@@ -63,7 +68,7 @@ public class AccountsResource extends AuthResourceBase<Account> {
     public Response login (@Context HttpContext ctx, HistoriLoginRequest request) {
 
         final Account alreadyLoggedIn = optionalUserPrincipal(ctx);
-        if (alreadyLoggedIn != null) throw invalidEx(ERR_ALREADY_LOGGED_IN);
+        if (alreadyLoggedIn != null && !alreadyLoggedIn.isAnonymous()) return invalid(ERR_ALREADY_LOGGED_IN);
 
         try {
             request.setUserAgent(ctx.getRequest().getHeaderValue(USER_AGENT));

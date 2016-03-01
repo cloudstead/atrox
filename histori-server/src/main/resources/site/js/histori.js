@@ -17,6 +17,27 @@ String.prototype.hashCode = function() {
     return hash;
 };
 
+// From: http://stackoverflow.com/a/210733
+jQuery.fn.center = function () {
+    this.css("position","absolute");
+    this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) +
+            $(window).scrollTop()) + "px");
+    this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) +
+            $(window).scrollLeft()) + "px");
+    return this;
+};
+
+// From: https://stackoverflow.com/a/901144/1251543
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
 Histori = {
 
     json_safe_parse: function (j) {
@@ -32,8 +53,8 @@ Histori = {
             }, fail);
     },
 
-    register: function (email, success, fail) {
-        Api.register(email,
+    register: function (name, email, password, success, fail) {
+        Api.register(name, email, password,
             function (auth_response) {
                 success(auth_response);
                 sessionStorage.setItem('histori_session', auth_response.sessionId);
@@ -43,6 +64,18 @@ Histori = {
 
     logout: function () {
         sessionStorage.clear();
+    },
+
+    forgot_password: function (email, success, fail) {
+        Api.forgot_password(email, success, fail);
+    },
+
+    reset_password: function (key, password, success, fail) {
+        Api.reset_password(key, password, success, fail);
+    },
+
+    update_account: function (name, email, password, success, fail) {
+        // todo
     },
 
     account: function () {
@@ -57,7 +90,11 @@ Histori = {
         if (sessionStorage.getItem(name)) return sessionStorage.getItem(name);
         return default_value;
     },
-    set_session: function (name, value) { sessionStorage.setItem(name, value); }
+    set_session: function (name, value) { sessionStorage.setItem(name, value); },
+
+    edit_nexus: function (nexus, success, fail) {
+        Api.edit_nexus(nexus, success, fail);
+    }
 
 };
 
