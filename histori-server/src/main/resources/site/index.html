@@ -200,7 +200,7 @@
 <div id="regContainer" class="authContainer">
     <div class="authError"></div>
     <div id="regForm">
-        <form name="reg" onsubmit="Histori.register(this.elements['name'].value, this.elements['email'].value, this.elements['password'].value, closeRegForm(), handleAuthError('reg')); return false;" method="post">
+        <form name="reg" onsubmit="Histori.register(this.elements['name'].value, this.elements['email'].value, this.elements['password'].value, successfulRegistration, handleAuthError('reg')); return false;" method="post">
             <table border="0">
                 <tbody>
                 <tr>

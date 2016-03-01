@@ -20,7 +20,7 @@ public abstract class CanonicalEntity implements Identifiable {
 
     public CanonicalEntity(String name) { setName(name); }
 
-    @Override public void beforeCreate() { if (empty(getName())) throw invalidEx("err.name.required"); }
+    @Override public void beforeCreate() { if (empty(getName())) throw invalidEx("err.name.required", "Name is required"); }
 
     @Id @Column(length=NAME_MAXLEN, unique=true, nullable=false, updatable=false)
     private String canonicalName;
@@ -44,7 +44,7 @@ public abstract class CanonicalEntity implements Identifiable {
     @Getter private String name;
     public CanonicalEntity setName (String val) {
         final String canonical = canonicalize(val);
-        if (this.name != null && !canonicalize(this.name).equals(canonical)) throw invalidEx("err.canonicalName.cannotChange");
+        if (this.name != null && !canonicalize(this.name).equals(canonical)) throw invalidEx("err.canonicalName.cannotChange", "Name cannot be changed");
         this.name = val;
         this.canonicalName = canonical;
         return this;

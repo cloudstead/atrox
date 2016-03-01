@@ -70,8 +70,8 @@ public class NexusBase extends SocialEntity {
     }
 
     public void prepareForSave() {
-        if (timeRange == null) throw invalidEx("err.timeRange.empty");
-        if (!timeRange.hasStart()) throw invalidEx("err.timeRange.start.empty");
+        if (timeRange == null) throw invalidEx("err.timeRange.empty", "Time range cannot be empty");
+        if (!timeRange.hasStart()) throw invalidEx("err.timeRange.start.empty", "Start date cannot be empty");
         timeRange.getStartPoint().initInstant();
         if (timeRange.hasEnd()) timeRange.getEndPoint().initInstant();
 

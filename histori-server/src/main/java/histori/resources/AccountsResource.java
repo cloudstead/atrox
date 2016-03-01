@@ -99,8 +99,8 @@ public class AccountsResource extends AuthResourceBase<Account> {
         // Is this also a change password request? If so, try that first
         ValidationResult validationResult = new ValidationResult();
         if (request.hasPassword()) {
-            if (!sessionAccount.getHashedPassword().isCorrectPassword(request.getCurrentPassword())) {
-                validationResult.addViolation("err.password.incorrect");
+            if (!account.getHashedPassword().isCorrectPassword(request.getCurrentPassword())) {
+                validationResult.addViolation("err.password.incorrect", "Password was incorrect");
             } else {
                 account.setPassword(request.getNewPassword());
             }
@@ -108,13 +108,13 @@ public class AccountsResource extends AuthResourceBase<Account> {
 
         final Account withName = accountDAO.findByName(request.getName());
         if (withName != null && !withName.getUuid().equals(accountUuid)) {
-            validationResult.addViolation("err.name.notUnique");
+            validationResult.addViolation("err.name.notUnique", "Name was not unique");
         }
         account.setName(request.getName());
 
         final Account withEmail = accountDAO.findByEmail(request.getEmail());
         if (withEmail != null && !withEmail.getUuid().equals(accountUuid)) {
-            validationResult.addViolation("err.email.notUnique");
+            validationResult.addViolation("err.email.notUnique", "Email was not unique");
         }
         account.setEmail(request.getEmail());
 

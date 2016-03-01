@@ -131,6 +131,10 @@ function successfulForgotPassword () {
     authError.html('We sent you an email to reset your password');
 }
 
+function successfulRegistration (data) {
+    closeRegForm();
+}
+
 function successfulAccountUpdate (data) {
     if (typeof data != "undefined") {
         Histori.set_account(data);

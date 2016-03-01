@@ -36,6 +36,11 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
         return findByUniqueField("canonicalEmail", Account.canonicalizeEmail(email));
     }
 
+    public Account findByNameOrEmail(String name) {
+        final Account account = findByName(name);
+        return account != null ? account : findByEmail(name);
+    }
+
     @Override public Object preCreate(@Valid Account account) {
         if (empty(account.getName())) account.setName(account.getEmail());
         account.setFirstName(".");
@@ -49,7 +54,7 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
     @Override public Account authenticate(LoginRequest login) throws AuthenticationException {
 
         final String name = login.getName();
-        final Account account = findByEmail(name);
+        final Account account = findByNameOrEmail(name);
 
         audit.log(login, "authenticate", "starting for '"+name+"'");
         if (empty(name) || account == null) {
@@ -80,12 +85,12 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
         Account account = findByEmail(email);
         if (account != null) {
             audit.log(request, "register", "email exists ("+email+"), returning error");
-            throw invalidEx("err.email.notUnique");
+            throw invalidEx("err.email.notUnique", "Email was not unique");
         }
         account = findByName(name);
         if (account != null) {
             audit.log(request, "register", "name exists ("+name+"), returning error");
-            throw invalidEx("err.name.notUnique");
+            throw invalidEx("err.name.notUnique", "Name was not unique");
         }
 
         audit.log(request, "register", "creating account for: '"+ name + "'");
@@ -113,31 +118,33 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
             return null;
         }
 
-        final Account exists = findByName(request.getName());
-        if (exists != null) {
+        final Account withName = findByName(request.getName());
+        if (withName != null) {
             audit.log(request, "registerAnonymous", "name exists ("+name+"), returning error");
-            throw invalidEx("err.email.notUnique");
+            throw invalidEx("err.name.notUnique", "Name was not unique");
         }
 
-        final Account found = findByEmail(account.getEmail());
-        if (found == null) {
+        final Account withEmail = findByEmail(request.getEmail());
+        if (withEmail != null) {
             audit.log(request, "registerAnonymous", "anon account does not exist ("+account.getEmail()+"), returning error");
-            throw invalidEx("err.email.notFound");
+            throw invalidEx("err.email.notUnique", "Email was not unique");
         }
 
-        if (!found.isAnonymous()) {
-            audit.log(request, "registerAnonymous", "name ("+name+") is not anon user ("+found.getEmail()+"), returning error");
-            throw invalidEx("err.email.notAnonymous");
+        final Account anonAccount = findByUuid(account.getUuid());
+
+        if (!anonAccount.isAnonymous()) {
+            audit.log(request, "registerAnonymous", "name ("+name+") is not anon user ("+anonAccount.getEmail()+"), returning error");
+            throw invalidEx("err.email.notAnonymous", "Account was not anonymous, cannot convert to regular account");
         }
 
-        audit.log(request, "registerAnonymous", "anon user "+found.getEmail()+" now registered as "+name+"");
-        found.setName(name);
-        found.setEmail(email);
-        found.setPassword(request.getPassword());
-        found.setAnonymous(false);
-        found.initEmailVerificationCode();
+        audit.log(request, "registerAnonymous", "anon user "+anonAccount.getEmail()+" now registered as "+name+"");
+        anonAccount.setName(name);
+        anonAccount.setEmail(email);
+        anonAccount.setPassword(request.getPassword());
+        anonAccount.setAnonymous(false);
+        anonAccount.initEmailVerificationCode();
 
-        final Account updated = update(found);
+        final Account updated = update(anonAccount);
         sendWelcomeEmail(updated);
 
         return updated;

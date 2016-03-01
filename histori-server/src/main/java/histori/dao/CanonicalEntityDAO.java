@@ -18,13 +18,13 @@ import static org.hibernate.criterion.Restrictions.in;
 public class CanonicalEntityDAO<E extends CanonicalEntity> extends AbstractCRUDDAO<E> {
 
     @Override public Object preCreate(@Valid E entity) {
-        if (findByCanonicalName(entity.getCanonicalName()) != null) throw invalidEx("err.name.notUnique");
+        if (findByCanonicalName(entity.getCanonicalName()) != null) throw invalidEx("err.name.notUnique", "Name was not unique");
         return super.preCreate(entity);
     }
 
     @Override public Object preUpdate(@Valid E entity) {
         // sanity check
-        if (findByCanonicalName(entity.getCanonicalName()) == null) throw invalidEx("err.name.notFound");
+        if (findByCanonicalName(entity.getCanonicalName()) == null) throw invalidEx("err.name.notFound", "Name not found");
         return super.preUpdate(entity);
     }
 
