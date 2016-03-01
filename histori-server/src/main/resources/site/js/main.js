@@ -81,7 +81,7 @@ function closeForm(id) {
 }
 
 function isAnonymous() {
-    return (get_token() == NO_TOKEN || ((typeof Histori.account() == 'undefined') || (typeof Histori.account().email == 'undefined')));
+    return (get_token() == NO_TOKEN || ((typeof Histori.account() == 'undefined') || (typeof Histori.account().email == 'undefined' || Histori.account().anonymous)));
 }
 
 function showLoginForm () {
@@ -110,7 +110,14 @@ function closeLoginForm () { closeForm('loginContainer'); }
 function closeRegForm () { closeForm('regContainer'); }
 function closeForgotPassForm () { closeForm('forgotPassContainer'); }
 function closeResetPassForm () { closeForm('resetPassContainer'); }
-function closeAccountForm () { closeForm('accountContainer'); }
+
+function clearAccountFormErrors() {
+    $('#accountContainer').find('input').css('border', '');
+}
+function closeAccountForm () {
+    clearAccountFormErrors();
+    closeForm('accountContainer');
+}
 
 function successfulPasswordReset () {
     showLoginForm();
@@ -1048,4 +1055,32 @@ function edit_nexus_field (element) {
         field.css('visibility', 'visible');
         field.focus();
     }
+}
+
+function validateAccountForm (form) {
+
+    var ok = true;
+    var authError = $(".authError");
+    authError.empty();
+    authError.css('color', 'red');
+
+    var currentPassword = form.elements['currentPassword'].value;
+    var password = form.elements['password'].value;
+    if (password.length > 0 && currentPassword.length == 0) {
+        $('#accountContainer').find('input[name="currentPassword"]').css('border', '2px solid red');
+        ok = false;
+
+    } else if (password.length == 0 && currentPassword.length > 0) {
+        $('#accountContainer').find('input[name="password"]').css('border', '2px solid red');
+        ok = false;
+    }
+    if (form.elements['name'].value.length == 0) {
+        $('#accountContainer').find('input[name="name"]').css('border', '2px solid red');
+        ok = false;
+    }
+    if (form.elements['email'].value.length == 0) {
+        $('#accountContainer').find('input[name="email"]').css('border', '2px solid red');
+        ok = false;
+    }
+    return ok;
 }

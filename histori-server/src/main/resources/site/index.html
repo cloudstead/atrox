@@ -235,7 +235,7 @@
 <div id="accountContainer" class="authContainer">
     <div id="accountForm">
         <div class="authError"></div>
-        <form name="reg" onsubmit="Histori.update_account(this.elements['name'].value, this.elements['email'].value, this.elements['password'].value, closeRegForm(), handleAuthError('reg')); return false;" method="post">
+        <form name="account" onsubmit="clearAccountFormErrors(); if (validateAccountForm(this)) Histori.update_account(this.elements['name'].value, this.elements['email'].value, this.elements['password'].value, closeAccountForm(), handleAuthError('account')); return false;" method="post">
             <table border="0">
                 <tbody>
                 <tr>
@@ -252,7 +252,7 @@
                 </tr>
                 <tr>
                     <td>new password:</td>
-                    <td><input type="password" name="newPassword"/></td>
+                    <td><input type="password" name="password"/></td>
                 </tr>
                 <tr>
                     <td colspan="2">
