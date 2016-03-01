@@ -188,7 +188,7 @@ MONTHS = [null, 'January', 'February', 'March', 'April','May','June','July','Aug
 function formatEditTimePoint(date) {
     if (typeof date == "undefined" || date == null) return "";
     var year = date.year;
-    var month = (typeof date.day == "undefined" || date.month == null) ? "" : "-" + date.month;
+    var month = (typeof date.month == "undefined" || date.month == null) ? "" : "-" + date.month;
     var day = (typeof date.day == "undefined" || date.day == null) ? "" : "-" + date.day;
 
     return year + month + day;
@@ -196,8 +196,8 @@ function formatEditTimePoint(date) {
 function formatTimePoint(date) {
     if (typeof date == "undefined" || date == null) return "";
     var year = date.year;
+    var month = (typeof date.month == "undefined" || date.month == null) ? "" : MONTHS[date.month];
     var day = (typeof date.day == "undefined" || date.day == null) ? "" : date.day;
-    var month = (typeof date.day == "undefined" || date.month == null) ? "" : MONTHS[date.month];
 
     return day + " " + month + " " + year;
 }
