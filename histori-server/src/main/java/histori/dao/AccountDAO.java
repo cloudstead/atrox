@@ -36,8 +36,6 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
         return findByUniqueField("canonicalEmail", Account.canonicalizeEmail(email));
     }
 
-    @Override public Account findByName(String name) { return findByEmail(name); }
-
     @Override public Object preCreate(@Valid Account account) {
         if (empty(account.getName())) account.setName(account.getEmail());
         account.setFirstName(".");

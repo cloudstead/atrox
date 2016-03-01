@@ -74,8 +74,8 @@ Histori = {
         Api.reset_password(key, password, success, fail);
     },
 
-    update_account: function (name, email, password, success, fail) {
-        // todo
+    update_account: function (name, email, currentPassword, newPassword, success, fail) {
+        Api.update_account(name, email, currentPassword, newPassword, success, fail);
     },
 
     account: function () {

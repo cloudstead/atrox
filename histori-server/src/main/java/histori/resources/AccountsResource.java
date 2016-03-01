@@ -10,10 +10,12 @@ import histori.model.Account;
 import histori.model.auth.HistoriLoginRequest;
 import histori.model.auth.RegistrationRequest;
 import histori.model.support.AccountAuthResponse;
+import histori.model.support.AccountUpdateRequest;
 import histori.server.HistoriConfiguration;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.mail.service.TemplatedMailService;
+import org.cobbzilla.wizard.validation.ValidationResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -79,6 +81,49 @@ public class AccountsResource extends AuthResourceBase<Account> {
             log.warn("login: unexpected error: "+e, e);
             return notFound(request.getName());
         }
+    }
+
+    /**
+     * Edit account details - only name, email, and password are editable
+     * @param ctx session info
+     * @param request Updates to the account
+     * @return The updated account
+     */
+    @POST
+    public Response updateAccount(@Context HttpContext ctx, @Valid AccountUpdateRequest request) {
+
+        final Account sessionAccount = userPrincipal(ctx);
+        final String accountUuid = sessionAccount.getUuid();
+        final Account account = accountDAO.findByUuid(accountUuid);
+
+        // Is this also a change password request? If so, try that first
+        ValidationResult validationResult = new ValidationResult();
+        if (request.hasPassword()) {
+            if (!sessionAccount.getHashedPassword().isCorrectPassword(request.getCurrentPassword())) {
+                validationResult.addViolation("err.password.incorrect");
+            } else {
+                account.setPassword(request.getNewPassword());
+            }
+        }
+
+        final Account withName = accountDAO.findByName(request.getName());
+        if (withName != null && !withName.getUuid().equals(accountUuid)) {
+            validationResult.addViolation("err.name.notUnique");
+        }
+        account.setName(request.getName());
+
+        final Account withEmail = accountDAO.findByEmail(request.getEmail());
+        if (withEmail != null && !withEmail.getUuid().equals(accountUuid)) {
+            validationResult.addViolation("err.email.notUnique");
+        }
+        account.setEmail(request.getEmail());
+
+        if (!validationResult.isEmpty()) return invalid(validationResult);
+
+        final Account updated = accountDAO.update(account);
+        sessionDAO.update(sessionAccount.getApiToken(), updated);
+
+        return ok(updated);
     }
 
     /**

@@ -20,6 +20,6 @@ plainlistEntry : MARKUP+ ;
 plainlist : START_PLAINLIST (PL_NEWLINE plainlistEntry)+ END_PLAINLIST ;
 
 infoboxName : INFOBOX_NAME ;
-infobox : START_INFOBOX infoboxName INFOBOX_COMMENT? (ATTR_SEP+ attr*)? WS* END_INFOBOX ;
+infobox : START_INFOBOX infoboxName (ATTR_SEP+ attr*)? WS* END_INFOBOX ;
 
 wikitable : START_WIKITABLE MARKUP+ END_WIKITABLE ;

@@ -36,7 +36,7 @@ http:
   baseUri: /api
 
 jersey:
-  resourcePackages: [ histori.resources, org.cobbzilla.wizard.server, org.cobbzilla.wizard.filters ]
+  resourcePackages: [ histori.resources, org.cobbzilla.wizard.server, org.cobbzilla.wizard.filters, org.cobbzilla.wizard.exceptionmappers ]
   requestFilters: [ histori.auth.HistoriAuthFilter ]
   responseFilters: [ org.cobbzilla.wizard.filters.ScrubbableScrubber ]
 

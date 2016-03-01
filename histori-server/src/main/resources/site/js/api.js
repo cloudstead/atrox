@@ -109,6 +109,10 @@ Api = {
         Api._post('accounts/reset_password', {'token': key, 'password': password}, success, fail);
     },
 
+    update_account: function (name, email, currentPassword, newPassword, success, fail) {
+        Api._post('accounts', {'name': name, 'email': email, 'currentPassword': currentPassword, 'newPassword': newPassword}, success, fail);
+    },
+
     create_anonymous_session: function () {
         var auth_response = Api._post('accounts/register', {}, null, null, true);
         if (typeof auth_response != "undefined" && auth_response != null) {

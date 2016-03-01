@@ -131,6 +131,13 @@ function successfulForgotPassword () {
     authError.html('We sent you an email to reset your password');
 }
 
+function successfulAccountUpdate (data) {
+    if (typeof data != "undefined") {
+        Histori.set_account(data);
+        closeAccountForm();
+    }
+}
+
 function handleAuthError (authType) {
     return function (jqXHR, status, error) {
 
@@ -1065,13 +1072,13 @@ function validateAccountForm (form) {
     authError.css('color', 'red');
 
     var currentPassword = form.elements['currentPassword'].value;
-    var password = form.elements['password'].value;
+    var password = form.elements['newPassword'].value;
     if (password.length > 0 && currentPassword.length == 0) {
         $('#accountContainer').find('input[name="currentPassword"]').css('border', '2px solid red');
         ok = false;
 
     } else if (password.length == 0 && currentPassword.length > 0) {
-        $('#accountContainer').find('input[name="password"]').css('border', '2px solid red');
+        $('#accountContainer').find('input[name="newPassword"]').css('border', '2px solid red');
         ok = false;
     }
     if (form.elements['name'].value.length == 0) {

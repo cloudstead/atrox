@@ -7,10 +7,10 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.cobbzilla.wizard.filters.auth.TokenPrincipal;
 
-import javax.persistence.Entity;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 @Entity @Accessors(chain=true)
+@AttributeOverrides({@AttributeOverride(name = "name", column = @Column(updatable=true))})
 public class Account extends AccountBase implements TokenPrincipal {
 
     @Getter @Setter private boolean anonymous = false;
