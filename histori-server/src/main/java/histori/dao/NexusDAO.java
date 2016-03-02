@@ -7,8 +7,10 @@ import histori.model.TagType;
 import histori.model.support.EntityVisibility;
 import histori.model.support.GeoBounds;
 import histori.model.support.TimeRange;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import org.cobbzilla.util.string.StringUtil;
+import org.cobbzilla.wizard.cache.redis.RedisService;
 import org.cobbzilla.wizard.dao.EntityFilter;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
@@ -17,20 +19,26 @@ import org.springframework.stereotype.Repository;
 
 import javax.validation.Valid;
 import java.math.BigInteger;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
+import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
 import static org.hibernate.criterion.Restrictions.*;
 
-@Repository
+@Repository @Slf4j
 public class NexusDAO extends VersionedEntityDAO<Nexus> {
 
     public static final int MAX_RESULTS = 200;
 
     @Autowired private NexusTagDAO nexusTagDAO;
     @Autowired private TagTypeDAO tagTypeDAO;
+    @Autowired private RedisService redisService;
+
+    private static final long FILTER_CACHE_TIMEOUT_SECONDS = TimeUnit.DAYS.toSeconds(1);
+
+    @Getter(lazy=true) private final RedisService filterCache = initFilterCache();
+    private RedisService initFilterCache() { return redisService.prefixNamespace(NexusEntityFilter.class.getSimpleName()); }
 
     @Override public Object preCreate(@Valid Nexus entity) {
         entity.prepareForSave();
@@ -172,46 +180,105 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
         );
     }
 
-    @AllArgsConstructor
     private class NexusEntityFilter implements EntityFilter<Nexus> {
-        // todo: regex support/syntax for query?
-        @Getter private String query;
 
-        // todo: make this a lot better. return a score or accept some other context object so we can be smarter.
-        private boolean fuzzyMatch (String s1, String s2) { return s1.toLowerCase().contains(s2.toLowerCase()); }
+        private final String queryHash;
+        private final SortedSet<String> terms;
+
+        public NexusEntityFilter (String query) {
+            // by sorting terms alphabetically, and trimming whitespace, we prevent duplicate cache entries
+            // for searches that are essentially the same
+            terms = new TreeSet<>(StringUtil.splitAndTrim(query, "\n\t"));
+            queryHash = sha256_hex(StringUtil.toString(terms, " "));
+        }
 
         @Override public boolean isAcceptable(Nexus nexus) {
 
-            if (empty(query)) return true; // empty query matches everything
+            if (empty(terms)) return true; // empty query matches everything
 
+            final String cacheKey = nexus.getUuid() + ":query:" + queryHash;
+            String cached = null;
+            try {
+                cached = getFilterCache().get(cacheKey);
+            } catch (Exception e) {
+                log.error("Error reading from NexusEntityFilter query cache: "+e);
+            }
+
+            if (!empty(cached)) return Boolean.valueOf(cached);
+
+            boolean match = isMatch(nexus);
+
+            try {
+                getFilterCache().set(cacheKey, String.valueOf(match), "EX", FILTER_CACHE_TIMEOUT_SECONDS);
+            } catch (Exception e) {
+                log.error("Error writing to NexusEntityFilter query cache: "+e);
+            }
+
+            return match;
+        }
+
+        // todo: make this a lot better. return a score or accept some other context object so we can be smarter.
+        private boolean fuzzyMatch (String s1, String s2) { return s1 != null && s1.toLowerCase().contains(s2.toLowerCase()); }
+        private boolean preciseMatch (String s1, String s2) { return s1 != null && s1.equalsIgnoreCase(s2); }
+
+        // todo: regex support/syntax for query terms?
+        protected boolean isMatch(Nexus nexus) {
+
+            // must match on all search terms
+            for (String term : terms) {
+                final String cacheKey = nexus.getUuid()+":term:"+sha256_hex(term);
+                String cached = null;
+                try {
+                    cached = getFilterCache().get(cacheKey);
+                } catch (Exception e) {
+                    log.error("Error reading from NexusEntityFilter query-term cache: "+e);
+                }
+
+                if (!empty(cached)) return Boolean.valueOf(cached);
+
+                boolean match = matchTerm(nexus, term);
+
+                try {
+                    getFilterCache().set(cacheKey, String.valueOf(match), "EX", FILTER_CACHE_TIMEOUT_SECONDS);
+                } catch (Exception e) {
+                    log.error("Error writing to NexusEntityFilter query-term cache: "+e);
+                }
+
+                if (!match) return false;
+            }
+            return true;
+        }
+
+        protected boolean matchTerm(Nexus nexus, String term) {
             // name match is fuzzy
-            if (fuzzyMatch(nexus.getName(), query)) return true;
+            if (fuzzyMatch(nexus.getName(), term)) return true;
 
             // type match must be exact (ignoring case)
-            if (nexus.hasNexusType() && nexus.getNexusType().equalsIgnoreCase(query)) return true;
+            if (preciseMatch(nexus.getNexusType(), term)) return true;
 
             // check tags
             final List<NexusTag> tags = nexusTagDAO.findByNexus(nexus.getUuid());
             for (NexusTag tag : tags) {
 
                 // tag name match is fuzzy
-                if (fuzzyMatch(tag.getTagName(), query)) return true;
+                if (fuzzyMatch(tag.getTagName(), term)) return true;
 
                 // type match must be exact (ignoring case)
-                if (tag.getTagType().equalsIgnoreCase(query)) return true;
+                if (preciseMatch(tag.getTagType(), term)) return true;
 
                 // all schema matches, both keys and (possibly multiple) values, are fuzzy matches
                 if (tag.hasSchemaValues()) {
                     for (Map.Entry<String, Set<String>> schema : tag.getSchemaValueMap().entrySet()) {
-                        if (fuzzyMatch(schema.getKey(), query)) return true;
+                        if (fuzzyMatch(schema.getKey(), term)) return true;
                         for (String value : schema.getValue()) {
-                            if (fuzzyMatch(value, query)) return true;
+                            if (fuzzyMatch(value, term)) return true;
                         }
                     }
                 }
             }
+
+            // nothing matched the query term
             return false;
         }
-
     }
 }

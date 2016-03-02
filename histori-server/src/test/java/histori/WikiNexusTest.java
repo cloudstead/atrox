@@ -269,7 +269,12 @@ public class WikiNexusTest extends WikiTest {
                     .tag("world_actor", "Spain", "role", "combatant")
                     .tag("world_actor", "Viceroyalty of Perú", "role", "combatant"),
 
-            new ArticleNexusExpectedResult("Second Punic War", false).unparseable(true)
+            new ArticleNexusExpectedResult("Second Punic War", false).unparseable(true),
+
+            new ArticleNexusExpectedResult("Battle of Krasnoi", false)
+                    .tag(EVENT_TYPE, "battle")
+                    .location(54, 33, 36, north, 31, 25, 48, east)
+                    .range("1812-11-15", "1812-11-18")
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {

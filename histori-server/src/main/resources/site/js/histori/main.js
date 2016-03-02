@@ -294,18 +294,20 @@ function inspectLocation (clickEvent) {
     console.log('inspecting: ' + clickEvent);
 }
 
-var active_markers = {};
-
 function newMarkerListener(nexusSummaryUuid) {
     return function() { openNexusDetails(nexusSummaryUuid, 0); }
 }
 
 // Hash of searchbox_id -> list of markers it generated
+var active_markers = {};
+
+// Hash of searchbox_id -> list of summaries it generated
 var nexusSummariesByUuid = {};
 
 // called when data is returned from the server, to populate the map with a new set of markers for a particular search box
 function update_map (searchbox_id) {
     return function (data) {
+        hideLoadingSpinner(searchbox_id);
         if (data && data.results && data.results instanceof Array) {
 
             if (typeof active_markers[searchbox_id] == "undefined") {
@@ -320,13 +322,12 @@ function update_map (searchbox_id) {
 
             for (var i = 0; i < data.results.length; i++) {
                 var result = data.results[i];
-                //console.log("update_map: result[" + i + "] is: " + result);
+                console.log("update_map: result[" + i + "] is: " + result.primary.name);
                 if (typeof result.primary != "undefined" && typeof result.primary.geo != "undefined" && result.primary.geo != null && result.primary.geo.type == "Point") {
-                    markerImage = get_marker_image(result.primary);
                     var marker = new google.maps.Marker({
                         position: {lat: result.primary.geo.coordinates[1], lng: result.primary.geo.coordinates[0]},
                         title: result.primary.name,
-                        icon: markerImage,
+                        icon: rowMarkerImageSrc(searchbox_id),
                         map: map
                     });
 
@@ -340,12 +341,13 @@ function update_map (searchbox_id) {
     }
 }
 
-var marker_colors = ['blue', 'brown', 'darkgreen', 'green', 'orange', 'paleblue', 'pink', 'purple', 'red', 'yellow'];
-function get_marker_image (nexus) {
-    if (typeof nexus.nexusType != "undefined" && nexus.nexusType != null) {
-        var color = marker_colors[ Math.abs((nexus.nexusType.hashCode() + 6) % marker_colors.length) ];
-        var initial = nexus.nexusType.charAt(0).toUpperCase();
-        return '/markers/' + color + '_Marker' + initial + '.png';
+function update_markers(searchbox_id, imageSrc) {
+    var markers = active_markers[searchbox_id];
+
+    if (typeof markers == "undefined" || markers == null || !is_array(markers)) return;
+
+    for (var i=0; i<markers.length; i++) {
+        markers[i].setIcon(imageSrc);
     }
-    return null;
+
 }

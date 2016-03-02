@@ -123,12 +123,13 @@ Api = {
 
     _find_nexuses_timers: {},
 
-    find_nexuses: function (search_id, origin, current, north, south, east, west, query, success, fail) {
+    find_nexuses: function (search_id, origin, current, north, south, east, west, query, start_func, success, fail) {
         //console.log('find_nexuses::'+origin+", "+current);
         if (typeof Api._find_nexuses_timers[search_id] != "undefined") {
             window.clearTimeout(Api._find_nexuses_timers[search_id]);
         }
         Api._find_nexuses_timers[search_id] = window.setTimeout(function () {
+            start_func();
             Api._get('search/q/'+origin+'/'+current+'/'+north+'/'+south+'/'+east+'/'+west+'?q='+query, success, fail);
         }, 2000);
     },

@@ -103,23 +103,18 @@ public class NexusSummaryDAO extends BackgroundFetcherDAO<NexusSummary> {
     @Override public int getThreadPoolSize() { return configuration.getThreadPoolSizes().get(getClass().getSimpleName()); }
 
     @Override protected Callable<NexusSummary> newEntityJob(String uuid, Map<String, Object> context) {
-        try {
-            if (context == null) {
-                final List<Nexus> found = nexusDAO.findByName(nexusDAO.findByUuid(uuid).getName());
-                if (found.size() == 0) return null;
-                return new NexusSummaryJob(uuid,
-                        null,
-                        new NexusRollup(found).allValues().iterator().next(),
-                        EntityVisibility.everyone);
-            } else {
-                return new NexusSummaryJob(uuid,
-                        (Account) context.get(CTX_ACCOUNT),
-                        (SortedSet<Nexus>) context.get(CTX_GROUP),
-                        (EntityVisibility) context.get(CTX_VISIBILITY));
-            }
-        } catch (NullPointerException npe) {
-            log.error("wtf: "+npe);
-            throw npe;
+        if (context == null) {
+            final List<Nexus> found = nexusDAO.findByName(nexusDAO.findByUuid(uuid).getName());
+            if (found.size() == 0) return null;
+            return new NexusSummaryJob(uuid,
+                    null,
+                    new NexusRollup(found).allValues().iterator().next(),
+                    EntityVisibility.everyone);
+        } else {
+            return new NexusSummaryJob(uuid,
+                    (Account) context.get(CTX_ACCOUNT),
+                    (SortedSet<Nexus>) context.get(CTX_GROUP),
+                    (EntityVisibility) context.get(CTX_VISIBILITY));
         }
     }
 

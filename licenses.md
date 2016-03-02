@@ -219,6 +219,10 @@
   * Site: https://useiconic.com/open
   * License: https://raw.githubusercontent.com/iconic/open-iconic/master/FONT-LICENSE and https://raw.githubusercontent.com/iconic/open-iconic/master/ICON-LICENSE
 
+# Loading icon
+  * Site: https://commons.wikimedia.org/wiki/File:Throbber_allbackgrounds_circledots_32.gif
+  * License: https://creativecommons.org/licenses/by-sa/2.5/deed.en
+
 # ANTLR
   * Site: http://www.antlr.org/
   * License: http://www.antlr.org/license.html
