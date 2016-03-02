@@ -1,7 +1,7 @@
 
 function closeSearchOptions () { closeForm('searchOptionsContainer'); }
 
-MARKER_COLORS = ['blue','brown','darkgreen','green','orange','paleblue','pink','purple','red','yellow'];
+MARKER_COLORS = ['red','orange','yellow','green','darkgreen','paleblue','blue','purple','brown','pink'];
 
 function initSearchForm () {
 
@@ -76,6 +76,11 @@ function addSearchRow (includeRemoveIcon) {
     var row = buildSearchRow(color, includeRemoveIcon);
     var tbody = $('#searchBoxesTableBody');
     tbody.append(row);
+    $('#searchOptionsContainer').center();
+
+    if ($('.searchRow').length >= 5) {
+        $('#btn_addSearchRow').attr('disabled', true);
+    }
 }
 
 function openMarkerColorPicker (e, id) {
@@ -141,7 +146,7 @@ function updateMarkerInitialLetter(id) {
 function buildSearchRow (color, includeRemoveIcon) {
 
     var id = guid();
-    var row = $('<tr id="row_'+id+'"></tr>');
+    var row = $('<tr class="searchRow" id="row_'+id+'"></tr>');
 
     var markerImage = $('<img id="marker_'+ id+'" class="searchBox_markerImage" src="markers/'+color+'_Marker_blank.png"/>');
     var markerCell = $('<td id="markerClickTarget_'+id+'" align="center" valign="middle"></td>').append(markerImage);
@@ -174,6 +179,12 @@ function buildSearchRow (color, includeRemoveIcon) {
         removeRowIcon.click(function (e) {
             var rowId = 'row_' + searchRowIdFromOtherId(e.target.id);
             $('#'+rowId).remove();
+
+            if ($('.searchRow').length < 5) {
+                $('#btn_addSearchRow').attr('disabled', false);
+            }
+            $('#searchOptionsContainer').center();
+
             // todo: remove markers on map associated with this search row
         });
         row.append('<td align="center" valign="bottom"></td>').append(removeRowIcon);
