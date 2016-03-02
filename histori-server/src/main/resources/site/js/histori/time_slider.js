@@ -115,7 +115,7 @@ TimeRangeControl.prototype.getValueForRangePoint = function(val) {
 TimeRangeControl.prototype.setSliderLabels = function(vals) {
     this.labels = [ this.label(vals[0]), this.label(vals[1]) ];
     this.dates = [ this.date(vals[0]), this.date(vals[1]) ];
-}
+};
 TimeRangeControl.prototype.label = function(val) {
     if (localizer === undefined) return "";
     var rangePoint = this.getRangePoint(val);

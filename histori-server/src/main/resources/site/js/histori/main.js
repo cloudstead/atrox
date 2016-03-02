@@ -320,7 +320,8 @@ function update_map (searchbox_id) {
                     nexusSummariesByUuid[result.uuid] = result;
                     var clickHandler = newMarkerListener(result.uuid);
                     if (clickHandler == null) {
-                        console.log("wtf, cannot add: "+result.uuid);
+                        console.log("Error cannot add: "+result.uuid);
+                        continue;
                     }
                     marker.addListener('click', clickHandler);
 
