@@ -7,7 +7,7 @@ function isAnonymous() {
 }
 
 var activeForm = null;
-function showForm(id) {
+function showForm(id, position_func, position_arg) {
     var container = $('#'+id);
     if (container.css('z-index') > 0) {
         container.css('z-index', -1);
@@ -15,15 +15,25 @@ function showForm(id) {
         if (activeForm != null) {
             closeForm(activeForm);
         }
-        container.center();
+        if (typeof position_func != "undefined") {
+          if (typeof position_arg != "undefined") {
+              position_func.call(container, position_arg);
+          } else {
+              position_func.call(container);
+          }
+        } else {
+            container.center();
+        }
         container.css('z-index', 1);
         activeForm = id;
     }
 }
 
 function closeForm(id) {
-    var container = $('#'+id);
-    container.css('z-index', -1);
+    if (typeof id != "undefined" && id != null) {
+        var container = $('#' + id);
+        container.css('z-index', -1);
+    }
     $(".authError").empty();
 }
 
@@ -50,6 +60,15 @@ jQuery.fn.center = function () {
     this.css("position","absolute");
     this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) +
             $(window).scrollTop()) + "px");
+    this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) +
+            $(window).scrollLeft()) + "px");
+    return this;
+};
+
+jQuery.fn.centerTop = function (offset) {
+    if (typeof offset == "undefined") offset = 20;
+    this.css("position","absolute");
+    this.css("top", offset + "px");
     this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) +
             $(window).scrollLeft()) + "px");
     return this;

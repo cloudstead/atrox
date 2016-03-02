@@ -178,6 +178,7 @@ function initMap () {
 
         // always close nexus details upon map click (unless pinned)
         closeNexusDetails();
+        closeForm(activeForm);
 
         if (mode == 'inspect') {
             inspectLocation(clickEvent);

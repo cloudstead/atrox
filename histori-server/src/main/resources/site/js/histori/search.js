@@ -5,6 +5,9 @@ MARKER_COLORS = ['red','orange','yellow','green','darkgreen','paleblue','blue','
 
 MAX_SEARCH_BOXES = 5;
 
+function rowMarkerImage(id) { return $('#marker_' + id); }
+function rowSearchBox(id) { return $('#text_' + id); }
+
 function initSearchForm () {
 
     addSearchRow(false);
@@ -18,15 +21,14 @@ function initSearchForm () {
     }
 }
 
+function showSearchOptions () { showForm('searchOptionsContainer', jQuery.fn.centerTop); }
+
 function colorPickerClickHandler (color) {
     return function (e) {
         var id = $('#colorPickerRowId').val();
 
-        var markerId = 'marker_' + id;
-        var markerImage = $('#'+markerId);
-
-        var textId = 'text_' + id;
-        var searchBox = $('#' + textId);
+        var markerImage = rowMarkerImage(id);
+        var searchBox = rowSearchBox(id);
         var initial = getInitialFromSearchBox(searchBox);
 
         var currentSrc = markerImage.attr('src');
@@ -40,8 +42,9 @@ function colorPickerClickHandler (color) {
     }
 }
 
-function doSearch (button) {
-    console.log('doSearch: '+button);
+function doSearch (id) {
+    var searchBox = rowSearchBox(id);
+    console.log('doSearch: '+id+': '+searchBox.val());
 }
 
 function getColorFromImage (src) {
@@ -78,7 +81,7 @@ function addSearchRow (includeRemoveIcon) {
     var row = buildSearchRow(color, includeRemoveIcon);
     var tbody = $('#searchBoxesTableBody');
     tbody.append(row);
-    $('#searchOptionsContainer').center();
+    $('#searchOptionsContainer').centerTop(20);
 
     if ($('.searchRow').length >= MAX_SEARCH_BOXES) {
         $('#btn_addSearchRow').attr('disabled', true);
@@ -87,10 +90,7 @@ function addSearchRow (includeRemoveIcon) {
 
 function openMarkerColorPicker (e, id) {
 
-    var markerId = 'marker_' + id;
-    var markerImage = $('#'+markerId);
-
-    var textId = 'text_' + id;
+    var markerImage = rowMarkerImage(id);
 
     var currentSrc = markerImage.attr('src');
     var currentColor = getColorFromImage(currentSrc);
@@ -128,12 +128,10 @@ function getInitialFromSearchBox(searchBox) {
     }
     return initial;
 }
-function updateMarkerInitialLetter(id) {
-    var markerId = 'marker_' + id;
-    var markerImage = $('#' + markerId);
 
-    var textId = 'text_' + id;
-    var searchBox = $('#' + textId);
+function updateMarkerInitialLetter(id) {
+    var markerImage = rowMarkerImage(id);
+    var searchBox = rowSearchBox(id);
 
     var currentSrc = markerImage.attr('src');
     var color = getColorFromImage(currentSrc);
@@ -174,7 +172,12 @@ function buildSearchRow (color, includeRemoveIcon) {
     var queryCell = $('<td align="center"></td>').append(queryTextField);
     row.append(queryCell);
 
-    row.append('<td align="center"><button id="button_'+id+'" class="searchBox_button" onclick="doSearch(this); return false;" type="text">search</button></td>');
+    var searchButton = $('<button id="button_'+id+'" class="searchBox_button" type="text">search</button>');
+    searchButton.click(function (e) {
+        doSearch(id);
+    });
+    var searchButtonCell = $('<td align="center"></td>').append(searchButton);
+    row.append(searchButtonCell);
 
     if (includeRemoveIcon) {
         var removeRowIcon = $('<img id="removeMarkerIcon_'+ id+'" class="removeMarkerIcon" src="iconic/png/x.png"/>');
@@ -185,7 +188,7 @@ function buildSearchRow (color, includeRemoveIcon) {
             if ($('.searchRow').length < MAX_SEARCH_BOXES) {
                 $('#btn_addSearchRow').attr('disabled', false);
             }
-            $('#searchOptionsContainer').center();
+            $('#searchOptionsContainer').centerTop(20);
 
             // todo: remove markers on map associated with this search row
         });

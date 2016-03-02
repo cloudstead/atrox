@@ -21,8 +21,6 @@ function showRegForm () { showForm('regContainer'); }
 function showForgotPassForm () { showForm('forgotPassContainer'); }
 function showResetPassForm () { showForm('resetPassContainer'); }
 
-function showSearchOptions () { showForm('searchOptionsContainer'); }
-
 function closeLoginForm () { closeForm('loginContainer'); }
 function closeRegForm () { closeForm('regContainer'); }
 function closeForgotPassForm () { closeForm('forgotPassContainer'); }
