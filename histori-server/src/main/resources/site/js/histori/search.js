@@ -168,6 +168,16 @@ function updateMarkerInitialLetter(id) {
     }
     update_markers(id, newMarkerImage);
 }
+
+function searchButtonClickHandler (id) {
+    var f = function (e) {
+        console.log('searchButtonClickHandler: handling for id='+id);
+        doSearch(id);
+    };
+    console.log('searchButtonClickHandler('+id+') returning '+f);
+    return f;
+}
+
 function buildSearchRow (color, includeRemoveIcon) {
 
     var id = guid();
@@ -187,33 +197,40 @@ function buildSearchRow (color, includeRemoveIcon) {
     row.append(markerCell);
 
     var queryTextField = $('<input id="text_'+id+'" class="searchBox_query" type="text"/>');
+    queryTextField.keydown(function (e) {
+        if (e.keyCode == 13) {
+            console.log('keydown on '+ e.target.id+', preventing submission...');
+            e.preventDefault();
+            return false;
+        }
+    });
     queryTextField.keyup(function (e) {
         var id = searchRowIdFromOtherId(e.target.id);
         updateMarkerInitialLetter(id);
+        if (e.keyCode == 13) {
+            doSearch(id);
+        }
     });
 
     var queryCell = $('<td align="center"></td>').append(queryTextField);
     row.append(queryCell);
 
     var searchButton = $('<button id="button_'+id+'" class="searchBox_button" type="text">search</button>');
-    searchButton.click(function (e) {
-        doSearch(id);
-    });
+    searchButton.click(searchButtonClickHandler(id));
     var searchButtonCell = $('<td align="center"></td>').append(searchButton);
     row.append(searchButtonCell);
 
     if (includeRemoveIcon) {
         var removeRowIcon = $('<img id="removeMarkerIcon_'+ id+'" class="removeMarkerIcon" src="iconic/png/x.png"/>');
         removeRowIcon.click(function (e) {
-            var rowId = 'row_' + searchRowIdFromOtherId(e.target.id);
-            $('#'+rowId).remove();
+            var id = searchRowIdFromOtherId(e.target.id);
+            $('#row_'+id).remove();
+            remove_markers(id);
 
             if ($('.searchRow').length < MAX_SEARCH_BOXES) {
                 $('#btn_addSearchRow').attr('disabled', false);
             }
             $('#searchOptionsContainer').centerTop(20);
-
-            // todo: remove markers on map associated with this search row
         });
         row.append('<td align="center" valign="bottom"></td>').append(removeRowIcon);
     }

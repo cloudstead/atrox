@@ -313,14 +313,11 @@ function update_map (searchbox_id) {
             }
 
             // clear existing markers
-            for (var i = 0; i < active_markers[searchbox_id].length; i++) {
-                active_markers[searchbox_id][i].setMap(null);
-            }
-            active_markers[searchbox_id] = [];
+            remove_markers(searchbox_id);
 
             for (var i = 0; i < data.results.length; i++) {
                 var result = data.results[i];
-                console.log("update_map: result[" + i + "] is: " + result.primary.name);
+                //console.log("update_map: result[" + i + "] is: " + result.primary.name);
                 if (typeof result.primary != "undefined" && typeof result.primary.geo != "undefined" && result.primary.geo != null && result.primary.geo.type == "Point") {
                     var marker = new google.maps.Marker({
                         position: {lat: result.primary.geo.coordinates[1], lng: result.primary.geo.coordinates[0]},
@@ -352,4 +349,15 @@ function update_markers(searchbox_id, imageSrc) {
         markers[i].setIcon(imageSrc);
     }
 
+}
+
+function remove_markers(searchbox_id) {
+    var markers = active_markers[searchbox_id];
+
+    if (typeof markers == "undefined" || markers == null || !is_array(markers)) return;
+
+    for (var i = 0; i < active_markers[searchbox_id].length; i++) {
+        active_markers[searchbox_id][i].setMap(null);
+    }
+    active_markers[searchbox_id] = [];
 }
