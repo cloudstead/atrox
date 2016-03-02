@@ -3,6 +3,8 @@ function closeSearchOptions () { closeForm('searchOptionsContainer'); }
 
 MARKER_COLORS = ['red','orange','yellow','green','darkgreen','paleblue','blue','purple','brown','pink'];
 
+MAX_SEARCH_BOXES = 5;
+
 function initSearchForm () {
 
     addSearchRow(false);
@@ -78,7 +80,7 @@ function addSearchRow (includeRemoveIcon) {
     tbody.append(row);
     $('#searchOptionsContainer').center();
 
-    if ($('.searchRow').length >= 5) {
+    if ($('.searchRow').length >= MAX_SEARCH_BOXES) {
         $('#btn_addSearchRow').attr('disabled', true);
     }
 }
@@ -180,7 +182,7 @@ function buildSearchRow (color, includeRemoveIcon) {
             var rowId = 'row_' + searchRowIdFromOtherId(e.target.id);
             $('#'+rowId).remove();
 
-            if ($('.searchRow').length < 5) {
+            if ($('.searchRow').length < MAX_SEARCH_BOXES) {
                 $('#btn_addSearchRow').attr('disabled', false);
             }
             $('#searchOptionsContainer').center();
