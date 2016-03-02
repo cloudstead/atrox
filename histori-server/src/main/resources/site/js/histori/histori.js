@@ -24,7 +24,7 @@ function showForm(id, position_func, position_arg) {
         } else {
             container.center();
         }
-        container.css('z-index', 1);
+        container.css({zIndex: 1, visibility: 'visible'});
         activeForm = id;
     }
 }

@@ -221,8 +221,8 @@ input[type=file] {
 
 #mainControlPanel {
     font-family: Tahoma,sans-serif;
-    top: 20px;
-    right: 20px;
+    top: 10px;
+    right: 10px;
     border: 2px solid black;
     /*z-index: -1;*/
     margin-left:auto; margin-right:0;
@@ -254,6 +254,7 @@ input[type=file] {
     border: 2px solid black;
     padding: 5px;
     width: 60%;
+    visibility: hidden;
 }
 
 .searchBox_marker {

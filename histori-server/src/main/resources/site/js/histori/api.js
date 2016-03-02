@@ -124,9 +124,9 @@ Api = {
     _find_nexuses_timer: -1,
     _find_nexuses_request: [],
 
-    find_nexuses: function (origin, current, north, south, east, west, success, fail) {
+    find_nexuses: function (origin, current, north, south, east, west, query, success, fail) {
         //console.log('find_nexuses::'+origin+", "+current);
-        Api._find_nexuses_request = [origin, current, north, south, east, west];
+        Api._find_nexuses_request = [origin, current, north, south, east, west, query];
         if (Api._find_nexuses_timer != -1) {
             window.clearTimeout(Api._find_nexuses_timer);
         }
@@ -137,8 +137,9 @@ Api = {
             var south = Api._find_nexuses_request[3];
             var east = Api._find_nexuses_request[4];
             var west = Api._find_nexuses_request[5];
+            var query = Api._find_nexuses_request[6];
             //console.log('NOW calling API .... find_nexuses:'+ start+", "+ end);
-            Api._get('search/q/'+start+'/'+end+'/'+north+'/'+south+'/'+east+'/'+west, success, fail);
+            Api._get('search/q/'+start+'/'+end+'/'+north+'/'+south+'/'+east+'/'+west+'?q='+query, success, fail);
         }, 1000);
     },
 

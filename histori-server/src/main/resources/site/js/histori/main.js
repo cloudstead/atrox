@@ -244,6 +244,7 @@ function refresh_map () {
                             bounds.getSouthWest().lat(),
                             bounds.getNorthEast().lng(),
                             bounds.getSouthWest().lng(),
+                            "", // empty query
                             update_map);
 }
 
