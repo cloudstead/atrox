@@ -230,7 +230,7 @@ input[type=file] {
     float: right;
     position : absolute;
     overflow: hidden;
-    padding: 2px;
+    /*padding: 1px;*/
     pointer-events: visible;
 }
 

@@ -236,18 +236,6 @@ function init() {
     });
 }
 
-function refresh_map () {
-    var bounds = map.getBounds();
-    return Api.find_nexuses(sliderControl.sliderDates[0],
-                            sliderControl.sliderDates[1],
-                            bounds.getNorthEast().lat(),
-                            bounds.getSouthWest().lat(),
-                            bounds.getNorthEast().lng(),
-                            bounds.getSouthWest().lng(),
-                            "", // empty query
-                            update_map);
-}
-
 modeButtons = ['btnInspect', 'btnAddRegion', 'btnImageRegion', 'btnAddEvent'];
 
 function setMode (m, button) {

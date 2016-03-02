@@ -1,12 +1,24 @@
 
-function closeSearchOptions () { closeForm('searchOptionsContainer'); }
-
 MARKER_COLORS = ['red','orange','yellow','green','darkgreen','paleblue','blue','purple','brown','pink'];
-
 MAX_SEARCH_BOXES = 5;
 
-function rowMarkerImage(id) { return $('#marker_' + id); }
-function rowSearchBox(id) { return $('#text_' + id); }
+function refresh_map () {
+    var bounds = map.getBounds();
+    $('.searchRow').each(function (index) {
+        var row = $(this);
+        var id = searchRowIdFromOtherId(row[0].id);
+        var searchBox = rowSearchBox(id);
+        Api.find_nexuses(id,
+            sliderControl.sliderDates[0],
+            sliderControl.sliderDates[1],
+            bounds.getNorthEast().lat(),
+            bounds.getSouthWest().lat(),
+            bounds.getNorthEast().lng(),
+            bounds.getSouthWest().lng(),
+            searchBox.val(),
+            update_map);
+    });
+}
 
 function initSearchForm () {
 
@@ -22,6 +34,10 @@ function initSearchForm () {
 }
 
 function showSearchOptions () { showForm('searchOptionsContainer', jQuery.fn.centerTop); }
+function closeSearchOptions () { closeForm('searchOptionsContainer'); }
+
+function rowMarkerImage(id) { return $('#marker_' + id); }
+function rowSearchBox(id) { return $('#text_' + id); }
 
 function colorPickerClickHandler (color) {
     return function (e) {
