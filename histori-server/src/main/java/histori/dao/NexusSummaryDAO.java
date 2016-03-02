@@ -45,15 +45,18 @@ public class NexusSummaryDAO extends BackgroundFetcherDAO<NexusSummary> {
 
     /**
      * Find NexusSummaries within the provided range and region
+     * @param visibility everyone : see public stuff | owner : see your stuff (but not hidden stuff) | hidden : see your hidden stuff
      * @param range the time range to search
+     * @param bounds the lat/lon boundaries of the search area
+     * @param query a tag query
      * @return a List of NexusSummary objects
      */
-    public SearchResults<NexusSummary> search(Account account, EntityVisibility visibility, TimeRange range, GeoBounds bounds) {
+    public SearchResults<NexusSummary> search(Account account, EntityVisibility visibility, TimeRange range, GeoBounds bounds, String query) {
 
         final SearchResults<NexusSummary> results = new SearchResults<>();
         final List<Nexus> found = account == null
-                ? nexusDAO.findByTimeRange(range, bounds)
-                : nexusDAO.findByTimeRange(account, range, bounds, visibility);
+                ? nexusDAO.findByTimeRangeAndGeo(range, bounds, query)
+                : nexusDAO.findByTimeRangeAndGeo(account, range, bounds, visibility, query);
         if (found.isEmpty()) return results;
 
         // Collect nexus by name and rank them

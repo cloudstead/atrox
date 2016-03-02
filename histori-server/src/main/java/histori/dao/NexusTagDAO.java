@@ -55,6 +55,8 @@ public class NexusTagDAO extends VersionedEntityDAO<NexusTag> {
                         eq("owner", accountUuid))));
     }
 
+    public List<NexusTag> findByNexus(String uuid) { return findByField("nexus", uuid); }
+
     public List<NexusTag> findByNexusAndOwnerAndType(String accountUuid, String nexusUuid, String tagType) {
         return list(criteria().add(
                 and(
@@ -152,4 +154,5 @@ public class NexusTagDAO extends VersionedEntityDAO<NexusTag> {
                                 eq("visibility", EntityVisibility.hidden))));
         }
     }
+
 }
