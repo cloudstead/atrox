@@ -25,7 +25,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 import static org.apache.commons.collections.CollectionUtils.collect;
-import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
 
 @Repository @Slf4j
 public class NexusSummaryDAO extends BackgroundFetcherDAO<NexusSummary> {
@@ -71,21 +70,11 @@ public class NexusSummaryDAO extends BackgroundFetcherDAO<NexusSummary> {
         return results;
     }
 
-    public String cacheKey(SortedSet<Nexus> group, Account account, EntityVisibility visibility) {
-        return cacheKey(group.first(), account, visibility);
-    }
-
-    public String cacheKey(Nexus nexus, Account account, EntityVisibility visibility) {
-        return "account:" + (account == null ? "null" : account.getUuid())
-                + "-" + sha256_hex(nexus.getName())
-                + "-" + visibility.name();
-    }
-
     private NexusSummary buildSummary(SortedSet<Nexus> group, Account account, EntityVisibility visibility) {
 
         if (group.size() == 0) return null;
 
-        final String cacheKey = cacheKey(group, account, visibility);
+        final String cacheKey = NexusSummary.summaryUuid(group, account, visibility);
 
         final Map<String, Object> ctx = new HashMap<>();
         ctx.put(CTX_ACCOUNT, account);

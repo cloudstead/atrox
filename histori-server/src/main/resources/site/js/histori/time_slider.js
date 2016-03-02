@@ -1,5 +1,5 @@
 
-function TimeRangeControl (div, map, rangeStart, rangeEnd) {
+function TimeRangeControl (rangeStart, rangeEnd) {
     var control = this;
 
     // Set the center property upon construction

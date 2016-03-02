@@ -108,13 +108,9 @@ function initMap () {
         });
     });
 
-    // Create the DIV to hold the control and call the CenterControl() constructor
-    // passing in this DIV.
     var sliderContainer = document.getElementById('sliderContainer');
-    timeSlider = new TimeRangeControl(sliderContainer, map, new google.maps.LatLng(0.0, 0.0));
     var thisYear = new Date().getFullYear();
-    timeSlider.setRangeStart(-100000);
-    timeSlider.setRangeEnd(thisYear);
+    timeSlider = new TimeRangeControl(-100000, thisYear);
 
     sliderContainer.index = 1;
     sliderContainer.style['padding-top'] = '10px';
@@ -295,7 +291,9 @@ function inspectLocation (clickEvent) {
 }
 
 function newMarkerListener(nexusSummaryUuid) {
-    return function() { openNexusDetails(nexusSummaryUuid, 0); }
+    return function() {
+        openNexusDetails(nexusSummaryUuid, 0);
+    }
 }
 
 // Hash of searchbox_id -> list of markers it generated
@@ -332,7 +330,11 @@ function update_map (searchbox_id) {
                     });
 
                     nexusSummariesByUuid[result.uuid] = result;
-                    marker.addListener('click', newMarkerListener(result.uuid));
+                    var clickHandler = newMarkerListener(result.uuid);
+                    if (clickHandler == null) {
+                        console.log("wtf, cannot add: "+result.uuid);
+                    }
+                    marker.addListener('click', clickHandler);
 
                     active_markers[searchbox_id].push(marker);
                 }

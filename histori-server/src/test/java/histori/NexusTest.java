@@ -97,7 +97,7 @@ public class NexusTest extends ApiClientTestBase {
 
         // wait for tags to exist (a background job will do this)
         final NexusSummaryDAO summaryDAO = getBean(NexusSummaryDAO.class);
-        while (summaryDAO.get(summaryDAO.cacheKey(nexus, account, EntityVisibility.everyone)) == null) sleep(50);
+        while (summaryDAO.get(NexusSummary.summaryUuid(nexus, account, EntityVisibility.everyone)) == null) sleep(50);
 
         apiDocs.addNote("Search for nexus in the same range, should see our new nexus, now with tags");
         searchResults = search(startDate, endDate);
