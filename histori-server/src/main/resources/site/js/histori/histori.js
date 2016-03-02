@@ -1,3 +1,31 @@
+function is_array (x) {
+    return Object.prototype.toString.call( x ) === '[object Array]'
+}
+
+function isAnonymous() {
+    return (get_token() == NO_TOKEN || ((typeof Histori.account() == 'undefined') || (typeof Histori.account().email == 'undefined' || Histori.account().anonymous)));
+}
+
+var activeForm = null;
+function showForm(id) {
+    var container = $('#'+id);
+    if (container.css('z-index') > 0) {
+        container.css('z-index', -1);
+    } else {
+        if (activeForm != null) {
+            closeForm(activeForm);
+        }
+        container.center();
+        container.css('z-index', 1);
+        activeForm = id;
+    }
+}
+
+function closeForm(id) {
+    var container = $('#'+id);
+    container.css('z-index', -1);
+    $(".authError").empty();
+}
 
 String.prototype.trim = String.prototype.trim || function trim() { return this.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); };
 
