@@ -79,35 +79,17 @@
 <div id="sliderContainer" style="visibility: hidden">
 <table id="sliderTable" cellspacing="0" cellpadding="0" border="0">
     <tr>
-        <td id="sliderPre">
-            <button class="mode_button" id="btnInspect" style="font-weight: bold" value="inspect" onclick="setMode('inspect', this)">inspect</button>
-        </td>
-        <td id="sliderCell" colspan="3">
-            <div id="sliderObj"></div>
-        </td>
-        <td id="sliderPost"></td>
+        <td align="right" nowrap> <span id="sliderStartLabel"></span> </td>
+
+        <td id="sliderCell" align="center"> <div id="sliderObj"></div> </td>
+
+        <td align="left" nowrap> <span id="sliderEndLabel"></span> </td>
     </tr>
     <tr>
-      <td>
-          <button class="mode_button" id="btnImageRegion" value="imageRegion" onclick="setMode('imageRegion', this);">overlay image</button>
-          <button class="mode_button" id="btnAddRegion" value="addRegion" onclick="setMode('addRegion', this);">add region</button>
-      </td>
-      <td align="left">
-        <span id="sliderStartLabel"></span>
-      </td>
-      <td>&nbsp;&nbsp;&nbsp;</td>
-      <td align="right">
-        <span id="sliderEndLabel"></span>
-      </td>
-      <td></td>
-    </tr>
-    <tr>
-        <td>
-            <button class="mode_button" id="btnAddEvent" value="addEvent" onclick="setMode('addEvent', this);">add event</button>
-        </td>
-        <td valign="middle" align="center" colspan="3">
-          <button id="btnZoomOut" disabled="true" onclick="timelineZoomOut();">&lt;&lt;&lt;zoom</button>
-          <button id="btnZoomIn" onclick="timelineZoomIn();">zoom&gt;&gt;&gt;</button>
+        <td></td>
+        <td valign="middle" align="center">
+            <button id="btnZoomOut" disabled="true" onclick="timelineZoomOut();">&lt;&lt;&lt;zoom</button>
+            <button id="btnZoomIn" onclick="timelineZoomIn();">zoom&gt;&gt;&gt;</button>
         </td>
         <td></td>
     </tr>

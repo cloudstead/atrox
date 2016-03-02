@@ -119,7 +119,15 @@ function initMap () {
 
     // Create the slider control
     var sliderScreenSize = (($(window).width() * 0.75)/1);
-    var sliderSize = (sliderScreenSize * 0.70)/1;
+
+    document.getElementById('sliderTable').style.width = sliderScreenSize+"px";
+    document.getElementById('sliderCell').style.width = "70%";
+    document.getElementById('sliderCell').style.textAlign = "center";
+    document.getElementById('sliderStartLabel').innerHTML = timeSlider.label(0);
+    document.getElementById('sliderEndLabel').innerHTML = timeSlider.label(MAX_SLIDER);
+
+    //var sliderSize = (sliderScreenSize * 0.70)/1;
+    var sliderSize = document.getElementById('sliderCell').offsetWidth;
 
     timeRangeSlider = new dhtmlXSlider({
         parent: "sliderObj",
@@ -133,19 +141,6 @@ function initMap () {
     });
     timeSlider.setSliderLabels(timeRangeSlider.getValue());
 
-    document.getElementById('sliderTable').style.width = sliderScreenSize+"px";
-    document.getElementById('sliderPre').style.width = ((sliderScreenSize*0.125)/1)+"px";
-    document.getElementById('sliderPost').style.width = ((sliderScreenSize*0.125)/1)+"px";
-    document.getElementById('sliderCell').style.width = sliderScreenSize+"px";
-    document.getElementById('sliderCell').style.textAlign = "center";
-    document.getElementById('sliderStartLabel').innerHTML = timeSlider.label(0);
-    document.getElementById('sliderEndLabel').innerHTML = timeSlider.label(MAX_SLIDER);
-    var listener = function(){
-        var vals = timeRangeSlider.getValue();
-        timeSlider.setSliderLabels(vals);
-        document.getElementById('sliderStartLabel').innerHTML = timeSlider.labels(0);
-        document.getElementById('sliderEndLabel').innerHTML = timeSlider.labels(1);
-    };
     timeRangeSlider.attachEvent("onChange", function () { timeSlider.updateHistoryRange(); refresh_map(); } );
     document.body.onkeydown = function (e) {
         e = e || window.event;
@@ -177,7 +172,7 @@ function initMap () {
         closeForm(activeForm);
 
         if (mode == 'inspect') {
-            inspectLocation(clickEvent);
+            // todo: remove this
             return;
         }
         if (mode == 'addEvent') {
@@ -284,10 +279,6 @@ function addRegionForm () {
         '</form></p>'+
         '</div>'+
         '</div>';
-}
-
-function inspectLocation (clickEvent) {
-    console.log('inspecting: ' + clickEvent);
 }
 
 function newMarkerListener(nexusSummaryUuid) {
