@@ -121,10 +121,14 @@
     <table border="0" cellpadding="3">
         <thead>
           <tr>
-              <td>&nbsp;<img src="iconic/png/magnifying-glass-2x.png"/></td>
-              <td>&nbsp;<img src="iconic/png/plus-2x.png"/></td>
-              <td>&nbsp;<img src="iconic/png/person-2x.png" onclick="showLoginForm()"/></td>
-              <td>&nbsp;<img src="iconic/png/question-mark-2x.png"/>&nbsp;</td>
+              <td>&nbsp;
+                  <a href="." onclick="showSearchOptions(); return false;">
+                      <img class="mainControlButton" src="iconic/png/magnifying-glass-2x.png"/>
+                  </a>
+              </td>
+              <td>&nbsp;<img class="mainControlButton" src="iconic/png/plus-2x.png"/></td>
+              <td>&nbsp;<img class="mainControlButton" src="iconic/png/person-2x.png" onclick="showLoginForm()"/></td>
+              <td>&nbsp;<img class="mainControlButton" src="iconic/png/question-mark-2x.png"/>&nbsp;</td>
           </tr>
         </thead>
     </table>
@@ -268,6 +272,35 @@
             </table>
         </form>
     </div>
+</div>
+
+<div id="searchOptionsContainer">
+    <form name="search" onsubmit="return false;">
+        <table border="0" width="100%">
+            <thead>
+            <tr>
+                <td colspan="3" align="center">press 'Enter' after each tag to add it to the search</td>
+            </tr>
+            </thead>
+            <tbody id="searchBoxesTableBody">
+            </tbody>
+            <tfoot>
+            <tr>
+                <td align="center">
+                    <button onclick="addSearchRow(); return false; ">more</button>
+                </td>
+                <td></td>
+                <td align="center">
+                    <button onclick="closeSearchOptions(); return false; ">close</button>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>
+
+<div id="markerColorPickerContainer">
+    <button onclick="closeMarkerColorPicker(); return false; ">close</button>
 </div>
 
 <div>
