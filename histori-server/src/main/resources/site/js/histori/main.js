@@ -7,7 +7,7 @@ var isClosed = false;
 var poly = null;
 var markers = [];
 var timeRangeSlider;
-var sliderControl;
+var timeSlider;
 
 // get locale -- todo: fetch from server at /locale
 locale = "en-US";
@@ -24,10 +24,10 @@ var localizer = {
 var openAddRegionWindow = function (map, marker) {
     addRegionWindow.open(map, marker);
 
-    var startDate = sliderControl.sliderDates[0];
+    var startDate = timeSlider.dates[0];
     if (typeof startDate != "undefined") document.getElementById('startDate').value = startDate;
 
-    var endDate = sliderControl.sliderDates[1];
+    var endDate = timeSlider.dates[1];
     if (typeof endDate != "undefined") document.getElementById('endDate').value = endDate;
 
     // Initialize autocomplete with local lookup:
@@ -111,10 +111,10 @@ function initMap () {
     // Create the DIV to hold the control and call the CenterControl() constructor
     // passing in this DIV.
     var sliderContainer = document.getElementById('sliderContainer');
-    sliderControl = new TimeRangeControl(sliderContainer, map, new google.maps.LatLng(0.0, 0.0));
+    timeSlider = new TimeRangeControl(sliderContainer, map, new google.maps.LatLng(0.0, 0.0));
     var thisYear = new Date().getFullYear();
-    sliderControl.setRangeOrigin(-100000);
-    sliderControl.setRangeCurrent(thisYear);
+    timeSlider.setRangeStart(-100000);
+    timeSlider.setRangeEnd(thisYear);
 
     sliderContainer.index = 1;
     sliderContainer.style['padding-top'] = '10px';
@@ -127,7 +127,7 @@ function initMap () {
 
     timeRangeSlider = new dhtmlXSlider({
         parent: "sliderObj",
-        linkTo: ["sliderOrigin", "sliderCurrent"],
+        linkTo: ["sliderStart", "sliderEnd"],
         step: 1,
         min: 0,
         max: MAX_SLIDER,
@@ -135,34 +135,34 @@ function initMap () {
         range: true,
         size: sliderSize
     });
-    sliderControl.setSliderLabels(timeRangeSlider.getValue());
+    timeSlider.setSliderLabels(timeRangeSlider.getValue());
 
     document.getElementById('sliderTable').style.width = sliderScreenSize+"px";
     document.getElementById('sliderPre').style.width = ((sliderScreenSize*0.125)/1)+"px";
     document.getElementById('sliderPost').style.width = ((sliderScreenSize*0.125)/1)+"px";
     document.getElementById('sliderCell').style.width = sliderScreenSize+"px";
     document.getElementById('sliderCell').style.textAlign = "center";
-    document.getElementById('sliderOriginLabel').innerHTML = sliderControl.label(0);
-    document.getElementById('sliderCurrentLabel').innerHTML = sliderControl.label(MAX_SLIDER);
+    document.getElementById('sliderStartLabel').innerHTML = timeSlider.label(0);
+    document.getElementById('sliderEndLabel').innerHTML = timeSlider.label(MAX_SLIDER);
     var listener = function(){
         var vals = timeRangeSlider.getValue();
-        sliderControl.setSliderLabels(vals);
-        document.getElementById('sliderOriginLabel').innerHTML = sliderControl.sliderLabels(0);
-        document.getElementById('sliderCurrentLabel').innerHTML = sliderControl.sliderLabels(1);
+        timeSlider.setSliderLabels(vals);
+        document.getElementById('sliderStartLabel').innerHTML = timeSlider.labels(0);
+        document.getElementById('sliderEndLabel').innerHTML = timeSlider.labels(1);
     };
-    timeRangeSlider.attachEvent("onChange", function () { sliderControl.updateHistoryRange(); refresh_map(); } );
+    timeRangeSlider.attachEvent("onChange", function () { timeSlider.updateHistoryRange(); refresh_map(); } );
     document.body.onkeydown = function (e) {
         e = e || window.event;
         if (e.keyCode == '37') {
             // left arrow
-            timeRangeSlider.setValue(sliderControl.decrementLast());
-            sliderControl.updateHistoryRange();
+            timeRangeSlider.setValue(timeSlider.decrementLast());
+            timeSlider.updateHistoryRange();
             refresh_map();
         }
         else if (e.keyCode == '39') {
             // right arrow
-            timeRangeSlider.setValue(sliderControl.incrementLast());
-            sliderControl.updateHistoryRange();
+            timeRangeSlider.setValue(timeSlider.incrementLast());
+            timeSlider.updateHistoryRange();
             refresh_map();
         }
     };
@@ -294,39 +294,47 @@ function inspectLocation (clickEvent) {
     console.log('inspecting: ' + clickEvent);
 }
 
-var active_markers = [];
+var active_markers = {};
 
 function newMarkerListener(nexusSummaryUuid) {
     return function() { openNexusDetails(nexusSummaryUuid, 0); }
 }
 
+// Hash of searchbox_id -> list of markers it generated
 var nexusSummariesByUuid = {};
 
-function update_map (data) {
-    if (data && data.results && data.results instanceof Array) {
+// called when data is returned from the server, to populate the map with a new set of markers for a particular search box
+function update_map (searchbox_id) {
+    return function (data) {
+        if (data && data.results && data.results instanceof Array) {
 
-        // clear existing markers
-        for (var i = 0; i < active_markers.length; i++) {
-            active_markers[i].setMap(null);
-        }
-        active_markers = [];
+            if (typeof active_markers[searchbox_id] == "undefined") {
+                active_markers[searchbox_id] = [];
+            }
 
-        for (var i = 0; i < data.results.length; i++) {
-            var result = data.results[i];
-            //console.log("update_map: result[" + i + "] is: " + result);
-            if (typeof result.primary != "undefined" && typeof result.primary.geo != "undefined" && result.primary.geo != null && result.primary.geo.type == "Point") {
-                markerImage = get_marker_image(result.primary);
-                var marker = new google.maps.Marker({
-                    position: {lat: result.primary.geo.coordinates[1], lng: result.primary.geo.coordinates[0]},
-                    title: result.primary.name,
-                    icon: markerImage,
-                    map: map
-                });
+            // clear existing markers
+            for (var i = 0; i < active_markers[searchbox_id].length; i++) {
+                active_markers[searchbox_id][i].setMap(null);
+            }
+            active_markers[searchbox_id] = [];
 
-                nexusSummariesByUuid[result.uuid] = result;
-                marker.addListener('click', newMarkerListener(result.uuid));
+            for (var i = 0; i < data.results.length; i++) {
+                var result = data.results[i];
+                //console.log("update_map: result[" + i + "] is: " + result);
+                if (typeof result.primary != "undefined" && typeof result.primary.geo != "undefined" && result.primary.geo != null && result.primary.geo.type == "Point") {
+                    markerImage = get_marker_image(result.primary);
+                    var marker = new google.maps.Marker({
+                        position: {lat: result.primary.geo.coordinates[1], lng: result.primary.geo.coordinates[0]},
+                        title: result.primary.name,
+                        icon: markerImage,
+                        map: map
+                    });
 
-                active_markers.push(marker);
+                    nexusSummariesByUuid[result.uuid] = result;
+                    marker.addListener('click', newMarkerListener(result.uuid));
+
+                    active_markers[searchbox_id].push(marker);
+                }
             }
         }
     }

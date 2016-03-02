@@ -27,7 +27,7 @@
             height: 20px;
             margin-top: 2px;
         }
-        #sliderOriginLabel, #sliderCurrentLabel {
+        #sliderStartLabel, #sliderEndLabel {
             font-size: 18px;
             font-family: Tahoma,sans-serif;
             color: #ffffff;
@@ -93,11 +93,11 @@
           <button class="mode_button" id="btnAddRegion" value="addRegion" onclick="setMode('addRegion', this);">add region</button>
       </td>
       <td align="left">
-        <span id="sliderOriginLabel"></span>
+        <span id="sliderStartLabel"></span>
       </td>
       <td>&nbsp;&nbsp;&nbsp;</td>
       <td align="right">
-        <span id="sliderCurrentLabel"></span>
+        <span id="sliderEndLabel"></span>
       </td>
       <td></td>
     </tr>
@@ -113,8 +113,8 @@
     </tr>
 </table>
 
-<span id="sliderOrigin" style="visibility: hidden"></span>
-<span id="sliderCurrent" style="visibility: hidden"></span>
+<span id="sliderStart" style="visibility: hidden"></span>
+<span id="sliderEnd" style="visibility: hidden"></span>
 </div>
 
 <div id="mainControlPanel">

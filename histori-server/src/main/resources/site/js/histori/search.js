@@ -9,14 +9,14 @@ function refresh_map () {
         var id = searchRowIdFromOtherId(row[0].id);
         var searchBox = rowSearchBox(id);
         Api.find_nexuses(id,
-            sliderControl.sliderDates[0],
-            sliderControl.sliderDates[1],
+            timeSlider.dates[0],
+            timeSlider.dates[1],
             bounds.getNorthEast().lat(),
             bounds.getSouthWest().lat(),
             bounds.getNorthEast().lng(),
             bounds.getSouthWest().lng(),
             searchBox.val(),
-            update_map);
+            update_map(id));
     });
 }
 
