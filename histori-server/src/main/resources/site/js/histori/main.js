@@ -21,11 +21,10 @@ var localizer = {
 var openAddRegionWindow = function (map, marker) {
     addRegionWindow.open(map, marker);
 
-    // todo: fixme
-    var startDate = timeSlider.dates[0];
+    var startDate = slider_start_date();
     if (typeof startDate != "undefined") document.getElementById('startDate').value = startDate;
 
-    var endDate = timeSlider.dates[1];
+    var endDate = slider_end_date();
     if (typeof endDate != "undefined") document.getElementById('endDate').value = endDate;
 
     // Initialize autocomplete with local lookup:
@@ -116,18 +115,9 @@ function initMap () {
         closeNexusDetails();
         closeForm(activeForm);
 
-        if (mode == 'inspect') {
-            // todo: remove this
-            return;
-        }
-        if (mode == 'addEvent') {
-            console.log('show addEvent dialog here');
-            return;
-        }
-        if (mode != 'addRegion') {
-            console.log('doing '+mode+"...");
-            return;
-        }
+        // disabled for now until we implement geo creation properly
+        if (1 == 1) return;
+
         if (isClosed) return;
         if (poly == null) poly = new google.maps.Polyline({ map: map, path: [], strokeColor: "#FF0000", strokeOpacity: 1.0, strokeWeight: 2 });
 
@@ -162,26 +152,13 @@ function initMap () {
 }
 
 function init() {
-    $(document).ready(function () {
+    $(function() {
         google.maps.event.addDomListener(window, "load", initMap);
         var keyParam = getParameterByName('key');
         if (keyParam != null && keyParam.length > 5 && isAnonymous()) {
             showResetPassForm();
         }
-        initSearchForm();
     });
-}
-
-modeButtons = ['btnInspect', 'btnAddRegion', 'btnImageRegion', 'btnAddEvent'];
-
-function setMode (m, button) {
-    mode = m;
-    var hasButton = (typeof button != "undefined" && button != null);
-    if (hasButton) button.style['font-weight'] = "bold";
-    for (var i=0; i<modeButtons.length; i++) {
-        if (!hasButton || button.id != modeButtons[i]) document.getElementById(modeButtons[i]).style['font-weight'] = "normal";
-    }
-    if (m == 'imageRegion') $('#fileImageUpload').click();
 }
 
 function addRegion () {
@@ -242,14 +219,15 @@ var nexusSummariesByUuid = {};
 function update_map (searchbox_id) {
     return function (data) {
         hideLoadingSpinner(searchbox_id);
+
+        if (typeof active_markers[searchbox_id] == "undefined") {
+            active_markers[searchbox_id] = [];
+        }
+
+        // clear existing markers
+        remove_markers(searchbox_id);
+
         if (data && data.results && data.results instanceof Array) {
-
-            if (typeof active_markers[searchbox_id] == "undefined") {
-                active_markers[searchbox_id] = [];
-            }
-
-            // clear existing markers
-            remove_markers(searchbox_id);
 
             for (var i = 0; i < data.results.length; i++) {
                 var result = data.results[i];
