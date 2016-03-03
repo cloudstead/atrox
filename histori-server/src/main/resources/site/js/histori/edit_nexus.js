@@ -15,10 +15,12 @@ function formatEditTimePoint(date) {
 function formatTimePoint(date) {
     if (typeof date == "undefined" || date == null) return "";
     var year = date.year;
+    var eraMultiplier = (year < 0) ? -1 : 1;
+    var suffix = (year < 0) ? ' BCE' : '';
     var month = (typeof date.month == "undefined" || date.month == null) ? "" : MONTHS[date.month];
     var day = (typeof date.day == "undefined" || date.day == null) ? "" : date.day;
 
-    return day + " " + month + " " + year;
+    return day + ' ' + month + ' ' + (eraMultiplier * year) + suffix;
 }
 
 var activeNexusSummary = null;
