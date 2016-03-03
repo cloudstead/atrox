@@ -46,7 +46,7 @@ public class SearchResource {
     private static final long SEARCH_CACHE_TIMEOUT_SECONDS = TimeUnit.DAYS.toSeconds(1);
 
     @Getter(lazy=true) private final RedisService searchCache = initSearchCache();
-    private RedisService initSearchCache() { return redisService.prefixNamespace(SearchResource.class.getName()); }
+    private RedisService initSearchCache() { return redisService.prefixNamespace(SearchResource.class.getName(), null); }
 
     @POST
     @Path(EP_QUERY)

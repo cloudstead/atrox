@@ -38,7 +38,7 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
     private static final long FILTER_CACHE_TIMEOUT_SECONDS = TimeUnit.DAYS.toSeconds(1);
 
     @Getter(lazy=true) private final RedisService filterCache = initFilterCache();
-    private RedisService initFilterCache() { return redisService.prefixNamespace(NexusEntityFilter.class.getSimpleName()); }
+    private RedisService initFilterCache() { return redisService.prefixNamespace(NexusEntityFilter.class.getSimpleName(), null); }
 
     @Override public Object preCreate(@Valid Nexus entity) {
         entity.prepareForSave();
