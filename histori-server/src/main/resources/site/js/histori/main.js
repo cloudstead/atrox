@@ -204,8 +204,14 @@ function addRegionForm () {
 }
 
 function newMarkerListener(nexusSummaryUuid) {
-    return function() {
+    return function(e) {
+        // fixme: this doesn't work
+        // When you click on a timeline marker, the slider control moves to where the marker is
+        // I'd like it so that if a marker gets a click event, the slider does not receive it
+        //e.stopPropagation();
+        //e.preventDefault();
         openNexusDetails(nexusSummaryUuid, 0);
+        //return false;
     }
 }
 
@@ -215,7 +221,23 @@ var active_markers = {};
 // Hash of searchbox_id -> list of summaries it generated
 var nexusSummariesByUuid = {};
 
+// useful to just create these once, used in date calculations
+var this_year = new Date().getFullYear();
+var year1_millis = Date.UTC(this_year, 0);
+var year2_millis = Date.UTC(this_year+1, 0);
+var millis_in_year = year2_millis - year1_millis;
+
 // called when data is returned from the server, to populate the map with a new set of markers for a particular search box
+function canonical_date_to_raw(start) {
+    var year = start.year;
+    var month = (typeof start.month == 'undefined' || start.month == null) ? 0 : start.month - 1;
+    var day = (typeof start.day == 'undefined' || start.day == null) ? 1 : start.day;
+    var point_in_year = new Date(this_year, month, day);
+    var millis = point_in_year.getTime();
+    var millis_offset = millis - year1_millis;
+    var raw = parseFloat(year) + (parseFloat(millis_offset) / parseFloat(millis_in_year));
+    return  raw
+}
 function update_map (searchbox_id) {
     return function (data) {
         hideLoadingSpinner(searchbox_id);
@@ -226,6 +248,9 @@ function update_map (searchbox_id) {
 
         // clear existing markers
         remove_markers(searchbox_id);
+        slider.remove_markers(searchbox_id);
+
+        var markerImageSrc = rowMarkerImageSrc(searchbox_id);
 
         if (data && data.results && data.results instanceof Array) {
 
@@ -236,7 +261,7 @@ function update_map (searchbox_id) {
                     var marker = new google.maps.Marker({
                         position: {lat: result.primary.geo.coordinates[1], lng: result.primary.geo.coordinates[0]},
                         title: result.primary.name,
-                        icon: rowMarkerImageSrc(searchbox_id),
+                        icon: markerImageSrc,
                         map: map
                     });
 
@@ -247,6 +272,15 @@ function update_map (searchbox_id) {
                         continue;
                     }
                     marker.addListener('click', clickHandler);
+
+                    // convert start/end instant to raw date value (year.fraction)
+                    var start = canonical_date_to_raw(result.primary.timeRange.startPoint);
+                    var end = (typeof result.primary.timeRange.endPoint == 'undefined'
+                                || result.primary.timeRange.endPoint == null
+                                || result.primary.timeRange.startPoint.instant == result.primary.timeRange.endPoint.instant)
+                        ? null : canonical_date_to_raw(result.primary.timeRange.endPoint);
+
+                    slider.add_marker(searchbox_id, start, end, result.primary.name, markerImageSrc, clickHandler);
 
                     active_markers[searchbox_id].push(marker);
                 }
@@ -263,7 +297,7 @@ function update_markers(searchbox_id, imageSrc) {
     for (var i=0; i<markers.length; i++) {
         markers[i].setIcon(imageSrc);
     }
-
+    slider.update_markers(searchbox_id, imageSrc);
 }
 
 function remove_markers(searchbox_id) {

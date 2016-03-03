@@ -43,6 +43,19 @@ String.prototype.endsWith = function(suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 
+// adapted from https://stackoverflow.com/a/13538245/1251543
+String.prototype.escape = function() {
+    var tagsToReplace = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '\'': '&apos;'
+    };
+    return this.replace(/[&<>]/g, function(tag) {
+        return tagsToReplace[tag] || tag;
+    });
+};
+
 // From: http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
 String.prototype.hashCode = function() {
     var hash = 0, i, chr, len;

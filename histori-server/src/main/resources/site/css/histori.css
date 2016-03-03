@@ -296,3 +296,11 @@ input[type=file] {
     font-family: Tahoma,sans-serif;
     color: whitesmoke;
 }
+
+.timelineMarker {
+}
+
+.ui-tooltip-content {
+    font-family: Tahoma,sans-serif;
+    font-size: x-small;
+}

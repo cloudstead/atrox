@@ -77,9 +77,15 @@ var slider = {
         } else {
             suffix = ' CE';
         }
-        if (typeof ymd.month == 'undefined' || ymd.month == null) return ''+year+suffix;
-        if (typeof ymd.day == 'undefined' || ymd.day == null) return ''+year+'-'+MONTH_SHORT_NAMES[ymd.month]+suffix;
-        return ''+year+'-'+MONTH_SHORT_NAMES[ymd.month]+'-'+ymd.day+suffix;
+
+        if (this.range_size_in_years() > 400 || year < -1000) return ''+year+suffix;
+
+        var month = (typeof ymd.month == 'undefined' || ymd.month == null) ? 1 : ymd.month;
+
+        if (this.range_size_in_years() > 100) return ''+year+'-'+MONTH_SHORT_NAMES[month]+suffix;
+
+        var day = (typeof ymd.day == 'undefined' || ymd.day == null) ? 1 : ymd.day;
+        return ''+year+'-'+MONTH_SHORT_NAMES[month]+'-'+day+suffix;
     },
 
     // given a slider value from 0 - MAX_SLIDER, return a formatted date string
@@ -154,8 +160,61 @@ var slider = {
         // update labels and re-run searches
         this.update_labels();
         refresh_map();
-    }
+    },
 
+    // map of searchbox_id -> list of markers on the timeline
+    markers: {},
+
+    // remove all markers for a particular searchbox
+    remove_markers: function (searchbox_id) {
+        if (typeof this.markers[searchbox_id] == "undefined" || this.markers[searchbox_id] == null) return;
+        for (var i=0; i<this.markers[searchbox_id].length; i++) {
+            this.markers[searchbox_id][i].remove();
+        }
+        this.markers[searchbox_id] = null;
+    },
+
+    raw_date_to_pixel_offset: function (raw, width) {
+        var year_offset = parseFloat(raw) - parseFloat(this.range.start);
+        var pct_offset = year_offset / parseFloat(this.range_size_in_years());
+        var pixel_offset = parseInt(pct_offset * width);
+        return pixel_offset;
+    },
+
+    add_marker: function (searchbox_id, start, end, title, image_src, click_handler) {
+
+        if (typeof this.markers[searchbox_id] == "undefined" || this.markers[searchbox_id] == null) {
+            this.markers[searchbox_id] = [];
+        }
+
+        var slider_element = $('#timeSlider');
+        var width = slider_element.width();
+
+        var start_pixel_offset = this.raw_date_to_pixel_offset(start, width);
+        var end_pixel_offset = (end == null) ? null : this.raw_date_to_pixel_offset(end, width);
+        var image_width = end_pixel_offset == null ? 12 : 12 + (end_pixel_offset - start_pixel_offset);
+
+        var imageId = guid();
+        var marker = $('<img class="timelineMarker" title="'+title.escape()+'" id="timeline_marker_'+imageId+'" height="20" width="'+image_width+'" src="'+image_src+'"/>');
+        marker.click(click_handler)
+        marker.css({
+            position: 'absolute',
+            top: -15,
+            left: start_pixel_offset,
+            zIndex: 2
+        });
+        this.markers[searchbox_id].push(marker);
+        slider_element.append(marker);
+    },
+
+    update_markers: function (searchbox_id, image_src) {
+
+        if (typeof this.markers[searchbox_id] == "undefined" || this.markers[searchbox_id] == null) return;
+
+        for (var i=0; i<this.markers[searchbox_id].length; i++) {
+            this.markers[searchbox_id][i].attr('src', image_src);
+        }
+    }
 };
 
 // initialize
@@ -169,7 +228,6 @@ $(function() {
         values: [ 0, MAX_SLIDER ],
         slide: function( event, ui ) {
             slider.update_labels(ui.values);
-            refresh_map();
         }
     });
 
@@ -183,4 +241,6 @@ $(function() {
     slider.zoom_to(1500, this_year);
     slider.reset_controls();
     slider.update_labels();
+
+    $( document ).tooltip();
 });
