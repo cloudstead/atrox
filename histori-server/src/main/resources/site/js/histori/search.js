@@ -60,8 +60,8 @@ function doSearch (id) {
     var query = searchBox.val();
     console.log('doSearch: '+id+': '+query);
     Api.find_nexuses(id,
-        timeSlider.dates[0],
-        timeSlider.dates[1],
+        '1500', //fixme: timeSlider.dates[0],
+        '2016', //fixme: timeSlider.dates[1],
         bounds.getNorthEast().lat(),
         bounds.getSouthWest().lat(),
         bounds.getNorthEast().lng(),

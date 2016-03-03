@@ -1,4 +1,3 @@
-MAX_SLIDER = 10000.0;
 
 var map;
 var mode = 'inspect';
@@ -6,8 +5,6 @@ var addRegionWindow = null;
 var isClosed = false;
 var poly = null;
 var markers = [];
-var timeRangeSlider;
-var timeSlider;
 
 // get locale -- todo: fetch from server at /locale
 locale = "en-US";
@@ -24,6 +21,7 @@ var localizer = {
 var openAddRegionWindow = function (map, marker) {
     addRegionWindow.open(map, marker);
 
+    // todo: fixme
     var startDate = timeSlider.dates[0];
     if (typeof startDate != "undefined") document.getElementById('startDate').value = startDate;
 
@@ -107,59 +105,6 @@ function initMap () {
             elem.find('.mapImage:first').resizable();
         });
     });
-
-    var sliderContainer = document.getElementById('sliderContainer');
-    var thisYear = new Date().getFullYear();
-    timeSlider = new TimeRangeControl(-100000, thisYear);
-
-    sliderContainer.index = 1;
-    sliderContainer.style['padding-top'] = '10px';
-    sliderContainer.style['padding-bottom'] = '-10px';
-    map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(sliderContainer);
-
-    // Create the slider control
-    var sliderScreenSize = (($(window).width() * 0.75)/1);
-
-    document.getElementById('sliderTable').style.width = sliderScreenSize+"px";
-    document.getElementById('sliderCell').style.width = "70%";
-    document.getElementById('sliderCell').style.textAlign = "center";
-    document.getElementById('sliderStartLabel').innerHTML = timeSlider.label(0);
-    document.getElementById('sliderEndLabel').innerHTML = timeSlider.label(MAX_SLIDER);
-
-    //var sliderSize = (sliderScreenSize * 0.70)/1;
-    var sliderSize = document.getElementById('sliderCell').offsetWidth;
-
-    timeRangeSlider = new dhtmlXSlider({
-        parent: "sliderObj",
-        linkTo: ["sliderStart", "sliderEnd"],
-        step: 1,
-        min: 0,
-        max: MAX_SLIDER,
-        value: [0, MAX_SLIDER],
-        range: true,
-        size: sliderSize
-    });
-    timeSlider.setSliderLabels(timeRangeSlider.getValue());
-
-    timeRangeSlider.attachEvent("onChange", function () { timeSlider.updateHistoryRange(); refresh_map(); } );
-    document.body.onkeydown = function (e) {
-        e = e || window.event;
-        if (e.keyCode == '37') {
-            // left arrow
-            timeRangeSlider.setValue(timeSlider.decrementLast());
-            timeSlider.updateHistoryRange();
-            refresh_map();
-        }
-        else if (e.keyCode == '39') {
-            // right arrow
-            timeRangeSlider.setValue(timeSlider.incrementLast());
-            timeSlider.updateHistoryRange();
-            refresh_map();
-        }
-    };
-    zoomToDates(-10000, thisYear);
-    zoomToDates(-4000, thisYear);
-    zoomToDates(1500, thisYear);
 
     addRegionWindow = new google.maps.InfoWindow({ content: addRegionForm() });
 
