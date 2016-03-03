@@ -1,4 +1,3 @@
-MAX_SLIDER = 10000.0;
 
 var map;
 var mode = 'inspect';
@@ -6,8 +5,6 @@ var addRegionWindow = null;
 var isClosed = false;
 var poly = null;
 var markers = [];
-var timeRangeSlider;
-var timeSlider;
 
 // get locale -- todo: fetch from server at /locale
 locale = "en-US";
@@ -24,10 +21,10 @@ var localizer = {
 var openAddRegionWindow = function (map, marker) {
     addRegionWindow.open(map, marker);
 
-    var startDate = timeSlider.dates[0];
+    var startDate = slider_start_date();
     if (typeof startDate != "undefined") document.getElementById('startDate').value = startDate;
 
-    var endDate = timeSlider.dates[1];
+    var endDate = slider_end_date();
     if (typeof endDate != "undefined") document.getElementById('endDate').value = endDate;
 
     // Initialize autocomplete with local lookup:
@@ -108,59 +105,6 @@ function initMap () {
         });
     });
 
-    var sliderContainer = document.getElementById('sliderContainer');
-    var thisYear = new Date().getFullYear();
-    timeSlider = new TimeRangeControl(-100000, thisYear);
-
-    sliderContainer.index = 1;
-    sliderContainer.style['padding-top'] = '10px';
-    sliderContainer.style['padding-bottom'] = '-10px';
-    map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(sliderContainer);
-
-    // Create the slider control
-    var sliderScreenSize = (($(window).width() * 0.75)/1);
-
-    document.getElementById('sliderTable').style.width = sliderScreenSize+"px";
-    document.getElementById('sliderCell').style.width = "70%";
-    document.getElementById('sliderCell').style.textAlign = "center";
-    document.getElementById('sliderStartLabel').innerHTML = timeSlider.label(0);
-    document.getElementById('sliderEndLabel').innerHTML = timeSlider.label(MAX_SLIDER);
-
-    //var sliderSize = (sliderScreenSize * 0.70)/1;
-    var sliderSize = document.getElementById('sliderCell').offsetWidth;
-
-    timeRangeSlider = new dhtmlXSlider({
-        parent: "sliderObj",
-        linkTo: ["sliderStart", "sliderEnd"],
-        step: 1,
-        min: 0,
-        max: MAX_SLIDER,
-        value: [0, MAX_SLIDER],
-        range: true,
-        size: sliderSize
-    });
-    timeSlider.setSliderLabels(timeRangeSlider.getValue());
-
-    timeRangeSlider.attachEvent("onChange", function () { timeSlider.updateHistoryRange(); refresh_map(); } );
-    document.body.onkeydown = function (e) {
-        e = e || window.event;
-        if (e.keyCode == '37') {
-            // left arrow
-            timeRangeSlider.setValue(timeSlider.decrementLast());
-            timeSlider.updateHistoryRange();
-            refresh_map();
-        }
-        else if (e.keyCode == '39') {
-            // right arrow
-            timeRangeSlider.setValue(timeSlider.incrementLast());
-            timeSlider.updateHistoryRange();
-            refresh_map();
-        }
-    };
-    zoomToDates(-10000, thisYear);
-    zoomToDates(-4000, thisYear);
-    zoomToDates(1500, thisYear);
-
     addRegionWindow = new google.maps.InfoWindow({ content: addRegionForm() });
 
     isClosed = false;
@@ -171,18 +115,9 @@ function initMap () {
         closeNexusDetails();
         closeForm(activeForm);
 
-        if (mode == 'inspect') {
-            // todo: remove this
-            return;
-        }
-        if (mode == 'addEvent') {
-            console.log('show addEvent dialog here');
-            return;
-        }
-        if (mode != 'addRegion') {
-            console.log('doing '+mode+"...");
-            return;
-        }
+        // disabled for now until we implement geo creation properly
+        if (1 == 1) return;
+
         if (isClosed) return;
         if (poly == null) poly = new google.maps.Polyline({ map: map, path: [], strokeColor: "#FF0000", strokeOpacity: 1.0, strokeWeight: 2 });
 
@@ -217,26 +152,13 @@ function initMap () {
 }
 
 function init() {
-    $(document).ready(function () {
+    $(function() {
         google.maps.event.addDomListener(window, "load", initMap);
         var keyParam = getParameterByName('key');
         if (keyParam != null && keyParam.length > 5 && isAnonymous()) {
             showResetPassForm();
         }
-        initSearchForm();
     });
-}
-
-modeButtons = ['btnInspect', 'btnAddRegion', 'btnImageRegion', 'btnAddEvent'];
-
-function setMode (m, button) {
-    mode = m;
-    var hasButton = (typeof button != "undefined" && button != null);
-    if (hasButton) button.style['font-weight'] = "bold";
-    for (var i=0; i<modeButtons.length; i++) {
-        if (!hasButton || button.id != modeButtons[i]) document.getElementById(modeButtons[i]).style['font-weight'] = "normal";
-    }
-    if (m == 'imageRegion') $('#fileImageUpload').click();
 }
 
 function addRegion () {
@@ -282,8 +204,14 @@ function addRegionForm () {
 }
 
 function newMarkerListener(nexusSummaryUuid) {
-    return function() {
+    return function(e) {
+        // fixme: this doesn't work
+        // When you click on a timeline marker, the slider control moves to where the marker is
+        // I'd like it so that if a marker gets a click event, the slider does not receive it
+        //e.stopPropagation();
+        //e.preventDefault();
         openNexusDetails(nexusSummaryUuid, 0);
+        //return false;
     }
 }
 
@@ -293,18 +221,38 @@ var active_markers = {};
 // Hash of searchbox_id -> list of summaries it generated
 var nexusSummariesByUuid = {};
 
+// useful to just create these once, used in date calculations
+var this_year = new Date().getFullYear();
+var year1_millis = Date.UTC(this_year, 0);
+var year2_millis = Date.UTC(this_year+1, 0);
+var millis_in_year = year2_millis - year1_millis;
+
 // called when data is returned from the server, to populate the map with a new set of markers for a particular search box
+function canonical_date_to_raw(start) {
+    var year = start.year;
+    var month = (typeof start.month == 'undefined' || start.month == null) ? 0 : start.month - 1;
+    var day = (typeof start.day == 'undefined' || start.day == null) ? 1 : start.day;
+    var point_in_year = new Date(this_year, month, day);
+    var millis = point_in_year.getTime();
+    var millis_offset = millis - year1_millis;
+    var raw = parseFloat(year) + (parseFloat(millis_offset) / parseFloat(millis_in_year));
+    return  raw
+}
 function update_map (searchbox_id) {
     return function (data) {
         hideLoadingSpinner(searchbox_id);
+
+        if (typeof active_markers[searchbox_id] == "undefined") {
+            active_markers[searchbox_id] = [];
+        }
+
+        // clear existing markers
+        remove_markers(searchbox_id);
+        slider.remove_markers(searchbox_id);
+
+        var markerImageSrc = rowMarkerImageSrc(searchbox_id);
+
         if (data && data.results && data.results instanceof Array) {
-
-            if (typeof active_markers[searchbox_id] == "undefined") {
-                active_markers[searchbox_id] = [];
-            }
-
-            // clear existing markers
-            remove_markers(searchbox_id);
 
             for (var i = 0; i < data.results.length; i++) {
                 var result = data.results[i];
@@ -313,7 +261,7 @@ function update_map (searchbox_id) {
                     var marker = new google.maps.Marker({
                         position: {lat: result.primary.geo.coordinates[1], lng: result.primary.geo.coordinates[0]},
                         title: result.primary.name,
-                        icon: rowMarkerImageSrc(searchbox_id),
+                        icon: markerImageSrc,
                         map: map
                     });
 
@@ -324,6 +272,15 @@ function update_map (searchbox_id) {
                         continue;
                     }
                     marker.addListener('click', clickHandler);
+
+                    // convert start/end instant to raw date value (year.fraction)
+                    var start = canonical_date_to_raw(result.primary.timeRange.startPoint);
+                    var end = (typeof result.primary.timeRange.endPoint == 'undefined'
+                                || result.primary.timeRange.endPoint == null
+                                || result.primary.timeRange.startPoint.instant == result.primary.timeRange.endPoint.instant)
+                        ? null : canonical_date_to_raw(result.primary.timeRange.endPoint);
+
+                    slider.add_marker(searchbox_id, start, end, result.primary.name, markerImageSrc, clickHandler);
 
                     active_markers[searchbox_id].push(marker);
                 }
@@ -340,7 +297,7 @@ function update_markers(searchbox_id, imageSrc) {
     for (var i=0; i<markers.length; i++) {
         markers[i].setIcon(imageSrc);
     }
-
+    slider.update_markers(searchbox_id, imageSrc);
 }
 
 function remove_markers(searchbox_id) {

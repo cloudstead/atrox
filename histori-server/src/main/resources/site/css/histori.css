@@ -283,3 +283,24 @@ input[type=file] {
     padding: 5px;
     vertical-align: middle;
 }
+
+#sliderContainer {
+    font-family: Tahoma,sans-serif;
+    background-color: transparent;
+    overflow: hidden;
+    pointer-events: visible;
+    width: 80%;
+}
+
+.sliderLabel {
+    font-family: Tahoma,sans-serif;
+    color: whitesmoke;
+}
+
+.timelineMarker {
+}
+
+.ui-tooltip-content {
+    font-family: Tahoma,sans-serif;
+    font-size: x-small;
+}

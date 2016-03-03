@@ -1,16 +1,5 @@
-
-MARKER_COLORS = ['red','orange','yellow','green','darkgreen','paleblue','blue','purple','brown','pink'];
-MAX_SEARCH_BOXES = 5;
-
-function refresh_map () {
-    $('.searchRow').each(function (index) {
-        var row = $(this);
-        var id = searchRowIdFromOtherId(row[0].id);
-        doSearch(id);
-    });
-}
-
-function initSearchForm () {
+// initialize
+$(function() {
 
     addSearchRow(false);
 
@@ -21,6 +10,17 @@ function initSearchForm () {
         templateImage.click(colorPickerClickHandler(color));
         picker.append(templateImage);
     }
+});
+
+MARKER_COLORS = ['red','orange','yellow','green','darkgreen','paleblue','blue','purple','brown','pink'];
+MAX_SEARCH_BOXES = 5;
+
+function refresh_map () {
+    $('.searchRow').each(function (index) {
+        var row = $(this);
+        var id = searchRowIdFromOtherId(row[0].id);
+        doSearch(id);
+    });
 }
 
 function showSearchOptions () { showForm('searchOptionsContainer', jQuery.fn.centerTop); }
@@ -60,8 +60,8 @@ function doSearch (id) {
     var query = searchBox.val();
     console.log('doSearch: '+id+': '+query);
     Api.find_nexuses(id,
-        timeSlider.dates[0],
-        timeSlider.dates[1],
+        slider.canonical_start(),
+        slider.canonical_end(),
         bounds.getNorthEast().lat(),
         bounds.getSouthWest().lat(),
         bounds.getNorthEast().lng(),

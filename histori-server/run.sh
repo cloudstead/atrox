@@ -32,4 +32,4 @@ else
   shift
 fi
 
-java ${debug} -Xmx1900m -Xms1900m -server -cp ${BASE}/target/histori-server-1.0.0-SNAPSHOT.jar ${CLASS} ${command} "${@}"
+java ${debug} -Xmx1900m -Xms1900m -Djava.net.preferIPv4Stack=true -server -cp ${BASE}/target/histori-server-1.0.0-SNAPSHOT.jar ${CLASS} ${command} "${@}"

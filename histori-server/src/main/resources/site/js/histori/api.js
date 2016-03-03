@@ -130,7 +130,9 @@ Api = {
         }
         Api._find_nexuses_timers[search_id] = window.setTimeout(function () {
             start_func();
-            Api._get('search/q/'+origin+'/'+current+'/'+north+'/'+south+'/'+east+'/'+west+'?q='+query, success, fail);
+            var search_uri = 'search/q/'+origin+'/'+current+'/'+north+'/'+south+'/'+east+'/'+west+'?q='+query;
+            console.log('searching: '+search_uri);
+            Api._get(search_uri, success, fail);
         }, 2000);
     },
 

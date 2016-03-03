@@ -43,6 +43,19 @@ String.prototype.endsWith = function(suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 
+// adapted from https://stackoverflow.com/a/13538245/1251543
+String.prototype.escape = function() {
+    var tagsToReplace = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '\'': '&apos;'
+    };
+    return this.replace(/[&<>]/g, function(tag) {
+        return tagsToReplace[tag] || tag;
+    });
+};
+
 // From: http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
 String.prototype.hashCode = function() {
     var hash = 0, i, chr, len;
@@ -67,12 +80,33 @@ jQuery.fn.center = function () {
 
 jQuery.fn.centerTop = function (offset) {
     if (typeof offset == "undefined") offset = 20;
-    this.css("position","absolute");
-    this.css("top", offset + "px");
-    this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) +
-            $(window).scrollLeft()) + "px");
+    keep_centerTop(offset)(this);
+    this.resize(keep_centerTop(offset));
     return this;
 };
+
+function keep_centerTop (offset) {
+    return function (jqElement) {
+        jqElement.css("position", "absolute");
+        jqElement.css("top", offset + "px");
+        jqElement.css("left", Math.max(0, (($(window).width() - $(jqElement).outerWidth()) / 2) + $(window).scrollLeft()) + "px");
+    };
+}
+
+jQuery.fn.centerBottom = function (offset) {
+    if (typeof offset == "undefined") offset = 20;
+    keep_centerBottom(offset)(this);
+    this.resize(keep_centerBottom(offset));
+    return this;
+};
+
+function keep_centerBottom (offset) {
+    return function (jqElement) {
+        jqElement.css("position", "absolute");
+        jqElement.css("top", ($(window).height() - offset) + "px");
+        jqElement.css("left", Math.max(0, (($(window).width() - $(jqElement).outerWidth()) / 2) + $(window).scrollLeft()) + "px");
+    };
+}
 
 // From: https://stackoverflow.com/a/901144/1251543
 function getParameterByName(name, url) {

@@ -6,10 +6,6 @@
  * Site: https://jqueryui.com/
  * License: https://jquery.org/license/
  
-# dhtmlxSlider
-  * Site: http://dhtmlx.com/docs/products/dhtmlxSlider/
-  * License: http://dhtmlx.com/docs/products/dhtmlxSlider/license.shtml?gpl 
-
 # Globalize
   * Site: https://github.com/jquery/globalize
   * License: https://raw.githubusercontent.com/jquery/globalize/master/LICENSE.txt
