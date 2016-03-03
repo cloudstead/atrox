@@ -309,4 +309,6 @@ function remove_markers(searchbox_id) {
         active_markers[searchbox_id][i].setMap(null);
     }
     active_markers[searchbox_id] = [];
+
+    slider.remove_markers(searchbox_id);
 }
