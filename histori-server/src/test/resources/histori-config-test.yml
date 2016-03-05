@@ -30,6 +30,9 @@ staticAssets:
     INDEX_PATH: /index.html
     INDEX_ALIASES: /:/index.php
     LOCALIZE: /localize
+  substitutions:
+    /index.html:
+      recaptcha: {{RECAPTCHA_PUBLIC_KEY}}
 
 http:
   port: 0

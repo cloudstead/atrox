@@ -148,6 +148,11 @@ public class AccountsResource extends AuthResourceBase<Account> {
 
         request.setUserAgent(ctx.getRequest().getHeaderValue(USER_AGENT));
 
+        if (!configuration.getRecaptcha().verify(request.getCaptcha())) {
+            log.warn("register: captcha failed, returning invalid");
+            return invalid(ERR_CAPTCHA_INCORRECT);
+        }
+
         final Account alreadyLoggedIn = optionalUserPrincipal(ctx);
         final Account account;
         if (alreadyLoggedIn != null) {

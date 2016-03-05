@@ -18,7 +18,10 @@ function showAccountForm () {
     accountContainer.find('input[name="newPassword"]').val('');
     showForm('accountContainer');
 }
-function showRegForm () { showForm('regContainer'); }
+function showRegForm () {
+    // todo: how to disable tooltip on recaptcha?
+    showForm('regContainer');
+}
 function showForgotPassForm () { showForm('forgotPassContainer'); }
 function showResetPassForm () { showForm('resetPassContainer'); }
 

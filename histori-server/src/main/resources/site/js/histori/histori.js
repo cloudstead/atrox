@@ -139,7 +139,8 @@ Histori = {
                 name: fields['name'].value,
                 email: fields['email'].value,
                 password: fields['password'].value,
-                subscribe: fields['subscribe'].checked
+                subscribe: fields['subscribe'].checked,
+                captcha: fields['g-recaptcha-response'].value
             },
             function (auth_response) {
                 success(auth_response);

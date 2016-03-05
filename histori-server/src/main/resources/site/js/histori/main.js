@@ -161,16 +161,6 @@ function init() {
 
         // Setup tool tips (for timeline markers)
         $( document ).tooltip();
-
-        // Setup recaptcha
-        Api.get_config('recaptcha', function(data) {
-            if (typeof data != 'undefined' && data != null && data.length > 0) {
-                $('#recaptchaContainer').append($('<div class="g-recaptcha" data-sitekey="' + data + '"></div>'));
-            }
-        });
-
-        // disable tooltips on recaptcha
-        $('#recaptchaContainer').tooltip({disabled: true});
     });
 }
 

@@ -26,6 +26,7 @@ public class ApiConstants {
     public static final int GEOJSON_MAXLEN = 64000;
 
     public static final String ERR_ALREADY_LOGGED_IN = "err.alreadyLoggedIn";
+    public static final String ERR_CAPTCHA_INCORRECT = "err.captcha.incorrect";
 
     public static final String PLACEHOLDER_MOBILE_PHONE = "8005550100";
     public static final String ANONYMOUS_EMAIL = "anonymous-#STAMP#@example.com";
