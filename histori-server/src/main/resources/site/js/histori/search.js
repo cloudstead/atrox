@@ -10,6 +10,17 @@ $(function() {
         templateImage.click(colorPickerClickHandler(color));
         picker.append(templateImage);
     }
+
+    $(document).bind('keyup', function(e) {
+        if (e.keyCode == 83) { // 's'
+            var currentZ = $('#searchOptionsContainer').css('zIndex');
+            if (currentZ > 0) {
+                closeSearchOptions();
+            } else {
+                showSearchOptions();
+            }
+        }
+    });
 });
 
 MARKER_COLORS = ['red','orange','yellow','green','darkgreen','paleblue','blue','purple','brown','pink'];
