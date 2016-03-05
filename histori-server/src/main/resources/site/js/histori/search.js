@@ -183,8 +183,9 @@ function getInitialFromSearchBox(searchBox) {
     var searchTerms = searchBox.val();
     var initial = '_blank';
     if (typeof searchTerms != "undefined" && searchTerms != null && searchTerms.length > 0) {
+        var spacePos = searchTerms.indexOf(' ');
         var colonPos = searchTerms.indexOf(':');
-        if (colonPos != -1) {
+        if (colonPos != -1 && colonPos < spacePos) {
             searchTerms = searchTerms.substring(colonPos);
         }
         for (var i = 0; i < searchTerms.length; i++) {

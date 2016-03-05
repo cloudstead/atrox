@@ -27,7 +27,6 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
     public static final int MAX_RESULTS = 200;
 
     @Autowired private NexusTagDAO nexusTagDAO;
-    @Autowired private TagTypeDAO tagTypeDAO;
     @Autowired private RedisService redisService;
 
     @Getter(lazy=true) private final RedisService filterCache = initFilterCache();
