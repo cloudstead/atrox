@@ -71,3 +71,7 @@ assetStorage:
 threadPoolSizes:
   VoteSummaryDAO: 10
   NexusSummaryDAO: 10
+
+recaptcha:
+  publicKey: {{RECAPTCHA_PUBLIC_KEY}}
+  privateKey: {{RECAPTCHA_PRIVATE_KEY}}

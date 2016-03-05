@@ -20,6 +20,7 @@ public class ApiConstants {
     public static final String TAG_TYPES_ENDPOINT = "/tag_types";
     public static final String VOTES_ENDPOINT = "/votes";
     public static final String ARCHIVES_ENDPOINT = "/archives";
+    public static final String CONFIGS_ENDPOINT = "/configs";
 
     public static final int NAME_MAXLEN = 1024;
     public static final int GEOJSON_MAXLEN = 64000;

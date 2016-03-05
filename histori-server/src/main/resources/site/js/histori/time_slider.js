@@ -242,6 +242,4 @@ $(function() {
     slider.zoom_to(1500, this_year);
     slider.reset_controls();
     slider.update_labels();
-
-    $( document ).tooltip();
 });

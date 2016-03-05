@@ -16,6 +16,7 @@ import org.cobbzilla.wizard.cache.redis.RedisConfiguration;
 import org.cobbzilla.wizard.dao.DAO;
 import org.cobbzilla.wizard.server.config.DatabaseConfiguration;
 import org.cobbzilla.wizard.server.config.HasDatabaseConfiguration;
+import org.cobbzilla.wizard.server.config.RecaptchaConfig;
 import org.cobbzilla.wizard.server.config.RestServerConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,6 +48,8 @@ public class HistoriConfiguration extends RestServerConfiguration
 
     @Getter @Setter private String sessionPassphrase;
     @Getter @Setter private Map<String, Integer> threadPoolSizes = new DefaultedMap(2);
+
+    @Getter @Setter private RecaptchaConfig recaptcha;
 
     @Getter @Setter private AssetStorageConfiguration assetStorage;
     @Getter(lazy=true) private final AssetStorageService assetStorageService = initStorageService();

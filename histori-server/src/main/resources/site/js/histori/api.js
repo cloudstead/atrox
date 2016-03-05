@@ -121,6 +121,10 @@ Api = {
         }
     },
 
+    get_config: function (name, success, fail) {
+        return Api._get('configs/'+name, success, fail);
+    },
+
     _find_nexuses_timers: {},
 
     find_nexuses: function (search_id, origin, current, north, south, east, west, query, start_func, success, fail) {

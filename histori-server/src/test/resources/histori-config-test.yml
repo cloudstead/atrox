@@ -62,3 +62,7 @@ assetStorage:
   type: local
   config:
     baseDir: /tmp/histori-assets
+
+recaptcha:
+  publicKey: {{RECAPTCHA_PUBLIC_KEY}}
+  privateKey: {{RECAPTCHA_PRIVATE_KEY}}
