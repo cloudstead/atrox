@@ -9,9 +9,7 @@ import histori.model.support.GeoBounds;
 import histori.model.support.TimeRange;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.cobbzilla.util.string.StringUtil;
 import org.cobbzilla.wizard.cache.redis.RedisService;
-import org.cobbzilla.wizard.dao.EntityFilter;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +17,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.validation.Valid;
 import java.math.BigInteger;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
-import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
-import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
 import static org.hibernate.criterion.Restrictions.*;
 
 @Repository @Slf4j
@@ -34,8 +29,6 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
     @Autowired private NexusTagDAO nexusTagDAO;
     @Autowired private TagTypeDAO tagTypeDAO;
     @Autowired private RedisService redisService;
-
-    private static final long FILTER_CACHE_TIMEOUT_SECONDS = TimeUnit.DAYS.toSeconds(1);
 
     @Getter(lazy=true) private final RedisService filterCache = initFilterCache();
     private RedisService initFilterCache() { return redisService.prefixNamespace(NexusEntityFilter.class.getSimpleName(), null); }
@@ -132,7 +125,7 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
                             and(ge("timeRange.endPoint.instant", start), le("timeRange.endPoint.instant", end))),
                     boundsClause(bounds),
                     eq("visibility", EntityVisibility.everyone)
-            )).addOrder(Order.desc("timeRange.startPoint.instant")), 0, MAX_RESULTS, new NexusEntityFilter(query));
+            )).addOrder(Order.desc("timeRange.startPoint.instant")), 0, MAX_RESULTS, getFilter(query));
     }
 
     /**
@@ -152,7 +145,11 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
                             and(ge("timeRange.endPoint.instant", start), le("timeRange.endPoint.instant", end))),
                     boundsClause(bounds),
                     visibilityClause(account, visibility))
-            ).addOrder(Order.desc("timeRange.startPoint.instant")), 0, MAX_RESULTS, new NexusEntityFilter(query));
+            ).addOrder(Order.desc("timeRange.startPoint.instant")), 0, MAX_RESULTS, getFilter(query));
+    }
+
+    protected NexusEntityFilter getFilter(String query) {
+        return new NexusEntityFilter(query, getFilterCache(), nexusTagDAO);
     }
 
     public Criterion visibilityClause(Account account, EntityVisibility visibility) {
@@ -180,105 +177,4 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
         );
     }
 
-    private class NexusEntityFilter implements EntityFilter<Nexus> {
-
-        private final String queryHash;
-        private final SortedSet<String> terms;
-
-        public NexusEntityFilter (String query) {
-            // by sorting terms alphabetically, and trimming whitespace, we prevent duplicate cache entries
-            // for searches that are essentially the same
-            terms = new TreeSet<>(StringUtil.splitAndTrim(query, "\n\t"));
-            queryHash = sha256_hex(StringUtil.toString(terms, " "));
-        }
-
-        @Override public boolean isAcceptable(Nexus nexus) {
-
-            if (empty(terms)) return true; // empty query matches everything
-
-            final String cacheKey = nexus.getUuid() + ":query:" + queryHash;
-            String cached = null;
-            try {
-                cached = getFilterCache().get(cacheKey);
-            } catch (Exception e) {
-                log.error("Error reading from NexusEntityFilter query cache: "+e);
-            }
-
-            if (!empty(cached)) return Boolean.valueOf(cached);
-
-            boolean match = isMatch(nexus);
-
-            try {
-                getFilterCache().set(cacheKey, String.valueOf(match), "EX", FILTER_CACHE_TIMEOUT_SECONDS);
-            } catch (Exception e) {
-                log.error("Error writing to NexusEntityFilter query cache: "+e);
-            }
-
-            return match;
-        }
-
-        // todo: make this a lot better. return a score or accept some other context object so we can be smarter.
-        private boolean fuzzyMatch (String s1, String s2) { return s1 != null && s1.toLowerCase().contains(s2.toLowerCase()); }
-        private boolean preciseMatch (String s1, String s2) { return s1 != null && s1.equalsIgnoreCase(s2); }
-
-        // todo: regex support/syntax for query terms?
-        protected boolean isMatch(Nexus nexus) {
-
-            // must match on all search terms
-            for (String term : terms) {
-                final String cacheKey = nexus.getUuid()+":term:"+sha256_hex(term);
-                String cached = null;
-                try {
-                    cached = getFilterCache().get(cacheKey);
-                } catch (Exception e) {
-                    log.error("Error reading from NexusEntityFilter query-term cache: "+e);
-                }
-
-                if (!empty(cached)) return Boolean.valueOf(cached);
-
-                boolean match = matchTerm(nexus, term);
-
-                try {
-                    getFilterCache().set(cacheKey, String.valueOf(match), "EX", FILTER_CACHE_TIMEOUT_SECONDS);
-                } catch (Exception e) {
-                    log.error("Error writing to NexusEntityFilter query-term cache: "+e);
-                }
-
-                if (!match) return false;
-            }
-            return true;
-        }
-
-        protected boolean matchTerm(Nexus nexus, String term) {
-            // name match is fuzzy
-            if (fuzzyMatch(nexus.getName(), term)) return true;
-
-            // type match must be exact (ignoring case)
-            if (preciseMatch(nexus.getNexusType(), term)) return true;
-
-            // check tags
-            final List<NexusTag> tags = nexusTagDAO.findByNexus(nexus.getUuid());
-            for (NexusTag tag : tags) {
-
-                // tag name match is fuzzy
-                if (fuzzyMatch(tag.getTagName(), term)) return true;
-
-                // type match must be exact (ignoring case)
-                if (preciseMatch(tag.getTagType(), term)) return true;
-
-                // all schema matches, both keys and (possibly multiple) values, are fuzzy matches
-                if (tag.hasSchemaValues()) {
-                    for (Map.Entry<String, Set<String>> schema : tag.getSchemaValueMap().entrySet()) {
-                        if (fuzzyMatch(schema.getKey(), term)) return true;
-                        for (String value : schema.getValue()) {
-                            if (fuzzyMatch(value, term)) return true;
-                        }
-                    }
-                }
-            }
-
-            // nothing matched the query term
-            return false;
-        }
-    }
 }
