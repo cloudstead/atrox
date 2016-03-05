@@ -54,8 +54,7 @@ function newSearch (term) {
     }
     var id = searchRowIdFromOtherId(row.id);
     var searchBox = rowSearchBox(id);
-    //searchBox.val('"e:'+term+'"');
-    searchBox.val(term);
+    searchBox.val('e:"'+term+'"');
     doSearch(id);
     updateMarkerInitialLetter(id);
     closeNexusDetails();
@@ -181,17 +180,17 @@ function closeMarkerColorPicker () {
 function searchRowIdFromOtherId(id) { return id.substring(id.indexOf('_') + 1); }
 
 function getInitialFromSearchBox(searchBox) {
-    var searchTerms = searchBox.val();
+    var query = searchBox.val();
     var initial = '_blank';
-    if (typeof searchTerms != "undefined" && searchTerms != null && searchTerms.length > 0) {
-        var spacePos = searchTerms.indexOf(' ');
-        var colonPos = searchTerms.indexOf(':');
-        if (colonPos != -1 && colonPos < spacePos) {
-            searchTerms = searchTerms.substring(colonPos);
+    if (typeof query != "undefined" && query != null && query.length > 0) {
+        var spacePos = query.indexOf(' ');
+        var colonPos = query.indexOf(':');
+        if (colonPos != -1 && (spacePos == -1 || colonPos < spacePos)) {
+            query = query.substring(colonPos);
         }
-        for (var i = 0; i < searchTerms.length; i++) {
-            if (searchTerms.charAt(i).match(/[a-z]/i)) {
-                initial = searchTerms.charAt(i).toUpperCase();
+        for (var i = 0; i < query.length; i++) {
+            if (query.charAt(i).match(/[a-z]/i)) {
+                initial = query.charAt(i).toUpperCase();
                 break;
             }
         }

@@ -27,6 +27,8 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
     public static final int MAX_RESULTS = 200;
 
     @Autowired private NexusTagDAO nexusTagDAO;
+    @Autowired private TagDAO tagDAO;
+    @Autowired private TagTypeDAO tagTypeDAO;
     @Autowired private RedisService redisService;
 
     @Getter(lazy=true) private final RedisService filterCache = initFilterCache();
@@ -148,7 +150,7 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
     }
 
     protected NexusEntityFilter getFilter(String query) {
-        return new NexusEntityFilter(query, getFilterCache(), nexusTagDAO);
+        return new NexusEntityFilter(query, getFilterCache(), nexusTagDAO, tagDAO, tagTypeDAO);
     }
 
     public Criterion visibilityClause(Account account, EntityVisibility visibility) {

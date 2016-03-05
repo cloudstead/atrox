@@ -7,10 +7,15 @@ import org.cobbzilla.wizard.model.ResultPage;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static histori.ApiConstants.MATCH_NULL_TYPE;
 import static histori.model.CanonicalEntity.canonicalize;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
+import static org.cobbzilla.util.daemon.ZillaRuntime.now;
 
 @Repository public class TagDAO extends CanonicalEntityDAO<Tag> {
 
@@ -23,6 +28,24 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
             "and t.tagType is null ";
     public static final String AUTOCOMPLETE_ORDER =
             "order by length(t.canonicalName) desc";
+
+    // findByCanonicalName needs to be lightning-fast
+    private static final long TAG_CACHE_REFRESH = TimeUnit.MINUTES.toMillis(10);
+    private final AtomicLong lastCacheFill = new AtomicLong(0);
+    private final Map<String, Tag> tagCache = new ConcurrentHashMap<>();
+    @Override public Tag findByCanonicalName(String canonicalName) {
+        if (now() - lastCacheFill.get() > TAG_CACHE_REFRESH) {
+            synchronized (lastCacheFill) {
+                if (now() - lastCacheFill.get() > TAG_CACHE_REFRESH) {
+                    for (Tag tag : findAll()) {
+                        tagCache.put(tag.getCanonicalName(), tag);
+                    }
+                    lastCacheFill.set(now());
+                }
+            }
+        }
+        return tagCache.get(canonicalName);
+    }
 
     public AutocompleteSuggestions findByCanonicalNameStartsWith(String nameFragment) {
         return findByCanonicalNameStartsWith(nameFragment, null);

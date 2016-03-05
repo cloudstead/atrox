@@ -195,6 +195,7 @@ var slider = {
         var image_width = end_pixel_offset == null ? 12 : 12 + (end_pixel_offset - start_pixel_offset);
 
         var imageId = guid();
+        // todo: add start/end dates to tooltip label
         var marker = $('<img class="timelineMarker" title="'+title.escape()+'" id="timeline_marker_'+imageId+'" height="20" width="'+image_width+'" src="'+image_src+'"/>');
         marker.click(click_handler)
         marker.css({

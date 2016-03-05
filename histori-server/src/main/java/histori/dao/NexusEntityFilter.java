@@ -2,6 +2,8 @@ package histori.dao;
 
 import histori.model.Nexus;
 import histori.model.NexusTag;
+import histori.model.Tag;
+import histori.model.TagType;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.string.StringUtil;
@@ -22,6 +24,8 @@ public class NexusEntityFilter implements EntityFilter<Nexus> {
 
     @Getter private final RedisService filterCache;
     @Getter private final NexusTagDAO nexusTagDAO;
+    @Getter private final TagDAO tagDAO;
+    @Getter private final TagTypeDAO tagTypeDAO;
     private final String queryHash;
     private final Set<String> terms;
     private final Map<String, Pattern> patternCache = new HashMap<>();
@@ -35,13 +39,32 @@ public class NexusEntityFilter implements EntityFilter<Nexus> {
         return pattern;
     }
 
-    public NexusEntityFilter(String query, RedisService filterCache, NexusTagDAO nexusTagDAO) {
+    public NexusEntityFilter(String query, RedisService filterCache, NexusTagDAO nexusTagDAO, TagDAO tagDAO, TagTypeDAO tagTypeDAO) {
+
         this.filterCache = filterCache;
         this.nexusTagDAO = nexusTagDAO;
+        this.tagDAO = tagDAO;
+        this.tagTypeDAO = tagTypeDAO;
+
         // by sorting terms alphabetically, and trimming whitespace, we prevent duplicate cache entries
         // for searches that are essentially the same
-        terms = (Set<String>) (empty(query) ? Collections.emptySet() : new TreeSet<>(StringUtil.splitIntoTerms(query)));
+        terms = (Set<String>) (empty(query) ? Collections.emptySet() : new TreeSet<>(collectTerms(query)));
         queryHash = sha256_hex(StringUtil.toString(terms, " "));
+    }
+
+    protected List<String> collectTerms(String query) {
+        final List<String> rawTerms = StringUtil.splitIntoTerms(query);
+        final List<String> terms = new ArrayList<>();
+        for (int i=0; i<rawTerms.size(); i++) {
+            final String rawTerm = rawTerms.get(i);
+            if (rawTerm.length() == 2 && rawTerm.charAt(1) == ':' && rawTerms.size() > i) {
+                terms.add(rawTerm+rawTerms.get(i+1));
+                i++;
+            } else {
+                terms.add(rawTerm);
+            }
+        }
+        return terms;
     }
 
     @Override
@@ -72,14 +95,14 @@ public class NexusEntityFilter implements EntityFilter<Nexus> {
 
     // todo: make this a lot better. return a score or accept some other context object so we can be smarter.
     private boolean fuzzyMatch(String value, String term) {
-//        final Boolean match = specialMatch(value, term);
-//        if (match != null) return match;
+        final Boolean match = specialMatch(value, term);
+        if (match != null) return match;
         return value != null && value.toLowerCase().contains(term.toLowerCase());
     }
 
     private boolean preciseMatch(String value, String term) {
-//        final Boolean match = specialMatch(value, term);
-//        if (match != null) return match;
+        final Boolean match = specialMatch(value, term);
+        if (match != null) return match;
         return value != null && value.equalsIgnoreCase(term);
     }
 
@@ -127,21 +150,26 @@ public class NexusEntityFilter implements EntityFilter<Nexus> {
         if (fuzzyMatch(nexus.getName(), term)) return true;
 
         // type match must be exact (ignoring case)
-        if (preciseMatch(nexus.getNexusType(), term)) return true;
+        if (nexus.hasNexusType()) {
+            final Tag tag = tagDAO.findByCanonicalName(nexus.getNexusType());
+            if (tag != null && preciseMatch(tag.getName(), term)) return true;
+        }
 
-        // check tags
-        final List<NexusTag> tags = nexusTagDAO.findByNexus(nexus.getUuid());
-        for (NexusTag tag : tags) {
+        // check nexusTags
+        final List<NexusTag> nexusTags = nexusTagDAO.findByNexus(nexus.getUuid());
+        for (NexusTag nexusTag : nexusTags) {
 
             // tag name match is fuzzy
-            if (fuzzyMatch(tag.getTagName(), term)) return true;
+            final Tag tag = tagDAO.findByCanonicalName(nexusTag.getTagName());
+            if (tag != null && fuzzyMatch(tag.getName(), term)) return true;
 
             // type match must be exact (ignoring case)
-            if (preciseMatch(tag.getTagType(), term)) return true;
+            final TagType tagType = tagTypeDAO.findByCanonicalName(nexusTag.getTagType());
+            if (tagType != null && preciseMatch(tagType.getName(), term)) return true;
 
             // all schema matches, both keys and (possibly multiple) values, are fuzzy matches
-            if (tag.hasSchemaValues()) {
-                for (Map.Entry<String, Set<String>> schema : tag.getSchemaValueMap().entrySet()) {
+            if (nexusTag.hasSchemaValues()) {
+                for (Map.Entry<String, Set<String>> schema : nexusTag.getSchemaValueMap().entrySet()) {
                     if (fuzzyMatch(schema.getKey(), term)) return true;
                     for (String value : schema.getValue()) {
                         if (fuzzyMatch(value, term)) return true;
