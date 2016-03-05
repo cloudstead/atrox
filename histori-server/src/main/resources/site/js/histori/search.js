@@ -55,7 +55,7 @@ function newSearch (term) {
     var id = searchRowIdFromOtherId(row.id);
     var searchBox = rowSearchBox(id);
     //searchBox.val('"e:'+term+'"');
-    searchBox.val('"'+term+'"');
+    searchBox.val(term);
     doSearch(id);
     updateMarkerInitialLetter(id);
     closeNexusDetails();
