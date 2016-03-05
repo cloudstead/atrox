@@ -72,14 +72,14 @@ public class NexusEntityFilter implements EntityFilter<Nexus> {
 
     // todo: make this a lot better. return a score or accept some other context object so we can be smarter.
     private boolean fuzzyMatch(String value, String term) {
-        final Boolean match = specialMatch(value, term);
-        if (match != null) return match;
+//        final Boolean match = specialMatch(value, term);
+//        if (match != null) return match;
         return value != null && value.toLowerCase().contains(term.toLowerCase());
     }
 
     private boolean preciseMatch(String value, String term) {
-        final Boolean match = specialMatch(value, term);
-        if (match != null) return match;
+//        final Boolean match = specialMatch(value, term);
+//        if (match != null) return match;
         return value != null && value.equalsIgnoreCase(term);
     }
 
