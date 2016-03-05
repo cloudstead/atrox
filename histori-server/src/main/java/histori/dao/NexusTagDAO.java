@@ -27,7 +27,7 @@ public class NexusTagDAO extends VersionedEntityDAO<NexusTag> {
     @Autowired private RedisService redisService;
     @Autowired private NexusDAO nexusDAO;
 
-    public static final long TAG_CACHE_TIMEOUT = TimeUnit.DAYS.toSeconds(1);
+    public static final long TAG_CACHE_TIMEOUT = TimeUnit.DAYS.toSeconds(30);
     @Getter(lazy=true) private final RedisService tagCache = initTagCache();
     private RedisService initTagCache() { return redisService.prefixNamespace("NexusTagDAO.findByNexus", null); }
 
