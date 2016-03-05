@@ -34,6 +34,38 @@ function rowLoadingImage(id) { return $('#loading_' + id); }
 function showLoadingSpinner (id) { rowLoadingImage(id).css('visibility', 'visible'); }
 function hideLoadingSpinner (id) { rowLoadingImage(id).css('visibility', 'hidden'); }
 
+function newSearch (term) {
+    var rows = $('.searchRow');
+    var row = null;
+    // If this is the first search, and the first search is blank, replace it
+    if (rows.length == 1) {
+        if (rowSearchBox(searchRowIdFromOtherId(rows[0].id)).val().length == 0) {
+            row = rows[0];
+        }
+    }
+    // Try to add a new search row
+    if (row == null) {
+        row = addSearchRow(true);
+        if (row != null) row = row[0];
+    }
+    // If adding a new row failed, use the last search row
+    if (row == null) {
+        row = rows[rows.length-1];
+    }
+    var id = searchRowIdFromOtherId(row.id);
+    var searchBox = rowSearchBox(id);
+    searchBox.val(term);
+    doSearch(id);
+    updateMarkerInitialLetter(id);
+    closeNexusDetails();
+    showSearchOptions();
+}
+
+function newSearchLink (term) {
+    // todo: cannot figure out how to get proper link styling using CSS, forced to use style attribute here
+    return '<a href="." class="searchLink" style="text-decoration: none; color: black" onclick="newSearch(\''+term.escape()+'\'); return false;">'+term+'</a>'
+}
+
 function colorPickerClickHandler (color) {
     return function (e) {
         var id = $('#colorPickerRowId').val();
@@ -55,6 +87,7 @@ function colorPickerClickHandler (color) {
 }
 
 function doSearch (id) {
+    remove_markers(id);
     var bounds = map.getBounds();
     var searchBox = rowSearchBox(id);
     var query = searchBox.val();
@@ -87,6 +120,12 @@ function getColorFromImage (src) {
 }
 
 function addSearchRow (includeRemoveIcon) {
+
+    if ($('.searchRow').length >= MAX_SEARCH_BOXES) {
+        $('#btn_addSearchRow').attr('disabled', true);
+        return null;
+    }
+
     var used_colors = [];
     $('.searchBox_markerImage').each(function (index) {
         var src = this.src;
@@ -110,6 +149,7 @@ function addSearchRow (includeRemoveIcon) {
     if ($('.searchRow').length >= MAX_SEARCH_BOXES) {
         $('#btn_addSearchRow').attr('disabled', true);
     }
+    return row;
 }
 
 function openMarkerColorPicker (e, id) {

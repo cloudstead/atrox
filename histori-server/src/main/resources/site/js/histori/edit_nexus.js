@@ -41,7 +41,7 @@ function hideLoadingMessage () {
 }
 
 function openNexusDetails (uuid, tries) {
-
+    closeSearchOptions();
     var nexusSummary = nexusSummariesByUuid[uuid];
 
     if (typeof nexusSummary == "undefined" || nexusSummary == null) return;
@@ -134,7 +134,7 @@ function openNexusDetails (uuid, tries) {
                 var listOfTags = "";
                 for (var j = 0; j < tags.length; j++) {
                     var nexusTagId = 'nexusTag_' + tags[j].uuid + '_' + tags[j].tagName;
-                    listOfTags += "<div class='nexusTag'><div id='" + nexusTagId + "'>" + tags[j].displayName + "</div>";
+                    listOfTags += "<div class='nexusTag'><div class='nexusTag_tagName' id='" + nexusTagId + "'>" + newSearchLink(tags[j].displayName) + "</div>";
                     if (typeof tags[j].values != "undefined" && is_array(tags[j].values)) {
                         var prevField = '';
                         var numValues = tags[j].values.length;
@@ -336,7 +336,7 @@ function update_tag_display_name (id, displayName) {
     if (displayName.lastIndexOf('http://', 0) === 0 || displayName.lastIndexOf('https://', 0) === 0) {
         displayName = '<a target="_blank" href=' + displayName + '>' + window.decodeURI(displayName) + "</a>";
     }
-    $('#'+id).html(displayName);
+    $('#'+id).html(newSearchLink(displayName));
 }
 
 function closeNexusDetails () {

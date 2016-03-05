@@ -271,6 +271,16 @@ input[type=file] {
     text-align: center;
 }
 
+a:link a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover a:active {
+    text-decoration: underline;
+    color: black;
+}
+
 #markerColorPickerContainer {
     font-family: Tahoma,sans-serif;
     border: 2px solid black;
@@ -304,3 +314,4 @@ input[type=file] {
     font-family: Tahoma,sans-serif;
     font-size: x-small;
 }
+
