@@ -97,8 +97,8 @@ Api = {
         return Api._post('accounts/login', {'name': email, 'password': password}, success, fail);
     },
 
-    register: function (name, email, password, success, fail) {
-        return Api._post('accounts/register', {'name': name, 'email': email, 'password': password}, success, fail);
+    register: function (reg, success, fail) {
+        return Api._post('accounts/register', reg, success, fail);
     },
 
     forgot_password: function (email, success, fail) {
@@ -109,8 +109,8 @@ Api = {
         Api._post('accounts/reset_password', {'token': key, 'password': password}, success, fail);
     },
 
-    update_account: function (name, email, currentPassword, newPassword, success, fail) {
-        Api._post('accounts', {'name': name, 'email': email, 'currentPassword': currentPassword, 'newPassword': newPassword}, success, fail);
+    update_account: function (info, success, fail) {
+        Api._post('accounts', info, success, fail);
     },
 
     create_anonymous_session: function () {

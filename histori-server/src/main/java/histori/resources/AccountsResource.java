@@ -120,6 +120,9 @@ public class AccountsResource extends AuthResourceBase<Account> {
 
         if (!validationResult.isEmpty()) return invalid(validationResult);
 
+        // update email preferences
+        if (request.getSubscribe() != null) account.setSubscriber(request.getSubscribe());
+
         final Account updated = accountDAO.update(account);
         sessionDAO.update(sessionAccount.getApiToken(), updated);
 

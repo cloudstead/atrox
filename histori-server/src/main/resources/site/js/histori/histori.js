@@ -134,8 +134,13 @@ Histori = {
             }, fail);
     },
 
-    register: function (name, email, password, success, fail) {
-        Api.register(name, email, password,
+    register: function (fields, success, fail) {
+        Api.register({
+                name: fields['name'].value,
+                email: fields['email'].value,
+                password: fields['password'].value,
+                subscribe: fields['subscribe'].checked
+            },
             function (auth_response) {
                 success(auth_response);
                 sessionStorage.setItem('histori_session', auth_response.sessionId);
@@ -155,8 +160,14 @@ Histori = {
         Api.reset_password(key, password, success, fail);
     },
 
-    update_account: function (name, email, currentPassword, newPassword, success, fail) {
-        Api.update_account(name, email, currentPassword, newPassword, success, fail);
+    update_account: function (fields, success, fail) {
+        Api.update_account({
+            name: fields['name'].value,
+            email: fields['email'].value,
+            currentPassword: fields['currentPassword'].value,
+            newPassword: fields['newPassword'].value,
+            subscribe: fields['subscribe'].checked
+        }, success, fail);
     },
 
     account: function () {

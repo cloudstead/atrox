@@ -13,6 +13,7 @@ function showAccountForm () {
     var accountContainer = $('#accountContainer');
     accountContainer.find('input[name="name"]').val(account.name);
     accountContainer.find('input[name="email"]').val(account.email);
+    accountContainer.find('input[name="subscribe"]').prop('checked', (typeof account.subscriber != 'undefined') && account.subscriber);
     accountContainer.find('input[name="currentPassword"]').val('');
     accountContainer.find('input[name="newPassword"]').val('');
     showForm('accountContainer');

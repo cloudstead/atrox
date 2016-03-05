@@ -96,6 +96,7 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
         audit.log(request, "register", "creating account for: '"+ name + "'");
 
         Account newAccount = (Account) new Account()
+                .setSubscriber(request.isSubscribe())
                 .setEmail(email)
                 .setHashedPassword(new HashedPassword(password))
                 .setName(name);

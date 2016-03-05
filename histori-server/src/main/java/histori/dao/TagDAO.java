@@ -6,6 +6,7 @@ import org.cobbzilla.util.collection.ArrayUtil;
 import org.cobbzilla.wizard.model.ResultPage;
 import org.springframework.stereotype.Repository;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,6 +29,16 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.now;
             "and t.tagType is null ";
     public static final String AUTOCOMPLETE_ORDER =
             "order by length(t.canonicalName) desc";
+
+    @Override public Tag postCreate(Tag tag, Object context) {
+        tagCache.put(tag.getCanonicalName(), tag);
+        return super.postCreate(tag, context);
+    }
+
+    @Override public Tag postUpdate(@Valid Tag tag, Object context) {
+        tagCache.put(tag.getCanonicalName(), tag);
+        return super.postUpdate(tag, context);
+    }
 
     // findByCanonicalName needs to be lightning-fast
     private static final long TAG_CACHE_REFRESH = TimeUnit.MINUTES.toMillis(10);

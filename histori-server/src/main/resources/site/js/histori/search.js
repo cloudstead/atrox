@@ -11,7 +11,7 @@ $(function() {
         picker.append(templateImage);
     }
 
-    $(document).bind('keyup', function(e) {
+    $('#map').bind('keyup', function(e) {
         if (e.keyCode == 83) { // 's'
             var currentZ = $('#searchOptionsContainer').css('zIndex');
             if (currentZ > 0) {

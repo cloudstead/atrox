@@ -14,6 +14,7 @@ import javax.persistence.*;
 public class Account extends AccountBase implements TokenPrincipal {
 
     @Getter @Setter private boolean anonymous = false;
+    @Getter @Setter private boolean subscriber = false;
 
     // Set by HistoriAuthFilter
     @JsonIgnore @Transient

@@ -13,11 +13,11 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 public class RegistrationRequest {
 
     public RegistrationRequest (String email, String password) {
-        this(email, email, password, null);
+        this(email, email, password, false, null);
     }
 
     public RegistrationRequest (String name, String email, String password) {
-        this(name, email, password, null);
+        this(name, email, password, false, null);
     }
 
     @Getter @Setter public String name;
@@ -25,6 +25,8 @@ public class RegistrationRequest {
 
     @Getter @Setter public String email;
     @Getter @Setter public String password;
+
+    @Getter @Setter public boolean subscribe;
 
     // optional - server-side resource can fill this in for other server-side code to use
     @JsonIgnore @Getter @Setter private String userAgent;

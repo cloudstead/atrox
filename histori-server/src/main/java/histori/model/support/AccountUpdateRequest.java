@@ -30,4 +30,6 @@ public class AccountUpdateRequest {
     @Getter @Setter private String newPassword;
     public boolean hasPassword () { return !empty(currentPassword) && !empty(newPassword); }
 
+    @Getter @Setter public Boolean subscribe;
+
 }

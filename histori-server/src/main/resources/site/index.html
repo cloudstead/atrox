@@ -178,7 +178,7 @@
 <div id="regContainer" class="authContainer">
     <div class="authError"></div>
     <div id="regForm">
-        <form name="reg" onsubmit="Histori.register(this.elements['name'].value, this.elements['email'].value, this.elements['password'].value, successfulRegistration, handleAuthError('reg')); return false;" method="post">
+        <form name="reg" onsubmit="Histori.register(this.elements, successfulRegistration, handleAuthError('reg')); return false;" method="post">
             <table border="0">
                 <tbody>
                 <tr>
@@ -223,7 +223,7 @@
 <div id="accountContainer" class="authContainer">
     <div id="accountForm">
         <div class="authError"></div>
-        <form name="account" onsubmit="clearAccountFormErrors(); if (validateAccountForm(this)) { Histori.update_account(this.elements['name'].value, this.elements['email'].value, this.elements['currentPassword'].value, this.elements['newPassword'].value, successfulAccountUpdate, handleAuthError('account')); } return false;" method="post">
+        <form name="account" onsubmit="clearAccountFormErrors(); if (validateAccountForm(this)) { Histori.update_account(this.elements, successfulAccountUpdate, handleAuthError('account')); } return false;" method="post">
             <table border="0">
                 <tbody>
                 <tr>
@@ -241,6 +241,14 @@
                 <tr>
                     <td>new password:</td>
                     <td><input type="password" name="newPassword"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <span style="font-size: x-small">
+                            <input type="checkbox" name="subscribe"/> Email me when there's new stuff on histori.city
+                        </span><br/>
+                        <span style="font-size: xx-small">this is a low-volume email list, and your email will never be given to anyone else</span>
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="2">
