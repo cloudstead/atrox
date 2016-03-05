@@ -85,10 +85,11 @@ public class NexusEntityFilter implements EntityFilter<Nexus> {
 
     private Boolean specialMatch(String value, String term) {
         if (empty(value) || term.length() < 2 || term.charAt(1) != ':') return null;
+        final String realTerm = term.substring(2);
         switch (term.charAt(0)) {
-            case 'e': return value.equals(term);
-            case 'r': return getPattern(term).matcher(value).matches();
-            case 'f': return getPattern(term).matcher(value).find();
+            case 'e': return value.equals(realTerm);
+            case 'r': return getPattern(realTerm).matcher(value).matches();
+            case 'f': return getPattern(realTerm).matcher(value).find();
             default: return null;
         }
     }

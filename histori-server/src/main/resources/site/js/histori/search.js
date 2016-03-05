@@ -54,7 +54,7 @@ function newSearch (term) {
     }
     var id = searchRowIdFromOtherId(row.id);
     var searchBox = rowSearchBox(id);
-    searchBox.val(term);
+    searchBox.val('"e:'+term+'"');
     doSearch(id);
     updateMarkerInitialLetter(id);
     closeNexusDetails();
@@ -183,6 +183,10 @@ function getInitialFromSearchBox(searchBox) {
     var searchTerms = searchBox.val();
     var initial = '_blank';
     if (typeof searchTerms != "undefined" && searchTerms != null && searchTerms.length > 0) {
+        var colonPos = searchTerms.indexOf(':');
+        if (colonPos != -1) {
+            searchTerms = searchTerms.substring(colonPos);
+        }
         for (var i = 0; i < searchTerms.length; i++) {
             if (searchTerms.charAt(i).match(/[a-z]/i)) {
                 initial = searchTerms.charAt(i).toUpperCase();
