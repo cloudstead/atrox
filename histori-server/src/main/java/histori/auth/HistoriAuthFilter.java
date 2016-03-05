@@ -31,7 +31,13 @@ public class HistoriAuthFilter extends AuthFilter<Account> {
     @Getter(lazy=true) private final Set<String> skipAuthPrefixes = initSkipAuthPrefixes();
     public Set<String> initSkipAuthPrefixes() {
         final StringPrefixTransformer transformer = new StringPrefixTransformer(configuration.getHttp().getBaseUri());
-        final List<String> prefixes = Arrays.asList(new String[]{ACCOUNTS_ENDPOINT, MAP_IMAGES_ENDPOINT+EP_PUBLIC, SEARCH_ENDPOINT, TAGS_ENDPOINT});
+        final List<String> prefixes = Arrays.asList(new String[]{
+                ACCOUNTS_ENDPOINT,
+                MAP_IMAGES_ENDPOINT+EP_PUBLIC,
+                SEARCH_ENDPOINT,
+                TAGS_ENDPOINT,
+                CONFIGS_ENDPOINT
+        });
         return new HashSet<>(CollectionUtils.collect(prefixes, transformer));
     }
 
