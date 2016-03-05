@@ -37,6 +37,13 @@ public class WikiIndexerOptions extends WikiBaseOptions {
     @Getter @Setter private String filter;
     public boolean hasFilter () { return !empty(filter); }
 
+    public static final String USAGE_FILTER_ARGS = "Arguments to the filter.";
+    public static final String OPT_FILTER_ARGS = "-G";
+    public static final String LONGOPT_FILTER_ARGS= "--filter-args";
+    @Option(name=OPT_FILTER_ARGS, aliases=LONGOPT_FILTER_ARGS, usage=USAGE_FILTER_ARGS)
+    @Getter @Setter private String filterArgs;
+    public boolean hasFilterArgs () { return !empty(filterArgs); }
+
     public static final String USAGE_FILTER_LOG = "Article titles that matched the filter will be written to this file.";
     public static final String OPT_FILTER_LOG = "-L";
     public static final String LONGOPT_FILTER_LOG= "--filter-log";
@@ -45,7 +52,12 @@ public class WikiIndexerOptions extends WikiBaseOptions {
     public boolean hasFilterLog () { return filterLog != null; }
 
     @Getter(lazy=true) private final LineMatcher lineMatcher = initFilterObject();
-    private LineMatcher initFilterObject() { return empty(filter) ? null : (LineMatcher) instantiate(filter); }
+    private LineMatcher initFilterObject() {
+        if (empty(filter)) return null;
+        final LineMatcher matcher = instantiate(filter);
+        if (hasFilterArgs()) matcher.configure(filterArgs);
+        return matcher;
+    }
 
     public static final String USAGE_ARTICLE_LIST = "File containing a list of articles to read.";
     public static final String OPT_ARTICLE_LIST = "-A";
