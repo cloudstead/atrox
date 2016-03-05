@@ -98,7 +98,9 @@ public class NexusTagDAO extends VersionedEntityDAO<NexusTag> {
 
     private List<NexusTag> findCachedTags(String uuid) {
         try {
-            return Arrays.asList(fromJson(getTagCache().get(uuid), NexusTag[].class));
+            final String json = getTagCache().get(uuid);
+            if (json == null) return null;
+            return Arrays.asList(fromJson(json, NexusTag[].class));
         } catch (Exception e) {
             log.warn("findCachedTags: error reading from cache: "+e);
             return null;
