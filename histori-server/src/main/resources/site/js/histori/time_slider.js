@@ -370,7 +370,6 @@ $(function() {
     slider.range = {start: -10000, end: this_year};
     slider.zoom_to(-4000, this_year);
     slider.zoom_to(1500, this_year);
-    slider.zoom_to(1800, 1803);
     slider.reset_controls();
     slider.update_labels();
 
