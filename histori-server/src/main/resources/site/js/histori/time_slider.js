@@ -236,12 +236,12 @@ var slider = {
         }
     },
 
-    edit_field: function (field, read_func, validate_func, zoom_func, click_func) {
+    edit_field: function (field, clazz, read_func, validate_func, zoom_func, click_func) {
         field.off('click');
         var original_value = read_func();
         field.empty();
 
-        var editField = $('<input class="edit_date_range" type="text" value="'+original_value+'"/>');
+        var editField = $('<input class="'+clazz+'" type="text" value="'+original_value+'"/>');
 
         editField.keyup(function (e) {
             if (e.keyCode == 13) {
@@ -266,8 +266,8 @@ var slider = {
         });
 
         field.append(editField);
-        field.append($('<span class="edit_date_range" style="font-size: xx-small; position: absolute; top: 5px; left: '+(editField.position().left)+'px">use YYYY-MM-DD format</span>'));
-        field.append($('<span class="edit_date_range" style="font-size: xx-small; position: absolute; top: '+(editField.position().top+editField.height()+10)+'px; left: '+(editField.position().left)+'px">press Enter to set</span>'));
+        field.append($('<span class="'+clazz+'" style="font-size: xx-small; position: absolute; top: 5px; left: '+(editField.position().left)+'px">use YYYY-MM-DD format</span>'));
+        field.append($('<span class="'+clazz+'" style="font-size: xx-small; position: absolute; top: '+(editField.position().top+editField.height()+10)+'px; left: '+(editField.position().left)+'px">press Enter to set, Esc to cancel</span>'));
         editField.focus();
     },
 
@@ -300,7 +300,7 @@ var slider = {
     },
 
     edit_start: function () {
-        slider.edit_field($('#sliderStartLabel'),
+        slider.edit_field($('#sliderStartLabel'), 'edit_start_date_field',
             function () { return slider.label_for_slider_value(slider.start_value()); },
             function (editField) { return slider.display_to_raw(editField.val()) < slider.range.end; },
             function (editField) {
@@ -310,18 +310,13 @@ var slider = {
     },
 
     edit_end:   function () {
-        slider.edit_field($('#sliderEndLabel'),
+        slider.edit_field($('#sliderEndLabel'), 'edit_end_date_field',
             function () { return slider.label_for_slider_value(slider.end_value()); },
             function (editField) { return slider.display_to_raw(editField.val()) > slider.range.start; },
             function (editField) {
                 slider.zoom_to(slider.range.start, slider.display_to_raw(editField.val()));
             },
             function () { slider.edit_end(); } );
-    },
-
-    edit_fields: function () {
-        slider.edit_start();
-        slider.edit_end();
     }
 
 };

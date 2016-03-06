@@ -82,9 +82,10 @@
     </tr>
     <tr>
         <td valign="middle" align="center" colspan="5">
-            <button id="btnZoomOut" disabled="true" onclick="slider.zoom_out();">&lt;&lt;&lt;zoom</button>
-            <button id="btnSetTimeRange" onclick="slider.edit_fields();">set time range</button>
-            <button id="btnZoomIn" onclick="slider.zoom_in();">zoom&gt;&gt;&gt;</button>
+            <button id="btnZoomOut" disabled="true" onclick="slider.zoom_out();" title="go to previous zoom level">&lt;&lt;&lt;zoom</button>
+            <button id="btnSetStart" onclick="slider.edit_start();" title="set start date">start</button>
+            <button id="btnSetEnd" onclick="slider.edit_end();" title="set end date">end</button>
+            <button id="btnZoomIn" onclick="slider.zoom_in();" title="zoom to dates set with slider controls">zoom&gt;&gt;&gt;</button>
         </td>
     </tr>
 </table>
