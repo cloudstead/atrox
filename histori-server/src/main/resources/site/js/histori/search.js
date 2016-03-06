@@ -102,17 +102,16 @@ function doSearch (id) {
     var bounds = map.getBounds();
     var searchBox = rowSearchBox(id);
     var query = searchBox.val();
-    console.log('doSearch: '+id+': '+query);
-    Api.find_nexuses(id,
-        slider.canonical_start(),
-        slider.canonical_end(),
-        bounds.getNorthEast().lat(),
-        bounds.getSouthWest().lat(),
-        bounds.getNorthEast().lng(),
-        bounds.getSouthWest().lng(),
-        query,
-        function () {showLoadingSpinner(id)},
-        update_map(id));
+    var search = {
+        start: slider.canonical_start(),
+        end: slider.canonical_end(),
+        north: bounds.getNorthEast().lat(),
+        south: bounds.getSouthWest().lat(),
+        east: bounds.getNorthEast().lng(),
+        west: bounds.getSouthWest().lng(),
+        query: query
+    };
+    Api.find_nexuses(id, search, function () {showLoadingSpinner(id)}, update_map(id));
 }
 
 function getColorFromImage (src) {

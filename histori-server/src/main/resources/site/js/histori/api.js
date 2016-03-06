@@ -127,14 +127,15 @@ Api = {
 
     _find_nexuses_timers: {},
 
-    find_nexuses: function (search_id, origin, current, north, south, east, west, query, start_func, success, fail) {
+    find_nexuses: function (search_id, search, start_func, success, fail) {
         //console.log('find_nexuses::'+origin+", "+current);
         if (typeof Api._find_nexuses_timers[search_id] != "undefined") {
             window.clearTimeout(Api._find_nexuses_timers[search_id]);
         }
+        var s = search;
         Api._find_nexuses_timers[search_id] = window.setTimeout(function () {
             start_func();
-            var search_uri = 'search/q/'+origin+'/'+current+'/'+north+'/'+south+'/'+east+'/'+west+'?q='+query;
+            var search_uri = 'search/q/'+s.start+'/'+s.end+'/'+s.north+'/'+s.south+'/'+s.east+'/'+s.west+'?q='+s.query;
             console.log('searching: '+search_uri);
             Api._get(search_uri, success, fail);
         }, 2000);
