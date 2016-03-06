@@ -245,7 +245,29 @@ function canonical_date_to_raw(canonical) {
     var raw = parseFloat(year) + (parseFloat(millis_offset) / parseFloat(millis_in_year));
     return  raw
 }
+
+function highlight_timeline_marker(timeline_marker) {
+    return function () {
+        console.log('>>> starting bounce');
+        var highlight = $('<img width="15" height="30" class="timeline_marker_highlight" src="iconic/png/caret-bottom-3x.png"/>').css({
+            position: 'absolute',
+            top: (timeline_marker.position().top - 12) + 'px',
+            left: (timeline_marker.position().left - 1) + 'px',
+            zIndex: 3
+        });
+        $('#timeSlider').append(highlight);
+        //var bounce_times = 1000;
+        //highlight.effect("bounce", {times: bounce_times, distance: 40}, (1000*bounce_times));
+    }
+}
+function unhighlight_timeline_marker(timeline_marker) {
+    return function () {
+        $('.timeline_marker_highlight').remove();
+    }
+}
+
 function update_map (searchbox_id) {
+
     return function (data) {
         hideLoadingSpinner(searchbox_id);
 
@@ -287,7 +309,10 @@ function update_map (searchbox_id) {
                                 || result.primary.timeRange.startPoint.instant == result.primary.timeRange.endPoint.instant)
                         ? null : canonical_date_to_raw(result.primary.timeRange.endPoint);
 
-                    slider.add_marker(searchbox_id, start, end, result.primary.name, markerImageSrc, clickHandler);
+                    var timeline_marker = slider.add_marker(searchbox_id, marker, start, end, result.primary.name, markerImageSrc, clickHandler);
+
+                    marker.addListener('mouseover', highlight_timeline_marker(timeline_marker));
+                    marker.addListener('mouseout', unhighlight_timeline_marker(timeline_marker));
 
                     active_markers[searchbox_id].push(marker);
                 }

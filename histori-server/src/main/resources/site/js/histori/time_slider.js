@@ -201,7 +201,7 @@ var slider = {
         return pixel_offset;
     },
 
-    add_marker: function (searchbox_id, start, end, title, image_src, click_handler) {
+    add_marker: function (searchbox_id, map_marker, start, end, title, image_src, click_handler) {
 
         if (typeof this.markers[searchbox_id] == "undefined" || this.markers[searchbox_id] == null) {
             this.markers[searchbox_id] = [];
@@ -215,9 +215,12 @@ var slider = {
         var image_width = end_pixel_offset == null ? 12 : 12 + (end_pixel_offset - start_pixel_offset);
 
         var imageId = guid();
-        // todo: add start/end dates to tooltip label
         var marker = $('<img class="timelineMarker" title="'+title.escape()+'" id="timeline_marker_'+imageId+'" height="20" width="'+image_width+'" src="'+image_src+'"/>');
-        marker.click(click_handler)
+        marker.click(click_handler);
+        marker.hover(
+            function() { map_marker.setAnimation(google.maps.Animation.BOUNCE); },
+            function() { map_marker.setAnimation(null); }
+        );
         marker.css({
             position: 'absolute',
             top: -15,
@@ -226,6 +229,8 @@ var slider = {
         });
         this.markers[searchbox_id].push(marker);
         slider_element.append(marker);
+
+        return marker;
     },
 
     update_markers: function (searchbox_id, image_src) {
@@ -250,7 +255,7 @@ var slider = {
             top: (leftmost.position().top - 3) + 'px',
             left: (leftmost.position().left - 35) + 'px',
             zIndex: 3
-        }).attr('title', 'use a narrower time range to see more results');
+        }).attr('title', 'too many results, use a smaller time range or geographic area');
         $('#timeSlider').append(more_icon);
     },
 
@@ -365,6 +370,7 @@ $(function() {
     slider.range = {start: -10000, end: this_year};
     slider.zoom_to(-4000, this_year);
     slider.zoom_to(1500, this_year);
+    slider.zoom_to(1800, 1803);
     slider.reset_controls();
     slider.update_labels();
 
