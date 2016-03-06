@@ -116,6 +116,12 @@ var slider = {
         var endLabel = $('#sliderEndLabel');
         endLabel.html(this.label_for_slider_value(values[1]));
         endLabel.on('click', slider.edit_end);
+
+        if (values[0] == 0 && values[1] == MAX_SLIDER) {
+            $('#btnZoomIn').attr('disabled', true);
+        } else {
+            $('#btnZoomIn').attr('disabled', false);
+        }
     },
 
     zoom_stack: [],
