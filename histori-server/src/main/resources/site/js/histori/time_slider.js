@@ -191,6 +191,7 @@ var slider = {
             this.markers[searchbox_id][i].remove();
         }
         this.markers[searchbox_id] = null;
+        this.clear_more_icon(searchbox_id);
     },
 
     raw_date_to_pixel_offset: function (raw, width) {
@@ -234,6 +235,28 @@ var slider = {
         for (var i=0; i<this.markers[searchbox_id].length; i++) {
             this.markers[searchbox_id][i].attr('src', image_src);
         }
+    },
+
+    show_more_icon: function (searchbox_id) {
+        if (typeof this.markers[searchbox_id] == "undefined" || this.markers[searchbox_id] == null) return;
+        var leftmost = null;
+        for (var i=0; i<this.markers[searchbox_id].length; i++) {
+            if (leftmost == null || leftmost.position().left > this.markers[searchbox_id][i].position().left) {
+                leftmost = this.markers[searchbox_id][i];
+            }
+        }
+        var more_icon = $('<img id="more_icon_'+searchbox_id+'" src="iconic/png/ellipses-4x.png"/>').css({
+            position: 'absolute',
+            top: (leftmost.position().top - 3) + 'px',
+            left: (leftmost.position().left - 35) + 'px',
+            zIndex: 3
+        }).attr('title', 'use a narrower time range to see more results');
+        $('#timeSlider').append(more_icon);
+    },
+
+    clear_more_icon: function (searchbox_id) {
+        var more_icon = $('#more_icon_'+searchbox_id);
+        if (more_icon.length) more_icon.remove();
     },
 
     edit_field: function (field, clazz, read_func, validate_func, zoom_func, click_func) {
@@ -318,7 +341,6 @@ var slider = {
             },
             function () { slider.edit_end(); } );
     }
-
 };
 
 // initialize

@@ -1,3 +1,5 @@
+// Matches value in NexusDAO -- search will never return more than this many results
+MAX_SEARCH_RESULTS = 200;
 
 var map;
 var mode = 'inspect';
@@ -114,6 +116,7 @@ function initMap () {
         // always close nexus details upon map click (unless pinned)
         closeNexusDetails();
         closeForm(activeForm);
+        $('.ui-tooltip').css('visibility', 'hidden');
 
         // disabled for now until we implement geo creation properly
         if (1 == 1) return;
@@ -161,6 +164,7 @@ function init() {
 
         // Setup tool tips (for timeline markers)
         $( document ).tooltip();
+
     });
 }
 
@@ -287,6 +291,12 @@ function update_map (searchbox_id) {
 
                     active_markers[searchbox_id].push(marker);
                 }
+            }
+
+            if (data.results.length >= MAX_SEARCH_RESULTS) {
+                slider.show_more_icon(searchbox_id);
+            } else {
+                slider.clear_more_icon(searchbox_id);
             }
         }
     }
