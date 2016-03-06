@@ -74,11 +74,11 @@
 <table id="sliderTable" cellspacing="0" cellpadding="0" border="0" width="100%">
     <tr><td colspan="5">&nbsp;</td></tr>
     <tr>
-        <td align="right" nowrap width="140"> <span class="sliderLabel" id="sliderStartLabel"></span> </td>
+        <td align="right" nowrap width="140"> <span class="sliderLabel" id="sliderStartLabel" title="click to change"></span> </td>
         <td>&nbsp;&nbsp;&nbsp;</td>
         <td id="sliderCell" align="center" width="100%"> <div id="timeSlider"></div> </td>
         <td>&nbsp;&nbsp;&nbsp;</td>
-        <td align="left" nowrap width="140"> <span class="sliderLabel" id="sliderEndLabel"></span> </td>
+        <td align="left" nowrap width="140"> <span class="sliderLabel" id="sliderEndLabel" title="click to change"></span> </td>
     </tr>
     <tr>
         <td valign="middle" align="center" colspan="5">
@@ -94,10 +94,10 @@
     <table border="0" cellpadding="3">
         <thead>
           <tr>
-              <td><img class="mainControlButton" src="iconic/png/magnifying-glass-2x.png" onclick="showSearchOptions()"/></td>
-              <td>&nbsp;<img class="mainControlButton" src="iconic/png/plus-2x.png"/></td>
-              <td>&nbsp;<img class="mainControlButton" src="iconic/png/person-2x.png" onclick="showLoginForm()"/></td>
-              <td>&nbsp;<img class="mainControlButton" src="iconic/png/question-mark-2x.png"/></td>
+              <td><img class="mainControlButton" title="search" src="iconic/png/magnifying-glass-2x.png" onclick="showSearchOptions()"/></td>
+              <td>&nbsp;<img class="mainControlButton" title="Coming Soon! Support for user-contributed updates!" src="iconic/png/plus-2x.png"/></td>
+              <td>&nbsp;<img id="btnAccount" class="mainControlButton" title="sign in / sign up" src="iconic/png/person-2x.png" onclick="showLoginForm()"/></td>
+              <td>&nbsp;<img class="mainControlButton" title="Coming Soon! Help and info about histori.city" src="iconic/png/question-mark-2x.png"/></td>
           </tr>
         </thead>
     </table>

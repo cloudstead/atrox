@@ -164,6 +164,7 @@ Histori = {
     },
 
     logout: function () {
+        $('#btnAccount').attr('title', 'sign in / sign up');
         sessionStorage.clear();
     },
 
@@ -191,6 +192,7 @@ Histori = {
 
     set_account: function (account) {
         sessionStorage.setItem('histori_account', JSON.stringify(account));
+        if (!isAnonymous()) $('#btnAccount').attr('title', 'account info / sign out');
     },
 
     get_session: function (name, default_value) {
