@@ -249,10 +249,11 @@ function canonical_date_to_raw(canonical) {
 function highlight_timeline_marker(timeline_marker) {
     return function () {
         console.log('>>> starting bounce');
-        var highlight = $('<img width="15" height="30" class="timeline_marker_highlight" src="iconic/png/caret-bottom-3x.png"/>').css({
+        var hlwidth = 15;
+        var highlight = $('<img width="'+hlwidth+'" height="30" class="timeline_marker_highlight" src="iconic/png/caret-bottom-3x.png"/>').css({
             position: 'absolute',
             top: (timeline_marker.position().top - 12) + 'px',
-            left: (timeline_marker.position().left - 1) + 'px',
+            left: (timeline_marker.position().left + (timeline_marker.width()/2) - (hlwidth/2) + 1) + 'px',
             zIndex: 3
         });
         $('#timeSlider').append(highlight);
