@@ -301,19 +301,20 @@ var slider = {
 
     display_to_raw: function (val) {
         val = val.replace(/\./g, "").replace(/ /g, ""); // remove all dots and spaces
+        var capVal = val.toUpperCase();
         var multiplier = 1;
-        if (val.endsWith("BCE")) {
+        if (capVal.endsWith("BCE")) {
             multiplier = -1;
             val = val.substr(0, val.length - "BCE".length);
 
-        } else if (val.endsWith("BC")) {
+        } else if (capVal.endsWith("BC")) {
             multiplier = -1;
             val = val.substr(0, val.length-"BC".length);
 
-        } else if (val.endsWith("CE")) {
+        } else if (capVal.endsWith("CE")) {
             val = val.substr(0, val.length-"CE".length);
 
-        } else if (val.endsWith("AD")) {
+        } else if (capVal.endsWith("AD")) {
             val = val.substr(0, val.length-"AD".length);
         }
         var parts = val.split("-");
