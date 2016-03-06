@@ -182,7 +182,7 @@ function displayTimeRange(timeRange) {
     rangeHyphen.empty();
     rangeEnd.empty();
     rangeStart.html(formatTimePoint(timeRange.startPoint));
-    if (typeof timeRange.endPoint != "undefined" && timeRange.endPoint != null && ((typeof timeRange.endPoint.year != "undefined") && timeRange.endPoint.year != null && timeRange.endPoint.year > 0)) {
+    if (typeof timeRange.endPoint != "undefined" && timeRange.endPoint != null && ((typeof timeRange.endPoint.year != "undefined") && timeRange.endPoint.year != null)) {
         rangeHyphen.html(' - ');
         rangeEnd.html(formatTimePoint(timeRange.endPoint));
     }
