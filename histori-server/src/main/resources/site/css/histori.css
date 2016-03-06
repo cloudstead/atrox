@@ -300,11 +300,13 @@ a:hover a:active {
     overflow: hidden;
     pointer-events: visible;
     width: 80%;
+    z-index: 3;
 }
 
 .sliderLabel {
     font-family: Tahoma,sans-serif;
     color: whitesmoke;
+    pointer-events: visible;
 }
 
 .timelineMarker {

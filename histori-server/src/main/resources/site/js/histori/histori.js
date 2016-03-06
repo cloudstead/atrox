@@ -1,3 +1,57 @@
+
+// From: http://stackoverflow.com/a/210733
+jQuery.fn.center = function () {
+    this.css("position","absolute");
+    this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) +
+            $(window).scrollTop()) + "px");
+    this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) +
+            $(window).scrollLeft()) + "px");
+    return this;
+};
+
+jQuery.fn.centerTop = function (offset) {
+    if (typeof offset == "undefined") offset = 20;
+    keep_centerTop(offset)(this);
+    this.resize(keep_centerTop(offset));
+    return this;
+};
+
+function keep_centerTop (offset) {
+    return function (jqElement) {
+        jqElement.css("position", "absolute");
+        jqElement.css("top", offset + "px");
+        jqElement.css("left", Math.max(0, (($(window).width() - $(jqElement).outerWidth()) / 2) + $(window).scrollLeft()) + "px");
+    };
+}
+
+jQuery.fn.centerBottom = function (offset) {
+    if (typeof offset == "undefined") offset = 20;
+    keep_centerBottom(offset)(this);
+    this.resize(keep_centerBottom(offset));
+    return this;
+};
+
+function keep_centerBottom (offset) {
+    return function (jqElement) {
+        jqElement.css("position", "absolute");
+        jqElement.css("top", ($(window).height() - offset) + "px");
+        jqElement.css("left", Math.max(0, (($(window).width() - $(jqElement).outerWidth()) / 2) + $(window).scrollLeft()) + "px");
+    };
+}
+
+MONTHS = [null,'January','February','March', 'April','May','June','July','August','September','October','November','December'];
+MONTH_SHORT_NAMES = [null, 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+function parseMonth(val) {
+    for (var i=1; i<MONTH_SHORT_NAMES.length; i++) {
+        if (val == MONTH_SHORT_NAMES[i]) return i;
+    }
+    for (var i=1; i<MONTHS.length; i++) {
+        if (val == MONTHS[i]) return i;
+    }
+    return parseInt(val);
+}
+
 function is_array (x) {
     return Object.prototype.toString.call( x ) === '[object Array]'
 }
@@ -16,11 +70,11 @@ function showForm(id, position_func, position_arg) {
             closeForm(activeForm);
         }
         if (typeof position_func != "undefined") {
-          if (typeof position_arg != "undefined") {
-              position_func.call(container, position_arg);
-          } else {
-              position_func.call(container);
-          }
+            if (typeof position_arg != "undefined") {
+                position_func.call(container, position_arg);
+            } else {
+                position_func.call(container);
+            }
         } else {
             container.center();
         }
@@ -67,46 +121,6 @@ String.prototype.hashCode = function() {
     }
     return hash;
 };
-
-// From: http://stackoverflow.com/a/210733
-jQuery.fn.center = function () {
-    this.css("position","absolute");
-    this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) +
-            $(window).scrollTop()) + "px");
-    this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) +
-            $(window).scrollLeft()) + "px");
-    return this;
-};
-
-jQuery.fn.centerTop = function (offset) {
-    if (typeof offset == "undefined") offset = 20;
-    keep_centerTop(offset)(this);
-    this.resize(keep_centerTop(offset));
-    return this;
-};
-
-function keep_centerTop (offset) {
-    return function (jqElement) {
-        jqElement.css("position", "absolute");
-        jqElement.css("top", offset + "px");
-        jqElement.css("left", Math.max(0, (($(window).width() - $(jqElement).outerWidth()) / 2) + $(window).scrollLeft()) + "px");
-    };
-}
-
-jQuery.fn.centerBottom = function (offset) {
-    if (typeof offset == "undefined") offset = 20;
-    keep_centerBottom(offset)(this);
-    this.resize(keep_centerBottom(offset));
-    return this;
-};
-
-function keep_centerBottom (offset) {
-    return function (jqElement) {
-        jqElement.css("position", "absolute");
-        jqElement.css("top", ($(window).height() - offset) + "px");
-        jqElement.css("left", Math.max(0, (($(window).width() - $(jqElement).outerWidth()) / 2) + $(window).scrollLeft()) + "px");
-    };
-}
 
 // From: https://stackoverflow.com/a/901144/1251543
 function getParameterByName(name, url) {

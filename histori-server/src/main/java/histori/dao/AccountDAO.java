@@ -1,13 +1,13 @@
 package histori.dao;
 
+import cloudos.dao.AccountBaseDAOBase;
+import cloudos.model.auth.AuthenticationException;
+import cloudos.model.auth.LoginRequest;
 import histori.ApiConstants;
 import histori.dao.internal.AuditLogDAO;
 import histori.model.Account;
 import histori.model.auth.RegistrationRequest;
 import histori.server.HistoriConfiguration;
-import cloudos.dao.AccountBaseDAOBase;
-import cloudos.model.auth.AuthenticationException;
-import cloudos.model.auth.LoginRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.mail.SimpleEmailMessage;
 import org.cobbzilla.mail.TemplatedMail;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.validation.Valid;
 
+import static histori.ApiConstants.ERR_CAPTCHA_INCORRECT;
 import static histori.ApiConstants.anonymousEmail;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.cobbzilla.mail.service.TemplatedMailService.PARAM_ACCOUNT;
@@ -93,6 +94,11 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
             throw invalidEx("err.name.notUnique", "Name was not unique");
         }
 
+        if (!configuration.getRecaptcha().verify(request.getCaptcha())) {
+            log.warn("register: captcha failed, returning invalid");
+            throw invalidEx(ERR_CAPTCHA_INCORRECT);
+        }
+
         audit.log(request, "register", "creating account for: '"+ name + "'");
 
         Account newAccount = (Account) new Account()
@@ -109,6 +115,7 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
     }
 
     public Account registerAnonymous(Account account, RegistrationRequest request) {
+
         final String email = request.getEmail();
         final String name = request.getName();
         final String password = request.getPassword();
@@ -136,6 +143,11 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
         if (!anonAccount.isAnonymous()) {
             audit.log(request, "registerAnonymous", "name ("+name+") is not anon user ("+anonAccount.getEmail()+"), returning error");
             throw invalidEx("err.email.notAnonymous", "Account was not anonymous, cannot convert to regular account");
+        }
+
+        if (!configuration.getRecaptcha().verify(request.getCaptcha())) {
+            log.warn("register: captcha failed, returning invalid");
+            throw invalidEx(ERR_CAPTCHA_INCORRECT);
         }
 
         audit.log(request, "registerAnonymous", "anon user "+anonAccount.getEmail()+" now registered as "+name+"");

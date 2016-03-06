@@ -231,10 +231,10 @@ var year2_millis = Date.UTC(this_year+1, 0);
 var millis_in_year = year2_millis - year1_millis;
 
 // called when data is returned from the server, to populate the map with a new set of markers for a particular search box
-function canonical_date_to_raw(start) {
-    var year = start.year;
-    var month = (typeof start.month == 'undefined' || start.month == null) ? 0 : start.month - 1;
-    var day = (typeof start.day == 'undefined' || start.day == null) ? 1 : start.day;
+function canonical_date_to_raw(canonical) {
+    var year = canonical.year;
+    var month = (typeof canonical.month == 'undefined' || canonical.month == null) ? 0 : canonical.month - 1;
+    var day = (typeof canonical.day == 'undefined' || canonical.day == null) ? 1 : canonical.day;
     var point_in_year = new Date(this_year, month, day);
     var millis = point_in_year.getTime();
     var millis_offset = millis - year1_millis;

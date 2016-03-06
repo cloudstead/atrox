@@ -1,7 +1,5 @@
 MAX_SLIDER = 100000;
 
-MONTH_SHORT_NAMES = [null, 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
 var slider = {
     // start/end are in years, with the decimal portion representing how far along in the year
     range: {
@@ -110,8 +108,14 @@ var slider = {
         if (typeof values == 'undefined' || values == null) {
             values = [this.start_value(), this.end_value()];
         }
-        $('#sliderStartLabel').html(this.label_for_slider_value(values[0]));
-        $('#sliderEndLabel').html(this.label_for_slider_value(values[1]));
+
+        var startLabel = $('#sliderStartLabel');
+        startLabel.html(this.label_for_slider_value(values[0]));
+        startLabel.on('click', slider.edit_start);
+
+        var endLabel = $('#sliderEndLabel');
+        endLabel.html(this.label_for_slider_value(values[1]));
+        endLabel.on('click', slider.edit_end);
     },
 
     zoom_stack: [],
@@ -129,6 +133,15 @@ var slider = {
     },
 
     zoom_to: function(start, end) {
+
+        // don't zoom if nothing is changing
+        if (start == this.range.start && end == this.range.end) {
+            console.log('zoom_to: skipping zoom, nothing has changed');
+            return;
+        } else {
+            console.log('zoom_to: zooming to: '+start+' - '+end);
+        }
+
         // push old values onto the stack, enable zoom-out button
         this.zoom_stack.push(this.range);
         $('#btnZoomOut').attr('disabled', false);
@@ -215,7 +228,96 @@ var slider = {
         for (var i=0; i<this.markers[searchbox_id].length; i++) {
             this.markers[searchbox_id][i].attr('src', image_src);
         }
+    },
+
+    edit_field: function (field, read_func, validate_func, zoom_func, click_func) {
+        field.off('click');
+        var original_value = read_func();
+        field.empty();
+
+        var editField = $('<input class="edit_date_range" type="text" value="'+original_value+'"/>');
+
+        editField.keyup(function (e) {
+            if (e.keyCode == 13) {
+                if (!validate_func(editField)) {
+                    field.css({ border: '3px solid red' });
+                    return false;
+                }
+                zoom_func(editField);
+                field.empty();
+                $('.edit_date_range').remove();
+                slider.update_labels();
+                refresh_map();
+                field.on('click', click_func);
+
+            } else if (e.keyCode == 27) {
+                field.empty();
+                $('.edit_date_range').remove();
+                field.html(original_value);
+                field.on('click', click_func);
+            }
+            field.css({ border: 'none' });
+        });
+
+        field.append(editField);
+        field.append($('<span class="edit_date_range" style="font-size: xx-small; position: absolute; top: 5px; left: '+(editField.position().left)+'px">use YYYY-MM-DD format</span>'));
+        field.append($('<span class="edit_date_range" style="font-size: xx-small; position: absolute; top: '+(editField.position().top+editField.height()+10)+'px; left: '+(editField.position().left)+'px">press Enter to set</span>'));
+        editField.focus();
+    },
+
+    display_to_raw: function (val) {
+        val = val.replace(/\./g, "").replace(/ /g, ""); // remove all dots and spaces
+        var multiplier = 1;
+        if (val.endsWith("BCE")) {
+            multiplier = -1;
+            val = val.substr(0, val.length - "BCE".length);
+
+        } else if (val.endsWith("BC")) {
+            multiplier = -1;
+            val = val.substr(0, val.length-"BC".length);
+
+        } else if (val.endsWith("CE")) {
+            val = val.substr(0, val.length-"CE".length);
+
+        } else if (val.endsWith("AD")) {
+            val = val.substr(0, val.length-"AD".length);
+        }
+        var parts = val.split("-");
+        if (parts.length == 0) return "display_to_raw: invalid value: "+val;
+
+        var ymd = {
+            year: multiplier * parseInt(parts[0]),
+            month: parts.length > 1 ? parseMonth(parts[1]) : null,
+            day: parts.length > 2 ? parseInt(parts[2]) : null
+        };
+        return canonical_date_to_raw(ymd);
+    },
+
+    edit_start: function () {
+        slider.edit_field($('#sliderStartLabel'),
+            function () { return slider.label_for_slider_value(slider.start_value()); },
+            function (editField) { return slider.display_to_raw(editField.val()) < slider.range.end; },
+            function (editField) {
+                slider.zoom_to(slider.display_to_raw(editField.val()), slider.range.end);
+            },
+            function () { slider.edit_start(); });
+    },
+
+    edit_end:   function () {
+        slider.edit_field($('#sliderEndLabel'),
+            function () { return slider.label_for_slider_value(slider.end_value()); },
+            function (editField) { return slider.display_to_raw(editField.val()) > slider.range.start; },
+            function (editField) {
+                slider.zoom_to(slider.range.start, slider.display_to_raw(editField.val()));
+            },
+            function () { slider.edit_end(); } );
+    },
+
+    edit_fields: function () {
+        slider.edit_start();
+        slider.edit_end();
     }
+
 };
 
 // initialize
@@ -242,4 +344,7 @@ $(function() {
     slider.zoom_to(1500, this_year);
     slider.reset_controls();
     slider.update_labels();
+
+    $('#sliderStartLabel').on('click', slider.edit_start);
+    $('#sliderEndLabel').on('click', slider.edit_end);
 });

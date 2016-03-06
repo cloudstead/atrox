@@ -2,8 +2,6 @@
 TAG_TYPES = ['event_type', 'world_actor', 'result', 'impact', 'person', 'event', 'citation', 'idea', 'meta'];
 TAG_TYPE_NAMES = ['event types', 'world actors', 'results', 'impacts', 'persons', 'events', 'citations', 'ideas', 'meta'];
 
-MONTHS = [null,'January','February','March', 'April','May','June','July','August','September','October','November','December'];
-
 function formatEditTimePoint(date) {
     if (typeof date == "undefined" || date == null) return "";
     var year = date.year;
@@ -335,6 +333,8 @@ function edit_nexus_field (id) {
 function update_tag_display_name (id, displayName) {
     if (displayName.lastIndexOf('http://', 0) === 0 || displayName.lastIndexOf('https://', 0) === 0) {
         displayName = '<a target="_blank" href=' + displayName + '>' + window.decodeURI(displayName) + "</a>";
+    } else if (displayName == "automated_entry_please_verify") {
+        displayName = '<a style="text-decoration: underline; color: black;" onclick="return false;" href="." title="Support for user-contributed updates is a work-in-progress and will be released soon :)">' + displayName + "</a>";
     }
     $('#'+id).html(newSearchLink(displayName));
 }
