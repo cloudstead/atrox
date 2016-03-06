@@ -111,6 +111,7 @@ function doSearch (id) {
         west: bounds.getSouthWest().lng(),
         query: query
     };
+    Histori.save_session_state();
     Api.find_nexuses(id, search, function () {showLoadingSpinner(id)}, update_map(id));
 }
 

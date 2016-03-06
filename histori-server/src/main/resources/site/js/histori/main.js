@@ -152,6 +152,9 @@ function initMap () {
     google.maps.event.addListener(map, 'bounds_changed', function () {
         refresh_map();
     });
+
+    // restore previous session, if there is one
+    Histori.restore_session(map);
 }
 
 function init() {
@@ -164,7 +167,6 @@ function init() {
 
         // Setup tool tips (for timeline markers)
         $( document ).tooltip();
-
     });
 }
 
@@ -248,7 +250,6 @@ function canonical_date_to_raw(canonical) {
 
 function highlight_timeline_marker(timeline_marker) {
     return function () {
-        console.log('>>> starting bounce');
         var hlwidth = 15;
         var highlight = $('<img width="'+hlwidth+'" height="30" class="timeline_marker_highlight" src="iconic/png/caret-bottom-3x.png"/>').css({
             position: 'absolute',

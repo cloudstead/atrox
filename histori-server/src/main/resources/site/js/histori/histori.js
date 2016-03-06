@@ -166,6 +166,7 @@ Histori = {
     logout: function () {
         $('#btnAccount').attr('title', 'sign in / sign up');
         sessionStorage.clear();
+        this.clear_session_data();
     },
 
     forgot_password: function (email, success, fail) {
@@ -203,7 +204,68 @@ Histori = {
 
     edit_nexus: function (nexus, success, fail) {
         Api.edit_nexus(nexus, success, fail);
-    }
+    },
 
+    _search_state: '__histori.city_search_state',
+
+    // stores all searches + geo + time zoom stack so they can be restored upon page refresh
+    save_session_state: function () {
+        var bounds = map.getBounds();
+        var state = {
+            timeline: {
+                range: slider.range,
+                zoom_stack: slider.zoom_stack
+            },
+            map: {
+                north: bounds.getNorthEast().lat(),
+                south: bounds.getSouthWest().lat(),
+                east: bounds.getNorthEast().lng(),
+                west: bounds.getSouthWest().lng()
+            },
+            searches: []
+        };
+        var searchRows = $('.searchRow');
+        for (var i=0; i<searchRows.length; i++) {
+            var id = searchRowIdFromOtherId(searchRows[i].id);
+            var searchBox = rowSearchBox(id);
+            var search = {
+                query: searchBox.val(),
+                icon: rowMarkerImageSrc(id)
+            };
+            state.searches.push(search);
+        }
+        localStorage.setItem(this._search_state, JSON.stringify(state));
+    },
+
+    clear_session_data: function () { localStorage.removeItem(this._search_state); },
+
+    restore_session: function (map) {
+
+        var json = localStorage.getItem(this._search_state);
+        if (typeof json == 'undefined' || json == null) {
+            console.log('restore_session: no session data found');
+            return;
+        } else {
+            console.log('restore_session: restored: '+json);
+        }
+        var state = JSON.parse(json);
+
+        // refresh slider
+        slider.range = state.timeline.range;
+        slider.zoom_stack = state.timeline.zoom_stack;
+        slider.update_labels();
+
+        // map wants a timeout for it to be ready?
+        window.setTimeout(function() {
+            map.fitBounds({
+                north: state.map.north,
+                south: state.map.south,
+                east: state.map.east,
+                west: state.map.west
+            });
+        }, 500);
+
+        // todo: restore search boxes
+    }
 };
 
