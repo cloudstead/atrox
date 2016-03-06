@@ -266,6 +266,11 @@ function buildSearchRow (color, includeRemoveIcon) {
             doSearch(id);
         }
     });
+    queryTextField.on('paste', function () {
+        setTimeout(function () {
+            updateMarkerInitialLetter(id);
+        }, 10);
+    });
 
     var queryCell = $('<td align="center"></td>').append(queryTextField);
     row.append(queryCell);
