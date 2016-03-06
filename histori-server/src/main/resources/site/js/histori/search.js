@@ -267,9 +267,7 @@ function buildSearchRow (color, includeRemoveIcon) {
         }
     });
     queryTextField.on('paste', function () {
-        setTimeout(function () {
-            updateMarkerInitialLetter(id);
-        }, 10);
+        setTimeout(function () { updateMarkerInitialLetter(id); }, 10);
     });
 
     var queryCell = $('<td align="center"></td>').append(queryTextField);
