@@ -263,13 +263,16 @@ Histori = {
                 east: state.map.east,
                 west: state.map.west
             });
-        }, 500);
 
-        if (typeof state.searches != 'undefined' && state.searches != null && is_array(state.searches)) {
-            for (var i=0; i<state.searches.length; i++) {
-
+            if (typeof state.searches != 'undefined' && state.searches != null && is_array(state.searches)) {
+                for (var i=0; i<state.searches.length; i++) {
+                    var row = newSearch(state.searches[i].query);
+                    var id = searchRowIdFromOtherId(row.id);
+                    rowMarkerImage(id).attr('src', state.searches[i].icon);
+                }
             }
-        }
+
+        }, 500);
     }
 };
 

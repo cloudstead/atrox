@@ -46,6 +46,8 @@ function rowRemoveMarkerIcon(id) { return $('#removeMarkerIcon_' + id); }
 function showLoadingSpinner (id) { rowLoadingImage(id).css('visibility', 'visible'); }
 function hideLoadingSpinner (id) { rowLoadingImage(id).css('visibility', 'hidden'); }
 
+function newExactSearch (term) { return newSearch('e:"'+term+'"'); }
+
 function newSearch (term) {
     var rows = $('.searchRow');
     var row = null;
@@ -66,16 +68,17 @@ function newSearch (term) {
     }
     var id = searchRowIdFromOtherId(row.id);
     var searchBox = rowSearchBox(id);
-    searchBox.val('e:"'+term+'"');
+    searchBox.val(term);
     doSearch(id);
     updateMarkerInitialLetter(id);
     closeNexusDetails();
     showSearchOptions();
+    return row;
 }
 
 function newSearchLink (term) {
     // todo: cannot figure out how to get proper link styling using CSS, forced to use style attribute here
-    return '<a href="." class="searchLink" style="text-decoration: none; color: black" onclick="newSearch(\''+term.escape()+'\'); return false;">'+term+'</a>'
+    return '<a href="." class="searchLink" style="text-decoration: none; color: black" onclick="newExactSearch(\''+term.escape()+'\'); return false;">'+term+'</a>'
 }
 
 function colorPickerClickHandler (color) {
