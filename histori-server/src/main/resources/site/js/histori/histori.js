@@ -265,7 +265,11 @@ Histori = {
             });
         }, 500);
 
-        // todo: restore search boxes
+        if (typeof state.searches != 'undefined' && state.searches != null && is_array(state.searches)) {
+            for (var i=0; i<state.searches.length; i++) {
+
+            }
+        }
     }
 };
 

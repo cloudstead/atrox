@@ -1,7 +1,7 @@
 // initialize
 $(function() {
 
-    addSearchRow(false);
+    addSearchRow();
 
     var picker = $('#markerColorPickerContainer');
     for (var i=0; i<MARKER_COLORS.length; i++) {
@@ -41,6 +41,7 @@ function rowSearchBox(id) { return $('#text_' + id); }
 function rowMarkerImage(id) { return $('#marker_' + id); }
 function rowMarkerImageSrc(id) { return $('#marker_' + id)[0].src; }
 function rowLoadingImage(id) { return $('#loading_' + id); }
+function rowRemoveMarkerIcon(id) { return $('#removeMarkerIcon_' + id); }
 
 function showLoadingSpinner (id) { rowLoadingImage(id).css('visibility', 'visible'); }
 function hideLoadingSpinner (id) { rowLoadingImage(id).css('visibility', 'hidden'); }
@@ -56,7 +57,7 @@ function newSearch (term) {
     }
     // Try to add a new search row
     if (row == null) {
-        row = addSearchRow(true);
+        row = addSearchRow();
         if (row != null) row = row[0];
     }
     // If adding a new row failed, use the last search row
@@ -130,7 +131,7 @@ function getColorFromImage (src) {
     return color.substring(0, pos);
 }
 
-function addSearchRow (includeRemoveIcon) {
+function addSearchRow () {
 
     if ($('.searchRow').length >= MAX_SEARCH_BOXES) {
         $('#btn_addSearchRow').attr('disabled', true);
@@ -152,15 +153,31 @@ function addSearchRow (includeRemoveIcon) {
         }
     }
 
-    var row = buildSearchRow(color, includeRemoveIcon);
+    var row = buildSearchRow(color);
     var tbody = $('#searchBoxesTableBody');
     tbody.append(row);
     $('#searchOptionsContainer').centerTop(20);
 
-    if ($('.searchRow').length >= MAX_SEARCH_BOXES) {
-        $('#btn_addSearchRow').attr('disabled', true);
-    }
+    updateRemoveMarkerIcons();
+
     return row;
+}
+
+function updateRemoveMarkerIcons() {
+    var rows = $('.searchRow');
+    if (rows.length >= MAX_SEARCH_BOXES) {
+        $('#btn_addSearchRow').attr('disabled', true);
+
+    } else if (rows.length == 1) {
+        // last search box -- hide 'remove' button
+        var id = searchRowIdFromOtherId(rows[0].id);
+        var removeIcon = rowRemoveMarkerIcon(id);
+        removeIcon.css('visibility', 'hidden');
+
+    } else {
+        // all remove icons are visible
+        $('.removeMarkerIcon').css('visibility', 'visible');
+    }
 }
 
 function openMarkerColorPicker (e, id) {
@@ -234,7 +251,7 @@ function searchButtonClickHandler (id) {
     return f;
 }
 
-function buildSearchRow (color, includeRemoveIcon) {
+function buildSearchRow (color) {
 
     var id = guid();
     var row = $('<tr class="searchRow" id="row_'+id+'"></tr>');
@@ -279,20 +296,15 @@ function buildSearchRow (color, includeRemoveIcon) {
     var searchButtonCell = $('<td align="center"></td>').append(searchButton);
     row.append(searchButtonCell);
 
-    if (includeRemoveIcon) {
-        var removeRowIcon = $('<img id="removeMarkerIcon_'+ id+'" class="removeMarkerIcon" src="iconic/png/x.png"/>');
-        removeRowIcon.click(function (e) {
-            var id = searchRowIdFromOtherId(e.target.id);
-            $('#row_'+id).remove();
-            remove_markers(id);
-
-            if ($('.searchRow').length < MAX_SEARCH_BOXES) {
-                $('#btn_addSearchRow').attr('disabled', false);
-            }
-            $('#searchOptionsContainer').centerTop(20);
-        });
-        row.append('<td align="center" valign="bottom"></td>').append(removeRowIcon);
-    }
+    var removeRowIcon = $('<img id="removeMarkerIcon_'+ id+'" class="removeMarkerIcon" src="iconic/png/x.png"/>');
+    removeRowIcon.click(function (e) {
+        var id = searchRowIdFromOtherId(e.target.id);
+        $('#row_'+id).remove();
+        remove_markers(id);
+        updateRemoveMarkerIcons();
+        $('#searchOptionsContainer').centerTop(20);
+    });
+    row.append('<td align="center" valign="bottom"></td>').append(removeRowIcon);
 
     return row;
 }
