@@ -321,55 +321,135 @@ Histori = {
     },
 
     // Bookmark functions
+    // todo: refactor into 2 storage engines: local and API. Select storage engine based on anonymous vs signed-in account
     _bookmark_state: '__histori.bookmark_state',
 
-    add_bookmark: function (name) {
-        var bookmarks = this.get_bookmarks();
-        for (var i=0; i<bookmarks.length; i++) {
-            if (bookmarks[i].name == name) return false;
+    add_bookmark: function (name, success, fail) {
+        name = name.trim();
+        if (name.length == 0) {
+            fail();
+            return;
         }
-        bookmarks.push({
-            uuid: guid(),
-            name: name,
-            state: this.get_session_state()
-        });
-        this.save_bookmarks(bookmarks);
+        if (isAnonymous()) {
+            this.get_bookmarks(function (bookmarks) {
+                for (var i=0; i<bookmarks.length; i++) {
+                    if (bookmarks[i].name == name) {
+                        fail();
+                        return;
+                    }
+                }
+                var state = {
+                    uuid: guid(),
+                    name: name,
+                    state: Histori.get_session_state()
+                };
+                bookmarks.push(state);
+                Histori.save_local_bookmarks(bookmarks);
+                success();
+            });
+
+        } else {
+            Api.add_bookmark(name, Histori.get_session_state(), success, fail);
+        }
         return true;
     },
 
-    overwrite_bookmark: function (name) {
-        if (!this.remove_bookmark(name)) return false;
-        return this.add_bookmark(name);
-    },
-
-    remove_bookmark: function (name) {
-        var bookmarks = this.get_bookmarks();
-        var new_bookmarks = [];
-        var removed = null;
-        for (var i=0; i<bookmarks.length; i++) {
-            if (bookmarks[i].name != name) {
-                new_bookmarks.push(bookmarks[i]);
-            } else {
-                if (removed != null) {
-                    console.log('remove_bookmark: warning: multiple bookmarks matched name '+name);
+    overwrite_bookmark: function (name, success, fail) {
+        if (isAnonymous()) {
+            this.get_bookmarks(function (bookmarks) {
+                var state = Histori.get_session_state();
+                for (var i=0; i<bookmarks.length; i++) {
+                    if (bookmarks[i].name == name) {
+                        bookmarks[i].state = state;
+                        Histori.save_local_bookmarks(bookmarks);
+                        success();
+                        return;
+                    }
                 }
-                removed = bookmarks[i];
+                fail();
+
+            }, fail);
+        } else {
+            Api.update_bookmark(name, state, success, fail);
+        }
+    },
+
+    remove_bookmark: function (name, success, fail) {
+        if (isAnonymous()) {
+            this.get_bookmarks(function (bookmarks) {
+                var new_bookmarks = [];
+                var removed = null;
+                for (var i=0; i<bookmarks.length; i++) {
+                    if (bookmarks[i].name != name) {
+                        new_bookmarks.push(bookmarks[i]);
+                    } else {
+                        if (removed != null) {
+                            console.log('remove_bookmark: warning: multiple bookmarks matched name '+name);
+                        }
+                        removed = bookmarks[i];
+                    }
+                }
+                Histori.save_local_bookmarks(new_bookmarks);
+                success(removed.uuid);
+            });
+        } else {
+            Api.get_bookmark(name, function (data) {
+                Api.remove_bookmark(name, function () {
+                    if (typeof success != "undefined" && success != null) {
+                        success(data.uuid);
+                    }
+                }, fail);
+            }, fail);
+        }
+    },
+
+    get_bookmarks: function (success, fail) {
+        if (isAnonymous()) {
+            var json = localStorage.getItem(this._bookmark_state);
+            if (typeof json == 'undefined' || json == null || json.length == 0) {
+                success([]);
+            } else {
+                success(JSON.parse(json));
             }
+
+        } else {
+            Api.get_bookmarks(function (data) {
+                var bookmarks = [];
+                for (var i=0; i<data.length; i++) {
+                    var bookmark = {};
+                    bookmark.state = JSON.parse(data[i].json);
+                    bookmark.name = data[i].name;
+                    bookmark.uuid = data[i].uuid;
+                    bookmarks.push(bookmark);
+                }
+                success(bookmarks)
+            }, fail);
         }
-        this.save_bookmarks(new_bookmarks);
-        return removed;
     },
 
-    get_bookmarks: function () {
-        var json = localStorage.getItem(this._bookmark_state);
-        if (typeof json == 'undefined' || json == null || json.length == 0) {
-            return [];
+    get_bookmark: function (name, success, fail) {
+        if (isAnonymous()) {
+            var bookmarks = this.get_bookmarks();
+            for (var i = 0; i < bookmarks.length; i++) {
+                if (bookmarks[i].name == name) {
+                    success(bookmarks[i]);
+                    return;
+                }
+            }
+            fail();
+
+        } else {
+            Api.get_bookmark(name, function (data) {
+                success(JSON.parse(data.json))
+            }, fail);
         }
-        return JSON.parse(json);
     },
 
-    save_bookmarks: function (bookmarks) { localStorage.setItem(this._bookmark_state, JSON.stringify(bookmarks)); },
-    clear_bookmarks: function () { localStorage.removeItem(this._bookmark_state); },
+    save_local_bookmarks: function (bookmarks) {
+        localStorage.setItem(this._bookmark_state, JSON.stringify(bookmarks));
+    },
+
+    clear_local_bookmarks: function () { localStorage.removeItem(this._bookmark_state); },
 
     restore_bookmark_state: function (name) {
         var bookmarks = this.get_bookmarks();

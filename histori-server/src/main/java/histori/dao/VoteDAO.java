@@ -6,13 +6,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static org.hibernate.criterion.Restrictions.and;
-import static org.hibernate.criterion.Restrictions.eq;
-
 @Repository public class VoteDAO extends VersionedEntityDAO<Vote> {
 
     public List<Vote> findByEntity(String uuid) { return findByField("entity", uuid); }
     public List<Vote> findByOwner (String uuid) { return findByField("owner", uuid); }
+
+    public Vote findByOwnerAndEntity(Account account, String uuid) {
+        return findByUniqueFields("owner", account.getUuid(), "entity", uuid);
+    }
 
     public Vote upVote(Account account, String uuid) {
         final String accountUuid = account.getUuid();
@@ -33,9 +34,4 @@ import static org.hibernate.criterion.Restrictions.eq;
         return update(existing);
     }
 
-    public Vote findByOwnerAndEntity(Account account, String uuid) {
-        return uniqueResult(criteria().add(and(
-                eq("owner", account.getUuid()),
-                eq("entity", uuid))));
-    }
 }

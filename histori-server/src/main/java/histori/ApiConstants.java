@@ -13,6 +13,7 @@ public class ApiConstants {
     public static final String SYSTEM_UUID = "_system_";
 
     public static final String ACCOUNTS_ENDPOINT = "/accounts";
+    public static final String BOOKMARKS_ENDPOINT = "/bookmarks";
     public static final String MAP_IMAGES_ENDPOINT = "/map_images";
     public static final String NEXUS_ENDPOINT = "/nexus";
     public static final String SEARCH_ENDPOINT = "/search";

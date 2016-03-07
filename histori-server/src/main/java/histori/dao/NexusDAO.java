@@ -92,9 +92,7 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
     public List<Nexus> findByName(String name) { return findByField("name", name); }
 
     public Nexus findByOwnerAndName(Account account, String name) {
-        return uniqueResult(criteria().add(and(
-                eq("owner", account.getUuid()),
-                eq("name", name))));
+        return findByUniqueFields("owner", account.getUuid(), "name", name);
     }
 
     public Nexus findByOwnerAndNameOrUuid(Account account, String nameOrUuid) {
@@ -105,9 +103,7 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
     }
 
     public Nexus findByOwnerAndUuid(Account account, String uuid) {
-        return uniqueResult(criteria().add(and(
-                eq("owner", account.getUuid()),
-                eq("uuid", uuid))));
+        return findByUniqueFields("owner", account.getUuid(), "uuid", uuid);
     }
 
     /**

@@ -24,11 +24,8 @@ var slider = {
         return start + (percent * (end - start));
     },
 
-    // given a slider value from 0 - MAX_SLIDER, returns an object: {year: year, month: month, day: day}
-    date_for_slider_value: function (value) {
-
-        var raw = this.raw_date_for_slider_value(value);
-
+    // given a raw date (year.fraction), return the canonical ymd date
+    canonical_for_raw_value: function (raw) {
         if (raw > 0 && raw < 1) {
             // there is no year zero CE
             raw += 1.0;
@@ -64,6 +61,17 @@ var slider = {
         // return year-month-day
         var day = date.getDate();
         return { year: year, month: month, day: day };
+    },
+
+    // given a raw date (year.fraction) return the formatted label
+    label_for_raw: function (raw) {
+        return this.label_for_date(this.canonical_for_raw_value(raw));
+    },
+
+    // given a slider value from 0 - MAX_SLIDER, returns an object: {year: year, month: month, day: day}
+    date_for_slider_value: function (value) {
+        var raw = this.raw_date_for_slider_value(value);
+        return this.canonical_for_raw_value(raw);
     },
 
     // given a ymd (such as that returned from date_for_slider_value), return a formatted string for the date

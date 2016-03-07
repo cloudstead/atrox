@@ -41,6 +41,7 @@ Api = {
                 if (jqXHR.status == 200 && typeof success != "undefined" && success != null) {
                     success(jqXHR.responseText);
                 } else if (typeof fail != "undefined" && fail != null) {
+                    console.log('_get error: status='+status+' (jqXHR.status='+jqXHR.status+'), error='+error);
                     fail(jqXHR, status, error);
                 }
             }
@@ -63,8 +64,7 @@ Api = {
                 if (typeof success != "undefined" && success != null) success(result);
             },
             error: function (jqXHR, status, error) {
-                //alert('error POSTing to '+url+': '+error);
-                console.log('setup error: status='+status+', error='+error);
+                console.log('_update error: status='+status+' (jqXHR.status='+jqXHR.status+'), error='+error);
                 if (typeof fail != "undefined" && fail != null) fail(jqXHR, status, error);
             }
         });
@@ -74,7 +74,7 @@ Api = {
     _post: function(url, data, success, fail, skipTokenCheck) { return Api._update('POST', url, data, success, fail, skipTokenCheck); },
     _put:  function(url, data, success, fail) { return Api._update('PUT', url, data, success, fail); },
 
-    _delete: function (path, success, fail) {
+    _delete: function (url, success, fail) {
         var ok = false;
         $.ajax({
             type: 'DELETE',
@@ -86,8 +86,12 @@ Api = {
                 if (typeof success != "undefined" && success != null) success();
             },
             'error': function (jqXHR, status, error) {
-                alert('error deleting '+path+': '+error);
-                if (typeof fail != "undefined" && fail != null) fail(jqXHR, status, error);
+                if (jqXHR.status == 200 && typeof success != "undefined" && success != null) {
+                    success();
+                } else if (typeof fail != "undefined" && fail != null) {
+                    console.log('_delete error: status='+status+' (jqXHR.status='+jqXHR.status+'), error='+error);
+                    fail(jqXHR, status, error);
+                }
             }
         });
         return ok;
@@ -232,6 +236,23 @@ Api = {
 
     edit_nexus: function (nexus, success, fail) {
         Api._post('nexus/' + nexus.uuid, nexus, success, fail);
+    },
+
+    // Bookmark endpoints
+    get_bookmarks: function (success, fail) {
+        Api._get('bookmarks', success, fail);
+    },
+    get_bookmark: function (name, success, fail) {
+        Api._get('bookmarks/'+encodeURIComponent(name), success, fail);
+    },
+    add_bookmark: function (name, state, success, fail) {
+        Api._put('bookmarks/'+encodeURIComponent(name), state, success, fail);
+    },
+    update_bookmark: function (name, state, success, fail) {
+        Api._post('bookmarks/'+encodeURIComponent(name), state, success, fail);
+    },
+    remove_bookmark: function (name, success, fail) {
+        Api._delete('bookmarks/'+encodeURIComponent(name), success, fail);
     },
 
     transform_image: function (src, width, height) {

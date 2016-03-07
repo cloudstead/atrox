@@ -59,11 +59,7 @@ public class NexusTagDAO extends VersionedEntityDAO<NexusTag> {
     }
 
     public NexusTag findByNexusAndOwnerAndName(String uuid, Account account, String tagName) {
-        return uniqueResult(criteria().add(
-                and(
-                        eq("nexus", uuid),
-                        eq("tagName", tagName),
-                        eq("owner", account.getUuid()))));
+        return findByUniqueFields("owner", account.getUuid(), "nexus", uuid, "tagName", tagName);
     }
 
     /**
@@ -77,10 +73,7 @@ public class NexusTagDAO extends VersionedEntityDAO<NexusTag> {
     }
 
     public List<NexusTag> findByNexusAndOwner(String accountUuid, String nexusUuid) {
-        return list(criteria().add(
-                and(
-                        eq("nexus", nexusUuid),
-                        eq("owner", accountUuid))));
+        return findByFields("owner", accountUuid, "neuxs", nexusUuid);
     }
 
     public List<NexusTag> findByNexus(String uuid) {

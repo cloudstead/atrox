@@ -27,19 +27,25 @@ function showForgotPassForm () { showForm('forgotPassContainer'); }
 function showResetPassForm () { showForm('resetPassContainer'); }
 
 function showBookmarks () {
-    var bookmarks = Histori.get_bookmarks();
+    // todo: handle errors?
+    Histori.get_bookmarks(function (data) {
+        buildBookmarksForm(data);
+    });
+}
+
+function buildBookmarksForm (bookmarks) {
     var bookmarksList = $('#bookmarksList');
     bookmarksList.empty();
 
     function display_bounds(bounds) {
         return bounds.south.toFixed(2)+'&#176;S, '+bounds.west.toFixed(2)+'&#176;W to<br/>'
-             + bounds.north.toFixed(2)+'&#176;N, '+bounds.east.toFixed(2)+'&#176;E';
+            + bounds.north.toFixed(2)+'&#176;N, '+bounds.east.toFixed(2)+'&#176;E';
     }
 
     function display_range(range) {
-        var start = slider.label_for_slider_value(range.start);
-        var end = slider.label_for_slider_value(range.end);
-        return start+' to ' + end;
+        var start = slider.label_for_raw(parseFloat(range.start));
+        var end = slider.label_for_raw(parseFloat(range.end));
+        return start + ' to ' + end;
     }
 
     function bookmark_query_tooltip(searches) {
@@ -55,7 +61,7 @@ function showBookmarks () {
         var bookmarkRow = $('<tr class="bookmark_row" id="bookmark_'+bookmarks[i].uuid+'"></tr>');
 
         // Create bookmark link - clicking restores bookmark state
-        var bookmarkLinkCell = $('<td class="bookmark_info"></td>');
+        var bookmarkLinkCell = $('<td nowrap class="bookmark_info"></td>');
         var bookmarkLink = $('<a class="bookmark_link" href=".">'+bookmarks[i].name+'</a>');
         bookmarkLink.on('click', restore_bookmark_state_click_handler(bookmarks[i].name));
 
@@ -75,7 +81,7 @@ function showBookmarks () {
 
         // time cell
         var range = bookmarks[i].state.timeline.range;
-        var rangeCell = $('<td class="bookmark_info">'+display_range(range)+'</td>');
+        var rangeCell = $('<td nowrap class="bookmark_info">'+display_range(range)+'</td>');
         bookmarkRow.append(rangeCell);
 
         // query count cell
@@ -116,6 +122,11 @@ function showBookmarks () {
     if (overwriteBookmark.html() == 'cancel') {
         overwriteBookmark.html('overwrite existing');
     }
+    if (bookmarks.length == 0) {
+        overwriteBookmark.css('visibility', 'hidden');
+    } else {
+        overwriteBookmark.css('visibility', 'visible');
+    }
     showForm('bookmarksContainer');
     bookmarkName.focus();
 }
@@ -126,33 +137,44 @@ function restore_bookmark_state_click_handler (uuid) {
 
 function overwrite_bookmark_click_handler (name) {
     return function (e) {
-        if (Histori.overwrite_bookmark(name)) {
-            closeBookmarks();
-            showBookmarks();
-        }
+        Histori.overwrite_bookmark(name,
+            // success
+            function () {
+                closeBookmarks();
+                showBookmarks();
+            });
         return false;
     }
 }
 
 function remove_bookmark_click_handler (name) {
     return function (e) {
-        var removed = Histori.remove_bookmark(name);
-        if (removed != null) {
-            $('#bookmark_'+removed.uuid).remove();
-        }
+        Histori.remove_bookmark(name, function (uuid) {
+            $('#bookmark_'+uuid).remove();
+            var overwriteBookmark = $('#btnOverwriteBookmark');
+            if ($('.bookmark_row').length == 0) {
+                overwriteBookmark.css('visibility', 'hidden');
+            } else {
+                overwriteBookmark.css('visibility', 'visible');
+            }
+        });
         return false;
     }
 }
 
 function save_bookmark (name) {
-    if (Histori.add_bookmark(name)) {
-        closeBookmarks();
-        showBookmarks();
-    } else {
-        $('#bookmark_name').css({
-            border: '2px solid red'
+    Histori.add_bookmark(name,
+        // success
+        function () {
+            closeBookmarks();
+            showBookmarks();
+        },
+        // failure
+        function () {
+            $('#bookmark_name').css({
+                border: '2px solid red'
+            });
         });
-    }
 }
 
 function toggle_overwrite_bookmark() {
