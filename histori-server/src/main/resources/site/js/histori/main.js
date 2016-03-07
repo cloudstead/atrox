@@ -153,8 +153,13 @@ function initMap () {
         refresh_map();
     });
 
-    // restore previous session, if there is one
-    Histori.restore_session();
+    // restore previous session or permalink
+    var link_id = getParameterByName('link');
+    if (link_id != null && link_id.length >= 5) {
+        Histori.restore_permalink(link_id);
+    } else {
+        Histori.restore_session();
+    }
 }
 
 function init() {

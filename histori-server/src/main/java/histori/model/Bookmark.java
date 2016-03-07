@@ -6,7 +6,10 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.cobbzilla.wizard.validation.HasValue;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 
 import static histori.ApiConstants.NAME_MAXLEN;

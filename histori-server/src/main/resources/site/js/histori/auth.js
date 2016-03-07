@@ -91,12 +91,22 @@ function buildBookmarksForm (bookmarks) {
         queryCountCell.attr('title', bookmark_query_tooltip(bookmarks[i].state.searches));
         bookmarkRow.append(queryCountCell);
 
-        // Delete bookmark button
-        var removeButtonCell = $('<td></td>');
-        var removeButton = $('<button><img class="removeBookmarkIcon" src="iconic/png/x.png"/></button>');
+        // bookmark buttons
+        if (!isAnonymous()) {
+            // only logged-in users can create permalinks
+            var permalinkCell = $('<td valign="middle"></td>');
+            var permalinkButton = $('<button class="permalinkBookmarkIcon" title="share / permalink"><img src="iconic/png/share.png"/></button>');
+            permalinkButton.on('click', permalink_button_click_handler(bookmarks[i].name));
+            permalinkCell.append(permalinkButton);
+            bookmarkRow.append(permalinkCell);
+        }
+
+        var removeButtonCell = $('<td valign="middle"></td>');
+        var removeButton = $('<button><img title="remove" class="removeBookmarkIcon" src="iconic/png/x.png"/></button>');
         removeButton.on('click', remove_bookmark_click_handler(bookmarks[i].name));
         removeButtonCell.append(removeButton);
         bookmarkRow.append(removeButtonCell);
+
         bookmarksList.append(bookmarkRow);
     }
 
@@ -119,8 +129,8 @@ function buildBookmarksForm (bookmarks) {
         $('#bookmark_anonymous_warning').css('visibility', 'hidden');
     }
     var overwriteBookmark = $('#btnOverwriteBookmark');
-    if (overwriteBookmark.html() == 'cancel') {
-        overwriteBookmark.html('overwrite existing');
+    if (overwriteBookmark.val() == 'cancel') {
+        overwriteBookmark.val('overwrite existing');
     }
     if (bookmarks.length == 0) {
         overwriteBookmark.css('visibility', 'hidden');
@@ -131,8 +141,16 @@ function buildBookmarksForm (bookmarks) {
     bookmarkName.focus();
 }
 
-function restore_bookmark_state_click_handler (uuid) {
-    return function (e) { Histori.restore_bookmark_state(uuid); return false; }
+function permalink_button_click_handler(name) {
+    return function (e) {
+        Api.make_permalink(name, function(data) {
+            window.location.href = location.protocol + '//' + location.host + location.pathname + '?link=' + data.name;
+        });
+    }
+}
+
+function restore_bookmark_state_click_handler (name) {
+    return function (e) { Histori.restore_bookmark_state(name); return false; }
 }
 
 function overwrite_bookmark_click_handler (name) {
@@ -181,8 +199,8 @@ function toggle_overwrite_bookmark() {
     var button = $('#btnOverwriteBookmark');
     var i, jqRow;
     var rows = $('.bookmark_row');
-    if (button.html() == 'overwrite existing') {
-        button.html('cancel');
+    if (button.val() == 'overwrite existing') {
+        button.val('cancel');
         for (i=0; i<rows.length; i++) {
             jqRow = $(rows[i]);
             //jqRow.find('.bookmark_link').css('visibility', 'hidden');
@@ -195,7 +213,7 @@ function toggle_overwrite_bookmark() {
             //jqRow.find('.bookmark_link').css('visibility', 'visible');
             jqRow.find('.overwrite_bookmark_button').css('visibility', 'hidden');
         }
-        button.html('overwrite existing');
+        button.val('overwrite existing');
     }
 }
 

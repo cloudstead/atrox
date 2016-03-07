@@ -327,3 +327,8 @@ a:hover a:active {
     font-family: Tahoma,sans-serif;
     font-size: x-small;
 }
+
+.permalinkBookmarkIcon {
+    padding: 5px;
+    vertical-align: middle;
+}

@@ -114,31 +114,35 @@
                     <td width="200">geo</td>
                     <td>time</td>
                     <td>searches</td>
+                    <td></td>
+                    <td></td>
                 </tr>
             </thead>
             <tbody id="bookmarksList">
             </tbody>
             <tfoot>
               <form name="newBookmark" onsubmit="save_bookmark(this.elements['name'].value); return false;">
+                <tr><td colspan="6"><hr/></td></tr>
                 <tr>
-                    <td class="bookmark_info">current:</td>
+                    <td class="bookmark_info">bookmark name:<input id="bookmark_name" name="name" type="text"/></td>
                     <td class="bookmark_info" id="bookmark_bounds"></td>
                     <td class="bookmark_info" id="bookmark_range"></td>
                     <td class="bookmark_info" id="bookmark_query_count" align="center"></td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="bookmark_info">new bookmark: <input id="bookmark_name" name="name" type="text"/><input type="submit" value="create"/></td>
-                    <td class="bookmark_info"><button id="btnOverwriteBookmark" onclick="toggle_overwrite_bookmark(); return false;">overwrite existing</button></td>
+                    <td class="bookmark_info" colspan="2">
+                        <input type="submit" value="create new"/>
+                        <br/><br/>
+                        <input id="btnOverwriteBookmark" onclick="toggle_overwrite_bookmark(); return false;" type="submit" value="overwrite existing"/>
+                    </td>
                 </tr>
                 <tr id="bookmark_anonymous_warning">
-                    <td colspan="5" width="100%" height="50">
+                    <td colspan="6" width="100%" height="50" style="font-size: small">
                         <span style="color: red;">
                         warning: bookmarks will only be saved in this web browser
                         </span>
                         <br/>
                         <a href="." onclick="showLoginForm(); return false;">sign in</a>
                         or <a href="." onclick="showRegForm(); return false;">sign up</a>
-                        to save bookmarks to your account
+                        to save your bookmarks and create permalinks you can share
                     </td>
                 </tr>
               </form>

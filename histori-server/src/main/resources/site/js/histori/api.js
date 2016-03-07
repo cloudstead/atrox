@@ -254,6 +254,12 @@ Api = {
     remove_bookmark: function (name, success, fail) {
         Api._delete('bookmarks/'+encodeURIComponent(name), success, fail);
     },
+    make_permalink: function (name, success, fail) {
+        Api._get('bookmarks/'+encodeURIComponent(name)+'/permalink', success, fail);
+    },
+    get_permalink: function (link_id, success, fail) {
+        Api._get('permalinks/'+encodeURIComponent(link_id), success, fail);
+    },
 
     transform_image: function (src, width, height) {
         return src.replace("/public/image/", "/public/transform/w_"+width+"-h_"+height+"/");

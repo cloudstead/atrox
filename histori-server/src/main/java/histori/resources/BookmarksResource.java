@@ -2,7 +2,9 @@ package histori.resources;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sun.jersey.api.core.HttpContext;
+import histori.dao.AccountDAO;
 import histori.dao.BookmarkDAO;
+import histori.dao.PermalinkDAO;
 import histori.model.Account;
 import histori.model.Bookmark;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +26,9 @@ import static org.cobbzilla.wizard.resources.ResourceUtil.*;
 @Service @Slf4j
 public class BookmarksResource {
 
+    @Autowired private AccountDAO accountDAO;
     @Autowired private BookmarkDAO bookmarkDAO;
+    @Autowired private PermalinkDAO permalinkDAO;
 
     @GET
     public Response getAllBookmarks (@Context HttpContext ctx) {
@@ -95,6 +99,18 @@ public class BookmarksResource {
 
         bookmarkDAO.delete(bookmark.getUuid());
         return ok();
+    }
+
+    @GET
+    @Path("/{name}/permalink")
+    public Response getPermalink (@Context HttpContext ctx,
+                                  @PathParam("name") String name) {
+        Account account = userPrincipal(ctx);
+
+        final Bookmark bookmark = bookmarkDAO.findByAccountAndName(account, name);
+        if (bookmark == null) return notFound(name);
+
+        return ok(permalinkDAO.getOrCreate(bookmark.getJson()));
     }
 
 }

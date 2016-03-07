@@ -278,6 +278,12 @@ Histori = {
         this.restore_state(state);
     },
 
+    restore_permalink: function (link_id) {
+        Api.get_permalink(link_id, function (data) {
+            Histori.restore_state(data);
+        });
+    },
+
     restore_state: function (state) {
         remove_all_markers();
 
@@ -370,7 +376,7 @@ Histori = {
 
             }, fail);
         } else {
-            Api.update_bookmark(name, state, success, fail);
+            Api.update_bookmark(name, this.get_session_state(), success, fail);
         }
     },
 

@@ -36,7 +36,8 @@ public class HistoriAuthFilter extends AuthFilter<Account> {
                 MAP_IMAGES_ENDPOINT+EP_PUBLIC,
                 SEARCH_ENDPOINT,
                 TAGS_ENDPOINT,
-                CONFIGS_ENDPOINT
+                CONFIGS_ENDPOINT,
+                PERMALINKS_ENDPOINT
         });
         return new HashSet<>(CollectionUtils.collect(prefixes, transformer));
     }
