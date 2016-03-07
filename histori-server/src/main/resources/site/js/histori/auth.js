@@ -33,6 +33,7 @@ function showBookmarks () {
     });
 }
 
+var bookmark_anonymous_warning_html = '';
 function buildBookmarksForm (bookmarks) {
     var bookmarksList = $('#bookmarksList');
     bookmarksList.empty();
@@ -85,11 +86,11 @@ function buildBookmarksForm (bookmarks) {
         bookmarkRow.append(rangeCell);
 
         // query count cell
-        var queryCountCell = $('<td class="bookmark_info" align="center"></td>');
-        queryCountCell.addClass('replace_jq_tooltip_linebreaks');
-        queryCountCell.html(bookmarks[i].state.searches.length);
-        queryCountCell.attr('title', bookmark_query_tooltip(bookmarks[i].state.searches));
-        bookmarkRow.append(queryCountCell);
+        var queryCell = $('<td class="bookmark_info" align="center"></td>');
+        for (var j=0; j<bookmarks[i].state.searches.length; j++) {
+            queryCell.append($('<img title="'+bookmarks[i].state.searches[j].query.escape()+'" src="'+bookmarks[i].state.searches[j].icon+'"/>'));
+        }
+        bookmarkRow.append(queryCell);
 
         // bookmark buttons
         if (!isAnonymous()) {
@@ -119,14 +120,20 @@ function buildBookmarksForm (bookmarks) {
     $('#bookmark_range').html(display_range(state.timeline.range));
 
     var queryCell = $('#bookmark_query_count');
-    queryCell.addClass('replace_jq_tooltip_linebreaks');
-    queryCell.html(state.searches.length);
+    $('.bookmarkCurrentSearchIcon').remove();
+    for (var j=0; j<state.searches.length; j++) {
+        queryCell.append($('<img class="bookmarkCurrentSearchIcon" title="'+state.searches[j].query.escape()+'" src="'+state.searches[j].icon+'"/>'));
+    }
     queryCell.attr('title', bookmark_query_tooltip(state.searches));
 
+    var anonWarning = $('#bookmark_anonymous_warning');
     if (isAnonymous()) {
-        $('#bookmark_anonymous_warning').css('visibility', 'visible');
+        if (anonWarning.html().length == 0) anonWarning.html(bookmark_anonymous_warning_html);
+        anonWarning.css('visibility', 'visible');
     } else {
-        $('#bookmark_anonymous_warning').css('visibility', 'hidden');
+        bookmark_anonymous_warning_html = anonWarning.html();
+        anonWarning.html('');
+        anonWarning.css('visibility', 'hidden');
     }
     var overwriteBookmark = $('#btnOverwriteBookmark');
     if (overwriteBookmark.val() == 'cancel') {

@@ -39,7 +39,7 @@ function hideLoadingMessage () {
 }
 
 function openNexusDetails (uuid, tries) {
-    closeSearchOptions();
+    closeForm();
     var nexusSummary = nexusSummariesByUuid[uuid];
 
     if (typeof nexusSummary == "undefined" || nexusSummary == null) return;

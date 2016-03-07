@@ -43,10 +43,11 @@ MONTHS = [null,'January','February','March', 'April','May','June','July','August
 MONTH_SHORT_NAMES = [null, 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 function parseMonth(val) {
-    for (var i=1; i<MONTH_SHORT_NAMES.length; i++) {
+    var i;
+    for (i=1; i<MONTH_SHORT_NAMES.length; i++) {
         if (val == MONTH_SHORT_NAMES[i]) return i;
     }
-    for (var i=1; i<MONTHS.length; i++) {
+    for (i=1; i<MONTHS.length; i++) {
         if (val == MONTHS[i]) return i;
     }
     return parseInt(val);
@@ -84,10 +85,11 @@ function showForm(id, position_func, position_arg) {
 }
 
 function closeForm(id) {
-    if (typeof id != "undefined" && id != null) {
-        var container = $('#' + id);
-        container.css('z-index', -1);
+    if (typeof id == "undefined" || id == null) {
+        id = activeForm;
     }
+    var container = $('#' + id);
+    container.css('z-index', -1);
     $(".authError").empty();
 }
 
@@ -182,7 +184,7 @@ Histori = {
         $('#btnAccount').attr('title', 'sign in / sign up');
         sessionStorage.clear();
         this.clear_session_data();
-        this.restore_state(DEFAULT_STATE);
+        window.location.href = location.protocol + '//' + location.host + location.pathname;
     },
 
     forgot_password: function (email, success, fail) {
@@ -458,19 +460,9 @@ Histori = {
     clear_local_bookmarks: function () { localStorage.removeItem(this._bookmark_state); },
 
     restore_bookmark_state: function (name) {
-        var bookmarks = this.get_bookmarks();
-        var bookmark = null;
-        for (var i=0; i<bookmarks.length; i++) {
-            if (bookmarks[i].name == name) {
-                bookmark = bookmarks[i];
-                break;
-            }
-        }
-        if (bookmark == null) {
-            console.log('restore_bookmark_state: could not find bookmark with uuid='+uuid);
-            return;
-        }
-        this.restore_state(bookmark.state);
+        this.get_bookmark(name, function (state) {
+            Histori.restore_state(state);
+        });
     }
 
 };
