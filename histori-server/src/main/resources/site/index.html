@@ -95,16 +95,39 @@
     <table border="0" cellpadding="3">
         <thead>
           <tr>
-              <td><img class="mainControlButton" title="search" src="iconic/png/magnifying-glass-2x.png" onclick="showSearchOptions()"/></td>
+              <td><img class="mainControlButton" title="search" src="iconic/png/magnifying-glass-2x.png" onclick="showSearchOptions();"/></td>
               <td>&nbsp;<img class="mainControlButton" title="Coming Soon! Support for user-contributed updates!" src="iconic/png/plus-2x.png"/></td>
-              <td>&nbsp;<img id="btnAccount" class="mainControlButton" title="sign in / sign up" src="iconic/png/person-2x.png" onclick="showLoginForm()"/></td>
+              <td>&nbsp;<img id="btnAccount" class="mainControlButton" title="sign in / sign up" src="iconic/png/person-2x.png" onclick="showLoginForm();"/></td>
               <td>&nbsp;<img class="mainControlButton" title="Coming Soon! Help and info about histori.city" src="iconic/png/question-mark-2x.png"/></td>
+              <td>&nbsp;<img class="mainControlButton" title="Bookmarks and Sharing" onclick="showBookmarks();" src="iconic/png/pin-2x.png"/></td>
           </tr>
         </thead>
     </table>
 </div>
 
-<div id="loginContainer" class="authContainer">
+<div id="bookmarksContainer" class="dialogContainer">
+    <div id="bookmarkForm">
+        <form name="newBookmark" onsubmit="save_bookmark(this.elements['name'].value); return false;">
+        <table border="0">
+            <thead>
+                <tr><td colspan="3">Bookmark your searches</td></tr>
+                <tr>
+                    <td>Name:</td>
+                    <td><input id="bookmark_name" name="name" type="text"/></td>
+                    <td><input type="submit" value="Save"/></td>
+                </tr>
+                <tr id="savedBookmarksHeader">
+                    <td colspan="3">Saved bookmarks</td>
+                </tr>
+            </thead>
+            <tbody id="bookmarksList">
+            </tbody>
+        </table>
+        </form>
+    </div>
+</div>
+
+<div id="loginContainer" class="dialogContainer">
     <div class="authError"></div>
     <div id="loginForm">
         <form name="login" onsubmit="Histori.login(this.elements['email'].value, this.elements['password'].value, successfulLogin, handleAuthError('login')); return false;" method="post">
@@ -132,7 +155,7 @@
     </div>
 </div>
 
-<div id="forgotPassContainer" class="authContainer">
+<div id="forgotPassContainer" class="dialogContainer">
     <div class="authError"></div>
     <form name="forgot_password" onsubmit="Histori.forgot_password(this.elements['email'].value, successfulForgotPassword, handleAuthError('forgotPass')); return false;" method="post">
         <table border="0">
@@ -152,7 +175,7 @@
     </form>
 </div>
 
-<div id="resetPassContainer" class="authContainer">
+<div id="resetPassContainer" class="dialogContainer">
     <div class="authError"></div>
     <div id="resetPassForm">
         <form name="resetPass" onsubmit="Histori.reset_password(getParameterByName('key'), this.elements['password'].value, successfulPasswordReset, handleAuthError('resetPass')); return false;" method="post">
@@ -174,7 +197,7 @@
     </div>
 </div>
 
-<div id="regContainer" class="authContainer">
+<div id="regContainer" class="dialogContainer">
     <div class="authError"></div>
     <div id="regForm">
         <form name="reg" onsubmit="Histori.register(this.elements, successfulRegistration, handleAuthError('reg')); return false;" method="post">
@@ -218,7 +241,7 @@
     </div>
 </div>
 
-<div id="accountContainer" class="authContainer">
+<div id="accountContainer" class="dialogContainer">
     <div id="accountForm">
         <div class="authError"></div>
         <form name="account" onsubmit="clearAccountFormErrors(); if (validateAccountForm(this)) { Histori.update_account(this.elements, successfulAccountUpdate, handleAuthError('account')); } return false;" method="post">
@@ -261,7 +284,7 @@
     </div>
 </div>
 
-<div id="searchOptionsContainer">
+<div id="searchOptionsContainer" class="dialogContainer">
     <form name="search" onsubmit="return false;">
         <table border="0" width="100%">
             <thead>

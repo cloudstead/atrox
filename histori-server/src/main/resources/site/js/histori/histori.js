@@ -206,10 +206,10 @@ Histori = {
         Api.edit_nexus(nexus, success, fail);
     },
 
-    _search_state: '__histori.city_search_state',
+    // Session save-state functions (stored in localStorage)
+    _search_state: '__histori.search_state',
 
-    // stores all searches + geo + time zoom stack so they can be restored upon page refresh
-    save_session_state: function () {
+    get_session_state: function () {
         var bounds = map.getBounds();
         var state = {
             timeline: {
@@ -228,13 +228,23 @@ Histori = {
         for (var i=0; i<searchRows.length; i++) {
             var id = searchRowIdFromOtherId(searchRows[i].id);
             var searchBox = rowSearchBox(id);
+            var markerIcon = rowMarkerImageSrc(id);
+            if (markerIcon == null) {
+                // should never happen, but just in case
+                markerIcon = 'markers/'+pickUnusedColor()+'_Marker_blank.png';
+            }
             var search = {
                 query: searchBox.val(),
-                icon: rowMarkerImageSrc(id)
+                icon: markerIcon
             };
             state.searches.push(search);
         }
-        localStorage.setItem(this._search_state, JSON.stringify(state));
+        return state;
+    },
+
+    // stores all searches + geo + time zoom stack so they can be restored upon page refresh
+    save_session_state: function () {
+        localStorage.setItem(this._search_state, JSON.stringify(this.get_session_state()));
     },
 
     clear_session_data: function () { localStorage.removeItem(this._search_state); },
@@ -249,7 +259,10 @@ Histori = {
             console.log('restore_session: restored: '+json);
         }
         var state = JSON.parse(json);
+        this.restore_state(state);
+    },
 
+    restore_state: function (state) {
         // refresh slider
         slider.range = state.timeline.range;
         slider.zoom_stack = state.timeline.zoom_stack;
@@ -265,14 +278,86 @@ Histori = {
             });
 
             if (typeof state.searches != 'undefined' && state.searches != null && is_array(state.searches)) {
+
+                // clear all searches
+                var rows = $('.searchRow');
+                for (var i=0; i<rows.length; i++) {
+                    var id = searchRowIdFromOtherId(rows[i].id);
+                    remove_markers(id);
+                    slider.remove_markers(id);
+                }
+                rows.remove();
+
                 for (var i=0; i<state.searches.length; i++) {
                     var row = newSearch(state.searches[i].query);
-                    var id = searchRowIdFromOtherId(row.id);
-                    rowMarkerImage(id).attr('src', state.searches[i].icon);
+                    $(row).find('.searchBox_markerImage').attr('src', state.searches[i].icon);
                 }
             }
 
         }, 500);
+    },
+
+    // Bookmark functions
+    _bookmark_state: '__histori.bookmark_state',
+
+    add_bookmark: function (name) {
+        var bookmarks = this.get_bookmarks();
+        for (var i=0; i<bookmarks.length; i++) {
+            if (bookmarks[i].name == name) return false;
+        }
+        bookmarks.push({
+            uuid: guid(),
+            name: name,
+            state: this.get_session_state()
+        });
+        this.save_bookmarks(bookmarks);
+        return true;
+    },
+
+    remove_bookmark: function (name) {
+        var bookmarks = this.get_bookmarks();
+        var new_bookmarks = [];
+        var removed = null;
+        for (var i=0; i<bookmarks.length; i++) {
+            if (bookmarks[i].name != name) {
+                new_bookmarks.push(bookmarks[i]);
+            } else {
+                if (removed != null) {
+                    console.log('remove_bookmark: warning: multiple bookmarks matched name '+name);
+                }
+                removed = bookmarks[i];
+            }
+        }
+        this.save_bookmarks(new_bookmarks);
+        return removed;
+    },
+
+    get_bookmarks: function () {
+        var json = localStorage.getItem(this._bookmark_state);
+        if (typeof json == 'undefined' || json == null || json.length == 0) {
+            return [];
+        }
+        return JSON.parse(json);
+    },
+
+    save_bookmarks: function (bookmarks) { localStorage.setItem(this._bookmark_state, JSON.stringify(bookmarks)); },
+    clear_bookmarks: function () { localStorage.removeItem(this._bookmark_state); },
+
+    restore_bookmark_state: function (uuid) {
+        var bookmarks = this.get_bookmarks();
+        var bookmark = null;
+        for (var i=0; i<bookmarks.length; i++) {
+            if (bookmarks[i].uuid == uuid) {
+                bookmark = bookmarks[i];
+                break;
+            }
+        }
+        if (bookmark == null) {
+            console.log('restore_bookmark_state: could not find bookmark with uuid='+uuid);
+            return;
+        }
+        this.restore_state(bookmark.state);
     }
+
 };
 

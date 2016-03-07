@@ -282,6 +282,10 @@ function update_map (searchbox_id) {
         slider.remove_markers(searchbox_id);
 
         var markerImageSrc = rowMarkerImageSrc(searchbox_id);
+        if (markerImageSrc == null) {
+            console.log('marker was removed ('+searchbox_id+'), cannot add results');
+            return;
+        }
 
         if (data && data.results && data.results instanceof Array) {
 

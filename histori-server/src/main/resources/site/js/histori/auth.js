@@ -25,10 +25,67 @@ function showRegForm () {
 function showForgotPassForm () { showForm('forgotPassContainer'); }
 function showResetPassForm () { showForm('resetPassContainer'); }
 
+function showBookmarks () {
+    var bookmarks = Histori.get_bookmarks();
+    var bookmarksList = $('#bookmarksList');
+    bookmarksList.empty();
+    for (var i=0; i<bookmarks.length; i++) {
+        var bookmarkRow = $('<tr id="bookmark_'+bookmarks[i].uuid+'"></tr>');
+
+        // Create bookmark link - clicking restores bookmark state
+        var bookmarkLinkCell = $('<td colspan="2"></td>');
+        var bookmarkLink = $('<a href=".">'+bookmarks[i].name+'</a>');
+        bookmarkLink.on('click', restore_bookmark_state_click_handler(bookmarks[i].uuid));
+        bookmarkLinkCell.append(bookmarkLink);
+        bookmarkRow.append(bookmarkLinkCell);
+
+        // Create remove button to delete bookmark
+        var removeButtonCell = $('<td></td>');
+        var removeButton = $('<button><img class="removeBookmarkIcon" src="iconic/png/x.png"/></button>');
+        removeButton.on('click', remove_bookmark_click_handler(bookmarks[i].name));
+        removeButtonCell.append(removeButton);
+        bookmarkRow.append(removeButtonCell);
+        bookmarksList.append(bookmarkRow);
+    }
+    if (bookmarks.length > 0) {
+        $('#savedBookmarksHeader').css('visibility', 'visible');
+    } else {
+        $('#savedBookmarksHeader').css('visibility', 'hidden');
+    }
+
+    // populate bookmark name with first search
+    $('#bookmark_name').val($('.searchBox_query')[0].value);
+
+    showForm('bookmarksContainer');
+}
+
+function restore_bookmark_state_click_handler (uuid) {
+    return function (e) { Histori.restore_bookmark_state(uuid); return false; }
+}
+
+function remove_bookmark_click_handler (name) {
+    return function (e) {
+        var removed = Histori.remove_bookmark(name);
+        if (removed != null) {
+            $('#bookmark_'+removed.uuid).remove();
+        }
+        return false;
+    }
+}
+
+function save_bookmark (name) {
+    if (Histori.add_bookmark(name)) {
+        closeBookmarks();
+    } else {
+
+    }
+}
+
 function closeLoginForm () { closeForm('loginContainer'); }
 function closeRegForm () { closeForm('regContainer'); }
 function closeForgotPassForm () { closeForm('forgotPassContainer'); }
 function closeResetPassForm () { closeForm('resetPassContainer'); }
+function closeBookmarks () { closeForm('bookmarksContainer'); }
 
 function clearAccountFormErrors() {
     $('#accountContainer').find('input').css('border', '');

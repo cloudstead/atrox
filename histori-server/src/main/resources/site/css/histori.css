@@ -209,7 +209,7 @@ input[type=file] {
     font-weight: normal;
 }
 
-.authContainer {
+.dialogContainer {
     font-family: Tahoma,sans-serif;
     z-index: -1;
     background-color: whitesmoke;
@@ -289,6 +289,7 @@ a:hover a:active {
     padding: 2px;
     pointer-events: visible;
 }
+
 .removeMarkerIcon {
     padding: 5px;
     vertical-align: middle;
@@ -317,3 +318,7 @@ a:hover a:active {
     font-size: x-small;
 }
 
+.removeBookmarkIcon {
+    padding: 5px;
+    vertical-align: middle;
+}

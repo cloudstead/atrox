@@ -39,7 +39,14 @@ function closeSearchOptions () { closeForm('searchOptionsContainer'); }
 
 function rowSearchBox(id) { return $('#text_' + id); }
 function rowMarkerImage(id) { return $('#marker_' + id); }
-function rowMarkerImageSrc(id) { return $('#marker_' + id)[0].src; }
+function rowMarkerImageSrc(id) {
+    var marker = $('#marker_' + id);
+    if (marker.length == 0) {
+        console.log('no marker image found for id='+id);
+        return null;
+    }
+    return marker[0].src;
+}
 function rowLoadingImage(id) { return $('#loading_' + id); }
 function rowRemoveMarkerIcon(id) { return $('#removeMarkerIcon_' + id); }
 
@@ -134,13 +141,7 @@ function getColorFromImage (src) {
     return color.substring(0, pos);
 }
 
-function addSearchRow () {
-
-    if ($('.searchRow').length >= MAX_SEARCH_BOXES) {
-        $('#btn_addSearchRow').attr('disabled', true);
-        return null;
-    }
-
+function pickUnusedColor() {
     var used_colors = [];
     $('.searchBox_markerImage').each(function (index) {
         var src = this.src;
@@ -149,13 +150,22 @@ function addSearchRow () {
 
     // find the first unused color
     var color = 'red';
-    for (var i=0; i<MARKER_COLORS.length; i++) {
+    for (var i = 0; i < MARKER_COLORS.length; i++) {
         if ($.inArray(MARKER_COLORS[i], used_colors) < 0) {
             color = MARKER_COLORS[i];
             break;
         }
     }
+    return color;
+}
 
+function addSearchRow () {
+
+    if ($('.searchRow').length >= MAX_SEARCH_BOXES) {
+        $('#btn_addSearchRow').attr('disabled', true);
+        return null;
+    }
+    var color = pickUnusedColor();
     var row = buildSearchRow(color);
     var tbody = $('#searchBoxesTableBody');
     tbody.append(row);
@@ -170,6 +180,7 @@ function updateRemoveMarkerIcons() {
     var rows = $('.searchRow');
     if (rows.length >= MAX_SEARCH_BOXES) {
         $('#btn_addSearchRow').attr('disabled', true);
+        $('.removeMarkerIcon').css('visibility', 'visible');
 
     } else if (rows.length == 1) {
         // last search box -- hide 'remove' button

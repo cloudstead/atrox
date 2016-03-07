@@ -136,7 +136,7 @@ Api = {
         Api._find_nexuses_timers[search_id] = window.setTimeout(function () {
             start_func();
             var search_uri = 'search/q/'+s.start+'/'+s.end+'/'+s.north+'/'+s.south+'/'+s.east+'/'+s.west+'?q='+s.query;
-            console.log('searching: '+search_uri);
+            console.log('searching('+search_id+'): '+search_uri);
             Api._get(search_uri, success, fail);
         }, 2000);
     },
