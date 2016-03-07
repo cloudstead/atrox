@@ -282,7 +282,14 @@ Histori = {
 
     restore_permalink: function (link_id) {
         Api.get_permalink(link_id, function (data) {
-            Histori.restore_state(data);
+            if (typeof data != 'undefined' && data != null) {
+                if (typeof data.timeline != 'undefined' && data.timeline != null) {
+                    Histori.restore_state(data);
+                } else {
+                    // todo: is this a tour? if so start the tour
+                    console.log('restore_permalink: not a bookmark: '+JSON.stringify(data));
+                }
+            }
         });
     },
 
