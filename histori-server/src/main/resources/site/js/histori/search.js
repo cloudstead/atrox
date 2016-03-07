@@ -180,17 +180,17 @@ function updateRemoveMarkerIcons() {
     var rows = $('.searchRow');
     if (rows.length >= MAX_SEARCH_BOXES) {
         $('#btn_addSearchRow').attr('disabled', true);
-        $('.removeMarkerIcon').css('visibility', 'visible');
+        $('.removeMarkerIcon').parent().css('visibility', 'visible');
 
     } else if (rows.length == 1) {
         // last search box -- hide 'remove' button
         var id = searchRowIdFromOtherId(rows[0].id);
         var removeIcon = rowRemoveMarkerIcon(id);
-        removeIcon.css('visibility', 'hidden');
+        removeIcon.parent().css('visibility', 'hidden');
 
     } else {
         // all remove icons are visible
-        $('.removeMarkerIcon').css('visibility', 'visible');
+        $('.removeMarkerIcon').parent().css('visibility', 'visible');
     }
 }
 
@@ -310,7 +310,7 @@ function buildSearchRow (color) {
     var searchButtonCell = $('<td align="center"></td>').append(searchButton);
     row.append(searchButtonCell);
 
-    var removeRowButton = $('<button></button>');
+    var removeRowButton = $('<button class="removeMarkerButton" ></button>');
     var removeRowIcon = $('<img id="removeMarkerIcon_'+ id+'" class="removeMarkerIcon" src="iconic/png/x.png"/>');
     removeRowButton.css({
         position: 'relative',

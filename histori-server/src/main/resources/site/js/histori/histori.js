@@ -133,6 +133,21 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
+DEFAULT_STATE = {
+    timeline: {
+        range: {start: 1500, end: 2016},
+        zoom_stack: [{start: -10000, end: 2016}, {start: -4000, end: 2016}]
+    },
+    map:{north:48.8544605754133,south:15.523358948698112,east:153.193359375,west:27.0703125},
+    //map: {
+    //    north: 60,
+    //    south: 60,
+    //    east: 90,
+    //    west: 90
+    //},
+    searches: []
+};
+
 Histori = {
 
     json_safe_parse: function (j) {
@@ -167,6 +182,7 @@ Histori = {
         $('#btnAccount').attr('title', 'sign in / sign up');
         sessionStorage.clear();
         this.clear_session_data();
+        this.restore_state(DEFAULT_STATE);
     },
 
     forgot_password: function (email, success, fail) {
@@ -193,7 +209,7 @@ Histori = {
 
     set_account: function (account) {
         sessionStorage.setItem('histori_account', JSON.stringify(account));
-        if (!isAnonymous()) $('#btnAccount').attr('title', 'account info / sign out');
+        if (!isAnonymous()) $('#btnAccount').attr('title', 'signed in as '+account.name+'|account info / sign out');
     },
 
     get_session: function (name, default_value) {
@@ -249,7 +265,7 @@ Histori = {
 
     clear_session_data: function () { localStorage.removeItem(this._search_state); },
 
-    restore_session: function (map) {
+    restore_session: function () {
 
         var json = localStorage.getItem(this._search_state);
         if (typeof json == 'undefined' || json == null) {
@@ -263,6 +279,8 @@ Histori = {
     },
 
     restore_state: function (state) {
+        remove_all_markers();
+
         // refresh slider
         slider.range = state.timeline.range;
         slider.zoom_stack = state.timeline.zoom_stack;
@@ -292,7 +310,11 @@ Histori = {
                     var row = newSearch(state.searches[i].query);
                     $(row).find('.searchBox_markerImage').attr('src', state.searches[i].icon);
                 }
+                if ($('.searchRow').length == 0) {
+                    addSearchRow();
+                }
             }
+            refresh_map(); // new search
 
         }, 500);
     },
@@ -312,6 +334,11 @@ Histori = {
         });
         this.save_bookmarks(bookmarks);
         return true;
+    },
+
+    overwrite_bookmark: function (name) {
+        if (!this.remove_bookmark(name)) return false;
+        return this.add_bookmark(name);
     },
 
     remove_bookmark: function (name) {
@@ -343,11 +370,11 @@ Histori = {
     save_bookmarks: function (bookmarks) { localStorage.setItem(this._bookmark_state, JSON.stringify(bookmarks)); },
     clear_bookmarks: function () { localStorage.removeItem(this._bookmark_state); },
 
-    restore_bookmark_state: function (uuid) {
+    restore_bookmark_state: function (name) {
         var bookmarks = this.get_bookmarks();
         var bookmark = null;
         for (var i=0; i<bookmarks.length; i++) {
-            if (bookmarks[i].uuid == uuid) {
+            if (bookmarks[i].name == name) {
                 bookmark = bookmarks[i];
                 break;
             }

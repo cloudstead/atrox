@@ -154,7 +154,7 @@ function initMap () {
     });
 
     // restore previous session, if there is one
-    Histori.restore_session(map);
+    Histori.restore_session();
 }
 
 function init() {
@@ -167,11 +167,21 @@ function init() {
 
         // Setup tooltips
         $( document ).tooltip({
-            // convert pipe chars to line breaks (cannot directly put HTML tags within the title attribute)
             content: function() {
-                return this.getAttribute("title").replace(/\|/g, '<br />');
+                var title = this.getAttribute("title");
+
+                // cannot figure out how to disable tooltip on google's recaptcha widget any other way
+                if (title.toLowerCase().indexOf("recaptcha widget") != -1) return '';
+
+                // convert pipe chars to line breaks (cannot directly put HTML tags within the title attribute)
+                return title.replace(/\|/g, '<br />');
             }
         });
+
+        // Set account button tooltip
+        if (!isAnonymous()) {
+            Histori.set_account(Histori.account());
+        }
     });
 }
 
@@ -230,6 +240,7 @@ function newMarkerListener(nexusSummaryUuid) {
 }
 
 // Hash of searchbox_id -> list of markers it generated
+var all_markers = [];
 var active_markers = {};
 
 // Hash of searchbox_id -> list of summaries it generated
@@ -304,6 +315,7 @@ function update_map (searchbox_id) {
                         icon: markerImageSrc,
                         map: map
                     });
+                    all_markers.push(marker);
 
                     nexusSummariesByUuid[result.uuid] = result;
                     var clickHandler = newMarkerListener(result.uuid);
@@ -360,4 +372,17 @@ function remove_markers(searchbox_id) {
     active_markers[searchbox_id] = [];
 
     slider.remove_markers(searchbox_id);
+}
+
+function remove_all_markers () {
+    for (var i=0; i<all_markers.length; i++) {
+        if (typeof all_markers[i].setMap != 'undefined') {
+            all_markers[i].setMap(null);
+        } else {
+            console.log('marker had no setMap: '+all_markers[i]);
+        }
+    }
+    slider.remove_all_markers();
+    active_markers = {};
+    all_markers = [];
 }

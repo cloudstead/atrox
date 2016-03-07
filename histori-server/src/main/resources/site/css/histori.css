@@ -322,3 +322,8 @@ a:hover a:active {
     padding: 5px;
     vertical-align: middle;
 }
+
+.bookmark_info {
+    font-family: Tahoma,sans-serif;
+    font-size: x-small;
+}

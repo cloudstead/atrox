@@ -184,6 +184,9 @@ var slider = {
     // map of searchbox_id -> list of markers on the timeline
     markers: {},
 
+    // all markers, in case search rows get discarded and we need to clean up their markers on logout
+    all_markers: [],
+
     // remove all markers for a particular searchbox
     remove_markers: function (searchbox_id) {
         if (typeof this.markers[searchbox_id] == "undefined" || this.markers[searchbox_id] == null) return;
@@ -192,6 +195,17 @@ var slider = {
         }
         this.markers[searchbox_id] = null;
         this.clear_more_icon(searchbox_id);
+    },
+
+    remove_all_markers: function () {
+        for(var key in this.markers) {
+            this.clear_more_icon(key);
+        }
+        for (var i=0; i<this.all_markers.length; i++) {
+            this.all_markers[i].remove();
+        }
+        this.markers = {};
+        this.all_markers = [];
     },
 
     raw_date_to_pixel_offset: function (raw, width) {
@@ -216,6 +230,7 @@ var slider = {
 
         var imageId = guid();
         var marker = $('<img class="timelineMarker" title="'+title.escape()+'" id="timeline_marker_'+imageId+'" height="20" width="'+image_width+'" src="'+image_src+'"/>');
+        this.all_markers.push(marker);
         marker.click(click_handler);
         marker.hover(
             function() { map_marker.setAnimation(google.maps.Animation.BOUNCE); },

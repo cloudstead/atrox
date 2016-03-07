@@ -51,7 +51,8 @@
   { "name": "Citation",
     "schema": {
       "fields": [
-        {"name": "name", "fieldType": "citation", "multiple": false}
+        {"name": "name", "fieldType": "citation", "multiple": false},
+        {"name": "excerpt", "fieldType": "string", "multiple": true}
       ]
     }
   },

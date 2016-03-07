@@ -4,6 +4,7 @@ function showLoginForm () {
     var anonymous = isAnonymous();
     if (anonymous) {
         showForm('loginContainer');
+        $('#login_email_field').focus();
     } else {
         showAccountForm();
     }
@@ -31,8 +32,8 @@ function showBookmarks () {
     bookmarksList.empty();
 
     function display_bounds(bounds) {
-        return bounds.south.toFixed(2)+'&#176;S/'+bounds.west.toFixed(2)+'&#176;W to '
-             + bounds.north.toFixed(2)+'&#176;N/'+bounds.east.toFixed(2)+'&#176;E';
+        return bounds.south.toFixed(2)+'&#176;S, '+bounds.west.toFixed(2)+'&#176;W to<br/>'
+             + bounds.north.toFixed(2)+'&#176;N, '+bounds.east.toFixed(2)+'&#176;E';
     }
 
     function display_range(range) {
@@ -51,28 +52,34 @@ function showBookmarks () {
     }
 
     for (var i=0; i<bookmarks.length; i++) {
-        var bookmarkRow = $('<tr id="bookmark_'+bookmarks[i].uuid+'"></tr>');
+        var bookmarkRow = $('<tr class="bookmark_row" id="bookmark_'+bookmarks[i].uuid+'"></tr>');
 
         // Create bookmark link - clicking restores bookmark state
-        var bookmarkLinkCell = $('<td></td>');
-        var bookmarkLink = $('<a href=".">'+bookmarks[i].name+'</a>');
-        bookmarkLink.on('click', restore_bookmark_state_click_handler(bookmarks[i].uuid));
-        bookmarkLinkCell.append(bookmarkLink);
+        var bookmarkLinkCell = $('<td class="bookmark_info"></td>');
+        var bookmarkLink = $('<a class="bookmark_link" href=".">'+bookmarks[i].name+'</a>');
+        bookmarkLink.on('click', restore_bookmark_state_click_handler(bookmarks[i].name));
+
+        // overwrite button, only shown when main 'overwrite' button is toggled
+        var overwriteButton = $('<button class="overwrite_bookmark_button">save</button>');
+        overwriteButton.css('visibility', 'hidden');
+        overwriteButton.on('click', overwrite_bookmark_click_handler(bookmarks[i].name));
+
+        bookmarkLinkCell.append(bookmarkLink).append(overwriteButton);
         bookmarkRow.append(bookmarkLinkCell);
 
         // bounds cell
         var bounds = bookmarks[i].state.map;
-        var boundsCell = $('<td></td>');
+        var boundsCell = $('<td class="bookmark_info"></td>');
         boundsCell.append(display_bounds(bounds));
         bookmarkRow.append(boundsCell);
 
         // time cell
         var range = bookmarks[i].state.timeline.range;
-        var rangeCell = $('<td>'+display_range(range)+'</td>');
+        var rangeCell = $('<td class="bookmark_info">'+display_range(range)+'</td>');
         bookmarkRow.append(rangeCell);
 
         // query count cell
-        var queryCountCell = $('<td align="center"></td>');
+        var queryCountCell = $('<td class="bookmark_info" align="center"></td>');
         queryCountCell.addClass('replace_jq_tooltip_linebreaks');
         queryCountCell.html(bookmarks[i].state.searches.length);
         queryCountCell.attr('title', bookmark_query_tooltip(bookmarks[i].state.searches));
@@ -89,7 +96,9 @@ function showBookmarks () {
 
     // populate "new bookmark" row
     var state = Histori.get_session_state();
-    $('#bookmark_name').val($('.searchBox_query')[0].value); // use first search query as name field
+    var bookmarkName = $('#bookmark_name');
+    bookmarkName.val($('.searchBox_query')[0].value); // use first search query as name field
+    bookmarkName.keydown(function (e) { $('#bookmark_name').css('border', '0') });
     $('#bookmark_bounds').html(display_bounds(state.map));
     $('#bookmark_range').html(display_range(state.timeline.range));
 
@@ -98,11 +107,31 @@ function showBookmarks () {
     queryCell.html(state.searches.length);
     queryCell.attr('title', bookmark_query_tooltip(state.searches));
 
+    if (isAnonymous()) {
+        $('#bookmark_anonymous_warning').css('visibility', 'visible');
+    } else {
+        $('#bookmark_anonymous_warning').css('visibility', 'hidden');
+    }
+    var overwriteBookmark = $('#btnOverwriteBookmark');
+    if (overwriteBookmark.html() == 'cancel') {
+        overwriteBookmark.html('overwrite existing');
+    }
     showForm('bookmarksContainer');
+    bookmarkName.focus();
 }
 
 function restore_bookmark_state_click_handler (uuid) {
     return function (e) { Histori.restore_bookmark_state(uuid); return false; }
+}
+
+function overwrite_bookmark_click_handler (name) {
+    return function (e) {
+        if (Histori.overwrite_bookmark(name)) {
+            closeBookmarks();
+            showBookmarks();
+        }
+        return false;
+    }
 }
 
 function remove_bookmark_click_handler (name) {
@@ -118,8 +147,33 @@ function remove_bookmark_click_handler (name) {
 function save_bookmark (name) {
     if (Histori.add_bookmark(name)) {
         closeBookmarks();
+        showBookmarks();
     } else {
+        $('#bookmark_name').css({
+            border: '2px solid red'
+        });
+    }
+}
 
+function toggle_overwrite_bookmark() {
+    var button = $('#btnOverwriteBookmark');
+    var i, jqRow;
+    var rows = $('.bookmark_row');
+    if (button.html() == 'overwrite existing') {
+        button.html('cancel');
+        for (i=0; i<rows.length; i++) {
+            jqRow = $(rows[i]);
+            //jqRow.find('.bookmark_link').css('visibility', 'hidden');
+            jqRow.find('.overwrite_bookmark_button').css('visibility', 'visible');
+        }
+    } else {
+        // hide all instances of button class, make links visible
+        for (i=0; i<rows.length; i++) {
+            jqRow = $(rows[i]);
+            //jqRow.find('.bookmark_link').css('visibility', 'visible');
+            jqRow.find('.overwrite_bookmark_button').css('visibility', 'hidden');
+        }
+        button.html('overwrite existing');
     }
 }
 
