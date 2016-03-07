@@ -294,6 +294,7 @@ Histori = {
                 east: state.map.east,
                 west: state.map.west
             });
+            map.setZoom(map.getZoom()+1);
 
             if (typeof state.searches != 'undefined' && state.searches != null && is_array(state.searches)) {
 
