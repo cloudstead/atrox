@@ -310,7 +310,13 @@ function buildSearchRow (color) {
     var searchButtonCell = $('<td align="center"></td>').append(searchButton);
     row.append(searchButtonCell);
 
+    var removeRowButton = $('<button></button>');
     var removeRowIcon = $('<img id="removeMarkerIcon_'+ id+'" class="removeMarkerIcon" src="iconic/png/x.png"/>');
+    removeRowButton.css({
+        position: 'relative',
+        top: '7px',
+        left: '-20px'
+    });
     removeRowIcon.click(function (e) {
         var id = searchRowIdFromOtherId(e.target.id);
         $('#row_'+id).remove();
@@ -318,7 +324,7 @@ function buildSearchRow (color) {
         updateRemoveMarkerIcons();
         $('#searchOptionsContainer').centerTop(20);
     });
-    row.append('<td align="center" valign="bottom"></td>').append(removeRowIcon);
+    row.append('<td align="center"></td>').append(removeRowButton.append(removeRowIcon));
 
     return row;
 }
