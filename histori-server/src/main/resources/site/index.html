@@ -108,20 +108,26 @@
 <div id="bookmarksContainer" class="dialogContainer">
     <div id="bookmarkForm">
         <form name="newBookmark" onsubmit="save_bookmark(this.elements['name'].value); return false;">
-        <table border="0">
+        <table border="0" cellpadding="2">
             <thead>
-                <tr><td colspan="3">Bookmark your searches</td></tr>
-                <tr>
-                    <td>Name:</td>
-                    <td><input id="bookmark_name" name="name" type="text"/></td>
-                    <td><input type="submit" value="Save"/></td>
-                </tr>
                 <tr id="savedBookmarksHeader">
-                    <td colspan="3">Saved bookmarks</td>
+                    <td>name</td>
+                    <td>geo</td>
+                    <td>time</td>
+                    <td>searches</td>
                 </tr>
             </thead>
             <tbody id="bookmarksList">
             </tbody>
+            <tfoot>
+                <tr>
+                    <td>create: <input id="bookmark_name" name="name" type="text"/></td>
+                    <td id="bookmark_bounds"></td>
+                    <td id="bookmark_range"></td>
+                    <td id="bookmark_query_count" align="center"></td>
+                    <td><input type="submit" value="Save"/></td>
+                </tr>
+            </tfoot>
         </table>
         </form>
     </div>

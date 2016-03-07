@@ -29,17 +29,56 @@ function showBookmarks () {
     var bookmarks = Histori.get_bookmarks();
     var bookmarksList = $('#bookmarksList');
     bookmarksList.empty();
+
+    function display_bounds(bounds) {
+        return bounds.south.toFixed(2)+'&#176;S/'+bounds.west.toFixed(2)+'&#176;W to '
+             + bounds.north.toFixed(2)+'&#176;N/'+bounds.east.toFixed(2)+'&#176;E';
+    }
+
+    function display_range(range) {
+        var start = slider.label_for_slider_value(range.start);
+        var end = slider.label_for_slider_value(range.end);
+        return start+' to ' + end;
+    }
+
+    function bookmark_query_tooltip(searches) {
+        var queries = '';
+        for (var j = 0; j <searches.length; j++) {
+            if (queries.length > 0) queries += '|';
+            queries += searches[j].query.escape();
+        }
+        return queries;
+    }
+
     for (var i=0; i<bookmarks.length; i++) {
         var bookmarkRow = $('<tr id="bookmark_'+bookmarks[i].uuid+'"></tr>');
 
         // Create bookmark link - clicking restores bookmark state
-        var bookmarkLinkCell = $('<td colspan="2"></td>');
+        var bookmarkLinkCell = $('<td></td>');
         var bookmarkLink = $('<a href=".">'+bookmarks[i].name+'</a>');
         bookmarkLink.on('click', restore_bookmark_state_click_handler(bookmarks[i].uuid));
         bookmarkLinkCell.append(bookmarkLink);
         bookmarkRow.append(bookmarkLinkCell);
 
-        // Create remove button to delete bookmark
+        // bounds cell
+        var bounds = bookmarks[i].state.map;
+        var boundsCell = $('<td></td>');
+        boundsCell.append(display_bounds(bounds));
+        bookmarkRow.append(boundsCell);
+
+        // time cell
+        var range = bookmarks[i].state.timeline.range;
+        var rangeCell = $('<td>'+display_range(range)+'</td>');
+        bookmarkRow.append(rangeCell);
+
+        // query count cell
+        var queryCountCell = $('<td align="center"></td>');
+        queryCountCell.addClass('replace_jq_tooltip_linebreaks');
+        queryCountCell.html(bookmarks[i].state.searches.length);
+        queryCountCell.attr('title', bookmark_query_tooltip(bookmarks[i].state.searches));
+        bookmarkRow.append(queryCountCell);
+
+        // Delete bookmark button
         var removeButtonCell = $('<td></td>');
         var removeButton = $('<button><img class="removeBookmarkIcon" src="iconic/png/x.png"/></button>');
         removeButton.on('click', remove_bookmark_click_handler(bookmarks[i].name));
@@ -47,14 +86,17 @@ function showBookmarks () {
         bookmarkRow.append(removeButtonCell);
         bookmarksList.append(bookmarkRow);
     }
-    if (bookmarks.length > 0) {
-        $('#savedBookmarksHeader').css('visibility', 'visible');
-    } else {
-        $('#savedBookmarksHeader').css('visibility', 'hidden');
-    }
 
-    // populate bookmark name with first search
-    $('#bookmark_name').val($('.searchBox_query')[0].value);
+    // populate "new bookmark" row
+    var state = Histori.get_session_state();
+    $('#bookmark_name').val($('.searchBox_query')[0].value); // use first search query as name field
+    $('#bookmark_bounds').html(display_bounds(state.map));
+    $('#bookmark_range').html(display_range(state.timeline.range));
+
+    var queryCell = $('#bookmark_query_count');
+    queryCell.addClass('replace_jq_tooltip_linebreaks');
+    queryCell.html(state.searches.length);
+    queryCell.attr('title', bookmark_query_tooltip(state.searches));
 
     showForm('bookmarksContainer');
 }

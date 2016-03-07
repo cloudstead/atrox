@@ -165,8 +165,13 @@ function init() {
             showResetPassForm();
         }
 
-        // Setup tool tips (for timeline markers)
-        $( document ).tooltip();
+        // Setup tooltips
+        $( document ).tooltip({
+            // convert pipe chars to line breaks (cannot directly put HTML tags within the title attribute)
+            content: function() {
+                return this.getAttribute("title").replace(/\|/g, '<br />');
+            }
+        });
     });
 }
 
