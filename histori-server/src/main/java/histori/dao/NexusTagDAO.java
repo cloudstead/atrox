@@ -73,7 +73,7 @@ public class NexusTagDAO extends VersionedEntityDAO<NexusTag> {
     }
 
     public List<NexusTag> findByNexusAndOwner(String accountUuid, String nexusUuid) {
-        return findByFields("owner", accountUuid, "neuxs", nexusUuid);
+        return findByFields("owner", accountUuid, "nexus", nexusUuid);
     }
 
     public List<NexusTag> findByNexus(String uuid) {
