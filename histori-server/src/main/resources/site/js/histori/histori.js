@@ -135,6 +135,23 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
+function display_bounds(bounds) {
+    if ((parseFloat(bounds.north) - parseFloat(bounds.south) < 0.001)
+        && (parseFloat(bounds.east) - parseFloat(bounds.west) < 0.001)) {
+        var northOrSouth = (bounds.north > 0) ? bounds.north.toFixed(3)+'&#176;N' : (-1.0*bounds.south.toFixed(3))+'&#176;S';
+        var eastOrWest = (bounds.east > 0) ? bounds.east.toFixed(3)+'&#176;E' : (-1.0*bounds.west.toFixed(3))+'&#176;W';
+        return 'at ' + northOrSouth + ', ' + eastOrWest;
+    }
+    return bounds.south.toFixed(3)+'&#176;S, '+bounds.west.toFixed(3)+'&#176;W to<br/>'
+        + bounds.north.toFixed(3)+'&#176;N, '+bounds.east.toFixed(3)+'&#176;E';
+}
+
+function display_range(range) {
+    var start = slider.label_for_raw(parseFloat(range.start));
+    var end = slider.label_for_raw(parseFloat(range.end));
+    return start + ' to ' + end;
+}
+
 DEFAULT_STATE = {
     timeline: {
         range: {start: 1500, end: 2016},

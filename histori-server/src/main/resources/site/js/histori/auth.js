@@ -67,17 +67,6 @@ function showBookmarks () {
     });
 }
 
-function display_bounds(bounds) {
-    return bounds.south.toFixed(2)+'&#176;S, '+bounds.west.toFixed(2)+'&#176;W to<br/>'
-        + bounds.north.toFixed(2)+'&#176;N, '+bounds.east.toFixed(2)+'&#176;E';
-}
-
-function display_range(range) {
-    var start = slider.label_for_raw(parseFloat(range.start));
-    var end = slider.label_for_raw(parseFloat(range.end));
-    return start + ' to ' + end;
-}
-
 var bookmark_anonymous_warning_html = '';
 function buildBookmarksForm (bookmarks) {
     var bookmarksList = $('#bookmarksList');

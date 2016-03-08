@@ -124,6 +124,12 @@ input[type=file] {
     font-weight: bold;
 }
 
+#nexusGeoContainer {
+    font-family: Tahoma,sans-serif;
+    font-size: small;
+    font-weight: bold;
+}
+
 #nexusAuthorContainer {
     font-family: Tahoma,sans-serif;
     font-size: x-small;

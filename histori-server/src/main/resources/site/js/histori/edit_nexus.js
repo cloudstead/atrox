@@ -56,6 +56,8 @@ function openNexusDetails (uuid, tries) {
     Api.owner_name(nexus.owner, '#nexusAuthorContainer', "v" + nexus.version +" created by: ");
     displayTimeRange(nexus.timeRange);
 
+    $('#nexusGeoContainer').html(display_bounds(nexus.bounds));
+
     var otherVersionCount = 0;
     if (typeof nexus.others != "undefined" && is_array(nexus.others)) {
         otherVersionCount = nexus.others.length;
