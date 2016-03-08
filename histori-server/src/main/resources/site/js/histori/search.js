@@ -24,7 +24,7 @@ $(function() {
 });
 
 MARKER_COLORS = ['red','orange','yellow','green','darkgreen','paleblue','blue','purple','brown','pink'];
-MAX_SEARCH_BOXES = 5;
+MAX_SEARCH_BOXES = 10;
 
 function refresh_map () {
     $('.searchRow').each(function (index) {
@@ -199,15 +199,18 @@ function updateRemoveMarkerIcons() {
     if (rows.length >= MAX_SEARCH_BOXES) {
         $('#btn_addSearchRow').attr('disabled', true);
         $('.removeMarkerIcon').parent().css('visibility', 'visible');
+        $('.searchBox_bringToFront').css('visibility', 'visible');
 
     } else if (rows.length == 1) {
-        // last search box -- hide 'remove' button
+        // last search box -- hide 'remove' button and 'bring to front'
         var id = searchRowIdFromOtherId(rows[0].id);
         var removeIcon = rowRemoveMarkerIcon(id);
         removeIcon.parent().css('visibility', 'hidden');
+        $('.searchBox_bringToFront').css('visibility', 'hidden');
 
     } else {
-        // all remove icons are visible
+        // all remove/bring to front icons are visible
+        $('.searchBox_bringToFront').css('visibility', 'visible');
         $('.removeMarkerIcon').parent().css('visibility', 'visible');
     }
 }
@@ -288,9 +291,21 @@ function buildSearchRow (color) {
     var id = guid();
     var row = $('<tr class="searchRow" id="row_'+id+'"></tr>');
 
+    var bringToFrontImage = $('<img id="bringToFront_'+ id+'" class="searchBox_bringToFront" title="bring markers to front" src="iconic/png/data-transfer-upload.png"/>');
     var markerImage = $('<img id="marker_'+ id+'" class="searchBox_markerImage" src="markers/'+color+'_Marker_blank.png"/>');
     var loadingImage = $('<img id="loading_'+ id+'" class="searchBox_loadingSpinner" src="icons/spinner.gif" style="visibility: hidden"/>');
-    var markerCell = $('<td id="markerClickTarget_'+id+'" align="center" valign="middle"></td>').append(markerImage).append(loadingImage);
+    var markerCell = $('<td id="markerClickTarget_'+id+'" align="center" valign="middle"></td>')
+        .append(bringToFrontImage)
+        .append('&nbsp;&nbsp;')
+        .append(markerImage)
+        .append('&nbsp;&nbsp;')
+        .append(loadingImage)
+        ;
+
+    bringToFrontImage.click(function (e) {
+        var id = searchRowIdFromOtherId(e.target.id);
+        bring_markers_to_front(id);
+    });
 
     markerImage.click(function (e) {
         var id = searchRowIdFromOtherId(e.target.id);

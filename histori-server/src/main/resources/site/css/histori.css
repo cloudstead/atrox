@@ -283,6 +283,11 @@ input[type=file] {
     text-align: center;
 }
 
+.searchBox_bringToFront {
+    position: relative;
+    top: -16px;
+}
+
 .searchBox_markerImage {
     text-align: center;
 }

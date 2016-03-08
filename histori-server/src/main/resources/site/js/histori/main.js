@@ -395,3 +395,18 @@ function remove_all_markers () {
     active_markers = {};
     all_markers = [];
 }
+
+function bring_markers_to_front(searchbox_id) {
+    var markers = active_markers[searchbox_id];
+
+    if (typeof markers == "undefined" || markers == null || !is_array(markers)) return;
+
+    var i;
+    for (i=0; i<all_markers.length; i++) {
+        all_markers[i].setZIndex(1);
+    }
+    for (i = 0; i < active_markers[searchbox_id].length; i++) {
+        active_markers[searchbox_id][i].setZIndex(2);
+    }
+    slider.bring_markers_to_front(searchbox_id);
+}

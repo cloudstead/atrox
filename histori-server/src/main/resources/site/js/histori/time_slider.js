@@ -216,6 +216,17 @@ var slider = {
         this.all_markers = [];
     },
 
+    bring_markers_to_front: function (searchbox_id) {
+        if (typeof this.markers[searchbox_id] == "undefined" || this.markers[searchbox_id] == null) return;
+        var i;
+        for (i=0; i<this.all_markers.length; i++) {
+            this.all_markers[i].css('z-index', 1);
+        }
+        for (i=0; i<this.markers[searchbox_id].length; i++) {
+            this.markers[searchbox_id][i].css('z-index', 2);
+        }
+    },
+
     raw_date_to_pixel_offset: function (raw, width) {
         var year_offset = parseFloat(raw) - parseFloat(this.range.start);
         var pct_offset = year_offset / parseFloat(this.range_size_in_years());
