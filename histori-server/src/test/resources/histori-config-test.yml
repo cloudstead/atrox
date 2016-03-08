@@ -31,7 +31,7 @@ staticAssets:
     INDEX_ALIASES: /:/index.php
     LOCALIZE: /localize
   substitutions:
-    /index.html:
+    /signup.html:
       recaptcha: {{RECAPTCHA_PUBLIC_KEY}}
 
 http:
