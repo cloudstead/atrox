@@ -10,6 +10,7 @@ import histori.model.support.EntityVisibility;
 import histori.model.support.NexusRequest;
 import histori.server.HistoriConfiguration;
 import lombok.extern.slf4j.Slf4j;
+import org.cobbzilla.util.collection.CustomHashSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ import java.util.List;
 import static histori.ApiConstants.EP_TAGS;
 import static histori.ApiConstants.NEXUS_ENDPOINT;
 import static histori.model.support.EntityVisibility.everyone;
+import static histori.resources.NexusTagHasher.valueTagHash;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
 import static org.cobbzilla.util.string.StringUtil.urlDecode;
@@ -162,31 +164,53 @@ public class NexusResource {
             final List<NexusTag> toDelete = new ArrayList<>();
 
             // list of those found in the request that don't exist in storage -> add to storage
-            final List<NexusTag> toAdd = new ArrayList<>();
+            final CustomHashSet<NexusTag> toAdd = valueTagHash(request.getTags());
 
-            // only look at public tags
-            final List<NexusTag> existingTags = nexusTagDAO.findByNexus(account, nexus.getUuid(), everyone);
+            // if the nexus does not belong to the caller, only look at public tags
+            final List<NexusTag> existingTags = nexus.getOwner().equals(callerNexus.getOwner())
+                ? nexusTagDAO.findByNexusAndOwner(account, nexus.getUuid())
+                : nexusTagDAO.findByNexus(account, nexus.getUuid(), everyone);
+
             for (NexusTag tag : existingTags) {
                 boolean found = false;
                 for (NexusTag requestTag : request.getTags()) {
-                    if (requestTag.getUuid().equals(tag.getUuid())) {
+                    if (requestTag.hasUuid() && requestTag.getUuid().equals(tag.getUuid())) {
                         // only schema values can be updated. name/type are immutable.
                         tag.setSchemaValues(requestTag.getSchemaValues());
-                        nexusTagDAO.update(tag);
+                        try {
+                            nexusTagDAO.update(tag);
+                        } catch (Exception e) {
+                            log.error("error updating tag: ("+tag+"): "+e);
+                        }
+                        toAdd.remove(requestTag);
                         found = true;
-                    } else if (!existingTags.contains(requestTag)) {
-                        toAdd.add((NexusTag) new NexusTag(requestTag).setNexus(callerNexus.getUuid()));
+                        break;
+
+                    } else if (requestTag.isSameTag(tag) && toAdd.contains(tag)) {
+                        // it is not changing any values
+                        toAdd.remove(requestTag);
+                        found = true;
+                        break;
                     }
                 }
                 if (!found) toDelete.add(tag);
             }
 
-            for (NexusTag tag : toAdd) callerNexus.addTag(nexusTagDAO.create(tag));
+            for (NexusTag tag : toAdd) {
+                tag.setNexus(callerNexus.getUuid());
+                tag.setOwner(callerNexus.getOwner());
+                try {
+                    callerNexus.addTag(nexusTagDAO.create(tag));
+                } catch (Exception e) {
+                    log.error("error adding tag ("+tag+"): "+e);
+                }
+            }
             for (NexusTag tag : toDelete) {
                 nexusTagDAO.delete(tag.getUuid());
                 callerNexus.removeTag(tag.getUuid());
             }
         }
+        callerNexus.setTags(nexusTagDAO.findByNexusAndOwner(account, callerNexus.getUuid()));
         return callerNexus;
     }
 

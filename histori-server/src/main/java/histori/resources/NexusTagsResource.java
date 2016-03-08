@@ -140,6 +140,13 @@ public class NexusTagsResource {
         final String canonical = canonicalize(tagName);
         if (!canonicalize(nexusTag.getTagName()).equals(canonical)) return invalid("err.tagName.mismatch");
 
+        // does this nexus already have this exact same tag?
+        for (NexusTag existing : nexusTagDAO.findByNexus(nexus.getUuid())) {
+            if (existing.isSameTag(nexusTag)) {
+                return ok(existing);
+            }
+        }
+
         TagType tagType = tagTypeDAO.findByCanonicalName(nexusTag.getTagType());
         if (tagType == null) {
             // maybe it already exists?

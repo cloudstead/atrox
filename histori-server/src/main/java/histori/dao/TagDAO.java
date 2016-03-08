@@ -40,6 +40,11 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.now;
         return super.postUpdate(tag, context);
     }
 
+    @Override public Tag create(@Valid Tag entity) {
+        final Tag found = tagCache.get(entity.getCanonicalName());
+        return found != null ? found : super.create(entity);
+    }
+
     // findByCanonicalName needs to be lightning-fast
     private static final long TAG_CACHE_REFRESH = TimeUnit.MINUTES.toMillis(10);
     private final AtomicLong lastCacheFill = new AtomicLong(0);

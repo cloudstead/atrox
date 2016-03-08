@@ -14,4 +14,5 @@ import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
 public class NexusTag extends NexusTagBase {
 
     public NexusTag(NexusTag nexusTag) { copy(this, nexusTag, NexusTag.VALUE_FIELDS); }
+
 }

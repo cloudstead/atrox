@@ -110,6 +110,9 @@ public class NexusBase extends SocialEntity {
 
     public NexusBase addTag (NexusTag tag) {
         if (tags == null) tags = new ArrayList<>();
+        for (NexusTag existing : tags) {
+            if (tag.isSameTag(existing)) return this;
+        }
         tags.add(tag);
         return this;
     }
@@ -133,7 +136,7 @@ public class NexusBase extends SocialEntity {
             }
         }
         if (!empty(tagType)) tag.setTagType(tagType);
-        tags.add(tag);
+        addTag(tag);
         return this;
     }
 

@@ -18,7 +18,9 @@ import static org.hibernate.criterion.Restrictions.in;
 public class CanonicalEntityDAO<E extends CanonicalEntity> extends AbstractCRUDDAO<E> {
 
     @Override public Object preCreate(@Valid E entity) {
-        if (findByCanonicalName(entity.getCanonicalName()) != null) throw invalidEx("err.name.notUnique", "Name was not unique", entity.getCanonicalName());
+        if (findByCanonicalName(entity.getCanonicalName()) != null) {
+            throw invalidEx("err.name.notUnique", "Name was not unique", entity.getCanonicalName());
+        }
         return super.preCreate(entity);
     }
 

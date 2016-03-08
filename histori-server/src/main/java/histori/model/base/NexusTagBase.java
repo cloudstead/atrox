@@ -17,9 +17,11 @@ import javax.validation.constraints.Size;
 import java.util.*;
 
 import static histori.ApiConstants.NAME_MAXLEN;
+import static histori.model.CanonicalEntity.canonicalize;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.json.JsonUtil.fromJsonOrDie;
 import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
+import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
 
 @MappedSuperclass @Accessors(chain=true)
 public class NexusTagBase extends SocialEntity {
@@ -68,20 +70,23 @@ public class NexusTagBase extends SocialEntity {
     @Override public String[] getIdentifiers() { return new String[] {getUuid()}; }
     @Override public String[] getIdentifierFields() { return ID_FIELDS; }
 
-    @Override public String toString() { return getTagType()+"/"+getTagName(); }
+    @Override public String toString() {
+        if (hasSchemaValues()) {
+            return getTagType() + "/" + getTagName() + "(schema:"+getSchemaValueMap()+")";
+        } else {
+            return getTagType() + "/" + getTagName();
+        }
+    }
 
     @JsonIgnore @Transient public SchemaValueMap getSchemaValueMap() {
         final SchemaValueMap map = new SchemaValueMap();
         if (!hasSchemaValues()) return map;
-        for (TagSchemaValue val : getValues()) {
-            Set<String> found = map.get(val.getField());
-            if (found == null) {
-                found = new HashSet<>();
-                map.put(val.getField(), found);
-            }
-            found.add(val.getValue());
-        }
+        map.addAll(getValues());
         return map;
+    }
+
+    @JsonIgnore @Transient public String getSchemaHash() {
+        return getSchemaValueMap().getHash();
     }
 
     public static List<NexusTag> filterByType(List<NexusTag> tags, String type) {
@@ -101,7 +106,25 @@ public class NexusTagBase extends SocialEntity {
         return false;
     }
 
-    public class SchemaValueMap extends HashMap<String, Set<String>> {
+    public boolean isSameTag(NexusTag tag) {
+        if (!canonicalize(getTagName()).equals(canonicalize(tag.getTagName()))) return false;
+        if (!canonicalize(getTagType()).equals(canonicalize(tag.getTagType()))) return false;
+        return getSchemaHash().equals(tag.getSchemaHash());
+    }
+
+    public class SchemaValueMap extends TreeMap<String, Set<String>> {
+
+        public void addAll(TagSchemaValue[] values) {
+            for (TagSchemaValue val : values) {
+                Set<String> found = get(val.getField());
+                if (found == null) {
+                    found = new TreeSet<>();
+                    put(val.getField(), found);
+                }
+                found.add(val.getValue());
+            }
+        }
+
         @Override public boolean equals(Object o) {
             if (!(o instanceof SchemaValueMap)) return false;
 
@@ -128,6 +151,24 @@ public class NexusTagBase extends SocialEntity {
             }
 
             return true;
+        }
+
+        private static final String KSEP = "|||";
+        private static final String VSEP = "@@@";
+
+        @Override public int hashCode() {
+            return getHash().hashCode();
+        }
+
+        public String getHash() {
+            final StringBuilder hash = new StringBuilder();
+            for (Map.Entry<String, Set<String>> entry : this.entrySet()) {
+                hash.append(KSEP).append(entry.getKey());
+                for (String value : entry.getValue()) {
+                    hash.append(VSEP).append(value);
+                }
+            }
+            return sha256_hex(hash.toString());
         }
     }
 }

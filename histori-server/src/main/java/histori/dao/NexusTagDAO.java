@@ -1,10 +1,7 @@
 package histori.dao;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
-import histori.model.Account;
-import histori.model.Nexus;
-import histori.model.NexusTag;
-import histori.model.TagType;
+import histori.model.*;
 import histori.model.support.EntityVisibility;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -32,11 +29,15 @@ public class NexusTagDAO extends VersionedEntityDAO<NexusTag> {
     private RedisService initTagCache() { return redisService.prefixNamespace("NexusTagDAO.findByNexus", null); }
 
     @Override public Object preCreate(@Valid NexusTag entity) {
+        entity.setTagType(CanonicalEntity.canonicalize(entity.getTagType()));
+        entity.setTagName(CanonicalEntity.canonicalize(entity.getTagName()));
         getTagCache().del(entity.getNexus());
         return super.preCreate(entity);
     }
 
     @Override public Object preUpdate(@Valid NexusTag entity) {
+        entity.setTagType(CanonicalEntity.canonicalize(entity.getTagType()));
+        entity.setTagName(CanonicalEntity.canonicalize(entity.getTagName()));
         getTagCache().del(entity.getNexus());
         return super.preUpdate(entity);
     }
