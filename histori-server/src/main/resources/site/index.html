@@ -99,15 +99,27 @@
               <td>&nbsp;<img class="mainControlButton" title="Coming Soon! Support for user-contributed updates!" src="iconic/png/plus-2x.png"/></td>
               <td>&nbsp;<img id="btnAccount" class="mainControlButton" title="sign in / sign up" src="iconic/png/person-2x.png" onclick="showLoginForm();"/></td>
               <td>&nbsp;<img class="mainControlButton" title="Coming Soon! Help and info about histori.city" src="iconic/png/question-mark-2x.png"/></td>
-              <td>&nbsp;<img class="mainControlButton" title="Bookmarks and Sharing" onclick="showBookmarks();" src="iconic/png/pin-2x.png"/></td>
+              <td>&nbsp;<img class="mainControlButton" title="Bookmarks and Sharing" onclick="showBookmarks();" src="iconic/png/star-2x.png"/></td>
+              <td>&nbsp;<img class="mainControlButton" title="Interesting Times and Places" onclick="showStandardPermalinks();" src="iconic/png/map-2x.png"/></td>
           </tr>
         </thead>
     </table>
 </div>
 
+<div id="standardPermalinksContainer" class="dialogContainer">
+    <table border="0" cellpadding="3">
+        <thead>
+        <tr>
+            <td colspan="2">Interesting Times and Places</td>
+        </tr>
+        </thead>
+        <tbody id="standardPermalinksTbody"></tbody>
+    </table>
+</div>
+
 <div id="bookmarksContainer" class="dialogContainer">
     <div id="bookmarkForm">
-        <table border="0" cellpadding="2">
+        <table border="0" cellpadding="3">
             <thead>
                 <tr id="savedBookmarksHeader">
                     <td>name</td>

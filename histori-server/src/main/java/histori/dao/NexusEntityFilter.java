@@ -27,7 +27,7 @@ public class NexusEntityFilter implements EntityFilter<Nexus> {
     @Getter private final TagDAO tagDAO;
     @Getter private final TagTypeDAO tagTypeDAO;
     private final String queryHash;
-    private final Set<String> terms;
+    private final TreeSet<String> terms;
     private final Map<String, Pattern> patternCache = new HashMap<>();
 
     private Pattern getPattern(String term) {
@@ -48,7 +48,7 @@ public class NexusEntityFilter implements EntityFilter<Nexus> {
 
         // by sorting terms alphabetically, and trimming whitespace, we prevent duplicate cache entries
         // for searches that are essentially the same
-        terms = (Set<String>) (empty(query) ? Collections.emptySet() : new TreeSet<>(collectTerms(query)));
+        terms = (TreeSet<String>) (empty(query) ? Collections.emptySet() : new TreeSet<>(collectTerms(query)));
         queryHash = sha256_hex(StringUtil.toString(terms, " "));
     }
 
@@ -67,10 +67,11 @@ public class NexusEntityFilter implements EntityFilter<Nexus> {
         return terms;
     }
 
-    @Override
-    public boolean isAcceptable(Nexus nexus) {
+    @Override public boolean isAcceptable(Nexus nexus) {
 
-        if (empty(terms)) return true; // empty query matches everything
+        if (empty(terms)) return false; // empty query matches nothing (note: used to match everything)
+
+        if (terms.size() == 1 && terms.first().equals("*")) return true; // now a single '*' matches everything
 
         final String cacheKey = nexus.getUuid() + ":query:" + queryHash;
         String cached = null;

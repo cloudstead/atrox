@@ -260,6 +260,9 @@ Api = {
     get_permalink: function (link_id, success, fail) {
         Api._get('permalinks/'+encodeURIComponent(link_id), success, fail);
     },
+    get_standard_permalinks: function (success, fail) {
+        Api._get('permalinks', success, fail);
+    },
 
     transform_image: function (src, width, height) {
         return src.replace("/public/image/", "/public/transform/w_"+width+"-h_"+height+"/");

@@ -26,6 +26,15 @@ public class PermalinksResource {
 
     @Autowired private PermalinkDAO permalinkDAO;
 
+    /**
+     * Get "standard" permalinks
+     * @return a List of permalink names for standard links
+     */
+    @GET
+    public Response getLinkContents(@Context HttpContext ctx) {
+        return ok(permalinkDAO.findStandardLinks());
+    }
+
     @GET
     @Path("/{linkId}")
     public Response getLinkContents(@Context HttpContext ctx,
@@ -42,5 +51,4 @@ public class PermalinksResource {
             return invalid("err.permalink.json.invalid");
         }
     }
-
 }

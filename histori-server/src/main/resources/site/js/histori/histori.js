@@ -267,6 +267,11 @@ Histori = {
 
     clear_session_data: function () { localStorage.removeItem(this._search_state); },
 
+    has_session_data: function () {
+        var json = localStorage.getItem(this._search_state);
+        return !(typeof json == 'undefined' || json == null);
+    },
+
     restore_session: function () {
 
         var json = localStorage.getItem(this._search_state);
@@ -444,18 +449,19 @@ Histori = {
 
     get_bookmark: function (name, success, fail) {
         if (isAnonymous()) {
-            var bookmarks = this.get_bookmarks();
-            for (var i = 0; i < bookmarks.length; i++) {
-                if (bookmarks[i].name == name) {
-                    success(bookmarks[i]);
-                    return;
+            this.get_bookmarks(function (bookmarks) {
+                for (var i = 0; i < bookmarks.length; i++) {
+                    if (bookmarks[i].name == name) {
+                        success(bookmarks[i]);
+                        return;
+                    }
                 }
-            }
-            fail();
+                fail();
+            });
 
         } else {
             Api.get_bookmark(name, function (data) {
-                success(JSON.parse(data.json))
+                success({ uuid: data.uuid, name: data.name, state: JSON.parse(data.json) });
             }, fail);
         }
     },
@@ -467,8 +473,8 @@ Histori = {
     clear_local_bookmarks: function () { localStorage.removeItem(this._bookmark_state); },
 
     restore_bookmark_state: function (name) {
-        this.get_bookmark(name, function (state) {
-            Histori.restore_state(state);
+        this.get_bookmark(name, function (bookmark) {
+            Histori.restore_state(bookmark.state);
         });
     }
 

@@ -158,7 +158,11 @@ function initMap () {
     if (link_id != null && link_id.length >= 5) {
         Histori.restore_permalink(link_id);
     } else {
-        Histori.restore_session();
+        if (Histori.has_session_data()) {
+            Histori.restore_session();
+        } else {
+            showStandardPermalinks();
+        }
     }
 }
 

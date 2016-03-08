@@ -26,6 +26,40 @@ function showRegForm () {
 function showForgotPassForm () { showForm('forgotPassContainer'); }
 function showResetPassForm () { showForm('resetPassContainer'); }
 
+function showStandardPermalinks () {
+    Api.get_standard_permalinks(function (links) {
+        var tbody = $('#standardPermalinksTbody');
+        tbody.empty();
+        for (var i=0; i<links.length; i++) {
+            var row = $('<tr></tr>');
+            var nameCell = $('<td></td>');
+
+            // substring to chop leading @@ that marks this as a standard link
+            var bookmarkLink = $('<a class="bookmark_link" href=".">' + links[i].name.substring(2) + '</a>');
+            bookmarkLink.on('click', restore_standard_permalink_click_handler(links[i].name));
+            nameCell.append(bookmarkLink);
+            row.append(nameCell);
+
+            var timeCell = $('<td></td>');
+            timeCell.append(display_range(JSON.parse(links[i].json).timeline.range));
+            row.append(timeCell);
+
+            tbody.append(row);
+        }
+        showForm('standardPermalinksContainer');
+    });
+}
+
+function restore_standard_permalink_click_handler (name) {
+    return function (e) {
+        Api.get_permalink(name, function (link) {
+            Histori.restore_state(link);
+            closeForm('standardPermalinksContainer');
+        });
+        return false;
+    }
+}
+
 function showBookmarks () {
     // todo: handle errors?
     Histori.get_bookmarks(function (data) {
@@ -33,21 +67,21 @@ function showBookmarks () {
     });
 }
 
+function display_bounds(bounds) {
+    return bounds.south.toFixed(2)+'&#176;S, '+bounds.west.toFixed(2)+'&#176;W to<br/>'
+        + bounds.north.toFixed(2)+'&#176;N, '+bounds.east.toFixed(2)+'&#176;E';
+}
+
+function display_range(range) {
+    var start = slider.label_for_raw(parseFloat(range.start));
+    var end = slider.label_for_raw(parseFloat(range.end));
+    return start + ' to ' + end;
+}
+
 var bookmark_anonymous_warning_html = '';
 function buildBookmarksForm (bookmarks) {
     var bookmarksList = $('#bookmarksList');
     bookmarksList.empty();
-
-    function display_bounds(bounds) {
-        return bounds.south.toFixed(2)+'&#176;S, '+bounds.west.toFixed(2)+'&#176;W to<br/>'
-            + bounds.north.toFixed(2)+'&#176;N, '+bounds.east.toFixed(2)+'&#176;E';
-    }
-
-    function display_range(range) {
-        var start = slider.label_for_raw(parseFloat(range.start));
-        var end = slider.label_for_raw(parseFloat(range.end));
-        return start + ' to ' + end;
-    }
 
     function bookmark_query_tooltip(searches) {
         var queries = '';

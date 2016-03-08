@@ -17,8 +17,10 @@ import org.springframework.stereotype.Repository;
 
 import javax.validation.Valid;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
+import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.hibernate.criterion.Restrictions.*;
 
 @Repository @Slf4j
@@ -114,6 +116,7 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
      * @return a List of Nexus objects
      */
     public List<Nexus> findByTimeRangeAndGeo(TimeRange range, GeoBounds bounds, final String query) {
+        if (empty(query)) return new ArrayList<>(); // empty matches nothing!
         final BigInteger start = range.getStartPoint().getInstant();
         final BigInteger end = range.getEndPoint().getInstant();
         return list(criteria().add(and(
@@ -134,6 +137,7 @@ public class NexusDAO extends VersionedEntityDAO<Nexus> {
      * @return a List of Nexus objects
      */
     public List<Nexus> findByTimeRangeAndGeo(Account account, TimeRange range, GeoBounds bounds, EntityVisibility visibility, String query) {
+        if (empty(query)) return new ArrayList<>(); // empty matches nothing!
         final BigInteger start = range.getStartPoint().getInstant();
         final BigInteger end = range.getEndPoint().getInstant();
         return list(criteria().add(and(
