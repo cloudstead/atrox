@@ -188,7 +188,7 @@ Histori = {
                 email: fields['email'].value,
                 password: fields['password'].value,
                 subscribe: fields['subscribe'].checked,
-                captcha: fields['g-recaptcha-response'].value
+                captcha: sessionStorage.getItem('g-recaptcha-response')
             },
             function (auth_response) {
                 success(auth_response);

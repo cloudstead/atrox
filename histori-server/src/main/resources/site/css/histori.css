@@ -35,6 +35,16 @@ input[type=file] {
     pointer-events: visible;
 }
 
+#regContainer {
+    height: 500px;
+    width: 320px;
+    overflow-y: scroll;
+}
+#signup_iframe_div {
+    height: 500px;
+    width: 320px;
+    overflow-y: scroll;
+}
 #mapImageContainer {
     width: 100%;
     height: 100%;

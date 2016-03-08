@@ -264,13 +264,14 @@
                 </tr>
                 <tr><td>&nbsp;</td></tr>
                 <tr>
-                    <!-- @@@recaptcha@@@ is replaced on the server-side at request-time -->
-                    <td colspan="2" id="recaptchaContainer"><div class="g-recaptcha" data-sitekey="@@@recaptcha@@@"></div></td>
-                </tr>
-                <tr>
                     <td colspan="2">
                         <input type="submit" value="sign up"/>
                         <button onclick="closeRegForm(); return false; ">close</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" id="recaptchaContainer" height="500">
+                        <iframe frameborder="0" id="captcha_iframe" src="signup.html" scrolling="yes" height="100%" width="100%"></iframe>
                     </td>
                 </tr>
                 </tbody>

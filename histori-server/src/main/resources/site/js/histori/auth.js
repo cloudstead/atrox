@@ -20,7 +20,7 @@ function showAccountForm () {
     showForm('accountContainer');
 }
 function showRegForm () {
-    // todo: how to disable tooltip on recaptcha?
+    document.getElementById('captcha_iframe').contentDocument.location.reload(true);
     showForm('regContainer');
 }
 function showForgotPassForm () { showForm('forgotPassContainer'); }

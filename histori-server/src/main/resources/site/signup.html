@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>histori</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="css/autocomplete.css"/>
+    <link rel="stylesheet" type="text/css" href="css/histori.css"/>
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        a:link a:visited {
+            text-decoration: none;
+            color: black;
+        }
+
+        a:hover a:active {
+            text-decoration: underline;
+            color: black;
+        }
+    </style>
+
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script>
+        var checker;
+        checker = window.setInterval(function () {
+            var recaptcha = $('#g-recaptcha-response');
+            if (recaptcha.length) {
+                var val = $(recaptcha[0]).val();
+                if (val.trim().length > 0) {
+                    sessionStorage.setItem('g-recaptcha-response', val);
+                    window.clearInterval(checker);
+                }
+            }
+        }, 100);
+    </script>
+</head>
+<body>
+<div id="signup_iframe_div">
+  <form id="recaptcha" onsubmit="return false;" method="post">
+
+    <!-- @@@recaptcha@@@ is replaced on the server-side at request-time -->
+    <div class="g-recaptcha" data-sitekey="@@@recaptcha@@@"></div>
+
+  </form>
+</div>
+
+<script src="js/jquery.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/histori/api.js"></script>
+<script src="js/histori/histori.js"></script>
+<script src="js/histori/auth.js"></script>
+</body>
+
+</html>
