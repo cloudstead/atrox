@@ -50,8 +50,26 @@ function rowMarkerImageSrc(id) {
 function rowLoadingImage(id) { return $('#loading_' + id); }
 function rowRemoveMarkerIcon(id) { return $('#removeMarkerIcon_' + id); }
 
-function showLoadingSpinner (id) { rowLoadingImage(id).css('visibility', 'visible'); }
-function hideLoadingSpinner (id) { rowLoadingImage(id).css('visibility', 'hidden'); }
+function showLoadingSpinner (id) {
+    rowLoadingImage(id).css('visibility', 'visible');
+    $('#mainLoadingSpinner').css('visibility', 'visible');
+}
+
+function hideLoadingSpinner (id) {
+    rowLoadingImage(id).css('visibility', 'hidden');
+    var anyLoading = false;
+    var loadingImages = $('.searchBox_loadingSpinner');
+    for (var i=0; i<loadingImages.length; i++) {
+        if ($(loadingImages[i]).css('visibility') == 'visible') {
+            anyLoading = true; break;
+        }
+    }
+    if (!anyLoading) {
+        $('#mainLoadingSpinner').css('visibility', 'hidden');
+    } else {
+        $('#mainLoadingSpinner').css('visibility', 'visible');
+    }
+}
 
 function newExactSearch (term) { return newSearch('e:"'+term+'"'); }
 
@@ -271,7 +289,7 @@ function buildSearchRow (color) {
     var row = $('<tr class="searchRow" id="row_'+id+'"></tr>');
 
     var markerImage = $('<img id="marker_'+ id+'" class="searchBox_markerImage" src="markers/'+color+'_Marker_blank.png"/>');
-    var loadingImage = $('<img id="loading_'+ id+'" src="icons/spinner.gif" style="visibility: hidden"/>');
+    var loadingImage = $('<img id="loading_'+ id+'" class="searchBox_loadingSpinner" src="icons/spinner.gif" style="visibility: hidden"/>');
     var markerCell = $('<td id="markerClickTarget_'+id+'" align="center" valign="middle"></td>').append(markerImage).append(loadingImage);
 
     markerImage.click(function (e) {
