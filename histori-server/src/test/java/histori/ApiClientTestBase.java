@@ -18,12 +18,12 @@ import org.cobbzilla.util.collection.SingletonList;
 import org.cobbzilla.util.json.JsonUtil;
 import org.cobbzilla.util.system.CommandShell;
 import org.cobbzilla.wizard.dao.SearchResults;
-import org.cobbzilla.wizard.model.ResultPage;
 import org.cobbzilla.wizard.server.RestServer;
 import org.cobbzilla.wizard.server.config.factory.ConfigurationSource;
 import org.cobbzilla.wizard.server.config.factory.StreamConfigurationSource;
 import org.cobbzilla.wizard.util.RestResponse;
 import org.cobbzilla.wizardtest.resources.ApiDocsResourceIT;
+import org.cobbzilla.wizardtest.server.config.DummyRecaptchaConfig;
 import org.geojson.Point;
 
 import java.util.List;
@@ -54,7 +54,11 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
         return env;
     }
 
-    @Override public void onStart(RestServer<HistoriConfiguration> server) { new DbSeedListener().onStart(server); }
+    @Override public void onStart(RestServer<HistoriConfiguration> server) {
+        // disable captcha for tests
+        server.getConfiguration().setRecaptcha(DummyRecaptchaConfig.instance);
+        new DbSeedListener().onStart(server);
+    }
 
     @Override protected List<ConfigurationSource> getConfigurations() {
         return new SingletonList<ConfigurationSource>(new StreamConfigurationSource(getTestConfig()));
@@ -105,14 +109,9 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
         return JsonUtil.PUBLIC_MAPPER.readValue(response.json, resultType);
     }
 
-    public <T> SearchResults<T> search(String url, ResultPage page, JavaType resultType) throws Exception {
-        apiDocs.addNote("search " + url + " with query: " + page);
-        final RestResponse response = doPost(url, toJson(page));
-        return JsonUtil.PUBLIC_MAPPER.readValue(response.json, resultType);
-    }
-
-    public SearchResults<NexusSummary> search(String startDate, String endDate) throws Exception {
-        return simpleSearch(SEARCH_ENDPOINT + EP_QUERY + "/" + startDate + "/" + endDate + "/180/-180/180/-180", NexusSummary.SEARCH_RESULT_TYPE);
+    public SearchResults<NexusSummary> search(String startDate, String endDate, String query) throws Exception {
+        // search entire map area with caching disabled
+        return simpleSearch(SEARCH_ENDPOINT + EP_QUERY + "/" + startDate + "/" + endDate + "/180/-180/180/-180?c=false&q="+query, NexusSummary.SEARCH_RESULT_TYPE);
     }
 
     public Nexus dummyNexus () {

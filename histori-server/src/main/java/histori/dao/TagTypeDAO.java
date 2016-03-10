@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
+import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.daemon.ZillaRuntime.now;
 
 @Repository
@@ -40,7 +41,7 @@ public class TagTypeDAO extends CanonicalEntityDAO<TagType> {
                 }
             }
         }
-        return tagTypeCache.get(canonicalName);
+        return empty(canonicalName) ? null : tagTypeCache.get(canonicalName);
     }
 
 }

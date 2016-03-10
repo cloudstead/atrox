@@ -43,7 +43,7 @@ public class SearchResource {
     @Autowired private SearchQueryDAO searchQueryDAO;
     @Autowired private RedisService redisService;
 
-    private static final long SEARCH_CACHE_TIMEOUT_SECONDS = TimeUnit.DAYS.toSeconds(1);
+    private static final long SEARCH_CACHE_TIMEOUT_SECONDS = TimeUnit.MINUTES.toSeconds(1);
 
     @Getter(lazy=true) private final RedisService searchCache = initSearchCache();
     private RedisService initSearchCache() { return redisService.prefixNamespace(SearchResource.class.getName(), null); }
@@ -71,13 +71,15 @@ public class SearchResource {
                                           @PathParam("east") double east,
                                           @PathParam("west") double west,
                                           @QueryParam("q") String query,
-                                          @QueryParam("v") String visibility) {
+                                          @QueryParam("v") String visibility,
+                                          @QueryParam("c") String useCache) {
 
         final Account account = optionalUserPrincipal(ctx);
 
         final SearchQuery q = new SearchQuery()
                 .setQuery(query)
                 .setVisibility(EntityVisibility.create(visibility, everyone))
+                .setUseCache(empty(useCache) || !useCache.equalsIgnoreCase("false"))
                 .setFrom(from)
                 .setTo(to)
                 .setNorth(north)
@@ -94,7 +96,7 @@ public class SearchResource {
     private Response search(Account account, SearchQuery q) {
 
         final String cacheKey = (account == null ? "null" : account.getUuid()) + ":" + q.hashCode();
-        final String json = getSearchCache().get(cacheKey);
+        final String json = q.isUseCache() ? getSearchCache().get(cacheKey) : null;
         SearchResults<NexusSummary> results = null;
         if (!empty(json)) {
             try {

@@ -53,7 +53,7 @@ public class NexusSummaryDAO extends BackgroundFetcherDAO<NexusSummary> {
     public SearchResults<NexusSummary> search(Account account, EntityVisibility visibility, TimeRange range, GeoBounds bounds, String query) {
 
         final SearchResults<NexusSummary> results = new SearchResults<>();
-        final List<Nexus> found = account == null
+        final List<Nexus> found = (account == null || account.isAnonymous())
                 ? nexusDAO.findByTimeRangeAndGeo(range, bounds, query)
                 : nexusDAO.findByTimeRangeAndGeo(account, range, bounds, visibility, query);
         if (found.isEmpty()) return results;

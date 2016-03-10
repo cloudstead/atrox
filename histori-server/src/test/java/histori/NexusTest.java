@@ -47,14 +47,13 @@ public class NexusTest extends ApiClientTestBase {
         final TimeRange range = randomTimeRange();
         final String startDate = range.getStartPoint().toString();
         final String endDate = range.getEndPoint().toString();
+        final String nexusName = randomName();
 
         apiDocs.addNote("Search the range ("+range.getStartPoint()+" to "+range.getEndPoint()+"), there should be nothing found");
-        SearchResults<NexusSummary> searchResults = search(startDate, endDate);
+        SearchResults<NexusSummary> searchResults = search(startDate, endDate, nexusName);
         assertNull(searchResults.getTotalCount());
         assertEquals(0, searchResults.count());
         assertTrue(searchResults.getResults().isEmpty());
-
-        final String nexusName = randomName();
 
         final String tag1 = "War";
         final String tag2 = "USA";
@@ -90,7 +89,7 @@ public class NexusTest extends ApiClientTestBase {
         assertEquals(3, found.getTags().size());
 
         apiDocs.addNote("Search for nexus in the same range, should see our new nexus, but probably without tags");
-        searchResults = search(startDate, endDate);
+        searchResults = search(startDate, endDate, nexusName);
         assertEquals(1, searchResults.count());
         result = searchResults.getResult(0);
         assertEquals(nexusName, result.getPrimary().getName());
@@ -100,7 +99,7 @@ public class NexusTest extends ApiClientTestBase {
         while (summaryDAO.get(NexusSummary.summaryUuid(nexus, account, EntityVisibility.everyone)) == null) sleep(50);
 
         apiDocs.addNote("Search for nexus in the same range, should see our new nexus, now with tags");
-        searchResults = search(startDate, endDate);
+        searchResults = search(startDate, endDate, nexusName);
         assertEquals(1, searchResults.count());
         result = searchResults.getResult(0);
         assertEquals(nexusName, result.getPrimary().getName());
@@ -113,7 +112,7 @@ public class NexusTest extends ApiClientTestBase {
         final Nexus updatedNexus = fromJson(post(nexusPath, toJson(nexus)).json, Nexus.class);
         assertEquals(nexusName, updatedNexus.getName());
 
-        apiDocs.addNote("Add another tag");
+        apiDocs.addNote("Add another tag - this will create another version of the nexus");
         String tag4 = "Foobar";
         nexus.addTag(tag4);
         addTag(nexusPath, nexus.getFirstTag("foobar"));
@@ -148,7 +147,7 @@ public class NexusTest extends ApiClientTestBase {
         assertEquals(NOT_FOUND, doGet(nexusPath).status);
 
         apiDocs.addNote("Search again, verify no results");
-        searchResults = search(startDate, endDate);
+        searchResults = search(startDate, endDate, nexusName);
         assertEquals(0, searchResults.count());
 
         apiDocs.addNote("Verify that tags are still present in the system");
@@ -266,7 +265,7 @@ public class NexusTest extends ApiClientTestBase {
         assertEquals(markdown, updatedNexus.getMarkdown());
 
         apiDocs.addNote("Do search, we should see a single summary with both versions");
-        SearchResults<NexusSummary> results = search(startDate, endDate);
+        SearchResults<NexusSummary> results = search(startDate, endDate, nexusName);
         assertEquals(1, results.getResults().size());
         assertNotNull(results.getResult(0).getOthers());
         assertEquals(1, results.getResult(0).getOthers().length);

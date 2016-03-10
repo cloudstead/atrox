@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 @Entity @Accessors(chain=true) @ToString(of={"name","json"})
 public class Permalink extends UniquelyNamedEntity {
 
-    protected boolean forceLowercase () { return false; }
+    public boolean forceLowercase () { return false; }
 
     @HasValue(message="err.permalink.json.empty")
     @Size(max=16000, message="err.permalink.json.length")

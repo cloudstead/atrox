@@ -18,8 +18,6 @@ public class PermalinkDAO extends UniquelyNamedEntityDAO<Permalink> {
 
     public static final int MIN_PERMALINK_CHARS = 5;
 
-    public boolean forceLowercase () { return false; }
-
     public Permalink getOrCreate(String json) {
         final String fullHash = Base64.encodeBytes(sha256_hex(json).getBytes());
         for (int i=MIN_PERMALINK_CHARS; i<fullHash.length(); i++) {

@@ -1,20 +1,18 @@
 package histori;
 
-import histori.model.Account;
-import histori.model.support.AccountAuthResponse;
-import histori.model.auth.HistoriLoginRequest;
-import histori.model.auth.RegistrationRequest;
 import cloudos.model.auth.ResetPasswordRequest;
 import cloudos.resources.AuthResourceBase;
+import histori.model.Account;
+import histori.model.auth.HistoriLoginRequest;
+import histori.model.auth.RegistrationRequest;
+import histori.model.support.AccountAuthResponse;
 import org.cobbzilla.mail.sender.mock.MockTemplatedMailSender;
 import org.cobbzilla.util.http.HttpStatusCodes;
 import org.junit.Test;
 
-import static histori.ApiConstants.*;
-import static cloudos.resources.AuthResourceBase.EP_ACTIVATE;
-import static cloudos.resources.AuthResourceBase.EP_FORGOT_PASSWORD;
-import static cloudos.resources.AuthResourceBase.EP_RESET_PASSWORD;
-import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
+import static cloudos.resources.AuthResourceBase.*;
+import static histori.ApiConstants.ACCOUNTS_ENDPOINT;
+import static histori.ApiConstants.EP_LOGIN;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJson;
 import static org.cobbzilla.wizardtest.RandomUtil.randomEmail;
@@ -82,7 +80,7 @@ public class AuthTest extends ApiClientTestBase {
         logout(); // discards session token
 
         apiDocs.addNote("Trigger 'forgot password' to send us an email");
-        assertTrue(empty(post(ACCOUNTS_ENDPOINT + EP_FORGOT_PASSWORD, email).json));
+        assertTrue(emptyObject(post(ACCOUNTS_ENDPOINT + EP_FORGOT_PASSWORD, email).json));
 
         assertEquals(1, mockSender.messageCount());
         assertEquals(email, mockSender.first().getToEmail());
@@ -92,7 +90,7 @@ public class AuthTest extends ApiClientTestBase {
         apiDocs.addNote("Reset password using token found in email");
         final String newPassword = randomName();
         final ResetPasswordRequest resetPasswordRequest = new ResetPasswordRequest(token, newPassword);
-        assertTrue(empty(post(ACCOUNTS_ENDPOINT + EP_RESET_PASSWORD, toJson(resetPasswordRequest)).json));
+        assertTrue(emptyObject(post(ACCOUNTS_ENDPOINT + EP_RESET_PASSWORD, toJson(resetPasswordRequest)).json));
 
         apiDocs.addNote("Try to login with the old password, does not work");
         final HistoriLoginRequest loginRequest = new HistoriLoginRequest(email, origPassword);
@@ -102,6 +100,10 @@ public class AuthTest extends ApiClientTestBase {
         loginRequest.setPassword(newPassword);
         response = fromJson(post(ACCOUNTS_ENDPOINT + EP_LOGIN, toJson(loginRequest)).json, AccountAuthResponse.class);
         assertEquals(account.getUuid(), response.getAccount().getUuid());
+    }
+
+    protected boolean emptyObject(String json) {
+        return json.replaceAll("\\s+", "").equals("{}");
     }
 
 }

@@ -25,6 +25,8 @@ public class SearchQuery extends IdentifiableBase {
     @Column(length=1024, updatable=false)
     @Getter @Setter private String query;
 
+    @Getter @Setter private boolean useCache = true;
+
     @HasValue(message="err.search.from.empty")
     @Column(length=30, nullable=false, updatable=false, name="tStart")
     @Getter @Setter private String from;
