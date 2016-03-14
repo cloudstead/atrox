@@ -1,5 +1,8 @@
 package histori.main;
 
+import histori.main.internal.ShardUpdateMain;
+import histori.main.internal.ShardListMain;
+import histori.main.internal.ShardRemoveMain;
 import histori.main.wiki.ArticleNexusMain;
 import histori.main.wiki.ArticlePathMain;
 import histori.main.wiki.WikiIndexerMain;
@@ -15,7 +18,10 @@ public class HistoriMain {
             {"index",  WikiIndexerMain.class},
             {"path",  ArticlePathMain.class},
             {"nexus",  ArticleNexusMain.class},
-            {"import",  NexusImportMain.class}
+            {"import",  NexusImportMain.class},
+            {"shard-update",  ShardUpdateMain.class},
+            {"shard-list",  ShardListMain.class},
+            {"shard-remove",  ShardRemoveMain.class}
     });
 
     public static void main(String[] args) throws Exception {

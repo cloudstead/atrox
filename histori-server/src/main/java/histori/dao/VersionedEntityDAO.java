@@ -28,14 +28,12 @@ public class VersionedEntityDAO<E extends VersionedEntity> extends AbstractCRUDD
     @Autowired private HistoriConfiguration configuration;
 
     @Override public Object preCreate(@Valid E entity) {
-
         Object ctx = super.preCreate(entity);
         incrementVersionAndArchive(entity);
         return ctx;
     }
 
     @Override public Object preUpdate(@Valid E entity) {
-
         Object ctx = super.preUpdate(entity);
         incrementVersionAndArchive(entity);
         return ctx;

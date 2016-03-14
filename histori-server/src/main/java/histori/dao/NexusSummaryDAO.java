@@ -1,150 +1,126 @@
 package histori.dao;
 
 import histori.dao.cache.VoteSummaryDAO;
+import histori.dao.search.NexusSearchResults;
+import histori.dao.search.SuperNexusIterator;
+import histori.dao.search.SuperNexusSearchTask;
+import histori.dao.search.SuperNexusSearchTaskResult;
 import histori.model.Account;
 import histori.model.Nexus;
+import histori.model.SearchQuery;
 import histori.model.cache.VoteSummary;
 import histori.model.support.EntityVisibility;
-import histori.model.support.GeoBounds;
 import histori.model.support.NexusSummary;
-import histori.model.support.TimeRange;
-import histori.server.HistoriConfiguration;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.cobbzilla.util.collection.FieldTransfomer;
-import org.cobbzilla.util.collection.Mappy;
-import org.cobbzilla.wizard.dao.BackgroundFetcherDAO;
+import org.cobbzilla.wizard.cache.redis.RedisService;
+import org.cobbzilla.wizard.dao.AbstractRedisDAO;
 import org.cobbzilla.wizard.dao.SearchResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.concurrent.*;
 
-import static org.apache.commons.collections.CollectionUtils.collect;
+import static org.cobbzilla.util.daemon.ZillaRuntime.die;
+import static org.cobbzilla.util.daemon.ZillaRuntime.now;
 
 @Repository @Slf4j
-public class NexusSummaryDAO extends BackgroundFetcherDAO<NexusSummary> {
+public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
 
-    private static final int MAX_OTHER_NEXUS = 10;
-
-    @Override public long getRecalculateInterval() { return TimeUnit.MINUTES.toMillis(3); }
-
-    public static final String CTX_ACCOUNT = "account";
-    public static final String CTX_GROUP = "group";
-    public static final String CTX_VISIBILITY = "visibility";
-
-    @Autowired private NexusDAO nexusDAO;
-    @Autowired private NexusTagDAO nexusTagDAO;
+    @Autowired private SuperNexusDAO superNexusDAO;
+    @Autowired private TagDAO tagDAO;
+    @Autowired private TagTypeDAO tagTypeDAO;
     @Autowired private VoteSummaryDAO voteSummaryDAO;
-    @Autowired private HistoriConfiguration configuration;
+
+    @Autowired private RedisService redisService;
+
+    @Getter(lazy=true) private final RedisService filterCache = initFilterCache();
+    private RedisService initFilterCache() { return redisService.prefixNamespace(NexusEntityFilter.class.getSimpleName(), null); }
+
+    @Getter(lazy=true) private final RedisService nexusSummaryCache = initNexusSummaryCache();
+    private RedisService initNexusSummaryCache() { return redisService.prefixNamespace("nexus-summary-cache:", null); }
+
+    private static final long SEARCH_TIMEOUT = TimeUnit.MINUTES.toMillis(3);
+    private static final int MAX_SUPER_NEXUS_THREADS = 100;
+    private final BlockingQueue<Runnable> superNexusWorkQueue = new LinkedBlockingQueue<>();
+    private final ThreadPoolExecutor superNexusExecutor = new ThreadPoolExecutor(MAX_SUPER_NEXUS_THREADS/2, MAX_SUPER_NEXUS_THREADS, 10, TimeUnit.MINUTES, superNexusWorkQueue);
 
     /**
      * Find NexusSummaries within the provided range and region
-     * @param visibility everyone : see public stuff | owner : see your stuff (but not hidden stuff) | hidden : see your hidden stuff
-     * @param range the time range to search
-     * @param bounds the lat/lon boundaries of the search area
-     * @param query a tag query
+     * @param searchQuery the query
      * @return a List of NexusSummary objects
      */
-    public SearchResults<NexusSummary> search(Account account, EntityVisibility visibility, TimeRange range, GeoBounds bounds, String query) {
+    public SearchResults<NexusSummary> search(Account account, SearchQuery searchQuery) {
 
         final SearchResults<NexusSummary> results = new SearchResults<>();
-        final List<Nexus> found = (account == null || account.isAnonymous())
-                ? nexusDAO.findByTimeRangeAndGeo(range, bounds, query)
-                : nexusDAO.findByTimeRangeAndGeo(account, range, bounds, visibility, query);
-        if (found.isEmpty()) return results;
 
-        // Collect nexus by name and rank them
-        // Highest rank is the one with the most upvotes
-        final NexusRollup rollup = new NexusRollup(found);
+        final Comparator<Nexus> comparator = searchQuery.getNexusComparator();
+        final NexusEntityFilter entityFilter = new NexusEntityFilter(searchQuery.getQuery(), getFilterCache(), tagDAO, tagTypeDAO);
+        final NexusSearchResults nexusResults = new NexusSearchResults();
 
-        for (SortedSet<Nexus> group : rollup.allValues()) {
-            final NexusSummary summary = buildSummary(group, account, visibility);
-            if (summary != null) results.addResult(summary);
+        boolean ok = true;
+        List<SuperNexusIterator> iterators = null;
+        try {
+            // find names appropriate for visibility level within the time range/geo bounds
+            iterators = superNexusDAO.findNames(searchQuery.getTimeRange(),
+                                                searchQuery.getBounds(),
+                                                account,
+                                                searchQuery.getVisibility(),
+                                                searchQuery.getGlobalSortOrder());
+            final List<Future<SuperNexusSearchTaskResult>> futures = new ArrayList<>();
+            for (SuperNexusIterator iter : iterators) {
+                // launch tasks to walk through list of names
+                final SuperNexusSearchTask task = new SuperNexusSearchTask(iter, getNexusSummaryCache(), comparator, entityFilter, nexusResults);
+                futures.add(superNexusExecutor.submit(nexusResults.addTask(task)));
+            }
+
+            // wait for searches to finish
+            long start = now();
+            while (!futures.isEmpty()) {
+                final Future<SuperNexusSearchTaskResult> f = futures.get(0);
+                try {
+                    final SuperNexusSearchTaskResult result = f.get(200, TimeUnit.MILLISECONDS);
+                    if (!result.isSuccess()) {
+                        log.warn("search: task failed: " + result.getException(), result.getException());
+                    }
+                } catch (InterruptedException e) {
+                    ok = false;
+                    die("search: interrupted: " + e);
+
+                } catch (ExecutionException e) {
+                    ok = false;
+                    log.warn("search: execution: " + e);
+                    futures.remove(0);
+
+                } catch (TimeoutException e) {
+                    // ok, we'll try again
+                }
+                if (now() - start > SEARCH_TIMEOUT) {
+                    // unless we have timed out
+                    ok = false;
+                    die("search: timeout");
+                }
+            }
+        } finally {
+            if (!ok) {
+                for (SuperNexusSearchTask task : nexusResults.getTasks()) {
+                    task.cancel();
+                }
+            }
+            if (iterators != null) {
+                for (SuperNexusIterator iter : iterators) {
+                    try { iter.close(); } catch (Exception e) {
+                        log.warn("search: error closing iterator: "+e);
+                    }
+                }
+            }
         }
 
         return results;
-    }
-
-    private NexusSummary buildSummary(SortedSet<Nexus> group, Account account, EntityVisibility visibility) {
-
-        if (group.size() == 0) return null;
-
-        final String cacheKey = NexusSummary.summaryUuid(group, account, visibility);
-
-        final Map<String, Object> ctx = new HashMap<>();
-        ctx.put(CTX_ACCOUNT, account);
-        ctx.put(CTX_GROUP, group);
-        ctx.put(CTX_VISIBILITY, visibility);
-
-        final NexusSummary found = get(cacheKey, ctx);
-        if (found != null) {
-            return found;
-        }
-        // create a simple summary
-        return NexusSummary.simpleSummary(group);
-    }
-
-    @Override public int getThreadPoolSize() { return configuration.getThreadPoolSizes().get(getClass().getSimpleName()); }
-
-    @Override protected Callable<NexusSummary> newEntityJob(String uuid, Map<String, Object> context) {
-        if (context == null) {
-            final List<Nexus> found = nexusDAO.findByName(nexusDAO.findByUuid(uuid).getName());
-            if (found.size() == 0) return null;
-            return new NexusSummaryJob(uuid,
-                    null,
-                    new NexusRollup(found).allValues().iterator().next(),
-                    EntityVisibility.everyone);
-        } else {
-            return new NexusSummaryJob(uuid,
-                    (Account) context.get(CTX_ACCOUNT),
-                    (SortedSet<Nexus>) context.get(CTX_GROUP),
-                    (EntityVisibility) context.get(CTX_VISIBILITY));
-        }
-    }
-
-    private class NexusRollup extends Mappy<String, Nexus, SortedSet<Nexus>> {
-        public NexusRollup(List<Nexus> list) { for (Nexus n : list) put(n.getName(), n); }
-        @Override protected SortedSet<Nexus> newCollection() { return new TreeSet<>(new NexusRankComparator()); }
-    }
-
-    @AllArgsConstructor
-    class NexusSummaryJob implements Callable<NexusSummary> {
-
-        private String cacheKey;
-        private Account account;
-        private SortedSet<Nexus> group;
-        private EntityVisibility visibility;
-
-        @Override public NexusSummary call() throws Exception {
-            final NexusSummary summary = new NexusSummary();
-            summary.setUuid(cacheKey);
-            if (group.isEmpty()) return summary; // should never happen
-
-            // set primary
-            final Nexus primary = group.first();
-            summary.setPrimary(primary);
-            primary.setTags(nexusTagDAO.findByNexus(account, primary.getUuid(), visibility));
-
-            // set total count
-            summary.setTotalCount(group.size());
-
-            // collect uuids of top 100 others
-            final List<Nexus> others = new ArrayList<>(group);
-            if (!others.isEmpty()) others.remove(0);
-            while (others.size() > MAX_OTHER_NEXUS) {
-                others.remove(others.size() - 1);
-            }
-            final String[] othersArray = new String[others.size()];
-            summary.setOthers((String[]) collect(others, new FieldTransfomer("name")).toArray(othersArray));
-
-            // todo: find top tags?
-            return summary;
-        }
     }
 
     private class NexusRankComparator implements Comparator<Nexus> {

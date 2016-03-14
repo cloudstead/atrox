@@ -187,4 +187,7 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
         account.setAnonymous(true);
         return create(account);
     }
+
+    public boolean adminsExist() { return !findByField("admin", true).isEmpty(); }
+
 }

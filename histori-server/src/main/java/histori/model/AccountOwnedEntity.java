@@ -22,6 +22,8 @@ public class AccountOwnedEntity extends StrongIdentifiableBase {
     @Column(length=UUID_MAXLEN, nullable=false)
     @Getter @Setter private String owner;
     public boolean hasOwner() { return !empty(owner); }
-    public boolean isOwner(String uuid) { return hasOwner() && getOwner().equals(uuid); }
+    public boolean isOwner(String uuid)     { return    uuid != null && hasOwner() && getOwner().equals(uuid); }
+    public boolean isOwner(Account account) { return account != null && hasOwner() && account.getUuid().equals(getOwner()); }
+    public void setOwnerAccount(Account account) { setOwner(account == null ? null : account.getUuid()); }
 
 }

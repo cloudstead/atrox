@@ -33,6 +33,8 @@ public abstract class SocialEntity extends AccountOwnedEntity implements Version
     @Enumerated(EnumType.STRING)
     @Getter @Setter private EntityVisibility visibility = EntityVisibility.everyone;
 
+    public boolean isVisibleTo(Account account) { return visibility.isVisibleTo(this, account); }
+
     @Getter @Setter private int version;
 
     @Transient @Getter @Setter private VoteSummary votes;

@@ -8,11 +8,14 @@ import lombok.experimental.Accessors;
 import org.cobbzilla.wizard.model.Identifiable;
 import org.cobbzilla.wizard.validation.HasValue;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Size;
 
 import static histori.ApiConstants.NAME_MAXLEN;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
+import static org.cobbzilla.util.string.StringUtil.urlEncode;
 import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
 
 @MappedSuperclass @NoArgsConstructor @Accessors(chain=true) @ToString(of="canonicalName")
@@ -29,11 +32,9 @@ public abstract class CanonicalEntity implements Identifiable {
         if (canonicalName == null) canonicalName = canonicalize(getName());
         return canonicalName;
     }
-    public void setCanonicalName(String val) { this.canonicalName = canonicalize(val); }
+    public void setCanonicalName(String val) { this.canonicalName = val; }
 
-    public static String canonicalize(String val) {
-        return empty(val) ? "" : val.replaceAll("\\W+", "_").toLowerCase();
-    }
+    public static String canonicalize(String val) { return val == null ? "" : urlEncode(val.toLowerCase()); }
 
     @Override public String getUuid() { return getCanonicalName(); }
     @Override public void setUuid(String uuid) { setCanonicalName(uuid); }
@@ -53,5 +54,4 @@ public abstract class CanonicalEntity implements Identifiable {
     @Column(length=NAME_MAXLEN)
     @Getter @Setter private String aliasFor;
 
-    @Getter @Setter private int version;
 }

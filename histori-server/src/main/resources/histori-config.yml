@@ -20,6 +20,17 @@ database:
     hbm2ddlAuto: validate
     validationMode: ddl
 
+  shard:
+    - name: super-nexus
+      entity: histori.model.SuperNexus
+      hashOn: canonicalName
+    - name: nexus
+      entity: histori.model.Nexus
+      hashOn: uuid
+    - name: nexus-archive
+      entity: histori.archive.NexusArchive
+      hashOn: nexus
+
 staticAssets:
   baseUri: /
   assetRoot: site/
@@ -60,7 +71,7 @@ smtp:
   password: {{HISTORI_SMTP_PASS}}
   tlsEnabled: true
 
-sessionPassphrase: {{HISTORI_DATAKEY}}
+sessionPassphrase: '{{HISTORI_DATAKEY}}'
 
 assetStorage:
   type: s3

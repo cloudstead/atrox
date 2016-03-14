@@ -36,4 +36,48 @@ public class GeoBounds {
         if (lon > east) east = lon;
         if (lon < west) west = lon;
     }
+
+    // only consider first 5 decimal places of degree, yielding a
+    // precision of 1/100,000 of a degree: about one meter at the equator
+    public static final double MAX_PRECISION = 10_000d;
+    public int norm (double val) { return (int)(val * MAX_PRECISION); }
+
+    @Override public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        GeoBounds geoBounds = (GeoBounds) o;
+
+        if (norm(geoBounds.north) != norm(north)) return false;
+        if (norm(geoBounds.south) != norm(south)) return false;
+        if (norm(geoBounds.east) != norm(east)) return false;
+        if (norm(geoBounds.west) != norm(west)) return false;
+        return true;
+    }
+
+    @Override public int hashCode() {
+        int result;
+        long temp;
+        temp = norm(north);
+        result = (int) (temp ^ (temp >>> 32));
+        temp = norm(south);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = norm(east);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = norm(west);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
+    /**
+     * @param bounds the bounds to compare to
+     * @return true if the bounds argument has a boundary coordinate that is outside the bounds of this
+     */
+    public boolean isOutside(GeoBounds bounds) {
+        return bounds.getNorth() > getNorth()
+            || bounds.getSouth() > getSouth()
+            || bounds.getEast()  > getEast()
+            || bounds.getWest()  > getWest();
+    }
+
 }

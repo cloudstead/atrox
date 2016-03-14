@@ -1,6 +1,8 @@
 package histori.model.base;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import edu.emory.mathcs.backport.java.util.Arrays;
+import histori.model.CanonicalEntity;
 import histori.model.NexusTag;
 import histori.model.SocialEntity;
 import histori.model.support.GeoBounds;
@@ -32,6 +34,7 @@ import static histori.model.TagType.EVENT_TYPE;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.json.JsonUtil.fromJsonOrDie;
 import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
+import static org.cobbzilla.util.system.Bytes.MB;
 import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
 
 @MappedSuperclass @Accessors(chain=true) @ToString(of="name")
@@ -39,8 +42,18 @@ public class NexusBase extends SocialEntity {
 
     @Column(length=NAME_MAXLEN, nullable=false, updatable=false)
     @Size(min=2, max=NAME_MAXLEN, message="err.name.length")
-    @Getter @Setter private String name;
+    @Getter @Setter private String canonicalName;
+
+    @Column(length=NAME_MAXLEN, nullable=false, updatable=false)
+    @Size(min=2, max=NAME_MAXLEN, message="err.name.length")
+    @Getter private String name;
     public boolean hasName() { return !empty(name); }
+
+    public NexusBase setName(String name) {
+        this.name = name;
+        this.canonicalName = CanonicalEntity.canonicalize(name);
+        return this;
+    }
 
     @Transient public String getDisplayName () { return name == null ? null : name.replace("_", " ").trim(); }
     public void setDisplayName (String name) {/* noop */}
@@ -71,6 +84,16 @@ public class NexusBase extends SocialEntity {
     }
 
     public void prepareForSave() {
+
+        // ensure event type tag exists
+        if (hasNexusType() && getFirstEventType() == null) addTag(getNexusType(), EVENT_TYPE);
+
+        // ensure all tags have uuids, refresh tagsJson
+        if (hasTags()) {
+            for (NexusTag tag : getTags()) if (!tag.hasUuid()) tag.initUuid();
+            setTagsJson(toJsonOrDie(getTags()));
+        }
+
         if (timeRange == null) throw invalidEx("err.timeRange.empty", "Time range cannot be empty");
         if (!timeRange.hasStart()) throw invalidEx("err.timeRange.start.empty", "Start date cannot be empty");
         timeRange.getStartPoint().initInstant();
@@ -105,13 +128,31 @@ public class NexusBase extends SocialEntity {
 
     public void setTimeRange(String startDate, String endDate) { setTimeRange(new TimeRange(startDate, endDate)); }
 
-    @Transient @Getter @Setter private List<NexusTag> tags;
+    @Column(length=(int)(MB)) // 1 megabyte should be enough... famous last words, right? we can always expand, or go to a document store
+    @JsonIgnore @Getter @Setter private String tagsJson;
+
+    @Transient private List<NexusTag> tags = null;
+
+    public List<NexusTag> getTags () {
+        if (empty(tagsJson)) return new ArrayList<>();
+        if (tags == null) {
+            tags = Arrays.asList(fromJsonOrDie(tagsJson, NexusTag[].class));
+        }
+        return tags;
+    }
+
+    public NexusBase setTags (List<NexusTag> tags) {
+        this.tags = tags;
+        this.tagsJson = toJsonOrDie(tags);
+        return this;
+    }
+
     public boolean hasTags () { return !empty(tags); }
 
     public NexusBase addTag (NexusTag tag) {
         if (tags == null) tags = new ArrayList<>();
         for (NexusTag existing : tags) {
-            if (tag.isSameTag(existing)) return this;
+            if (tag.isSameTag(existing)) return this; // re-adding an identical tag is OK, just a noop
         }
         tags.add(tag);
         return this;
@@ -129,7 +170,7 @@ public class NexusBase extends SocialEntity {
 
     public NexusBase addTag (String name, String tagType, Map<String, String> tagFields) {
         if (tags == null) tags = new ArrayList<>();
-        final NexusTag tag = (NexusTag) new NexusTag().setTagName(name);
+        final NexusTag tag = new NexusTag().setTagName(name);
         if (!empty(tagFields)) {
             for (Map.Entry<String, String> field : tagFields.entrySet()) {
                 tag.setValue(field.getKey(), field.getValue());
@@ -168,6 +209,16 @@ public class NexusBase extends SocialEntity {
         if (empty(tags) || empty(name)) return false;
         final String canonical = canonicalize(name);
         for (NexusTag tag : tags) {
+            if (canonicalize(tag.getTagName()).equals(canonical)) return true;
+        }
+        return false;
+    }
+
+    public boolean hasTag(String name, String type) {
+        if (empty(tags) || empty(name)) return false;
+        final String canonical = canonicalize(name);
+        for (NexusTag tag : tags) {
+            if (type != null && (!tag.hasTagType() || !tag.getTagType().equals(type))) continue;
             if (canonicalize(tag.getTagName()).equals(canonical)) return true;
         }
         return false;

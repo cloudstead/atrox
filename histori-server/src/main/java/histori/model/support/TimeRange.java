@@ -3,6 +3,7 @@ package histori.model.support;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 
 @Embeddable @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode(of={"startPoint", "endPoint"})
 public class TimeRange {
@@ -45,4 +46,16 @@ public class TimeRange {
 
     @Override public String toString() { return hasEnd() ? startPoint + "_" + endPoint : startPoint.toString(); }
 
+    // convenience methods
+    public BigInteger start () { return getStartPoint().getInstant(); }
+    public BigInteger end () { return getEndPoint().getInstant(); }
+
+    /**
+     * @param timeRange range to compare
+     * @return true if the range argument has a either start date that is before, or an end date that is after, the range of this
+     */
+    public boolean isOutside(TimeRange timeRange) {
+        return timeRange.start().compareTo(start()) < 0
+            || timeRange.end().compareTo(end()) > 0;
+    }
 }

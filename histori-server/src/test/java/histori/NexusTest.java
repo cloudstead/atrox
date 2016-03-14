@@ -1,7 +1,6 @@
 package histori;
 
 import histori.archive.NexusArchive;
-import histori.archive.NexusTagArchive;
 import histori.dao.NexusSummaryDAO;
 import histori.model.*;
 import histori.model.support.*;
@@ -64,34 +63,23 @@ public class NexusTest extends ApiClientTestBase {
         final Nexus nexus = newNexus(startDate, endDate, nexusName, markdown);
         nexus.addTag(tag1);
         nexus.addTag(tag2, "world actor");
-        nexus.getFirstTag("usa").setMarkdown(markdown);
         nexus.addTag(tag3, "citation");
 
         apiDocs.addNote("Define a new Nexus");
         Nexus createdNexus = createNexus(nexusName, nexus);
+        final String nexusPath = NEXUS_ENDPOINT + "/" + urlEncode(createdNexus.getName());
 
-        final String nexusPath = NEXUS_ENDPOINT + "/" + createdNexus.getUuid();
-
-        apiDocs.addNote("Add tags");
-        for (NexusTag tag : nexus.getTags()) {
-            addTag(nexusPath, tag);
-        }
-
-        apiDocs.addNote("Lookup the Nexus we created by uuid");
+        apiDocs.addNote("Lookup the Nexus we created by name");
         found = fromJson(get(nexusPath).json, Nexus.class);
         assertEquals(nexusName, found.getName());
         assertEquals(3, found.getTags().size());
         assertEquals(markdown, found.getMarkdown());
 
-        apiDocs.addNote("Lookup the Nexus we created by name");
-        found = fromJson(get(NEXUS_ENDPOINT+"/"+urlEncode(nexus.getName())).json, Nexus.class);
-        assertEquals(nexusName, found.getName());
-        assertEquals(3, found.getTags().size());
-
-        apiDocs.addNote("Search for nexus in the same range, should see our new nexus, but probably without tags");
+        apiDocs.addNote("Search for nexus in the same range, should see our new nexus, but without tags");
         searchResults = search(startDate, endDate, nexusName);
         assertEquals(1, searchResults.count());
         result = searchResults.getResult(0);
+        assertTrue(result.isIncomplete());
         assertEquals(nexusName, result.getPrimary().getName());
 
         // wait for tags to exist (a background job will do this)
@@ -126,19 +114,15 @@ public class NexusTest extends ApiClientTestBase {
 
         apiDocs.addNote("Update a tag");
         final String tagComments = randomName();
-        post(nexusPath+EP_TAGS+"/"+found.getFirstTag(tag4).getUuid(), toJson(found.getFirstTag(tag4).setMarkdown(tagComments)));
+        post(nexusPath+EP_TAGS+"/"+found.getFirstTag(tag4).getUuid(), toJson(found.getFirstTag(tag4).setValue("meta", tagComments)));
 
         apiDocs.addNote("Lookup Nexus again, verify updated tag");
         found = fromJson(get(nexusPath).json, Nexus.class);
-        assertEquals(tagComments, found.getFirstTag(tag4.toLowerCase()).getMarkdown());
+        assertEquals(tagComments, found.getFirstTag(tag4.toLowerCase()).getSchemaValueMap().get("meta").toString());
 
         apiDocs.addNote("Lookup previous versions, there should now be 3 (the extra version comes from the implicit assignment of an event-type)");
         NexusArchive[] archives = fromJson(get(ARCHIVES_ENDPOINT+"/Nexus/"+found.getUuid()).json, NexusArchive[].class);
         assertEquals(3, archives.length);
-
-        apiDocs.addNote("Lookup previous versions of tag we just edited, there should now be 2");
-        NexusTagArchive[] tagArchives = fromJson(get(ARCHIVES_ENDPOINT+"/NexusTag/"+found.getFirstTag(tag4.toLowerCase()).getUuid()).json, NexusTagArchive[].class);
-        assertEquals(2, tagArchives.length);
 
         apiDocs.addNote("Delete the nexus");
         delete(nexusPath);

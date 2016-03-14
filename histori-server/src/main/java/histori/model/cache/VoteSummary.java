@@ -7,7 +7,9 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.cobbzilla.wizard.model.ExpirableBase;
 
-@NoArgsConstructor @Accessors(chain=true)
+import javax.persistence.Embeddable;
+
+@Embeddable @NoArgsConstructor @Accessors(chain=true)
 public class VoteSummary extends ExpirableBase {
 
     public VoteSummary(String uuid) { setUuid(uuid); }
@@ -15,13 +17,13 @@ public class VoteSummary extends ExpirableBase {
     @Override public Long getExpirationSeconds() { return null; }
 
     @Getter @Setter private long tally;
-    @Getter @Setter private long count;
+    @Getter @Setter private long voteCount;
     @Getter @Setter private long upVotes;
     @Getter @Setter private long downVotes;
 
     public void tally(Vote vote) {
         tally += vote.getVote();
-        count++;
+        voteCount++;
         if (vote.getVote() > 0) upVotes++;
         if (vote.getVote() < 0) downVotes++;
     }

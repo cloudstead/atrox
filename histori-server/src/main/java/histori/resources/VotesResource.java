@@ -83,15 +83,14 @@ public class VotesResource {
         final Account account = optionalUserPrincipal(ctx);
 
         // what kind of thing is this?
-        final Class<? extends SocialEntity> entityClass;
+        final Class<? extends SocialEntity> shardSet;
         switch (type.toLowerCase()) {
-            case "nexus": entityClass = Nexus.class; break;
-            case "nexustag": entityClass = NexusTag.class; break;
+            case "nexus": shardSet = Nexus.class; break;
             default: return invalid("err.type.invalid");
         }
 
         // Look up the thing to see who owns it
-        final DAO<? extends SocialEntity> dao = configuration.getDaoForEntityClass(entityClass);
+        final DAO<? extends SocialEntity> dao = configuration.getDaoForEntityType(shardSet);
         final SocialEntity entity = dao.findByUuid(uuid);
         if (entity == null) return notFound(uuid);
 

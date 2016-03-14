@@ -20,10 +20,9 @@ import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
 @Slf4j
 public class NexusEntityFilter implements EntityFilter<Nexus> {
 
-    private static final long FILTER_CACHE_TIMEOUT_SECONDS = TimeUnit.DAYS.toSeconds(1);
+    private static final long FILTER_CACHE_TIMEOUT_SECONDS = TimeUnit.MINUTES.toSeconds(1);
 
     @Getter private final RedisService filterCache;
-    @Getter private final NexusTagDAO nexusTagDAO;
     @Getter private final TagDAO tagDAO;
     @Getter private final TagTypeDAO tagTypeDAO;
     private final String queryHash;
@@ -39,10 +38,9 @@ public class NexusEntityFilter implements EntityFilter<Nexus> {
         return pattern;
     }
 
-    public NexusEntityFilter(String query, RedisService filterCache, NexusTagDAO nexusTagDAO, TagDAO tagDAO, TagTypeDAO tagTypeDAO) {
+    public NexusEntityFilter(String query, RedisService filterCache, TagDAO tagDAO, TagTypeDAO tagTypeDAO) {
 
         this.filterCache = filterCache;
-        this.nexusTagDAO = nexusTagDAO;
         this.tagDAO = tagDAO;
         this.tagTypeDAO = tagTypeDAO;
 
@@ -131,19 +129,26 @@ public class NexusEntityFilter implements EntityFilter<Nexus> {
                 log.error("Error reading from NexusEntityFilter query-term cache: " + e);
             }
 
-            if (!empty(cached)) return Boolean.valueOf(cached);
+            if (!empty(cached)) {
+                boolean match = Boolean.valueOf(cached);
+                setCacheKey(cacheKey, match); // update access-time, keep warm in cache
+                return match;
+            }
 
             boolean match = matchTerm(nexus, term);
-
-            try {
-                getFilterCache().set(cacheKey, String.valueOf(match), "EX", FILTER_CACHE_TIMEOUT_SECONDS);
-            } catch (Exception e) {
-                log.error("Error writing to NexusEntityFilter query-term cache: " + e);
-            }
+            setCacheKey(cacheKey, match);
 
             if (!match) return false;
         }
         return true;
+    }
+
+    private void setCacheKey(String cacheKey, boolean match) {
+        try {
+            getFilterCache().set(cacheKey, String.valueOf(match), "EX", FILTER_CACHE_TIMEOUT_SECONDS);
+        } catch (Exception e) {
+            log.error("Error writing to NexusEntityFilter query-term cache: " + e);
+        }
     }
 
     protected boolean matchTerm(Nexus nexus, String term) {
@@ -156,8 +161,10 @@ public class NexusEntityFilter implements EntityFilter<Nexus> {
             if (tag != null && preciseMatch(tag.getName(), term)) return true;
         }
 
+        if (!nexus.hasTags()) return false;
+
         // check nexusTags
-        final List<NexusTag> nexusTags = nexusTagDAO.findByNexus(nexus.getUuid());
+        final List<NexusTag> nexusTags = nexus.getTags();
         for (NexusTag nexusTag : nexusTags) {
 
             // tag name match is fuzzy

@@ -24,6 +24,9 @@ public class ApiConstants {
     public static final String ARCHIVES_ENDPOINT = "/archives";
     public static final String CONFIGS_ENDPOINT = "/configs";
 
+    // admin endpoints
+    public static final String SHARDS_ENDPOINT = "/admin/shards";
+
     public static final int NAME_MAXLEN = 1024;
     public static final int GEOJSON_MAXLEN = 64000;
 

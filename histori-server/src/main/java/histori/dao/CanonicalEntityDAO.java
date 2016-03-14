@@ -10,7 +10,6 @@ import java.util.List;
 
 import static histori.model.CanonicalEntity.canonicalize;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
-import static org.cobbzilla.util.reflect.ReflectionUtil.instantiate;
 import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
 import static org.hibernate.criterion.Restrictions.in;
 
@@ -30,8 +29,6 @@ public class CanonicalEntityDAO<E extends CanonicalEntity> extends AbstractCRUDD
         return super.preUpdate(entity);
     }
 
-    public E newEntity (String name) { return (E) instantiate(getEntityClass()).setName(name); }
-
     @Override public E findByUuid(String uuid) {
         if (empty(uuid)) return null;
         final E found = super.findByUuid(uuid);
@@ -46,7 +43,7 @@ public class CanonicalEntityDAO<E extends CanonicalEntity> extends AbstractCRUDD
     public E findOrCreateByCanonicalName(String canonicalName) {
         if (empty(canonicalName)) return null;
         final E found = findByCanonicalName(canonicalName);
-        return found != null ? found : create(newEntity(canonicalName));
+        return found != null ? found : create((E) newEntity().setName(canonicalName));
     }
 
     public E findOrCreateByCanonical(@Valid E entity) {

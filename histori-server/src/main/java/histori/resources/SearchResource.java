@@ -8,9 +8,7 @@ import histori.model.Account;
 import histori.model.Nexus;
 import histori.model.SearchQuery;
 import histori.model.support.EntityVisibility;
-import histori.model.support.GeoBounds;
 import histori.model.support.NexusSummary;
-import histori.model.support.TimeRange;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.wizard.cache.redis.RedisService;
@@ -80,12 +78,8 @@ public class SearchResource {
                 .setQuery(query)
                 .setVisibility(EntityVisibility.create(visibility, everyone))
                 .setUseCache(empty(useCache) || !useCache.equalsIgnoreCase("false"))
-                .setFrom(from)
-                .setTo(to)
-                .setNorth(north)
-                .setSouth(south)
-                .setEast(east)
-                .setWest(west);
+                .setRange(from, to)
+                .setBounds(north, south, east, west);
 
         // it must pass validation and be anonymously recorded in order to proceed
         searchQueryDAO.create(new SearchQuery(q));
@@ -93,10 +87,10 @@ public class SearchResource {
         return search(account, q);
     }
 
-    private Response search(Account account, SearchQuery q) {
+    private Response search(Account account, SearchQuery searchQuery) {
 
-        final String cacheKey = (account == null ? "null" : account.getUuid()) + ":" + q.hashCode();
-        final String json = q.isUseCache() ? getSearchCache().get(cacheKey) : null;
+        final String cacheKey = (account == null ? "null" : account.getUuid()) + ":" + searchQuery.hashCode();
+        final String json = searchQuery.isUseCache() ? getSearchCache().get(cacheKey) : null;
         SearchResults<NexusSummary> results = null;
         if (!empty(json)) {
             try {
@@ -108,7 +102,7 @@ public class SearchResource {
         }
 
         if (results == null) {
-            results = _search(account, q);
+            results = nexusSummaryDAO.search(account, searchQuery);
             try {
                 getSearchCache().set(cacheKey, toJson(results), "EX", SEARCH_CACHE_TIMEOUT_SECONDS);
             } catch (Exception e) {
@@ -116,21 +110,6 @@ public class SearchResource {
             }
         }
         return ok(results);
-    }
-
-    private SearchResults<NexusSummary> _search(Account account, SearchQuery q) {
-        SearchResults<NexusSummary> results;
-        final TimeRange range;
-        try {
-            range = new TimeRange(q.getFrom(), q.getTo());
-        } catch (Exception e) {
-            throw invalidEx("err.timeRange.invalid", e.getMessage());
-        }
-
-        final GeoBounds bounds = new GeoBounds(q.getNorth(), q.getSouth(), q.getEast(), q.getWest());
-
-        results = nexusSummaryDAO.search(account, q.getVisibility(), range, bounds, q.getQuery());
-        return results;
     }
 
     @GET

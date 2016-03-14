@@ -1,16 +1,17 @@
 package histori.server;
 
+import histori.dao.AccountDAO;
 import histori.dao.CanonicalEntityDAO;
 import histori.dao.PermalinkDAO;
-import histori.model.CanonicalEntity;
-import histori.model.Permalink;
-import histori.model.Tag;
-import histori.model.TagType;
+import histori.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.wizard.dao.DAO;
+import org.cobbzilla.wizard.model.HashedPassword;
 import org.cobbzilla.wizard.model.Identifiable;
 import org.cobbzilla.wizard.server.RestServer;
 import org.cobbzilla.wizard.server.RestServerLifecycleListenerBase;
+
+import java.util.Map;
 
 import static org.cobbzilla.util.io.StreamUtil.loadResourceAsStringOrDie;
 import static org.cobbzilla.util.json.JsonUtil.fromJsonOrDie;
@@ -31,11 +32,28 @@ public class DbSeedListener extends RestServerLifecycleListenerBase<HistoriConfi
 
         for (Class<? extends CanonicalEntity> seedClass : SEED_CLASSES) populate(configuration, seedClass);
 
+        final Map<String, String> env = server.getConfiguration().getEnvironment();
+        if (env.containsKey("HISTORI_SUPERUSER") && env.containsKey("HISTORI_SUPERUSER_PASS")) {
+            final AccountDAO accountDAO = configuration.getBean(AccountDAO.class);
+            if (accountDAO.adminsExist()) {
+                log.info("Admin accounts already exist, not creating new superuser");
+            } else {
+                String name = env.get("HISTORI_SUPERUSER");
+                final Account created = accountDAO.create((Account) new Account()
+                        .setAnonymous(false)
+                        .setHashedPassword(new HashedPassword(env.get("HISTORI_SUPERUSER_PASS")))
+                        .setAccountName(name)
+                        .setAdmin(true)
+                        .setEmail(name)
+                        .setName(name));
+                log.info("Created superuser account "+name+": "+created.getUuid());
+            }
+        }
         super.onStart(server);
     }
 
     public void populate(HistoriConfiguration configuration, Class<? extends CanonicalEntity> type) {
-        final DAO dao = configuration.getDaoForEntityClass(type);
+        final DAO dao = configuration.getDaoForEntityType(type);
         final Identifiable[] things = (Identifiable[]) fromJsonOrDie(loadResourceAsStringOrDie("seed/" + type.getSimpleName() + ".json"), arrayClass(type));
         if (dao instanceof CanonicalEntityDAO) {
             final CanonicalEntityDAO canonicalDAO = (CanonicalEntityDAO) dao;

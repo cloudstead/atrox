@@ -28,10 +28,15 @@ public class HistoriAuthFilter extends AuthFilter<Account> {
     @Autowired private HistoriConfiguration configuration;
     @Autowired @Getter private HistoriAuthProvider authProvider;
 
+    private Set<String> prefixSet(String[] paths) {
+        final StringPrefixTransformer transformer = new StringPrefixTransformer(configuration.getHttp().getBaseUri());
+        final List<String> prefixes = Arrays.asList(paths);
+        return new HashSet<>(CollectionUtils.collect(prefixes, transformer));
+    }
+
     @Getter(lazy=true) private final Set<String> skipAuthPrefixes = initSkipAuthPrefixes();
     public Set<String> initSkipAuthPrefixes() {
-        final StringPrefixTransformer transformer = new StringPrefixTransformer(configuration.getHttp().getBaseUri());
-        final List<String> prefixes = Arrays.asList(new String[]{
+        return prefixSet(new String[] {
                 ACCOUNTS_ENDPOINT,
                 MAP_IMAGES_ENDPOINT+EP_PUBLIC,
                 SEARCH_ENDPOINT,
@@ -39,9 +44,16 @@ public class HistoriAuthFilter extends AuthFilter<Account> {
                 CONFIGS_ENDPOINT,
                 PERMALINKS_ENDPOINT
         });
-        return new HashSet<>(CollectionUtils.collect(prefixes, transformer));
     }
 
-    @Override protected boolean isPermitted(Account principal, ContainerRequest request) { return true; }
+    @Getter(lazy=true) private final Set<String> adminRequiredPrefixes = initAdminRequiredPrefixes();
+    private Set<String> initAdminRequiredPrefixes() {
+        return prefixSet(new String[] {"/admin"});
+    }
+
+    @Override protected boolean isPermitted(Account principal, ContainerRequest request) {
+        if (startsWith(request.getRequestUri().getPath(), getAdminRequiredPrefixes())) return principal.isAdmin();
+        return true;
+    }
 
 }

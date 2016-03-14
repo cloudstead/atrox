@@ -14,10 +14,7 @@ import org.cobbzilla.util.reflect.ReflectionUtil;
 import org.cobbzilla.wizard.cache.redis.HasRedisConfiguration;
 import org.cobbzilla.wizard.cache.redis.RedisConfiguration;
 import org.cobbzilla.wizard.dao.DAO;
-import org.cobbzilla.wizard.server.config.DatabaseConfiguration;
-import org.cobbzilla.wizard.server.config.HasDatabaseConfiguration;
-import org.cobbzilla.wizard.server.config.RecaptchaConfig;
-import org.cobbzilla.wizard.server.config.RestServerConfiguration;
+import org.cobbzilla.wizard.server.config.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -68,21 +65,21 @@ public class HistoriConfiguration extends RestServerConfiguration
 
     public static final Map<Class, DAO> daoCache = new ConcurrentHashMap<>();
 
-    public DAO getDaoForEntityClass(Class entityClass) {
-        DAO entityDao = daoCache.get(entityClass);
+    public DAO getDaoForEntityType(Class entityType) {
+        DAO entityDao = daoCache.get(entityType);
         if (entityDao == null) {
-            entityDao = getBean(entityClass.getName().replace(".model.", ".dao.") + "DAO");
-            daoCache.put(entityClass, entityDao);
+            entityDao = getBean(entityType.getName().replace(".model.", ".dao.") + "DAO");
+            daoCache.put(entityType, entityDao);
         }
         return entityDao;
     }
 
     public DAO getDaoForArchiveClass(String type) {
-        Class<? extends DAO> entityClass = ReflectionUtil.forName("histori.dao.archive."+ StringUtils.capitalize(type)+"ArchiveDAO");
-        DAO entityDao = daoCache.get(entityClass);
+        Class<? extends DAO> shardSet = ReflectionUtil.forName("histori.dao.archive."+ StringUtils.capitalize(type)+"ArchiveDAO");
+        DAO entityDao = daoCache.get(shardSet);
         if (entityDao == null) {
-            entityDao = getBean(entityClass);
-            daoCache.put(entityClass, entityDao);
+            entityDao = getBean(shardSet);
+            daoCache.put(shardSet, entityDao);
         }
         return entityDao;
     }
