@@ -6,7 +6,6 @@ import histori.model.Account;
 import histori.model.Nexus;
 import histori.model.support.EntityVisibility;
 import histori.model.support.NexusRequest;
-import histori.server.HistoriConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +38,6 @@ public class NexusResource {
     public static final String[] CREATE_FIELDS = {"name", "nexusType", "geoJson", "timeRange", "markdown", "visibility", "tagsJson"};
     public static final String[] UPDATE_FIELDS = {"geoJson", "nexusType", "timeRange", "markdown", "visibility", "tagsJson"};
 
-    @Autowired private HistoriConfiguration configuration;
     @Autowired private NexusDAO nexusDAO;
 
     @GET
@@ -50,7 +48,8 @@ public class NexusResource {
         name = urlDecode(name); // no url-encoded chars allowed
 
         final Nexus nexus = nexusDAO.findByOwnerAndName(account, name);
-        if (nexus == null || !nexus.isVisibleTo(account)) notFound(name); // deleted things might not be visible
+        if (nexus == null) return notFound(name);
+        if (!nexus.isVisibleTo(account)) notFound(name); // deleted things might not be visible
         return ok(nexus);
     }
 
@@ -91,7 +90,7 @@ public class NexusResource {
             nexus.setOwnerAccount(account);
             nexus = nexusDAO.create(nexus);
         }
-        return ok(nexusDAO.create(nexus));
+        return ok(nexus);
     }
 
     @POST

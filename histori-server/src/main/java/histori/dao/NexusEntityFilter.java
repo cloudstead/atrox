@@ -1,9 +1,6 @@
 package histori.dao;
 
-import histori.model.Nexus;
-import histori.model.NexusTag;
-import histori.model.Tag;
-import histori.model.TagType;
+import histori.model.*;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.string.StringUtil;
@@ -18,7 +15,7 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
 
 @Slf4j
-public class NexusEntityFilter implements EntityFilter<Nexus> {
+public class NexusEntityFilter implements EntityFilter<NexusView> {
 
     private static final long FILTER_CACHE_TIMEOUT_SECONDS = TimeUnit.MINUTES.toSeconds(1);
 
@@ -65,7 +62,7 @@ public class NexusEntityFilter implements EntityFilter<Nexus> {
         return terms;
     }
 
-    @Override public boolean isAcceptable(Nexus nexus) {
+    @Override public boolean isAcceptable(NexusView nexus) {
 
         if (empty(terms)) return false; // empty query matches nothing (note: used to match everything)
 
@@ -117,7 +114,7 @@ public class NexusEntityFilter implements EntityFilter<Nexus> {
         }
     }
 
-    protected boolean isMatch(Nexus nexus) {
+    protected boolean isMatch(NexusView nexus) {
 
         // must match on all search terms
         for (String term : terms) {
@@ -151,7 +148,7 @@ public class NexusEntityFilter implements EntityFilter<Nexus> {
         }
     }
 
-    protected boolean matchTerm(Nexus nexus, String term) {
+    protected boolean matchTerm(NexusView nexus, String term) {
         // name match is fuzzy
         if (fuzzyMatch(nexus.getName(), term)) return true;
 

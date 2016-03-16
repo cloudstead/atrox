@@ -4,6 +4,7 @@ import histori.model.base.VoteBase;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
+import org.cobbzilla.wizard.model.shard.Shardable;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -12,7 +13,9 @@ import javax.persistence.UniqueConstraint;
 @Entity @Slf4j
 @NoArgsConstructor @Accessors(chain=true)
 @Table(uniqueConstraints = @UniqueConstraint(name = "vote_uniq", columnNames = {"owner", "entity"}))
-public class Vote extends VoteBase {
+public class Vote extends VoteBase implements Shardable {
+
+    @Override public String getHashToShardField() { return "entity"; }
 
     public static Vote upVote (String account, String entity) { return new Vote(account, entity, 1); }
 

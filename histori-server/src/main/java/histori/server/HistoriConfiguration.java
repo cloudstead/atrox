@@ -3,6 +3,7 @@ package histori.server;
 import cloudos.server.asset.AssetStorageConfiguration;
 import cloudos.service.asset.AssetStorageService;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.map.DefaultedMap;
@@ -23,10 +24,14 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
+import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
+import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
 
-@Configuration @Slf4j
+@Configuration @NoArgsConstructor @Slf4j
 public class HistoriConfiguration extends RestServerConfiguration
     implements HasDatabaseConfiguration, TemplatedMailSenderConfiguration, HasRedisConfiguration {
+
+    public HistoriConfiguration (HistoriConfiguration other) { copy(this, other); }
 
     public static final String RESET_PASSWORD_URI = "/?key=";
 
@@ -36,6 +41,7 @@ public class HistoriConfiguration extends RestServerConfiguration
     @Setter private RedisConfiguration redis;
     @Bean public RedisConfiguration getRedis() {
         if (redis == null) redis = new RedisConfiguration(getSessionPassphrase());
+        if (empty(redis.getPrefix())) redis.setPrefix("histori");
         return redis;
     }
 

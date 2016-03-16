@@ -1,6 +1,6 @@
 package histori;
 
-import histori.archive.NexusArchive;
+import histori.model.archive.NexusArchive;
 import histori.dao.NexusSummaryDAO;
 import histori.model.*;
 import histori.model.support.*;

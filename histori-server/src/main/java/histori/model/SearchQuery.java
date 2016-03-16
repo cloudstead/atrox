@@ -51,7 +51,7 @@ public class SearchQuery extends IdentifiableBase {
     @Getter @Setter private EntityVisibility visibility;
 
     @Enumerated(value=STRING)
-    @Getter @Setter private GlobalSortOrder globalSortOrder;
+    @Getter @Setter private GlobalSortOrder globalSortOrder = GlobalSortOrder.vote_tally;
 
     @JsonIgnore private String preferredOwners = null;
     public String getPreferredOwners() {

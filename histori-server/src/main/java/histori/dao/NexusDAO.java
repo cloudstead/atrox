@@ -1,20 +1,91 @@
 package histori.dao;
 
+import histori.dao.archive.NexusArchiveDAO;
+import histori.dao.shard.NexusShardDAO;
 import histori.model.Account;
 import histori.model.Nexus;
+import histori.model.NexusTag;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.cobbzilla.wizard.dao.shard.AbstractShardedDAO;
+import org.cobbzilla.wizard.cache.redis.RedisService;
+import org.cobbzilla.wizard.server.config.DatabaseConfiguration;
+import org.cobbzilla.wizard.server.config.ShardSetConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static histori.model.CanonicalEntity.canonicalize;
+import static histori.model.TagType.EVENT_TYPE;
+import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
 
 @Repository @Slf4j
-public class NexusDAO extends AbstractShardedDAO<Nexus, NexusShardDAO> {
+public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
+
+    @Autowired private NexusArchiveDAO nexusArchiveDAO;
+
+    @Autowired private DatabaseConfiguration database;
+    @Override protected ShardSetConfiguration getShardConfiguration() { return database.getShard("nexus"); }
+
+    @Autowired @Getter @Setter private SuperNexusDAO superNexusDAO;
+    @Autowired @Getter @Setter private RedisService redisService;
+
+    @Getter(lazy=true) private final RedisService nexusCache = initNexusCache();
+    private RedisService initNexusCache() { return redisService.prefixNamespace("nexus-cache:", null); }
+
+    @Override public Object preCreate(@Valid Nexus entity) {
+        entity.prepareForSave();
+
+        // ensure tag is present, or create it if not
+        if (entity.hasNexusType()) {
+            return new NexusTag().setTagName(entity.getNexusType()).setTagType(EVENT_TYPE);
+        }
+
+        // create version
+        VersionedEntityDAO.incrementVersionAndArchive(entity, this, nexusArchiveDAO);
+
+        return super.preCreate(entity);
+    }
+
+    @Override public Object preUpdate(@Valid Nexus entity) {
+        entity.prepareForSave();
+
+        // ensure event_type tag corresponding to nexusType is present, or create it if not
+        if (entity.hasNexusType()) {
+            // what tags already exist?
+            final NexusTag typeTag = new NexusTag().setTagName(entity.getNexusType()).setTagType(EVENT_TYPE);
+            if (!entity.hasExactTag(typeTag)) {
+                entity.addTag(typeTag);
+                return typeTag;
+            } else {
+                // nexusType already matches one of the event_type tags
+            }
+        } else {
+            entity.setNexusType(entity.getFirstEventType());
+        }
+
+        // create version
+        VersionedEntityDAO.incrementVersionAndArchive(entity, this, nexusArchiveDAO);
+
+        return super.preUpdate(entity);
+    }
+
+    @Override public Nexus postCreate(Nexus entity, Object context) {
+        getNexusCache().set(entity.getUuid(), toJsonOrDie(entity));
+        superNexusDAO.updateSuperNexus(entity);
+        return super.postCreate(entity, context);
+    }
+
+    @Override public Nexus postUpdate(@Valid Nexus entity, Object context) {
+        getNexusCache().set(entity.getUuid(), toJsonOrDie(entity));
+        superNexusDAO.updateSuperNexus(entity);
+        return super.postUpdate(entity, context);
+    }
 
     public Nexus findByOwnerAndName(Account account, String name) {
-        return findByUniqueFields("owner", account, "canonicalName", canonicalize(name));
+        return findByUniqueFields("owner", account.getUuid(), "canonicalName", canonicalize(name));
     }
 
     public List<Nexus> findByName(String name) {

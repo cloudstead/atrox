@@ -135,7 +135,7 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
     public Nexus createNexus(Nexus nexus) throws Exception { return createNexus(nexus.getName(), nexus); }
 
     public Nexus createNexus(String nexusName, Nexus nexus) throws Exception {
-        Nexus createdNexus = fromJson(put(NEXUS_ENDPOINT+"/"+urlEncode(nexusName), toJson(nexus)).json, Nexus.class);
+        Nexus createdNexus = fromJson(post(NEXUS_ENDPOINT+"/"+urlEncode(nexusName), toJson(nexus)).json, Nexus.class);
         assertEquals(nexusName, createdNexus.getName());
         return createdNexus;
     }

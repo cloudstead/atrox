@@ -14,7 +14,6 @@ database:
 
   hibernate:
     entityPackages: [ histori.model ]
-    archivePackages: [ histori.archive ]
     dialect: org.hibernate.dialect.PostgreSQLDialect
     showSql: true
     hbm2ddlAuto: validate
@@ -23,13 +22,15 @@ database:
   shard:
     - name: super-nexus
       entity: histori.model.SuperNexus
-      hashOn: canonicalName
     - name: nexus
       entity: histori.model.Nexus
-      hashOn: uuid
     - name: nexus-archive
       entity: histori.archive.NexusArchive
       hashOn: nexus
+    - name: vote
+      entity: histori.model.Vote
+    - name: vote-archive
+      entity: histori.archive.VoteArchive
 
 staticAssets:
   baseUri: /

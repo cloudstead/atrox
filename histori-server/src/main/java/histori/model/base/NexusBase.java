@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.emory.mathcs.backport.java.util.Arrays;
 import histori.model.CanonicalEntity;
 import histori.model.NexusTag;
+import histori.model.NexusView;
 import histori.model.SocialEntity;
 import histori.model.support.GeoBounds;
 import histori.model.support.TimeRange;
@@ -11,6 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.collection.MapBuilder;
 import org.geojson.GeoJsonObject;
 import org.geojson.Geometry;
@@ -37,8 +39,13 @@ import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
 import static org.cobbzilla.util.system.Bytes.MB;
 import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
 
-@MappedSuperclass @Accessors(chain=true) @ToString(of="name")
-public class NexusBase extends SocialEntity {
+@MappedSuperclass @Accessors(chain=true) @ToString(of="name") @Slf4j
+public abstract class NexusBase extends SocialEntity implements NexusView {
+
+    @Override public void beforeCreate() {
+        initUuid();
+        getBounds();  // ensure bounds are set
+    }
 
     @Column(length=NAME_MAXLEN, nullable=false, updatable=false)
     @Size(min=2, max=NAME_MAXLEN, message="err.name.length")
@@ -71,7 +78,33 @@ public class NexusBase extends SocialEntity {
     @Column(length=GEOJSON_MAXLEN, nullable=false)
     @JsonIgnore @Getter @Setter private String geoJson;
 
-    @Embedded @Getter @Setter private GeoBounds bounds;
+    @Embedded @Setter private GeoBounds bounds = null;
+    public GeoBounds getBounds() {
+        if (bounds == null) {
+            // recalculate bounding coordinates
+            final GeoJsonObject geo = getGeo();
+            if (geo instanceof Point) {
+                final Point p = (Point) geo;
+                bounds = new GeoBounds(p.getCoordinates().getLatitude(), p.getCoordinates().getLatitude(),
+                        p.getCoordinates().getLongitude(), p.getCoordinates().getLongitude());
+            } else if (geo instanceof Geometry) {
+                bounds =  GeoBounds.blank();
+                final Geometry g = (Geometry) geo;
+                for (Object coordinates : g.getCoordinates()) {
+                    if (coordinates instanceof LngLatAlt) {
+                        final LngLatAlt coord = (LngLatAlt) coordinates;
+                        bounds.expandToFit(coord.getLatitude(), coord.getLongitude());
+                    }
+                    if (coordinates instanceof List) {
+                        for (LngLatAlt coord : (List<LngLatAlt>) coordinates) {
+                            bounds.expandToFit(coord.getLatitude(), coord.getLongitude());
+                        }
+                    }
+                }
+            }
+        }
+        return bounds;
+    }
 
     @Transient private GeoJsonObject geo = null;
     public GeoJsonObject getGeo() {
@@ -98,32 +131,10 @@ public class NexusBase extends SocialEntity {
         if (!timeRange.hasStart()) throw invalidEx("err.timeRange.start.empty", "Start date cannot be empty");
         timeRange.getStartPoint().initInstant();
         if (timeRange.hasEnd()) timeRange.getEndPoint().initInstant();
-
-        // recalculate bounding coordinates
-        final GeoJsonObject geo = getGeo();
-        if (geo instanceof Point) {
-            final Point p = (Point) geo;
-            bounds = new GeoBounds(p.getCoordinates().getLatitude(), p.getCoordinates().getLatitude(),
-                                   p.getCoordinates().getLongitude(), p.getCoordinates().getLongitude());
-        } else if (geo instanceof Geometry) {
-            bounds =  GeoBounds.blank();
-            final Geometry g = (Geometry) geo;
-            for (Object coordinates : g.getCoordinates()) {
-                if (coordinates instanceof LngLatAlt) {
-                    final LngLatAlt coord = (LngLatAlt) coordinates;
-                    bounds.expandToFit(coord.getLatitude(), coord.getLongitude());
-                }
-                if (coordinates instanceof List) {
-                    for (LngLatAlt coord : (List<LngLatAlt>) coordinates) {
-                        bounds.expandToFit(coord.getLatitude(), coord.getLongitude());
-                    }
-                }
-            }
-        }
     }
 
-    private static final String[] ID_FIELDS = {"owner", "name"};
-    @Override public String[] getIdentifiers() { return new String [] { getOwner(), getName() }; }
+    private static final String[] ID_FIELDS = {"owner", "canonicalName"};
+    @Override public String[] getIdentifiers() { return new String [] { getOwner(), getCanonicalName() }; }
     @Override public String[] getIdentifierFields() { return ID_FIELDS; }
 
     public void setTimeRange(String startDate, String endDate) { setTimeRange(new TimeRange(startDate, endDate)); }
@@ -272,4 +283,5 @@ public class NexusBase extends SocialEntity {
             if (tag.hasUuid() && tag.getUuid().equals(uuid)) iter.remove();
         }
     }
+
 }

@@ -1,6 +1,6 @@
-package histori.dao.archive;
+package histori.dao.archive.shard;
 
-import histori.archive.NexusArchive;
+import histori.model.archive.NexusArchive;
 import org.cobbzilla.wizard.dao.shard.AbstractSingleShardDAO;
 
 public class NexusArchiveShardDAO extends AbstractSingleShardDAO<NexusArchive> {}

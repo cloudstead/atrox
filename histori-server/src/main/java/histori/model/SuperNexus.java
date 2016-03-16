@@ -9,15 +9,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.cobbzilla.wizard.model.IdentifiableBase;
+import org.cobbzilla.wizard.model.shard.Shardable;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+
+import java.util.List;
 
 import static histori.ApiConstants.NAME_MAXLEN;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 
 @Entity @NoArgsConstructor @Accessors(chain=true)
-public class SuperNexus extends IdentifiableBase {
+public class SuperNexus extends IdentifiableBase implements NexusView, Shardable {
+
+    @Override public void beforeCreate() { initUuid(); }
+
+    @Override public String getHashToShardField() { return "canonicalName"; }
 
     @Column(length=NAME_MAXLEN, nullable=false, updatable=false)
     @Size(min=2, max=NAME_MAXLEN, message="err.name.length")
@@ -35,7 +42,7 @@ public class SuperNexus extends IdentifiableBase {
 
     @Embedded @Getter @Setter private TimeRange timeRange;
     @Embedded @Getter @Setter private GeoBounds bounds;
-    @Embedded @Getter @Setter private VoteSummary votes;
+    @Embedded @Getter @Setter private VoteSummary votes = new VoteSummary();
 
     @Column(nullable=false, length=20)
     @Enumerated(EnumType.STRING)
@@ -73,4 +80,10 @@ public class SuperNexus extends IdentifiableBase {
         }
         return changed;
     }
+
+    // todo: something smarter, like if every nexus has the same type, maybe this SuperNexus does have a nexusType after all
+    @Override public boolean hasNexusType() { return false; }
+    @Override public String getNexusType() { return null; }
+    @Override public boolean hasTags() { return false; }
+    @Override public List<NexusTag> getTags() { return null; }
 }

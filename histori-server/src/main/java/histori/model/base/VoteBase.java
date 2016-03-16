@@ -15,6 +15,8 @@ import javax.validation.constraints.Min;
 @MappedSuperclass @Accessors(chain=true) @ToString(of={"owner","entity","vote"})
 public abstract class VoteBase extends AccountOwnedEntity implements VersionedEntity {
 
+    @Override public void beforeCreate() { initUuid(); }
+
     private static final String[] ID_FIELDS = {"owner", "entity"};
     public String[] getIdentifiers() { return new String [] { getOwner(), getEntity() }; }
     public String[] getIdentifierFields() { return ID_FIELDS; }
@@ -28,4 +30,5 @@ public abstract class VoteBase extends AccountOwnedEntity implements VersionedEn
     @Getter @Setter private short vote;
 
     @Getter @Setter private int version;
+
 }
