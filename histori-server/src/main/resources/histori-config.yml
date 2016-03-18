@@ -26,7 +26,6 @@ database:
       entity: histori.model.Nexus
     - name: nexus-archive
       entity: histori.archive.NexusArchive
-      hashOn: nexus
     - name: vote
       entity: histori.model.Vote
     - name: vote-archive
