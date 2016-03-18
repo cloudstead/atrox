@@ -3,7 +3,6 @@ package histori.resources.internal;
 import histori.dao.SuperNexusDAO;
 import histori.model.SuperNexus;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +12,7 @@ import javax.ws.rs.core.Response;
 
 import static histori.ApiConstants.SN_REFRESH_ENDPOINT;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
 import static org.cobbzilla.wizard.resources.ResourceUtil.forbidden;
 import static org.cobbzilla.wizard.resources.ResourceUtil.ok;
@@ -23,7 +23,8 @@ import static org.cobbzilla.wizard.resources.ResourceUtil.ok;
 @Service @Slf4j
 public class SuperNexusRefreshResource {
 
-    public static final String KEY = RandomStringUtils.randomAlphanumeric(20);
+    // you have to be in the same ClassLoader to know the secret
+    public static final String KEY = randomAlphanumeric(20);
 
     @Autowired private SuperNexusDAO superNexusDAO;
 
