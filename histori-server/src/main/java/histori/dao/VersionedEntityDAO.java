@@ -1,15 +1,15 @@
 package histori.dao;
 
-import histori.model.archive.EntityArchive;
 import histori.model.VersionedEntity;
+import histori.model.archive.EntityArchive;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.reflect.ReflectionUtil;
 import org.cobbzilla.wizard.dao.shard.AbstractShardedDAO;
+import org.cobbzilla.wizard.dao.shard.ShardSearch;
 import org.cobbzilla.wizard.dao.shard.SingleShardDAO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.*;
@@ -55,25 +55,21 @@ public class VersionedEntityDAO<E extends VersionedEntity> {
             uniqueSql += " and t." + idField + " = ? ";
         }
 
-        Iterator<A> iterator = null;
         try {
             // any old versions here?
             final String hsql = "select t.identifier, t.version " +
                     "from " + archive.getClass().getSimpleName() + " t " +
                     "where " + uniqueSql + " " +
                     "order by t.version desc";
-            iterator = archiveDao.iterate(toShardHash(entity), hsql, args);
-            final A latestArchive = iterator.hasNext() ? iterator.next() : null;
-            if (latestArchive != null && latestArchive.getIdentifier() != null) {
-                final String uuid = latestArchive.getIdentifier();
-                final int latestArchivedVersion = latestArchive.getVersion();
+            final List<Object[]> archives = archiveDao.search(new ShardSearch(hsql, args, toShardHash(entity)).setMaxResults(1));
+            final Object[] latestArchive = archives.isEmpty() ? null : archives.get(0);
+            if (latestArchive != null && latestArchive[0] != null) {
+                final String uuid = (String) latestArchive[0];
+                final int latestArchivedVersion = (int) latestArchive[1];
                 if (latestArchivedVersion >= entity.getVersion()) {
                     // entity version is too low, make it the next logical version
                     entity.setVersion(latestArchivedVersion+1);
                     archive.setVersion(entity.getVersion());
-
-                    // set UUID to what it was the first time it was created
-                    entity.setUuid(uuid);
                 }
             }
 
@@ -82,8 +78,6 @@ public class VersionedEntityDAO<E extends VersionedEntity> {
 
         } catch (Exception e) {
             die("incrementVersionAndArchive: error saving archive: "+e, e);
-        } finally {
-            archiveDao.closeIterator(iterator);
         }
     }
 

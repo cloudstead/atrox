@@ -22,6 +22,10 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 @Entity @NoArgsConstructor @Accessors(chain=true)
 public class SuperNexus extends IdentifiableBase implements NexusView, Shardable {
 
+    // SuperNexuses are un-owned by any single user, they are an aggregrated view of all Nexuses with a shared name
+    @Override public String getOwner() { return null; }
+    @Override public boolean hasOwner() { return false; }
+
     @Override public void beforeCreate() { initUuid(); }
 
     @Override public String getHashToShardField() { return "canonicalName"; }
@@ -43,6 +47,7 @@ public class SuperNexus extends IdentifiableBase implements NexusView, Shardable
     @Embedded @Getter @Setter private TimeRange timeRange;
     @Embedded @Getter @Setter private GeoBounds bounds;
     @Embedded @Getter @Setter private VoteSummary votes = new VoteSummary();
+    public boolean hasVotes() { return votes != null; }
 
     @Column(nullable=false, length=20)
     @Enumerated(EnumType.STRING)

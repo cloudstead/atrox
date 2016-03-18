@@ -289,7 +289,7 @@ public class ConflictFinder extends FinderBase<NexusRequest> {
                 nodeGroups.add(activeGroup);
             }
         }
-        // iterate over node groups, max 1 world_actor per group
+        // search over node groups, max 1 world_actor per group
         for (List<WikiNode> nodeGroup : nodeGroups) {
             final Set<String> foundInGroup = new HashSet<>();
             for (WikiNode child : nodeGroup) {

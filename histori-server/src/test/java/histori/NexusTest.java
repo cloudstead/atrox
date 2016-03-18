@@ -1,8 +1,7 @@
 package histori;
 
-import histori.model.archive.NexusArchive;
-import histori.dao.NexusSummaryDAO;
 import histori.model.*;
+import histori.model.archive.NexusArchive;
 import histori.model.support.*;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.wizard.dao.SearchResults;
@@ -18,7 +17,6 @@ import static org.cobbzilla.util.http.HttpStatusCodes.NOT_FOUND;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJson;
 import static org.cobbzilla.util.string.StringUtil.urlEncode;
-import static org.cobbzilla.util.system.Sleep.sleep;
 import static org.cobbzilla.wizardtest.RandomUtil.randomName;
 import static org.junit.Assert.*;
 
@@ -75,63 +73,57 @@ public class NexusTest extends ApiClientTestBase {
         assertEquals(3, found.getTags().size());
         assertEquals(markdown, found.getMarkdown());
 
-        apiDocs.addNote("Search for nexus in the same range, should see our new nexus, but without tags");
-        searchResults = search(startDate, endDate, nexusName);
-        assertEquals(1, searchResults.count());
-        result = searchResults.getResult(0);
-        assertTrue(result.isIncomplete());
-        assertEquals(nexusName, result.getPrimary().getName());
-
-        // wait for tags to exist (a background job will do this)
-        final NexusSummaryDAO summaryDAO = getBean(NexusSummaryDAO.class);
-        while (summaryDAO.get(NexusSummary.summaryUuid(nexus, account, EntityVisibility.everyone)) == null) sleep(50);
-
-        apiDocs.addNote("Search for nexus in the same range, should see our new nexus, now with tags");
+        apiDocs.addNote("Search for nexus in the same range, should see our new nexus");
         searchResults = search(startDate, endDate, nexusName);
         assertEquals(1, searchResults.count());
         result = searchResults.getResult(0);
         assertEquals(nexusName, result.getPrimary().getName());
         assertEquals(3, result.getPrimary().getTags().size());
 
-        apiDocs.addNote("Update our nexus with new name, this should create a new version");
+        apiDocs.addNote("Update our nexus with new name, this will create an entirely new nexus, because the name is different");
         final String updatedName = nexusName + " -- update";
         nexus.setName(updatedName);
         nexus.setMarkdown(markdown + " -- update");
-        final Nexus updatedNexus = fromJson(post(nexusPath, toJson(nexus)).json, Nexus.class);
-        assertEquals(nexusName, updatedNexus.getName());
+        final String updatedNexusPath = NEXUS_ENDPOINT + "/" + urlEncode(nexus.getName());
+        Nexus updatedNexus = fromJson(post(updatedNexusPath, toJson(nexus)).json, Nexus.class);
+        assertEquals(updatedName, updatedNexus.getName());
+        assertNotEquals(updatedNexus.getUuid(), createdNexus.getUuid());
 
         apiDocs.addNote("Add another tag - this will create another version of the nexus");
         String tag4 = "Foobar";
         nexus.addTag(tag4);
-        addTag(nexusPath, nexus.getFirstTag("foobar"));
+        updatedNexus = fromJson(post(updatedNexusPath, toJson(nexus)).json, Nexus.class);
 
         apiDocs.addNote("Lookup the Nexus we updated by uuid, verify updated changes");
-        found = fromJson(get(nexusPath).json, Nexus.class);
-        assertEquals(nexusName, found.getName());
+        found = fromJson(get(updatedNexusPath).json, Nexus.class);
+        assertEquals(updatedName, found.getName());
         assertEquals(4, found.getTags().size());
         assertTrue(found.hasTag(tag4));
         assertTrue(found.hasTag(tag4.toLowerCase()));
 
         apiDocs.addNote("Update a tag");
         final String tagComments = randomName();
-        post(nexusPath+EP_TAGS+"/"+found.getFirstTag(tag4).getUuid(), toJson(found.getFirstTag(tag4).setValue("meta", tagComments)));
+        found.getFirstTag(tag4).setValue("meta", tagComments);
+        updatedNexus = fromJson(post(updatedNexusPath, toJson(found)).json, Nexus.class);
 
         apiDocs.addNote("Lookup Nexus again, verify updated tag");
-        found = fromJson(get(nexusPath).json, Nexus.class);
-        assertEquals(tagComments, found.getFirstTag(tag4.toLowerCase()).getSchemaValueMap().get("meta").toString());
+        found = fromJson(get(updatedNexusPath).json, Nexus.class);
+        assertEquals(tagComments, found.getFirstTag(tag4.toLowerCase()).getSchemaValueMap().first("meta"));
 
-        apiDocs.addNote("Lookup previous versions, there should now be 3 (the extra version comes from the implicit assignment of an event-type)");
+        apiDocs.addNote("Lookup previous versions, there should now be 2");
         NexusArchive[] archives = fromJson(get(ARCHIVES_ENDPOINT+"/Nexus/"+found.getUuid()).json, NexusArchive[].class);
-        assertEquals(3, archives.length);
+        assertEquals(2, archives.length);
 
         apiDocs.addNote("Delete the nexus");
-        delete(nexusPath);
+        delete(updatedNexusPath);
 
         apiDocs.addNote("Lookup by id, should fail");
-        assertEquals(NOT_FOUND, doGet(nexusPath).status);
+        assertEquals(NOT_FOUND, doGet(updatedNexusPath).status);
+
+        // todo: wait for SuperNexusRefresher to recalculate SuperNexus and clear dirty flag
 
         apiDocs.addNote("Search again, verify no results");
-        searchResults = search(startDate, endDate, nexusName);
+        searchResults = search(startDate, endDate, updatedName);
         assertEquals(0, searchResults.count());
 
         apiDocs.addNote("Verify that tags are still present in the system");

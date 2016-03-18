@@ -11,7 +11,7 @@ public enum EntityVisibility {
     @JsonCreator public static EntityVisibility create(String val) { return EntityVisibility.valueOf(val.toLowerCase()); }
 
     public boolean isVisibleTo(AccountOwnedEntity entity, Account account) {
-        if (account != null && account.isAdmin()) return true;
+        if (account != null && account.isAdmin()) return this != deleted; // admin sees everything except deleted stuff
         switch (this) {
             case everyone: return true;
             case hidden: case owner: return account != null && entity.getOwner().equals(account.getUuid());

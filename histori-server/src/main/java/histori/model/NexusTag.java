@@ -171,6 +171,11 @@ public class NexusTag extends IdentifiableBase {
             }
             return sha256_hex(hash.toString());
         }
+
+        public String first(String key) {
+            final Set<String> found = get(key);
+            return found == null || found.isEmpty() ? null : found.iterator().next();
+        }
     }
 
 }

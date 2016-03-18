@@ -7,6 +7,7 @@ import histori.model.NexusTag;
 import histori.model.NexusView;
 import histori.model.SocialEntity;
 import histori.model.support.GeoBounds;
+import histori.model.support.SearchSortOrder;
 import histori.model.support.TimeRange;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,10 +25,7 @@ import javax.persistence.Embedded;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static histori.ApiConstants.GEOJSON_MAXLEN;
 import static histori.ApiConstants.NAME_MAXLEN;
@@ -41,6 +39,18 @@ import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
 
 @MappedSuperclass @Accessors(chain=true) @ToString(of="name") @Slf4j
 public abstract class NexusBase extends SocialEntity implements NexusView {
+
+    @SuppressWarnings("Duplicates")
+    public static Comparator<NexusView> comparator (SearchSortOrder sort) {
+        switch (sort) {
+            case newest:              return NCompare_newest.instance;
+            case oldest:              return NCompare_oldest.instance;
+            case up_vote:             return NCompare_up_vote.instance;
+            case down_vote:           return NCompare_down_vote.instance;
+            case vote_count:          return NCompare_vote_count.instance;
+            case vote_tally: default: return NCompare_vote_tally.instance;
+        }
+    }
 
     @Override public void beforeCreate() {
         initUuid();
@@ -145,10 +155,8 @@ public abstract class NexusBase extends SocialEntity implements NexusView {
     @Transient private List<NexusTag> tags = null;
 
     public List<NexusTag> getTags () {
-        if (empty(tagsJson)) return new ArrayList<>();
-        if (tags == null) {
-            tags = Arrays.asList(fromJsonOrDie(tagsJson, NexusTag[].class));
-        }
+        if (empty(tagsJson) && empty(tags)) return new ArrayList<>();
+        if (tags == null) tags = Arrays.asList(fromJsonOrDie(tagsJson, NexusTag[].class));
         return tags;
     }
 
@@ -158,7 +166,7 @@ public abstract class NexusBase extends SocialEntity implements NexusView {
         return this;
     }
 
-    public boolean hasTags () { return !empty(tags); }
+    public boolean hasTags () { return !empty(tags) && !empty(tagsJson); }
 
     public NexusBase addTag (NexusTag tag) {
         if (tags == null) tags = new ArrayList<>();
@@ -189,6 +197,7 @@ public abstract class NexusBase extends SocialEntity implements NexusView {
         }
         if (!empty(tagType)) tag.setTagType(tagType);
         addTag(tag);
+        this.tagsJson = toJsonOrDie(tags);
         return this;
     }
 
@@ -284,4 +293,39 @@ public abstract class NexusBase extends SocialEntity implements NexusView {
         }
     }
 
+    private static abstract class NCompare implements Comparator<NexusView> {
+        @Override public int compare(NexusView o1, NexusView o2) {
+            long v1 = val(o1);
+            long v2 = val(o2);
+            return reverse() ? Long.compare(v1, v2) : Long.compare(v2, v1);
+        }
+        protected abstract long val(NexusView view);
+        protected boolean reverse () { return false; }
+    }
+
+    private static class NCompare_newest extends NCompare {
+        static final NCompare_newest instance = new NCompare_newest();
+        @Override protected long val(NexusView view) { return view.getCtime(); }
+    }
+    private static class NCompare_oldest extends NCompare {
+        static final NCompare_oldest instance = new NCompare_oldest();
+        @Override protected long val(NexusView view) { return view.getCtime(); }
+        @Override protected boolean reverse() { return true; }
+    }
+    private static class NCompare_up_vote extends NCompare {
+        static final NCompare_up_vote instance = new NCompare_up_vote();
+        @Override protected long val(NexusView view) { return view.hasVotes() ? view.getVotes().getUpVotes() : 0; }
+    }
+    private static class NCompare_down_vote extends NCompare {
+        static final NCompare_down_vote instance = new NCompare_down_vote();
+        @Override protected long val(NexusView view) { return view.hasVotes() ? view.getVotes().getDownVotes() : 0; }
+    }
+    private static class NCompare_vote_count extends NCompare {
+        static final NCompare_vote_count instance = new NCompare_vote_count();
+        @Override protected long val(NexusView view) { return view.hasVotes() ? view.getVotes().getVoteCount() : 0; }
+    }
+    private static class NCompare_vote_tally extends NCompare {
+        static final NCompare_vote_tally instance = new NCompare_vote_tally();
+        @Override protected long val(NexusView view) { return view.hasVotes() ? view.getVotes().getTally() : 0; }
+    }
 }

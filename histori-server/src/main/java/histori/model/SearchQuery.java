@@ -3,7 +3,7 @@ package histori.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import histori.model.support.EntityVisibility;
 import histori.model.support.GeoBounds;
-import histori.model.support.GlobalSortOrder;
+import histori.model.support.SearchSortOrder;
 import histori.model.support.TimeRange;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -51,7 +51,10 @@ public class SearchQuery extends IdentifiableBase {
     @Getter @Setter private EntityVisibility visibility;
 
     @Enumerated(value=STRING)
-    @Getter @Setter private GlobalSortOrder globalSortOrder = GlobalSortOrder.vote_tally;
+    @Getter @Setter private SearchSortOrder summarySortOrder = SearchSortOrder.vote_tally;
+
+    @Enumerated(value=STRING)
+    @Getter @Setter private SearchSortOrder nexusSortOrder = SearchSortOrder.vote_tally;
 
     @JsonIgnore private String preferredOwners = null;
     public String getPreferredOwners() {
@@ -98,25 +101,22 @@ public class SearchQuery extends IdentifiableBase {
     }
 
     // How to sort different nexuses that have the same name
-    @Transient @JsonIgnore public Comparator<Nexus> getNexusComparator() {
-        return new Comparator<Nexus>() {
-            @Override public int compare(Nexus n1, Nexus n2) {
-                if (!n1.getOwner().equals(n2.getOwner())) {
-                    if (hasPreferredOwners()) {
-                        final List<String> preferred = getPreferredOwnersList();
-                        if (preferred.contains(n1.getOwner())) return -1;
-                        if (preferred.contains(n2.getOwner())) return 1;
-                    }
-                    if (hasBlockedOwners()) {
-                        final List<String> blocked = getBlockedOwnersList();
-                        if (blocked.contains(n1.getOwner())) return 1;
-                        if (blocked.contains(n2.getOwner())) return -1;
-                    }
-                }
-                // otherwise, newest first
-                return (int) (n2.getCtime() - n1.getCtime());
+    @Transient @JsonIgnore public Comparator<NexusView> getNexusComparator() { return new NexusComparator(); }
+
+    private class NexusComparator implements Comparator<NexusView> {
+        @Override public int compare(NexusView n1, NexusView n2) {
+            // give preferred owners special treatment first
+            if (hasPreferredOwners()) {
+                final List<String> preferred = getPreferredOwnersList();
+                int n1index = n1.hasOwner() ? preferred.indexOf(n1.getOwner()) : Integer.MAX_VALUE;
+                int n2index = n2.hasOwner() ? preferred.indexOf(n2.getOwner()) : Integer.MAX_VALUE;
+                if (n1index != n2index) return (n2index - n1index);
             }
-        };
+            // otherwise, newest first
+            return nexusSortOrder == null
+                    ? Nexus.comparator(SearchSortOrder.newest).compare(n1, n2)
+                    : Nexus.comparator(nexusSortOrder).compare(n1, n2);
+        }
     }
 }
 

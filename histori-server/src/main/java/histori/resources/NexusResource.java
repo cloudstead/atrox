@@ -49,7 +49,7 @@ public class NexusResource {
 
         final Nexus nexus = nexusDAO.findByOwnerAndName(account, name);
         if (nexus == null) return notFound(name);
-        if (!nexus.isVisibleTo(account)) notFound(name); // deleted things might not be visible
+        if (!nexus.isVisibleTo(account)) return notFound(name); // deleted things might not be visible
         return ok(nexus);
     }
 
@@ -64,7 +64,6 @@ public class NexusResource {
         final Nexus nexus = nexusDAO.findByUuid(uuid);
         if (nexus == null || !nexus.isVisibleTo(account)) return notFound(uuid);
         if (!nexus.getName().equals(name)) return invalid("err.name.mismatch");
-
         return ok(nexus);
     }
 

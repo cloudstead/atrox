@@ -1,10 +1,12 @@
 package histori.dao;
 
 import histori.dao.search.NexusSearchResults;
-import histori.dao.search.SuperNexusSummaryShardIteratorFactory;
+import histori.dao.search.SuperNexusSummaryShardSearch;
 import histori.model.Account;
+import histori.model.Nexus;
 import histori.model.SearchQuery;
 import histori.model.support.NexusSummary;
+import histori.model.support.SearchSortOrder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.wizard.cache.redis.RedisService;
@@ -14,12 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.TreeSet;
 
 @Repository @Slf4j
 public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
 
     private static final int MAX_SEARCH_RESULTS = 200;
 
+    @Autowired private NexusDAO nexusDAO;
     @Autowired private SuperNexusDAO superNexusDAO;
     @Autowired private TagDAO tagDAO;
     @Autowired private TagTypeDAO tagTypeDAO;
@@ -34,24 +38,42 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
 
     /**
      * Find NexusSummaries within the provided range and region
+     * @param account The account searching
      * @param searchQuery the query
      * @return a List of NexusSummary objects
      */
     public SearchResults<NexusSummary> search(final Account account, final SearchQuery searchQuery) {
 
-        final SearchResults<NexusSummary> results = new SearchResults<>();
         final NexusEntityFilter entityFilter = new NexusEntityFilter(searchQuery.getQuery(), getFilterCache(), tagDAO, tagTypeDAO);
-        final NexusSearchResults nexusResults = new NexusSearchResults(searchQuery.getNexusComparator(), MAX_SEARCH_RESULTS);
+        final NexusSearchResults nexusResults = new NexusSearchResults(nexusDAO,
+                                                                       entityFilter,
+                                                                       searchQuery.getNexusComparator(),
+                                                                       MAX_SEARCH_RESULTS,
+                                                                       searchQuery.getBlockedOwnersList());
 
         // todo: check cache for cached value. if not cached, store result in cache
         // todo: check to see if SuperNexusDAO is already searching for this same query, if so piggyback on result
 
-        final SuperNexusSummaryShardIteratorFactory factory
-                = new SuperNexusSummaryShardIteratorFactory(account, searchQuery, entityFilter, nexusResults);
-        final List<NexusSummary> searchResults = superNexusDAO.iterate(factory);
+        final SuperNexusSummaryShardSearch search = new SuperNexusSummaryShardSearch(account, searchQuery, nexusResults);
+        final List<NexusSummary> searchResults = superNexusDAO.search(search);
 
-        results.setResults(searchResults);
-        return results;
+        return new SearchResults<>(searchResults);
     }
 
+    /**
+     * Find NexusSummary for a single nexus
+     * @param account The account searching
+     * @param nexus The nexus to build a summary for
+     * @return the NexusSummary
+     */
+    public NexusSummary search(Account account, Nexus nexus, SearchSortOrder sortOrder) {
+
+        final List<Nexus> nexusList = nexusDAO.findByNameAndVisibleToAccount(nexus.getName(), account);
+        if (nexusList.isEmpty()) return null;
+
+        final TreeSet<Nexus> sorted = new TreeSet<>(Nexus.comparator(sortOrder));
+        sorted.addAll(nexusList);
+
+        return NexusSearchResults.toNexusSummary(sorted);
+    }
 }

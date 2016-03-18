@@ -2,7 +2,6 @@ package histori;
 
 import com.fasterxml.jackson.databind.JavaType;
 import histori.model.Nexus;
-import histori.model.NexusTag;
 import histori.model.auth.RegistrationRequest;
 import histori.model.support.AccountAuthResponse;
 import histori.model.support.NexusSummary;
@@ -30,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 
 import static histori.ApiConstants.*;
-import static histori.model.CanonicalEntity.canonicalize;
 import static histori.model.support.TimePoint.TP_SEP;
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
@@ -111,7 +109,7 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
 
     public SearchResults<NexusSummary> search(String startDate, String endDate, String query) throws Exception {
         // search entire map area with caching disabled
-        return simpleSearch(SEARCH_ENDPOINT + EP_QUERY + "/" + startDate + "/" + endDate + "/180/-180/180/-180?c=false&q="+query, NexusSummary.SEARCH_RESULT_TYPE);
+        return simpleSearch(SEARCH_ENDPOINT + EP_QUERY + "/" + startDate + "/" + endDate + "/180/-180/180/-180?c=false&q="+urlEncode(query), NexusSummary.SEARCH_RESULT_TYPE);
     }
 
     public Nexus dummyNexus () {
@@ -139,13 +137,4 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
         assertEquals(nexusName, createdNexus.getName());
         return createdNexus;
     }
-
-    public void addTag(String nexusPath, NexusTag tag) throws Exception {
-        final String canonical = canonicalize(tag.getTagName());
-        final String tagPath = nexusPath + EP_TAGS + "/" + urlEncode(canonical);
-        final RestResponse response = put(tagPath, toJson(tag));
-        final NexusTag createdTag = fromJson(response.json, NexusTag.class);
-        assertEquals(createdTag.getTagName(), canonical);
-    }
-
 }

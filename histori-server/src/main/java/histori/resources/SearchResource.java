@@ -9,6 +9,7 @@ import histori.model.Nexus;
 import histori.model.SearchQuery;
 import histori.model.support.EntityVisibility;
 import histori.model.support.NexusSummary;
+import histori.model.support.SearchSortOrder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.wizard.cache.redis.RedisService;
@@ -115,7 +116,8 @@ public class SearchResource {
     @GET
     @Path(EP_NEXUS+"/{uuid}")
     public Response findByUuid(@Context HttpContext ctx,
-                               @PathParam("uuid") String uuid) {
+                               @PathParam("uuid") String uuid,
+                               @QueryParam("sort") String sortOrder) {
 
         final Account account = optionalUserPrincipal(ctx);
         final Nexus nexus = nexusDAO.findByUuid(uuid);
@@ -128,8 +130,7 @@ public class SearchResource {
                                 (account.isAdmin() || summary.getPrimary().isOwner(account.getUuid())) ))) {
             return ok(summary);
         }
-
-        return ok(NexusSummary.simpleSummary(nexus));
+        return ok(nexusSummaryDAO.search(account, nexus, SearchSortOrder.valueOf(sortOrder, SearchSortOrder.up_vote)));
     }
 
 }

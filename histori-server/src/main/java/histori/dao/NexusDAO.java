@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.Valid;
+import java.util.Iterator;
 import java.util.List;
 
 import static histori.model.CanonicalEntity.canonicalize;
@@ -90,5 +91,13 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
 
     public List<Nexus> findByName(String name) {
         return findByField("canonicalName", canonicalize(name));
+    }
+
+    public List<Nexus> findByNameAndVisibleToAccount(String name, Account account) {
+        final List<Nexus> found = findByField("canonicalName", canonicalize(name));
+        for (Iterator<Nexus> iter = found.iterator(); iter.hasNext(); ) {
+            if (!iter.next().isVisibleTo(account)) iter.remove();
+        }
+        return found;
     }
 }

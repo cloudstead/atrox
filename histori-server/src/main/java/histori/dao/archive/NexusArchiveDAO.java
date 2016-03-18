@@ -17,7 +17,7 @@ import java.util.List;
     @Override protected ShardSetConfiguration getShardConfiguration() { return database.getShard("nexus-archive"); }
 
     @Override public List<NexusArchive> findArchives(Account account, String id) {
-        return findByFields("account", account, "identifier", id);
+        return findByFields("owner", account.getUuid(), "identifier", id);
     }
 
 }
