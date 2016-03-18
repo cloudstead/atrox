@@ -4,6 +4,7 @@ import histori.dao.shard.SuperNexusShardDAO;
 import histori.model.Nexus;
 import histori.model.SuperNexus;
 import histori.model.support.EntityVisibility;
+import org.cobbzilla.wizard.model.shard.ShardIO;
 import org.cobbzilla.wizard.server.config.DatabaseConfiguration;
 import org.cobbzilla.wizard.server.config.ShardSetConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,4 +52,18 @@ public class SuperNexusDAO extends ShardedEntityDAO<SuperNexus, SuperNexusShardD
         }
     }
 
+    public void forceRefresh () {
+        for (SuperNexusShardDAO dao : getDAOs(ShardIO.read)) {
+            dao.forceRefresh();
+        }
+    }
+
+    public long oldestRefreshTime () {
+        long oldest = Long.MAX_VALUE;
+        for (SuperNexusShardDAO dao : getDAOs(ShardIO.read)) {
+            long lastRefresh = dao.getLastRefresh();
+            if (lastRefresh < oldest) oldest = lastRefresh;
+        }
+        return oldest;
+    }
 }

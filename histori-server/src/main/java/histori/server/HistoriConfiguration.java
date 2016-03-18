@@ -15,7 +15,10 @@ import org.cobbzilla.util.reflect.ReflectionUtil;
 import org.cobbzilla.wizard.cache.redis.HasRedisConfiguration;
 import org.cobbzilla.wizard.cache.redis.RedisConfiguration;
 import org.cobbzilla.wizard.dao.DAO;
-import org.cobbzilla.wizard.server.config.*;
+import org.cobbzilla.wizard.server.config.DatabaseConfiguration;
+import org.cobbzilla.wizard.server.config.HasDatabaseConfiguration;
+import org.cobbzilla.wizard.server.config.RecaptchaConfig;
+import org.cobbzilla.wizard.server.config.RestServerConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static histori.ApiConstants.SN_REFRESH_ENDPOINT;
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
@@ -61,6 +65,8 @@ public class HistoriConfiguration extends RestServerConfiguration
     public String getResetPasswordUrl(String token) {
         return new StringBuilder().append(getPublicUriBase()).append(RESET_PASSWORD_URI).append(token).toString();
     }
+
+    public String getSuperNexusRefreshBase() { return getLoopbackApiBase() + SN_REFRESH_ENDPOINT; }
 
     public String getTokenFromResetPasswordUrl (String url) {
         if (!url.startsWith(getPublicUriBase()+RESET_PASSWORD_URI)) die("getTokenFromResetPasswordUrl: invalid url: "+url);

@@ -27,6 +27,9 @@ public class ApiConstants {
     // admin endpoints
     public static final String SHARDS_ENDPOINT = "/admin/shards";
 
+    // internal endpoints (used by the system to call itself)
+    public static final String SN_REFRESH_ENDPOINT = "/internal/sn_refresh";
+
     public static final int NAME_MAXLEN = 1024;
     public static final int GEOJSON_MAXLEN = 64000;
 

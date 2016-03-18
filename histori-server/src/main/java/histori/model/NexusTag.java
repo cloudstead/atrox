@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.cobbzilla.util.collection.ArrayUtil;
+import org.cobbzilla.util.collection.mappy.MappySortedSet;
 import org.cobbzilla.wizard.model.IdentifiableBase;
 import org.cobbzilla.wizard.validation.HasValue;
 
@@ -113,16 +114,11 @@ public class NexusTag extends IdentifiableBase {
         return !hasSchemaValues() || !tag.hasSchemaValues() || getSchemaHash().equals(tag.getSchemaHash());
     }
 
-    public class SchemaValueMap extends TreeMap<String, Set<String>> {
+    public class SchemaValueMap extends MappySortedSet<String, String> {
 
         public void addAll(TagSchemaValue[] values) {
             for (TagSchemaValue val : values) {
-                Set<String> found = get(val.getField());
-                if (found == null) {
-                    found = new TreeSet<>();
-                    put(val.getField(), found);
-                }
-                found.add(val.getValue());
+                put(val.getField(), val.getValue());
             }
         }
 
@@ -134,8 +130,8 @@ public class NexusTag extends IdentifiableBase {
             if (m.size() != this.size()) return false;
 
             for (String field : this.keySet()) {
-                final Set<String> values = this.get(field);
-                final Set<String> mValues = m.get(field);
+                final Set<String> values = this.getAll(field);
+                final Set<String> mValues = m.getAll(field);
 
                 if (mValues == null) return values == null;
                 for (String val : values) if (!mValues.contains(val)) return false;
@@ -143,8 +139,8 @@ public class NexusTag extends IdentifiableBase {
             }
 
             for (String field : m.keySet()) {
-                final Set<String> values = this.get(field);
-                final Set<String> mValues = m.get(field);
+                final Set<String> values = this.getAll(field);
+                final Set<String> mValues = m.getAll(field);
 
                 if (mValues == null) return values == null;
                 for (String val : values) if (!mValues.contains(val)) return false;
@@ -157,24 +153,17 @@ public class NexusTag extends IdentifiableBase {
         private static final String KSEP = "|||";
         private static final String VSEP = "@@@";
 
-        @Override public int hashCode() {
-            return getHash().hashCode();
-        }
+        @Override public int hashCode() { return getHash().hashCode(); }
 
         public String getHash() {
             final StringBuilder hash = new StringBuilder();
-            for (Map.Entry<String, Set<String>> entry : this.entrySet()) {
-                hash.append(KSEP).append(entry.getKey());
-                for (String value : entry.getValue()) {
+            for (String key : keySet()) {
+                hash.append(KSEP).append(key);
+                for (String value : getAll(key)) {
                     hash.append(VSEP).append(value);
                 }
             }
             return sha256_hex(hash.toString());
-        }
-
-        public String first(String key) {
-            final Set<String> found = get(key);
-            return found == null || found.isEmpty() ? null : found.iterator().next();
         }
     }
 

@@ -1,7 +1,6 @@
 package histori.model.support;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 
 public enum SearchSortOrder {
 

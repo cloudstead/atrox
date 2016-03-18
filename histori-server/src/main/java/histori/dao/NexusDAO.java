@@ -31,6 +31,7 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
     @Override protected ShardSetConfiguration getShardConfiguration() { return database.getShard("nexus"); }
 
     @Autowired @Getter @Setter private SuperNexusDAO superNexusDAO;
+    @Autowired @Getter @Setter private TagDAO tagDAO;
     @Autowired @Getter @Setter private RedisService redisService;
 
     @Getter(lazy=true) private final RedisService nexusCache = initNexusCache();
@@ -73,16 +74,20 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
         return super.preUpdate(entity);
     }
 
-    @Override public Nexus postCreate(Nexus entity, Object context) {
-        getNexusCache().set(entity.getUuid(), toJsonOrDie(entity));
-        superNexusDAO.updateSuperNexus(entity);
-        return super.postCreate(entity, context);
+    @Override public Nexus postCreate(Nexus nexus, Object context) {
+        postProcessNexus(nexus);
+        return super.postCreate(nexus, context);
     }
 
-    @Override public Nexus postUpdate(@Valid Nexus entity, Object context) {
-        getNexusCache().set(entity.getUuid(), toJsonOrDie(entity));
-        superNexusDAO.updateSuperNexus(entity);
-        return super.postUpdate(entity, context);
+    @Override public Nexus postUpdate(Nexus nexus, Object context) {
+        postProcessNexus(nexus);
+        return super.postUpdate(nexus, context);
+    }
+
+    public void postProcessNexus(Nexus nexus) {
+        getNexusCache().set(nexus.getUuid(), toJsonOrDie(nexus));
+        superNexusDAO.updateSuperNexus(nexus);
+        tagDAO.updateTags(nexus);
     }
 
     public Nexus findByOwnerAndName(Account account, String name) {
@@ -93,6 +98,8 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
         return findByField("canonicalName", canonicalize(name));
     }
 
+    public List<Nexus> findByCanonicalName(String canonicalName) { return findByField("canonicalName", canonicalName); }
+
     public List<Nexus> findByNameAndVisibleToAccount(String name, Account account) {
         final List<Nexus> found = findByField("canonicalName", canonicalize(name));
         for (Iterator<Nexus> iter = found.iterator(); iter.hasNext(); ) {
@@ -100,4 +107,5 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
         }
         return found;
     }
+
 }

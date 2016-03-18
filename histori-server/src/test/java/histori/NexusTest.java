@@ -1,5 +1,6 @@
 package histori;
 
+import histori.dao.SuperNexusDAO;
 import histori.model.*;
 import histori.model.archive.NexusArchive;
 import histori.model.support.*;
@@ -13,10 +14,12 @@ import java.util.List;
 import static histori.ApiConstants.*;
 import static histori.model.CanonicalEntity.canonicalize;
 import static histori.model.TagType.EVENT_TYPE;
+import static org.cobbzilla.util.daemon.ZillaRuntime.now;
 import static org.cobbzilla.util.http.HttpStatusCodes.NOT_FOUND;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJson;
 import static org.cobbzilla.util.string.StringUtil.urlEncode;
+import static org.cobbzilla.util.system.Sleep.sleep;
 import static org.cobbzilla.wizardtest.RandomUtil.randomName;
 import static org.junit.Assert.*;
 
@@ -73,6 +76,11 @@ public class NexusTest extends ApiClientTestBase {
         assertEquals(3, found.getTags().size());
         assertEquals(markdown, found.getMarkdown());
 
+        apiDocs.addNote("Verify that new tags are now present in the system");
+        String tagUri = TAGS_ENDPOINT + EP_TAG + "/" + urlEncode("~"+tag2);
+        Tag tag = fromJson(get(tagUri).json, Tag.class);
+        assertEquals(canonicalize(tag2), tag.getCanonicalName());
+
         apiDocs.addNote("Search for nexus in the same range, should see our new nexus");
         searchResults = search(startDate, endDate, nexusName);
         assertEquals(1, searchResults.count());
@@ -108,7 +116,7 @@ public class NexusTest extends ApiClientTestBase {
 
         apiDocs.addNote("Lookup Nexus again, verify updated tag");
         found = fromJson(get(updatedNexusPath).json, Nexus.class);
-        assertEquals(tagComments, found.getFirstTag(tag4.toLowerCase()).getSchemaValueMap().first("meta"));
+        assertEquals(tagComments, found.getFirstTag(tag4.toLowerCase()).getSchemaValueMap().get("meta"));
 
         apiDocs.addNote("Lookup previous versions, there should now be 2");
         NexusArchive[] archives = fromJson(get(ARCHIVES_ENDPOINT+"/Nexus/"+found.getUuid()).json, NexusArchive[].class);
@@ -120,15 +128,23 @@ public class NexusTest extends ApiClientTestBase {
         apiDocs.addNote("Lookup by id, should fail");
         assertEquals(NOT_FOUND, doGet(updatedNexusPath).status);
 
-        // todo: wait for SuperNexusRefresher to recalculate SuperNexus and clear dirty flag
+        // force SuperNexusDAO to refresh dirty records
+        long start = now();
+        final SuperNexusDAO superNexusDAO = getBean(SuperNexusDAO.class);
+        superNexusDAO.forceRefresh();
+        int timeout = 5000000;
+        while (superNexusDAO.oldestRefreshTime() < start) {
+            assertFalse("timed out waiting for SuperNexusDAO to refresh", now() > start + timeout);
+            sleep(100);
+        }
 
         apiDocs.addNote("Search again, verify no results");
         searchResults = search(startDate, endDate, updatedName);
         assertEquals(0, searchResults.count());
 
         apiDocs.addNote("Verify that tags are still present in the system");
-        final String tagUri = TAGS_ENDPOINT + EP_TAG + "/" + tag3;
-        Tag tag = fromJson(get(tagUri).json, Tag.class);
+        tagUri = TAGS_ENDPOINT + EP_TAG + "/" + urlEncode("~"+urlEncode(tag3));
+        tag = fromJson(get(tagUri).json, Tag.class);
         assertEquals(canonicalize(tag3), tag.getCanonicalName());
 
         apiDocs.addNote("Test resolving several tags at once. Try to resolve 4, only 3 will have a type");
@@ -151,7 +167,7 @@ public class NexusTest extends ApiClientTestBase {
         assertEquals(9, autoComplete.getSuggestions().size());
 
         apiDocs.addNote("Test autocomplete for only event_type tags");
-        autoComplete = fromJson(get(autocompleteUri +"/Event+type" + acQuery).json, AutocompleteSuggestions.class);
+        autoComplete = fromJson(get(autocompleteUri +"/Event_type" + acQuery).json, AutocompleteSuggestions.class);
         assertEquals(4, autoComplete.getSuggestions().size());
 
         apiDocs.addNote("Test autocomplete for only tags without a type");

@@ -42,14 +42,13 @@ public class HistoriAuthFilter extends AuthFilter<Account> {
                 SEARCH_ENDPOINT,
                 TAGS_ENDPOINT,
                 CONFIGS_ENDPOINT,
-                PERMALINKS_ENDPOINT
+                PERMALINKS_ENDPOINT,
+                SN_REFRESH_ENDPOINT // manages its own key-based auth for internal requests
         });
     }
 
     @Getter(lazy=true) private final Set<String> adminRequiredPrefixes = initAdminRequiredPrefixes();
-    private Set<String> initAdminRequiredPrefixes() {
-        return prefixSet(new String[] {"/admin"});
-    }
+    private Set<String> initAdminRequiredPrefixes() { return prefixSet(new String[] {"/admin"}); }
 
     @Override protected boolean isPermitted(Account principal, ContainerRequest request) {
         if (startsWith(request.getRequestUri().getPath(), getAdminRequiredPrefixes())) return principal.isAdmin();

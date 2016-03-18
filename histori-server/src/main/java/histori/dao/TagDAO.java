@@ -1,5 +1,7 @@
 package histori.dao;
 
+import histori.model.Nexus;
+import histori.model.NexusTag;
 import histori.model.Tag;
 import histori.model.support.AutocompleteSuggestions;
 import org.cobbzilla.util.collection.ArrayUtil;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
@@ -92,4 +95,27 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.now;
         return suggestions;
     }
 
+    public void updateTags(Nexus nexus) {
+        if (!nexus.hasTags()) return;
+        boolean added = false;
+        for (NexusTag nexusTag : nexus.getTags()) {
+            Tag tag = findByCanonicalName(nexusTag.getCanonical());
+            if (tag == null) {
+                create(new Tag(nexusTag.getTagName(), nexusTag.getTagType()));
+                added = true;
+            }
+            if (nexusTag.hasSchemaValues()) {
+                for (Map.Entry<String, TreeSet<String>> entry : nexusTag.getSchemaValueMap().allEntrySets()) {
+                    for (String value : entry.getValue()) {
+                        tag = findByCanonicalName(canonicalize(value));
+                        if (tag == null) {
+                            create(new Tag(value, entry.getKey()));
+                            added = true;
+                        }
+                    }
+                }
+            }
+        }
+        if (added) lastCacheFill.set(0);
+    }
 }

@@ -91,4 +91,5 @@ public class SuperNexus extends IdentifiableBase implements NexusView, Shardable
     @Override public String getNexusType() { return null; }
     @Override public boolean hasTags() { return false; }
     @Override public List<NexusTag> getTags() { return null; }
+
 }

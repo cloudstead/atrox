@@ -27,7 +27,6 @@
     <!-- jersey resources, DAOs -->
     <context:component-scan base-package="histori.auth"/>
     <context:component-scan base-package="histori.model"/>
-    <context:component-scan base-package="histori.archive"/>
     <context:component-scan base-package="histori.dao"/>
     <context:component-scan base-package="histori.service"/>
     <context:component-scan base-package="histori.resources"/>

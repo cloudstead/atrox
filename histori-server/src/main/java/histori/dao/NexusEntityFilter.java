@@ -174,7 +174,7 @@ public class NexusEntityFilter implements EntityFilter<NexusView> {
 
             // all schema matches, both keys and (possibly multiple) values, are fuzzy matches
             if (nexusTag.hasSchemaValues()) {
-                for (Map.Entry<String, Set<String>> schema : nexusTag.getSchemaValueMap().entrySet()) {
+                for (Map.Entry<String, TreeSet<String>> schema : nexusTag.getSchemaValueMap().allEntrySets()) {
                     if (fuzzyMatch(schema.getKey(), term)) return true;
                     for (String value : schema.getValue()) {
                         if (fuzzyMatch(value, term)) return true;
