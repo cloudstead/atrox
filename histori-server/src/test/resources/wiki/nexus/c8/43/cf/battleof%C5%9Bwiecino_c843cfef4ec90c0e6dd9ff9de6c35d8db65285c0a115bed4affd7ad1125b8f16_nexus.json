@@ -1,0 +1,135 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "battleof%C5%9Bwiecino",
+  "name" : "Battle of Świecino",
+  "nexusType" : "battle",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 14620917000000,
+      "year" : 1462,
+      "month" : 9,
+      "day" : 17
+    }
+  },
+  "tags" : [ {
+    "tagName" : "battle",
+    "canonicalName" : "battle",
+    "tagType" : "event_type",
+    "displayName" : "battle"
+  }, {
+    "tagName" : "Thirteen Years' War (1454–66)",
+    "canonicalName" : "thirteenyears%27war%281454%E2%80%9366%29",
+    "tagType" : "event",
+    "displayName" : "Thirteen Years' War (1454–66)",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "tagName" : "Decisive Polish Victory",
+    "canonicalName" : "decisivepolishvictory",
+    "tagType" : "result",
+    "displayName" : "Decisive Polish Victory"
+  }, {
+    "tagName" : "Teutonic Order",
+    "canonicalName" : "teutonicorder",
+    "tagType" : "world_actor",
+    "displayName" : "Teutonic Order",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Fritz Raweneck",
+    "canonicalName" : "fritzraweneck",
+    "tagType" : "person",
+    "displayName" : "Fritz Raweneck",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Teutonic Order"
+    } ]
+  }, {
+    "tagName" : "Kaspar Nostyc",
+    "canonicalName" : "kasparnostyc",
+    "tagType" : "person",
+    "displayName" : "Kaspar Nostyc",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Teutonic Order"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Teutonic Order"
+    } ]
+  }, {
+    "tagName" : "captured",
+    "canonicalName" : "captured",
+    "tagType" : "impact",
+    "displayName" : "captured",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "50"
+    }, {
+      "field" : "world_actor",
+      "value" : "Teutonic Order"
+    } ]
+  }, {
+    "tagName" : "Poland",
+    "canonicalName" : "poland",
+    "tagType" : "world_actor",
+    "displayName" : "Poland",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Piotr Dunin",
+    "canonicalName" : "piotrdunin",
+    "tagType" : "person",
+    "displayName" : "Piotr Dunin",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Poland"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "250"
+    }, {
+      "field" : "world_actor",
+      "value" : "Poland"
+    } ]
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_%C5%9Awiecino",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fbattleof%25c5%259awiecino",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Battle of %C5%9Awiecino"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 18.087778, 54.787222 ]
+  },
+  "displayName" : "Battle of Świecino"
+}

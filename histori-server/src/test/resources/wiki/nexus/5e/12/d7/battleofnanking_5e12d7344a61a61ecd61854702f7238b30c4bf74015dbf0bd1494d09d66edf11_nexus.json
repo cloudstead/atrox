@@ -1,0 +1,111 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "battleofnanking",
+  "name" : "Battle of Nanking",
+  "nexusType" : "battle",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19371201000000,
+      "year" : 1937,
+      "month" : 12,
+      "day" : 1
+    },
+    "endPoint" : {
+      "instant" : 19371213000000,
+      "year" : 1937,
+      "month" : 12,
+      "day" : 13
+    }
+  },
+  "tags" : [ {
+    "tagName" : "battle",
+    "canonicalName" : "battle",
+    "tagType" : "event_type",
+    "displayName" : "battle"
+  }, {
+    "tagName" : "Second Sino-Japanese War",
+    "canonicalName" : "secondsino-japanesewar",
+    "tagType" : "event",
+    "displayName" : "Second Sino-Japanese War",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "tagName" : "Japanese victory",
+    "canonicalName" : "japanesevictory",
+    "tagType" : "result",
+    "displayName" : "Japanese victory"
+  }, {
+    "tagName" : "Republic of China (1912–1949)",
+    "canonicalName" : "republicofchina%281912%E2%80%931949%29",
+    "tagType" : "world_actor",
+    "displayName" : "Republic of China (1912–1949)",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Tang Shengzhi",
+    "canonicalName" : "tangshengzhi",
+    "tagType" : "person",
+    "displayName" : "Tang Shengzhi",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Republic of China (1912–1949)"
+    } ]
+  }, {
+    "tagName" : "Empire of Japan",
+    "canonicalName" : "empireofjapan",
+    "tagType" : "world_actor",
+    "displayName" : "Empire of Japan",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Iwane Matsui",
+    "canonicalName" : "iwanematsui",
+    "tagType" : "person",
+    "displayName" : "Iwane Matsui",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Empire of Japan"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1953"
+    } ]
+  }, {
+    "tagName" : "wounded",
+    "canonicalName" : "wounded",
+    "tagType" : "impact",
+    "displayName" : "wounded",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "4994"
+    } ]
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Nanking",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fbattleofnanking",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Battle of Nanking"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 118.767, 32.05 ]
+  },
+  "displayName" : "Battle of Nanking"
+}

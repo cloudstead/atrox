@@ -1,0 +1,29 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "newyorkcityconsolidated",
+  "name" : "New York City consolidated",
+  "nexusType" : "founding",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18980000000000,
+      "year" : 1898
+    }
+  },
+  "tags" : [ {
+    "tagName" : "founding",
+    "canonicalName" : "founding",
+    "tagType" : "event_type",
+    "displayName" : "founding"
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/New_York_City",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fnewyorkcity",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/New York City"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -74.0059, 40.7127 ]
+  },
+  "displayName" : "New York City consolidated"
+}

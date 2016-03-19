@@ -1,0 +1,195 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "battleofshorthills",
+  "name" : "Battle of Short Hills",
+  "nexusType" : "battle",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 17770626000000,
+      "year" : 1777,
+      "month" : 6,
+      "day" : 26
+    }
+  },
+  "tags" : [ {
+    "tagName" : "battle",
+    "canonicalName" : "battle",
+    "tagType" : "event_type",
+    "displayName" : "battle"
+  }, {
+    "tagName" : "American Revolutionary War",
+    "canonicalName" : "americanrevolutionarywar",
+    "tagType" : "event",
+    "displayName" : "American Revolutionary War",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "tagName" : "Tactical British victory",
+    "canonicalName" : "tacticalbritishvictory",
+    "tagType" : "result",
+    "displayName" : "Tactical British victory"
+  }, {
+    "tagName" : "United States",
+    "canonicalName" : "unitedstates",
+    "tagType" : "world_actor",
+    "displayName" : "United States",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "William Alexander (American general)",
+    "canonicalName" : "williamalexander%28americangeneral%29",
+    "tagType" : "person",
+    "displayName" : "William Alexander (American general)",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "captured",
+    "canonicalName" : "captured",
+    "tagType" : "impact",
+    "displayName" : "captured",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "70"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "Kingdom of Great Britain",
+    "canonicalName" : "kingdomofgreatbritain",
+    "tagType" : "world_actor",
+    "displayName" : "Kingdom of Great Britain",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Hesse-Kassel",
+    "canonicalName" : "hesse-kassel",
+    "tagType" : "world_actor",
+    "displayName" : "Hesse-Kassel",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Ansbach-Bayreuth",
+    "canonicalName" : "ansbach-bayreuth",
+    "tagType" : "world_actor",
+    "displayName" : "Ansbach-Bayreuth",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "William Howe",
+    "canonicalName" : "williamhowe",
+    "tagType" : "person",
+    "displayName" : "William Howe",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Great Britain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hesse-Kassel"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ansbach-Bayreuth"
+    } ]
+  }, {
+    "tagName" : "Charles Cornwallis",
+    "canonicalName" : "charlescornwallis",
+    "tagType" : "person",
+    "displayName" : "Charles Cornwallis",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Great Britain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hesse-Kassel"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ansbach-Bayreuth"
+    } ]
+  }, {
+    "tagName" : "John Vaughan (British Army officer)",
+    "canonicalName" : "johnvaughan%28britisharmyofficer%29",
+    "tagType" : "person",
+    "displayName" : "John Vaughan (British Army officer)",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Great Britain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hesse-Kassel"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ansbach-Bayreuth"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "5"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Great Britain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hesse-Kassel"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ansbach-Bayreuth"
+    } ]
+  }, {
+    "tagName" : "wounded",
+    "canonicalName" : "wounded",
+    "tagType" : "impact",
+    "displayName" : "wounded",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "30"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Great Britain"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hesse-Kassel"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ansbach-Bayreuth"
+    } ]
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Short_Hills",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fbattleofshorthills",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Battle of Short Hills"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -74.332, 40.75 ]
+  },
+  "displayName" : "Battle of Short Hills"
+}

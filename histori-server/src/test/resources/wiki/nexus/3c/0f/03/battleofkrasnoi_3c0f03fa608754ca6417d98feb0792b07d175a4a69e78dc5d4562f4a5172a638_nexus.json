@@ -1,0 +1,210 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "battleofkrasnoi",
+  "name" : "Battle of Krasnoi",
+  "nexusType" : "battle",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18121115000000,
+      "year" : 1812,
+      "month" : 11,
+      "day" : 15
+    },
+    "endPoint" : {
+      "instant" : 18121118000000,
+      "year" : 1812,
+      "month" : 11,
+      "day" : 18
+    }
+  },
+  "tags" : [ {
+    "tagName" : "battle",
+    "canonicalName" : "battle",
+    "tagType" : "event_type",
+    "displayName" : "battle"
+  }, {
+    "tagName" : "Napoleon's invasion of Russia",
+    "canonicalName" : "napoleon%27sinvasionofrussia",
+    "tagType" : "event",
+    "displayName" : "Napoleon's invasion of Russia",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "tagName" : "Inconclusive; Russian tactical victory",
+    "canonicalName" : "inconclusive%3Brussiantacticalvictory",
+    "tagType" : "result",
+    "displayName" : "Inconclusive; Russian tactical victory"
+  }, {
+    "tagName" : "France",
+    "canonicalName" : "france",
+    "tagType" : "world_actor",
+    "displayName" : "France",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Duchy of Warsaw",
+    "canonicalName" : "duchyofwarsaw",
+    "tagType" : "world_actor",
+    "displayName" : "Duchy of Warsaw",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Napoleon I of France",
+    "canonicalName" : "napoleonioffrance",
+    "tagType" : "person",
+    "displayName" : "Napoleon I of France",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "France"
+    } ]
+  }, {
+    "tagName" : "Louis Nicolas Davout",
+    "canonicalName" : "louisnicolasdavout",
+    "tagType" : "person",
+    "displayName" : "Louis Nicolas Davout",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "France"
+    } ]
+  }, {
+    "tagName" : "Eugène de Beauharnais",
+    "canonicalName" : "eug%C3%A8nedebeauharnais",
+    "tagType" : "person",
+    "displayName" : "Eugène de Beauharnais",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "France"
+    } ]
+  }, {
+    "tagName" : "Michel Ney",
+    "canonicalName" : "michelney",
+    "tagType" : "person",
+    "displayName" : "Michel Ney",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "France"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "6000"
+    }, {
+      "field" : "high_estimate",
+      "value" : "13000"
+    }, {
+      "field" : "estimate",
+      "value" : "9500"
+    }, {
+      "field" : "world_actor",
+      "value" : "France"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Warsaw"
+    } ]
+  }, {
+    "tagName" : "captured",
+    "canonicalName" : "captured",
+    "tagType" : "impact",
+    "displayName" : "captured",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "20000"
+    }, {
+      "field" : "high_estimate",
+      "value" : "26000"
+    }, {
+      "field" : "estimate",
+      "value" : "23000"
+    }, {
+      "field" : "world_actor",
+      "value" : "France"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Warsaw"
+    } ]
+  }, {
+    "tagName" : "Russia",
+    "canonicalName" : "russia",
+    "tagType" : "world_actor",
+    "displayName" : "Russia",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Mikhail Illarionovich Kutuzov",
+    "canonicalName" : "mikhailillarionovichkutuzov",
+    "tagType" : "person",
+    "displayName" : "Mikhail Illarionovich Kutuzov",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Russia"
+    } ]
+  }, {
+    "tagName" : "Mikhail Miloradovich",
+    "canonicalName" : "mikhailmiloradovich",
+    "tagType" : "person",
+    "displayName" : "Mikhail Miloradovich",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Russia"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "2000"
+    }, {
+      "field" : "high_estimate",
+      "value" : "5000"
+    }, {
+      "field" : "estimate",
+      "value" : "3500"
+    }, {
+      "field" : "world_actor",
+      "value" : "Russia"
+    } ]
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Krasnoi",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fbattleofkrasnoi",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Battle of Krasnoi"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 31.43, 54.56 ]
+  },
+  "displayName" : "Battle of Krasnoi"
+}

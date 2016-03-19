@@ -1,0 +1,111 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "battleofmortimer%27scross",
+  "name" : "Battle of Mortimer's Cross",
+  "nexusType" : "battle",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 14610202000000,
+      "year" : 1461,
+      "month" : 2,
+      "day" : 2
+    }
+  },
+  "tags" : [ {
+    "tagName" : "battle",
+    "canonicalName" : "battle",
+    "tagType" : "event_type",
+    "displayName" : "battle"
+  }, {
+    "tagName" : "Wars of the Roses",
+    "canonicalName" : "warsoftheroses",
+    "tagType" : "event",
+    "displayName" : "Wars of the Roses",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "tagName" : "Decisive Yorkist victory",
+    "canonicalName" : "decisiveyorkistvictory",
+    "tagType" : "result",
+    "displayName" : "Decisive Yorkist victory"
+  }, {
+    "tagName" : "House of York",
+    "canonicalName" : "houseofyork",
+    "tagType" : "world_actor",
+    "displayName" : "House of York",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Edward IV of England",
+    "canonicalName" : "edwardivofengland",
+    "tagType" : "person",
+    "displayName" : "Edward IV of England",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "House of York"
+    } ]
+  }, {
+    "tagName" : "House of Lancaster",
+    "canonicalName" : "houseoflancaster",
+    "tagType" : "world_actor",
+    "displayName" : "House of Lancaster",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Owen Tudor",
+    "canonicalName" : "owentudor",
+    "tagType" : "person",
+    "displayName" : "Owen Tudor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "House of Lancaster"
+    } ]
+  }, {
+    "tagName" : "Jasper Tudor",
+    "canonicalName" : "jaspertudor",
+    "tagType" : "person",
+    "displayName" : "Jasper Tudor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "House of Lancaster"
+    } ]
+  }, {
+    "tagName" : "James Butler",
+    "canonicalName" : "jamesbutler",
+    "tagType" : "person",
+    "displayName" : "James Butler",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "House of Lancaster"
+    } ]
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Mortimer%27s_Cross",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fbattleofmortimer%2527scross",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Battle of Mortimer%27s Cross"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -2.869166667, 52.318611111 ]
+  },
+  "displayName" : "Battle of Mortimer's Cross"
+}

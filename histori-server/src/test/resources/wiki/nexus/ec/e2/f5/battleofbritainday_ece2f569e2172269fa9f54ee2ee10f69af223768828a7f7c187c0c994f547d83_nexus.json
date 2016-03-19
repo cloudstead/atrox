@@ -1,0 +1,273 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "battleofbritainday",
+  "name" : "Battle of Britain Day",
+  "nexusType" : "battle",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19400915000000,
+      "year" : 1940,
+      "month" : 9,
+      "day" : 15
+    }
+  },
+  "tags" : [ {
+    "tagName" : "battle",
+    "canonicalName" : "battle",
+    "tagType" : "event_type",
+    "displayName" : "battle"
+  }, {
+    "tagName" : "Western Front (World War II)",
+    "canonicalName" : "westernfront%28worldwarii%29",
+    "tagType" : "event",
+    "displayName" : "Western Front (World War II)",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "tagName" : "British victory",
+    "canonicalName" : "britishvictory",
+    "tagType" : "result",
+    "displayName" : "British victory"
+  }, {
+    "tagName" : "United Kingdom",
+    "canonicalName" : "unitedkingdom",
+    "tagType" : "world_actor",
+    "displayName" : "United Kingdom",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Hugh Dowding",
+    "canonicalName" : "hughdowding",
+    "tagType" : "person",
+    "displayName" : "Hugh Dowding",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom"
+    } ]
+  }, {
+    "tagName" : "Keith Park",
+    "canonicalName" : "keithpark",
+    "tagType" : "person",
+    "displayName" : "Keith Park",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "New Zealand"
+    } ]
+  }, {
+    "tagName" : "aircraft destroyed",
+    "canonicalName" : "aircraftdestroyed",
+    "tagType" : "impact",
+    "displayName" : "aircraft destroyed",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "29"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom"
+    } ]
+  }, {
+    "tagName" : "aircraft damaged",
+    "canonicalName" : "aircraftdamaged",
+    "tagType" : "impact",
+    "displayName" : "aircraft damaged",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "21"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "14"
+    }, {
+      "field" : "high_estimate",
+      "value" : "16"
+    }, {
+      "field" : "estimate",
+      "value" : "15"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom"
+    } ]
+  }, {
+    "tagName" : "wounded",
+    "canonicalName" : "wounded",
+    "tagType" : "impact",
+    "displayName" : "wounded",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "14"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom"
+    } ]
+  }, {
+    "tagName" : "captured",
+    "canonicalName" : "captured",
+    "tagType" : "impact",
+    "displayName" : "captured",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom"
+    } ]
+  }, {
+    "tagName" : "Nazi Germany",
+    "canonicalName" : "nazigermany",
+    "tagType" : "world_actor",
+    "displayName" : "Nazi Germany",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Hermann Göring",
+    "canonicalName" : "hermanng%C3%B6ring",
+    "tagType" : "person",
+    "displayName" : "Hermann Göring",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nazi Germany"
+    } ]
+  }, {
+    "tagName" : "Albert Kesselring",
+    "canonicalName" : "albertkesselring",
+    "tagType" : "person",
+    "displayName" : "Albert Kesselring",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nazi Germany"
+    } ]
+  }, {
+    "tagName" : "aircraft destroyed",
+    "canonicalName" : "aircraftdestroyed",
+    "tagType" : "impact",
+    "displayName" : "aircraft destroyed",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "57"
+    }, {
+      "field" : "high_estimate",
+      "value" : "61"
+    }, {
+      "field" : "estimate",
+      "value" : "59"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nazi Germany"
+    } ]
+  }, {
+    "tagName" : "aircraft damaged",
+    "canonicalName" : "aircraftdamaged",
+    "tagType" : "impact",
+    "displayName" : "aircraft damaged",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "20"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nazi Germany"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "63"
+    }, {
+      "field" : "high_estimate",
+      "value" : "81"
+    }, {
+      "field" : "estimate",
+      "value" : "72"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nazi Germany"
+    } ]
+  }, {
+    "tagName" : "captured",
+    "canonicalName" : "captured",
+    "tagType" : "impact",
+    "displayName" : "captured",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "63"
+    }, {
+      "field" : "high_estimate",
+      "value" : "65"
+    }, {
+      "field" : "estimate",
+      "value" : "64"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nazi Germany"
+    } ]
+  }, {
+    "tagName" : "wounded",
+    "canonicalName" : "wounded",
+    "tagType" : "impact",
+    "displayName" : "wounded",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "30"
+    }, {
+      "field" : "high_estimate",
+      "value" : "31"
+    }, {
+      "field" : "estimate",
+      "value" : "30"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nazi Germany"
+    } ]
+  }, {
+    "tagName" : "missing",
+    "canonicalName" : "missing",
+    "tagType" : "impact",
+    "displayName" : "missing",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "21"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nazi Germany"
+    } ]
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Britain_Day",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fbattleofbritainday",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Battle of Britain Day"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -0.1275, 51.507222222 ]
+  },
+  "displayName" : "Battle of Britain Day"
+}

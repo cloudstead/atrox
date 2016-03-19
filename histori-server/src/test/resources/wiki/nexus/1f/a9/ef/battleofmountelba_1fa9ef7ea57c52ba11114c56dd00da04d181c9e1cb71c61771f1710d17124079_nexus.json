@@ -1,0 +1,111 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "battleofmountelba",
+  "name" : "Battle of Mount Elba",
+  "nexusType" : "battle",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18640330000000,
+      "year" : 1864,
+      "month" : 3,
+      "day" : 30
+    }
+  },
+  "tags" : [ {
+    "tagName" : "battle",
+    "canonicalName" : "battle",
+    "tagType" : "event_type",
+    "displayName" : "battle"
+  }, {
+    "tagName" : "American Civil War",
+    "canonicalName" : "americancivilwar",
+    "tagType" : "event",
+    "displayName" : "American Civil War",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "tagName" : "United States victory",
+    "canonicalName" : "unitedstatesvictory",
+    "tagType" : "result",
+    "displayName" : "United States victory"
+  }, {
+    "tagName" : "United States",
+    "canonicalName" : "unitedstates",
+    "tagType" : "world_actor",
+    "displayName" : "United States",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Frederick Steele",
+    "canonicalName" : "fredericksteele",
+    "tagType" : "person",
+    "displayName" : "Frederick Steele",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "100"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "Confederate States",
+    "canonicalName" : "confederatestates",
+    "tagType" : "world_actor",
+    "displayName" : "Confederate States",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Thomas Dockery",
+    "canonicalName" : "thomasdockery",
+    "tagType" : "person",
+    "displayName" : "Thomas Dockery",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Confederate States"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "300"
+    }, {
+      "field" : "world_actor",
+      "value" : "Confederate States"
+    } ]
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Mount_Elba",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fbattleofmountelba",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Battle of Mount Elba"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -93.36656, 33.776500278 ]
+  },
+  "displayName" : "Battle of Mount Elba"
+}

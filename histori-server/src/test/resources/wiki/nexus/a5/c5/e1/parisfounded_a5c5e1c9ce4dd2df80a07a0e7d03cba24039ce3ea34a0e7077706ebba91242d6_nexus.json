@@ -1,0 +1,29 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "parisfounded",
+  "name" : "Paris founded",
+  "nexusType" : "founding",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 2000000000000,
+      "year" : 200
+    }
+  },
+  "tags" : [ {
+    "tagName" : "founding",
+    "canonicalName" : "founding",
+    "tagType" : "event_type",
+    "displayName" : "founding"
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Paris",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fparis",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Paris"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 2.3508, 48.8567 ]
+  },
+  "displayName" : "Paris founded"
+}

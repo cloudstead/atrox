@@ -1,0 +1,218 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "battleofkadesh",
+  "name" : "Battle of Kadesh",
+  "nexusType" : "battle",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : -12739500000000,
+      "year" : -1274,
+      "month" : 5
+    }
+  },
+  "tags" : [ {
+    "tagName" : "battle",
+    "canonicalName" : "battle",
+    "tagType" : "event_type",
+    "displayName" : "battle"
+  }, {
+    "tagName" : "Ramesses II#Second Syrian campaign",
+    "canonicalName" : "ramessesii%23secondsyriancampaign",
+    "tagType" : "event",
+    "displayName" : "Ramesses II#Second Syrian campaign",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "tagName" : "Egyptian tactical victory, strategically indecisive.",
+    "canonicalName" : "egyptiantacticalvictory%2Cstrategicallyindecisive.",
+    "tagType" : "result",
+    "displayName" : "Egyptian tactical victory, strategically indecisive."
+  }, {
+    "tagName" : "New Kingdom of Egypt",
+    "canonicalName" : "newkingdomofegypt",
+    "tagType" : "world_actor",
+    "displayName" : "New Kingdom of Egypt",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Ramesses II",
+    "canonicalName" : "ramessesii",
+    "tagType" : "person",
+    "displayName" : "Ramesses II",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "New Kingdom of Egypt"
+    } ]
+  }, {
+    "tagName" : "*Grand Vizier",
+    "canonicalName" : "*grandvizier",
+    "tagType" : "person",
+    "displayName" : "*Grand Vizier",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "New Kingdom of Egypt"
+    } ]
+  }, {
+    "tagName" : "Paser (Vizier)",
+    "canonicalName" : "paser%28vizier%29",
+    "tagType" : "person",
+    "displayName" : "Paser (Vizier)",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "New Kingdom of Egypt"
+    } ]
+  }, {
+    "tagName" : "*Prince",
+    "canonicalName" : "*prince",
+    "tagType" : "person",
+    "displayName" : "*Prince",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "New Kingdom of Egypt"
+    } ]
+  }, {
+    "tagName" : "Amun-her-khepeshef",
+    "canonicalName" : "amun-her-khepeshef",
+    "tagType" : "person",
+    "displayName" : "Amun-her-khepeshef",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "New Kingdom of Egypt"
+    } ]
+  }, {
+    "tagName" : "Ramesses (prince)",
+    "canonicalName" : "ramesses%28prince%29",
+    "tagType" : "person",
+    "displayName" : "Ramesses (prince)",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "New Kingdom of Egypt"
+    } ]
+  }, {
+    "tagName" : "Khaemweset",
+    "canonicalName" : "khaemweset",
+    "tagType" : "person",
+    "displayName" : "Khaemweset",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "New Kingdom of Egypt"
+    } ]
+  }, {
+    "tagName" : "Pareherwenemef",
+    "canonicalName" : "pareherwenemef",
+    "tagType" : "person",
+    "displayName" : "Pareherwenemef",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "New Kingdom of Egypt"
+    } ]
+  }, {
+    "tagName" : "Hittites",
+    "canonicalName" : "hittites",
+    "tagType" : "world_actor",
+    "displayName" : "Hittites",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Muwatalli II",
+    "canonicalName" : "muwatalliii",
+    "tagType" : "person",
+    "displayName" : "Muwatalli II",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hittites"
+    } ]
+  }, {
+    "tagName" : "Hattusili III",
+    "canonicalName" : "hattusiliiii",
+    "tagType" : "person",
+    "displayName" : "Hattusili III",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hittites"
+    } ]
+  }, {
+    "tagName" : "*Mittanamuwash of Pitassa\n*Masturish of Seha River Land\n*Piyama-Inarash of Wilusa\n*Sahurunuwash of Carchemish\n*Sattuara of",
+    "canonicalName" : "*mittanamuwashofpitassa%0A*masturishofsehariverland%0A*piyama-inarashofwilusa%0A*sahurunuwashofcarchemish%0A*sattuaraof",
+    "tagType" : "person",
+    "displayName" : "*Mittanamuwash of Pitassa\n*Masturish of Seha River Land\n*Piyama-Inarash of Wilusa\n*Sahurunuwash of Carchemish\n*Sattuara of",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hittites"
+    } ]
+  }, {
+    "tagName" : "Mittani",
+    "canonicalName" : "mittani",
+    "tagType" : "person",
+    "displayName" : "Mittani",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hittites"
+    } ]
+  }, {
+    "tagName" : "*Niqmepa of Ugarit\n*Talmi-Sarruma of Aleppo\n*Niqmaddu of Kadesh",
+    "canonicalName" : "*niqmepaofugarit%0A*talmi-sarrumaofaleppo%0A*niqmadduofkadesh",
+    "tagType" : "person",
+    "displayName" : "*Niqmepa of Ugarit\n*Talmi-Sarruma of Aleppo\n*Niqmaddu of Kadesh",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Hittites"
+    } ]
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Kadesh",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fbattleofkadesh",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Battle of Kadesh"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 36.51, 34.57 ]
+  },
+  "displayName" : "Battle of Kadesh"
+}

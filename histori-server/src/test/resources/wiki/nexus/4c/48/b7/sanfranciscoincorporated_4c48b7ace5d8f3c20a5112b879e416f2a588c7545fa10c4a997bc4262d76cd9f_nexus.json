@@ -1,0 +1,31 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "sanfranciscoincorporated",
+  "name" : "San Francisco incorporated",
+  "nexusType" : "founding",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18500415000000,
+      "year" : 1850,
+      "month" : 4,
+      "day" : 15
+    }
+  },
+  "tags" : [ {
+    "tagName" : "founding",
+    "canonicalName" : "founding",
+    "tagType" : "event_type",
+    "displayName" : "founding"
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/San_Francisco",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fsanfrancisco",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/San Francisco"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -122.416666667, 37.783333333 ]
+  },
+  "displayName" : "San Francisco incorporated"
+}

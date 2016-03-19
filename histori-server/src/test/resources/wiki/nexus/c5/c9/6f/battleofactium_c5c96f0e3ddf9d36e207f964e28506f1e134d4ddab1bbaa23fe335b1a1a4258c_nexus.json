@@ -1,0 +1,210 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "battleofactium",
+  "name" : "Battle of Actium",
+  "nexusType" : "battle",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : -309098000000,
+      "year" : -31,
+      "month" : 9,
+      "day" : 2
+    }
+  },
+  "tags" : [ {
+    "tagName" : "battle",
+    "canonicalName" : "battle",
+    "tagType" : "event_type",
+    "displayName" : "battle"
+  }, {
+    "tagName" : "Final War of the Roman Republic",
+    "canonicalName" : "finalwaroftheromanrepublic",
+    "tagType" : "event",
+    "displayName" : "Final War of the Roman Republic",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "tagName" : "Decisive Octavian victory",
+    "canonicalName" : "decisiveoctavianvictory",
+    "tagType" : "result",
+    "displayName" : "Decisive Octavian victory"
+  }, {
+    "tagName" : "Octavian's Roman and allied supporters and forces",
+    "canonicalName" : "octavian%27sromanandalliedsupportersandforces",
+    "tagType" : "world_actor",
+    "displayName" : "Octavian's Roman and allied supporters and forces",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Marcus Vipsanius Agrippa",
+    "canonicalName" : "marcusvipsaniusagrippa",
+    "tagType" : "person",
+    "displayName" : "Marcus Vipsanius Agrippa",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Octavian's Roman and allied supporters and forces"
+    } ]
+  }, {
+    "tagName" : "Lucius Arruntius",
+    "canonicalName" : "luciusarruntius",
+    "tagType" : "person",
+    "displayName" : "Lucius Arruntius",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Octavian's Roman and allied supporters and forces"
+    } ]
+  }, {
+    "tagName" : "Marcus Lurius",
+    "canonicalName" : "marcuslurius",
+    "tagType" : "person",
+    "displayName" : "Marcus Lurius",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Octavian's Roman and allied supporters and forces"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "2500"
+    }, {
+      "field" : "world_actor",
+      "value" : "Octavian's Roman and allied supporters and forces"
+    } ]
+  }, {
+    "tagName" : "Mark Antony's Roman and allied supporters",
+    "canonicalName" : "markantony%27sromanandalliedsupporters",
+    "tagType" : "world_actor",
+    "displayName" : "Mark Antony's Roman and allied supporters",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Ptolemaic Egypt",
+    "canonicalName" : "ptolemaicegypt",
+    "tagType" : "world_actor",
+    "displayName" : "Ptolemaic Egypt",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Mark Antony",
+    "canonicalName" : "markantony",
+    "tagType" : "person",
+    "displayName" : "Mark Antony",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mark Antony's Roman and allied supporters"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ptolemaic Egypt"
+    } ]
+  }, {
+    "tagName" : "Gaius Sosius",
+    "canonicalName" : "gaiussosius",
+    "tagType" : "person",
+    "displayName" : "Gaius Sosius",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mark Antony's Roman and allied supporters"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ptolemaic Egypt"
+    } ]
+  }, {
+    "tagName" : "Marcus Octavius (admiral)",
+    "canonicalName" : "marcusoctavius%28admiral%29",
+    "tagType" : "person",
+    "displayName" : "Marcus Octavius (admiral)",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mark Antony's Roman and allied supporters"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ptolemaic Egypt"
+    } ]
+  }, {
+    "tagName" : "Cleopatra VII",
+    "canonicalName" : "cleopatravii",
+    "tagType" : "person",
+    "displayName" : "Cleopatra VII",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mark Antony's Roman and allied supporters"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ptolemaic Egypt"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "5000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mark Antony's Roman and allied supporters"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ptolemaic Egypt"
+    } ]
+  }, {
+    "tagName" : "ships sunk or captured",
+    "canonicalName" : "shipssunkorcaptured",
+    "tagType" : "impact",
+    "displayName" : "ships sunk or captured",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "200"
+    }, {
+      "field" : "world_actor",
+      "value" : "Mark Antony's Roman and allied supporters"
+    }, {
+      "field" : "world_actor",
+      "value" : "Ptolemaic Egypt"
+    } ]
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Actium",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fbattleofactium",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Battle of Actium"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 20.738611111, 38.934444444 ]
+  },
+  "displayName" : "Battle of Actium"
+}

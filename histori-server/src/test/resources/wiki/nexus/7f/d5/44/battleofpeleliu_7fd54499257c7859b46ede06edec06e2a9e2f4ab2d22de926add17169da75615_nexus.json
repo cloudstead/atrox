@@ -1,0 +1,213 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "battleofpeleliu",
+  "name" : "Battle of Peleliu",
+  "nexusType" : "battle",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19440915000000,
+      "year" : 1944,
+      "month" : 9,
+      "day" : 15
+    },
+    "endPoint" : {
+      "instant" : 19441127000000,
+      "year" : 1944,
+      "month" : 11,
+      "day" : 27
+    }
+  },
+  "tags" : [ {
+    "tagName" : "battle",
+    "canonicalName" : "battle",
+    "tagType" : "event_type",
+    "displayName" : "battle"
+  }, {
+    "tagName" : "World War II",
+    "canonicalName" : "worldwarii",
+    "tagType" : "event",
+    "displayName" : "World War II",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "tagName" : "American victory",
+    "canonicalName" : "americanvictory",
+    "tagType" : "result",
+    "displayName" : "American victory"
+  }, {
+    "tagName" : "United States",
+    "canonicalName" : "unitedstates",
+    "tagType" : "world_actor",
+    "displayName" : "United States",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "William H. Rupertus",
+    "canonicalName" : "williamh.rupertus",
+    "tagType" : "person",
+    "displayName" : "William H. Rupertus",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "USA"
+    } ]
+  }, {
+    "tagName" : "Paul J. Mueller",
+    "canonicalName" : "paulj.mueller",
+    "tagType" : "person",
+    "displayName" : "Paul J. Mueller",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "USA"
+    } ]
+  }, {
+    "tagName" : "Roy S. Geiger",
+    "canonicalName" : "roys.geiger",
+    "tagType" : "person",
+    "displayName" : "Roy S. Geiger",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "USA"
+    } ]
+  }, {
+    "tagName" : "Herman H. Hanneken",
+    "canonicalName" : "hermanh.hanneken",
+    "tagType" : "person",
+    "displayName" : "Herman H. Hanneken",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "USA"
+    } ]
+  }, {
+    "tagName" : "Harold D. Harris",
+    "canonicalName" : "haroldd.harris",
+    "tagType" : "person",
+    "displayName" : "Harold D. Harris",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "USA"
+    } ]
+  }, {
+    "tagName" : "Chesty Puller",
+    "canonicalName" : "chestypuller",
+    "tagType" : "person",
+    "displayName" : "Chesty Puller",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "USA"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "2336"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "wounded",
+    "canonicalName" : "wounded",
+    "tagType" : "impact",
+    "displayName" : "wounded",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "8450"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "Empire of Japan",
+    "canonicalName" : "empireofjapan",
+    "tagType" : "world_actor",
+    "displayName" : "Empire of Japan",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Kunio Nakagawa",
+    "canonicalName" : "kunionakagawa",
+    "tagType" : "person",
+    "displayName" : "Kunio Nakagawa",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Empire of Japan"
+    } ]
+  }, {
+    "tagName" : "Sadae Inoue",
+    "canonicalName" : "sadaeinoue",
+    "tagType" : "person",
+    "displayName" : "Sadae Inoue",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Empire of Japan"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "10695"
+    }, {
+      "field" : "world_actor",
+      "value" : "Empire of Japan"
+    } ]
+  }, {
+    "tagName" : "captured",
+    "canonicalName" : "captured",
+    "tagType" : "impact",
+    "displayName" : "captured",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "202"
+    }, {
+      "field" : "world_actor",
+      "value" : "Empire of Japan"
+    } ]
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Peleliu",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fbattleofpeleliu",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Battle of Peleliu"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 134.25, 7.0 ]
+  },
+  "displayName" : "Battle of Peleliu"
+}

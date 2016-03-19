@@ -1,0 +1,38 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "londonsettledbyromanempire",
+  "name" : "London Settled by Roman Empire",
+  "nexusType" : "founding",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 430000000000,
+      "year" : 43
+    }
+  },
+  "tags" : [ {
+    "tagName" : "Roman Empire",
+    "canonicalName" : "romanempire",
+    "tagType" : "world_actor",
+    "displayName" : "Roman Empire",
+    "values" : [ {
+      "field" : "role",
+      "value" : "founder"
+    } ]
+  }, {
+    "tagName" : "founding",
+    "canonicalName" : "founding",
+    "tagType" : "event_type",
+    "displayName" : "founding"
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/London",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Flondon",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/London"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -0.1275, 51.507222222 ]
+  },
+  "displayName" : "London Settled by Roman Empire"
+}

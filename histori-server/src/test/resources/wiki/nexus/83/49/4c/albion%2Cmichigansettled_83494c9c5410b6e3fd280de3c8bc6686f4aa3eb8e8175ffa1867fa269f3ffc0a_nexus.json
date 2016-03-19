@@ -1,0 +1,29 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "albion%2Cmichigansettled",
+  "name" : "Albion, Michigan settled",
+  "nexusType" : "founding",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18330000000000,
+      "year" : 1833
+    }
+  },
+  "tags" : [ {
+    "tagName" : "founding",
+    "canonicalName" : "founding",
+    "tagType" : "event_type",
+    "displayName" : "founding"
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Albion%2C_Michigan",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Falbion%252cmichigan",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Albion%2C Michigan"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -84.753333333, 42.246666667 ]
+  },
+  "displayName" : "Albion, Michigan settled"
+}

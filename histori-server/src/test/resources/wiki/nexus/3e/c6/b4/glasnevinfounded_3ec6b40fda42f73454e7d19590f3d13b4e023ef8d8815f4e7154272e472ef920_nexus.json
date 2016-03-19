@@ -1,0 +1,29 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "glasnevinfounded",
+  "name" : "Glasnevin founded",
+  "nexusType" : "founding",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 5000000000000,
+      "year" : 500
+    }
+  },
+  "tags" : [ {
+    "tagName" : "founding",
+    "canonicalName" : "founding",
+    "tagType" : "event_type",
+    "displayName" : "founding"
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Glasnevin",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fglasnevin",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Glasnevin"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -6.267357, 53.371859 ]
+  },
+  "displayName" : "Glasnevin founded"
+}

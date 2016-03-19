@@ -1,0 +1,171 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "battleofchusto-talasah",
+  "name" : "Battle of Chusto-Talasah",
+  "nexusType" : "battle",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18611209000000,
+      "year" : 1861,
+      "month" : 12,
+      "day" : 9
+    }
+  },
+  "tags" : [ {
+    "tagName" : "battle",
+    "canonicalName" : "battle",
+    "tagType" : "event_type",
+    "displayName" : "battle"
+  }, {
+    "tagName" : "American Civil War",
+    "canonicalName" : "americancivilwar",
+    "tagType" : "event",
+    "displayName" : "American Civil War",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "tagName" : "Confederate States of America victory",
+    "canonicalName" : "confederatestatesofamericavictory",
+    "tagType" : "result",
+    "displayName" : "Confederate States of America victory"
+  }, {
+    "tagName" : "Creek (people)",
+    "canonicalName" : "creek%28people%29",
+    "tagType" : "world_actor",
+    "displayName" : "Creek (people)",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Seminole",
+    "canonicalName" : "seminole",
+    "tagType" : "world_actor",
+    "displayName" : "Seminole",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Opothleyahola",
+    "canonicalName" : "opothleyahola",
+    "tagType" : "person",
+    "displayName" : "Opothleyahola",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Creek (people)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Seminole"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "9"
+    }, {
+      "field" : "world_actor",
+      "value" : "Creek (people)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Seminole"
+    } ]
+  }, {
+    "tagName" : "casualties",
+    "canonicalName" : "casualties",
+    "tagType" : "impact",
+    "displayName" : "casualties",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "500"
+    }, {
+      "field" : "world_actor",
+      "value" : "Creek (people)"
+    }, {
+      "field" : "world_actor",
+      "value" : "Seminole"
+    } ]
+  }, {
+    "tagName" : "CSA",
+    "canonicalName" : "csa",
+    "tagType" : "world_actor",
+    "displayName" : "CSA",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Douglas H. Cooper",
+    "canonicalName" : "douglash.cooper",
+    "tagType" : "person",
+    "displayName" : "Douglas H. Cooper",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "CSA"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "15"
+    }, {
+      "field" : "high_estimate",
+      "value" : "30"
+    }, {
+      "field" : "estimate",
+      "value" : "22"
+    }, {
+      "field" : "world_actor",
+      "value" : "CSA"
+    } ]
+  }, {
+    "tagName" : "wounded",
+    "canonicalName" : "wounded",
+    "tagType" : "impact",
+    "displayName" : "wounded",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "37"
+    }, {
+      "field" : "world_actor",
+      "value" : "CSA"
+    } ]
+  }, {
+    "tagName" : "deserted",
+    "canonicalName" : "deserted",
+    "tagType" : "impact",
+    "displayName" : "deserted",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "400"
+    }, {
+      "field" : "world_actor",
+      "value" : "CSA"
+    } ]
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Chusto-Talasah",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fbattleofchusto-talasah",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Battle of Chusto-Talasah"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -95.9502, 36.2823 ]
+  },
+  "displayName" : "Battle of Chusto-Talasah"
+}

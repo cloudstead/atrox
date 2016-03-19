@@ -1,0 +1,237 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "battleofwaterloo",
+  "name" : "Battle of Waterloo",
+  "nexusType" : "battle",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18150618000000,
+      "year" : 1815,
+      "month" : 6,
+      "day" : 18
+    }
+  },
+  "tags" : [ {
+    "tagName" : "battle",
+    "canonicalName" : "battle",
+    "tagType" : "event_type",
+    "displayName" : "battle"
+  }, {
+    "tagName" : "Waterloo Campaign",
+    "canonicalName" : "waterloocampaign",
+    "tagType" : "event",
+    "displayName" : "Waterloo Campaign",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "tagName" : "Decisive Coalition victory",
+    "canonicalName" : "decisivecoalitionvictory",
+    "tagType" : "result",
+    "displayName" : "Decisive Coalition victory"
+  }, {
+    "tagName" : "First French Empire",
+    "canonicalName" : "firstfrenchempire",
+    "tagType" : "world_actor",
+    "displayName" : "First French Empire",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Napoléon Bonaparte",
+    "canonicalName" : "napol%C3%A9onbonaparte",
+    "tagType" : "person",
+    "displayName" : "Napoléon Bonaparte",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "France"
+    } ]
+  }, {
+    "tagName" : "Michel Ney",
+    "canonicalName" : "michelney",
+    "tagType" : "person",
+    "displayName" : "Michel Ney",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "France"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "41000"
+    }, {
+      "field" : "world_actor",
+      "value" : "First French Empire"
+    } ]
+  }, {
+    "tagName" : "Seventh Coalition",
+    "canonicalName" : "seventhcoalition",
+    "tagType" : "world_actor",
+    "displayName" : "Seventh Coalition",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "United Kingdom of Great Britain and Ireland",
+    "canonicalName" : "unitedkingdomofgreatbritainandireland",
+    "tagType" : "world_actor",
+    "displayName" : "United Kingdom of Great Britain and Ireland",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "United Kingdom of the Netherlands",
+    "canonicalName" : "unitedkingdomofthenetherlands",
+    "tagType" : "world_actor",
+    "displayName" : "United Kingdom of the Netherlands",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Kingdom of Hanover",
+    "canonicalName" : "kingdomofhanover",
+    "tagType" : "world_actor",
+    "displayName" : "Kingdom of Hanover",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Nassau",
+    "canonicalName" : "nassau",
+    "tagType" : "world_actor",
+    "displayName" : "Nassau",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Brunswick",
+    "canonicalName" : "brunswick",
+    "tagType" : "world_actor",
+    "displayName" : "Brunswick",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Prussia",
+    "canonicalName" : "prussia",
+    "tagType" : "world_actor",
+    "displayName" : "Prussia",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Arthur Wellesley",
+    "canonicalName" : "arthurwellesley",
+    "tagType" : "person",
+    "displayName" : "Arthur Wellesley",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom of Great Britain and Ireland"
+    } ]
+  }, {
+    "tagName" : "Gebhard Leberecht von Blücher",
+    "canonicalName" : "gebhardleberechtvonbl%C3%BCcher",
+    "tagType" : "person",
+    "displayName" : "Gebhard Leberecht von Blücher",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Prussia"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "24000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Seventh Coalition"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom of Great Britain and Ireland"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom of the Netherlands"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Hanover"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nassau"
+    }, {
+      "field" : "world_actor",
+      "value" : "Brunswick"
+    }, {
+      "field" : "world_actor",
+      "value" : "Prussia"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "17000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Seventh Coalition"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom of Great Britain and Ireland"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom of the Netherlands"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of Hanover"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nassau"
+    }, {
+      "field" : "world_actor",
+      "value" : "Brunswick"
+    }, {
+      "field" : "world_actor",
+      "value" : "Prussia"
+    } ]
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Waterloo",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fbattleofwaterloo",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Battle of Waterloo"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 4.41169, 50.68016 ]
+  },
+  "displayName" : "Battle of Waterloo"
+}

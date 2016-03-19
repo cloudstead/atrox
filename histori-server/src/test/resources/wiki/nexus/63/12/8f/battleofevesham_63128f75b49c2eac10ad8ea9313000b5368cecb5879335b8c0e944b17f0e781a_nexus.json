@@ -1,0 +1,123 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "battleofevesham",
+  "name" : "Battle of Evesham",
+  "nexusType" : "battle",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 12650804000000,
+      "year" : 1265,
+      "month" : 8,
+      "day" : 4
+    }
+  },
+  "tags" : [ {
+    "tagName" : "battle",
+    "canonicalName" : "battle",
+    "tagType" : "event_type",
+    "displayName" : "battle"
+  }, {
+    "tagName" : "Second Barons' War",
+    "canonicalName" : "secondbarons%27war",
+    "tagType" : "event",
+    "displayName" : "Second Barons' War",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "tagName" : "Royal victory",
+    "canonicalName" : "royalvictory",
+    "tagType" : "result",
+    "displayName" : "Royal victory"
+  }, {
+    "tagName" : "Royal forces",
+    "canonicalName" : "royalforces",
+    "tagType" : "world_actor",
+    "displayName" : "Royal forces",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Edward I of England",
+    "canonicalName" : "edwardiofengland",
+    "tagType" : "person",
+    "displayName" : "Edward I of England",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Royal forces"
+    } ]
+  }, {
+    "tagName" : "Gilbert de Clare",
+    "canonicalName" : "gilbertdeclare",
+    "tagType" : "person",
+    "displayName" : "Gilbert de Clare",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Royal forces"
+    } ]
+  }, {
+    "tagName" : "Baronial forces",
+    "canonicalName" : "baronialforces",
+    "tagType" : "world_actor",
+    "displayName" : "Baronial forces",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Simon de Montfort",
+    "canonicalName" : "simondemontfort",
+    "tagType" : "person",
+    "displayName" : "Simon de Montfort",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Baronial forces"
+    } ]
+  }, {
+    "tagName" : "Peter de Montfort",
+    "canonicalName" : "peterdemontfort",
+    "tagType" : "person",
+    "displayName" : "Peter de Montfort",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Baronial forces"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "4000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Baronial forces"
+    } ]
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Evesham",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fbattleofevesham",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Battle of Evesham"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -1.9445372, 52.1058726 ]
+  },
+  "displayName" : "Battle of Evesham"
+}

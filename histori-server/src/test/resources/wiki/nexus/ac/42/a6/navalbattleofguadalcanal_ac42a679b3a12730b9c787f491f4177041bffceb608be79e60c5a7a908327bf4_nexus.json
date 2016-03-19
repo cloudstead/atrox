@@ -1,0 +1,333 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "navalbattleofguadalcanal",
+  "name" : "Naval Battle of Guadalcanal",
+  "nexusType" : "battle",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19421112000000,
+      "year" : 1942,
+      "month" : 11,
+      "day" : 12
+    },
+    "endPoint" : {
+      "instant" : 19421115000000,
+      "year" : 1942,
+      "month" : 11,
+      "day" : 15
+    }
+  },
+  "tags" : [ {
+    "tagName" : "battle",
+    "canonicalName" : "battle",
+    "tagType" : "event_type",
+    "displayName" : "battle"
+  }, {
+    "tagName" : "Pacific War",
+    "canonicalName" : "pacificwar",
+    "tagType" : "event",
+    "displayName" : "Pacific War",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "tagName" : "United States strategic victory",
+    "canonicalName" : "unitedstatesstrategicvictory",
+    "tagType" : "result",
+    "displayName" : "United States strategic victory"
+  }, {
+    "tagName" : "United States",
+    "canonicalName" : "unitedstates",
+    "tagType" : "world_actor",
+    "displayName" : "United States",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "William Halsey, Jr.",
+    "canonicalName" : "williamhalsey%2Cjr.",
+    "tagType" : "person",
+    "displayName" : "William Halsey, Jr.",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "USA"
+    } ]
+  }, {
+    "tagName" : "Daniel J. Callaghan",
+    "canonicalName" : "danielj.callaghan",
+    "tagType" : "person",
+    "displayName" : "Daniel J. Callaghan",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "USA"
+    } ]
+  }, {
+    "tagName" : "Norman Scott (admiral)",
+    "canonicalName" : "normanscott%28admiral%29",
+    "tagType" : "person",
+    "displayName" : "Norman Scott (admiral)",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "USA"
+    } ]
+  }, {
+    "tagName" : "Willis Augustus Lee",
+    "canonicalName" : "willisaugustuslee",
+    "tagType" : "person",
+    "displayName" : "Willis Augustus Lee",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "USA"
+    } ]
+  }, {
+    "tagName" : "casualties",
+    "canonicalName" : "casualties",
+    "tagType" : "impact",
+    "displayName" : "casualties",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "13"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "light cruisers sunk",
+    "canonicalName" : "lightcruiserssunk",
+    "tagType" : "impact",
+    "displayName" : "light cruisers sunk",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "2"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "destroyers sunk",
+    "canonicalName" : "destroyerssunk",
+    "tagType" : "impact",
+    "displayName" : "destroyers sunk",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "4"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "destroyers sunk",
+    "canonicalName" : "destroyerssunk",
+    "tagType" : "impact",
+    "displayName" : "destroyers sunk",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "3"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "aircraft destroyed",
+    "canonicalName" : "aircraftdestroyed",
+    "tagType" : "impact",
+    "displayName" : "aircraft destroyed",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "36"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1732"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "Empire of Japan",
+    "canonicalName" : "empireofjapan",
+    "tagType" : "world_actor",
+    "displayName" : "Empire of Japan",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Isoroku Yamamoto",
+    "canonicalName" : "isorokuyamamoto",
+    "tagType" : "person",
+    "displayName" : "Isoroku Yamamoto",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Japan"
+    } ]
+  }, {
+    "tagName" : "Hiroaki Abe",
+    "canonicalName" : "hiroakiabe",
+    "tagType" : "person",
+    "displayName" : "Hiroaki Abe",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Japan"
+    } ]
+  }, {
+    "tagName" : "Nobutake Kondō",
+    "canonicalName" : "nobutakekond%C5%8D",
+    "tagType" : "person",
+    "displayName" : "Nobutake Kondō",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Japan"
+    } ]
+  }, {
+    "tagName" : "Raizo Tanaka",
+    "canonicalName" : "raizotanaka",
+    "tagType" : "person",
+    "displayName" : "Raizo Tanaka",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Japan"
+    } ]
+  }, {
+    "tagName" : "battleships sunk",
+    "canonicalName" : "battleshipssunk",
+    "tagType" : "impact",
+    "displayName" : "battleships sunk",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1"
+    }, {
+      "field" : "world_actor",
+      "value" : "Empire of Japan"
+    } ]
+  }, {
+    "tagName" : "destroyers sunk",
+    "canonicalName" : "destroyerssunk",
+    "tagType" : "impact",
+    "displayName" : "destroyers sunk",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "2"
+    }, {
+      "field" : "world_actor",
+      "value" : "Empire of Japan"
+    } ]
+  }, {
+    "tagName" : "transports lost",
+    "canonicalName" : "transportslost",
+    "tagType" : "impact",
+    "displayName" : "transports lost",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "7"
+    }, {
+      "field" : "world_actor",
+      "value" : "Empire of Japan"
+    } ]
+  }, {
+    "tagName" : "battleships sunk",
+    "canonicalName" : "battleshipssunk",
+    "tagType" : "impact",
+    "displayName" : "battleships sunk",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1"
+    }, {
+      "field" : "world_actor",
+      "value" : "Empire of Japan"
+    } ]
+  }, {
+    "tagName" : "destroyers sunk",
+    "canonicalName" : "destroyerssunk",
+    "tagType" : "impact",
+    "displayName" : "destroyers sunk",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1"
+    }, {
+      "field" : "world_actor",
+      "value" : "Empire of Japan"
+    } ]
+  }, {
+    "tagName" : "transports lost",
+    "canonicalName" : "transportslost",
+    "tagType" : "impact",
+    "displayName" : "transports lost",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "4"
+    }, {
+      "field" : "world_actor",
+      "value" : "Empire of Japan"
+    } ]
+  }, {
+    "tagName" : "aircraft destroyed",
+    "canonicalName" : "aircraftdestroyed",
+    "tagType" : "impact",
+    "displayName" : "aircraft destroyed",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "64"
+    }, {
+      "field" : "world_actor",
+      "value" : "Empire of Japan"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1900"
+    }, {
+      "field" : "world_actor",
+      "value" : "Empire of Japan"
+    } ]
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Naval_Battle_of_Guadalcanal",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fnavalbattleofguadalcanal",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Naval Battle of Guadalcanal"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 159.895, -9.186111111 ]
+  },
+  "displayName" : "Naval Battle of Guadalcanal"
+}

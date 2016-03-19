@@ -1,0 +1,456 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "battleofthebulge",
+  "name" : "Battle of the Bulge",
+  "nexusType" : "battle",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 19441216000000,
+      "year" : 1944,
+      "month" : 12,
+      "day" : 16
+    },
+    "endPoint" : {
+      "instant" : 19450125000000,
+      "year" : 1945,
+      "month" : 1,
+      "day" : 25
+    }
+  },
+  "tags" : [ {
+    "tagName" : "battle",
+    "canonicalName" : "battle",
+    "tagType" : "event_type",
+    "displayName" : "battle"
+  }, {
+    "tagName" : "World War II",
+    "canonicalName" : "worldwarii",
+    "tagType" : "event",
+    "displayName" : "World War II",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "tagName" : "Allied victory, German operational failure",
+    "canonicalName" : "alliedvictory%2Cgermanoperationalfailure",
+    "tagType" : "result",
+    "displayName" : "Allied victory, German operational failure"
+  }, {
+    "tagName" : "France",
+    "canonicalName" : "france",
+    "tagType" : "world_actor",
+    "displayName" : "France",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "United States",
+    "canonicalName" : "unitedstates",
+    "tagType" : "world_actor",
+    "displayName" : "United States",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Canada",
+    "canonicalName" : "canada",
+    "tagType" : "world_actor",
+    "displayName" : "Canada",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Belgium",
+    "canonicalName" : "belgium",
+    "tagType" : "world_actor",
+    "displayName" : "Belgium",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Luxembourg",
+    "canonicalName" : "luxembourg",
+    "tagType" : "world_actor",
+    "displayName" : "Luxembourg",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "United Kingdom",
+    "canonicalName" : "unitedkingdom",
+    "tagType" : "world_actor",
+    "displayName" : "United Kingdom",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Dwight D. Eisenhower",
+    "canonicalName" : "dwightd.eisenhower",
+    "tagType" : "person",
+    "displayName" : "Dwight D. Eisenhower",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "Bernard Montgomery",
+    "canonicalName" : "bernardmontgomery",
+    "tagType" : "person",
+    "displayName" : "Bernard Montgomery",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom"
+    } ]
+  }, {
+    "tagName" : "Omar Bradley",
+    "canonicalName" : "omarbradley",
+    "tagType" : "person",
+    "displayName" : "Omar Bradley",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "Courtney Hodges",
+    "canonicalName" : "courtneyhodges",
+    "tagType" : "person",
+    "displayName" : "Courtney Hodges",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "George S. Patton",
+    "canonicalName" : "georges.patton",
+    "tagType" : "person",
+    "displayName" : "George S. Patton",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "Anthony McAuliffe",
+    "canonicalName" : "anthonymcauliffe",
+    "tagType" : "person",
+    "displayName" : "Anthony McAuliffe",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "casualties",
+    "canonicalName" : "casualties",
+    "tagType" : "impact",
+    "displayName" : "casualties",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "89500"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "19000"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "wounded",
+    "canonicalName" : "wounded",
+    "tagType" : "impact",
+    "displayName" : "wounded",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "47500"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "captured or missing",
+    "canonicalName" : "capturedormissing",
+    "tagType" : "impact",
+    "displayName" : "captured or missing",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "23000"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "tanks/assault guns destroyed",
+    "canonicalName" : "tanks%2Fassaultgunsdestroyed",
+    "tagType" : "impact",
+    "displayName" : "tanks/assault guns destroyed",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "700"
+    }, {
+      "field" : "high_estimate",
+      "value" : "800"
+    }, {
+      "field" : "estimate",
+      "value" : "750"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "aircraft destroyed",
+    "canonicalName" : "aircraftdestroyed",
+    "tagType" : "impact",
+    "displayName" : "aircraft destroyed",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "647"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "casualties",
+    "canonicalName" : "casualties",
+    "tagType" : "impact",
+    "displayName" : "casualties",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1408"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "200"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom"
+    } ]
+  }, {
+    "tagName" : "wounded",
+    "canonicalName" : "wounded",
+    "tagType" : "impact",
+    "displayName" : "wounded",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "969"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom"
+    } ]
+  }, {
+    "tagName" : "missing",
+    "canonicalName" : "missing",
+    "tagType" : "impact",
+    "displayName" : "missing",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "239"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom"
+    } ]
+  }, {
+    "tagName" : "Nazi Germany",
+    "canonicalName" : "nazigermany",
+    "tagType" : "world_actor",
+    "displayName" : "Nazi Germany",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Adolf Hitler",
+    "canonicalName" : "adolfhitler",
+    "tagType" : "person",
+    "displayName" : "Adolf Hitler",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nazi Germany"
+    } ]
+  }, {
+    "tagName" : "Walter Model",
+    "canonicalName" : "waltermodel",
+    "tagType" : "person",
+    "displayName" : "Walter Model",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nazi Germany"
+    } ]
+  }, {
+    "tagName" : "Gerd von Rundstedt",
+    "canonicalName" : "gerdvonrundstedt",
+    "tagType" : "person",
+    "displayName" : "Gerd von Rundstedt",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nazi Germany"
+    } ]
+  }, {
+    "tagName" : "Hasso von Manteuffel",
+    "canonicalName" : "hassovonmanteuffel",
+    "tagType" : "person",
+    "displayName" : "Hasso von Manteuffel",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nazi Germany"
+    } ]
+  }, {
+    "tagName" : "Sepp Dietrich",
+    "canonicalName" : "seppdietrich",
+    "tagType" : "person",
+    "displayName" : "Sepp Dietrich",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nazi Germany"
+    } ]
+  }, {
+    "tagName" : "Erich Brandenberger",
+    "canonicalName" : "erichbrandenberger",
+    "tagType" : "person",
+    "displayName" : "Erich Brandenberger",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nazi Germany"
+    } ]
+  }, {
+    "tagName" : "casualties",
+    "canonicalName" : "casualties",
+    "tagType" : "impact",
+    "displayName" : "casualties",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "67459"
+    }, {
+      "field" : "high_estimate",
+      "value" : "125000"
+    }, {
+      "field" : "estimate",
+      "value" : "96229"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nazi Germany"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "10749"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nazi Germany"
+    } ]
+  }, {
+    "tagName" : "wounded",
+    "canonicalName" : "wounded",
+    "tagType" : "impact",
+    "displayName" : "wounded",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "34225"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nazi Germany"
+    } ]
+  }, {
+    "tagName" : "captured",
+    "canonicalName" : "captured",
+    "tagType" : "impact",
+    "displayName" : "captured",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "22487"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nazi Germany"
+    } ]
+  }, {
+    "tagName" : "tanks/assault guns destroyed",
+    "canonicalName" : "tanks%2Fassaultgunsdestroyed",
+    "tagType" : "impact",
+    "displayName" : "tanks/assault guns destroyed",
+    "values" : [ {
+      "field" : "low_estimate",
+      "value" : "600"
+    }, {
+      "field" : "high_estimate",
+      "value" : "800"
+    }, {
+      "field" : "estimate",
+      "value" : "700"
+    }, {
+      "field" : "world_actor",
+      "value" : "Nazi Germany"
+    } ]
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_the_Bulge",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fbattleofthebulge",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Battle of the Bulge"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 5.666666667, 50.25 ]
+  },
+  "displayName" : "Battle of the Bulge"
+}

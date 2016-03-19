@@ -1,0 +1,123 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "battleofmarsaglia",
+  "name" : "Battle of Marsaglia",
+  "nexusType" : "battle",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 16931004000000,
+      "year" : 1693,
+      "month" : 10,
+      "day" : 4
+    }
+  },
+  "tags" : [ {
+    "tagName" : "battle",
+    "canonicalName" : "battle",
+    "tagType" : "event_type",
+    "displayName" : "battle"
+  }, {
+    "tagName" : "Nine Years' War",
+    "canonicalName" : "nineyears%27war",
+    "tagType" : "event",
+    "displayName" : "Nine Years' War",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "tagName" : "Decisive French victory",
+    "canonicalName" : "decisivefrenchvictory",
+    "tagType" : "result",
+    "displayName" : "Decisive French victory"
+  }, {
+    "tagName" : "Kingdom of France",
+    "canonicalName" : "kingdomoffrance",
+    "tagType" : "world_actor",
+    "displayName" : "Kingdom of France",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Nicolas Catinat",
+    "canonicalName" : "nicolascatinat",
+    "tagType" : "person",
+    "displayName" : "Nicolas Catinat",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of France"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1800"
+    }, {
+      "field" : "world_actor",
+      "value" : "Kingdom of France"
+    } ]
+  }, {
+    "tagName" : "Duchy of Savoy",
+    "canonicalName" : "duchyofsavoy",
+    "tagType" : "world_actor",
+    "displayName" : "Duchy of Savoy",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Spain",
+    "canonicalName" : "spain",
+    "tagType" : "world_actor",
+    "displayName" : "Spain",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Victor Amadeus II of Savoy",
+    "canonicalName" : "victoramadeusiiofsavoy",
+    "tagType" : "person",
+    "displayName" : "Victor Amadeus II of Savoy",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Savoy"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "10000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Duchy of Savoy"
+    }, {
+      "field" : "world_actor",
+      "value" : "Spain"
+    } ]
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Marsaglia",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fbattleofmarsaglia",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Battle of Marsaglia"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 7.9667, 44.45 ]
+  },
+  "displayName" : "Battle of Marsaglia"
+}

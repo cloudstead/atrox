@@ -1,0 +1,150 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "battleofroli%C3%A7a",
+  "name" : "Battle of Roliça",
+  "nexusType" : "battle",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18080817000000,
+      "year" : 1808,
+      "month" : 8,
+      "day" : 17
+    }
+  },
+  "tags" : [ {
+    "tagName" : "battle",
+    "canonicalName" : "battle",
+    "tagType" : "event_type",
+    "displayName" : "battle"
+  }, {
+    "tagName" : "Peninsular War",
+    "canonicalName" : "peninsularwar",
+    "tagType" : "event",
+    "displayName" : "Peninsular War",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "tagName" : "Anglo-Portuguese victory, tactical French retreat",
+    "canonicalName" : "anglo-portuguesevictory%2Ctacticalfrenchretreat",
+    "tagType" : "result",
+    "displayName" : "Anglo-Portuguese victory, tactical French retreat"
+  }, {
+    "tagName" : "United Kingdom",
+    "canonicalName" : "unitedkingdom",
+    "tagType" : "world_actor",
+    "displayName" : "United Kingdom",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Portugal",
+    "canonicalName" : "portugal",
+    "tagType" : "world_actor",
+    "displayName" : "Portugal",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Arthur Wellesley",
+    "canonicalName" : "arthurwellesley",
+    "tagType" : "person",
+    "displayName" : "Arthur Wellesley",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom"
+    } ]
+  }, {
+    "tagName" : "dead and wounded",
+    "canonicalName" : "deadandwounded",
+    "tagType" : "impact",
+    "displayName" : "dead and wounded",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "487"
+    }, {
+      "field" : "world_actor",
+      "value" : "United Kingdom"
+    }, {
+      "field" : "world_actor",
+      "value" : "Portugal"
+    } ]
+  }, {
+    "tagName" : "France",
+    "canonicalName" : "france",
+    "tagType" : "world_actor",
+    "displayName" : "France",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Switzerland",
+    "canonicalName" : "switzerland",
+    "tagType" : "world_actor",
+    "displayName" : "Switzerland",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Henri Delaborde",
+    "canonicalName" : "henridelaborde",
+    "tagType" : "person",
+    "displayName" : "Henri Delaborde",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "France"
+    } ]
+  }, {
+    "tagName" : "dead and wounded",
+    "canonicalName" : "deadandwounded",
+    "tagType" : "impact",
+    "displayName" : "dead and wounded",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "700"
+    }, {
+      "field" : "world_actor",
+      "value" : "France"
+    }, {
+      "field" : "world_actor",
+      "value" : "Switzerland"
+    } ]
+  }, {
+    "tagName" : "guns captured",
+    "canonicalName" : "gunscaptured",
+    "tagType" : "impact",
+    "displayName" : "guns captured",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "3"
+    }, {
+      "field" : "world_actor",
+      "value" : "France"
+    }, {
+      "field" : "world_actor",
+      "value" : "Switzerland"
+    } ]
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Roli%C3%A7a",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fbattleofroli%25c3%25a7a",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Battle of Roli%C3%A7a"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -9.1836, 39.3136 ]
+  },
+  "displayName" : "Battle of Roliça"
+}

@@ -1,0 +1,207 @@
+{
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "battleofthecrater",
+  "name" : "Battle of the Crater",
+  "nexusType" : "battle",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 18640730000000,
+      "year" : 1864,
+      "month" : 7,
+      "day" : 30
+    }
+  },
+  "tags" : [ {
+    "tagName" : "battle",
+    "canonicalName" : "battle",
+    "tagType" : "event_type",
+    "displayName" : "battle"
+  }, {
+    "tagName" : "American Civil War",
+    "canonicalName" : "americancivilwar",
+    "tagType" : "event",
+    "displayName" : "American Civil War",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ]
+  }, {
+    "tagName" : "Confederate States of America victory",
+    "canonicalName" : "confederatestatesofamericavictory",
+    "tagType" : "result",
+    "displayName" : "Confederate States of America victory"
+  }, {
+    "tagName" : "United States",
+    "canonicalName" : "unitedstates",
+    "tagType" : "world_actor",
+    "displayName" : "United States",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Ambrose Burnside",
+    "canonicalName" : "ambroseburnside",
+    "tagType" : "person",
+    "displayName" : "Ambrose Burnside",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "James Ledlie",
+    "canonicalName" : "jamesledlie",
+    "tagType" : "person",
+    "displayName" : "James Ledlie",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "casualties",
+    "canonicalName" : "casualties",
+    "tagType" : "impact",
+    "displayName" : "casualties",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "3798"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "504"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "wounded",
+    "canonicalName" : "wounded",
+    "tagType" : "impact",
+    "displayName" : "wounded",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1881"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "captured or missing",
+    "canonicalName" : "capturedormissing",
+    "tagType" : "impact",
+    "displayName" : "captured or missing",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1413"
+    }, {
+      "field" : "world_actor",
+      "value" : "United States"
+    } ]
+  }, {
+    "tagName" : "Confederate States of America",
+    "canonicalName" : "confederatestatesofamerica",
+    "tagType" : "world_actor",
+    "displayName" : "Confederate States of America",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ]
+  }, {
+    "tagName" : "Robert E. Lee",
+    "canonicalName" : "roberte.lee",
+    "tagType" : "person",
+    "displayName" : "Robert E. Lee",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Confederate States of America"
+    } ]
+  }, {
+    "tagName" : "William Mahone",
+    "canonicalName" : "williammahone",
+    "tagType" : "person",
+    "displayName" : "William Mahone",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Confederate States of America"
+    } ]
+  }, {
+    "tagName" : "casualties",
+    "canonicalName" : "casualties",
+    "tagType" : "impact",
+    "displayName" : "casualties",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1491"
+    }, {
+      "field" : "world_actor",
+      "value" : "Confederate States of America"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "displayName" : "dead",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "361"
+    }, {
+      "field" : "world_actor",
+      "value" : "Confederate States of America"
+    } ]
+  }, {
+    "tagName" : "wounded",
+    "canonicalName" : "wounded",
+    "tagType" : "impact",
+    "displayName" : "wounded",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "727"
+    }, {
+      "field" : "world_actor",
+      "value" : "Confederate States of America"
+    } ]
+  }, {
+    "tagName" : "captured or missing",
+    "canonicalName" : "capturedormissing",
+    "tagType" : "impact",
+    "displayName" : "captured or missing",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "403"
+    }, {
+      "field" : "world_actor",
+      "value" : "Confederate States of America"
+    } ]
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_the_Crater",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fbattleofthecrater",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Battle of the Crater"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ -77.3777, 37.2183 ]
+  },
+  "displayName" : "Battle of the Crater"
+}
