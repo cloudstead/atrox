@@ -164,11 +164,11 @@ public class NexusTest extends ApiClientTestBase {
 
         apiDocs.addNote("Test autocomplete for any tag");
         autoComplete = fromJson(get(autocompleteUri + acQuery).json, AutocompleteSuggestions.class);
-        assertEquals(9, autoComplete.getSuggestions().size());
+        assertEquals(8, autoComplete.getSuggestions().size());
 
         apiDocs.addNote("Test autocomplete for only event_type tags");
         autoComplete = fromJson(get(autocompleteUri +"/Event_type" + acQuery).json, AutocompleteSuggestions.class);
-        assertEquals(4, autoComplete.getSuggestions().size());
+        assertEquals(3, autoComplete.getSuggestions().size());
 
         apiDocs.addNote("Test autocomplete for only tags without a type");
         autoComplete = fromJson(get(autocompleteUri +"/" + MATCH_NULL_TYPE + acQuery).json, AutocompleteSuggestions.class);

@@ -63,7 +63,6 @@ public class TagsResource {
     @Path(EP_AUTOCOMPLETE+"/{tagType}")
     public Response autocomplete (@QueryParam(QPARAM_AUTOCOMPLETE) String query,
                                   @PathParam("tagType") String matchType) {
-        final String canonical = canonicalize(query);
-        return ok(tagDAO.findByCanonicalNameStartsWith(canonical, matchType));
+        return ok(tagDAO.findByCanonicalNameStartsWith(query, matchType));
     }
 }

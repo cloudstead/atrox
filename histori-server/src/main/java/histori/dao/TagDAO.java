@@ -1,5 +1,6 @@
 package histori.dao;
 
+import histori.ApiConstants;
 import histori.dao.shard.TagShardDAO;
 import histori.model.Nexus;
 import histori.model.NexusTag;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
@@ -21,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static histori.model.CanonicalEntity.canonicalize;
+import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.daemon.ZillaRuntime.now;
 import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
 
@@ -56,7 +59,12 @@ import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
         return found != null ? found : super.create(entity);
     }
 
-    public List<Tag> findByCanonicalNames(String[] names) { return findByFieldIn("canonicalName", names); }
+    public List<Tag> findByCanonicalNames(String[] names) {
+        if (empty(names)) return new ArrayList<>();
+        final String[] canonical = new String[names.length];
+        for (int i=0; i<names.length; i++) canonical[i] = canonicalize(names[i]);
+        return findByFieldIn("canonicalName", canonical);
+    }
 
     // findByCanonicalName needs to be lightning-fast
     private static final long TAG_CACHE_REFRESH = TimeUnit.MINUTES.toMillis(10);
@@ -84,7 +92,7 @@ import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
     }
 
     public AutocompleteSuggestions findByCanonicalNameStartsWith(final String nameFragment, final String matchType) {
-        final String cacheKey = sha256_hex(matchType+":"+nameFragment);
+        final String cacheKey = sha256_hex(canonicalize(matchType)+":"+canonicalize(nameFragment));
         final AutoRefreshingReference<AutocompleteSuggestions> cached = autocompleteCache.get(cacheKey);
         if (cached == null) autocompleteCache.put(cacheKey, new AutocompleteSuggestionsAutoRefreshingReference(matchType, nameFragment));
         return autocompleteCache.get(cacheKey).get();
@@ -123,10 +131,12 @@ import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
             AutocompleteSuggestions suggestions = new AutocompleteSuggestions();
 
             final List<Tag> tags;
-            if (matchType != null) {
-                tags = findByFieldEqualAndFieldLike("tagType", canonicalize(matchType), "canonicalName", canonicalize(nameFragment + "%"));
+            if (matchType == null) {
+                tags = findByFieldLike("canonicalName", canonicalize(nameFragment)+"%");
+            } else if (matchType.equals(ApiConstants.MATCH_NULL_TYPE)) {
+                tags = findByFieldNullAndFieldLike("tagType", "canonicalName", canonicalize(nameFragment) + "%");
             } else {
-                tags = findByFieldLike("canonicalName", canonicalize(nameFragment + "%"));
+                tags = findByFieldEqualAndFieldLike("tagType", canonicalize(matchType), "canonicalName", canonicalize(nameFragment) + "%");
             }
             for (Tag tag : tags) suggestions.add(tag.getName(), tag.getTagType());
             return suggestions;
