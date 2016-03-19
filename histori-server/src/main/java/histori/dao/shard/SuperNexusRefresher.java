@@ -93,9 +93,9 @@ class SuperNexusRefresher implements Runnable {
 
     private void refresh(SuperNexus superNexus) throws Exception {
         final List<Nexus> matches;
-        if (superNexus.hasOwner()) {
+        if (superNexus.hasAccount()) {
             matches = nexusDAO.findByFields("canonicalName", superNexus.getCanonicalName(),
-                                            "owner", superNexus.getOwner(),
+                                            "account", superNexus.getOwner(),
                                             "visibility", superNexus.getVisibility());
         } else {
             // only looking for public nexuses

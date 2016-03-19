@@ -2,6 +2,7 @@ package histori.model;
 
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.cobbzilla.wizard.model.shard.Shardable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +11,9 @@ import static histori.ApiConstants.NAME_MAXLEN;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 
 @Entity @NoArgsConstructor @Accessors(chain=true)
-public class Tag extends CanonicalEntity {
+public class Tag extends CanonicalEntity implements Shardable {
+
+    @Override public String getHashToShardField() { return "canonicalName"; }
 
     public Tag (String name) { super(name); }
 

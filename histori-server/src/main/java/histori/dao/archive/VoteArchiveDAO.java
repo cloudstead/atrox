@@ -15,10 +15,10 @@ import java.util.List;
 public class VoteArchiveDAO extends ShardedEntityDAO<VoteArchive, VoteArchiveShardDAO> implements ArchiveDAO<VoteArchive> {
 
     @Autowired private DatabaseConfiguration database;
-    @Override protected ShardSetConfiguration getShardConfiguration() { return database.getShard("vote-archive"); }
-
     @Override public List<VoteArchive> findArchives(Account account, String id) {
         return findByFields("account", account, "identifier", id);
     }
+
+    @Override public ShardSetConfiguration getShardConfiguration() { return database.getShard("vote-archive"); }
 
 }

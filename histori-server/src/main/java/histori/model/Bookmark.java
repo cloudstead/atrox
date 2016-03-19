@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.cobbzilla.wizard.model.shard.Shardable;
 import org.cobbzilla.wizard.validation.HasValue;
 
 import javax.persistence.Column;
@@ -16,7 +17,9 @@ import static histori.ApiConstants.NAME_MAXLEN;
 
 @NoArgsConstructor @Accessors(chain=true)
 @Entity @Table(uniqueConstraints=@UniqueConstraint(columnNames={"owner", "name"}))
-public class Bookmark extends AccountOwnedEntity {
+public class Bookmark extends AccountOwnedEntity implements Shardable {
+
+    @Override public String getHashToShardField() { return "owner"; }
 
     @HasValue(message="err.name.empty")
     @Size(min=2, max=NAME_MAXLEN, message="err.name.length")

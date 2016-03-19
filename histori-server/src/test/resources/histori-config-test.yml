@@ -12,20 +12,34 @@ database:
   user: histori
   password: histori
 
+  encryptionEnabled: true
+  encryptionKey: '{{HISTORI_DB_ENCRYPTION_KEY}}'
+  encryptorPoolSize: 5
+
   hibernate:
-    entityPackages: [ histori.model ]
+    entityPackages:
+    - histori.model
+    - org.cobbzilla.wizard.model.crypto   # for encrypted column support
     dialect: org.hibernate.dialect.PostgreSQLDialect
     showSql: true
     hbm2ddlAuto: create
     validationMode: ddl
 
   shard:
+    - name: histori-account
+      entity: histori.model.Account
+    - name: bookmark
+      entity: histori.model.Bookmark
     - name: super-nexus
       entity: histori.model.SuperNexus
     - name: nexus
       entity: histori.model.Nexus
     - name: nexus-archive
       entity: histori.archive.NexusArchive
+    - name: permalink
+      entity: histori.model.Permalink
+    - name: tag
+      entity: histori.model.Tag
     - name: vote
       entity: histori.model.Vote
     - name: vote-archive

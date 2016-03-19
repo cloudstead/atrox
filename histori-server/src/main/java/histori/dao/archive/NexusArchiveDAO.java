@@ -14,7 +14,7 @@ import java.util.List;
 @Repository public class NexusArchiveDAO extends ShardedEntityDAO<NexusArchive, NexusArchiveShardDAO> implements ArchiveDAO<NexusArchive> {
 
     @Autowired private DatabaseConfiguration database;
-    @Override protected ShardSetConfiguration getShardConfiguration() { return database.getShard("nexus-archive"); }
+    @Override public ShardSetConfiguration getShardConfiguration() { return database.getShard("nexus-archive"); }
 
     @Override public List<NexusArchive> findArchives(Account account, String id) {
         return findByFields("owner", account.getUuid(), "identifier", id);

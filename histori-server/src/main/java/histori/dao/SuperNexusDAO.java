@@ -17,7 +17,7 @@ import static histori.model.CanonicalEntity.canonicalize;
 public class SuperNexusDAO extends ShardedEntityDAO<SuperNexus, SuperNexusShardDAO> {
 
     @Autowired private DatabaseConfiguration database;
-    @Override protected ShardSetConfiguration getShardConfiguration() { return database.getShard("super-nexus"); }
+    @Override public ShardSetConfiguration getShardConfiguration() { return database.getShard("super-nexus"); }
 
     @Transactional
     public void updateSuperNexus(Nexus nexus) {

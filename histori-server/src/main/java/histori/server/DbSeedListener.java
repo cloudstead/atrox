@@ -2,12 +2,13 @@ package histori.server;
 
 import histori.dao.AccountDAO;
 import histori.dao.CanonicalEntityDAO;
-import histori.dao.PermalinkDAO;
+import histori.dao.ShardedEntityDAO;
 import histori.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.wizard.dao.DAO;
 import org.cobbzilla.wizard.model.HashedPassword;
 import org.cobbzilla.wizard.model.Identifiable;
+import org.cobbzilla.wizard.model.shard.Shardable;
 import org.cobbzilla.wizard.server.RestServer;
 import org.cobbzilla.wizard.server.RestServerLifecycleListenerBase;
 
@@ -16,6 +17,7 @@ import java.util.Map;
 import static org.cobbzilla.util.io.StreamUtil.loadResourceAsStringOrDie;
 import static org.cobbzilla.util.json.JsonUtil.fromJsonOrDie;
 import static org.cobbzilla.util.reflect.ReflectionUtil.arrayClass;
+import static org.cobbzilla.util.reflect.ReflectionUtil.get;
 
 @Slf4j
 public class DbSeedListener extends RestServerLifecycleListenerBase<HistoriConfiguration> {
@@ -61,11 +63,13 @@ public class DbSeedListener extends RestServerLifecycleListenerBase<HistoriConfi
                 final CanonicalEntity canonical = (CanonicalEntity) thing;
                 if (canonicalDAO.findByCanonicalName(canonical.getCanonicalName()) == null) canonicalDAO.create(canonical);
             }
-        } else if (dao instanceof PermalinkDAO) {
-            final PermalinkDAO permalinkDAO = (PermalinkDAO) dao;
+        } else if (dao instanceof ShardedEntityDAO) {
+            final ShardedEntityDAO shardedEntityDAO = (ShardedEntityDAO) dao;
             for (Identifiable thing : things) {
-                final Permalink permalink = (Permalink) thing;
-                if (permalinkDAO.findByName(permalink.getName()) == null) permalinkDAO.create(permalink);
+                final Shardable entity = (Shardable) thing;
+                if (shardedEntityDAO.findByName((String) get(entity, "name")) == null) {
+                    shardedEntityDAO.create(entity);
+                }
             }
         }
     }

@@ -49,6 +49,18 @@ For commercial use, please contact cloudstead.io
             <version>${jdbcDriver.postgres.version}</version>
         </dependency>
 
+        <!-- transparent data encryption -->
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt-hibernate4</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+
         <!-- persist Joda Time -->
         <dependency>
             <groupId>org.jadira.usertype</groupId>

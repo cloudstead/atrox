@@ -35,8 +35,8 @@ import static org.cobbzilla.wizard.resources.ResourceUtil.*;
 @Service @Slf4j
 public class NexusResource {
 
-    public static final String[] CREATE_FIELDS = {"name", "nexusType", "geoJson", "timeRange", "markdown", "visibility", "tagsJson"};
-    public static final String[] UPDATE_FIELDS = {"geoJson", "nexusType", "timeRange", "markdown", "visibility", "tagsJson", "tags"};
+    public static final String[] CREATE_FIELDS = {"name", "nexusType", "geoJson", "timeRange", "markdown", "visibility", "tags"};
+    public static final String[] UPDATE_FIELDS = {"geoJson", "nexusType", "timeRange", "markdown", "visibility", "tags"};
 
     @Autowired private NexusDAO nexusDAO;
 

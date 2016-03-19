@@ -1,11 +1,15 @@
 package histori.dao;
 
+import histori.dao.shard.TagShardDAO;
 import histori.model.Nexus;
 import histori.model.NexusTag;
 import histori.model.Tag;
 import histori.model.support.AutocompleteSuggestions;
-import org.cobbzilla.util.collection.ArrayUtil;
-import org.cobbzilla.wizard.model.ResultPage;
+import lombok.AllArgsConstructor;
+import org.cobbzilla.util.cache.AutoRefreshingReference;
+import org.cobbzilla.wizard.server.config.DatabaseConfiguration;
+import org.cobbzilla.wizard.server.config.ShardSetConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.Valid;
@@ -16,12 +20,16 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static histori.ApiConstants.MATCH_NULL_TYPE;
 import static histori.model.CanonicalEntity.canonicalize;
-import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.daemon.ZillaRuntime.now;
+import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
 
-@Repository public class TagDAO extends CanonicalEntityDAO<Tag> {
+@Repository public class TagDAO extends ShardedEntityDAO<Tag, TagShardDAO> {
+
+    private static final long AUTOCOMPLETE_CACHE_TIMEOUT = TimeUnit.HOURS.toMillis(2);
+
+    @Autowired private DatabaseConfiguration database;
+    @Override public ShardSetConfiguration getShardConfiguration() { return database.getShard("tag"); }
 
     public static final String AUTOCOMPLETE_SQL
             = "from Tag t " +
@@ -48,11 +56,14 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.now;
         return found != null ? found : super.create(entity);
     }
 
+    public List<Tag> findByCanonicalNames(String[] names) { return findByFieldIn("canonicalName", names); }
+
     // findByCanonicalName needs to be lightning-fast
     private static final long TAG_CACHE_REFRESH = TimeUnit.MINUTES.toMillis(10);
     private final AtomicLong lastCacheFill = new AtomicLong(0);
     private final Map<String, Tag> tagCache = new ConcurrentHashMap<>();
-    @Override public Tag findByCanonicalName(String canonicalName) {
+
+    public Tag findByCanonicalName(String canonicalName) {
         if (now() - lastCacheFill.get() > TAG_CACHE_REFRESH) {
             synchronized (lastCacheFill) {
                 if (now() - lastCacheFill.get() > TAG_CACHE_REFRESH) {
@@ -66,33 +77,17 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.now;
         return tagCache.get(canonicalName);
     }
 
+    private final Map<String, AutoRefreshingReference<AutocompleteSuggestions>> autocompleteCache = new ConcurrentHashMap<>();
+
     public AutocompleteSuggestions findByCanonicalNameStartsWith(String nameFragment) {
         return findByCanonicalNameStartsWith(nameFragment, null);
     }
 
-    public AutocompleteSuggestions findByCanonicalNameStartsWith(String nameFragment, String matchType) {
-
-        // todo -- we really need to cache this stuff...
-        final AutocompleteSuggestions suggestions = new AutocompleteSuggestions();
-
-        Object[] values = {nameFragment+"%"};
-        String[] params = new String[]{"nameFragment"};
-
-        String sql = AUTOCOMPLETE_SQL;
-        if (!empty(matchType)) {
-            if (matchType.equals(MATCH_NULL_TYPE)) {
-                sql += AUTOCOMPLETE_NULLTYPE;
-            } else {
-                sql += AUTOCOMPLETE_INCLUDE;
-                values = ArrayUtil.append(values, canonicalize(matchType));
-                params = ArrayUtil.append(params, "tagType");
-            }
-        }
-        sql += AUTOCOMPLETE_ORDER;
-
-        final List<Tag> tags = query(sql, ResultPage.DEFAULT_PAGE, params, values);
-        for (Tag tag : tags) suggestions.add(tag.getName(), tag.getTagType());
-        return suggestions;
+    public AutocompleteSuggestions findByCanonicalNameStartsWith(final String nameFragment, final String matchType) {
+        final String cacheKey = sha256_hex(matchType+":"+nameFragment);
+        final AutoRefreshingReference<AutocompleteSuggestions> cached = autocompleteCache.get(cacheKey);
+        if (cached == null) autocompleteCache.put(cacheKey, new AutocompleteSuggestionsAutoRefreshingReference(matchType, nameFragment));
+        return autocompleteCache.get(cacheKey).get();
     }
 
     public void updateTags(Nexus nexus) {
@@ -117,5 +112,26 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.now;
             }
         }
         if (added) lastCacheFill.set(0);
+    }
+
+    @AllArgsConstructor
+    private class AutocompleteSuggestionsAutoRefreshingReference extends AutoRefreshingReference<AutocompleteSuggestions> {
+        private final String matchType;
+        private final String nameFragment;
+
+        @Override public AutocompleteSuggestions refresh() {
+            AutocompleteSuggestions suggestions = new AutocompleteSuggestions();
+
+            final List<Tag> tags;
+            if (matchType != null) {
+                tags = findByFieldEqualAndFieldLike("tagType", canonicalize(matchType), "canonicalName", canonicalize(nameFragment + "%"));
+            } else {
+                tags = findByFieldLike("canonicalName", canonicalize(nameFragment + "%"));
+            }
+            for (Tag tag : tags) suggestions.add(tag.getName(), tag.getTagType());
+            return suggestions;
+        }
+
+        @Override public long getTimeout() { return AUTOCOMPLETE_CACHE_TIMEOUT; }
     }
 }

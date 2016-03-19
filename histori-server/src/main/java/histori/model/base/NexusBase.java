@@ -281,7 +281,7 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
 
     @JsonIgnore @Transient public String getFirstEventType () {
         if (hasTags()) {
-            for (NexusTag tag : tags) if (tag.getTagType().equalsIgnoreCase(EVENT_TYPE)) return tag.getTagName();
+            for (NexusTag tag : tags) if (tag.hasTagType() && tag.getTagType().equalsIgnoreCase(EVENT_TYPE)) return tag.getTagName();
         }
         return null;
     }

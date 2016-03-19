@@ -13,7 +13,7 @@ import java.util.List;
 @Repository public class VoteDAO extends ShardedEntityDAO<Vote, VoteShardDAO> {
 
     @Autowired private DatabaseConfiguration database;
-    @Override protected ShardSetConfiguration getShardConfiguration() { return database.getShard("vote"); }
+    @Override public ShardSetConfiguration getShardConfiguration() { return database.getShard("vote"); }
 
     public List<Vote> findByEntity(String uuid) { return findByField("entity", uuid); }
     public List<Vote> findByOwner (String uuid) { return findByField("owner", uuid); }

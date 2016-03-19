@@ -8,24 +8,21 @@ import lombok.experimental.Accessors;
 import org.cobbzilla.util.collection.ArrayUtil;
 import org.cobbzilla.util.collection.mappy.MappySortedSet;
 import org.cobbzilla.wizard.model.IdentifiableBase;
-import org.cobbzilla.wizard.validation.HasValue;
 
 import javax.persistence.Column;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import static histori.ApiConstants.NAME_MAXLEN;
 import static histori.model.CanonicalEntity.canonicalize;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
-import static org.cobbzilla.util.json.JsonUtil.fromJsonOrDie;
-import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
 import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
 
 @Accessors(chain=true)
 public class NexusTag extends IdentifiableBase implements Comparable<NexusTag> {
-
-    @Override public int compareTo(NexusTag o) { return getCanonicalName().compareTo(o.getCanonicalName()); }
 
     @Size(max=NAME_MAXLEN, message="err.tagName.tooLong")
     @Column(length=NAME_MAXLEN, nullable=false, updatable=false)
@@ -51,25 +48,15 @@ public class NexusTag extends IdentifiableBase implements Comparable<NexusTag> {
     @Getter @Setter private String tagType;
     public boolean hasTagType () { return !empty(tagType); }
 
-    @HasValue(message="err.schemaValue.empty")
-    @Size(min=2, max=32000, message="err.schemaValues.tooLong")
-    @Column(length=32000)
-    @JsonIgnore
-    @Getter @Setter private String schemaValues = "[]";
-    public boolean hasSchemaValues () { return !empty(getValues()); }
-
-    @Transient
-    public TagSchemaValue[] getValues () { return empty(schemaValues) ? null : fromJsonOrDie(schemaValues, TagSchemaValue[].class); }
-    public NexusTag setValues (TagSchemaValue[] values) { return setSchemaValues(empty(values) ? null : toJsonOrDie(values)); }
+    @Getter @Setter private TagSchemaValue[] schemaValues;
+    public boolean hasSchemaValues () { return !empty(schemaValues); }
 
     public NexusTag setValue(String field, String value) {
-        TagSchemaValue[] values = getValues();
-        if (values == null) {
-            values = new TagSchemaValue[] { new TagSchemaValue(field, value) };
+        if (schemaValues == null) {
+            schemaValues = new TagSchemaValue[] { new TagSchemaValue(field, value) };
         } else {
-            values = ArrayUtil.append(values, new TagSchemaValue(field, value));
+            schemaValues = ArrayUtil.append(schemaValues, new TagSchemaValue(field, value));
         }
-        setValues(values);
         return this;
     }
 
@@ -84,13 +71,11 @@ public class NexusTag extends IdentifiableBase implements Comparable<NexusTag> {
     @JsonIgnore @Transient public SchemaValueMap getSchemaValueMap() {
         final SchemaValueMap map = new SchemaValueMap();
         if (!hasSchemaValues()) return map;
-        map.addAll(getValues());
+        map.addAll(schemaValues);
         return map;
     }
 
-    @JsonIgnore @Transient public String getSchemaHash() {
-        return getSchemaValueMap().getHash();
-    }
+    @JsonIgnore @Transient public String getSchemaHash() { return getSchemaValueMap().getHash(); }
 
     public static List<NexusTag> filterByType(List<NexusTag> tags, String type) {
         final List<NexusTag> found = new ArrayList<>();
@@ -169,4 +154,32 @@ public class NexusTag extends IdentifiableBase implements Comparable<NexusTag> {
         }
     }
 
+    @Override public int compareTo(NexusTag o) {
+        int diff = getCanonicalName().compareTo(o.getCanonicalName());
+        if (diff != 0) return diff;
+        diff = hasTagType() ? (o.hasTagType() ? getTagType().compareTo(o.getTagType()) : -1) : 1;
+        if (diff != 0) return diff;
+        return getSchemaHash().compareTo(o.getSchemaHash());
+    }
+
+    @Override public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        NexusTag nexusTag = (NexusTag) o;
+
+        if (!canonicalName.equals(nexusTag.canonicalName)) return false;
+        if (tagType != null ? !tagType.equals(nexusTag.tagType) : nexusTag.tagType != null) return false;
+        return getSchemaValueMap().equals(nexusTag.getSchemaValueMap());
+
+    }
+
+    @Override public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + canonicalName.hashCode();
+        result = 31 * result + (tagType != null ? tagType.hashCode() : 0);
+        result = 31 * result + getSchemaHash().hashCode();
+        return result;
+    }
 }

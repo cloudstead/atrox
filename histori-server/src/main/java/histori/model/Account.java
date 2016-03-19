@@ -6,12 +6,17 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.cobbzilla.wizard.filters.auth.TokenPrincipal;
+import org.cobbzilla.wizard.model.shard.Shardable;
 
 import javax.persistence.*;
 
 @Entity @Accessors(chain=true)
 @AttributeOverrides({@AttributeOverride(name = "name", column = @Column(updatable=true))})
-public class Account extends AccountBase implements TokenPrincipal {
+public class Account extends AccountBase implements TokenPrincipal, Shardable {
+
+    @Override public void beforeCreate() { if (!hasUuid()) initUuid(); }
+
+    @Override public String getHashToShardField() { return "uuid"; }
 
     @Getter @Setter private boolean anonymous = false;
     @Getter @Setter private boolean subscriber = false;

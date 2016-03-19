@@ -1,10 +1,12 @@
 package histori.dao;
 
-import cloudos.dao.AccountBaseDAOBase;
+import cloudos.dao.BasicAccountDAO;
+import cloudos.model.AccountBase;
 import cloudos.model.auth.AuthenticationException;
 import cloudos.model.auth.LoginRequest;
 import histori.ApiConstants;
 import histori.dao.internal.AuditLogDAO;
+import histori.dao.shard.AccountShardDAO;
 import histori.model.Account;
 import histori.model.auth.RegistrationRequest;
 import histori.server.HistoriConfiguration;
@@ -13,11 +15,14 @@ import org.cobbzilla.mail.SimpleEmailMessage;
 import org.cobbzilla.mail.TemplatedMail;
 import org.cobbzilla.mail.service.TemplatedMailService;
 import org.cobbzilla.wizard.model.HashedPassword;
+import org.cobbzilla.wizard.server.config.DatabaseConfiguration;
+import org.cobbzilla.wizard.server.config.ShardSetConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.Valid;
 
+import static cloudos.model.AccountBase.canonicalizeEmail;
 import static histori.ApiConstants.ERR_CAPTCHA_INCORRECT;
 import static histori.ApiConstants.anonymousEmail;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
@@ -27,14 +32,17 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
 
 @Repository @Slf4j
-public class AccountDAO extends AccountBaseDAOBase<Account> {
+public class AccountDAO extends ShardedEntityDAO<Account, AccountShardDAO> implements BasicAccountDAO<Account> {
 
     @Autowired private HistoriConfiguration configuration;
     @Autowired private TemplatedMailService mailService;
     @Autowired private AuditLogDAO audit;
 
+    @Autowired private DatabaseConfiguration database;
+    @Override public ShardSetConfiguration getShardConfiguration() { return database.getShard("histori-account"); }
+
     public Account findByEmail(String email) {
-        return findByUniqueField("canonicalEmail", Account.canonicalizeEmail(email));
+        return findByUniqueField("canonicalEmail", canonicalizeEmail(email));
     }
 
     public Account findByNameOrEmail(String name) {
@@ -52,7 +60,7 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
         return super.preCreate(account);
     }
 
-    @Override public Account authenticate(LoginRequest login) throws AuthenticationException {
+    public Account authenticate(LoginRequest login) throws AuthenticationException {
 
         final String name = login.getName();
         final Account account = findByNameOrEmail(name);
@@ -69,6 +77,20 @@ public class AccountDAO extends AccountBaseDAOBase<Account> {
         }
         audit.log(login, "authenticate", "unsuccessful login for "+ name+", return null");
         return null;
+    }
+
+    @Override public Account findByActivationKey(String key) {
+        return findByUniqueField(AccountBase.EMAIL_VERIFICATION_CODE, key);
+    }
+
+    @Override public Account findByResetPasswordToken(String token) {
+        return findByUniqueField("hashedPassword."+AccountBase.RESET_PASSWORD_TOKEN, token);
+    }
+
+    @Override public void setPassword(Account account, String newPassword) {
+        account.setResetToken(null);
+        account.setPassword(newPassword);
+        update(account);
     }
 
     public Account register(RegistrationRequest request) {

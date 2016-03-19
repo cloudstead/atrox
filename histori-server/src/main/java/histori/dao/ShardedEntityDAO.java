@@ -18,4 +18,8 @@ public abstract class ShardedEntityDAO<E extends Shardable, D extends SingleShar
 
     @Override protected DatabaseConfiguration getMasterDbConfiguration() { return configuration.getDatabase(); }
 
+    public E findByName(String name) { return findByUniqueField(getNameField(), name); }
+
+    public String getNameField() { return "name"; }
+
 }

@@ -12,4 +12,8 @@ public class Nexus extends NexusBase implements Shardable {
 
     @Override public String getHashToShardField() { return "canonicalName"; }
 
+    @Override public void beforeCreate() {
+        if (getTagsJson() == null) setTags(getTags());
+        super.beforeCreate();
+    }
 }

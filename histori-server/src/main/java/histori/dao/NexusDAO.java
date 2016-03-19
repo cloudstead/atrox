@@ -28,7 +28,7 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
     @Autowired private NexusArchiveDAO nexusArchiveDAO;
 
     @Autowired private DatabaseConfiguration database;
-    @Override protected ShardSetConfiguration getShardConfiguration() { return database.getShard("nexus"); }
+    @Override public ShardSetConfiguration getShardConfiguration() { return database.getShard("nexus"); }
 
     @Autowired @Getter @Setter private SuperNexusDAO superNexusDAO;
     @Autowired @Getter @Setter private TagDAO tagDAO;
@@ -94,11 +94,9 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
         return findByUniqueFields("owner", account.getUuid(), "canonicalName", canonicalize(name));
     }
 
-    public List<Nexus> findByName(String name) {
-        return findByField("canonicalName", canonicalize(name));
-    }
+    @Override public String getNameField() { return "canonicalName"; }
 
-    public List<Nexus> findByCanonicalName(String canonicalName) { return findByField("canonicalName", canonicalName); }
+    @Override public Nexus findByName(String name) { return findByUniqueField("canonicalName", canonicalize(name)); }
 
     public List<Nexus> findByNameAndVisibleToAccount(String name, Account account) {
         final List<Nexus> found = findByField("canonicalName", canonicalize(name));
