@@ -48,6 +48,8 @@ public class TimePoint {
     public TimePoint (String date) { initInstant(date); }
 
     public void initInstant(String date) {
+        if (getInstant() != null) return;
+
         final String[] parts = date.split(TP_SEP);
         if (parts.length == 0) die("TimePoint: too short: "+date);
 
