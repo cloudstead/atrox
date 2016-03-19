@@ -48,8 +48,6 @@ public class TimePoint {
     public TimePoint (String date) { initInstant(date); }
 
     public void initInstant(String date) {
-        if (getInstant() != null) return;
-
         final String[] parts = date.split(TP_SEP);
         if (parts.length == 0) die("TimePoint: too short: "+date);
 
@@ -97,7 +95,7 @@ public class TimePoint {
     }
 
     @Getter @Setter private BigInteger instant;
-    public TimePoint initInstant () { initInstant(toString()); return this; }
+    public TimePoint initInstant () { if (instant == null) initInstant(toString()); return this; }
 
     @Min(value=MIN_YEAR, message="err.timePoint.year.tooEarly")
     @Max(value=MAX_YEAR, message="err.timePoint.year.tooLate")
