@@ -23,7 +23,9 @@ import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
 import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
 
 @Accessors(chain=true)
-public class NexusTag extends IdentifiableBase {
+public class NexusTag extends IdentifiableBase implements Comparable<NexusTag> {
+
+    @Override public int compareTo(NexusTag o) { return getCanonicalName().compareTo(o.getCanonicalName()); }
 
     @Size(max=NAME_MAXLEN, message="err.tagName.tooLong")
     @Column(length=NAME_MAXLEN, nullable=false, updatable=false)
@@ -31,13 +33,13 @@ public class NexusTag extends IdentifiableBase {
 
     public NexusTag setTagName(String tagName) {
         this.tagName = tagName;
-        this.canonical = canonicalize(tagName);
+        this.canonicalName = canonicalize(tagName);
         return this;
     }
 
     @Size(max=NAME_MAXLEN, message="err.tagName.tooLong")
     @Column(length=NAME_MAXLEN, nullable=false, updatable=false)
-    @Getter @Setter private String canonical;
+    @Getter @Setter private String canonicalName;
 
     @Transient
     public String getDisplayName () { return tagName.replace("_", " ").trim(); }
@@ -100,7 +102,7 @@ public class NexusTag extends IdentifiableBase {
         return found;
     }
 
-    public static boolean containsEventTypeTag(List<NexusTag> tags, String type) {
+    public static boolean containsTypeTag(List<NexusTag> tags, String type) {
         if (!empty(tags)) {
             for (NexusTag tag : tags) if (tag.getTagType().equalsIgnoreCase(type)) return true;
         }
@@ -125,26 +127,26 @@ public class NexusTag extends IdentifiableBase {
         @Override public boolean equals(Object o) {
             if (!(o instanceof SchemaValueMap)) return false;
 
-            final SchemaValueMap m = (SchemaValueMap) o;
+            final SchemaValueMap other = (SchemaValueMap) o;
 
-            if (m.size() != this.size()) return false;
+            if (other.size() != this.size()) return false;
 
             for (String field : this.keySet()) {
                 final Set<String> values = this.getAll(field);
-                final Set<String> mValues = m.getAll(field);
+                final Set<String> otherVals = other.getAll(field);
 
-                if (mValues == null) return values == null;
-                for (String val : values) if (!mValues.contains(val)) return false;
-                for (String val : mValues) if (!values.contains(val)) return false;
+                if (values.size() != otherVals.size()) return false;
+                for (String val : values) if (!otherVals.contains(val)) return false;
+                for (String val : otherVals) if (!values.contains(val)) return false;
             }
 
-            for (String field : m.keySet()) {
+            for (String field : other.keySet()) {
                 final Set<String> values = this.getAll(field);
-                final Set<String> mValues = m.getAll(field);
+                final Set<String> otherVals = other.getAll(field);
 
-                if (mValues == null) return values == null;
-                for (String val : values) if (!mValues.contains(val)) return false;
-                for (String val : mValues) if (!values.contains(val)) return false;
+                if (values.size() != otherVals.size()) return false;
+                for (String val : values) if (!otherVals.contains(val)) return false;
+                for (String val : otherVals) if (!values.contains(val)) return false;
             }
 
             return true;

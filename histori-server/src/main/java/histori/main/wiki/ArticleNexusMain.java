@@ -18,7 +18,7 @@ import java.util.List;
 
 import static histori.wiki.WikiArchive.getArticlePath;
 import static org.cobbzilla.util.io.FileUtil.abs;
-import static org.cobbzilla.util.io.FileUtil.listFiles;
+import static org.cobbzilla.util.io.FileUtil.listFilesRecursively;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJson;
 
@@ -83,9 +83,15 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
 
         if (file.isDirectory()) {
             // import all json files in directory, if they are valid WikiArticle json files
-            for (File articleJson : listFiles(file, new FileSuffixFilter(".json"))) {
-                article = fromJson(FileUtil.toString(articleJson), WikiArticle.class);
-                writeNexus(article);
+            for (File articleJson : listFilesRecursively(file, new FileSuffixFilter(".json"))) {
+                disposition = new ArrayList<>();
+                try {
+                    article = fromJson(FileUtil.toString(articleJson), WikiArticle.class);
+                    writeNexus(article);
+                } catch (Exception e) {
+                    log.error("error writing nexus: "+e);
+                    logStatus(options, input);
+                }
             }
         } else {
             // import a single file

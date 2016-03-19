@@ -270,12 +270,15 @@ public class ConflictFinder extends FinderBase<NexusRequest> {
     }
 
     public Set<String> parseCombatants(WikiNode targetNode) {
+
         final Set<String> found = new LinkedHashSet<>();
-        boolean skippingComment = false;
+        if (targetNode == null || !targetNode.hasChildren()) return found;
+
         // group tags separated by a <br>
         final List<List<WikiNode>> nodeGroups = new ArrayList<>();
         List<WikiNode> activeGroup = new ArrayList<>();
         nodeGroups.add(activeGroup);
+
         for (WikiNode child : targetNode.getChildren()) {
             if (child.getType().isString()
                     && hasLineTerminator(child)
@@ -298,16 +301,6 @@ public class ConflictFinder extends FinderBase<NexusRequest> {
                         // detect and skip HTML comments
                         String trimmed = child.getName().trim();
                         String trimmedLower = trimmed.toLowerCase();
-                        if (trimmedLower.startsWith("&lt;!--")) {
-                            skippingComment = true;
-                            continue;
-                        }
-                        if (trimmedLower.endsWith("--&gt;")) {
-                            skippingComment = false;
-                            continue;
-                        }
-                        if (skippingComment) continue;
-                        if (trimmed.length() == 0 || trimmedLower.startsWith("&lt;ref")) continue;
                         if (HTML_CENTER_PATTERN.matcher(trimmedLower).matches()) continue;
                         for (String combatant : child.getName().split(HTML_TAG_REGEX)) {
                             if (trimName(combatant).length() > 0) foundInGroup.add(combatant.trim());
@@ -478,6 +471,7 @@ public class ConflictFinder extends FinderBase<NexusRequest> {
 
     public NexusTag addCombatants(NexusTag tag, Set<String> combatants) {
         for (String combatant : combatants) {
+            if (combatant == null) continue;
             tag.setValue("world_actor", combatant.trim());
         }
         return tag;

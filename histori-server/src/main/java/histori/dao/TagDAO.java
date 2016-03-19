@@ -99,7 +99,7 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.now;
         if (!nexus.hasTags()) return;
         boolean added = false;
         for (NexusTag nexusTag : nexus.getTags()) {
-            Tag tag = findByCanonicalName(nexusTag.getCanonical());
+            Tag tag = findByCanonicalName(nexusTag.getCanonicalName());
             if (tag == null) {
                 create(new Tag(nexusTag.getTagName(), nexusTag.getTagType()));
                 added = true;

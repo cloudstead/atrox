@@ -1,5 +1,6 @@
 package histori.main;
 
+import histori.main.internal.ShardBulkUpdateMain;
 import histori.main.internal.ShardUpdateMain;
 import histori.main.internal.ShardListMain;
 import histori.main.internal.ShardRemoveMain;
@@ -15,13 +16,14 @@ import java.util.Map;
 public class HistoriMain {
 
     private static Map<String, Class<? extends MainBase>> mainClasses = MapBuilder.build(new Object[][]{
-            {"index",  WikiIndexerMain.class},
-            {"path",  ArticlePathMain.class},
-            {"nexus",  ArticleNexusMain.class},
-            {"import",  NexusImportMain.class},
-            {"shard-update",  ShardUpdateMain.class},
-            {"shard-list",  ShardListMain.class},
-            {"shard-remove",  ShardRemoveMain.class}
+            {"index",             WikiIndexerMain.class},
+            {"path",              ArticlePathMain.class},
+            {"nexus",             ArticleNexusMain.class},
+            {"import",            NexusImportMain.class},
+            {"shard-update",      ShardUpdateMain.class},
+            {"shard-bulk-update", ShardBulkUpdateMain.class},
+            {"shard-list",        ShardListMain.class},
+            {"shard-remove",      ShardRemoveMain.class}
     });
 
     public static void main(String[] args) throws Exception {

@@ -15,6 +15,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.collection.MapBuilder;
+import org.cobbzilla.util.collection.mappy.MappySortedSet;
 import org.geojson.GeoJsonObject;
 import org.geojson.Geometry;
 import org.geojson.LngLatAlt;
@@ -38,7 +39,7 @@ import static org.cobbzilla.util.system.Bytes.MB;
 import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
 
 @MappedSuperclass @Accessors(chain=true) @ToString(of="name") @Slf4j
-public abstract class NexusBase extends SocialEntity implements NexusView {
+public abstract class NexusBase extends SocialEntity implements NexusView, Comparator<NexusBase> {
 
     @SuppressWarnings("Duplicates")
     public static Comparator<NexusView> comparator (SearchSortOrder sort) {
@@ -291,6 +292,43 @@ public abstract class NexusBase extends SocialEntity implements NexusView {
             final NexusTag tag = iter.next();
             if (tag.hasUuid() && tag.getUuid().equals(uuid)) iter.remove();
         }
+    }
+
+    @JsonIgnore @Transient public MappySortedSet<String, NexusTag> getTagMap () {
+        final MappySortedSet<String, NexusTag> map = new MappySortedSet<>();
+        for (NexusTag tag : getTags()) {
+            map.put(tag.getCanonicalName(), tag);
+        }
+        return map;
+    }
+
+    @Override public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        NexusBase nexusBase = (NexusBase) o;
+
+        if (!canonicalName.equals(nexusBase.canonicalName)) return false;
+        if (!timeRange.equals(nexusBase.timeRange)) return false;
+        if (!geoJson.equals(nexusBase.geoJson)) return false;
+
+        final MappySortedSet<String, NexusTag> tagMap = getTagMap();
+        final MappySortedSet<String, NexusTag> nexusMap = nexusBase.getTagMap();
+        return tagMap.equals(nexusMap);
+    }
+
+    @Override public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + canonicalName.hashCode();
+        result = 31 * result + timeRange.hashCode();
+        result = 31 * result + getGeoJson().hashCode();
+        if (hasTags()) result = 31 * result + getTagMap().hashCode();
+        return result;
+    }
+
+    @Override public int compare(NexusBase o1, NexusBase o2) {
+        return o1.getCanonicalName().compareTo(o2.getCanonicalName());
     }
 
     private static abstract class NCompare implements Comparator<NexusView> {

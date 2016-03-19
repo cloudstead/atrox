@@ -4,13 +4,11 @@ import histori.model.Nexus;
 import histori.model.support.NexusRequest;
 import org.apache.commons.io.FileUtils;
 import org.cobbzilla.wizard.client.ApiClientBase;
-import org.cobbzilla.wizard.util.RestResponse;
 
 import java.io.File;
 import java.util.Iterator;
 
 import static histori.ApiConstants.NEXUS_ENDPOINT;
-import static org.cobbzilla.util.http.HttpStatusCodes.NOT_FOUND;
 import static org.cobbzilla.util.io.FileUtil.abs;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJson;
@@ -46,21 +44,9 @@ public class NexusImportMain extends HistoriApiMain<NexusImportOptions> {
         final NexusRequest request = fromJson(jsonFile, NexusRequest.class);
         final String path = NEXUS_ENDPOINT + "/" + urlEncode(request.getName());
 
-        RestResponse response = api.doGet(path);
-        if (response.status == NOT_FOUND) {
-            if (!request.hasNexusType()) request.setNexusType(request.getFirstEventType());
-            request.addTag("automated_entry_please_verify", "meta");
+        request.addTag("automated_entry_please_verify", "meta");
 
-            final Nexus created = fromJson(api.put(path, toJson(request)).json, Nexus.class);
-            out("imported: "+request.getName()+" with "+created.getTagCount()+"/"+request.getTagCount()+" tags");
-
-        } else {
-            final Nexus found = fromJson(response.json, Nexus.class);
-            final String updatePath = NEXUS_ENDPOINT + "/" + found.getUuid();
-            final Nexus updated = fromJson(api.post(updatePath, toJson(request)).json, Nexus.class);
-
-            out("re-imported: "+request.getName()+" uuid="+updated.getUuid()+", version="+updated.getVersion()+", tags="+updated.getTagCount()+"/"+request.getTagCount()+". " +
-                    "Previous version ("+found.getVersion()+") had "+found.getTagCount()+" tags");
-        }
+        final Nexus nexus = fromJson(api.post(path, toJson(request)).json, Nexus.class);
+        out("imported: "+request.getName()+" with "+nexus.getTagCount()+"/"+request.getTagCount()+" tags (version "+nexus.getVersion()+")");
     }
 }

@@ -71,6 +71,10 @@ public class VersionedEntityDAO<E extends VersionedEntity> {
                     entity.setVersion(latestArchivedVersion+1);
                     archive.setVersion(entity.getVersion());
                 }
+            } else {
+                // bump the version by one anyway, to avoid repeat errors if the version # is somehow already in use
+                entity.setVersion(entity.getVersion()+1);
+                archive.setVersion(entity.getVersion());
             }
 
             archive.setIdentifier(archive.getIdentifier(entity));

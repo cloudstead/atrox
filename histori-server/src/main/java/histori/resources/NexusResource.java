@@ -36,7 +36,7 @@ import static org.cobbzilla.wizard.resources.ResourceUtil.*;
 public class NexusResource {
 
     public static final String[] CREATE_FIELDS = {"name", "nexusType", "geoJson", "timeRange", "markdown", "visibility", "tagsJson"};
-    public static final String[] UPDATE_FIELDS = {"geoJson", "nexusType", "timeRange", "markdown", "visibility", "tagsJson"};
+    public static final String[] UPDATE_FIELDS = {"geoJson", "nexusType", "timeRange", "markdown", "visibility", "tagsJson", "tags"};
 
     @Autowired private NexusDAO nexusDAO;
 
@@ -80,8 +80,8 @@ public class NexusResource {
 
         Nexus nexus = nexusDAO.findByOwnerAndName(account, name);
         if (nexus != null) {
-            copy(nexus, request, UPDATE_FIELDS);
-            nexus.setOwnerAccount(account);
+            if (!updateNexus(request, nexus)) return ok(nexus);
+            nexus.setOwnerAccount(account); // for sanity. nothing can change the owner.
             nexus = nexusDAO.update(nexus);
         } else {
             nexus = new Nexus();
@@ -90,6 +90,17 @@ public class NexusResource {
             nexus = nexusDAO.create(nexus);
         }
         return ok(nexus);
+    }
+
+    public boolean updateNexus(@Valid NexusRequest request, Nexus nexus) {
+        final Nexus backup = new Nexus();
+        copy(backup, nexus);
+        copy(nexus, request, UPDATE_FIELDS);
+        if (backup.equals(nexus)) {
+            log.info("no changes made, not saving: "+request.getName());
+            return false;
+        }
+        return true;
     }
 
     @POST
@@ -117,7 +128,7 @@ public class NexusResource {
             nexus.setOwnerAccount(account);
             nexus = nexusDAO.create(nexus);
         } else {
-            copy(nexus, request, UPDATE_FIELDS);
+            if (!updateNexus(request, nexus)) return ok(nexus);
             nexus.setOrigin(idNexus.getUuid());
             nexus.setOwnerAccount(account);
             nexus = nexusDAO.update(nexus);

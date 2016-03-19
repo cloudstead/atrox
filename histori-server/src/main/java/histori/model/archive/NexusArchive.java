@@ -18,7 +18,7 @@ public class NexusArchive extends NexusBase implements EntityArchive, Shardable 
 
     @Override public void beforeCreate() { initUuid(); }
 
-    @Override public String getHashToShardField() { return "identifier"; }
+    @Override public String getHashToShardField() { return "canonicalName"; }
 
     @Column(length=UUID_MAXLEN*10, nullable=false, updatable=false)
     @Getter @Setter private String identifier;

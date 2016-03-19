@@ -48,7 +48,7 @@ public class TimeRange {
 
     // convenience methods
     public BigInteger start () { return getStartPoint().getInstant(); }
-    public BigInteger end () { return getEndPoint().getInstant(); }
+    public BigInteger end () { return hasEnd() ? getEndPoint().getInstant() : start(); }
 
     /**
      * @param timeRange range to compare
