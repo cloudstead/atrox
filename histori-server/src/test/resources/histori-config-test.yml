@@ -10,7 +10,7 @@ database:
   driver: org.postgresql.Driver
   url: jdbc:postgresql://127.0.0.1:5432/histori_test
   user: histori
-  password: histori
+  password: {{HISTORI_DB_PASS}}
 
   encryptionEnabled: true
   encryptionKey: '{{HISTORI_DB_ENCRYPTION_KEY}}'
