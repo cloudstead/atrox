@@ -4,7 +4,7 @@ BASE=$(cd $(dirname $0) && pwd)
 cd ${BASE}
 GEN_SQL="${BASE}/../utils/cloudos-lib/gen-sql.sh"
 
-outfile=${BASE}/target/histori.sql
+outfile=${BASE}/src/main/resources/seed/schema.sql
 
 VERBOSE="${1}"
 

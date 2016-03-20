@@ -52,10 +52,12 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
         return env;
     }
 
+    public boolean seedTestData() { return true; }
+
     @Override public void onStart(RestServer<HistoriConfiguration> server) {
         // disable captcha for tests
         server.getConfiguration().setRecaptcha(DummyRecaptchaConfig.instance);
-        new DbSeedListener().onStart(server);
+        new DbSeedListener().seed(server, seedTestData());
     }
 
     @Override protected List<ConfigurationSource> getConfigurations() {

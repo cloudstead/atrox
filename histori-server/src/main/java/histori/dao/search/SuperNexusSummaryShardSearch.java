@@ -24,8 +24,8 @@ public class SuperNexusSummaryShardSearch extends ShardSearch {
             + "(n.timeRange.startPoint.instant >= ? AND n.timeRange.startPoint.instant <= ?) "
             + "OR (n.timeRange.endPoint.instant >= ? AND n.timeRange.endPoint.instant <= ?) "
             + ") ";
-    public static final String PUBLIC_CLAUSE = " AND account IS NULL AND visibility = 'everyone'";
-    public static final String PRIVATE_CLAUSE = " AND account = ? AND visibility = ?";
+    public static final String PUBLIC_CLAUSE = " AND owner IS NULL AND visibility = 'everyone'";
+    public static final String PRIVATE_CLAUSE = " AND owner = ? AND visibility = ?";
 
     public SuperNexusSummaryShardSearch(Account account,
                                         SearchQuery searchQuery,

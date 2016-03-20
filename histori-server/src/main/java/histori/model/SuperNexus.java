@@ -22,10 +22,6 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 @Entity @NoArgsConstructor @Accessors(chain=true)
 public class SuperNexus extends IdentifiableBase implements NexusView, Shardable {
 
-    // SuperNexuses are un-owned by any single user, they are an aggregrated view of all Nexuses with a shared name
-    @Override public String getOwner() { return null; }
-    @Override public boolean hasOwner() { return false; }
-
     @Override public void beforeCreate() { initUuid(); }
 
     @Override public String getHashToShardField() { return "canonicalName"; }
@@ -60,17 +56,17 @@ public class SuperNexus extends IdentifiableBase implements NexusView, Shardable
 
     // only present for visibility levels other than 'everyone'
     @Column(length=UUID_MAXLEN)
-    @Getter @Setter private String account;
-    public boolean hasAccount() { return account != null; }
-    public boolean isAccount(String uuid)     { return    uuid != null && hasAccount() && getAccount().equals(uuid); }
-    public boolean isAccount(Account account) { return account != null && hasAccount() && account.getUuid().equals(getAccount()); }
+    @Getter @Setter private String owner;
+    public boolean hasOwner() { return owner != null; }
+    public boolean isAccount(String uuid)     { return    uuid != null && hasOwner() && getOwner().equals(uuid); }
+    public boolean isAccount(Account account) { return account != null && hasOwner() && account.getUuid().equals(getOwner()); }
 
     public SuperNexus(Nexus nexus) {
         setName(nexus.getName());
         this.timeRange = nexus.getTimeRange();
         this.bounds = nexus.getBounds();
         this.visibility = nexus.getVisibility();
-        this.account = nexus.getVisibility() == EntityVisibility.everyone ? null : nexus.getOwner();
+        this.owner = nexus.getVisibility() == EntityVisibility.everyone ? null : nexus.getOwner();
     }
 
     public boolean update(Nexus nexus) {

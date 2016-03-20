@@ -35,14 +35,14 @@ public class SuperNexusDAO extends ShardedEntityDAO<SuperNexus, SuperNexusShardD
                 break;
 
             case deleted:
-                sn = findByUniqueFields("canonicalName", canonical, "visibility", nexus.getVisibility(), "account", nexus.getOwner());
+                sn = findByUniqueFields("canonicalName", canonical, "visibility", nexus.getVisibility(), "owner", nexus.getOwner());
                 if (sn != null) update(sn.setDirty());
                 sn = findByUniqueFields("canonicalName", canonical, "visibility", EntityVisibility.everyone);
                 if (sn != null) update(sn.setDirty());
                 break;
 
             default:
-                sn = findByUniqueFields("canonicalName", canonical, "visibility", nexus.getVisibility(), "account", nexus.getOwner());
+                sn = findByUniqueFields("canonicalName", canonical, "visibility", nexus.getVisibility(), "owner", nexus.getOwner());
                 if (sn == null) {
                     create(new SuperNexus(nexus));
                 } else {

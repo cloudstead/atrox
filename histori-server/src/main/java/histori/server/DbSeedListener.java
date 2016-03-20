@@ -22,17 +22,26 @@ import static org.cobbzilla.util.reflect.ReflectionUtil.get;
 @Slf4j
 public class DbSeedListener extends RestServerLifecycleListenerBase<HistoriConfiguration> {
 
-    private static final Class<? extends CanonicalEntity>[] SEED_CLASSES = new Class[]{
+    private static final Class<? extends CanonicalEntity>[] TEST_SEED_CLASSES = new Class[]{
             TagType.class,
             Tag.class,
             Permalink.class
     };
 
-    @Override public void onStart(RestServer server) {
+    private static final Class<? extends CanonicalEntity>[] PROD_SEED_CLASSES = new Class[]{
+            TagType.class,
+            Permalink.class
+    };
+
+    @Override public void onStart(RestServer server) { seed(server, false); }
+
+    public void seed(RestServer server, boolean includeTestData) {
 
         final HistoriConfiguration configuration = (HistoriConfiguration) server.getConfiguration();
 
-        for (Class<? extends CanonicalEntity> seedClass : SEED_CLASSES) populate(configuration, seedClass);
+        final Class<? extends CanonicalEntity>[] seedClasses = includeTestData ? TEST_SEED_CLASSES : PROD_SEED_CLASSES;
+
+        for (Class<? extends CanonicalEntity> seedClass : seedClasses) populate(configuration, seedClass);
 
         final Map<String, String> env = server.getConfiguration().getEnvironment();
         if (env.containsKey("HISTORI_SUPERUSER") && env.containsKey("HISTORI_SUPERUSER_PASS")) {
