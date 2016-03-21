@@ -1,6 +1,12 @@
 --------------------------
+-- Account indexes -------
+--------------------------
+CREATE UNIQUE INDEX account_idx_name ON account(name);
+
+--------------------------
 -- Nexus indexes ---------
 --------------------------
+CREATE INDEX nexus_idx_canonical_name ON nexus(canonical_name);
 CREATE INDEX nexus_idx_owner ON nexus(owner);
 CREATE INDEX nexus_idx_origin ON nexus(origin);
 CREATE INDEX nexus_idx_visibility ON nexus(visibility);
@@ -8,7 +14,6 @@ CREATE INDEX nexus_idx_east ON nexus(east);
 CREATE INDEX nexus_idx_north ON nexus(north);
 CREATE INDEX nexus_idx_south ON nexus(south);
 CREATE INDEX nexus_idx_west ON nexus(west);
-CREATE INDEX nexus_idx_canonical_name ON nexus(canonical_name);
 CREATE INDEX nexus_idx_nexus_type ON nexus(nexus_type);
 CREATE INDEX nexus_idx_end_instant ON nexus(end_instant);
 CREATE INDEX nexus_idx_end_year ON nexus(end_year);
@@ -26,13 +31,14 @@ CREATE INDEX nexus_archive_idx_visibility ON nexus_archive(visibility);
 --------------------------
 -- SuperNexus indexes ----
 --------------------------
+CREATE UNIQUE INDEX super_nexus_idx_canonical_name ON super_nexus(canonical_name) WHERE owner IS NULL;
+CREATE UNIQUE INDEX super_nexus_idx_canonical_name_owner_visibility ON super_nexus(canonical_name, owner, visibility) WHERE owner IS NOT NULL;
 CREATE INDEX super_nexus_idx_owner ON super_nexus(owner);
 CREATE INDEX super_nexus_idx_visibility ON super_nexus(visibility);
 CREATE INDEX super_nexus_idx_east ON super_nexus(east);
 CREATE INDEX super_nexus_idx_north ON super_nexus(north);
 CREATE INDEX super_nexus_idx_south ON super_nexus(south);
 CREATE INDEX super_nexus_idx_west ON super_nexus(west);
-CREATE INDEX super_nexus_idx_canonical_name ON super_nexus(canonical_name);
 CREATE INDEX super_nexus_idx_end_instant ON super_nexus(end_instant);
 CREATE INDEX super_nexus_idx_end_year ON super_nexus(end_year);
 CREATE INDEX super_nexus_idx_start_instant ON super_nexus(start_instant);

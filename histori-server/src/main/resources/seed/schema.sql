@@ -39,18 +39,18 @@ CREATE TABLE account (
     name character varying(100),
     admin boolean NOT NULL,
     auth_id character varying(30),
-    canonical_email character varying(255) NOT NULL,
-    email character varying(255) NOT NULL,
+    canonical_email character varying(200) NOT NULL,
+    email character varying(300),
     email_verification_code character varying(100),
     email_verification_code_created_at bigint,
     email_verified boolean NOT NULL,
-    first_name character varying(100) NOT NULL,
+    first_name character varying(200) NOT NULL,
     hashed_password character varying(200) NOT NULL,
     reset_token character varying(30),
     reset_token_ctime bigint,
     last_login bigint,
-    last_name character varying(100) NOT NULL,
-    locale character varying(40),
+    last_name character varying(200) NOT NULL,
+    locale character varying(140) NOT NULL,
     mobile_phone character varying(130) NOT NULL,
     mobile_phone_country_code character varying(50) NOT NULL,
     suspended boolean NOT NULL,
@@ -363,7 +363,6 @@ ALTER TABLE vote_archive OWNER TO histori;
 --
 
 COPY account (uuid, ctime, name, admin, auth_id, canonical_email, email, email_verification_code, email_verification_code_created_at, email_verified, first_name, hashed_password, reset_token, reset_token_ctime, last_login, last_name, locale, mobile_phone, mobile_phone_country_code, suspended, two_factor, anonymous, subscriber) FROM stdin;
-41252652-4df8-4fe6-bbd4-1b7a92ede2db	1458536408643	jonathan@kyuss.org	t	\N	jonathan@kyuss.org	A6vYX+nfX0emyvUxZLsoEvzXSPlew3dswfJ0sNzVUB8=	\N	\N	f	HbNIDFjR6iUGv5wXcZFocg==	$2a$12$PcaD7fD/gNG8Htp2G2GaHeZHOakWF/5xOS/vN4VcthfwRg010uoD6	\N	\N	\N	Zvr2IqZA6Dk/bRXNzwGaoA==	\N	V9XcCYCqhJFNufuz3xR2dv5X9/WfdmtT	zRcgfNCV5CBxYMQXTq6dbw==	f	f	f	f
 \.
 
 
@@ -412,6 +411,8 @@ COPY nexus_archive (uuid, ctime, owner, markdown, origin, version, visibility, e
 --
 
 COPY permalink (name, json) FROM stdin;
+@@American Civil War	{\n    "timeline" : {\n      "range" : {\n        "start" : 1861.275,\n        "end" : 1865.375\n      },\n      "zoom_stack" : [ {\n        "start" : -10000,\n        "end" : 2016\n      }, {\n        "start" : -4000,\n        "end" : 2016\n      }, {\n        "start" : 1500,\n        "end" : 2016\n      }, {\n        "start" : 1860,\n        "end" : 1866\n      } ]\n    },\n    "map" : {\n      "north" : 49.82792914537133,\n      "south" : 16.957833217096223,\n      "east" : 27.7,\n      "west" : -145.0068359375\n    },\n    "searches" : [ {\n      "query" : "Union Victory",\n      "icon" : "/markers/blue_MarkerU.png"\n    }, {\n      "query" : "Confederate Victory",\n      "icon" : "/markers/red_MarkerC.png"\n    } ]\n  }
+@@Punic Wars (Rome vs Carthage)	{\n   "timeline" : {\n     "range" : {\n       "start" : -264,\n       "end" : -146\n     },\n     "zoom_stack" : [ {\n       "start" : -10000,\n       "end" : 2016\n     }, {\n       "start" : -4000,\n       "end" : 2016\n     }, {\n       "start" : 1500,\n       "end" : 2016\n     }, {\n       "start" : -264.9990892531876,\n       "end" : -159.9990892531876\n     } ]\n   },\n   "map" : {\n     "north" : 46.87957901439934,\n     "south" : 31.302785052433514,\n     "east" : 40.3857421875,\n     "west" : -21.2255859375\n   },\n   "searches" : [ {\n     "query" : "Punic War",\n     "icon" : "/markers/orange_MarkerP.png"\n   } ]\n }
 \.
 
 
@@ -478,6 +479,14 @@ COPY vote (uuid, ctime, owner, entity, version, vote) FROM stdin;
 
 COPY vote_archive (uuid, ctime, owner, entity, version, vote, identifier) FROM stdin;
 \.
+
+
+--
+-- Name: account_canonical_email_key; Type: CONSTRAINT; Schema: public; Owner: histori; Tablespace: 
+--
+
+ALTER TABLE ONLY account
+    ADD CONSTRAINT account_canonical_email_key UNIQUE (canonical_email);
 
 
 --
@@ -601,14 +610,6 @@ ALTER TABLE ONLY tag
 
 
 --
--- Name: uk_2cqe0hg76meg5gpj4k9ka3q8j; Type: CONSTRAINT; Schema: public; Owner: histori; Tablespace: 
---
-
-ALTER TABLE ONLY account
-    ADD CONSTRAINT uk_2cqe0hg76meg5gpj4k9ka3q8j UNIQUE (canonical_email);
-
-
---
 -- Name: uk_9evqakbsdoc6885a0qwja6kwu; Type: CONSTRAINT; Schema: public; Owner: histori; Tablespace: 
 --
 
@@ -622,14 +623,6 @@ ALTER TABLE ONLY tag_type
 
 ALTER TABLE ONLY bookmark
     ADD CONSTRAINT uk_jgxk02jby9few6x04oqy8swtt UNIQUE (owner, name);
-
-
---
--- Name: uk_q0uja26qgu1atulenwup9rxyr; Type: CONSTRAINT; Schema: public; Owner: histori; Tablespace: 
---
-
-ALTER TABLE ONLY account
-    ADD CONSTRAINT uk_q0uja26qgu1atulenwup9rxyr UNIQUE (email);
 
 
 --

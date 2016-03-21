@@ -43,21 +43,23 @@ public class DbSeedListener extends RestServerLifecycleListenerBase<HistoriConfi
 
         for (Class<? extends CanonicalEntity> seedClass : seedClasses) populate(configuration, seedClass);
 
-        final Map<String, String> env = server.getConfiguration().getEnvironment();
-        if (env.containsKey("HISTORI_SUPERUSER") && env.containsKey("HISTORI_SUPERUSER_PASS")) {
-            final AccountDAO accountDAO = configuration.getBean(AccountDAO.class);
-            if (accountDAO.adminsExist()) {
-                log.info("Admin accounts already exist, not creating new superuser");
-            } else {
-                String name = env.get("HISTORI_SUPERUSER");
-                final Account created = accountDAO.create((Account) new Account()
-                        .setAnonymous(false)
-                        .setHashedPassword(new HashedPassword(env.get("HISTORI_SUPERUSER_PASS")))
-                        .setAccountName(name)
-                        .setAdmin(true)
-                        .setEmail(name)
-                        .setName(name));
-                log.info("Created superuser account "+name+": "+created.getUuid());
+        if (includeTestData) {
+            final Map<String, String> env = server.getConfiguration().getEnvironment();
+            if (env.containsKey("HISTORI_SUPERUSER") && env.containsKey("HISTORI_SUPERUSER_PASS")) {
+                final AccountDAO accountDAO = configuration.getBean(AccountDAO.class);
+                if (accountDAO.adminsExist()) {
+                    log.info("Admin accounts already exist, not creating new superuser");
+                } else {
+                    String name = env.get("HISTORI_SUPERUSER");
+                    final Account created = accountDAO.create((Account) new Account()
+                            .setAnonymous(false)
+                            .setHashedPassword(new HashedPassword(env.get("HISTORI_SUPERUSER_PASS")))
+                            .setAccountName(name)
+                            .setAdmin(true)
+                            .setEmail(name)
+                            .setName(name));
+                    log.info("Created superuser account " + name + ": " + created.getUuid());
+                }
             }
         }
         super.onStart(server);
