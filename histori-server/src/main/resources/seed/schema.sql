@@ -194,8 +194,6 @@ ALTER TABLE nexus_archive OWNER TO histori;
 --
 
 CREATE TABLE permalink (
-    uuid character varying(100) NOT NULL,
-    ctime bigint NOT NULL,
     name character varying(100) NOT NULL,
     json character varying(16000) NOT NULL
 );
@@ -365,7 +363,7 @@ ALTER TABLE vote_archive OWNER TO histori;
 --
 
 COPY account (uuid, ctime, name, admin, auth_id, canonical_email, email, email_verification_code, email_verification_code_created_at, email_verified, first_name, hashed_password, reset_token, reset_token_ctime, last_login, last_name, locale, mobile_phone, mobile_phone_country_code, suspended, two_factor, anonymous, subscriber) FROM stdin;
-7df06fa4-4d39-4bc8-bb54-d1ee92286ede	1458494047933	jonathan@kyuss.org	t	\N	jonathan@kyuss.org	fMDEIHXsGXrvFcXfBY1gsGxDofJ8MStUfQgHVFeG8m8=	\N	\N	f	f+V0od7JytIRsI0EgTvPeQ==	$2a$12$wAwX495p76aPGdXN5fJEzO.y3aLsViJmqID9eG1fhYh5y3FgDp8om	\N	\N	\N	dw+Ey4Ny41hNxHd+djoJtA==	\N	XZYpGVRNT1cOGPdydilbEi6pU6qojBH4	Z/LTkCCFBjj0hefNs9WUzQ==	f	f	f	f
+41252652-4df8-4fe6-bbd4-1b7a92ede2db	1458536408643	jonathan@kyuss.org	t	\N	jonathan@kyuss.org	A6vYX+nfX0emyvUxZLsoEvzXSPlew3dswfJ0sNzVUB8=	\N	\N	f	HbNIDFjR6iUGv5wXcZFocg==	$2a$12$PcaD7fD/gNG8Htp2G2GaHeZHOakWF/5xOS/vN4VcthfwRg010uoD6	\N	\N	\N	Zvr2IqZA6Dk/bRXNzwGaoA==	\N	V9XcCYCqhJFNufuz3xR2dv5X9/WfdmtT	zRcgfNCV5CBxYMQXTq6dbw==	f	f	f	f
 \.
 
 
@@ -413,9 +411,7 @@ COPY nexus_archive (uuid, ctime, owner, markdown, origin, version, visibility, e
 -- Data for Name: permalink; Type: TABLE DATA; Schema: public; Owner: histori
 --
 
-COPY permalink (uuid, ctime, name, json) FROM stdin;
-2e80e4c8-f63e-4987-954b-fd941a3668f1	1458494045798	@@American Civil War	{\n    "timeline" : {\n      "range" : {\n        "start" : 1861.275,\n        "end" : 1865.375\n      },\n      "zoom_stack" : [ {\n        "start" : -10000,\n        "end" : 2016\n      }, {\n        "start" : -4000,\n        "end" : 2016\n      }, {\n        "start" : 1500,\n        "end" : 2016\n      }, {\n        "start" : 1860,\n        "end" : 1866\n      } ]\n    },\n    "map" : {\n      "north" : 49.82792914537133,\n      "south" : 16.957833217096223,\n      "east" : 27.7,\n      "west" : -145.0068359375\n    },\n    "searches" : [ {\n      "query" : "Union Victory",\n      "icon" : "/markers/blue_MarkerU.png"\n    }, {\n      "query" : "Confederate Victory",\n      "icon" : "/markers/red_MarkerC.png"\n    } ]\n  }
-3406f5a7-8d57-4761-b07a-a7fa09d3d901	1458494045798	@@Punic Wars (Rome vs Carthage)	{\n   "timeline" : {\n     "range" : {\n       "start" : -264,\n       "end" : -146\n     },\n     "zoom_stack" : [ {\n       "start" : -10000,\n       "end" : 2016\n     }, {\n       "start" : -4000,\n       "end" : 2016\n     }, {\n       "start" : 1500,\n       "end" : 2016\n     }, {\n       "start" : -264.9990892531876,\n       "end" : -159.9990892531876\n     } ]\n   },\n   "map" : {\n     "north" : 46.87957901439934,\n     "south" : 31.302785052433514,\n     "east" : 40.3857421875,\n     "west" : -21.2255859375\n   },\n   "searches" : [ {\n     "query" : "Punic War",\n     "icon" : "/markers/orange_MarkerP.png"\n   } ]\n }
+COPY permalink (name, json) FROM stdin;
 \.
 
 
@@ -553,7 +549,7 @@ ALTER TABLE ONLY nexus
 --
 
 ALTER TABLE ONLY permalink
-    ADD CONSTRAINT permalink_pkey PRIMARY KEY (uuid);
+    ADD CONSTRAINT permalink_pkey PRIMARY KEY (name);
 
 
 --
@@ -626,14 +622,6 @@ ALTER TABLE ONLY tag_type
 
 ALTER TABLE ONLY bookmark
     ADD CONSTRAINT uk_jgxk02jby9few6x04oqy8swtt UNIQUE (owner, name);
-
-
---
--- Name: uk_okdd59e380e8l823it7rnhph7; Type: CONSTRAINT; Schema: public; Owner: histori; Tablespace: 
---
-
-ALTER TABLE ONLY permalink
-    ADD CONSTRAINT uk_okdd59e380e8l823it7rnhph7 UNIQUE (name);
 
 
 --

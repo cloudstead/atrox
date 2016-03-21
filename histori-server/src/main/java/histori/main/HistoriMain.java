@@ -9,6 +9,7 @@ import histori.main.wiki.ArticlePathMain;
 import histori.main.wiki.WikiIndexerMain;
 import org.cobbzilla.util.collection.MapBuilder;
 import org.cobbzilla.util.string.StringUtil;
+import org.cobbzilla.wizard.main.ConfigurationDataBagMain;
 import org.cobbzilla.wizard.main.MainBase;
 
 import java.util.Map;
@@ -23,7 +24,8 @@ public class HistoriMain {
             {"shard-update",      ShardUpdateMain.class},
             {"shard-bulk-update", ShardBulkUpdateMain.class},
             {"shard-list",        ShardListMain.class},
-            {"shard-remove",      ShardRemoveMain.class}
+            {"shard-remove",      ShardRemoveMain.class},
+            {"data-bag",          ConfigurationDataBagMain.class}
     });
 
     public static void main(String[] args) throws Exception {

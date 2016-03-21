@@ -2,6 +2,7 @@ package histori.server;
 
 import cloudos.server.asset.AssetStorageConfiguration;
 import cloudos.service.asset.AssetStorageService;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -44,7 +45,7 @@ public class HistoriConfiguration extends RestServerConfiguration
 
     @Setter private RedisConfiguration redis;
     @Bean public RedisConfiguration getRedis() {
-        if (redis == null) redis = new RedisConfiguration(getSessionPassphrase());
+        if (redis == null) redis = new RedisConfiguration();
         if (empty(redis.getPrefix())) redis.setPrefix("histori");
         return redis;
     }
@@ -53,13 +54,12 @@ public class HistoriConfiguration extends RestServerConfiguration
     @Getter @Setter private Map<String, SimpleEmailMessage> emailSenderNames = new HashMap<>();
     @Getter @Setter private String emailTemplateRoot;
 
-    @Getter @Setter private String sessionPassphrase;
     @Getter @Setter private Map<String, Integer> threadPoolSizes = new DefaultedMap(2);
 
     @Getter @Setter private RecaptchaConfig recaptcha;
 
     @Getter @Setter private AssetStorageConfiguration assetStorage;
-    @Getter(lazy=true) private final AssetStorageService assetStorageService = initStorageService();
+    @JsonIgnore @Getter(lazy=true) private final AssetStorageService assetStorageService = initStorageService();
     public AssetStorageService initStorageService () { return AssetStorageService.build(assetStorage); }
 
     public String getResetPasswordUrl(String token) {

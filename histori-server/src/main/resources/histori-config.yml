@@ -8,7 +8,7 @@ publicUriBase: {{PUBLIC_BASE_URI}}
 
 database:
   driver: org.postgresql.Driver
-  url: jdbc:postgresql://127.0.0.1:5432/histori
+  url: jdbc:postgresql://127.0.0.1:5432/histori_master
   user: histori
   password: {{HISTORI_DB_PASS}}
 
@@ -85,7 +85,9 @@ smtp:
   password: {{HISTORI_SMTP_PASS}}
   tlsEnabled: true
 
-sessionPassphrase: '{{HISTORI_DATAKEY}}'
+redis:
+  key: '{{HISTORI_REDIS_ENCRYPTION_KEY}}'
+  prefix: histori
 
 assetStorage:
   type: s3

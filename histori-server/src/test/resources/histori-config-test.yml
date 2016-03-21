@@ -84,7 +84,9 @@ smtp:
   password: bogus
   tlsEnabled: true
 
-sessionPassphrase: dummy_value
+redis:
+  key: '{{HISTORI_REDIS_ENCRYPTION_KEY}}'
+  prefix: histori
 
 assetStorage:
   type: local
