@@ -43,7 +43,7 @@ public class NexusEntityFilter implements EntityFilter<NexusView> {
 
         // by sorting terms alphabetically, and trimming whitespace, we prevent duplicate cache entries
         // for searches that are essentially the same
-        terms = (TreeSet<String>) (empty(query) ? Collections.emptySet() : new TreeSet<>(collectTerms(query)));
+        terms = (TreeSet<String>) (empty(query) ? new TreeSet<>() : new TreeSet<>(collectTerms(query)));
         queryHash = sha256_hex(StringUtil.toString(terms, " "));
     }
 

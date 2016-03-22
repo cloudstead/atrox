@@ -18,10 +18,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.TreeSet;
 
+import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
+
 @Repository @Slf4j
 public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
 
     private static final int MAX_SEARCH_RESULTS = 200;
+
+    public static final SearchResults<NexusSummary> NO_RESULTS = new SearchResults<>();
 
     @Autowired private NexusDAO nexusDAO;
     @Autowired private SuperNexusDAO superNexusDAO;
@@ -43,6 +47,9 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
      * @return a List of NexusSummary objects
      */
     public SearchResults<NexusSummary> search(final Account account, final SearchQuery searchQuery) {
+
+        // empty search always returns nothing
+        if (empty(searchQuery.getQuery())) return NO_RESULTS;
 
         final NexusEntityFilter entityFilter = new NexusEntityFilter(searchQuery.getQuery(), getFilterCache(), tagDAO, tagTypeDAO);
         final NexusSearchResults nexusResults = new NexusSearchResults(nexusDAO,
