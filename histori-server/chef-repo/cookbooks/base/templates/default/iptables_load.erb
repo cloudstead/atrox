@@ -1,0 +1,15 @@
+#!/bin/bash
+
+RULES="/etc/iptables.d"
+if [ -d ${RULES} ] ; then
+
+  ( cd ${RULES} && \
+    if [ -f iptables_header ] ; then cat iptables_header ; fi && echo "" && \
+    find . -type f | egrep '^\./[[:digit:]]+_[-[:alnum:]]+$' | sort | xargs cat && echo "" && \
+    if [ -f iptables_footer ] ; then cat iptables_footer ; fi \
+  ) | iptables-restore
+
+else
+  echo "No rules dir found: ${RULES}"
+  exit 1
+fi

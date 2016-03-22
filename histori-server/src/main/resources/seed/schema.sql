@@ -50,7 +50,7 @@ CREATE TABLE account (
     reset_token_ctime bigint,
     last_login bigint,
     last_name character varying(200) NOT NULL,
-    locale character varying(140) NOT NULL,
+    locale character varying(140),
     mobile_phone character varying(130) NOT NULL,
     mobile_phone_country_code character varying(50) NOT NULL,
     suspended boolean NOT NULL,

@@ -1,0 +1,36 @@
+#!/bin/bash
+#
+# Parallel psql
+#
+# Runs a SQL command on several PostgreSQL databases (in series, not parallel)
+#
+# We assume the naming convention that shard database names start with histori_ and are zero-indexed,
+# and that a histori_master database exists.
+#
+
+function die {
+  echo 1>&2 "${1}"
+  exit 1
+}
+
+COUNT="${1:?no count given}" ; shift
+
+OPTS=""
+if [ -z "${1}" ] ; then
+  die "No sql given"
+elif [[ "${1}" =~ ^- ]] ; then
+  OPTS="${1}"
+  shift
+fi
+
+SQL="${@:?no sql given}"
+
+i=0
+while [ ${i} -lt ${COUNT} ] ; do
+  echo "results from: histori_${i}"
+  echo "${SQL}" | psql ${OPTS} -U histori histori_${i}
+  i=$((i + 1))
+done
+
+echo "results from: histori_master"
+echo "${SQL}" | psql ${OPTS} -U histori histori_master

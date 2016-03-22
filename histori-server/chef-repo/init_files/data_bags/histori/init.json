@@ -1,0 +1,31 @@
+{
+  "id": "init",
+  "db_count": 2,
+  "reinit_database": false,
+  "environment" : {
+    "HISTORI_SERVER_PORT" : "9090",
+    "WELCOME_SENDER_EMAIL" : "do-not-reply@example.com",
+    "WELCOME_SENDER_NAME" : "Hello from Histori",
+    "RESET_PASSWORD_SENDER_EMAIL" : "do-not-reply@example.com",
+    "RESET_PASSWORD_SENDER_NAME" : "Histori Password Helper",
+    "HISTORI_SMTP_SERVER" : "smtp.example.com",
+    "HISTORI_SMTP_PORT" : "587",
+    "HISTORI_SMTP_USER" : "smtp-user",
+    "HISTORI_SMTP_PASS" : "smtp-password",
+    "PUBLIC_BASE_URI" : "http://127.0.0.1:9090",
+    "HISTORI_DATAKEY" : "very-long-data-key",
+    "HISTORI_DB_PASS" : "database-password",
+    "ASSETS_S3_ACCESS_KEY" : "s3-public-key",
+    "ASSETS_S3_SECRET_KEY" : "s3-secret-key",
+    "ASSETS_S3_BUCKET" : "name-of-bucket",
+    "ASSETS_S3_PREFIX" : "s3-prefix",
+    "RECAPTCHA_PUBLIC_KEY" : "recaptcha-public-key",
+    "RECAPTCHA_PRIVATE_KEY" : "recaptcha-private-key",
+    "GOOGLE_PLACES_API_KEY" : "places-api-key",
+    "GOOGLE_MAPS_API_KEY" : "maps-api-key",
+    "HISTORI_SUPERUSER" : "user@example.com",
+    "HISTORI_SUPERUSER_PASS" : "superuser-password",
+    "HISTORI_DB_ENCRYPTION_KEY" : "another-long-data-key",
+    "ASSETS_LOCAL_CACHE_DIR" : "/tmp/histori-assets"
+  }
+}

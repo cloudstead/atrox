@@ -1,10 +1,10 @@
 #!/bin/bash
 
-BASE=$(cd $(dirname $0) && pwd)
-cd ${BASE}
-GEN_SQL="${BASE}/../utils/cloudos-lib/gen-sql.sh"
+HISTORI_SERVER=$(cd $(dirname $0)/../.. && pwd)
+cd ${HISTORI_SERVER}
+GEN_SQL="${HISTORI_SERVER}/utils/cloudos-lib/gen-sql.sh"
 
-outfile=${BASE}/src/main/resources/seed/schema.sql
+outfile=${HISTORI_SERVER}/src/main/resources/seed/schema.sql
 
 VERBOSE="${1}"
 

@@ -1,0 +1,29 @@
+#!/bin/bash
+#
+# Drop all databases whose name matches a pattern
+#
+# Databases whose names contain "template" or "postgres" will not be dropped, no matter what
+#
+
+MATCH="${1:?no match provided}"
+
+if [ $(whoami) = "root" ] ; then
+  for db in $(sudo -u postgres bash -c 'echo "select datname from pg_database" | psql -qt template1 | grep -v template | grep -v postgres') ; do
+    if [[ "${db}" =~ ${MATCH} ]] ; then
+      echo "dropping database ${db}"
+      sudo -u postgres dropdb ${db}
+      echo "dropped database ${db}, exit status: $?"
+    fi
+  done
+elif [ $(whoami) = "postgres" ] ; then
+  for db in $(echo "select datname from pg_database" | psql -qt template1 | grep -v template | grep -v postgres) ; do
+    if [[ "${db}" =~ ${MATCH} ]] ; then
+      echo "dropping database ${db}"
+      dropdb ${db}
+      echo "dropped database ${db}, exit status: $?"
+    fi
+  done
+else
+  echo "must be root or postgres user"
+  exit 1
+fi

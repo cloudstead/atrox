@@ -1,0 +1,6 @@
+{
+  "id": "base",
+  "hostname": "some-hostname",
+  "parent_domain": "example.com",
+  "ssl_cert_name": "ssl-https"
+}

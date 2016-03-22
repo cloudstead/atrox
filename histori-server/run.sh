@@ -1,5 +1,10 @@
 #!/bin/bash
 
+function die {
+  echo 1>&2 "${1}"
+  exit 1
+}
+
 BASE=$(cd $(dirname $0) && pwd)
 
 if [ -f ~/.histori.env ] ; then
@@ -32,4 +37,15 @@ else
   shift
 fi
 
-java ${debug} -Xmx1900m -Xms1900m -Djava.net.preferIPv4Stack=true -server -cp ${BASE}/target/histori-server-1.0.0-SNAPSHOT.jar ${CLASS} ${command} "${@}"
+# In a production environment, the jar may be lacking a version number
+JAR="${BASE}/target/histori-server-1.0.0-SNAPSHOT.jar"
+if [ ! -f ${JAR} ] ; then
+  JAR=$(find ${BASE}/target -type f -name "histori-server*.jar")
+  if [ -z "${JAR}" ] ; then
+    die "No histori jar found in ${BASE}/target"
+  elif [ $(echo -n "${JAR}" | wc -l | tr -d ' ') -gt 1 ] ; then
+    die "Multiple histori jars found: ${JAR}"
+  fi
+fi
+
+java ${debug} -Xmx1900m -Xms1900m -Djava.net.preferIPv4Stack=true -server -cp ${JAR} ${CLASS} ${command} "${@}"

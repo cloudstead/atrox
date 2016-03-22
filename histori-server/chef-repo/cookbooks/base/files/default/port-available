@@ -1,0 +1,10 @@
+#!/bin/bash
+
+port="${1:?no port provided}"
+for addr in $(ifconfig | grep 'inet addr' | tr ':' ' ' | awk '{print $3}') ; do
+    if nc -z ${addr} ${port} ; then
+        echo "${addr}: listening"
+        exit 0
+    fi
+done
+echo "${addr}: available"

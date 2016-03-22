@@ -1,0 +1,9 @@
+{
+  "run_list": [
+    "recipe[base]",
+    "recipe[apache2]", "recipe[postgresql]", "recipe[java::jdk]",
+    "recipe[histori]",
+    "recipe[histori::init_db]",
+    "recipe[base::validate]"
+  ]
+}
