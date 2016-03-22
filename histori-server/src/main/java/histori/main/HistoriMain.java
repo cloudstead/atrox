@@ -1,9 +1,6 @@
 package histori.main;
 
-import histori.main.internal.ShardBulkUpdateMain;
-import histori.main.internal.ShardUpdateMain;
-import histori.main.internal.ShardListMain;
-import histori.main.internal.ShardRemoveMain;
+import histori.main.internal.*;
 import histori.main.wiki.ArticleNexusMain;
 import histori.main.wiki.ArticlePathMain;
 import histori.main.wiki.WikiIndexerMain;
@@ -25,6 +22,7 @@ public class HistoriMain {
             {"shard-bulk-update", ShardBulkUpdateMain.class},
             {"shard-list",        ShardListMain.class},
             {"shard-remove",      ShardRemoveMain.class},
+            {"shard-gen-sql",     ShardSqlGenMain.class},
             {"data-bag",          ConfigurationDataBagMain.class}
     });
 
