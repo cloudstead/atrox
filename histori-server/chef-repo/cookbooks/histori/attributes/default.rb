@@ -1,0 +1,1 @@
+default[:histori][:service_name] = 'histori-api-server.HistoriServer'

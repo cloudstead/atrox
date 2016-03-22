@@ -30,19 +30,20 @@ pgsql.create_user self, dbuser, env['HISTORI_DB_PASS']
 
 # use with extreme caution
 if histori_bag['reinit_database'] && histori_bag['reinit_database'] == 'true'
-  histori_service='histori-api-server.HistoriServer'
+  raise 'reinit_database was set but yes_really_reinit_database was not set' unless histori_bag['yes_really_reinit_database']
+  service_name = node[:histori][:service_name]
   bash 'drop all databases' do
     user 'root'
     code <<-EOH
-service #{histori_service} stop
+service #{service_name} stop
 start=$(date +%s)
 TIMEOUT=60
 while [ $(ps auxw | grep java | grep HistoriServer | wc -l | tr -d ' ') -gt 0 ] ; do
   if [ $(eval $(date +%s) - ${start}) -gt ${TIMEOUT} ] ; then
-    echo "timed out waiting for #{histori_service} to stop"
+    echo "timed out waiting for #{service_name} to stop"
     exit 2
   fi
-  echo "waiting for service #{histori_service} to stop"
+  echo "waiting for service #{service_name} to stop"
   sleep 2s
 done
 sudo -u postgres #{current}/scripts/dropalldb histori
@@ -62,6 +63,7 @@ bash 'setup shards' do
     code <<-EOH
 temp=$(mktemp /tmp/shards.XXXXXXX.sql) || exit 1
 
+# todo: it would be nice to have these shard names programmatically provided, as opposed to hard-coded here
 ./run.sh shard-gen-sql \
   -S "histori-account, nexus, nexus-archive, super-nexus, vote, vote-archive, bookmark, permalink, tag" \
   -J jdbc:postgresql://127.0.0.1:5432/histori_ \

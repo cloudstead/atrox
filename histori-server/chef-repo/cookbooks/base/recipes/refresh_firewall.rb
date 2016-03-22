@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: base
-# Recipe:: validate
+# Recipe:: refresh_firewall
 #
 
 Chef::Recipe::Base.refresh_firewall self

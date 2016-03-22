@@ -4,6 +4,7 @@
     "recipe[apache2]", "recipe[postgresql]", "recipe[java::jdk]",
     "recipe[histori]",
     "recipe[histori::init_db]",
-    "recipe[base::validate]"
+    "recipe[histori::restart]",
+    "recipe[base::refresh_firewall]"
   ]
 }
