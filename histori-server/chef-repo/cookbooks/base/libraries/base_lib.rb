@@ -333,6 +333,24 @@ EOF
     end
   end
 
+  def self.restart_redis (chef)
+    chef.bash "restarting redis at #{Time.now}" do
+      user 'root'
+      code <<-EOF
+service redis-server restart
+      EOF
+    end
+  end
+
+  def self.flush_redis (chef)
+    chef.bash "flushing redis at #{Time.now}" do
+      user 'root'
+      code <<-EOF
+echo flushall | nc 127.0.0.1 6379
+      EOF
+    end
+  end
+
   def self.bcrypt (password, rounds = nil)
     bcrypt_script='/usr/bin/bcrypt-password'
     init_bcrypt unless File.exist?(bcrypt_script)

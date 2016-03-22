@@ -15,7 +15,7 @@ function die {
 
 COUNT="${1:?no count given}" ; shift
 
-OPTS=""
+OPTS="-t"
 if [ -z "${1}" ] ; then
   die "No sql given"
 elif [[ "${1}" =~ ^- ]] ; then

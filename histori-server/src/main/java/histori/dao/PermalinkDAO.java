@@ -46,7 +46,7 @@ public class PermalinkDAO extends ShardedEntityDAO<Permalink, PermalinkShardDAO>
 
     private AutoRefreshingReference<List<Permalink>> standardLinks = new AutoRefreshingReference<List<Permalink>>() {
         @Override public long getTimeout() { return TimeUnit.HOURS.toMillis(6); }
-        @Override public List<Permalink> refresh() { return findByFieldLike("name", STD_LINK_PREFIX); }
+        @Override public List<Permalink> refresh() { return findByFieldLike("name", STD_LINK_PREFIX+"%"); }
     };
 
     public List<Permalink> findStandardLinks() { return standardLinks.get(); }

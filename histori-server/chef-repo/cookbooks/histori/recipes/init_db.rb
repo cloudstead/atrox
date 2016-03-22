@@ -16,6 +16,7 @@ def setup_db (chef, dbname, dbuser, dbpass)
 end
 
 pgsql = Chef::Recipe::Postgresql
+base = Chef::Recipe::Base
 
 run_as='histori'
 dbuser='histori'
@@ -49,6 +50,7 @@ done
 sudo -u postgres #{current}/scripts/dropalldb histori
 EOH
   end
+  base.flush_redis self
 end
 
 setup_db self, master_db, dbuser, dbpass

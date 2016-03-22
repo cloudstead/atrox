@@ -41,7 +41,7 @@ cookbook_file "#{current}/target/histori-server.jar" do
   action :create
 end
 
-%w( run.sh scripts/dropalldb scripts/ppsql ).each do |script|
+%w( run.sh scripts/dropalldb scripts/ppsql scripts/flushredis ).each do |script|
   cookbook_file "#{current}/#{script}" do
     source "assets/#{script}"
     owner run_as
