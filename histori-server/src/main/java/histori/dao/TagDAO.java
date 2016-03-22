@@ -34,16 +34,6 @@ import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
     @Autowired private DatabaseConfiguration database;
     @Override public ShardSetConfiguration getShardConfiguration() { return database.getShard("tag"); }
 
-    public static final String AUTOCOMPLETE_SQL
-            = "from Tag t " +
-            "where t.canonicalName like :nameFragment ";
-    public static final String AUTOCOMPLETE_INCLUDE =
-            "and t.tagType = :tagType ";
-    public static final String AUTOCOMPLETE_NULLTYPE =
-            "and t.tagType is null ";
-    public static final String AUTOCOMPLETE_ORDER =
-            "order by length(t.canonicalName) desc";
-
     @Override public Tag postCreate(Tag tag, Object context) {
         tagCache.put(tag.getCanonicalName(), tag);
         return super.postCreate(tag, context);

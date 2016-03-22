@@ -55,7 +55,6 @@ public class SuperNexus extends IdentifiableBase implements NexusView, Shardable
     @Getter @Setter private EntityVisibility visibility = EntityVisibility.everyone;
 
     // set to true in SuperNexusDAO when a Nexus has been deleted (we don't know how to shrink the geo/time)
-    // todo: a background job refreshes the SuperNexus geo/time bounds
     @Getter @Setter private boolean dirty = false;
     public SuperNexus setDirty () { this.dirty = true; return this; }
 

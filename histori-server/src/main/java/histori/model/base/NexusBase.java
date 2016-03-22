@@ -331,6 +331,16 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
         return o1.getCanonicalName().compareTo(o2.getCanonicalName());
     }
 
+    public void scrubShortTagNames() {
+        if (hasTags()) {
+            for (Iterator<NexusTag> iter = getTags().iterator(); iter.hasNext();) {
+                NexusTag tag = iter.next();
+                if (tag.getTagName().isEmpty()) iter.remove();
+            }
+            setTags(getTags());
+        }
+    }
+
     private static abstract class NCompare implements Comparator<NexusView> {
         @Override public int compare(NexusView o1, NexusView o2) {
             long v1 = val(o1);
