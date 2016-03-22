@@ -35,7 +35,7 @@ database:
     - name: nexus
       entity: histori.model.Nexus
     - name: nexus-archive
-      entity: histori.archive.NexusArchive
+      entity: histori.model.archive.NexusArchive
     - name: permalink
       entity: histori.model.Permalink
     - name: tag
@@ -43,7 +43,7 @@ database:
     - name: vote
       entity: histori.model.Vote
     - name: vote-archive
-      entity: histori.archive.VoteArchive
+      entity: histori.model.archive.VoteArchive
 
 staticAssets:
   baseUri: /
