@@ -18,10 +18,12 @@ end
 pgsql = Chef::Recipe::Postgresql
 base = Chef::Recipe::Base
 
-run_as='histori'
-dbuser='histori'
-master_db='histori_master'
-current='/home/histori/current/histori-server'
+run_as=node[:histori][:run_as]
+current=node[:histori][:current]
+dbuser=node[:histori][:dbuser]
+master_db=node[:histori][:master_db]
+db_prefix=node[:histori][:db_prefix]
+
 histori_bag = data_bag_item('histori', 'init')
 env = histori_bag['environment']
 dbpass = env['HISTORI_DB_PASS']
@@ -47,7 +49,7 @@ while [ $(ps auxw | grep java | grep HistoriServer | wc -l | tr -d ' ') -gt 0 ] 
   echo "waiting for service #{service_name} to stop"
   sleep 2s
 done
-sudo -u postgres #{current}/scripts/dropalldb histori
+sudo -u postgres #{current}/scripts/dropalldb #{db_prefix}
 EOH
   end
   base.flush_redis self
@@ -55,7 +57,7 @@ end
 
 setup_db self, master_db, dbuser, dbpass
 for i in 0..(db_count-1) do
-  setup_db self, "histori_#{i}", dbuser, dbpass
+  setup_db self, "#{db_prefix}#{i}", dbuser, dbpass
 end
 
 # setup shards

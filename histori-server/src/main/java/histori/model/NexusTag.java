@@ -48,14 +48,14 @@ public class NexusTag extends IdentifiableBase implements Comparable<NexusTag> {
     @Getter @Setter private String tagType;
     public boolean hasTagType () { return !empty(tagType); }
 
-    @Getter @Setter private TagSchemaValue[] schemaValues;
-    public boolean hasSchemaValues () { return !empty(schemaValues); }
+    @Getter @Setter private TagSchemaValue[] values;
+    public boolean hasSchemaValues () { return !empty(values); }
 
     public NexusTag setValue(String field, String value) {
-        if (schemaValues == null) {
-            schemaValues = new TagSchemaValue[] { new TagSchemaValue(field, value) };
+        if (values == null) {
+            values = new TagSchemaValue[] { new TagSchemaValue(field, value) };
         } else {
-            schemaValues = ArrayUtil.append(schemaValues, new TagSchemaValue(field, value));
+            values = ArrayUtil.append(values, new TagSchemaValue(field, value));
         }
         return this;
     }
@@ -71,7 +71,7 @@ public class NexusTag extends IdentifiableBase implements Comparable<NexusTag> {
     @JsonIgnore @Transient public SchemaValueMap getSchemaValueMap() {
         final SchemaValueMap map = new SchemaValueMap();
         if (!hasSchemaValues()) return map;
-        map.addAll(schemaValues);
+        map.addAll(values);
         return map;
     }
 

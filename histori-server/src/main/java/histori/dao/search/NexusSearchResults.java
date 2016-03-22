@@ -55,7 +55,6 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
                         if (!containsKey(nexus.getCanonicalName())) {
                             // other threads can stop bothering with this name
                             final Nexus placeholderNexus = (Nexus) new Nexus().setName("-in-process-");
-                            placeholderNexus.setUuid("-in-process-");
                             put(nexus.getCanonicalName(), placeholderNexus);
                             doit = true;
                         }

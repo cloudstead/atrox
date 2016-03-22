@@ -6,8 +6,8 @@
 apache2 = Chef::Recipe::Apache2
 java = Chef::Recipe::Java
 
-run_as='histori'
-current='/home/histori/current/histori-server'
+run_as=node[:histori][:run_as]
+current=node[:histori][:current]
 histori_bag = data_bag_item('histori', 'init')
 env = histori_bag['environment']
 
@@ -99,8 +99,6 @@ env | grep -v '^_' \
     > ~histori/.histori.env
   EOH
 end
-
-java.create_service self, 'histori-api', current, run_as, 'histori.server.HistoriServer'
 
 %w(ssl proxy proxy_http headers).each do |mod|
   apache2.enable_module self, mod

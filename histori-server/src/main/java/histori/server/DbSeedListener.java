@@ -43,7 +43,7 @@ public class DbSeedListener extends RestServerLifecycleListenerBase<HistoriConfi
 
         for (Class<? extends CanonicalEntity> seedClass : seedClasses) populate(configuration, seedClass);
 
-        if (includeTestData) {
+        if (includeTestData || Boolean.valueOf(System.getenv("HISTORI_CREATE_SUPERUSER"))) {
             final Map<String, String> env = server.getConfiguration().getEnvironment();
             if (env.containsKey("HISTORI_SUPERUSER") && env.containsKey("HISTORI_SUPERUSER_PASS")) {
                 final AccountDAO accountDAO = configuration.getBean(AccountDAO.class);

@@ -37,5 +37,5 @@ cd ${HISTORI_SERVER_DIR}/src/main/resources && tar czf ${ASSETS_DIR}/histori-sit
 cp ${HISTORI_SERVER_DIR}/run.sh ${ASSETS_DIR}
 
 # Other scripts
-mkdir ${ASSETS_DIR}/scripts
+mkdir -p ${ASSETS_DIR}/scripts
 cp ${HISTORI_SERVER_DIR}/scripts/* ${ASSETS_DIR}/scripts

@@ -72,6 +72,7 @@ end
   end
 end
 
+# todo: generify this to install whatever intermediate certs are found in databag
 startcom_ca_cert_name='StartComClass2PrimaryIntermediateServerCA'
 startcom_ca_cert="/usr/share/ca-certificates/mozilla/#{startcom_ca_cert_name}.crt"
 startcom_ca_cert_hash='5a5c01b6.0'

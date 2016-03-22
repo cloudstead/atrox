@@ -15,8 +15,13 @@ end
   end
 end
 
+# todo: generify this to install whatever intermediate certs are found in databag
 startcom_ca_cert_name='StartComClass2PrimaryIntermediateServerCA'
 startcom_ca_cert="/usr/share/ca-certificates/mozilla/#{startcom_ca_cert_name}.crt"
 
+startcom_ca_cert_name2='StartComClass2PrimaryIntermediateServerCA2'
+startcom_ca_cert2='/etc/ssl/certs/StartSslIntermediate.crt'
+
 java = Chef::Recipe::Java
 java.install_cert self, startcom_ca_cert_name, startcom_ca_cert
+java.install_cert self, startcom_ca_cert_name2, startcom_ca_cert2

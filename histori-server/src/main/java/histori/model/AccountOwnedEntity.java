@@ -19,6 +19,11 @@ public class AccountOwnedEntity extends StrongIdentifiableBase {
 
     @Transient @JsonIgnore public JavaType getSearchResultType() { return SearchResults.jsonType(getClass()); }
 
+    @Override public void setUuid(String uuid) {
+        if (hasUuid()) return;
+        super.setUuid(uuid);
+    }
+
     @Column(length=UUID_MAXLEN, nullable=false)
     @Getter @Setter private String owner;
     public boolean hasOwner() { return !empty(owner); }

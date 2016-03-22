@@ -2,9 +2,12 @@
   "run_list": [
     "recipe[base]",
     "recipe[apache2]", "recipe[postgresql]", "recipe[java::jdk]",
+
+    "recipe[histori::stop]",
     "recipe[histori]",
     "recipe[histori::init_db]",
     "recipe[histori::restart]",
+
     "recipe[base::refresh_firewall]"
   ]
 }

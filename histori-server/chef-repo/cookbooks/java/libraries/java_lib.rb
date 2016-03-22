@@ -46,7 +46,7 @@ yes" | keytool -import -alias #{name.downcase} -keypass changeit -keystore #{cac
     { :service_name => name, :proc_pattern => proc_pattern }
   end
 
-  def self.create_service(chef, name, base_dir, run_as_user, java_class = '', config = '')
+  def self.create_service(chef, name, base_dir, run_as_user, java_class = '', java_opts = '', config = '')
     svc = declare_service(name, base_dir, java_class, config)
     chef.template svc[:service_name] do
       path "/etc/init.d/#{svc[:service_name]}"
@@ -59,7 +59,8 @@ yes" | keytool -import -alias #{name.downcase} -keypass changeit -keystore #{cac
           :app_dir => base_dir,
           :run_as_user => run_as_user,
           :java_class => java_class,
-          :config => config
+          :config => config,
+          :java_opts => java_opts
       )
       action :create
     end

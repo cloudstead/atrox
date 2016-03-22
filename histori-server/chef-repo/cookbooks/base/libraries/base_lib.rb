@@ -424,6 +424,15 @@ fi
     end
   end
 
+  def self.stop_service (chef, service_name)
+    chef.bash "stopping service #{service_name} at #{Time.now} " do
+      user 'root'
+      code <<-EOF
+service #{service_name} stop || exit 0   # it's ok, the service might not exist yet
+EOF
+    end
+  end
+
   def self.is_docker
     File.exist? '/etc/is-docker'
   end

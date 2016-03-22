@@ -22,7 +22,10 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 @Entity @NoArgsConstructor @Accessors(chain=true)
 public class SuperNexus extends IdentifiableBase implements NexusView, Shardable {
 
-    @Override public void beforeCreate() { initUuid(); }
+    @Override public void setUuid(String uuid) {
+        if (hasUuid()) return;
+        super.setUuid(uuid);
+    }
 
     @Override public String getHashToShardField() { return "canonicalName"; }
 
