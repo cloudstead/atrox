@@ -169,9 +169,11 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                             parseState = seeking_page;
                             continue;
 
-                        } else if (lineMatcher == null && line.endsWith(TEXT_TAG_CLOSE)) {
-                            article.addText("\n" + line.substring(0, line.length() - TEXT_TAG_CLOSE.length()));
-                            store(wiki, article);
+                        } else if (line.endsWith(TEXT_TAG_CLOSE)) {
+                            if (lineMatcher == null) {
+                                article.addText("\n" + line.substring(0, line.length() - TEXT_TAG_CLOSE.length()));
+                                store(wiki, article);
+                            }
                             article = new WikiArticle();
                             parseState = seeking_page;
 
