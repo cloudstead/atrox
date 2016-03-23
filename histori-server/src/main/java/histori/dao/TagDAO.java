@@ -7,6 +7,7 @@ import histori.model.NexusTag;
 import histori.model.Tag;
 import histori.model.support.AutocompleteSuggestions;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.cache.AutoRefreshingReference;
 import org.cobbzilla.wizard.server.config.DatabaseConfiguration;
 import org.cobbzilla.wizard.server.config.ShardSetConfiguration;
@@ -26,13 +27,21 @@ import static histori.model.CanonicalEntity.canonicalize;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.daemon.ZillaRuntime.now;
 import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
+import static org.cobbzilla.util.string.StringUtil.isNumber;
+import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
 
-@Repository public class TagDAO extends ShardedEntityDAO<Tag, TagShardDAO> {
+@Repository @Slf4j
+public class TagDAO extends ShardedEntityDAO<Tag, TagShardDAO> {
 
     private static final long AUTOCOMPLETE_CACHE_TIMEOUT = TimeUnit.HOURS.toMillis(2);
 
     @Autowired private DatabaseConfiguration database;
     @Override public ShardSetConfiguration getShardConfiguration() { return database.getShard("tag"); }
+
+    @Override public Object preCreate(@Valid Tag entity) {
+        if (isNumber(entity.getName())) throw invalidEx("err.tagName.isNumber");
+        return super.preCreate(entity);
+    }
 
     @Override public Tag postCreate(Tag tag, Object context) {
         tagCache.put(tag.getCanonicalName(), tag);
@@ -92,6 +101,10 @@ import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
         if (!nexus.hasTags()) return;
         boolean added = false;
         for (NexusTag nexusTag : nexus.getTags()) {
+            if (isNumber(nexusTag.getTagName())) {
+                log.info("skipping numeric tag: "+nexusTag);
+                continue;
+            }
             Tag tag = findByCanonicalName(nexusTag.getCanonicalName());
             if (tag == null) {
                 create(new Tag(nexusTag.getTagName(), nexusTag.getTagType()));

@@ -453,14 +453,14 @@ COPY tag (canonical_name, alias_for, name, tag_type) FROM stdin;
 --
 
 COPY tag_type (canonical_name, alias_for, name, schema_json) FROM stdin;
-worldactor	\N	World Actor	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "world_actor",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "role",\n    "fieldType" : "role_type",\n    "required" : false,\n    "multiple" : true\n  } ]\n}
+world-actor	\N	World Actor	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "world_actor",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "role",\n    "fieldType" : "role_type",\n    "required" : false,\n    "multiple" : true\n  } ]\n}
 person	\N	Person	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "person",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "role",\n    "fieldType" : "role_type",\n    "required" : false,\n    "multiple" : true\n  }, {\n    "name" : "world_actor",\n    "fieldType" : "world_actor",\n    "required" : false,\n    "multiple" : true\n  } ]\n}
 event	\N	Event	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "event",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "relationship",\n    "fieldType" : "relationship_type",\n    "required" : false,\n    "multiple" : true\n  } ]\n}
 result	\N	Result	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "result",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "world_actor",\n    "fieldType" : "world_actor",\n    "required" : false,\n    "multiple" : true\n  } ]\n}
 impact	\N	Impact	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "impact",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "world_actor",\n    "fieldType" : "world_actor",\n    "required" : false,\n    "multiple" : true\n  }, {\n    "name" : "low_estimate",\n    "fieldType" : "integer",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "estimate",\n    "fieldType" : "integer",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "high_estimate",\n    "fieldType" : "integer",\n    "required" : false,\n    "multiple" : false\n  } ]\n}
 citation	\N	Citation	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "citation",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "excerpt",\n    "fieldType" : "string",\n    "required" : false,\n    "multiple" : true\n  } ]\n}
 idea	\N	Idea	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "idea",\n    "required" : false,\n    "multiple" : false\n  } ]\n}
-eventtype	\N	Event Type	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "event_type",\n    "required" : false,\n    "multiple" : false\n  } ]\n}
+event-type	\N	Event Type	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "event_type",\n    "required" : false,\n    "multiple" : false\n  } ]\n}
 meta	\N	Meta	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "string",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "value",\n    "fieldType" : "string",\n    "required" : false,\n    "multiple" : true\n  } ]\n}
 \.
 

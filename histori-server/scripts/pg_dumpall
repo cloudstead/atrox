@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# Parallel pg_dump
+#
+#
+
+function die {
+  echo 1>&2 "${1}"
+  exit 1
+}
+
+COUNT="${1:?no count given}" ; shift
+OUTPUT_DIR="${1:?no output dir given}" ; shift
+
+mkdir -p ${OUTPUT_DIR} || die "Error creating output directory: ${OUTPUT_DIR}"
+
+OPTS=""
+if [ ! -z "${1}" ] ; then
+  OPTS="${@}"
+fi
+
+i=0
+while [ ${i} -lt ${COUNT} ] ; do
+  echo "dumping: histori_${i}"
+  pg_dump ${OPTS} -U histori histori_${i} > ${OUTPUT_DIR}/histori_${i}.pgdump.sql
+  i=$((i + 1))
+done
+
+echo "dumping: histori_master"
+pg_dump  ${OPTS} -U histori histori_master > ${OUTPUT_DIR}/histori_master.pgdump.sql

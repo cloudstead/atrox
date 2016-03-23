@@ -1,0 +1,28 @@
+#!/bin/bash
+#
+# Parallel pg restore
+#
+#
+
+function die {
+  echo 1>&2 "${1}"
+  exit 1
+}
+
+COUNT="${1:?no count given}" ; shift
+INPUT_DIR="${1:?no input dir given}" ; shift
+
+OPTS=""
+if [ ! -z "${1}" ] ; then
+  OPTS="${@}"
+fi
+
+i=0
+while [ ${i} -lt ${COUNT} ] ; do
+  echo "restoring: histori_${i}"
+  cat ${INPUT_DIR}/histori_${i}.pgdump.sql | psql ${OPTS} -U histori histori_${i}
+  i=$((i + 1))
+done
+
+echo "restoring: histori_master"
+cat ${INPUT_DIR}/histori_master.pgdump.sql | psql ${OPTS} -U histori histori_master

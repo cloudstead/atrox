@@ -141,7 +141,9 @@ function doSearch (id) {
         query: query
     };
     Histori.save_session_state();
-    Api.find_nexuses(id, search, function () {showLoadingSpinner(id)}, update_map(id));
+    // todo: fail function should highlight search marker with an error, and show error icon next to search icon (where spinner appears)
+    Api.find_nexuses(id, search, function () {showLoadingSpinner(id)}, update_map(id),
+        function () { console.log("search failed: "+id); update_map(id) });
 }
 
 function getColorFromImage (src) {

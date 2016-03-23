@@ -52,17 +52,20 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
         if (empty(searchQuery.getQuery())) return NO_RESULTS;
 
         final NexusEntityFilter entityFilter = new NexusEntityFilter(searchQuery.getQuery(), getFilterCache(), tagDAO, tagTypeDAO);
-        final NexusSearchResults nexusResults = new NexusSearchResults(nexusDAO,
+        final NexusSearchResults nexusResults = new NexusSearchResults(account,
+                                                                       nexusDAO,
+                                                                       searchQuery,
                                                                        entityFilter,
-                                                                       searchQuery.getNexusComparator(),
-                                                                       MAX_SEARCH_RESULTS,
-                                                                       searchQuery.getBlockedOwnersList());
+                                                                       MAX_SEARCH_RESULTS);
 
         // todo: check cache for cached value. if not cached, store result in cache
         // todo: check to see if SuperNexusDAO is already searching for this same query, if so piggyback on result
 
         final SuperNexusSummaryShardSearch search = new SuperNexusSummaryShardSearch(account, searchQuery, nexusResults);
         final List<NexusSummary> searchResults = superNexusDAO.search(search);
+        for (NexusSummary summary : searchResults) {
+            summary.initUuid(account, searchQuery.getVisibility());
+        }
 
         return new SearchResults<>(searchResults);
     }

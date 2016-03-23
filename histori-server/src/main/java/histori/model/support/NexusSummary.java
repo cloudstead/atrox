@@ -11,20 +11,14 @@ import lombok.experimental.Accessors;
 import org.cobbzilla.wizard.dao.SearchResults;
 import org.cobbzilla.wizard.model.ExpirableBase;
 
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
-import java.util.SortedSet;
 
-import static histori.model.support.EntityVisibility.everyone;
 import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
 
 @Accessors(chain=true) @NoArgsConstructor
 public class NexusSummary extends ExpirableBase {
 
     public static final JavaType SEARCH_RESULT_TYPE = new NexusSummary().getSearchResultType();
-
-    public NexusSummary (String uuid) { setUuid(uuid); }
 
     public static Comparator<NexusSummary> comparator (SearchSortOrder sort) {
         switch (sort) {
@@ -37,38 +31,11 @@ public class NexusSummary extends ExpirableBase {
         }
     }
 
-    public static NexusSummary simpleSummary(SortedSet<Nexus> group) {
-        boolean first = true;
-        final List<String> others = new ArrayList<>();
-        for (Nexus n : group) {
-            if (!first) others.add(n.getUuid());
-            first = false;
-        }
-
-        return new NexusSummary("incomplete-"+summaryUuid(group.first()))
-                .setIncomplete(true)
-                .setPrimary(group.first())
-                .setOthers(others.toArray(new String[others.size()]))
-                .setTotalCount(group.size());
+    public void initUuid(Account account, EntityVisibility visibility) {
+        setUuid("account:" + (account == null ? "null" : account.getUuid())
+                + "-" + sha256_hex(primary.getCanonicalName())
+                + "-" + visibility.name());
     }
-
-    public static NexusSummary simpleSummary(Nexus nexus) {
-        return new NexusSummary("incomplete-"+summaryUuid(nexus))
-                .setIncomplete(true)
-                .setPrimary(nexus);
-    }
-
-    public static String summaryUuid(SortedSet<Nexus> group, Account account, EntityVisibility visibility) {
-        return summaryUuid(group.first(), account, visibility);
-    }
-
-    public static String summaryUuid(Nexus nexus, Account account, EntityVisibility visibility) {
-        return "account:" + (account == null ? "null" : account.getUuid())
-                + "-" + sha256_hex(nexus.getName())
-                + "-" + visibility.name();
-    }
-
-    public static String summaryUuid(Nexus nexus) { return summaryUuid(nexus, null, everyone); }
 
     @JsonIgnore public JavaType getSearchResultType() { return SearchResults.jsonType(getClass()); }
 

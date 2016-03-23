@@ -167,7 +167,7 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
         return this;
     }
 
-    public boolean hasTags () { return !empty(tags) && !empty(tagsJson); }
+    public boolean hasTags () { return !empty(tags) || !empty(tagsJson); }
 
     public NexusBase addTag (NexusTag tag) {
         if (tags == null) tags = new ArrayList<>();

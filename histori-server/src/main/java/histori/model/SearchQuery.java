@@ -100,6 +100,8 @@ public class SearchQuery extends IdentifiableBase {
         return blockedOwnersList;
     }
 
+    public boolean hasBlockedOwner(String owner) { return hasBlockedOwners() && getBlockedOwnersList().contains(owner); }
+
     // How to sort different nexuses that have the same name
     @Transient @JsonIgnore public Comparator<NexusView> getNexusComparator() { return new NexusComparator(); }
 

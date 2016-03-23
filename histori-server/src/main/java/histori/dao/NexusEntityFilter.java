@@ -64,6 +64,10 @@ public class NexusEntityFilter implements EntityFilter<NexusView> {
 
     @Override public boolean isAcceptable(NexusView nexus) {
 
+        if (nexus instanceof SuperNexus) {
+            // SuperNexus matches everything -- we only apply the EntityFilter to the top-matched Nexus within the SuperNexus
+            return true;
+        }
         if (empty(terms)) return false; // empty query matches nothing (note: used to match everything)
 
         if (terms.size() == 1 && terms.first().equals("*")) return true; // now a single '*' matches everything
@@ -165,7 +169,7 @@ public class NexusEntityFilter implements EntityFilter<NexusView> {
         for (NexusTag nexusTag : nexusTags) {
 
             // tag name match is fuzzy
-            final Tag tag = tagDAO.findByCanonicalName(nexusTag.getTagName());
+            final Tag tag = tagDAO.findByCanonicalName(nexusTag.getCanonicalName());
             if (tag != null && fuzzyMatch(tag.getName(), term)) return true;
 
             // type match must be exact (ignoring case)
