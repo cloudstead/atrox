@@ -13,7 +13,7 @@ Now that it's uncompressed, you'll need to index it. This creates one file per W
 To index it, create a directory to contain the index. This directory should be on a filesystem with at least 300GB of free space and 
 at least 40 million free inodes.
 
-    cat uncompressed-wikipedia-archive.xml | ./run.sh index --wiki /path/to/wiki/index
+    cat uncompressed-wikipedia-archive.xml | ./run.sh index --wiki-dir /path/to/wiki/index
 
 Now /path/to/wiki/index contains your own private copy of Wikipedia!
 
@@ -24,7 +24,7 @@ To determine which articles you might want to import, you'll filter the archive 
 For example, to find all battles, run:
 
     cat uncompressed-wikipedia-archive.xml | ./run.sh index \
-        --wiki /path/to/wiki/index \
+        --wiki-dir /path/to/wiki/index \
         --filter histori.wiki.linematcher.MilitaryConflictInfoboxLineMatcher \
         --filter-log battles.txt
 
@@ -36,7 +36,7 @@ To implement your own matchers, create a class that extends `histori.wiki.linema
 implementation, like `RegexLineMatcher`, for example:
 
     cat uncompressed-wikipedia-archive.xml | ./run.sh index \
-        --wiki /path/to/wiki/index \
+        --wiki-dir /path/to/wiki/index \
         --filter histori.wiki.linematcher.RegexLineMatcher \
         --filter-args 'regex-goes-here'
         --filter-log matched-titles.txt
@@ -56,7 +56,7 @@ Create a directory to hold the created nexuses, for example `/path/to/nexus`
 Now let's run the nexus creator:
 
     cat matched-titles.txt | ./run.sh nexus \
-      --wiki /path/to/wiki/index \
+      --wiki-dir /path/to/wiki/index \
       --output-dir /path/to/nexus
 
 The nexus creator will read each title from `matched-titles.txt`, parse the article from the wiki index, and attempt to create a nexus JSON file from it.
