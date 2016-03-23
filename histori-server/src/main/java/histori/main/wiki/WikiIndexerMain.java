@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.Set;
 
+import static histori.wiki.WikiXmlParseState.*;
 import static org.cobbzilla.util.daemon.ZillaRuntime.now;
 import static org.cobbzilla.util.io.FileUtil.abs;
 
@@ -88,7 +89,7 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
         final int stopLines = opts.getStopLines();
         final LineMatcher lineMatcher = opts.getLineMatcher();
 
-        WikiXmlParseState parseState = WikiXmlParseState.seeking_page;
+        WikiXmlParseState parseState = seeking_page;
         WikiArticle article = new WikiArticle();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
@@ -97,7 +98,7 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
             while ((line = reader.readLine()) != null) {
                 lineCount++;
                 if (stopLines > 0 && lineCount - skipLines > stopLines) {
-                    if (parseState == WikiXmlParseState.seeking_page) {
+                    if (parseState == seeking_page) {
                         out("reached limit of " + stopLines + " lines of data, exiting");
                         break;
                     }
@@ -110,7 +111,7 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                         if (line.equals(PAGE_TAG)) {
                             if (++pageCount % 1000 == 0) out("handling page # "+pageCount);
                             if (pageCount > skipPages) {
-                                parseState = WikiXmlParseState.seeking_title;
+                                parseState = seeking_title;
                             } else {
                                 if (pageCount % 1000 == 0) out("skipped "+pageCount+" articles: "+now());
                                 continue;
@@ -123,11 +124,11 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                             String title = line.replace(TITLE_TAG_OPEN, "").replace(TITLE_TAG_CLOSE, "");
                             if (limitArticles != null && !limitArticles.contains(title)) {
                                 article = new WikiArticle();
-                                parseState = WikiXmlParseState.seeking_page;
+                                parseState = seeking_page;
                                 continue;
                             }
                             article.setTitle(title);
-                            parseState = WikiXmlParseState.seeking_text;
+                            parseState = seeking_text;
                         }
                         continue;
 
@@ -136,12 +137,12 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                             if (!line.endsWith(TEXT_TAG_CLOSE)) {
                                 if (lineMatcher != null && lineMatcher.matches(line)) {
                                     logMatch(article.getTitle());
-                                    parseState = WikiXmlParseState.seeking_page;
+                                    parseState = seeking_page;
                                     continue;
                                 } else if (lineMatcher == null) {
                                     article.addText(line.substring(line.indexOf(">") + 1));
                                 }
-                                parseState = WikiXmlParseState.seeking_text_end;
+                                parseState = seeking_text_end;
                             } else {
                                 // otherwise, this is a single-line entry
                                 line = line.substring(line.indexOf(">") + 1);
@@ -149,7 +150,7 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
 
                                 if (lineMatcher != null && lineMatcher.matches(line)) {
                                     logMatch(article.getTitle());
-                                    parseState = WikiXmlParseState.seeking_page;
+                                    parseState = seeking_page;
                                     continue;
 
                                 } else if (lineMatcher == null) {
@@ -157,23 +158,22 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                                     store(wiki, article);
                                 }
                                 article = new WikiArticle();
-                                parseState = WikiXmlParseState.seeking_page;
+                                parseState = seeking_page;
                             }
                         }
                         continue;
 
                     case seeking_text_end:
-                        if (line.endsWith(TEXT_TAG_CLOSE)) {
-                            if (lineMatcher != null && lineMatcher.matches(line)) {
-                                logMatch(article.getTitle());
-                                parseState = WikiXmlParseState.seeking_page;
-                                continue;
-                            } else if (lineMatcher == null) {
-                                article.addText("\n" + line.substring(0, line.length() - TEXT_TAG_CLOSE.length()));
-                                store(wiki, article);
-                            }
+                        if (lineMatcher != null && lineMatcher.matches(line)) {
+                            logMatch(article.getTitle());
+                            parseState = seeking_page;
+                            continue;
+
+                        } else if (lineMatcher == null && line.endsWith(TEXT_TAG_CLOSE)) {
+                            article.addText("\n" + line.substring(0, line.length() - TEXT_TAG_CLOSE.length()));
+                            store(wiki, article);
                             article = new WikiArticle();
-                            parseState = WikiXmlParseState.seeking_page;
+                            parseState = seeking_page;
 
                         } else if (lineMatcher == null) {
                             article.addText("\n"+line);
