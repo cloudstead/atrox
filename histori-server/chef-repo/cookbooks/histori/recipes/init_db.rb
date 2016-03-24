@@ -4,8 +4,9 @@
 #
 # Todo: add databag options to specify EBS volume
 # If present:
-#   - create ext4 filesystem on device (device name from databag?)
-#   - mount with options: noatime,data=writeback,barrier=0,nobh,errors=remount-ro
+#   - create and mount ext4 filesystem on device (device name from databag?)
+#   -   mke2fs -t ext4 -i 2048 -b 1024 /dev/xvdX
+#   -   mount -o noatime,data=writeback,barrier=0,nobh,errors=remount-ro /dev/xvdX /mnt/path
 #   - stop postgresql
 #   - rsync postgresql directory to new volume and symlink old location (cd /var/lib && mv postgresql postgresql.old && ln -s /mnt/ebs/vol-b1867172/postgresql)
 #   - restart postgresql

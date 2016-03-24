@@ -11,6 +11,7 @@ import org.cobbzilla.wizard.main.MainBase;
 
 import java.util.Map;
 
+// todo: add "--help" and "-h" commands, to display help for all commands or a specific command
 public class HistoriMain {
 
     private static Map<String, Class<? extends MainBase>> mainClasses = MapBuilder.build(new Object[][]{

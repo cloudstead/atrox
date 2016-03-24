@@ -46,7 +46,7 @@ public class WikiArchive {
     public void store(WikiArticle article) throws Exception {
         final String articlePath = getArticlePath(article.getTitle());
         if (articlePath == null) {
-            log.warn("refusing to index: "+article.getTitle());
+            // log.info("refusing to index: "+article.getTitle());
             return;
         }
         storage.store(new StringInputStream(toJsonOrDie(article)), articlePath, articlePath);
