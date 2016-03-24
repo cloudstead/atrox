@@ -17,6 +17,12 @@ at least 40 million free inodes.
 
 Now /path/to/wiki/index contains your own private copy of Wikipedia!
 
+The above command to create the index will take many hours (even days) to complete. If you want things to go faster, consider
+running multiple commands in parallel, using the `-s`/`--skip-lines` and `-S`/`--stop-lines` options. The dumpfile above
+has lines. You can divide by the number of parallel jobs, and start each job at a multiple of that line count. The indexer will
+stop after it has completed the last article that begins before the line number specified by `-S`/`--stop-lines`. This way, you
+will not lose any articles if they cross a boundary.
+
 ## Filtering
 
 To determine which articles you might want to import, you'll filter the archive to find articles that match certain patterns.
