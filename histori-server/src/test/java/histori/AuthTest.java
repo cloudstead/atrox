@@ -13,7 +13,6 @@ import org.junit.Test;
 import static cloudos.resources.AuthResourceBase.*;
 import static histori.ApiConstants.ACCOUNTS_ENDPOINT;
 import static histori.ApiConstants.EP_LOGIN;
-import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJson;
 import static org.cobbzilla.wizardtest.RandomUtil.randomEmail;
 import static org.cobbzilla.wizardtest.RandomUtil.randomName;
@@ -54,7 +53,7 @@ public class AuthTest extends ApiClientTestBase {
         get(ACCOUNTS_ENDPOINT + EP_ACTIVATE + "/" + token);
 
         apiDocs.addNote("Retrieve account information, email should now be activated");
-        final Account account = fromJson(get(ACCOUNTS_ENDPOINT).json, Account.class);
+        final Account account = get(ACCOUNTS_ENDPOINT, Account.class);
         assertEquals(email, account.getEmail());
         assertTrue(account.isEmailVerified());
     }
@@ -98,7 +97,7 @@ public class AuthTest extends ApiClientTestBase {
 
         apiDocs.addNote("Try to login with the new password, success");
         loginRequest.setPassword(newPassword);
-        response = fromJson(post(ACCOUNTS_ENDPOINT + EP_LOGIN, toJson(loginRequest)).json, AccountAuthResponse.class);
+        response = post(ACCOUNTS_ENDPOINT + EP_LOGIN, loginRequest, AccountAuthResponse.class);
         assertEquals(account.getUuid(), response.getAccount().getUuid());
     }
 

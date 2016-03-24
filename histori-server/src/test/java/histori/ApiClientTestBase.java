@@ -31,8 +31,6 @@ import java.util.Map;
 import static histori.ApiConstants.*;
 import static histori.model.support.TimePoint.TP_SEP;
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
-import static org.cobbzilla.util.json.JsonUtil.fromJson;
-import static org.cobbzilla.util.json.JsonUtil.toJson;
 import static org.cobbzilla.util.string.StringUtil.urlEncode;
 import static org.cobbzilla.wizardtest.RandomUtil.randomName;
 import static org.junit.Assert.assertEquals;
@@ -79,7 +77,7 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
     public static final String REGISTER_URL = ACCOUNTS_ENDPOINT + EP_REGISTER;
 
     public AccountAuthResponse register(RegistrationRequest request) throws Exception {
-        AccountAuthResponse response = fromJson(post(REGISTER_URL, toJson(request)).json, AccountAuthResponse.class);
+        AccountAuthResponse response = post(REGISTER_URL, request, AccountAuthResponse.class);
         if (response != null) pushToken(response.getSessionId());
         return response;
     }
@@ -135,7 +133,7 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
     public Nexus createNexus(Nexus nexus) throws Exception { return createNexus(nexus.getName(), nexus); }
 
     public Nexus createNexus(String nexusName, Nexus nexus) throws Exception {
-        Nexus createdNexus = fromJson(post(NEXUS_ENDPOINT+"/"+urlEncode(nexusName), toJson(nexus)).json, Nexus.class);
+        Nexus createdNexus = post(NEXUS_ENDPOINT+"/"+urlEncode(nexusName), nexus);
         assertEquals(nexusName, createdNexus.getName());
         return createdNexus;
     }

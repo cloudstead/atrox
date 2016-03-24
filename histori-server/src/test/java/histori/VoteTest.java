@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import static histori.ApiConstants.*;
 import static org.cobbzilla.util.http.HttpStatusCodes.NOT_FOUND;
-import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.junit.Assert.assertEquals;
 
 public class VoteTest extends ApiClientTestBase {
@@ -34,19 +33,19 @@ public class VoteTest extends ApiClientTestBase {
         assertEquals(NOT_FOUND, doGet(VOTES_ENDPOINT+"/"+nexus.getUuid()).status);
 
         apiDocs.addNote("Upvote");
-        vote = fromJson(post(upvoteUri(nexus), null).json, Vote.class);
+        vote = post(upvoteUri(nexus), null, Vote.class);
         assertEquals(1, vote.getVote());
 
         apiDocs.addNote("View vote on nexus, should be upvote");
-        vote = fromJson(get(voteUri).json, Vote.class);
+        vote = get(voteUri, Vote.class);
         assertEquals(1, vote.getVote());
 
         apiDocs.addNote("Downvote");
-        vote = fromJson(post(downvoteUri(nexus), null).json, Vote.class);
+        vote = post(downvoteUri(nexus), null, Vote.class);
         assertEquals(-1, vote.getVote());
 
         apiDocs.addNote("View vote on nexus, should be downvote");
-        vote = fromJson(get(voteUri).json, Vote.class);
+        vote = get(voteUri, Vote.class);
         assertEquals(-1, vote.getVote());
 
         apiDocs.addNote("Delete vote");
@@ -56,11 +55,11 @@ public class VoteTest extends ApiClientTestBase {
         assertEquals(NOT_FOUND, doGet(voteUri).status);
 
         apiDocs.addNote("Upvote again");
-        vote = fromJson(post(upvoteUri(nexus), null).json, Vote.class);
+        vote = post(upvoteUri(nexus), null, Vote.class);
         assertEquals(1, vote.getVote());
 
         apiDocs.addNote("View vote on nexus, should be upvote");
-        vote = fromJson(get(voteUri).json, Vote.class);
+        vote = get(voteUri, Vote.class);
         assertEquals(1, vote.getVote());
 
         // todo: check voting history? ensure it looks correct

@@ -16,8 +16,6 @@ import static histori.model.CanonicalEntity.canonicalize;
 import static histori.model.TagType.EVENT_TYPE;
 import static org.cobbzilla.util.daemon.ZillaRuntime.now;
 import static org.cobbzilla.util.http.HttpStatusCodes.NOT_FOUND;
-import static org.cobbzilla.util.json.JsonUtil.fromJson;
-import static org.cobbzilla.util.json.JsonUtil.toJson;
 import static org.cobbzilla.util.string.StringUtil.urlEncode;
 import static org.cobbzilla.util.system.Sleep.sleep;
 import static org.cobbzilla.wizardtest.RandomUtil.randomName;
@@ -71,14 +69,14 @@ public class NexusTest extends ApiClientTestBase {
         final String nexusPath = NEXUS_ENDPOINT + "/" + urlEncode(createdNexus.getName());
 
         apiDocs.addNote("Lookup the Nexus we created by name");
-        found = fromJson(get(nexusPath).json, Nexus.class);
+        found = get(nexusPath, Nexus.class);
         assertEquals(nexusName, found.getName());
         assertEquals(3, found.getTags().size());
         assertEquals(markdown, found.getMarkdown());
 
         apiDocs.addNote("Verify that new tags are now present in the system");
         String tagUri = TAGS_ENDPOINT + EP_TAG + "/" + urlEncode("~"+tag2);
-        Tag tag = fromJson(get(tagUri).json, Tag.class);
+        Tag tag = get(tagUri, Tag.class);
         assertEquals(canonicalize(tag2), tag.getCanonicalName());
 
         apiDocs.addNote("Search for nexus in the same range, should see our new nexus");
@@ -93,17 +91,17 @@ public class NexusTest extends ApiClientTestBase {
         nexus.setName(updatedName);
         nexus.setMarkdown(markdown + " -- update");
         final String updatedNexusPath = NEXUS_ENDPOINT + "/" + urlEncode(nexus.getName());
-        Nexus updatedNexus = fromJson(post(updatedNexusPath, toJson(nexus)).json, Nexus.class);
+        Nexus updatedNexus = post(updatedNexusPath, nexus);
         assertEquals(updatedName, updatedNexus.getName());
         assertNotEquals(updatedNexus.getUuid(), createdNexus.getUuid());
 
         apiDocs.addNote("Add another tag - this will create another version of the nexus");
         String tag4 = "Foobar";
         nexus.addTag(tag4);
-        updatedNexus = fromJson(post(updatedNexusPath, toJson(nexus)).json, Nexus.class);
+        updatedNexus = post(updatedNexusPath, nexus);
 
         apiDocs.addNote("Lookup the Nexus we updated by uuid, verify updated changes");
-        found = fromJson(get(updatedNexusPath).json, Nexus.class);
+        found = get(updatedNexusPath, Nexus.class);
         assertEquals(updatedName, found.getName());
         assertEquals(4, found.getTags().size());
         assertTrue(found.hasTag(tag4));
@@ -112,14 +110,14 @@ public class NexusTest extends ApiClientTestBase {
         apiDocs.addNote("Update a tag");
         final String tagComments = randomName();
         found.getFirstTag(tag4).setValue("meta", tagComments);
-        updatedNexus = fromJson(post(updatedNexusPath, toJson(found)).json, Nexus.class);
+        updatedNexus = post(updatedNexusPath, found);
 
         apiDocs.addNote("Lookup Nexus again, verify updated tag");
-        found = fromJson(get(updatedNexusPath).json, Nexus.class);
+        found = get(updatedNexusPath, Nexus.class);
         assertEquals(tagComments, found.getFirstTag(tag4.toLowerCase()).getSchemaValueMap().get("meta"));
 
         apiDocs.addNote("Lookup previous versions, there should now be 2");
-        NexusArchive[] archives = fromJson(get(ARCHIVES_ENDPOINT+"/Nexus/"+found.getUuid()).json, NexusArchive[].class);
+        NexusArchive[] archives = get(ARCHIVES_ENDPOINT+"/Nexus/"+found.getUuid(), NexusArchive[].class);
         assertEquals(2, archives.length);
 
         apiDocs.addNote("Delete the nexus");
@@ -144,18 +142,18 @@ public class NexusTest extends ApiClientTestBase {
 
         apiDocs.addNote("Verify that tags are still present in the system");
         tagUri = TAGS_ENDPOINT + EP_TAG + "/" + urlEncode("~"+urlEncode(tag3));
-        tag = fromJson(get(tagUri).json, Tag.class);
+        tag = get(tagUri, Tag.class);
         assertEquals(canonicalize(tag3), tag.getCanonicalName());
 
         apiDocs.addNote("Test resolving several tags at once. Try to resolve 4, only 3 will have a type");
-        Tag[] tags = fromJson(post(TAGS_ENDPOINT+"/"+EP_RESOLVE, toJson(new String[] {tag1, tag2, tag3, tag4.toLowerCase()})).json, Tag[].class);
+        Tag[] tags = post(TAGS_ENDPOINT+"/"+EP_RESOLVE, new String[] {tag1, tag2, tag3, tag4.toLowerCase()}, Tag[].class);
         assertEquals(4, tags.length);
         int numberMissingType = 0;
         for (Tag t : tags) if (!t.hasTagType()) numberMissingType++;
         assertEquals(1, numberMissingType);
 
         apiDocs.addNote("Find all tag types");
-        final TagType[] tagTypes = fromJson(get(TAG_TYPES_ENDPOINT).json, TagType[].class);
+        final TagType[] tagTypes = get(TAG_TYPES_ENDPOINT, TagType[].class);
         assertEquals(9, tagTypes.length);
 
         final String autocompleteUri = TAGS_ENDPOINT + EP_AUTOCOMPLETE;
@@ -163,15 +161,15 @@ public class NexusTest extends ApiClientTestBase {
         AutocompleteSuggestions autoComplete;
 
         apiDocs.addNote("Test autocomplete for any tag");
-        autoComplete = fromJson(get(autocompleteUri + acQuery).json, AutocompleteSuggestions.class);
+        autoComplete = get(autocompleteUri + acQuery, AutocompleteSuggestions.class);
         assertEquals(8, autoComplete.getSuggestions().size());
 
         apiDocs.addNote("Test autocomplete for only event_type tags");
-        autoComplete = fromJson(get(autocompleteUri +"/Event_type" + acQuery).json, AutocompleteSuggestions.class);
+        autoComplete = get(autocompleteUri +"/Event_type" + acQuery, AutocompleteSuggestions.class);
         assertEquals(3, autoComplete.getSuggestions().size());
 
         apiDocs.addNote("Test autocomplete for only tags without a type");
-        autoComplete = fromJson(get(autocompleteUri +"/" + MATCH_NULL_TYPE + acQuery).json, AutocompleteSuggestions.class);
+        autoComplete = get(autocompleteUri +"/" + MATCH_NULL_TYPE + acQuery, AutocompleteSuggestions.class);
         assertEquals(1, autoComplete.getSuggestions().size());
     }
 
@@ -200,7 +198,7 @@ public class NexusTest extends ApiClientTestBase {
         final String nexusPath = NEXUS_ENDPOINT + "/" + createdNexus.getUuid();
 
         apiDocs.addNote("Lookup the Nexus we created by name, verify it has a single event_type tag");
-        found = fromJson(get(NEXUS_ENDPOINT+"/"+urlEncode(nexus.getName())).json, Nexus.class);
+        found = get(NEXUS_ENDPOINT+"/"+urlEncode(nexus.getName()), Nexus.class);
         assertEquals(nexusName, found.getName());
         assertEquals(nexusType, found.getNexusType());
         assertEquals(1, found.getTags().size());
@@ -210,7 +208,7 @@ public class NexusTest extends ApiClientTestBase {
         apiDocs.addNote("Update our nexus with a new nexusType, this should create another event_type tag");
         final String updatedType = nexusType + " -- update";
         nexus.setNexusType(updatedType);
-        final Nexus updatedNexus = fromJson(post(nexusPath, toJson(nexus)).json, Nexus.class);
+        final Nexus updatedNexus = post(nexusPath, nexus);
         assertEquals(updatedType, updatedNexus.getNexusType());
         assertEquals(2, updatedNexus.getTags().size());
         final List<NexusTag> typeTags = NexusTag.filterByType(updatedNexus.getTags(), EVENT_TYPE);
@@ -252,7 +250,7 @@ public class NexusTest extends ApiClientTestBase {
         final String markdown = randomName();
         createdNexus.setMarkdown(markdown);
         createdNexus.setVisibility(EntityVisibility.everyone);
-        final Nexus updatedNexus = fromJson(post(nexusPath, toJson(createdNexus)).json, Nexus.class);
+        final Nexus updatedNexus = post(nexusPath, createdNexus);
         assertNotEquals(createdNexus.getUuid(), updatedNexus.getUuid());
         assertEquals(markdown, updatedNexus.getMarkdown());
 

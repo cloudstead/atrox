@@ -19,7 +19,6 @@ import java.util.concurrent.TimeUnit;
 
 import static histori.ApiConstants.*;
 import static org.cobbzilla.util.http.HttpStatusCodes.NOT_FOUND;
-import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -86,7 +85,7 @@ public class VoteSummaryTest extends ApiClientTestBase {
         if (ZillaRuntime.now() > start + SUMMARY_CALC_TIMEOUT) fail("timeout awaiting vote summary calculation for: "+uuid);
 
         apiDocs.addNote("Get vote summary for a single nexus, should return valid summary from redis");
-        final VoteSummary summary = fromJson(get(voteUri+EP_SUMMARY).json, VoteSummary.class);
+        final VoteSummary summary = get(voteUri+EP_SUMMARY, VoteSummary.class);
         assertEquals(expectedTallies.get(uuid), (Long) summary.getTally());
 
         apiDocs.addNote("Search in the time range of the nexuses, should see vote summaries for all three");

@@ -78,7 +78,7 @@ public class WikiArchive {
 
     private static boolean isIndexable(String title) {
         title = title.toLowerCase().trim();
-        for (String skip : SKIP_INDEX_PREFIXES) if (title.startsWith(skip)) return false;
+        for (String skip : SKIP_INDEX_PREFIXES) if (title.startsWith(skip.toLowerCase())) return false;
         return true;
     }
 

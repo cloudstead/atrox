@@ -2,6 +2,14 @@
 # Cookbook Name:: histori
 # Recipe:: init_db
 #
+# Todo: add databag options to specify EBS volume
+# If present:
+#   - create ext4 filesystem on device (device name from databag?)
+#   - mount with options: noatime,data=writeback,barrier=0,nobh,errors=remount-ro
+#   - stop postgresql
+#   - rsync postgresql directory to new volume and symlink old location (cd /var/lib && mv postgresql postgresql.old && ln -s /mnt/ebs/vol-b1867172/postgresql)
+#   - restart postgresql
+#
 require 'tempfile'
 
 def setup_db (chef, dbname, dbuser, dbpass)
