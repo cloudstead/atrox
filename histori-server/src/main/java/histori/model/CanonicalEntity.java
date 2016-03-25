@@ -23,7 +23,9 @@ public abstract class CanonicalEntity implements Identifiable {
 
     public CanonicalEntity(String name) { setName(name); }
 
-    @Override public void beforeCreate() { if (empty(getName())) throw invalidEx("err.name.required", "Name is required"); }
+    @Override public void beforeCreate() { checkName(); }
+    @Override public void beforeUpdate() { checkName(); }
+    public void checkName() { if (empty(getName())) throw invalidEx("err.name.required", "Name is required"); }
 
     @Id @Column(length=NAME_MAXLEN, unique=true, nullable=false, updatable=false)
     private String canonicalName;

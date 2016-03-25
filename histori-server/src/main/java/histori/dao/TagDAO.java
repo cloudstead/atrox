@@ -136,10 +136,9 @@ public class TagDAO extends ShardedEntityDAO<Tag, TagShardDAO> {
             final List<Tag> tags;
             if (matchType == null) {
                 tags = findByFieldLike("canonicalName", canonicalize(nameFragment)+"%");
-            } else if (matchType.equals(ApiConstants.MATCH_NULL_TYPE)) {
-                tags = findByFieldNullAndFieldLike("tagType", "canonicalName", canonicalize(nameFragment) + "%");
             } else {
-                tags = findByFieldEqualAndFieldLike("tagType", canonicalize(matchType), "canonicalName", canonicalize(nameFragment) + "%");
+                final String tagType = matchType.equals(ApiConstants.MATCH_NULL_TYPE) ? null : canonicalize(matchType);
+                tags = findByFieldEqualAndFieldLike("tagType", tagType, "canonicalName", canonicalize(nameFragment) + "%");
             }
             for (Tag tag : tags) suggestions.add(tag.getName(), tag.getTagType());
             return suggestions;
