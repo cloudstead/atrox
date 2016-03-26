@@ -242,3 +242,7 @@
 # Showdown
   * Site: https://github.com/showdownjs/showdown
   * License: https://raw.githubusercontent.com/showdownjs/showdown/master/license.txt
+
+# Image of Earth in logo
+  * Site: https://commons.wikimedia.org/wiki/File:The_Earth_seen_from_Apollo_17.jpg
+  * License: Public Domain
