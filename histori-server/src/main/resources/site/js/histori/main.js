@@ -117,6 +117,7 @@ function initMap () {
         closeNexusDetails();
         closeForm(activeForm);
         $('.ui-tooltip').css('visibility', 'hidden');
+        $('.quick-help').css('visibility', 'hidden');
 
         // disabled for now until we implement geo creation properly
         if (1 == 1) return;

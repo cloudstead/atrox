@@ -1,3 +1,11 @@
+html, body {
+    font-family: Tahoma,sans-serif;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
 .mode_button {
     height: 20px;
     width: 120px;
@@ -6,6 +14,10 @@
 .bigbuttonicon {
     font-size: large;
     font-weight: bold;
+}
+
+a {
+    text-decoration: none;
 }
 
 input[type=file] {
@@ -352,4 +364,48 @@ a:hover a:active {
 .permalinkBookmarkIcon {
     padding: 5px;
     vertical-align: middle;
+}
+
+.quick-help {
+    font-family: Tahoma,sans-serif;
+    font-size: x-small;
+    visibility: hidden;
+    border: 2px solid darkorange;
+    background-color: whitesmoke;
+    padding: 5px 10px 10px 10px;
+}
+
+#helpContainer {
+    font-family: Tahoma,sans-serif;
+    z-index: -1;
+    background-color: whitesmoke;
+    pointer-events: visible;
+    border: 2px solid black;
+    padding: 5px;
+    width: 60%;
+    height: 60%;
+    overflow: auto;
+}
+
+#helpContainer_logo {
+    position: relative;
+    top: 5px;
+    left: 5px;
+}
+
+#helpContainer_quickHelp {
+    position: relative;
+}
+
+#helpContainer_topics {
+    width: 30%;
+    position: relative;
+    left: 0;
+    top: 0;
+}
+
+#helpContainer_iframe {
+    width: 65%;
+    position: relative;
+    overflow-y: auto;
 }

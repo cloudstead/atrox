@@ -3,6 +3,14 @@
 histori.city offers a number of command-line tools for importing data from Wikipedia.
 
 To use these tools, first download an archive copy of the English language Wikipedia, available from the Wikipedia website.
+
+## Preparing a disk
+
+To be safe, have a filesystem with 300GB of space and 100M inodes. Mount the device for maximum speed.
+For Linux, these commands are good if your filesystem is at least 250GB in size:
+
+    mke2fs -t ext4 -i 2048 -b 1024 /dev/your_device_name
+    mount -o noatime,data=writeback,barrier=0,nobh,errors=remount-ro /dev/your_device_name /mnt/path
  
 ## Indexing
 

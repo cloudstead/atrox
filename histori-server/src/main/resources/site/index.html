@@ -10,12 +10,6 @@
 
     <meta charset="utf-8">
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
         a:link a:visited {
             text-decoration: none;
             color: black;
@@ -34,6 +28,12 @@
 <body class="stop-scrolling">
 
 <div id="map"></div>
+<div class="quick-help" id="help-center_map">
+    <h2>Quick Help</h2>
+    <hr/>
+    <h3>Look around the screen for help boxes with a border like this one</h3>
+    <p>Click anywhere on the map to dismiss the help boxes.</p>
+</div>
 
 <div id="mapImageContainer">
     <div class="mapImageControl">
@@ -92,6 +92,14 @@
     </tr>
 </table>
 </div>
+<div class="quick-help" id="help-top-left_sliderContainer">
+    <h3 >To change the time range</h3>
+    <hr/>
+        Use the <button onclick="slider.edit_start();" title="set start date">start</button> or <button onclick="slider.edit_end();" title="set end date">end</button> buttons, or
+    <br/>
+        position the slide controls, then click <button onclick="slider.zoom_in();" title="zoom to dates set with slider controls">zoom&gt;&gt;&gt;</button>
+        to zoom in to the new time range.
+</div>
 
 <div id="mainControlPanel">
     <table border="0" cellpadding="3">
@@ -100,12 +108,17 @@
               <td><img height="16" style="visibility: hidden" id="mainLoadingSpinner" src="icons/spinner.gif"/>&nbsp;<img class="mainControlButton" title="search" src="iconic/png/magnifying-glass-2x.png" onclick="showSearchOptions();"/></td>
               <td>&nbsp;<img class="mainControlButton" title="Coming Soon! Support for user-contributed updates!" src="iconic/png/plus-2x.png"/></td>
               <td>&nbsp;<img id="btnAccount" class="mainControlButton" title="sign in / sign up" src="iconic/png/person-2x.png" onclick="showLoginForm();"/></td>
-              <td>&nbsp;<img class="mainControlButton" title="Coming Soon! Help and info about histori.city" src="iconic/png/question-mark-2x.png"/></td>
+              <td>&nbsp;<img class="mainControlButton" title="Help and info about histori.city" onclick="showHelp();" src="iconic/png/question-mark-2x.png"/></td>
               <td>&nbsp;<img class="mainControlButton" title="Bookmarks and Sharing" onclick="showBookmarks();" src="iconic/png/star-2x.png"/></td>
               <td>&nbsp;<img class="mainControlButton" title="Interesting Times and Places" onclick="showStandardPermalinks();" src="iconic/png/map-2x.png"/></td>
           </tr>
         </thead>
     </table>
+</div>
+<div class="quick-help" id="help-bottom-left_mainControlPanel">
+    <h3>This is the main control panel</h3>
+    <hr/>
+    Mouse over the icons to see what they do. Click them to do stuff.
 </div>
 
 <div id="standardPermalinksContainer" class="dialogContainer">
@@ -352,6 +365,29 @@
     <input id="colorPickerRowId" type="hidden" name="rowId"/>
 </div>
 
+<div id="helpContainer" class="dialogContainer">
+    <div id="helpContainer_logo">
+      <img src="images/histori.city-256px-transparent.png">
+    </div>
+    <div id="helpContainer_quickHelp">
+      <a href="." onclick="showQuickHelp(); return false;">quick help</a>
+    </div>
+    <div id="helpContainer_topics">
+        <hr/>
+        <a href="help/faq.html" target="helpFrame">common questions</a>
+        <hr/>
+        <a href="help/contact.html" target="helpFrame">get in touch</a>
+        <hr/>
+        <a href="help/bug.html" target="helpFrame">report a bug</a>
+        <hr/>
+        <a href="help/contribute.html" target="helpFrame">contribute to histori.city</a>
+        <hr/>
+    </div>
+    <div id="helpContainer_iframe" style="overflow: auto">
+      <iframe id="helpIframe" class="helpIframe" name="helpFrame" frameborder="0" scrolling="yes" width="100%" height="100%" src="help/faq.html"></iframe>
+    </div>
+</div>
+
 <div>
     <input type="file" id="fileImageUpload"/>
 </div>
@@ -370,6 +406,7 @@
 <script src="js/histori/edit_nexus.js"></script>
 <script src="js/histori/search.js"></script>
 <script src="js/histori/main.js"></script>
+<script src="js/histori/help.js"></script>
 <script type="text/javascript" src="js/jquery.autocomplete.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkjxB2DrMIXcFqK40XjlolSjnMCMF-cAk&callback=init"></script>
 </html>
