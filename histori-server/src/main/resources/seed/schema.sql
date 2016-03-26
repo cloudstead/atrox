@@ -36,6 +36,7 @@ SET default_with_oids = false;
 CREATE TABLE account (
     uuid character varying(100) NOT NULL,
     ctime bigint NOT NULL,
+    mtime bigint NOT NULL,
     name character varying(100),
     admin boolean NOT NULL,
     auth_id character varying(30),
@@ -69,6 +70,7 @@ ALTER TABLE account OWNER TO histori;
 CREATE TABLE audit_log (
     uuid character varying(100) NOT NULL,
     ctime bigint NOT NULL,
+    mtime bigint NOT NULL,
     context character varying(200) NOT NULL,
     name character varying(100) NOT NULL,
     notes character varying(16000) NOT NULL,
@@ -85,6 +87,7 @@ ALTER TABLE audit_log OWNER TO histori;
 CREATE TABLE bookmark (
     uuid character varying(100) NOT NULL,
     ctime bigint NOT NULL,
+    mtime bigint NOT NULL,
     owner character varying(100) NOT NULL,
     json character varying(16000) NOT NULL,
     name character varying(1024) NOT NULL
@@ -100,6 +103,7 @@ ALTER TABLE bookmark OWNER TO histori;
 CREATE TABLE map_image (
     uuid character varying(100) NOT NULL,
     ctime bigint NOT NULL,
+    mtime bigint NOT NULL,
     owner character varying(100) NOT NULL,
     file_name character varying(1024) NOT NULL,
     uri character varying(1024) NOT NULL
@@ -115,6 +119,7 @@ ALTER TABLE map_image OWNER TO histori;
 CREATE TABLE nexus (
     uuid character varying(100) NOT NULL,
     ctime bigint NOT NULL,
+    mtime bigint NOT NULL,
     owner character varying(100) NOT NULL,
     markdown character varying(100000),
     origin character varying(100),
@@ -155,6 +160,7 @@ ALTER TABLE nexus OWNER TO histori;
 CREATE TABLE nexus_archive (
     uuid character varying(100) NOT NULL,
     ctime bigint NOT NULL,
+    mtime bigint NOT NULL,
     owner character varying(100) NOT NULL,
     markdown character varying(100000),
     origin character varying(100),
@@ -195,6 +201,8 @@ ALTER TABLE nexus_archive OWNER TO histori;
 
 CREATE TABLE permalink (
     name character varying(100) NOT NULL,
+    ctime bigint NOT NULL,
+    mtime bigint NOT NULL,
     json character varying(16000) NOT NULL
 );
 
@@ -208,6 +216,7 @@ ALTER TABLE permalink OWNER TO histori;
 CREATE TABLE search_query (
     uuid character varying(100) NOT NULL,
     ctime bigint NOT NULL,
+    mtime bigint NOT NULL,
     blocked_owners character varying(255),
     east double precision NOT NULL,
     north double precision NOT NULL,
@@ -245,6 +254,7 @@ ALTER TABLE search_query OWNER TO histori;
 CREATE TABLE shard (
     uuid character varying(100) NOT NULL,
     ctime bigint NOT NULL,
+    mtime bigint NOT NULL,
     allow_read boolean NOT NULL,
     allow_write boolean NOT NULL,
     logical_end integer NOT NULL,
@@ -263,6 +273,7 @@ ALTER TABLE shard OWNER TO histori;
 CREATE TABLE super_nexus (
     uuid character varying(100) NOT NULL,
     ctime bigint NOT NULL,
+    mtime bigint NOT NULL,
     east double precision NOT NULL,
     north double precision NOT NULL,
     south double precision NOT NULL,
@@ -330,6 +341,7 @@ ALTER TABLE tag_type OWNER TO histori;
 CREATE TABLE vote (
     uuid character varying(100) NOT NULL,
     ctime bigint NOT NULL,
+    mtime bigint NOT NULL,
     owner character varying(100) NOT NULL,
     entity character varying(100) NOT NULL,
     version integer NOT NULL,
@@ -347,6 +359,7 @@ ALTER TABLE vote OWNER TO histori;
 CREATE TABLE vote_archive (
     uuid character varying(100) NOT NULL,
     ctime bigint NOT NULL,
+    mtime bigint NOT NULL,
     owner character varying(100) NOT NULL,
     entity character varying(100) NOT NULL,
     version integer NOT NULL,
@@ -362,7 +375,7 @@ ALTER TABLE vote_archive OWNER TO histori;
 -- Data for Name: account; Type: TABLE DATA; Schema: public; Owner: histori
 --
 
-COPY account (uuid, ctime, name, admin, auth_id, canonical_email, email, email_verification_code, email_verification_code_created_at, email_verified, first_name, hashed_password, reset_token, reset_token_ctime, last_login, last_name, locale, mobile_phone, mobile_phone_country_code, suspended, two_factor, anonymous, subscriber) FROM stdin;
+COPY account (uuid, ctime, mtime, name, admin, auth_id, canonical_email, email, email_verification_code, email_verification_code_created_at, email_verified, first_name, hashed_password, reset_token, reset_token_ctime, last_login, last_name, locale, mobile_phone, mobile_phone_country_code, suspended, two_factor, anonymous, subscriber) FROM stdin;
 \.
 
 
@@ -370,7 +383,7 @@ COPY account (uuid, ctime, name, admin, auth_id, canonical_email, email, email_v
 -- Data for Name: audit_log; Type: TABLE DATA; Schema: public; Owner: histori
 --
 
-COPY audit_log (uuid, ctime, context, name, notes, user_agent) FROM stdin;
+COPY audit_log (uuid, ctime, mtime, context, name, notes, user_agent) FROM stdin;
 \.
 
 
@@ -378,7 +391,7 @@ COPY audit_log (uuid, ctime, context, name, notes, user_agent) FROM stdin;
 -- Data for Name: bookmark; Type: TABLE DATA; Schema: public; Owner: histori
 --
 
-COPY bookmark (uuid, ctime, owner, json, name) FROM stdin;
+COPY bookmark (uuid, ctime, mtime, owner, json, name) FROM stdin;
 \.
 
 
@@ -386,7 +399,7 @@ COPY bookmark (uuid, ctime, owner, json, name) FROM stdin;
 -- Data for Name: map_image; Type: TABLE DATA; Schema: public; Owner: histori
 --
 
-COPY map_image (uuid, ctime, owner, file_name, uri) FROM stdin;
+COPY map_image (uuid, ctime, mtime, owner, file_name, uri) FROM stdin;
 \.
 
 
@@ -394,7 +407,7 @@ COPY map_image (uuid, ctime, owner, file_name, uri) FROM stdin;
 -- Data for Name: nexus; Type: TABLE DATA; Schema: public; Owner: histori
 --
 
-COPY nexus (uuid, ctime, owner, markdown, origin, version, visibility, east, north, south, west, canonical_name, geo_json, name, nexus_type, tags_json, end_day, end_hour, end_instant, end_minute, end_month, end_second, end_year, start_day, start_hour, start_instant, start_minute, start_month, start_second, start_year) FROM stdin;
+COPY nexus (uuid, ctime, mtime, owner, markdown, origin, version, visibility, east, north, south, west, canonical_name, geo_json, name, nexus_type, tags_json, end_day, end_hour, end_instant, end_minute, end_month, end_second, end_year, start_day, start_hour, start_instant, start_minute, start_month, start_second, start_year) FROM stdin;
 \.
 
 
@@ -402,7 +415,7 @@ COPY nexus (uuid, ctime, owner, markdown, origin, version, visibility, east, nor
 -- Data for Name: nexus_archive; Type: TABLE DATA; Schema: public; Owner: histori
 --
 
-COPY nexus_archive (uuid, ctime, owner, markdown, origin, version, visibility, east, north, south, west, canonical_name, geo_json, name, nexus_type, tags_json, end_day, end_hour, end_instant, end_minute, end_month, end_second, end_year, start_day, start_hour, start_instant, start_minute, start_month, start_second, start_year, identifier) FROM stdin;
+COPY nexus_archive (uuid, ctime, mtime, owner, markdown, origin, version, visibility, east, north, south, west, canonical_name, geo_json, name, nexus_type, tags_json, end_day, end_hour, end_instant, end_minute, end_month, end_second, end_year, start_day, start_hour, start_instant, start_minute, start_month, start_second, start_year, identifier) FROM stdin;
 \.
 
 
@@ -410,9 +423,9 @@ COPY nexus_archive (uuid, ctime, owner, markdown, origin, version, visibility, e
 -- Data for Name: permalink; Type: TABLE DATA; Schema: public; Owner: histori
 --
 
-COPY permalink (name, json) FROM stdin;
-@@American Civil War	{\n    "timeline" : {\n      "range" : {\n        "start" : 1861.275,\n        "end" : 1865.375\n      },\n      "zoom_stack" : [ {\n        "start" : -10000,\n        "end" : 2016\n      }, {\n        "start" : -4000,\n        "end" : 2016\n      }, {\n        "start" : 1500,\n        "end" : 2016\n      }, {\n        "start" : 1860,\n        "end" : 1866\n      } ]\n    },\n    "map" : {\n      "north" : 49.82792914537133,\n      "south" : 16.957833217096223,\n      "east" : 27.7,\n      "west" : -145.0068359375\n    },\n    "searches" : [ {\n      "query" : "Union Victory",\n      "icon" : "/markers/blue_MarkerU.png"\n    }, {\n      "query" : "Confederate Victory",\n      "icon" : "/markers/red_MarkerC.png"\n    } ]\n  }
-@@Punic Wars (Rome vs Carthage)	{\n   "timeline" : {\n     "range" : {\n       "start" : -264,\n       "end" : -146\n     },\n     "zoom_stack" : [ {\n       "start" : -10000,\n       "end" : 2016\n     }, {\n       "start" : -4000,\n       "end" : 2016\n     }, {\n       "start" : 1500,\n       "end" : 2016\n     }, {\n       "start" : -264.9990892531876,\n       "end" : -159.9990892531876\n     } ]\n   },\n   "map" : {\n     "north" : 46.87957901439934,\n     "south" : 31.302785052433514,\n     "east" : 40.3857421875,\n     "west" : -21.2255859375\n   },\n   "searches" : [ {\n     "query" : "Punic War",\n     "icon" : "/markers/orange_MarkerP.png"\n   } ]\n }
+COPY permalink (name, ctime, mtime, json) FROM stdin;
+@@American Civil War	1458944139655	1458944139655	{\n    "timeline" : {\n      "range" : {\n        "start" : 1861.275,\n        "end" : 1865.375\n      },\n      "zoom_stack" : [ {\n        "start" : -10000,\n        "end" : 2016\n      }, {\n        "start" : -4000,\n        "end" : 2016\n      }, {\n        "start" : 1500,\n        "end" : 2016\n      }, {\n        "start" : 1860,\n        "end" : 1866\n      } ]\n    },\n    "map" : {\n      "north" : 49.82792914537133,\n      "south" : 16.957833217096223,\n      "east" : 27.7,\n      "west" : -145.0068359375\n    },\n    "searches" : [ {\n      "query" : "Union Victory",\n      "icon" : "/markers/blue_MarkerU.png"\n    }, {\n      "query" : "Confederate Victory",\n      "icon" : "/markers/red_MarkerC.png"\n    } ]\n  }
+@@Punic Wars (Rome vs Carthage)	1458944139656	1458944139656	{\n   "timeline" : {\n     "range" : {\n       "start" : -264,\n       "end" : -146\n     },\n     "zoom_stack" : [ {\n       "start" : -10000,\n       "end" : 2016\n     }, {\n       "start" : -4000,\n       "end" : 2016\n     }, {\n       "start" : 1500,\n       "end" : 2016\n     }, {\n       "start" : -264.9990892531876,\n       "end" : -159.9990892531876\n     } ]\n   },\n   "map" : {\n     "north" : 46.87957901439934,\n     "south" : 31.302785052433514,\n     "east" : 40.3857421875,\n     "west" : -21.2255859375\n   },\n   "searches" : [ {\n     "query" : "Punic War",\n     "icon" : "/markers/orange_MarkerP.png"\n   } ]\n }
 \.
 
 
@@ -420,7 +433,7 @@ COPY permalink (name, json) FROM stdin;
 -- Data for Name: search_query; Type: TABLE DATA; Schema: public; Owner: histori
 --
 
-COPY search_query (uuid, ctime, blocked_owners, east, north, south, west, nexus_sort_order, preferred_owners, query, summary_sort_order, end_day, end_hour, end_instant, end_minute, end_month, end_second, end_year, start_day, start_hour, start_instant, start_minute, start_month, start_second, start_year, use_cache, visibility) FROM stdin;
+COPY search_query (uuid, ctime, mtime, blocked_owners, east, north, south, west, nexus_sort_order, preferred_owners, query, summary_sort_order, end_day, end_hour, end_instant, end_minute, end_month, end_second, end_year, start_day, start_hour, start_instant, start_minute, start_month, start_second, start_year, use_cache, visibility) FROM stdin;
 \.
 
 
@@ -428,7 +441,7 @@ COPY search_query (uuid, ctime, blocked_owners, east, north, south, west, nexus_
 -- Data for Name: shard; Type: TABLE DATA; Schema: public; Owner: histori
 --
 
-COPY shard (uuid, ctime, allow_read, allow_write, logical_end, logical_start, shard_set, url) FROM stdin;
+COPY shard (uuid, ctime, mtime, allow_read, allow_write, logical_end, logical_start, shard_set, url) FROM stdin;
 \.
 
 
@@ -436,7 +449,7 @@ COPY shard (uuid, ctime, allow_read, allow_write, logical_end, logical_start, sh
 -- Data for Name: super_nexus; Type: TABLE DATA; Schema: public; Owner: histori
 --
 
-COPY super_nexus (uuid, ctime, east, north, south, west, canonical_name, dirty, name, owner, end_day, end_hour, end_instant, end_minute, end_month, end_second, end_year, start_day, start_hour, start_instant, start_minute, start_month, start_second, start_year, visibility, down_votes, tally, up_votes, vote_count) FROM stdin;
+COPY super_nexus (uuid, ctime, mtime, east, north, south, west, canonical_name, dirty, name, owner, end_day, end_hour, end_instant, end_minute, end_month, end_second, end_year, start_day, start_hour, start_instant, start_minute, start_month, start_second, start_year, visibility, down_votes, tally, up_votes, vote_count) FROM stdin;
 \.
 
 
@@ -469,7 +482,7 @@ meta	\N	Meta	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "strin
 -- Data for Name: vote; Type: TABLE DATA; Schema: public; Owner: histori
 --
 
-COPY vote (uuid, ctime, owner, entity, version, vote) FROM stdin;
+COPY vote (uuid, ctime, mtime, owner, entity, version, vote) FROM stdin;
 \.
 
 
@@ -477,7 +490,7 @@ COPY vote (uuid, ctime, owner, entity, version, vote) FROM stdin;
 -- Data for Name: vote_archive; Type: TABLE DATA; Schema: public; Owner: histori
 --
 
-COPY vote_archive (uuid, ctime, owner, entity, version, vote, identifier) FROM stdin;
+COPY vote_archive (uuid, ctime, mtime, owner, entity, version, vote, identifier) FROM stdin;
 \.
 
 
