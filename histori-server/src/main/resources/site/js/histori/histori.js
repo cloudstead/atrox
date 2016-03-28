@@ -149,6 +149,13 @@ function display_bounds(bounds) {
 function display_range(range) {
     var start = slider.label_for_raw(parseFloat(range.start));
     var end = slider.label_for_raw(parseFloat(range.end));
+
+    if (start.endsWith(' CE') && end.endsWith(' CE')) {
+        start = start.substring(0, start.length - ' CE'.length)
+    } else if (start.endsWith(' BCE') && end.endsWith(' BCE')) {
+        start = start.substring(0, start.length - ' BCE'.length)
+    }
+
     return start + ' to ' + end;
 }
 
