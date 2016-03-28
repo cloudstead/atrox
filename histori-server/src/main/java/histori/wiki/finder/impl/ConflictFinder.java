@@ -51,7 +51,9 @@ public class ConflictFinder extends FinderBase<NexusRequest> {
             } else {
                 tagName = links.get(0).getName();
             }
-            tags.add(newTag(tagName, "event", "relationship", RelationshipType.part_of.name()));
+            if (tagName != null && tagName.trim().length() > 0) {
+                tags.add(newTag(tagName, "event", "relationship", RelationshipType.part_of.name()));
+            }
         }
 
         if (infobox.hasChildNamed("result")) {
