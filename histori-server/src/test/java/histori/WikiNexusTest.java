@@ -31,7 +31,10 @@ public class WikiNexusTest extends WikiTest {
                     .tag("person", "Cleopatra VII", "role", "commander", "world_actor", "Mark Antony's Roman and allied supporters", "world_actor", "Ptolemaic Egypt")
                     .tag("impact", "dead", "estimate" , "5000", "world_actor", "Mark Antony's Roman and allied supporters", "world_actor", "Ptolemaic Egypt")
                     .tag("impact", "ships sunk or captured", "estimate" , "200", "world_actor", "Mark Antony's Roman and allied supporters", "world_actor", "Ptolemaic Egypt")
-                    .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Actium"),
+                    .tag("citation", "https://en.wikipedia.org/wiki/Battle_of_Actium")
+                    .markdown("The **Battle of Actium** was the decisive confrontation of the [Final War of the Roman Republic](https://en.wikipedia.org/wiki/Final_War_of_the_Roman_Republic), a naval engagement between [Octavian](https://en.wikipedia.org/wiki/Augustus) and the combined forces of [Mark Antony](https://en.wikipedia.org/wiki/Mark_Antony) and [Cleopatra](https://en.wikipedia.org/wiki/Cleopatra) on 2 September 31 BC, on the [Ionian Sea](https://en.wikipedia.org/wiki/Ionian_Sea) near the city of [Actium](https://en.wikipedia.org/wiki/Actium), in the Roman province of [Epirus Vetus](https://en.wikipedia.org/wiki/Epirus_vetus) in [Greece](https://en.wikipedia.org/wiki/Greece). Octavian's fleet was commanded by [Marcus Vipsanius Agrippa](https://en.wikipedia.org/wiki/Marcus_Vipsanius_Agrippa), while Antony's fleet was supported by the ships of Queen Cleopatra of [Ptolemaic Egypt](https://en.wikipedia.org/wiki/Ptolemaic_Kingdom)."
+                        + "\nOctavian's victory enabled him to consolidate his power over Rome and its dominions. He adopted the title of [Princeps](https://en.wikipedia.org/wiki/Princeps) (&quot;first citizen&quot;) and some years later was awarded the title of [Augustus](https://en.wikipedia.org/wiki/Augustus%23First_settlement) (&quot;revered&quot;) by the Roman Senate. This became the name by which he was known in later times. As Augustus, he retained the trappings of a restored Republican leader, but historians generally view this consolidation of power and the adoption of these honorifics as the end of the [Roman Republic](https://en.wikipedia.org/wiki/Roman_Republic) and the beginning of the [Roman Empire](https://en.wikipedia.org/wiki/Roman_Empire)."
+                        + "\n\n#### Prelude\n\nThe alliance between Octavian, Antony, and Lepidus, commonly known as the [Second Triumvirate](https://en.wikipedia.org/wiki/Second_Triumvirate), was renewed for a five-year term in 38 BC. However, the triumvirate broke down when Octavian saw [Caesarion](https://en.wikipedia.org/wiki/Caesarion), the professed son of [Julius Caesar](https://en.wikipedia.org/wiki/Julius_Caesar) ... [continue reading](https://en.wikipedia.org/wiki/Battle_of_Actium)"),
 
             // Test case: a more obscure battle, we must lookup another wiki page to determine the location
             new ArticleNexusExpectedResult("Battle of Purandar")
@@ -280,15 +283,13 @@ public class WikiNexusTest extends WikiTest {
     @Test public void testNexusCreationFromWiki() throws Exception {
 //        validateCorrectNexus(TESTS[TESTS.length-1]);
 //        validateCorrectNexus(TESTS[9]);
-//        validateCorrectNexus(findTest("Battle of Ayacucho"));
+//        validateCorrectNexus(findTest("Battle of Świecino"));
         for (ArticleNexusExpectedResult test : TESTS) {
             validateCorrectNexus(test);
         }
     }
 
-    private ArticleNexusExpectedResult findTest(String title) {
-        return findTest(title, TESTS);
-    }
+    private ArticleNexusExpectedResult findTest(String title) { return findTest(title, TESTS); }
 
     public void validateCorrectNexus(ArticleNexusExpectedResult test) {
         final NexusRequest nexusRequest = wiki.toNexusRequest(test.title);

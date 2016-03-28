@@ -7,6 +7,7 @@ import org.cobbzilla.util.reflect.ReflectionUtil;
 import org.cobbzilla.wizard.dao.shard.AbstractShardedDAO;
 import org.cobbzilla.wizard.dao.shard.ShardSearch;
 import org.cobbzilla.wizard.dao.shard.SingleShardDAO;
+import org.cobbzilla.wizard.model.Identifiable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,8 +44,8 @@ public class VersionedEntityDAO<E extends VersionedEntity> {
 
         final Class<E> entityClass = dao.getEntityClass();
         final A archive = newArchiveEntity(entityClass);
-        copy(archive, entity);
-        archive.setUuid(uuid());
+        archive.setUuid(uuid()); // set fresh uuid on archive
+        copy(archive, entity, null, Identifiable.UUID_ARRAY); // do not copy uuid to archive
 
         // if earlier archives exist, find the one with the latest version
         final List<Object> args = new ArrayList<>();

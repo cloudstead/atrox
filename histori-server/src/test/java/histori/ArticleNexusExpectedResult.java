@@ -127,6 +127,9 @@ public class ArticleNexusExpectedResult {
         return this;
     }
 
+    public String markdown;
+    public ArticleNexusExpectedResult markdown(String md) { this.markdown = md; return this; }
+
     public boolean assertSameLocation(String geoJson) {
         // Always assume a point for now
         final Point p = fromJsonOrDie(geoJson, Point.class);
@@ -149,6 +152,10 @@ public class ArticleNexusExpectedResult {
         for (NexusTag tag : tags) {
             assertTrue("missing tag ("+ title+"): "+tag.getTagType()+"/"+tag.getTagName(), nexusRequest.hasTag(tag.getTagName()));
             assertTrue("tag doesn't match ("+ title+"): "+tag.getTagName(), nexusRequest.hasExactTag(tag));
+        }
+        if (markdown != null) {
+            assertNotNull("markdown was null", nexusRequest.getMarkdown());
+            assertTrue(nexusRequest.getMarkdown().equals(markdown));
         }
     }
 }

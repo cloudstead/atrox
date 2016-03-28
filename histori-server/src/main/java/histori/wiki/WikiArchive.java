@@ -20,13 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static histori.model.CanonicalEntity.canonicalize;
+import static histori.wiki.WikiNode.wikiLink;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
-import static org.cobbzilla.util.string.StringUtil.urlEncode;
 
 @AllArgsConstructor @Slf4j
 public class WikiArchive {
+
+    private static final Integer SYNOPSIS_MAX_CHARS = 2000;
 
     private final AssetStorageService storage;
 
@@ -132,34 +134,32 @@ public class WikiArchive {
 
                 final MultiNexusRequest multi = new MultiNexusRequest();
                 for (NexusRequest request : requests) {
-                    multi.add(finalize(request, parsed.getName()));
+                    multi.add(finalize(request, parsed));
                 }
                 return multi;
 
             } else {
                 final NexusRequest nexusRequest = (NexusRequest) finder.find();
                 if (nexusRequest == null || !nexusRequest.hasName()) return null;
-                return finalize(nexusRequest);
+                return finalize(nexusRequest, parsed);
             }
         }
 
         return null;
     }
 
-    public NexusRequest finalize(NexusRequest nexusRequest) { return finalize(nexusRequest, null); }
-
-    public NexusRequest finalize(NexusRequest nexusRequest, String title) {
+    public NexusRequest finalize(NexusRequest nexusRequest, ParsedWikiArticle parsed) {
         // Did we detect an event_type?
         if (!nexusRequest.hasNexusType()) nexusRequest.setNexusType(nexusRequest.getFirstEventType());
-        return addCitation(nexusRequest, title == null ? nexusRequest.getName() : title);
+        addCitation(nexusRequest, parsed.getName());
+        nexusRequest.setMarkdown(parsed.toMarkdown(SYNOPSIS_MAX_CHARS));
+        return nexusRequest;
     }
 
     public NexusRequest addCitation(NexusRequest nexusRequest, String title) {
         if (empty(title)) return null;
-        nexusRequest.addTag("https://en.wikipedia.org/wiki/"+encodeTitleForUrl(title), "citation");
+        nexusRequest.addTag(wikiLink(title), "citation");
         return nexusRequest;
     }
-
-    public static String encodeTitleForUrl(String title) { return urlEncode(title.replace(" ", "_")); }
 
 }

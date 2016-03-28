@@ -91,10 +91,12 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
                 log.warn("getMatchingNexuses: not returning any results for visibility="+searchQuery.getVisibility());
                 return new ArrayList<>();
         }
-        for (Iterator<Nexus> iter = found.iterator(); iter.hasNext(); ) {
-            final Nexus n = iter.next();
-            if (searchQuery.hasBlockedOwner(n.getOwner())) {
-                iter.remove();
+        if (searchQuery.hasBlockedOwners()) {
+            for (Iterator<Nexus> iter = found.iterator(); iter.hasNext(); ) {
+                final Nexus n = iter.next();
+                if (searchQuery.hasBlockedOwner(n.getOwner())) {
+                    iter.remove();
+                }
             }
         }
         return found;

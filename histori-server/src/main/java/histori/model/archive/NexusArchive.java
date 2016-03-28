@@ -16,7 +16,7 @@ import javax.persistence.UniqueConstraint;
 @Table(uniqueConstraints = @UniqueConstraint(name = "nexus_archive_uniq", columnNames = {"owner", "name", "version"}))
 public class NexusArchive extends NexusBase implements EntityArchive, Shardable {
 
-    @Override public void beforeCreate() { initUuid(); }
+    @Override public void beforeCreate() { if (!hasUuid()) initUuid(); }
 
     @Override public String getHashToShardField() { return "canonicalName"; }
 

@@ -42,11 +42,11 @@ public class AccountDAO extends ShardedEntityDAO<Account, AccountShardDAO> imple
     @Override public ShardSetConfiguration getShardConfiguration() { return database.getShard("histori-account"); }
 
     public Account findByEmail(String email) {
-        return findByUniqueField("canonicalEmail", canonicalizeEmail(email));
+        return findByUniqueField("canonicalEmail", canonicalizeEmail(email), false);
     }
 
     public Account findByNameOrEmail(String name) {
-        final Account account = findByName(name);
+        final Account account = findByName(name, false);
         return account != null ? account : findByEmail(name);
     }
 

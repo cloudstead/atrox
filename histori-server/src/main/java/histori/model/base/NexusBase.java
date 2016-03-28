@@ -35,6 +35,7 @@ import static histori.model.TagType.EVENT_TYPE;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.json.JsonUtil.fromJsonOrDie;
 import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
+import static org.cobbzilla.util.string.StringUtil.hasScripting;
 import static org.cobbzilla.util.system.Bytes.MB;
 import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
 
@@ -128,6 +129,8 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
     }
 
     public void prepareForSave() {
+        // check name, tags and markdown for nefarious scripting
+        if (containsScripting()) throw invalidEx("err.scripting");
 
         // ensure event type tag exists
         if (hasNexusType() && getFirstEventType() == null) addTag(getNexusType(), EVENT_TYPE);
@@ -142,6 +145,23 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
         if (!timeRange.hasStart()) throw invalidEx("err.timeRange.start.empty", "Start date cannot be empty");
         timeRange.getStartPoint().initInstant();
         if (timeRange.hasEnd()) timeRange.getEndPoint().initInstant();
+    }
+
+    public boolean containsScripting() {
+        if (hasScripting(getName())) return true;
+        if (hasScripting(getMarkdown())) return true;
+        if (hasTags()) {
+            for (NexusTag tag : getTags()) {
+                if (hasScripting(tag.getCanonicalName()) || hasScripting(tag.getDisplayName())) return true;
+                if (tag.hasSchemaValues()) {
+                    for (Map.Entry<String, TreeSet<String>> entry : tag.getSchemaValueMap().allEntrySets()) {
+                        if (hasScripting(entry.getKey())) return true;
+                        for (String value : entry.getValue()) if (hasScripting(value)) return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     private static final String[] ID_FIELDS = {"owner", "canonicalName"};
@@ -175,7 +195,7 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
             if (tag.isSameTag(existing)) return this; // re-adding an identical tag is OK, just a noop
         }
         tags.add(tag);
-        return this;
+        return setTags(tags); // force re-update to tagsJson
     }
 
     public NexusBase addTag (String name) { return addTag(name, null, null); }
@@ -197,9 +217,7 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
             }
         }
         if (!empty(tagType)) tag.setTagType(tagType);
-        addTag(tag);
-        this.tagsJson = toJsonOrDie(tags);
-        return this;
+        return addTag(tag);
     }
 
     public List<NexusTag> getTag(String name) {
@@ -307,11 +325,15 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
 
-        NexusBase nexusBase = (NexusBase) o;
+        final NexusBase nexusBase = (NexusBase) o;
 
         if (!canonicalName.equals(nexusBase.canonicalName)) return false;
         if (!timeRange.equals(nexusBase.timeRange)) return false;
         if (!geoJson.equals(nexusBase.geoJson)) return false;
+
+        if (nexusType == null && nexusBase.nexusType != null) return false;
+        else if (nexusType != null && nexusBase.nexusType == null) return false;
+        else if (nexusType != null && !nexusType.equals(nexusBase.nexusType)) return false;
 
         final MappySortedSet<String, NexusTag> tagMap = getTagMap();
         final MappySortedSet<String, NexusTag> nexusMap = nexusBase.getTagMap();
@@ -345,10 +367,12 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
         @Override public int compare(NexusView o1, NexusView o2) {
             long v1 = val(o1);
             long v2 = val(o2);
-            return reverse() ? Long.compare(v1, v2) : Long.compare(v2, v1);
+            final int diff = reverse() ? Long.compare(v1, v2) : Long.compare(v2, v1);
+            return diff != 0 ? diff : secondaryCompare(o1, o2);
         }
         protected abstract long val(NexusView view);
         protected boolean reverse () { return false; }
+        protected int secondaryCompare(NexusView o1, NexusView o2) { return Long.compare(o1.getCtime(), o2.getCtime()); }
     }
 
     private static class NCompare_newest extends NCompare {

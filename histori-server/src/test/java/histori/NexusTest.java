@@ -95,7 +95,7 @@ public class NexusTest extends ApiClientTestBase {
         assertEquals(updatedName, updatedNexus.getName());
         assertNotEquals(updatedNexus.getUuid(), createdNexus.getUuid());
 
-        apiDocs.addNote("Add another tag - this will create another version of the nexus");
+        apiDocs.addNote("Add another tag - this will create a second version of the nexus");
         String tag4 = "Foobar";
         nexus.addTag(tag4);
         updatedNexus = post(updatedNexusPath, nexus);
@@ -107,7 +107,7 @@ public class NexusTest extends ApiClientTestBase {
         assertTrue(found.hasTag(tag4));
         assertTrue(found.hasTag(tag4.toLowerCase()));
 
-        apiDocs.addNote("Update a tag");
+        apiDocs.addNote("Update a tag - this will create a third version of the nexus");
         final String tagComments = randomName();
         found.getFirstTag(tag4).setValue("meta", tagComments);
         updatedNexus = post(updatedNexusPath, found);
@@ -116,9 +116,9 @@ public class NexusTest extends ApiClientTestBase {
         found = get(updatedNexusPath, Nexus.class);
         assertEquals(tagComments, found.getFirstTag(tag4.toLowerCase()).getSchemaValueMap().get("meta"));
 
-        apiDocs.addNote("Lookup previous versions, there should now be 2");
+        apiDocs.addNote("Lookup previous versions, there should now be 3");
         NexusArchive[] archives = get(ARCHIVES_ENDPOINT+"/Nexus/"+found.getUuid(), NexusArchive[].class);
-        assertEquals(2, archives.length);
+        assertEquals(3, archives.length);
 
         apiDocs.addNote("Delete the nexus");
         delete(updatedNexusPath);
@@ -130,7 +130,7 @@ public class NexusTest extends ApiClientTestBase {
         long start = now();
         final SuperNexusDAO superNexusDAO = getBean(SuperNexusDAO.class);
         superNexusDAO.forceRefresh();
-        int timeout = 5000000;
+        int timeout = 5000;
         while (superNexusDAO.oldestRefreshTime() < start) {
             assertFalse("timed out waiting for SuperNexusDAO to refresh", now() > start + timeout);
             sleep(100);
@@ -195,8 +195,6 @@ public class NexusTest extends ApiClientTestBase {
         apiDocs.addNote("Define a new Nexus with a nexusType, should automatically create an eventType tag");
         Nexus createdNexus = createNexus(nexusName, nexus);
 
-        final String nexusPath = NEXUS_ENDPOINT + "/" + createdNexus.getUuid();
-
         apiDocs.addNote("Lookup the Nexus we created by name, verify it has a single event_type tag");
         found = get(NEXUS_ENDPOINT+"/"+urlEncode(nexus.getName()), Nexus.class);
         assertEquals(nexusName, found.getName());
@@ -207,8 +205,8 @@ public class NexusTest extends ApiClientTestBase {
 
         apiDocs.addNote("Update our nexus with a new nexusType, this should create another event_type tag");
         final String updatedType = nexusType + " -- update";
-        nexus.setNexusType(updatedType);
-        final Nexus updatedNexus = post(nexusPath, nexus);
+        createdNexus.setNexusType(updatedType);
+        final Nexus updatedNexus = post(NEXUS_ENDPOINT+"/"+urlEncode(nexusName)+"/"+createdNexus.getUuid(), createdNexus);
         assertEquals(updatedType, updatedNexus.getNexusType());
         assertEquals(2, updatedNexus.getTags().size());
         final List<NexusTag> typeTags = NexusTag.filterByType(updatedNexus.getTags(), EVENT_TYPE);
@@ -234,8 +232,8 @@ public class NexusTest extends ApiClientTestBase {
         final String nexusName = randomName();
 
         // Create a new Nexus with a random event_type
-        final String headline = randomName();
-        final Nexus nexus = newNexus(startDate, endDate, nexusName, headline);
+        final String markdown = randomName();
+        final Nexus nexus = newNexus(startDate, endDate, nexusName, markdown);
         final String nexusType = randomName();
         nexus.setNexusType(nexusType);
 
@@ -246,13 +244,13 @@ public class NexusTest extends ApiClientTestBase {
         newAnonymousAccount();
 
         apiDocs.addNote("Edit the nexus created by the first user, verify we get a copy");
-        final String nexusPath = NEXUS_ENDPOINT + "/" + createdNexus.getUuid();
-        final String markdown = randomName();
-        createdNexus.setMarkdown(markdown);
+        final String nexusPath = NEXUS_ENDPOINT + "/" + createdNexus.getName();
+        final String altMarkdown = randomName();
+        createdNexus.setMarkdown(altMarkdown);
         createdNexus.setVisibility(EntityVisibility.everyone);
         final Nexus updatedNexus = post(nexusPath, createdNexus);
         assertNotEquals(createdNexus.getUuid(), updatedNexus.getUuid());
-        assertEquals(markdown, updatedNexus.getMarkdown());
+        assertEquals(altMarkdown, updatedNexus.getMarkdown());
 
         apiDocs.addNote("Do search, we should see a single summary with both versions");
         SearchResults<NexusSummary> results = search(startDate, endDate, nexusName);

@@ -18,6 +18,7 @@ import java.util.List;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
+import static org.cobbzilla.util.string.StringUtil.urlEncode;
 
 @Slf4j
 public class WikiNode {
@@ -44,6 +45,7 @@ public class WikiNode {
     @Getter @Setter protected String name;
 
     @Getter @Setter protected List<WikiNode> children;
+
     public boolean hasChildren() { return !empty(children); }
     public int getChildCount() { return empty(children) ? 0 : children.size(); }
     public WikiNode getChild(int i) { return empty(children) ? null : children.get(i); }
@@ -233,4 +235,46 @@ public class WikiNode {
         }
         return null;
     }
+
+    public String toMarkdown() {
+        switch (type) {
+            case string:
+                String text = getName().replace("'''", "**");
+                if (text.contains("&lt;") || text.contains("<")) {
+                    text = text.replace("&lt;", "<").replace("&gt;", ">");
+                    text = text.replaceAll("<[^>]+>[^<]+?(<[^>]+>)", "");
+                }
+                if (text.contains("==")) {
+                    int eqPos = text.indexOf("==");
+                    int nextEq = text.indexOf("==", eqPos+1);
+                    if (eqPos != -1 && nextEq != -1) {
+                        text = text.substring(0, eqPos)
+                                + "\n#### " + text.substring(eqPos+"==".length(), nextEq)
+                                + "\n" + text.substring(nextEq+"==".length());
+                    }
+                }
+                return text;
+
+            case link:
+                final String linkText = hasChildren() ? firstChildName() : getName();
+                return "[" + linkText + "](" + wikiLink(getName()) + ")";
+            default:
+                log.info("toMarkdown: skipping "+type+" node");
+                return "";
+        }
+    }
+
+    public static String wikiLink(String title) {
+        if (title.startsWith("http://") || title.startsWith("https://")) return title;
+        return "https://en.wikipedia.org/wiki/"+ encodeTitleForUrl(title);
+    }
+
+    public static String encodeTitleForUrl(String title) { return urlEncode(title.replace(" ", "_")); }
+
+    public static WikiNode newLinkNode(String link, String label) {
+        final WikiNode node = new WikiNode(WikiNodeType.link, link);
+        node.addNode(new WikiNode(WikiNodeType.string, label));
+        return node;
+    }
 }
+
