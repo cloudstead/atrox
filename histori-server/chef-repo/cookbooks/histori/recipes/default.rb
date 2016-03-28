@@ -91,10 +91,13 @@ bash 'write ~/.histori.env' do
   environment env
   code <<-EOH
 env | grep -v '^_' \
-    | grep -v '^USER=' | grep -v '^USERNAME=' \
-    | grep -v '^MAIL=' | grep -v '^PATH=' \
-    | grep -v '^SHELL=' | grep -v '^TERM=' | grep -v '^SHLVL=' \
-    | grep -v '^SUDO' \
+    | grep -v '^USER='     | grep -v '^USERNAME=' \
+    | grep -v '^MAIL='     | grep -v '^PATH=' \
+    | grep -v '^SHELL='    | grep -v '^TERM='      | grep -v '^SHLVL=' \
+    | grep -v '^LC_ALL='   | grep -v '^LS_COLORS=' | grep -v '^TERMCAP=' \
+    | grep -v '^STY='      | grep -v '^PWD='       | grep -v '^LANG=' \
+    | grep -v '^HOME='     | grep -v '^LOGNAME='   | grep -v '^WINDOW=' \
+    | grep -v '^LESSOPEN=' | grep -v '^LESSCLOSE=' | grep -v '^SUDO' \
     | sed -e 's/^/export /' | sed -e "s/=/='/" | sed -e "s/$/'/" | sed -e "s/''/'/g" \
     > ~histori/.histori.env
   EOH
