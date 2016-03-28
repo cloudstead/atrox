@@ -132,23 +132,30 @@ public class ConflictFinder extends FinderBase<NexusRequest> {
                                 }
                             }
                         } else {
-                            final String[] casualties = casualtiesNode.findAllChildTextButNotLinkDescriptions().split(HTML_BR_REGEX);
-                            int validCasualties = 0;
-                            for (String casualty : casualties) if (isValidCasualty(casualty)) validCasualties++;
-                            final String defaultCasualtyType = validCasualties <= 1 ? "dead" : null;
-                            String lastCasualty = null;
-                            boolean first = true;
-                            for (String casualty : casualties) {
-                                String ctype = getCasualtyType(casualty, lastCasualty);
-                                if (ctype == null) {
-                                    if (first) { ctype = validCasualties <= 1 ? "dead" : "casualties"; } else if (validCasualties <= 1) { ctype = defaultCasualtyType; }
+                            final String childTextWithoutLinkDescriptions = casualtiesNode.findAllChildTextButNotLinkDescriptions();
+                            if (childTextWithoutLinkDescriptions != null) {
+                                final String[] casualties = childTextWithoutLinkDescriptions.split(HTML_BR_REGEX);
+                                int validCasualties = 0;
+                                for (String casualty : casualties) if (isValidCasualty(casualty)) validCasualties++;
+                                final String defaultCasualtyType = validCasualties <= 1 ? "dead" : null;
+                                String lastCasualty = null;
+                                boolean first = true;
+                                for (String casualty : casualties) {
+                                    String ctype = getCasualtyType(casualty, lastCasualty);
+                                    if (ctype == null) {
+                                        if (first) {
+                                            ctype = validCasualties <= 1 ? "dead" : "casualties";
+                                        } else if (validCasualties <= 1) {
+                                            ctype = defaultCasualtyType;
+                                        }
+                                    }
+                                    final NexusTag impactTag = impactTag(combatants, casualty, ctype);
+                                    if (impactTag != null) {
+                                        lastCasualty = casualty;
+                                        tags.add(impactTag);
+                                    }
+                                    first = false;
                                 }
-                                final NexusTag impactTag = impactTag(combatants, casualty, ctype);
-                                if (impactTag != null) {
-                                    lastCasualty = casualty;
-                                    tags.add(impactTag);
-                                }
-                                first = false;
                             }
                         }
                     }
