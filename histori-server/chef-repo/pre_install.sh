@@ -13,8 +13,9 @@ CHEF_USER=$(cat /etc/chef-user)
 if [ -z ${CHEF_USER} ] ; then
   die "No chef user found in /etc/chef-user"
 fi
+CHEF_USER_HOME=$(bash -c "cd ~${CHEF_USER} && pwd")
 
-JAR="cookbooks/histori/files/default/assets/histori-server.jar"
+JAR="${CHEF_USER_HOME}/chef/cookbooks/histori/files/default/assets/histori-server.jar"
 JAR_URL="http://kyuss.org/downloads/histori-server.jar"
 
 if [ ! -f ${JAR} ] ; then
