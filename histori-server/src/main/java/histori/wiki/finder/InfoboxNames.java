@@ -16,6 +16,8 @@ public class InfoboxNames {
     public static final String INFOBOX_MUNICIPALITY_SUFFIX = " municipality";
     public static final String INFOBOX_SETTLEMENT_SUFFIX = " settlement";
     public static final String INFOBOX_COMMUNE_SUFFIX = " commune";
+    public static final String INFOBOX_PLACE_SUFFIX = " place";
+    public static final String INFOBOX_DIMOS_SUFFIX = " dimos";
 
     public static final Set<String> COORD_BOX_CANDIDATES = new HashSet<>(Arrays.asList(
             FinderBase.normalizeInfoboxName(INFOBOX_MILITARY_CONFLICT),
@@ -39,7 +41,9 @@ public class InfoboxNames {
                 || nameLower.endsWith(INFOBOX_SITE_SUFFIX)
                 || nameLower.endsWith(INFOBOX_CITY_SUFFIX)
                 || nameLower.endsWith(INFOBOX_SETTLEMENT_SUFFIX)
-                || nameLower.endsWith(INFOBOX_COMMUNE_SUFFIX);
+                || nameLower.endsWith(INFOBOX_COMMUNE_SUFFIX)
+                || nameLower.endsWith(INFOBOX_PLACE_SUFFIX)
+                || nameLower.endsWith(INFOBOX_DIMOS_SUFFIX);
     }
 
     public static boolean lineMatchesLocationInfobox(String line) {

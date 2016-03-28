@@ -281,12 +281,17 @@ public class WikiNexusTest extends WikiTest {
 
             // location cannot be determined
             new ArticleNexusExpectedResult("English Civil War", false).unparseable(true),
+
+            new ArticleNexusExpectedResult("Eureka Rebellion", false)
+                    .tag(EVENT_TYPE, "battle")
+                    .location(37.5648, north, 143.8822, east)
+                    .range("1854-12-03"),
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
 //        validateCorrectNexus(TESTS[TESTS.length-1]);
 //        validateCorrectNexus(TESTS[9]);
-//        validateCorrectNexus(findTest("English Civil War"));
+//        validateCorrectNexus(findTest("Eureka Rebellion"));
         for (ArticleNexusExpectedResult test : TESTS) {
             validateCorrectNexus(test);
         }

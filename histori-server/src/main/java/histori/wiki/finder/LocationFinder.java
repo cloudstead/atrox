@@ -166,15 +166,15 @@ public class LocationFinder extends FinderBase<LatLon> {
     private LatLon parseCoordinates(ParsedWikiArticle art) {
 
         List<WikiNode> infoboxes;
-        LatLon box;
+        LatLon latLon;
 
         infoboxes = art.getInfoboxes();
-        box = findCoordinates(infoboxes);
-        if (box != null) return box;
+        latLon = findCoordinates(infoboxes);
+        if (latLon != null) return latLon;
 
         infoboxes = art.getInfoboxesRecursive();
-        box = findCoordinates(infoboxes);
-        if (box != null) return box;
+        latLon = findCoordinates(infoboxes);
+        if (latLon != null) return latLon;
 
         return die("parseCoordinates: not found");
     }
