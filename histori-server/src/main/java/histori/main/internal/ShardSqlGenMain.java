@@ -54,9 +54,10 @@ public class ShardSqlGenMain extends BaseMain<ShardSqlGenOptions> {
     }
 
     private String toSql(ShardMap map) {
-        return "INSERT INTO "+getOptions().getShardTable()+" (uuid, ctime, shard_set, url, logical_start, logical_end, allow_read, allow_write"
+        final long ctime = now();
+        return "INSERT INTO "+getOptions().getShardTable()+" (uuid, ctime, mtime, shard_set, url, logical_start, logical_end, allow_read, allow_write"
                 + ") VALUES ("
-                + q(uuid())+", "+now()+", "+q(map.getShardSet())+", "+q(map.getUrl())+", "+map.getRange().getLogicalStart()+", "+map.getRange().getLogicalEnd()+", "+b(map.isAllowRead())+", "+b(map.isAllowWrite())
+                + q(uuid())+", "+ctime+", "+ctime+", "+q(map.getShardSet())+", "+q(map.getUrl())+", "+map.getRange().getLogicalStart()+", "+map.getRange().getLogicalEnd()+", "+b(map.isAllowRead())+", "+b(map.isAllowWrite())
                 + ");";
     }
 

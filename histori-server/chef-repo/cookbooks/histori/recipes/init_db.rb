@@ -89,9 +89,13 @@ if [ ${rval} -ne 0 ] ; then
   exit 1
 fi
 
-cat ${temp} | PGPASSWORD=#{dbpass} psql -U #{dbuser} -h 127.0.0.1 #{master_db}
+psql_temp=$(mktemp /tmp/shards.psql.XXXXXXX.sql) || exit 1
+cat ${temp} | PGPASSWORD=#{dbpass} psql -U #{dbuser} -h 127.0.0.1 #{master_db} > ${psql_temp} 2>&1
 rval=$?
-rm -f ${temp}
+if [[ $rval -ne 0 && ( $(cat ${psql_temp} | grep 'FATAL:' | wc -l | tr -d ' ') -gt 0 || $(cat ${psql_temp} | grep 'ERROR:' | wc -l | tr -d ' ') ) ]] ; then
+  rval=2
+fi
+rm -f ${temp} ${psql_temp}
 exit ${rval}
 
 EOH
