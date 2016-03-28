@@ -141,6 +141,9 @@ public class WikiDateFormat {
             new RangePattern("(?:.+?\\s+in\\s+)?" + MATCH_YEAR + ",?" + ANY_SPACES + "(?:as |under )?",
                     "startYear"),
 
+            new RangePattern(MATCH_MONTH + ANY_SPACES + "/" + ANY_SPACES + MATCH_MONTH + ANY_SPACES +",?" + ANY_SPACES + MATCH_YEAR,
+                    "startMonth", null, "startYear"),
+
             new RangePattern(OrdinalCentury.getMatchGroup() + ANY_SPACES + "century",
                     "startCentury"),
     };
@@ -309,7 +312,14 @@ public class WikiDateFormat {
         }
 
         pos = date.indexOf("(");
-        if (pos != -1) date = date.substring(0, pos).trim();
+        int endPos = date.indexOf(")");
+        if (pos != -1) {
+            if (endPos != -1 && endPos != date.length()-1) {
+                date = (date.substring(0, pos) + date.substring(endPos+1)).trim();
+            } else {
+                date = date.substring(0, pos).trim();
+            }
+        }
 
         date = date.replace("&amp;nbsp;", "")
                 .replace("&amp;", "").replace("amp;", "")
