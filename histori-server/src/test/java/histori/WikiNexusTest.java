@@ -277,13 +277,16 @@ public class WikiNexusTest extends WikiTest {
             new ArticleNexusExpectedResult("Battle of Krasnoi", false)
                     .tag(EVENT_TYPE, "battle")
                     .location(54, 33, 36, north, 31, 25, 48, east)
-                    .range("1812-11-15", "1812-11-18")
+                    .range("1812-11-15", "1812-11-18"),
+
+            // location cannot be determined
+            new ArticleNexusExpectedResult("English Civil War", false).unparseable(true),
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
 //        validateCorrectNexus(TESTS[TESTS.length-1]);
 //        validateCorrectNexus(TESTS[9]);
-//        validateCorrectNexus(findTest("Battle of Świecino"));
+//        validateCorrectNexus(findTest("English Civil War"));
         for (ArticleNexusExpectedResult test : TESTS) {
             validateCorrectNexus(test);
         }
