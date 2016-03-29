@@ -59,7 +59,9 @@ public class WikiBaseOptions extends BaseMainOptions {
             config.put(S3AssetStorageService.PROP_SECRET_KEY, secret);
             config.put(S3AssetStorageService.PROP_BUCKET, matcher.group(1));
             config.put(S3AssetStorageService.PROP_PREFIX, matcher.group(2));
-            config.put(S3AssetStorageService.PROP_LOCAL_CACHE, System.getenv("WIKI_S3_LOCAL_CACHE"));
+
+            final String localCache = System.getenv("WIKI_S3_LOCAL_CACHE");
+            config.put(S3AssetStorageService.PROP_LOCAL_CACHE, localCache != null ? localCache : S3AssetStorageService.CACHE_DISABLED);
             service = new S3AssetStorageService(config);
 
         } else {
