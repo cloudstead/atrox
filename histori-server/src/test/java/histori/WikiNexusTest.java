@@ -310,12 +310,18 @@ public class WikiNexusTest extends WikiTest {
                     .location(38, 23, north, 21, 49, east)
                     .range("-429"),
 
+            // problem with UTF8 char encoding at index-time. fixing that, then re-enabling this test
+//            new ArticleNexusExpectedResult("Battle of Cecora (1620)", false)
+//                    .tag(EVENT_TYPE, "battle")
+//                    .location(47, 8, north, 27, 47, east)
+//                    .range("1620-09-17", "1620-10-07"),
+
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
 //        validateCorrectNexus(TESTS[TESTS.length-1]);
 //        validateCorrectNexus(TESTS[9]);
-//        validateCorrectNexus(findTest("Battle of Naupactus"));
+//        validateCorrectNexus(findTest("Battle of Cecora (1620)"));
         for (ArticleNexusExpectedResult test : TESTS) {
             validateCorrectNexus(test);
         }

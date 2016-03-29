@@ -17,7 +17,9 @@ import org.cobbzilla.util.string.StringUtil;
 import se.walkercrou.places.GooglePlaces;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static histori.model.CanonicalEntity.canonicalize;
 import static histori.wiki.WikiNode.wikiLink;
@@ -57,14 +59,23 @@ public class WikiArchive {
     public ParsedWikiArticle find (String title) { return find(title, true); }
 
     public ParsedWikiArticle find (String title, boolean followRedirects) {
+        return find(title, followRedirects ? new HashSet<String>() : null);
+    }
+
+    protected ParsedWikiArticle find (String title, Set<String> redirects) {
+        if (redirects != null && redirects.contains(title)) {
+            log.warn("Redirect loop detected, bailing out. Redirects were: "+StringUtil.toString(redirects));
+            return null;
+        }
         final WikiArticle article = findUnparsed(title);
         if (article == null) return null;
 
         final ParsedWikiArticle parsed = article.parse();
-        if (followRedirects && parsed.hasChildren() && parsed.firstChildName().equals("#REDIRECT")) {
+        if (redirects != null && parsed.hasChildren() && parsed.firstChildName().equals("#REDIRECT")) {
             final WikiNode firstLink = parsed.findFirstWithType(WikiNodeType.link);
             if (firstLink == null) return null;
-            return find(firstLink.getName());
+            redirects.add(title);
+            return find(firstLink.getName(), redirects);
         }
         return parsed;
     }
