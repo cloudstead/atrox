@@ -12,10 +12,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.cobbzilla.util.security.ShaUtil;
+import org.apache.commons.io.IOUtils;
 import org.cobbzilla.util.string.StringUtil;
 import se.walkercrou.places.GooglePlaces;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -26,6 +29,8 @@ import static histori.wiki.WikiNode.wikiLink;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
+import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
+import static org.cobbzilla.util.string.StringUtil.truncate;
 
 @AllArgsConstructor @Slf4j
 public class WikiArchive {
@@ -81,20 +86,26 @@ public class WikiArchive {
     }
 
     public WikiArticle findUnparsed (String title) {
-        AssetStream stream = null;
+        AssetStream asset = null;
         try {
             final String articlePath = getArticlePath(title);
             if (articlePath == null) return null;
 
-            stream = storage.load(articlePath);
-            if (stream == null) return null;
-            return fromJson(stream.getStream(), WikiArticle.class);
+            asset = storage.load(articlePath);
+            if (asset == null) return null;
+
+            final InputStream stream = asset.getStream();
+            final InputStreamReader reader = new InputStreamReader(stream, StringUtil.UTF8);
+            final StringWriter writer = new StringWriter(stream.available());
+            IOUtils.copy(reader, writer);
+            final String json = writer.toString();
+            return fromJson(json, WikiArticle.class);
 
         } catch (Exception e) {
             log.warn("find: "+e);
 
         } finally {
-            if (stream != null) try { stream.close(); } catch (Exception ignored) {}
+            if (asset != null) try { asset.close(); } catch (Exception ignored) {}
         }
         return null;
     }
@@ -109,11 +120,12 @@ public class WikiArchive {
 
     public static String getArticlePath(String title, String variant) {
         if (!isIndexable(title)) return null;
-        final String sha256 = ShaUtil.sha256_hex(title);
+        final String canonical = canonicalize(title);
+        final String sha256 = sha256_hex(canonical);
         return sha256.substring(0, 2)
                 + "/" + sha256.substring(2, 4)
                 + "/" + sha256.substring(4, 6)
-                + "/" + StringUtil.truncate(canonicalize(title), 100) + "_" + sha256 + (variant == null ? "" : "_"+variant) + ".json";
+                + "/" + truncate(canonical, 100) + "_" + sha256 + (variant == null ? "" : "_"+variant) + ".json";
     }
 
     public NexusRequest toNexusRequest(String title) {
