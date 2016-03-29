@@ -191,7 +191,14 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
 
     public NexusBase addTag (NexusTag tag) {
         if (tags == null) tags = new ArrayList<>();
-        for (NexusTag existing : tags) {
+        if (tag == null) return this; // should never happen, but just in case (ConflictFinder had a bug that did this once)
+        for (Iterator<NexusTag> iter = tags.iterator(); iter.hasNext();) {
+            NexusTag existing = iter.next();
+            if (existing == null) {
+                // should never happen, but just in case (ConflictFinder had a bug that did this once)
+                iter.remove();
+                continue;
+            }
             if (tag.isSameTag(existing)) return this; // re-adding an identical tag is OK, just a noop
         }
         tags.add(tag);

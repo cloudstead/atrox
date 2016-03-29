@@ -108,7 +108,7 @@ public class WikiDateFormat {
 
     public static final String SPACE = "\\s+";
     public static final String ANY_SPACES = "\\s*";
-    public static final String HYPHEN = "(?:[-–]|spaced\\s*&?ndash|&?ndash)";
+    public static final String HYPHEN = "(?:[-–]+|spaced\\s*&?ndash|&?ndash)";
 
     public static final RangePattern[] RANGE_PATTERNS = {
             new RangePattern(MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR + ANY_SPACES + HYPHEN + ANY_SPACES + MATCH_DAY + SPACE + MATCH_MONTH + SPACE + MATCH_YEAR,
@@ -323,7 +323,9 @@ public class WikiDateFormat {
 
         date = date.replace("&amp;nbsp;", "")
                 .replace("&amp;", "").replace("amp;", "")
-                .replace("&nbsp;", "").replace("nbsp;", "");
+                .replace("&nbsp;", "").replace("nbsp;", "")
+                // sometimes ANTLR can't parse hyphen character and instead produces one of these
+                .replace("\ufffd", "-");
 
         return date.trim();
     }

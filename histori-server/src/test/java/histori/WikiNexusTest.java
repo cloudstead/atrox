@@ -291,12 +291,20 @@ public class WikiNexusTest extends WikiTest {
                     .tag(EVENT_TYPE, "battle")
                     .location(39, 25, north, 22, 34, east)
                     .range("-197"),
+
+            // had an unparseable casualty that was adding a null-tag, and an unparseable date
+            // fixed, retain this test to avoid regression
+            new ArticleNexusExpectedResult("Battle of Berlin", false)
+                    .tag(EVENT_TYPE, "battle")
+                    .location(52, 31, north, 13, 23, east)
+                    .range("1945-04-16", "1945-05-02"),
+
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
 //        validateCorrectNexus(TESTS[TESTS.length-1]);
 //        validateCorrectNexus(TESTS[9]);
-//        validateCorrectNexus(findTest("Battle of Cynoscephalae"));
+//        validateCorrectNexus(findTest("Battle of Berlin"));
         for (ArticleNexusExpectedResult test : TESTS) {
             validateCorrectNexus(test);
         }

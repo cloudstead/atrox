@@ -10,6 +10,8 @@ import static org.junit.Assert.fail;
 public class WikiDateFormatTest {
 
     public static final String[][] TESTS = new String[][]{
+            {"16 April&amp;nbsp;��� 2 May 1945", "1945-04-16_1945-05-02"},
+            {"16 April&nbsp;– 2 May 1945", "1945-04-16_1945-05-02"},
             {"August/September ( Attic calendar Metageitnion ), 490 BC", "-490-08"},
             {"Founded in 1867", "1867"},
             {"Circa 1947-1951", "1947_1951"},

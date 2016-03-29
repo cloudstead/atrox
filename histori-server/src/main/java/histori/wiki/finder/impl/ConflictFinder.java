@@ -106,30 +106,26 @@ public class ConflictFinder extends FinderBase<NexusRequest> {
                                             if (plEntry.getChildren().size() >= 3
                                                     && (continuationAfterRef.startsWith("-")|| continuationAfterRef.startsWith("–"))) {
                                                 if (extractEstimate(continuationAfterRef) != null) {
-                                                    final NexusTag impactTag = impactTag(activeFlag, estimate1[0].toString() + continuationAfterRef, null);
-                                                    if (impactTag != null) tags.add(impactTag);
+                                                    addImpactTag(tags, impactTag(activeFlag, estimate1[0].toString() + continuationAfterRef, null));
                                                 }
                                             }
                                         }
                                         for (WikiNode refAttr : ref.getChildren()) {
                                             String refName = refAttr.getName();
                                             if (isValidCasualty(refName)) {
-                                                final NexusTag impactTag = impactTag(activeFlag, refName);
-                                                if (impactTag != null) tags.add(impactTag);
+                                                addImpactTag(tags, impactTag(activeFlag, refName));
                                             }
                                         }
 
                                     } else if (casualty.contains("(") && casualty.contains(")") && casualty.indexOf("(") < casualty.indexOf(")")) {
-                                        tags.add(impactTag(activeFlag, casualty, "casualties")); // main casualty tag
+                                        addImpactTag(tags, impactTag(activeFlag, casualty, "casualties")); // main casualty tag
                                         String[] parts = casualty.substring(casualty.indexOf('(') + 1, casualty.indexOf(')')).split(",");
                                         for (String part : parts) {
-                                            final NexusTag impactTag = impactTag(activeFlag, part.trim());
-                                            if (impactTag != null) tags.add(impactTag);
+                                            addImpactTag(tags, impactTag(activeFlag, part.trim()));
                                         }
 
                                     } else {
-                                        final NexusTag impactTag = impactTag(activeFlag, casualty);
-                                        if (impactTag != null) tags.add(impactTag);
+                                        addImpactTag(tags, impactTag(activeFlag, casualty));
                                     }
                                 }
                             }
@@ -167,6 +163,10 @@ public class ConflictFinder extends FinderBase<NexusRequest> {
 
         request.setTags(tags);
         return request;
+    }
+
+    private void addImpactTag(List<NexusTag> tags, NexusTag nexusTag) {
+        if (nexusTag != null) tags.add(nexusTag);
     }
 
     private boolean hasCasualties(WikiNode ref) {
