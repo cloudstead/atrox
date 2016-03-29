@@ -299,12 +299,17 @@ public class WikiNexusTest extends WikiTest {
                     .location(52, 31, north, 13, 23, east)
                     .range("1945-04-16", "1945-05-02"),
 
+            new ArticleNexusExpectedResult("Battle of Taginae", false)
+                    .tag(EVENT_TYPE, "battle")
+                    .location(43, 14, north, 12, 47, east)
+                    .range("552-07"),
+
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
 //        validateCorrectNexus(TESTS[TESTS.length-1]);
 //        validateCorrectNexus(TESTS[9]);
-//        validateCorrectNexus(findTest("Battle of Berlin"));
+//        validateCorrectNexus(findTest("Battle of Taginae"));
         for (ArticleNexusExpectedResult test : TESTS) {
             validateCorrectNexus(test);
         }
