@@ -58,7 +58,7 @@ public class ConflictFinder extends FinderBase<NexusRequest> {
 
         if (infobox.hasChildNamed("result")) {
             final String result = trimToFirstLine(infobox.findFirstAttributeWithName("result").findAllChildTextButNotLinkDescriptions());
-            tags.add(newTag(result, "result"));
+            if (result != null) tags.add(newTag(result, "result"));
         }
 
         for (WikiNode child : infobox.getChildren()) {
@@ -269,6 +269,7 @@ public class ConflictFinder extends FinderBase<NexusRequest> {
     }
 
     public String trimToFirstLine(String result) {
+        if (result == null) return null;
         int pos = result.indexOf("\n");
         if (pos != -1) result = result.substring(0, pos);
         pos = result.toLowerCase().indexOf("<");
@@ -378,6 +379,7 @@ public class ConflictFinder extends FinderBase<NexusRequest> {
     }
     public Set<ConflictParticipant> parseCommanders(WikiNode targetNode) {
         final Set<ConflictParticipant> found = new LinkedHashSet<>();
+        if (targetNode == null || !targetNode.hasChildren()) return found;
         boolean skippingComment = false;
         String side = null;
         boolean foundFlags = false;

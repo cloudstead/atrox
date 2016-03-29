@@ -39,6 +39,9 @@ public class ParsedWikiArticle extends WikiNode {
             }
         }
         if (more) b.append(" ... ").append(newLinkNode(getName(), "continue reading").toMarkdown());
-        return b.toString();
+
+        String text = b.toString().replaceAll("\\(\\s*\\)", "");
+        while (text.length() > 1 && isPunctuation(text.charAt(0))) text = text.substring(1);
+        return text;
     }
 }

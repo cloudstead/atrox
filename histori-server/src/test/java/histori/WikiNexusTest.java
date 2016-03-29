@@ -286,12 +286,17 @@ public class WikiNexusTest extends WikiTest {
                     .tag(EVENT_TYPE, "battle")
                     .location(37.5648, north, 143.8822, east)
                     .range("1854-12-03"),
+
+            new ArticleNexusExpectedResult("Battle of Cynoscephalae", false)
+                    .tag(EVENT_TYPE, "battle")
+                    .location(39, 25, north, 22, 34, east)
+                    .range("-197"),
     };
 
     @Test public void testNexusCreationFromWiki() throws Exception {
 //        validateCorrectNexus(TESTS[TESTS.length-1]);
 //        validateCorrectNexus(TESTS[9]);
-//        validateCorrectNexus(findTest("Eureka Rebellion"));
+//        validateCorrectNexus(findTest("Battle of Cynoscephalae"));
         for (ArticleNexusExpectedResult test : TESTS) {
             validateCorrectNexus(test);
         }

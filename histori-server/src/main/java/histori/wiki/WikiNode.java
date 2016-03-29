@@ -239,10 +239,19 @@ public class WikiNode {
     public String toMarkdown() {
         switch (type) {
             case string:
-                String text = getName().replace("'''", "**");
+                String text = getName().replace("'''", "**").replace("''", "");
                 if (text.contains("&lt;") || text.contains("<")) {
                     text = text.replace("&lt;", "<").replace("&gt;", ">");
                     text = text.replaceAll("<[^>]+>[^<]+?(<[^>]+>)", "");
+                }
+                if (text.contains("===")) {
+                    int eqPos = text.indexOf("===");
+                    int nextEq = text.indexOf("===", eqPos+1);
+                    if (eqPos != -1 && nextEq != -1) {
+                        text = text.substring(0, eqPos)
+                                + "\n##### " + text.substring(eqPos+"===".length(), nextEq)
+                                + "\n" + text.substring(nextEq+"===".length());
+                    }
                 }
                 if (text.contains("==")) {
                     int eqPos = text.indexOf("==");
