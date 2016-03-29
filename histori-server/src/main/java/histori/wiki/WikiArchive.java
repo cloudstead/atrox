@@ -54,9 +54,19 @@ public class WikiArchive {
         storage.store(new StringInputStream(toJsonOrDie(article)), articlePath, articlePath);
     }
 
-    public ParsedWikiArticle find (String title) {
+    public ParsedWikiArticle find (String title) { return find(title, true); }
+
+    public ParsedWikiArticle find (String title, boolean followRedirects) {
         final WikiArticle article = findUnparsed(title);
-        return article != null ? article.parse() : null;
+        if (article == null) return null;
+
+        final ParsedWikiArticle parsed = article.parse();
+        if (followRedirects && parsed.hasChildren() && parsed.firstChildName().equals("#REDIRECT")) {
+            final WikiNode firstLink = parsed.findFirstWithType(WikiNodeType.link);
+            if (firstLink == null) return null;
+            return find(firstLink.getName());
+        }
+        return parsed;
     }
 
     public WikiArticle findUnparsed (String title) {
