@@ -44,13 +44,13 @@ public class NexusImportMain extends HistoriApiMain<NexusImportOptions> {
         final NexusRequest request = fromJson(jsonFile, NexusRequest.class);
         final String path = NEXUS_ENDPOINT + "/" + urlEncode(request.getName());
 
-        request.addTag("automated_entry_please_verify", "meta");
+        request.getTags().addTag("automated_entry_please_verify", "meta");
 
         final Nexus nexus = fromJson(api.post(path, toJson(request)).json, Nexus.class);
 
         // scrub nexus of short tag names
         nexus.scrubShortTagNames();
 
-        out("imported: "+request.getName()+" with "+nexus.getTagCount()+"/"+request.getTagCount()+" tags (version "+nexus.getVersion()+")");
+        out("imported: "+request.getName()+" with "+nexus.getTags().getTagCount()+"/"+request.getTags().getTagCount()+" tags (version "+nexus.getVersion()+")");
     }
 }

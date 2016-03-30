@@ -5,6 +5,7 @@ import histori.model.*;
 import histori.model.archive.NexusArchive;
 import histori.model.support.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 import org.cobbzilla.wizard.dao.SearchResults;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,8 +30,6 @@ public class NexusTest extends ApiClientTestBase {
 
     private AccountAuthResponse authResponse;
     private Account account;
-
-    @Override public boolean shouldCacheServer() { return false; }
 
     @Before public void createAccount () throws Exception {
         authResponse = newAnonymousAccount();
@@ -63,9 +62,12 @@ public class NexusTest extends ApiClientTestBase {
         // Create a new Nexus
         final String markdown = randomName();
         final Nexus nexus = newNexus(startDate, endDate, nexusName, markdown);
-        nexus.addTag(tag1);
-        nexus.addTag(tag2, "world actor");
-        nexus.addTag(tag3, "citation");
+        nexus.getTags().addTag(tag1);
+        nexus.getTags().addTag(tag2, "world actor");
+        nexus.getTags().addTag("United States", "world actor");
+        nexus.getTags().addTag("Uprising", "event type");
+        nexus.getTags().addTag("US");
+        nexus.getTags().addTag(tag3, "citation");
 
         apiDocs.addNote("Define a new Nexus");
         Nexus createdNexus = createNexus(nexusName, nexus);
@@ -74,7 +76,7 @@ public class NexusTest extends ApiClientTestBase {
         apiDocs.addNote("Lookup the Nexus we created by name");
         found = get(nexusPath, Nexus.class);
         assertEquals(nexusName, found.getName());
-        assertEquals(3, found.getTags().size());
+        assertEquals(6, found.getTags().size());
         assertEquals(markdown, found.getMarkdown());
 
         apiDocs.addNote("Verify that new tags are now present in the system");
@@ -87,7 +89,7 @@ public class NexusTest extends ApiClientTestBase {
         assertEquals(1, searchResults.count());
         result = searchResults.getResult(0);
         assertEquals(nexusName, result.getPrimary().getName());
-        assertEquals(3, result.getPrimary().getTags().size());
+        assertEquals(6, result.getPrimary().getTags().size());
 
         apiDocs.addNote("Update our nexus with new name, this will create an entirely new nexus, because the name is different");
         final String updatedName = nexusName + " -- update";
@@ -100,24 +102,24 @@ public class NexusTest extends ApiClientTestBase {
 
         apiDocs.addNote("Add another tag - this will create a second version of the nexus");
         String tag4 = "Foobar";
-        nexus.addTag(tag4);
+        nexus.getTags().addTag(tag4);
         updatedNexus = post(updatedNexusPath, nexus);
 
         apiDocs.addNote("Lookup the Nexus we updated by uuid, verify updated changes");
         found = get(updatedNexusPath, Nexus.class);
         assertEquals(updatedName, found.getName());
-        assertEquals(4, found.getTags().size());
-        assertTrue(found.hasTag(tag4));
-        assertTrue(found.hasTag(tag4.toLowerCase()));
+        assertEquals(7, found.getTags().size());
+        assertTrue(found.getTags().hasTag(tag4));
+        assertTrue(found.getTags().hasTag(tag4.toLowerCase()));
 
         apiDocs.addNote("Update a tag - this will create a third version of the nexus");
         final String tagComments = randomName();
-        found.getFirstTag(tag4).setValue("meta", tagComments);
+        found.getTags().getFirstTag(tag4).setValue("meta", tagComments);
         updatedNexus = post(updatedNexusPath, found);
 
         apiDocs.addNote("Lookup Nexus again, verify updated tag");
         found = get(updatedNexusPath, Nexus.class);
-        assertEquals(tagComments, found.getFirstTag(tag4.toLowerCase()).getSchemaValueMap().get("meta"));
+        assertEquals(tagComments, found.getTags().getFirstTag(tag4.toLowerCase()).getSchemaValueMap().get("meta"));
 
         apiDocs.addNote("Lookup previous versions, there should now be 3");
         NexusArchive[] archives = get(ARCHIVES_ENDPOINT+"/Nexus/"+found.getUuid(), NexusArchive[].class);
@@ -133,10 +135,10 @@ public class NexusTest extends ApiClientTestBase {
         long start = now();
         final SuperNexusDAO superNexusDAO = getBean(SuperNexusDAO.class);
         superNexusDAO.forceRefresh();
-        long timeout = TimeUnit.SECONDS.toMillis(120);
+        long timeout = TimeUnit.SECONDS.toMillis(5);
         while (superNexusDAO.oldestRefreshTime() < start) {
             assertFalse("timed out waiting for SuperNexusDAO to refresh", now() > start + timeout);
-            sleep(10_000);
+            sleep(100);
         }
 
         apiDocs.addNote("Search again, verify no results");
@@ -153,23 +155,23 @@ public class NexusTest extends ApiClientTestBase {
         assertEquals(4, tags.length);
         int numberMissingType = 0;
         for (Tag t : tags) if (!t.hasTagType()) numberMissingType++;
-        assertEquals(1, numberMissingType);
+        assertEquals("wrong number of missing tags. tags="+ ArrayUtils.toString(tags), 2, numberMissingType);
 
         apiDocs.addNote("Find all tag types");
         final TagType[] tagTypes = get(TAG_TYPES_ENDPOINT, TagType[].class);
         assertEquals(9, tagTypes.length);
 
         final String autocompleteUri = TAGS_ENDPOINT + EP_AUTOCOMPLETE;
-        final String acQuery = "?" + QPARAM_AUTOCOMPLETE + "=f";
+        final String acQuery = "?" + QPARAM_AUTOCOMPLETE + "=u";
         AutocompleteSuggestions autoComplete;
 
         apiDocs.addNote("Test autocomplete for any tag");
         autoComplete = get(autocompleteUri + acQuery, AutocompleteSuggestions.class);
-        assertEquals(8, autoComplete.getSuggestions().size());
+        assertEquals(4, autoComplete.getSuggestions().size());
 
         apiDocs.addNote("Test autocomplete for only event_type tags");
         autoComplete = get(autocompleteUri +"/Event_type" + acQuery, AutocompleteSuggestions.class);
-        assertEquals(3, autoComplete.getSuggestions().size());
+        assertEquals(1, autoComplete.getSuggestions().size());
 
         apiDocs.addNote("Test autocomplete for only tags without a type");
         autoComplete = get(autocompleteUri +"/" + MATCH_NULL_TYPE + acQuery, AutocompleteSuggestions.class);
@@ -187,12 +189,12 @@ public class NexusTest extends ApiClientTestBase {
         final String startDate = range.getStartPoint().toString();
         final String endDate = range.getEndPoint().toString();
 
-        final String nexusName = randomName();
+        final String nexusName = "x-"+randomName();
 
         // Create a new Nexus with a random event_type
-        final String headline = randomName();
-        final Nexus nexus = newNexus(startDate, endDate, nexusName, headline);
-        final String nexusType = randomName();
+        final String markdown = randomName();
+        final Nexus nexus = newNexus(startDate, endDate, nexusName, markdown);
+        final String nexusType = "x-"+randomName();
         nexus.setNexusType(nexusType);
 
         apiDocs.addNote("Define a new Nexus with a nexusType, should automatically create an eventType tag");

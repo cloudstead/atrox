@@ -1,7 +1,6 @@
 package histori.model.base;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import edu.emory.mathcs.backport.java.util.Arrays;
 import histori.model.CanonicalEntity;
 import histori.model.NexusTag;
 import histori.model.NexusView;
@@ -14,7 +13,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
-import org.cobbzilla.util.collection.MapBuilder;
 import org.cobbzilla.util.collection.mappy.MappySortedSet;
 import org.geojson.GeoJsonObject;
 import org.geojson.Geometry;
@@ -30,7 +28,6 @@ import java.util.*;
 
 import static histori.ApiConstants.GEOJSON_MAXLEN;
 import static histori.ApiConstants.NAME_MAXLEN;
-import static histori.model.CanonicalEntity.canonicalize;
 import static histori.model.TagType.EVENT_TYPE;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.json.JsonUtil.fromJsonOrDie;
@@ -133,7 +130,7 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
         if (containsScripting()) throw invalidEx("err.scripting");
 
         // ensure event type tag exists
-        if (hasNexusType() && getFirstEventType() == null) addTag(getNexusType(), EVENT_TYPE);
+        if (hasNexusType() && getTags().getFirstEventType() == null) getTags().addTag(getNexusType(), EVENT_TYPE);
 
         // ensure all tags have uuids, refresh tagsJson
         if (hasTags()) {
@@ -170,162 +167,25 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
 
     public void setTimeRange(String startDate, String endDate) { setTimeRange(new TimeRange(startDate, endDate)); }
 
+    // note that this field is updated by NexusTags, whenever the collection changes via add/set/remove/etc
     @Column(length=(int)(MB)) // 1 megabyte should be enough... famous last words, right? we can always expand, or go to a document store
     @JsonIgnore @Getter @Setter private String tagsJson;
 
-    @Transient private List<NexusTag> tags = null;
+    @Transient private NexusTags tags = null;
 
-    public List<NexusTag> getTags () {
-        if (empty(tagsJson) && empty(tags)) return new ArrayList<>();
-        if (tags == null) tags = Arrays.asList(fromJsonOrDie(tagsJson, NexusTag[].class));
+    public NexusTags getTags () {
+        if (empty(tagsJson) && empty(tags)) return new NexusTags(this);
+        if (tags == null) tags = new NexusTags(this, fromJsonOrDie(tagsJson, NexusTag[].class));
         return tags;
     }
 
     public NexusBase setTags (List<NexusTag> tags) {
-        this.tags = tags;
+        this.tags = new NexusTags(this, tags);
         this.tagsJson = toJsonOrDie(tags);
         return this;
     }
 
     public boolean hasTags () { return !empty(tags) || !empty(tagsJson); }
-
-    public NexusBase addTag (NexusTag tag) {
-        if (tags == null) tags = new ArrayList<>();
-        if (tag == null) return this; // should never happen, but just in case (ConflictFinder had a bug that did this once)
-        for (Iterator<NexusTag> iter = tags.iterator(); iter.hasNext();) {
-            NexusTag existing = iter.next();
-            if (existing == null) {
-                // should never happen, but just in case (ConflictFinder had a bug that did this once)
-                iter.remove();
-                continue;
-            }
-            if (tag.isSameTag(existing)) return this; // re-adding an identical tag is OK, just a noop
-        }
-        tags.add(tag);
-        return setTags(tags); // force re-update to tagsJson
-    }
-
-    public NexusBase addTag (String name) { return addTag(name, null, null); }
-
-    public NexusBase addTag (String name, String tagType) { return addTag(name, tagType, null); }
-
-    public NexusBase addTag (String name, Map<String, String> tagFields) { return addTag(name, null, tagFields); }
-
-    public NexusBase addTag (String name, String tagType, String field, String value) {
-        return addTag(name, tagType, MapBuilder.build(field, value));
-    }
-
-    public NexusBase addTag (String name, String tagType, Map<String, String> tagFields) {
-        if (tags == null) tags = new ArrayList<>();
-        final NexusTag tag = new NexusTag().setTagName(name);
-        if (!empty(tagFields)) {
-            for (Map.Entry<String, String> field : tagFields.entrySet()) {
-                tag.setValue(field.getKey(), field.getValue());
-            }
-        }
-        if (!empty(tagType)) tag.setTagType(tagType);
-        return addTag(tag);
-    }
-
-    public List<NexusTag> getTag(String name) {
-        final List<NexusTag> found = new ArrayList<>();
-        if (!empty(tags)) {
-            final String canonical = canonicalize(name);
-            for (NexusTag tag : tags) {
-                if (canonicalize(tag.getTagName()).equals(canonical)) found.add(tag);
-            }
-        }
-        return found;
-    }
-
-    public List<NexusTag> getTag(String tagType, String name) {
-        final List<NexusTag> found = new ArrayList<>();
-        if (!empty(tags)) {
-            final String canonical = canonicalize(name);
-            for (NexusTag tag : tags) {
-                if (tag.getTagType().equalsIgnoreCase(tagType) && canonicalize(tag.getTagName()).equals(canonical)) {
-                    found.add(tag);
-                }
-            }
-        }
-        return found;
-    }
-
-    public boolean hasTag(String name) {
-        if (empty(tags) || empty(name)) return false;
-        final String canonical = canonicalize(name);
-        for (NexusTag tag : tags) {
-            if (canonicalize(tag.getTagName()).equals(canonical)) return true;
-        }
-        return false;
-    }
-
-    public boolean hasTag(String name, String type) {
-        if (empty(tags) || empty(name)) return false;
-        final String canonical = canonicalize(name);
-        for (NexusTag tag : tags) {
-            if (type != null && (!tag.hasTagType() || !tag.getTagType().equals(type))) continue;
-            if (canonicalize(tag.getTagName()).equals(canonical)) return true;
-        }
-        return false;
-    }
-
-    @JsonIgnore @Transient public int getTagCount() { return empty(tags) ? 0 : tags.size(); }
-
-    public boolean hasExactTag(NexusTag match) {
-        if (!hasTags()) return false;
-        for (NexusTag tag : getTags()) {
-            if (!tag.getTagName().equalsIgnoreCase(match.getTagName())) continue;
-            if (!tag.getTagType().equalsIgnoreCase(match.getTagType())) continue;
-
-            if (!tag.hasSchemaValues()) {
-                if (match.hasSchemaValues()) continue;
-                return true;
-            }
-            if (!match.hasSchemaValues()) continue;
-
-            if (!tag.getSchemaValueMap().equals(match.getSchemaValueMap())) continue;
-
-            return true;
-        }
-        return false;
-    }
-
-    public NexusTag getFirstTag(String name) {
-        final List<NexusTag> found = getTag(name);
-        return empty(found) ? null : found.get(0);
-    }
-
-    public List<NexusTag> getTagsByType(String type) {
-        final List<NexusTag> found = new ArrayList<>();
-        if (hasTags()) {
-            for (NexusTag tag : tags) if (tag.getTagType().equalsIgnoreCase(type)) found.add(tag);
-        }
-        return found;
-    }
-
-    @JsonIgnore @Transient public String getFirstEventType () {
-        if (hasTags()) {
-            for (NexusTag tag : tags) if (tag.hasTagType() && tag.getTagType().equalsIgnoreCase(EVENT_TYPE)) return tag.getTagName();
-        }
-        return null;
-    }
-
-    public void removeTag(String uuid) {
-        if (!hasTags()) return;
-        for (Iterator<NexusTag> iter = tags.iterator(); iter.hasNext(); ) {
-            final NexusTag tag = iter.next();
-            if (tag.hasUuid() && tag.getUuid().equals(uuid)) iter.remove();
-        }
-    }
-
-    @JsonIgnore @Transient public MappySortedSet<String, NexusTag> getTagMap () {
-        final MappySortedSet<String, NexusTag> map = new MappySortedSet<>();
-        for (NexusTag tag : getTags()) {
-            map.put(tag.getCanonicalName(), tag);
-        }
-        return map;
-    }
 
     @Override public boolean equals(Object o) {
         if (this == o) return true;
@@ -342,8 +202,8 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
         else if (nexusType != null && nexusBase.nexusType == null) return false;
         else if (nexusType != null && !nexusType.equals(nexusBase.nexusType)) return false;
 
-        final MappySortedSet<String, NexusTag> tagMap = getTagMap();
-        final MappySortedSet<String, NexusTag> nexusMap = nexusBase.getTagMap();
+        final MappySortedSet<String, NexusTag> tagMap = getTags().getTagMap();
+        final MappySortedSet<String, NexusTag> nexusMap = nexusBase.getTags().getTagMap();
         return tagMap.equals(nexusMap);
     }
 
@@ -352,7 +212,7 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
         result = 31 * result + canonicalName.hashCode();
         result = 31 * result + timeRange.hashCode();
         result = 31 * result + getGeoJson().hashCode();
-        if (hasTags()) result = 31 * result + getTagMap().hashCode();
+        if (hasTags()) result = 31 * result + getTags().hashCode();
         return result;
     }
 

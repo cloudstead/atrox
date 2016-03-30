@@ -1,5 +1,6 @@
 package histori.model;
 
+import histori.ApiConstants;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.cobbzilla.wizard.model.shard.Shardable;
@@ -31,4 +32,7 @@ public class Tag extends CanonicalEntity implements Shardable {
 
     public boolean hasTagType() { return !empty(tagType); }
 
+    @Override public String toString() {
+        return getCanonicalName()+"/"+(hasTagType() ? getTagType() : ApiConstants.MATCH_NULL_TYPE);
+    }
 }

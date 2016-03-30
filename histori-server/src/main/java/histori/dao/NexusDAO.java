@@ -51,27 +51,27 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
         return super.preCreate(entity);
     }
 
-    @Override public Object preUpdate(@Valid Nexus entity) {
-        entity.prepareForSave();
+    @Override public Object preUpdate(@Valid Nexus nexus) {
+        nexus.prepareForSave();
 
         // ensure event_type tag corresponding to nexusType is present, or create it if not
-        if (entity.hasNexusType()) {
+        if (nexus.hasNexusType()) {
             // what tags already exist?
-            final NexusTag typeTag = new NexusTag().setTagName(entity.getNexusType()).setTagType(EVENT_TYPE);
-            if (!entity.hasExactTag(typeTag)) {
-                entity.addTag(typeTag);
+            final NexusTag typeTag = new NexusTag().setTagName(nexus.getNexusType()).setTagType(EVENT_TYPE);
+            if (!nexus.getTags().hasExactTag(typeTag)) {
+                nexus.getTags().addTag(typeTag);
                 return typeTag;
             } else {
                 // nexusType already matches one of the event_type tags
             }
         } else {
-            entity.setNexusType(entity.getFirstEventType());
+            nexus.setNexusType(nexus.getTags().getFirstEventType());
         }
 
         // create version
-        VersionedEntityDAO.incrementVersionAndArchive(entity, this, nexusArchiveDAO);
+        VersionedEntityDAO.incrementVersionAndArchive(nexus, this, nexusArchiveDAO);
 
-        return super.preUpdate(entity);
+        return super.preUpdate(nexus);
     }
 
     @Override public Nexus postCreate(Nexus nexus, Object context) {

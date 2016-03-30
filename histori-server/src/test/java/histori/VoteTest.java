@@ -3,10 +3,12 @@ package histori;
 import histori.model.Nexus;
 import histori.model.Vote;
 import histori.model.support.AccountAuthResponse;
-import org.junit.Before;
+import histori.server.HistoriConfiguration;
+import org.cobbzilla.wizard.server.RestServer;
 import org.junit.Test;
 
 import static histori.ApiConstants.*;
+import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.http.HttpStatusCodes.NOT_FOUND;
 import static org.junit.Assert.assertEquals;
 
@@ -17,10 +19,14 @@ public class VoteTest extends ApiClientTestBase {
     private Nexus nexus;
     private AccountAuthResponse authResponse;
 
-    @Before public void populate () throws Exception {
-        authResponse = newAnonymousAccount();
-        nexus = createNexus(dummyNexus());
+    @Override public void onStart(RestServer<HistoriConfiguration> server) {
+        try {
+            authResponse = newAnonymousAccount();
+            nexus = createNexus(dummyNexus());
+        } catch (Exception e) { die("onStart: error setting up: "+e); }
+
         // todo: create some tags that could also be voted on
+        super.onStart(server);
     }
 
     @Test public void testVotingCrud () throws Exception {

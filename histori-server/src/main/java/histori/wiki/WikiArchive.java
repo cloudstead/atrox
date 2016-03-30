@@ -183,7 +183,7 @@ public class WikiArchive {
 
     public NexusRequest finalize(NexusRequest nexusRequest, ParsedWikiArticle parsed) {
         // Did we detect an event_type?
-        if (!nexusRequest.hasNexusType()) nexusRequest.setNexusType(nexusRequest.getFirstEventType());
+        if (!nexusRequest.hasNexusType()) nexusRequest.setNexusType(nexusRequest.getTags().getFirstEventType());
         addCitation(nexusRequest, parsed.getName());
         nexusRequest.setMarkdown(parsed.toMarkdown(SYNOPSIS_MAX_CHARS));
         return nexusRequest;
@@ -191,7 +191,7 @@ public class WikiArchive {
 
     public NexusRequest addCitation(NexusRequest nexusRequest, String title) {
         if (empty(title)) return null;
-        nexusRequest.addTag(wikiLink(title), "citation");
+        nexusRequest.getTags().addTag(wikiLink(title), "citation");
         return nexusRequest;
     }
 

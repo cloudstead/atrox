@@ -84,7 +84,7 @@ public class MetroFinder extends MultiNexusFinder {
                                     && (titlePart.getName().toLowerCase().endsWith(" by") || titlePart.getName().toLowerCase().endsWith(" by the"))
                                     && child.getChildCount() > i + 1
                                     && child.getChild(i + 1).getType().isLink()) {
-                                r.addTag(child.getChild(i + 1).getName(), "world_actor", "role", "founder");
+                                r.getTags().addTag(child.getChild(i + 1).getName(), "world_actor", "role", "founder");
                             }
                         }
                     }
@@ -118,7 +118,7 @@ public class MetroFinder extends MultiNexusFinder {
         for (NexusRequest r : found) {
             r.setPoint(new Point(coordinates.getLon(), coordinates.getLat()));
             r.setNexusType("founding");
-            r.addTag("founding", TagType.EVENT_TYPE);
+            r.getTags().addTag("founding", TagType.EVENT_TYPE);
         }
         return found;
     }

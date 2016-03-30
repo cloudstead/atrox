@@ -148,10 +148,10 @@ public class ArticleNexusExpectedResult {
         }
         if (location != null) assertSameLocation(nexusRequest.getGeoJson());
         if (range != null) assertEquals(range, nexusRequest.getTimeRange());
-        if (fullCheck) assertEquals("wrong # of tags for "+ title, tags.size(), nexusRequest.getTagCount());
+        if (fullCheck) assertEquals("wrong # of tags for "+ title, tags.size(), nexusRequest.getTags().getTagCount());
         for (NexusTag tag : tags) {
-            assertTrue("missing tag ("+ title+"): "+tag.getTagType()+"/"+tag.getTagName(), nexusRequest.hasTag(tag.getTagName()));
-            assertTrue("tag doesn't match ("+ title+"): "+tag.getTagName(), nexusRequest.hasExactTag(tag));
+            assertTrue("missing tag ("+ title+"): "+tag.getTagType()+"/"+tag.getTagName(), nexusRequest.getTags().hasTag(tag.getTagName()));
+            assertTrue("tag doesn't match ("+ title+"): "+tag.getTagName(), nexusRequest.getTags().hasExactTag(tag));
         }
         if (markdown != null) {
             assertNotNull("markdown was null", nexusRequest.getMarkdown());
