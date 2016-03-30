@@ -208,7 +208,7 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
         if (options.isOverwrite() && exists) {
             final WikiArticle existing = wiki.findUnparsed(article.getTitle());
             if (existing == null) {
-                die("store: exists("+article.getTitle()+") return true, but findUnparsed return null");
+                out("store: exists("+article.getTitle()+") return true, but findUnparsed return null: overwriting (unparseable JSON?)");
 
             } else if (!existing.isRedirect() && article.isRedirect()) {
                 // article is a redirect but existing one is not: do not overwrite
