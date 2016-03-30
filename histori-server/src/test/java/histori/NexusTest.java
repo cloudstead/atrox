@@ -29,6 +29,8 @@ public class NexusTest extends ApiClientTestBase {
     private AccountAuthResponse authResponse;
     private Account account;
 
+    @Override public boolean shouldCacheServer() { return false; }
+
     @Before public void createAccount () throws Exception {
         authResponse = newAnonymousAccount();
         account = authResponse.getAccount();
