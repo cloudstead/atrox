@@ -133,10 +133,10 @@ public class NexusTest extends ApiClientTestBase {
         long start = now();
         final SuperNexusDAO superNexusDAO = getBean(SuperNexusDAO.class);
         superNexusDAO.forceRefresh();
-        long timeout = TimeUnit.SECONDS.toMillis(15);
+        long timeout = TimeUnit.SECONDS.toMillis(120);
         while (superNexusDAO.oldestRefreshTime() < start) {
             assertFalse("timed out waiting for SuperNexusDAO to refresh", now() > start + timeout);
-            sleep(100);
+            sleep(10_000);
         }
 
         apiDocs.addNote("Search again, verify no results");
