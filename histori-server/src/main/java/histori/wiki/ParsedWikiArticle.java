@@ -44,4 +44,12 @@ public class ParsedWikiArticle extends WikiNode {
         while (text.length() > 1 && isPunctuation(text.charAt(0))) text = text.substring(1);
         return text;
     }
+
+    public boolean isRedirect() { return hasChildren() && firstChildName().equals("#REDIRECT"); }
+
+    public String getRedirect() {
+        if (!isRedirect()) return null;
+        final WikiNode firstLink = findFirstWithType(WikiNodeType.link);
+        return firstLink == null ? null : firstLink.getName();
+    }
 }

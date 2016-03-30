@@ -76,11 +76,10 @@ public class WikiArchive {
         if (article == null) return null;
 
         final ParsedWikiArticle parsed = article.parse();
-        if (redirects != null && parsed.hasChildren() && parsed.firstChildName().equals("#REDIRECT")) {
-            final WikiNode firstLink = parsed.findFirstWithType(WikiNodeType.link);
-            if (firstLink == null) return null;
-            redirects.add(title);
-            return find(firstLink.getName(), redirects);
+        final String redirect = parsed.getRedirect();
+        if (redirects != null && redirect != null) {
+            redirects.add(redirect);
+            return find(redirect, redirects);
         }
         return parsed;
     }
@@ -143,14 +142,17 @@ public class WikiArchive {
 
         final ParsedWikiArticle parsed = article.parse();
 
-        if (article.getText().toLowerCase().startsWith("#redirect")) {
-            final List<WikiNode> links = parsed.getLinks();
-            if (!empty(links)) {
-                final String target = links.get(0).getName();
-                String msg = "toNexusRequest: " + article.getTitle() + " is a redirect, following: " + target;
+        if (parsed.isRedirect()) {
+            final String redirect = parsed.getRedirect();
+            if (redirect != null) {
+                if (canonicalize(redirect).equals(canonicalize(article.getTitle()))) {
+                    log.warn("toNexusRequest: detected infinite redirect loop for: "+article.getTitle()+" -> "+redirect+", skipping");
+                    return null;
+                }
+                String msg = "toNexusRequest: " + article.getTitle() + " is a redirect, following: " + redirect;
                 log.info(msg);
                 disposition.add(msg);
-                return toNexusRequest(target, disposition);
+                return toNexusRequest(redirect, disposition);
             } else {
                 String msg = "toNexusRequest: " + article.getTitle() + " is a redirect, but could not determine target: " + article.getText();
                 log.warn(msg);

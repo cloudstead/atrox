@@ -103,7 +103,13 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                         break;
                     }
                 }
-                if (lineCount <= skipLines) continue;
+                if (lineCount <= skipLines) {
+                    if (lineCount % 1000 == 0) out("skipped line "+lineCount+"/"+skipLines);
+                    continue;
+                } else if (stopLines > 0 && lineCount % 1000 == 0) {
+                    out("processed line "+(lineCount-skipLines)+"/"+stopLines +" : "+(100.0*((double)(lineCount-skipLines))/((double)stopLines))+" % done");
+                }
+
                 line = line.trim();
                 if (line.length() == 0) continue;
                 switch (parseState) {
@@ -194,7 +200,18 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
 
         final WikiIndexerOptions options = getOptions();
 
-        if (!options.isOverwrite() && wiki.exists(article)) return;
+        final boolean exists = wiki.exists(article);
+        if (!options.isOverwrite() && exists) return;
+
+        // even if overwrite is enabled, never overwrite a regular article with a redirect article
+        // this could sometimes happen if a redirect only differs in spelling from the main article
+        if (options.isOverwrite() && exists) {
+            final WikiArticle existing = wiki.findUnparsed(article.getTitle());
+            if (!existing.parse().isRedirect() && article.parse().isRedirect()) {
+                // article is a redirect but existing one is not: do not overwrite
+                return;
+            }
+        }
 
         final String title = article.getTitle();
         try {
