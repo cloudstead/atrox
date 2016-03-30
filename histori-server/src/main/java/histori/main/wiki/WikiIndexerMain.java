@@ -207,7 +207,10 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
         // this could sometimes happen if a redirect only differs in spelling from the main article
         if (options.isOverwrite() && exists) {
             final WikiArticle existing = wiki.findUnparsed(article.getTitle());
-            if (!existing.isRedirect() && article.isRedirect()) {
+            if (existing == null) {
+                die("store: exists("+article.getTitle()+") return true, but findUnparsed return null");
+
+            } else if (!existing.isRedirect() && article.isRedirect()) {
                 // article is a redirect but existing one is not: do not overwrite
                 out("store: not overwriting regular article ("+existing.getTitle()+") with redirect ("+article.getTitle()+")");
                 return;

@@ -1,5 +1,6 @@
 package histori.wiki;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,6 +14,6 @@ public class WikiArticle {
 
     public ParsedWikiArticle parse () { return new ParsedWikiArticle(title, WikiNode.parse(text)); }
 
-    public boolean isRedirect() { return text.toLowerCase().trim().startsWith("#redirect"); }
+    @JsonIgnore public boolean isRedirect() { return text.toLowerCase().trim().startsWith("#redirect"); }
 
 }

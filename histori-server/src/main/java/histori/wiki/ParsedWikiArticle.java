@@ -1,5 +1,6 @@
 package histori.wiki;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -45,9 +46,9 @@ public class ParsedWikiArticle extends WikiNode {
         return text;
     }
 
-    public boolean isRedirect() { return hasChildren() && firstChildName().equals("#REDIRECT"); }
+    @JsonIgnore public boolean isRedirect() { return hasChildren() && firstChildName().equals("#REDIRECT"); }
 
-    public String getRedirect() {
+    @JsonIgnore public String getRedirect() {
         if (!isRedirect()) return null;
         final WikiNode firstLink = findFirstWithType(WikiNodeType.link);
         return firstLink == null ? null : firstLink.getName();
