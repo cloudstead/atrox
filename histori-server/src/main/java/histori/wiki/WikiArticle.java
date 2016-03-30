@@ -13,4 +13,6 @@ public class WikiArticle {
 
     public ParsedWikiArticle parse () { return new ParsedWikiArticle(title, WikiNode.parse(text)); }
 
+    public boolean isRedirect() { return text.toLowerCase().trim().startsWith("#redirect"); }
+
 }
