@@ -104,9 +104,9 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                     }
                 }
                 if (lineCount <= skipLines) {
-                    if (lineCount % 1000 == 0) out("skipped line "+lineCount+"/"+skipLines);
+                    if (lineCount % 100000 == 0) out("skipped line "+lineCount+"/"+skipLines);
                     continue;
-                } else if (stopLines > 0 && lineCount % 1000 == 0) {
+                } else if (stopLines > 0 && lineCount % 100000 == 0) {
                     out("processed line "+(lineCount-skipLines)+"/"+stopLines +" : "+(100.0*((double)(lineCount-skipLines))/((double)stopLines))+" % done");
                 }
 
