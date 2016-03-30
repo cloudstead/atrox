@@ -54,7 +54,9 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
 
     @Override public void onStart(RestServer<HistoriConfiguration> server) {
         // disable captcha for tests
-        server.getConfiguration().setRecaptcha(DummyRecaptchaConfig.instance);
+        final HistoriConfiguration config = server.getConfiguration();
+        config.setRecaptcha(DummyRecaptchaConfig.instance);
+        config.setPublicUriBase("http://127.0.0.1:" +config.getHttp().getPort()+"/");
         new DbSeedListener().seed(server, seedTestData());
     }
 

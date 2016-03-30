@@ -3,7 +3,8 @@
 
 serverName: histori-api
 
-publicUriBase: https://127.0.0.1
+# This is set in ApiClientTestBase.onStart, after the random listen port has been selected
+#publicUriBase: http://127.0.0.1
 #publicUriBase: {{PUBLIC_BASE_URI}}
 
 database:
