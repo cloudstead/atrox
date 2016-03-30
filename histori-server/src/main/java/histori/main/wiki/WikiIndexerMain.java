@@ -212,7 +212,7 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
 
             } else if (!existing.isRedirect() && article.isRedirect()) {
                 // article is a redirect but existing one is not: do not overwrite
-                out("store: not overwriting regular article ("+existing.getTitle()+") with redirect ("+article.getTitle()+")");
+                // out("store: not overwriting regular article ("+existing.getTitle()+") with redirect ("+article.getTitle()+")");
                 return;
             }
         }
