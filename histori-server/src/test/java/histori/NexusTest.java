@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static histori.ApiConstants.*;
 import static histori.model.CanonicalEntity.canonicalize;
@@ -132,7 +133,7 @@ public class NexusTest extends ApiClientTestBase {
         long start = now();
         final SuperNexusDAO superNexusDAO = getBean(SuperNexusDAO.class);
         superNexusDAO.forceRefresh();
-        int timeout = 5000;
+        long timeout = TimeUnit.SECONDS.toMillis(15);
         while (superNexusDAO.oldestRefreshTime() < start) {
             assertFalse("timed out waiting for SuperNexusDAO to refresh", now() > start + timeout);
             sleep(100);
