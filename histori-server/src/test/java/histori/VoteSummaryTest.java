@@ -34,6 +34,8 @@ public class VoteSummaryTest extends ApiClientTestBase {
     private List<Nexus> nexuses = new ArrayList<>();
     private Map<String, Long> expectedTallies = new HashMap<>();
 
+    @Override public boolean shouldCacheServer() { return false; }
+
     @Before public void populate () throws Exception {
 
         for (int i=0; i<MAX_VOTERS; i++) accounts.add(newAnonymousAccount());
