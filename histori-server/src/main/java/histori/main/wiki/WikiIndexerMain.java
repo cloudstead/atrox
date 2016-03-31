@@ -109,7 +109,8 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                     if (lineCount % LINELOG_INTERVAL == 0) out("skipped line "+lineCount+"/"+skipLines);
                     continue;
                 } else if (stopAfterLine > 0 && lineCount % LINELOG_INTERVAL == 0) {
-                    out("processed line "+lineCount+"/"+stopAfterLine +" : "+(100.0*((double)(lineCount-skipLines))/((double)(lineCount-stopAfterLine)))+" % done");
+                    double percentDone = 100.0 * ((double)(lineCount - skipLines)) / ((double)(stopAfterLine - skipLines));
+                    out("processed line "+lineCount+"/"+stopAfterLine +" : "+percentDone+" % done");
                 }
 
                 line = line.trim();
