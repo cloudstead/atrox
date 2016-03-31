@@ -68,17 +68,21 @@ public class WikiArchive {
     }
 
     protected ParsedWikiArticle find (String title, Set<String> redirects) {
-        if (redirects != null && redirects.contains(title)) {
-            log.warn("Redirect loop detected, bailing out. Redirects were: "+StringUtil.toString(redirects));
-            return null;
+        if (redirects != null) {
+            if (redirects.contains(title)) {
+                log.warn("Redirect loop detected, bailing out. Redirects were: " + StringUtil.toString(redirects));
+                return null;
+            } else {
+                redirects.add(title);
+            }
         }
+
         final WikiArticle article = findUnparsed(title);
         if (article == null) return null;
 
         final ParsedWikiArticle parsed = article.parse();
         final String redirect = parsed.getRedirect();
         if (redirects != null && redirect != null) {
-            redirects.add(redirect);
             return find(redirect, redirects);
         }
         return parsed;
