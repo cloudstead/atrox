@@ -88,7 +88,7 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
 
         final int skipPages = opts.getSkipPages();
         final int skipLines = opts.getSkipLines();
-        final int stopLines = opts.getStopLines();
+        final int stopAfterLine = opts.getStopAfterLine();
         final LineMatcher lineMatcher = opts.getLineMatcher();
 
         WikiXmlParseState parseState = seeking_page;
@@ -99,17 +99,17 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
             int lineCount = 0;
             while ((line = reader.readLine()) != null) {
                 lineCount++;
-                if (stopLines > 0 && lineCount - skipLines > stopLines) {
+                if (stopAfterLine > 0 && lineCount > stopAfterLine) {
                     if (parseState == seeking_page) {
-                        out("reached limit of " + stopLines + " lines of data, exiting");
+                        out("reached limit of " + stopAfterLine + " lines of data, exiting");
                         break;
                     }
                 }
                 if (lineCount <= skipLines) {
                     if (lineCount % LINELOG_INTERVAL == 0) out("skipped line "+lineCount+"/"+skipLines);
                     continue;
-                } else if (stopLines > 0 && lineCount % LINELOG_INTERVAL == 0) {
-                    out("processed line "+(lineCount-skipLines)+"/"+stopLines +" : "+(100.0*((double)(lineCount-skipLines))/((double)stopLines))+" % done");
+                } else if (stopAfterLine > 0 && lineCount % LINELOG_INTERVAL == 0) {
+                    out("processed line "+lineCount+"/"+stopAfterLine +" : "+(100.0*((double)(lineCount-skipLines))/((double)(lineCount-stopAfterLine)))+" % done");
                 }
 
                 line = line.trim();

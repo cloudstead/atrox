@@ -24,11 +24,11 @@ public class WikiIndexerOptions extends WikiBaseOptions {
     @Option(name=OPT_SKIP_LINES, aliases=LONGOPT_SKIP_LINES, usage=USAGE_SKIP_LINES)
     @Getter @Setter private int skipLines = 0;
 
-    public static final String USAGE_STOP_LINES = "Stop after reading this many lines. Note that a few more lines may be read in order to complete an open article. Default is not to stop until EOF";
+    public static final String USAGE_STOP_LINES = "Stop after reading this absolute line number. Note that a few more lines may be read in order to complete an open article. Default is not to stop until EOF";
     public static final String OPT_STOP_LINES = "-S";
-    public static final String LONGOPT_STOP_LINES= "--stop-lines";
+    public static final String LONGOPT_STOP_LINES= "--stop-after-line";
     @Option(name=OPT_STOP_LINES, aliases=LONGOPT_STOP_LINES, usage=USAGE_STOP_LINES)
-    @Getter @Setter private int stopLines = -1;
+    @Getter @Setter private int stopAfterLine = -1;
 
     public static final String USAGE_FILTER = "Apply this filter to each article. Use a fully-qualified Java class name, must implement LineMatcher";
     public static final String OPT_FILTER = "-F";
