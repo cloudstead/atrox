@@ -63,6 +63,12 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
     @Getter protected AtomicInteger pageCount = new AtomicInteger(0);
     @Getter protected AtomicInteger storeCount = new AtomicInteger(0);
 
+    private List<WikiIndexerTask> tasks;
+    private List<Future> futures;
+
+    private long lastStatus;
+    private long startTime;
+
     @Override protected void run() throws Exception {
 
         final WikiIndexerOptions opts = getOptions();
@@ -71,10 +77,10 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
         if (numThreads > 1 && !opts.hasInfile()) die(OPT_THREADS+"/"+LONGOPT_THREADS+" was > 1 but "+OPT_INFILE+"/"+LONGOPT_INFILE+" was not set");
         if (numThreads > 1 && opts.hasSkip()) die(OPT_THREADS+"/"+LONGOPT_THREADS+" was > 1 and "+OPT_SKIP+"/"+LONGOPT_SKIP+" was set, can't do that");
 
-        final List<WikiIndexerTask> tasks = new ArrayList<>();
-        final List<Future> futures = new ArrayList<>();
+        tasks = new ArrayList<>();
+        futures = new ArrayList<>();
 
-        final long start = now();
+        startTime = now();
         final ExecutorService executor = Executors.newFixedThreadPool(numThreads);
         for (int i=0; i<numThreads; i++) {
             final WikiIndexerTask task = new WikiIndexerTask(this, i);
@@ -82,7 +88,7 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
             futures.add(executor.submit(task));
         }
 
-        long lastStatus = now();
+        lastStatus = now();
         while (!futures.isEmpty()) {
             for (Iterator<Future> iter = futures.iterator(); iter.hasNext(); ) {
                 final Future future = iter.next();
@@ -98,18 +104,22 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                 }
             }
             sleep(TimeUnit.SECONDS.toMillis(10));
-            if (now() - lastStatus > STATUS_INTERVAL) {
-                out(futures.size()+" index jobs running, "+pageCount.get()+" pages processed, "+storeCount.get()+" stored, duration: "+formatDuration(now() - start));
-                if (opts.hasInfile()) {
-                    for (WikiIndexerTask task : tasks) {
-                        out("slice " + task.getSliceNumber() + ": " + task.getPercentDone() + " % complete");
-                    }
-                }
-                lastStatus = now();
-            }
+            if (now() - lastStatus > STATUS_INTERVAL) printStatus();
         }
 
+        printStatus();
         out("Wiki Index Completed! now="+now());
+    }
+
+    private void printStatus() {
+        WikiIndexerOptions opts = getOptions();
+        out(futures.size()+" index jobs running, "+pageCount.get()+" pages processed, "+storeCount.get()+" stored, duration: "+formatDuration(now() - startTime));
+        if (opts.hasInfile()) {
+            for (WikiIndexerTask task : tasks) {
+                out("slice " + task.getSliceNumber() + ": " + task.getPercentDone() + " % complete");
+            }
+        }
+        lastStatus = now();
     }
 
 }
