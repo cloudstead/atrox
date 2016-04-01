@@ -13,7 +13,7 @@ public class WikiTitleIndexOptions extends BaseMainOptions {
 
     public static final String USAGE_FILE = "File to read. Default is stdin.";
     public static final String OPT_FILE = "-f";
-    public static final String LONGOPT_FILE= "--help";
+    public static final String LONGOPT_FILE= "--file";
     @Option(name=OPT_FILE, aliases=LONGOPT_FILE, usage=USAGE_FILE)
     @Getter @Setter private File file = null;
     public boolean hasFile () { return file != null; }
