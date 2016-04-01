@@ -7,6 +7,11 @@ function die {
 
 BASE=$(cd $(dirname $0) && pwd)
 
+# are we being run from symlink in top-level dir?
+if [[ $(basename $(pwd)) != "histori-server" && -d "${BASE}/histori-server" ]] ; then
+  BASE="${BASE}/histori-server"
+fi
+
 if [ -f ~/.histori.env ] ; then
   . ~/.histori.env
 fi

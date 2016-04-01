@@ -1,0 +1,1 @@
+./histori-server/run.sh
