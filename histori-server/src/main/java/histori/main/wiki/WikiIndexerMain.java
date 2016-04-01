@@ -99,7 +99,7 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
             }
             sleep(TimeUnit.SECONDS.toMillis(10));
             if (now() - lastStatus > STATUS_INTERVAL) {
-                out(futures.size()+" index jobs running, duration: "+formatDuration(now() - start));
+                out(futures.size()+" index jobs running, "+pageCount.get()+" pages processed, "+storeCount.get()+" stored, duration: "+formatDuration(now() - start));
                 if (opts.hasInfile()) {
                     for (WikiIndexerTask task : tasks) {
                         out("slice " + task.getSliceNumber() + ": " + task.getPercentDone() + " % complete");
