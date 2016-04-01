@@ -32,8 +32,8 @@ class WikiIndexerTask implements Runnable {
 
     public static final int LINELOG_INTERVAL = 1_000_000;
 
-    private WikiIndexerMain main;
-    @Getter private int sliceNumber;
+    private final WikiIndexerMain main;
+    @Getter private final int sliceNumber;
 
     public WikiIndexerTask(WikiIndexerMain main, int sliceNumber) {
         this.main = main;
@@ -225,9 +225,9 @@ class WikiIndexerTask implements Runnable {
 
             final String title = article.getTitle();
             try {
-                wiki.store(article);
-                if (storeCount.incrementAndGet() % 1000 == 0)
-                    main.out("stored page # " + storeCount + " (" + title + ")");
+                if (wiki.store(article)) {
+                    if (storeCount.incrementAndGet() % 1000 == 0) main.out("stored page # " + storeCount + " (" + title + ")");
+                }
 
             } catch (Exception e) {
                 die("error storing: " + title + " (page " + pageCount.get() + "): " + e, e);
@@ -240,13 +240,15 @@ class WikiIndexerTask implements Runnable {
     }
 
     private void logMatch(String title) {
-        final WikiIndexerOptions options = main.getOptions();
-        if (options.hasFilterLog()) {
-            FileUtil.toFileOrDie(options.getFilterLog(), title.trim()+"\n", true);
-        } else {
-            main.out("FILTER-MATCH: " + title);
+        // ensure only one item is logged at a time
+        synchronized (main) {
+            final WikiIndexerOptions options = main.getOptions();
+            if (options.hasFilterLog()) {
+                FileUtil.toFileOrDie(options.getFilterLog(), title.trim() + "\n", true);
+            } else {
+                main.out("FILTER-MATCH: " + title);
+            }
         }
     }
 
 }
-

@@ -52,13 +52,14 @@ public class WikiArchive {
         return articlePath != null && storage.exists(articlePath);
     }
 
-    public void store(WikiArticle article) throws Exception {
+    public boolean store(WikiArticle article) throws Exception {
         final String articlePath = getArticlePath(article.getTitle());
         if (articlePath == null) {
             // log.info("refusing to index: "+article.getTitle());
-            return;
+            return false;
         }
         storage.store(new StringInputStream(toJsonOrDie(article)), articlePath, articlePath);
+        return true;
     }
 
     public ParsedWikiArticle find (String title) { return find(title, true); }
