@@ -99,9 +99,11 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
             }
             sleep(TimeUnit.SECONDS.toMillis(10));
             if (now() - lastStatus > STATUS_INTERVAL) {
-                out(formatDuration(now() - start)+": "+futures.size()+" index jobs running: ");
-                for (WikiIndexerTask task : tasks) {
-                    out("task "+task.getSliceNumber()+": "+task.getPercentDone()+" % complete");
+                out(futures.size()+" index jobs running, duration: "+formatDuration(now() - start);
+                if (opts.hasInfile()) {
+                    for (WikiIndexerTask task : tasks) {
+                        out("slice " + task.getSliceNumber() + ": " + task.getPercentDone() + " % complete");
+                    }
                 }
             }
         }
