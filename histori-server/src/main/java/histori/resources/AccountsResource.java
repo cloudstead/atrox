@@ -97,7 +97,7 @@ public class AccountsResource extends AuthResourceBase<Account> {
         final Account account = accountDAO.findByUuid(accountUuid);
 
         // Is this also a change password request? If so, try that first
-        ValidationResult validationResult = new ValidationResult();
+        final ValidationResult validationResult = new ValidationResult();
         if (request.hasPassword()) {
             if (!account.getHashedPassword().isCorrectPassword(request.getCurrentPassword())) {
                 validationResult.addViolation("err.password.incorrect", "Password was incorrect");

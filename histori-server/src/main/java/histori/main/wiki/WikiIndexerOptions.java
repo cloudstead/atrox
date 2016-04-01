@@ -3,32 +3,56 @@ package histori.main.wiki;
 import histori.wiki.linematcher.LineMatcher;
 import lombok.Getter;
 import lombok.Setter;
+import org.cobbzilla.util.io.ByteLimitedInputStream;
 import org.kohsuke.args4j.Option;
 
-import java.io.File;
+import java.io.*;
 
+import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.reflect.ReflectionUtil.instantiate;
 
 public class WikiIndexerOptions extends WikiBaseOptions {
 
-    public static final String USAGE_SKIP = "How many pages to skip at the start. Default is zero";
-    public static final String OPT_SKIP = "-k";
-    public static final String LONGOPT_SKIP= "--skip-pages";
+    public static final String USAGE_INFILE = "Input wiki XML file. Default is stdin.";
+    public static final String OPT_INFILE = "-i";
+    public static final String LONGOPT_INFILE= "--infile";
+    @Option(name=OPT_INFILE, aliases=LONGOPT_INFILE, usage=USAGE_INFILE)
+    @Getter @Setter private File infile = null;
+
+    public boolean hasInfile () { return infile != null; }
+
+    public long infileSize () { return infile == null || !infile.exists() ? 0 : infile.length(); }
+
+    public ByteLimitedInputStream getInputStream (long start, long end) throws IOException {
+        final ByteLimitedInputStream in = new ByteLimitedInputStream(new FileInputStream(infile), end - start);
+        if (in.skip(start) != start) die("getReader: skip failed");
+        return in;
+    }
+
+    public static final String USAGE_THREADS = "How many threads to use when indexing. Default is 1. For more than one, "+OPT_INFILE+"/"+LONGOPT_INFILE+" is required.";
+    public static final String OPT_THREADS = "-t";
+    public static final String LONGOPT_THREADS= "--threads";
+    @Option(name=OPT_THREADS, aliases=LONGOPT_THREADS, usage=USAGE_THREADS)
+    @Getter @Setter private int threads = 1;
+
+    public static final String USAGE_SKIP = "How many bytes to skip from the beginning of the file. Do not use with more than one thread.";
+    public static final String OPT_SKIP = "-s";
+    public static final String LONGOPT_SKIP= "--skip";
     @Option(name=OPT_SKIP, aliases=LONGOPT_SKIP, usage=USAGE_SKIP)
-    @Getter @Setter private int skipPages = 0;
+    @Getter @Setter private long skip = 0;
 
-    public static final String USAGE_SKIP_LINES = "How many lines to skip at the start. Default is zero.";
-    public static final String OPT_SKIP_LINES = "-s";
-    public static final String LONGOPT_SKIP_LINES= "--skip-lines";
-    @Option(name=OPT_SKIP_LINES, aliases=LONGOPT_SKIP_LINES, usage=USAGE_SKIP_LINES)
-    @Getter @Setter private int skipLines = 0;
+    public boolean hasSkip () { return skip > 0; }
 
-    public static final String USAGE_STOP_LINES = "Stop after reading this absolute line number. Note that a few more lines may be read in order to complete an open article. Default is not to stop until EOF";
-    public static final String OPT_STOP_LINES = "-S";
-    public static final String LONGOPT_STOP_LINES= "--stop-after-line";
-    @Option(name=OPT_STOP_LINES, aliases=LONGOPT_STOP_LINES, usage=USAGE_STOP_LINES)
-    @Getter @Setter private int stopAfterLine = -1;
+    public long getSkip (int i) {
+        if (getThreads() == 1) return getSkip();
+        return ((long) i) * (infileSize() / ((long) getThreads()));
+    }
+
+    public long getEnd (int i) {
+        if (getThreads() == 1) return infileSize();
+        return ((long) i+1) * (infileSize() / ((long) getThreads()));
+    }
 
     public static final String USAGE_FILTER = "Apply this filter to each article. Use a fully-qualified Java class name, must implement LineMatcher";
     public static final String OPT_FILTER = "-F";

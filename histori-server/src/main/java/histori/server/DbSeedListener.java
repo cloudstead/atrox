@@ -50,7 +50,7 @@ public class DbSeedListener extends RestServerLifecycleListenerBase<HistoriConfi
                 if (accountDAO.adminsExist()) {
                     log.info("Admin accounts already exist, not creating new superuser");
                 } else {
-                    String name = env.get("HISTORI_SUPERUSER");
+                    final String name = env.get("HISTORI_SUPERUSER");
                     final Account created = accountDAO.create((Account) new Account()
                             .setAnonymous(false)
                             .setHashedPassword(new HashedPassword(env.get("HISTORI_SUPERUSER_PASS")))

@@ -1,22 +1,18 @@
 package histori.main.wiki;
 
-import histori.wiki.WikiArchive;
-import histori.wiki.WikiArticle;
-import histori.wiki.WikiXmlParseState;
-import histori.wiki.linematcher.LineMatcher;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.cobbzilla.util.io.FileUtil;
 import org.cobbzilla.wizard.main.MainBase;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import static histori.wiki.WikiXmlParseState.*;
+import static histori.main.wiki.WikiIndexerOptions.*;
 import static org.cobbzilla.util.daemon.ZillaRuntime.now;
-import static org.cobbzilla.util.io.FileUtil.abs;
+import static org.cobbzilla.util.system.Sleep.sleep;
 
 /**
  * Split a massive Wikipedia dump into one file per article.
@@ -58,185 +54,44 @@ import static org.cobbzilla.util.io.FileUtil.abs;
 @Slf4j
 public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
 
-    public static final String PAGE_TAG = "<page>";
-    public static final String TITLE_TAG_OPEN = "<title>";
-    public static final String TITLE_TAG_CLOSE = "</title>";
-    public static final String TEXT_TAG_OPEN = "<text ";
-    public static final String TEXT_TAG_CLOSE = "</text>";
-
-    public static final int LINELOG_INTERVAL = 1_000_000;
-
     public static void main (String[] args) { main(WikiIndexerMain.class, args); }
 
-    private int pageCount = 0;
-    private int storeCount = 0;
+    @Getter protected AtomicInteger pageCount = new AtomicInteger(0);
+    @Getter protected AtomicInteger storeCount = new AtomicInteger(0);
 
     @Override protected void run() throws Exception {
 
         final WikiIndexerOptions opts = getOptions();
-        final WikiArchive wiki = opts.getWikiArchive();
 
-        Set<String> limitArticles = null;
-        final File articleList = opts.getArticleList();
-        if (articleList != null) {
-            if (articleList.exists()) {
-                limitArticles = new HashSet<>(FileUtil.toStringList(articleList));
-            } else {
-                die("Limit-article file does not exist: "+abs(articleList));
-            }
+        final int numThreads = opts.getThreads();
+        if (numThreads > 1 && !opts.hasInfile()) die(OPT_THREADS+"/"+LONGOPT_THREADS+" was > 1 but "+OPT_INFILE+"/"+LONGOPT_INFILE+" was not set");
+        if (numThreads > 1 && opts.hasSkip()) die(OPT_THREADS+"/"+LONGOPT_THREADS+" was > 1 and "+OPT_SKIP+"/"+LONGOPT_SKIP+" was set, can't do that");
+
+        final List<Future> futures = new ArrayList<>();
+
+        final ExecutorService executor = Executors.newFixedThreadPool(numThreads);
+        for (int i=0; i<numThreads; i++) {
+            futures.add(executor.submit(new WikiIndexerTask(this, i)));
         }
 
-        final int skipPages = opts.getSkipPages();
-        final int skipLines = opts.getSkipLines();
-        final int stopAfterLine = opts.getStopAfterLine();
-        final LineMatcher lineMatcher = opts.getLineMatcher();
-
-        WikiXmlParseState parseState = seeking_page;
-        WikiArticle article = new WikiArticle();
-
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            String line;
-            int lineCount = 0;
-            while ((line = reader.readLine()) != null) {
-                lineCount++;
-                if (stopAfterLine > 0 && lineCount > stopAfterLine) {
-                    if (parseState == seeking_page) {
-                        out("reached limit of " + stopAfterLine + " lines of data, exiting");
-                        break;
-                    }
-                }
-                if (lineCount <= skipLines) {
-                    if (lineCount % LINELOG_INTERVAL == 0) out("skipped line "+lineCount+"/"+skipLines);
-                    continue;
-                } else if (stopAfterLine > 0 && lineCount % LINELOG_INTERVAL == 0) {
-                    double percentDone = 100.0 * ((double)(lineCount - skipLines)) / ((double)(stopAfterLine - skipLines));
-                    out("processed line "+lineCount+"/"+stopAfterLine +" : "+percentDone+" % done");
-                }
-
-                line = line.trim();
-                if (line.length() == 0) continue;
-                switch (parseState) {
-                    case seeking_page:
-                        if (line.equals(PAGE_TAG)) {
-                            if (++pageCount % 1000 == 0) out("handling page # "+pageCount);
-                            if (pageCount > skipPages) {
-                                parseState = seeking_title;
-                            } else {
-                                if (pageCount % 1000 == 0) out("skipped "+pageCount+" articles: "+now());
-                                continue;
-                            }
-                        }
-                        continue;
-
-                    case seeking_title:
-                        if (line.startsWith(TITLE_TAG_OPEN) && line.endsWith(TITLE_TAG_CLOSE)) {
-                            String title = line.replace(TITLE_TAG_OPEN, "").replace(TITLE_TAG_CLOSE, "");
-                            if (limitArticles != null && !limitArticles.contains(title)) {
-                                article = new WikiArticle();
-                                parseState = seeking_page;
-                                continue;
-                            }
-                            article.setTitle(title);
-                            parseState = seeking_text;
-                        }
-                        continue;
-
-                    case seeking_text:
-                        if (line.startsWith(TEXT_TAG_OPEN)) {
-                            if (!line.endsWith(TEXT_TAG_CLOSE)) {
-                                if (lineMatcher != null && lineMatcher.matches(line)) {
-                                    logMatch(article.getTitle());
-                                    parseState = seeking_page;
-                                    continue;
-                                } else if (lineMatcher == null) {
-                                    article.addText(line.substring(line.indexOf(">") + 1));
-                                }
-                                parseState = seeking_text_end;
-                            } else {
-                                // otherwise, this is a single-line entry
-                                line = line.substring(line.indexOf(">") + 1);
-                                line = line.substring(0, line.length() - TEXT_TAG_CLOSE.length());
-
-                                if (lineMatcher != null && lineMatcher.matches(line)) {
-                                    logMatch(article.getTitle());
-                                    parseState = seeking_page;
-                                    continue;
-
-                                } else if (lineMatcher == null) {
-                                    article.addText(line);
-                                    store(wiki, article);
-                                }
-                                article = new WikiArticle();
-                                parseState = seeking_page;
-                            }
-                        }
-                        continue;
-
-                    case seeking_text_end:
-                        if (lineMatcher != null && lineMatcher.matches(line)) {
-                            logMatch(article.getTitle());
-                            parseState = seeking_page;
-                            continue;
-
-                        } else if (line.endsWith(TEXT_TAG_CLOSE)) {
-                            if (lineMatcher == null) {
-                                article.addText("\n" + line.substring(0, line.length() - TEXT_TAG_CLOSE.length()));
-                                store(wiki, article);
-                            }
-                            article = new WikiArticle();
-                            parseState = seeking_page;
-
-                        } else if (lineMatcher == null) {
-                            article.addText("\n"+line);
-                        }
-                        continue;
-
-                    default:
-                        die("Invalid state: "+parseState);
+        while (!futures.isEmpty()) {
+            for (Iterator<Future> iter = futures.iterator(); iter.hasNext(); ) {
+                final Future future = iter.next();
+                try {
+                    future.get(100, TimeUnit.MILLISECONDS);
+                    iter.remove();
+                } catch (TimeoutException ignored) {
+                    // it's ok
+                } catch (Exception e) {
+                    // it's not ok
+                    err("WikiIndexerTask ended with an error: "+e);
+                    iter.remove();
                 }
             }
+            sleep(TimeUnit.SECONDS.toMillis(10));
         }
+
         out("Wiki Index Completed! now="+now());
-    }
-
-    private void store(final WikiArchive wiki, final WikiArticle article) {
-
-        final WikiIndexerOptions options = getOptions();
-
-        final boolean exists = wiki.exists(article);
-        if (!options.isOverwrite() && exists) return;
-
-        // even if overwrite is enabled, never overwrite a regular article with a redirect article
-        // this could sometimes happen if a redirect only differs in spelling from the main article
-        if (options.isOverwrite() && exists) {
-            final WikiArticle existing = wiki.findUnparsed(article.getTitle());
-            if (existing == null) {
-                out("store: exists("+article.getTitle()+") return true, but findUnparsed return null: overwriting (unparseable JSON?)");
-
-            } else if (!existing.isRedirect() && article.isRedirect()) {
-                // article is a redirect but existing one is not: do not overwrite
-                // out("store: not overwriting regular article ("+existing.getTitle()+") with redirect ("+article.getTitle()+")");
-                return;
-            }
-        }
-
-        final String title = article.getTitle();
-        try {
-            wiki.store(article);
-            if (++storeCount % 1000 == 0) out("stored page # " + storeCount + " (" + title + ")");
-
-        } catch (Exception e) {
-            die("error storing: " + title + " (page " + pageCount + "): " + e, e);
-        }
-    }
-
-    private void logMatch(String title) {
-        final WikiIndexerOptions options = getOptions();
-        if (options.hasFilterLog()) {
-            FileUtil.toFileOrDie(options.getFilterLog(), title.trim()+"\n", true);
-        } else {
-            out("FILTER-MATCH: " + title);
-        }
     }
 
 }
