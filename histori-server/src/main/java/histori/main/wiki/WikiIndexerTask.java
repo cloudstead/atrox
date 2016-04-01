@@ -83,12 +83,7 @@ class WikiIndexerTask implements Runnable {
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             String line;
-            int lineCount = 0;
             while ((line = reader.readLine()) != null) {
-
-                if (++lineCount % LINELOG_INTERVAL == 0) {
-                    main.out("processed line "+lineCount+" : "+ inputStream.getPercentDone()+" % complete");
-                }
 
                 line = line.trim();
                 if (line.length() == 0) continue;

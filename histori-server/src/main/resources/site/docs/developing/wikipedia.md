@@ -26,10 +26,9 @@ at least 40 million free inodes.
 Now /path/to/wiki/index contains your own private copy of Wikipedia!
 
 The above command to create the index will take many hours (even days) to complete. If you want things to go faster, consider
-running multiple commands in parallel, using the `-s`/`--skip-lines` and `-S`/`--stop-after-line` options. The dumpfile above
-has lines. You can divide by the number of parallel jobs, and start each job at a multiple of that line count. The indexer will
-stop after it has completed the last article that begins before the line number specified by `-S`/`--stop-after-line`. This way, you
-will not lose any articles if they cross a boundary.
+using, using the `-t`/`--threads` option to parallelize the indexing:
+
+    ./run.sh index --wiki-dir /path/to/wiki/index --infile uncompressed-wikipedia-archive.xml --threads 25
 
 ## Filtering
 
@@ -54,6 +53,9 @@ implementation, like `RegexLineMatcher`, for example:
         --filter histori.wiki.linematcher.RegexLineMatcher \
         --filter-args 'regex-goes-here'
         --filter-log matched-titles.txt
+
+Note that if you use the `--threads` option when filtering, there is a small chance that your results may contain duplicate entries,
+because the indexer overlaps each thread's slice of the index to ensure 100% coverage (an article might land on a slice boundary)
 
 ## Nexus Creation
 
