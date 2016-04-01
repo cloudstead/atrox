@@ -4,6 +4,7 @@ import histori.wiki.linematcher.LineMatcher;
 import lombok.Getter;
 import lombok.Setter;
 import org.cobbzilla.util.io.ByteLimitedInputStream;
+import org.cobbzilla.util.system.Bytes;
 import org.kohsuke.args4j.Option;
 
 import java.io.*;
@@ -14,6 +15,10 @@ import static org.cobbzilla.util.io.FileUtil.abs;
 import static org.cobbzilla.util.reflect.ReflectionUtil.instantiate;
 
 public class WikiIndexerOptions extends WikiBaseOptions {
+
+    // The longest Wikipedia article is 1,156,620 bytes. This ensures we read enough to finish an article
+    // that falls on a slice boundary
+    public static final long EXTRA_BYTES = 2*Bytes.MB;
 
     public static final String USAGE_INFILE = "Input wiki XML file. Default is stdin.";
     public static final String OPT_INFILE = "-i";
@@ -27,7 +32,7 @@ public class WikiIndexerOptions extends WikiBaseOptions {
 
     public ByteLimitedInputStream getInputStream (long start, long end) throws IOException {
         if (hasInfile()) {
-            final ByteLimitedInputStream in = new ByteLimitedInputStream(new FileInputStream(infile), end - start);
+            final ByteLimitedInputStream in = new ByteLimitedInputStream(new FileInputStream(infile), (end - start) + EXTRA_BYTES);
             if (start > 0 && in.skip(start) != start) die("getReader: skip failed ("+abs(infile)+")");
             return in;
         } else {
