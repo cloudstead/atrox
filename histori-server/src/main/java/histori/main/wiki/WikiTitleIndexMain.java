@@ -21,12 +21,13 @@ public class WikiTitleIndexMain extends MainBase<WikiTitleIndexOptions> {
         @Cleanup final BufferedReader reader = new BufferedReader(new InputStreamReader(opts.getStream()));
         while ((line = reader.readLine()) != null) {
             line = line.trim();
-            if (line.startsWith("<title>")) {
-                line = line.substring(TITLE_OPEN.length());
+            int pos = line.indexOf("<title>");
+            if (pos != -1) {
+                line = line.substring(pos + TITLE_OPEN.length());
                 StringUtil.chop(line, TITLE_CLOSE);
                 line = line.trim();
                 final String path = WikiArchive.getArticlePath(line);
-                if (path != null) out(line+"\t"+ path);
+                if (path != null) out(line+"\t"+path);
             }
         }
     }
