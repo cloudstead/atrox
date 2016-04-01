@@ -56,7 +56,7 @@ import static org.cobbzilla.util.system.Sleep.sleep;
 @Slf4j
 public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
 
-    public static final long STATUS_INTERVAL = TimeUnit.MINUTES.toMillis(1);
+    public static final long STATUS_INTERVAL = TimeUnit.SECONDS.toMillis(30);
 
     public static void main (String[] args) { main(WikiIndexerMain.class, args); }
 
