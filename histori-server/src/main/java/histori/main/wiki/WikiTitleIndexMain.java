@@ -6,9 +6,7 @@ import org.cobbzilla.wizard.main.MainBase;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 import static org.cobbzilla.util.string.StringUtil.chop;
 
@@ -24,7 +22,7 @@ public class WikiTitleIndexMain extends MainBase<WikiTitleIndexOptions> {
     @Override protected void run() throws Exception {
         final WikiTitleIndexOptions opts = getOptions();
         final boolean sort = opts.isSort();
-        final SortedMap<String, String> titles = sort ? new TreeMap<>(String.CASE_INSENSITIVE_ORDER) : (SortedMap) null;
+        final List<String> indexLines = new ArrayList<>(opts.getSortSize());
 
         String line;
         @Cleanup final BufferedReader reader = new BufferedReader(new InputStreamReader(opts.getStream()));
@@ -37,7 +35,7 @@ public class WikiTitleIndexMain extends MainBase<WikiTitleIndexOptions> {
                 final String path = WikiArchive.getArticlePath(line);
                 if (path != null) {
                     if (sort) {
-                        titles.put(line, path);
+                        indexLines.add(line+"\t"+path);
                     } else {
                         out(line+"\t"+path);
                     }
@@ -46,8 +44,10 @@ public class WikiTitleIndexMain extends MainBase<WikiTitleIndexOptions> {
             }
         }
         if (sort) {
-            for (Map.Entry<String, String> entry : titles.entrySet()) {
-                out(entry.getKey() + "\t" + entry.getValue());
+            err("starting sort of "+indexLines.size()+"titles...");
+            Collections.sort(indexLines, String.CASE_INSENSITIVE_ORDER);
+            for (String indexLine : indexLines) {
+                out(indexLine);
             }
         }
     }
