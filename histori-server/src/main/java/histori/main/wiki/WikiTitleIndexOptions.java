@@ -22,4 +22,10 @@ public class WikiTitleIndexOptions extends BaseMainOptions {
         return hasFile() ? new FileInputStream(file) : System.in;
     }
 
+    public static final String USAGE_SORT = "Sort results alphabetically (ignoring case)";
+    public static final String OPT_SORT = "-S";
+    public static final String LONGOPT_SORT= "--sort";
+    @Option(name=OPT_SORT, aliases=LONGOPT_SORT, usage=USAGE_SORT)
+    @Getter @Setter private boolean sort = false;
+
 }
