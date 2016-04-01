@@ -43,7 +43,12 @@ class WikiIndexerTask implements Runnable {
     private ByteLimitedInputStream inputStream;
     private int currentPage;
 
-    public double getPercentDone () { return inputStream == null ? -1 : inputStream.getPercentDone(); }
+    public String getPercentDone () {
+        if (inputStream == null) return "(unknown)";
+        final double pct = inputStream.getPercentDone();
+        final int hundredths = ((int) (10000.0 * pct)) % 100;
+        return ((int)(100 * pct)) + "." + (hundredths < 10 ? "0"+hundredths : hundredths);
+    }
 
     @Override public void run() {
         try { doRun(); } catch (Exception e) {
