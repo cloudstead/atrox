@@ -31,6 +31,7 @@ class WikiIndexerTask implements Runnable {
     public static final String TEXT_TAG_CLOSE = "</text>";
 
     public static final int LINELOG_INTERVAL = 1_000_000;
+    public static final int PAGE_LOG_INTERVAL = 10_000;
 
     private final WikiIndexerMain main;
     @Getter private final int sliceNumber;
@@ -96,7 +97,7 @@ class WikiIndexerTask implements Runnable {
                     case seeking_page:
                         if (line.equals(PAGE_TAG)) {
                             currentPage = pageCount.incrementAndGet();
-                            if (currentPage % 1000 == 0) main.out("handling page # "+ currentPage);
+                            if (currentPage % PAGE_LOG_INTERVAL == 0) main.out("handling page # "+ currentPage);
                             parseState = seeking_title;
                         }
                         continue;
@@ -232,7 +233,7 @@ class WikiIndexerTask implements Runnable {
             try {
                 if (wiki.store(article)) {
                     final int count = main.getStoreCount().incrementAndGet();
-                    if (count % 1000 == 0) main.out("stored page # " + count + " (" + title + ")");
+                    if (count % PAGE_LOG_INTERVAL == 0) main.out("stored page # " + count + " (" + title + ")");
                 }
 
             } catch (Exception e) {
