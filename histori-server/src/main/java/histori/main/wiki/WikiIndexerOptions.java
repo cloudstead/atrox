@@ -10,6 +10,7 @@ import java.io.*;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
+import static org.cobbzilla.util.io.FileUtil.abs;
 import static org.cobbzilla.util.reflect.ReflectionUtil.instantiate;
 
 public class WikiIndexerOptions extends WikiBaseOptions {
@@ -25,9 +26,14 @@ public class WikiIndexerOptions extends WikiBaseOptions {
     public long infileSize () { return infile == null || !infile.exists() ? 0 : infile.length(); }
 
     public ByteLimitedInputStream getInputStream (long start, long end) throws IOException {
-        final ByteLimitedInputStream in = new ByteLimitedInputStream(new FileInputStream(infile), end - start);
-        if (in.skip(start) != start) die("getReader: skip failed");
-        return in;
+        if (hasInfile()) {
+            final ByteLimitedInputStream in = new ByteLimitedInputStream(new FileInputStream(infile), end - start);
+            if (start > 0 && in.skip(start) != start) die("getReader: skip failed ("+abs(infile)+")");
+            return in;
+        } else {
+            if (start > 0 && System.in.skip(start) != start) die("getReader: skip failed (System.in)");
+            return new ByteLimitedInputStream(System.in, Long.MAX_VALUE);
+        }
     }
 
     public static final String USAGE_THREADS = "How many threads to use when indexing. Default is 1. For more than one, "+OPT_INFILE+"/"+LONGOPT_INFILE+" is required.";
@@ -50,6 +56,7 @@ public class WikiIndexerOptions extends WikiBaseOptions {
     }
 
     public long getEnd (int i) {
+        if (!hasInfile()) return Long.MAX_VALUE;
         if (getThreads() == 1) return infileSize();
         return ((long) i+1) * (infileSize() / ((long) getThreads()));
     }

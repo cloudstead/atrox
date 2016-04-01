@@ -2,6 +2,7 @@ package histori.main.wiki;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.cobbzilla.wizard.main.MainBase;
 
 import java.util.ArrayList;
@@ -92,7 +93,7 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                     // it's ok
                 } catch (Exception e) {
                     // it's not ok
-                    err("WikiIndexerTask ended with an error: "+e);
+                    err("WikiIndexerTask ended with an error: "+e+"\n"+ ExceptionUtils.getStackTrace(e));
                     iter.remove();
                 }
             }
