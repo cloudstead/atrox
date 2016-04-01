@@ -2,7 +2,6 @@ package histori.main.wiki;
 
 import histori.wiki.WikiArchive;
 import lombok.Cleanup;
-import org.cobbzilla.util.string.StringUtil;
 import org.cobbzilla.wizard.main.MainBase;
 
 import java.io.BufferedReader;
@@ -10,6 +9,8 @@ import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import static org.cobbzilla.util.string.StringUtil.chop;
 
 public class WikiTitleIndexMain extends MainBase<WikiTitleIndexOptions> {
 
@@ -27,11 +28,9 @@ public class WikiTitleIndexMain extends MainBase<WikiTitleIndexOptions> {
         @Cleanup final BufferedReader reader = new BufferedReader(new InputStreamReader(opts.getStream()));
         while ((line = reader.readLine()) != null) {
             line = line.trim();
-            int pos = line.indexOf("<title>");
+            int pos = line.indexOf(TITLE_OPEN);
             if (pos != -1) {
-                line = line.substring(pos + TITLE_OPEN.length());
-                StringUtil.chop(line, TITLE_CLOSE);
-                line = line.trim();
+                line = chop(line.substring(pos + TITLE_OPEN.length()), TITLE_CLOSE).trim();
                 final String path = WikiArchive.getArticlePath(line);
                 if (path != null) {
                     if (sort) {
