@@ -105,6 +105,7 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                         out("slice " + task.getSliceNumber() + ": " + task.getPercentDone() + " % complete");
                     }
                 }
+                lastStatus = now();
             }
         }
 
