@@ -6,7 +6,7 @@ import org.cobbzilla.wizard.main.MainBase;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.Arrays;
 
 import static org.cobbzilla.util.string.StringUtil.chop;
 
@@ -22,11 +22,18 @@ public class WikiTitleIndexMain extends MainBase<WikiTitleIndexOptions> {
     @Override protected void run() throws Exception {
         final WikiTitleIndexOptions opts = getOptions();
         final boolean sort = opts.isSort();
-        final List<String> indexLines = new ArrayList<>(opts.getSortSize());
+        String[] indexLines = new String[0];
+        if (sort) {
+            final int sortSize = opts.getSortSize();
+            err("allocating array of size "+sortSize+"...");
+            indexLines = new String[sortSize];
+            err("successfully allocated array of size "+sortSize);
+        }
 
         String line;
         @Cleanup final BufferedReader reader = new BufferedReader(new InputStreamReader(opts.getStream()));
         long count = 0;
+        int index = 0;
         while ((line = reader.readLine()) != null) {
             line = line.trim();
             int pos = line.indexOf(TITLE_OPEN);
@@ -35,7 +42,13 @@ public class WikiTitleIndexMain extends MainBase<WikiTitleIndexOptions> {
                 final String path = WikiArchive.getArticlePath(line);
                 if (path != null) {
                     if (sort) {
-                        indexLines.add(line+"\t"+path);
+                        if (index >= indexLines.length) {
+                            final String[] expanded = new String[indexLines.length + 10000];
+                            System.arraycopy(indexLines, 0, expanded, 0, indexLines.length);
+                            indexLines = expanded;
+                        }
+                        indexLines[index] = line+"\t"+path;
+                        index++;
                     } else {
                         out(line+"\t"+path);
                     }
@@ -44,10 +57,14 @@ public class WikiTitleIndexMain extends MainBase<WikiTitleIndexOptions> {
             }
         }
         if (sort) {
-            err("starting sort of "+indexLines.size()+"titles...");
-            Collections.sort(indexLines, String.CASE_INSENSITIVE_ORDER);
+            for (int i=index+1; i<indexLines.length; i++) {
+                // blank-pad remaining entries so string comparator doesn't barf with NPE
+                indexLines[i] = "";
+            }
+            err("sorting "+indexLines.length+" titles...");
+            Arrays.sort(indexLines, String.CASE_INSENSITIVE_ORDER);
             for (String indexLine : indexLines) {
-                out(indexLine);
+                if (indexLine.length() > 0) out(indexLine);
             }
         }
     }
