@@ -12,12 +12,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static histori.main.wiki.WikiIndexerOptions.*;
 import static org.cobbzilla.util.daemon.ZillaRuntime.now;
+import static org.cobbzilla.util.string.StringUtil.formatDuration;
 import static org.cobbzilla.util.system.Sleep.sleep;
 
 /**
  * Split a massive Wikipedia dump into one file per article.
  *
- * bzcat /path/to/enwiki-YYYYMMDD-pages-articles-multistream.xml.bz2 | ./run.sh index -o /path/to/index/basedir [-A [/path/to/article-titles.txt|-]]
+ * bzcat /path/to/enwiki-YYYYMMDD-pages-articles-multistream.xml.bz2 | ./run.sh index -w /path/to/index/basedir
  *
  * You can also uncompress the archive and use 'cat' instead of 'bzcat'. This will be a bit faster than indexing
  * the bzipp'ed archive.
@@ -43,7 +44,7 @@ import static org.cobbzilla.util.system.Sleep.sleep;
  *   Any other best-practices for filesystems with a large number of small files
  *
  * DO NOT create the index on a filesystem with less than 300GB of space or 100M inodes.
- * Otherwise, you will run out of space or inodes before indexing completes.
+ * Otherwise, you may run out of space or inodes before indexing completes.
  *
  * "Spot" extracting individual articles
  *
@@ -53,6 +54,8 @@ import static org.cobbzilla.util.system.Sleep.sleep;
  */
 @Slf4j
 public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
+
+    public static final long STATUS_INTERVAL = TimeUnit.MINUTES.toMillis(1);
 
     public static void main (String[] args) { main(WikiIndexerMain.class, args); }
 
@@ -67,13 +70,18 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
         if (numThreads > 1 && !opts.hasInfile()) die(OPT_THREADS+"/"+LONGOPT_THREADS+" was > 1 but "+OPT_INFILE+"/"+LONGOPT_INFILE+" was not set");
         if (numThreads > 1 && opts.hasSkip()) die(OPT_THREADS+"/"+LONGOPT_THREADS+" was > 1 and "+OPT_SKIP+"/"+LONGOPT_SKIP+" was set, can't do that");
 
+        final List<WikiIndexerTask> tasks = new ArrayList<>();
         final List<Future> futures = new ArrayList<>();
 
+        final long start = now();
         final ExecutorService executor = Executors.newFixedThreadPool(numThreads);
         for (int i=0; i<numThreads; i++) {
-            futures.add(executor.submit(new WikiIndexerTask(this, i)));
+            final WikiIndexerTask task = new WikiIndexerTask(this, i);
+            tasks.add(task);
+            futures.add(executor.submit(task));
         }
 
+        long lastStatus = now();
         while (!futures.isEmpty()) {
             for (Iterator<Future> iter = futures.iterator(); iter.hasNext(); ) {
                 final Future future = iter.next();
@@ -89,6 +97,12 @@ public class WikiIndexerMain extends MainBase<WikiIndexerOptions> {
                 }
             }
             sleep(TimeUnit.SECONDS.toMillis(10));
+            if (now() - lastStatus > STATUS_INTERVAL) {
+                out(formatDuration(now() - start)+": "+futures.size()+" index jobs running: ");
+                for (WikiIndexerTask task : tasks) {
+                    out("task "+task.getSliceNumber()+": "+task.getPercentDone()+" % complete");
+                }
+            }
         }
 
         out("Wiki Index Completed! now="+now());

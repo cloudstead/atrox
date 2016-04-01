@@ -4,7 +4,7 @@ import histori.wiki.WikiArchive;
 import histori.wiki.WikiArticle;
 import histori.wiki.WikiXmlParseState;
 import histori.wiki.linematcher.LineMatcher;
-import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.cobbzilla.util.io.ByteLimitedInputStream;
 import org.cobbzilla.util.io.FileUtil;
 
@@ -22,7 +22,6 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.io.FileUtil.abs;
 import static org.cobbzilla.util.system.Sleep.sleep;
 
-@AllArgsConstructor
 class WikiIndexerTask implements Runnable {
 
     public static final String PAGE_TAG = "<page>";
@@ -34,7 +33,16 @@ class WikiIndexerTask implements Runnable {
     public static final int LINELOG_INTERVAL = 1_000_000;
 
     private WikiIndexerMain main;
-    private int i;
+    @Getter private int sliceNumber;
+
+    public WikiIndexerTask(WikiIndexerMain main, int sliceNumber) {
+        this.main = main;
+        this.sliceNumber = sliceNumber;
+    }
+
+    private ByteLimitedInputStream inputStream;
+
+    public double getPercentDone () { return inputStream == null ? -1 : inputStream.getPercentDone(); }
 
     @Override public void run() {
         try { doRun(); } catch (Exception e) {
@@ -62,9 +70,9 @@ class WikiIndexerTask implements Runnable {
         WikiXmlParseState parseState = seeking_page;
         WikiArticle article = new WikiArticle();
 
-        final long startBytes = opts.getSkip(i);
-        final long endBytes = opts.getEnd(i);
-        final ByteLimitedInputStream inputStream = opts.getInputStream(startBytes, endBytes);
+        final long startBytes = opts.getSkip(sliceNumber);
+        final long endBytes = opts.getEnd(sliceNumber);
+        inputStream = opts.getInputStream(startBytes, endBytes);
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             String line;
@@ -72,7 +80,7 @@ class WikiIndexerTask implements Runnable {
             while ((line = reader.readLine()) != null) {
 
                 if (++lineCount % LINELOG_INTERVAL == 0) {
-                    main.out("processed line "+lineCount+" : "+inputStream.getPercentDone()+" % complete");
+                    main.out("processed line "+lineCount+" : "+ inputStream.getPercentDone()+" % complete");
                 }
 
                 line = line.trim();
