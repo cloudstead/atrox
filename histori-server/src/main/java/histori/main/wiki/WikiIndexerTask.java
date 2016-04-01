@@ -41,6 +41,7 @@ class WikiIndexerTask implements Runnable {
     }
 
     private ByteLimitedInputStream inputStream;
+    private int currentPage;
 
     public double getPercentDone () { return inputStream == null ? -1 : inputStream.getPercentDone(); }
 
@@ -89,7 +90,8 @@ class WikiIndexerTask implements Runnable {
                 switch (parseState) {
                     case seeking_page:
                         if (line.equals(PAGE_TAG)) {
-                            if (pageCount.incrementAndGet() % 1000 == 0) main.out("handling page # "+pageCount);
+                            currentPage = pageCount.incrementAndGet();
+                            if (currentPage % 1000 == 0) main.out("handling page # "+ currentPage);
                             parseState = seeking_title;
                         }
                         continue;
@@ -199,8 +201,6 @@ class WikiIndexerTask implements Runnable {
 
             // OK, now we can write the file
             final WikiIndexerOptions options = main.getOptions();
-            final AtomicInteger pageCount = main.getPageCount();
-            final AtomicInteger storeCount = main.getStoreCount();
 
             final boolean exists = wiki.exists(article);
             if (!options.isOverwrite() && exists) {
@@ -226,11 +226,12 @@ class WikiIndexerTask implements Runnable {
             final String title = article.getTitle();
             try {
                 if (wiki.store(article)) {
-                    if (storeCount.incrementAndGet() % 1000 == 0) main.out("stored page # " + storeCount + " (" + title + ")");
+                    final int count = main.getStoreCount().incrementAndGet();
+                    if (count % 1000 == 0) main.out("stored page # " + count + " (" + title + ")");
                 }
 
             } catch (Exception e) {
-                die("error storing: " + title + " (page " + pageCount.get() + "): " + e, e);
+                die("error storing: " + title + " (page " + currentPage + "): " + e, e);
             }
 
         } finally {
