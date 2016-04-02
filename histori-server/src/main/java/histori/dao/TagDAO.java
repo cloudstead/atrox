@@ -113,6 +113,10 @@ public class TagDAO extends ShardedEntityDAO<Tag, TagShardDAO> {
             if (nexusTag.hasSchemaValues()) {
                 for (Map.Entry<String, TreeSet<String>> entry : nexusTag.getSchemaValueMap().allEntrySets()) {
                     for (String value : entry.getValue()) {
+                        if (isNumber(value)) {
+                            log.info("skipping numeric tag: "+value);
+                            continue;
+                        }
                         tag = findByCanonicalName(canonicalize(value));
                         if (tag == null) {
                             create(new Tag(value, entry.getKey()));
