@@ -181,7 +181,7 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
 
     public NexusBase setTags (List<NexusTag> tags) {
         this.tags = new NexusTags(this, tags);
-        this.tagsJson = toJsonOrDie(tags);
+        this.tagsJson = toJsonOrDie(this.tags);
         return this;
     }
 

@@ -1,0 +1,176 @@
+{
+  "markdown" : "The **Battle of Wolgast** was an engagement in the [Thirty Years' War](https://en.wikipedia.org/wiki/Thirty_Years%27_War), fought on 22 August [(O.S.)](https://en.wikipedia.org/wiki/Old_Style_and_New_Style_dates)  or 2 September [(N.S.)](https://en.wikipedia.org/wiki/Old_Style_and_New_Style_dates)  1628 near [Wolgast](https://en.wikipedia.org/wiki/Wolgast), [Duchy of Pomerania](https://en.wikipedia.org/wiki/Duchy_of_Pomerania), [Germany](https://en.wikipedia.org/wiki/Germany).<ref group=nb name=julgreg>In the 17th century, the [Julian calendar](https://en.wikipedia.org/wiki/Julian_calendar) was used in the region, which then was ten days late compared to the [Gregorian calendar](https://en.wikipedia.org/wiki/Gregorian_calendar):Imperial take-over: 22 August - Julian, 2 September - Gregorian.</ref>\nDanish forces of [Christian IV of Denmark](https://en.wikipedia.org/wiki/Christian_IV_of_Denmark) had made landfall on [Usedom](https://en.wikipedia.org/wiki/Usedom) and the adjacent mainland, and expelled the [imperial occupation forces](https://en.wikipedia.org/wiki/Capitulation_of_Franzburg). An [Imperial army](https://en.wikipedia.org/wiki/Imperial_Army_%28Holy_Roman_Empire%29) commanded by [Albrecht von Wallenstein](https://en.wikipedia.org/wiki/Albrecht_von_Wallenstein) left [besieged Stralsund](https://en.wikipedia.org/wiki/Battle_of_Stralsund_%281628%29) to confront Christian IV. Ultimately, the Danish forces were defeated. Christian IV and a faction of his landing force were able to escape by ship.\n\n#### Prelude\n [Christian IV of Denmark](https://en.wikipedia.org/wiki/Christian_IV_of_Denmark) had started the Danish intervention in the [Thirty Years' War](https://en.wikipedia.org/wiki/Thirty_Years%27_War) by invading the [Holy Roman Empire](https://en.wikipedia.org/wiki/Holy_Roman_Empire) in 1625. Initially successful, he suffered setbacks when his armies were defeated in the battles of [Dessau Bridge](https://en.wikipedia.org/wiki/Battle_of_Dessau_Bridge) and [Lutter am Barenberge](https://en.wikipedia.org/wiki/Battle_of_Lutter) ... [continue reading](https://en.wikipedia.org/wiki/Battle_of_Wolgast)",
+  "visibility" : "everyone",
+  "version" : 0,
+  "canonicalName" : "battle-of-wolgast",
+  "name" : "Battle of Wolgast",
+  "nexusType" : "battle",
+  "timeRange" : {
+    "startPoint" : {
+      "instant" : 220000000000,
+      "year" : 22
+    }
+  },
+  "tags" : [ {
+    "tagName" : "battle",
+    "canonicalName" : "battle",
+    "tagType" : "event_type",
+    "displayName" : "battle"
+  }, {
+    "tagName" : "Thirty Years' War",
+    "canonicalName" : "thirty-years%27-war",
+    "tagType" : "event",
+    "values" : [ {
+      "field" : "relationship",
+      "value" : "part_of"
+    } ],
+    "displayName" : "Thirty Years' War"
+  }, {
+    "tagName" : "Decisive Imperial victory",
+    "canonicalName" : "decisive-imperial-victory",
+    "tagType" : "result",
+    "displayName" : "Decisive Imperial victory"
+  }, {
+    "tagName" : "Denmark",
+    "canonicalName" : "denmark",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ],
+    "displayName" : "Denmark"
+  }, {
+    "tagName" : "Christian IV of Denmark",
+    "canonicalName" : "christian-iv-of-denmark",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Denmark"
+    } ],
+    "displayName" : "Christian IV of Denmark"
+  }, {
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Denmark"
+    } ]
+  }, {
+    "tagName" : "dead",
+    "canonicalName" : "dead",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1000"
+    }, {
+      "field" : "world_actor",
+      "value" : "Denmark"
+    } ],
+    "displayName" : "dead"
+  }, {
+    "tagName" : "captured",
+    "canonicalName" : "captured",
+    "tagType" : "impact",
+    "values" : [ {
+      "field" : "estimate",
+      "value" : "1100"
+    }, {
+      "field" : "world_actor",
+      "value" : "Denmark"
+    } ],
+    "displayName" : "captured"
+  }, {
+    "tagName" : "Holy Roman Empire",
+    "canonicalName" : "holy-roman-empire",
+    "tagType" : "world_actor",
+    "values" : [ {
+      "field" : "role",
+      "value" : "combatant"
+    } ],
+    "displayName" : "Holy Roman Empire"
+  }, {
+    "tagName" : "Albrecht von Wallenstein",
+    "canonicalName" : "albrecht-von-wallenstein",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Holy Roman Empire"
+    } ],
+    "displayName" : "Albrecht von Wallenstein"
+  }, {
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Holy Roman Empire"
+    } ]
+  }, {
+    "tagName" : "Rudolf von Tiefenbach",
+    "canonicalName" : "rudolf-von-tiefenbach",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Holy Roman Empire"
+    } ],
+    "displayName" : "Rudolf von Tiefenbach"
+  }, {
+    "tagName" : "Otto Christoph von Sparr",
+    "canonicalName" : "otto-christoph-von-sparr",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Holy Roman Empire"
+    } ],
+    "displayName" : "Otto Christoph von Sparr"
+  }, {
+    "tagName" : "Baltasar von Marradas",
+    "canonicalName" : "baltasar-von-marradas",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Holy Roman Empire"
+    } ],
+    "displayName" : "Baltasar von Marradas"
+  }, {
+    "tagName" : "Heinrich Holk",
+    "canonicalName" : "heinrich-holk",
+    "tagType" : "person",
+    "values" : [ {
+      "field" : "role",
+      "value" : "commander"
+    }, {
+      "field" : "world_actor",
+      "value" : "Holy Roman Empire"
+    } ],
+    "displayName" : "Heinrich Holk"
+  }, {
+    "tagName" : "https://en.wikipedia.org/wiki/Battle_of_Wolgast",
+    "canonicalName" : "https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fbattle-of-wolgast",
+    "tagType" : "citation",
+    "displayName" : "https://en.wikipedia.org/wiki/Battle of Wolgast"
+  } ],
+  "point" : {
+    "type" : "Point",
+    "coordinates" : [ 13.766666667, 54.05 ]
+  },
+  "displayName" : "Battle of Wolgast"
+}

@@ -65,7 +65,12 @@ public class NexusTags extends ArrayList<NexusTag> {
     }
 
     @Override public boolean addAll(Collection<? extends NexusTag> c) {
-        final boolean rval = super.addAll(c);
+        boolean rval = false;
+        for (NexusTag t : c) {
+            if (empty(t.getCanonicalName())) continue; // cannot add a tag without a name
+            final boolean added = super.add(t);
+            rval = rval || added;
+        }
         nexus.setTagsJson(toJsonOrDie(this));
         return rval;
     }
