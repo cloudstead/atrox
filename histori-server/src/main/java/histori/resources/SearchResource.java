@@ -119,7 +119,7 @@ public class SearchResource {
                 log.error("Error encoding JSON for search cache: "+results+": "+e);
             }
         }
-        log.info("FULL search("+searchQuery.getQuery()+"): "+formatDurationFrom(start));
+        log.info("FULL search("+searchQuery.getQuery()+"): returning "+results.getResults().size()+"results after"+formatDurationFrom(start));
         return ok(results);
     }
 

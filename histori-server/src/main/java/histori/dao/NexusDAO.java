@@ -2,6 +2,7 @@ package histori.dao;
 
 import histori.dao.archive.NexusArchiveDAO;
 import histori.dao.search.ElasticSearchDAO;
+import histori.dao.search.NexusSearchResults;
 import histori.dao.shard.NexusShardDAO;
 import histori.model.Account;
 import histori.model.Nexus;
@@ -90,6 +91,8 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
         getNexusCache().set(nexus.getUuid(), toJsonOrDie(nexus));
         superNexusDAO.updateSuperNexus(nexus);
         tagDAO.updateTags(nexus);
+        // todo: when we have multiple API servers, we'll need to broadcast this to all API servers...
+        NexusSearchResults.removeFromCache(nexus.getCanonicalName());
 //        elasticSearchDAO.index(nexus);
     }
 

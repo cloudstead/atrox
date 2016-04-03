@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.cobbzilla.util.collection.FieldTransfomer;
+import org.cobbzilla.util.collection.mappy.MappyList;
 import org.cobbzilla.util.collection.mappy.MappySortedSet;
 import org.cobbzilla.wizard.dao.DAO;
 import org.cobbzilla.wizard.dao.EntityFilter;
@@ -79,24 +80,7 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
     public List<Nexus> getMatchingNexuses(NexusView nexus) {
         final String prefix = "getMatchingNexuses("+nexus.getCanonicalName()+"): ";
         long start = now();
-        log.info(prefix+"starting");
-        final List<Nexus> found;
-        switch (searchQuery.getVisibility()) {
-            case everyone:
-                found = getDAO().findByFields("canonicalName", nexus.getCanonicalName(), "visibility", EntityVisibility.everyone);
-                break;
-            case owner: case hidden:
-                if (account != null) {
-                    found = getDAO().findByFields("canonicalName", nexus.getCanonicalName(), "owner", account.getUuid(), "visibility", searchQuery.getVisibility());
-                } else {
-                    log.warn("getMatchingNexuses: visibility was "+searchQuery.getVisibility()+" but account was null, only looking at public nexuses");
-                    found = getDAO().findByFields("canonicalName", nexus.getCanonicalName(), "visibility", EntityVisibility.everyone);
-                }
-                break;
-            case deleted: default:
-                log.warn(prefix+"not returning any results for visibility="+searchQuery.getVisibility());
-                return new ArrayList<>();
-        }
+        final List<Nexus> found = findNexuses(nexus);
         if (searchQuery.hasBlockedOwners()) {
             for (Iterator<Nexus> iter = found.iterator(); iter.hasNext(); ) {
                 final Nexus n = iter.next();
@@ -106,6 +90,42 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
             }
         }
         log.info(prefix+"completed in "+formatDurationFrom(start));
+        return found;
+    }
+
+    private static final MappyList<String, Nexus> nexusCache = new MappyList<>(100_000);
+    public static void removeFromCache(String canonicalName) { nexusCache.remove(canonicalName); }
+
+    protected List<Nexus> findNexuses(NexusView nexus) {
+        final String prefix = "getMatchingNexuses("+nexus.getCanonicalName()+"): ";
+        final EntityVisibility visibility = searchQuery.getVisibility();
+        final String cacheKey = nexus.getCanonicalName()+"\t"+ visibility +"\t"+(account == null || visibility == EntityVisibility.everyone ? "null" : account.getUuid());
+        List<Nexus> found = nexusCache.getAll(cacheKey);
+        if (found == null) {
+            synchronized (nexusCache) {
+                if (!nexusCache.containsKey(cacheKey)) {
+                    switch (visibility) {
+                        case everyone:
+                            found = getDAO().findByFields("canonicalName", nexus.getCanonicalName(), "visibility", EntityVisibility.everyone);
+                            break;
+                        case owner:
+                        case hidden:
+                            if (account != null) {
+                                found = getDAO().findByFields("canonicalName", nexus.getCanonicalName(), "owner", account.getUuid(), "visibility", visibility);
+                            } else {
+                                log.warn("getMatchingNexuses: visibility was " + visibility + " but account was null, only looking at public nexuses");
+                                found = getDAO().findByFields("canonicalName", nexus.getCanonicalName(), "visibility", EntityVisibility.everyone);
+                            }
+                            break;
+                        case deleted:
+                        default:
+                            log.warn(prefix + "not returning any results for visibility=" + visibility);
+                            found = new ArrayList<>();
+                    }
+                    nexusCache.putAll(cacheKey, found);
+                }
+            }
+        }
         return found;
     }
 
