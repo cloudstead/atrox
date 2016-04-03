@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.cobbzilla.util.string.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -236,6 +237,8 @@ public class WikiNode {
         return null;
     }
 
+    public static final String[] IMAGE_SUFFIXES = {".jpeg", ".jpg", ".png", ".gif"};
+
     public String toMarkdown() {
         switch (type) {
             case string:
@@ -266,7 +269,10 @@ public class WikiNode {
 
             case link:
                 final String linkText = hasChildren() ? firstChildName() : getName();
-                return "[" + linkText + "](" + wikiLink(getName()) + ")";
+                final String linkTarget = wikiLink(getName());
+                final boolean isImage = StringUtil.endsWithAny(linkTarget, IMAGE_SUFFIXES);
+                return (isImage ? "!" : "") + "[" + linkText + "](" + linkTarget + ")";
+
             default:
                 log.info("toMarkdown: skipping "+type+" node");
                 return "";
