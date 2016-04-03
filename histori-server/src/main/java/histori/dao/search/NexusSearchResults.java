@@ -100,10 +100,15 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
         final String prefix = "getMatchingNexuses("+nexus.getCanonicalName()+"): ";
         final EntityVisibility visibility = searchQuery.getVisibility();
         final String cacheKey = nexus.getCanonicalName()+"\t"+ visibility +"\t"+(account == null || visibility == EntityVisibility.everyone ? "null" : account.getUuid());
-        List<Nexus> found = nexusCache.getAll(cacheKey);
-        if (found == null) {
+        if (nexusCache.containsKey(cacheKey)) {
+            return nexusCache.getAll(cacheKey);
+
+        } else {
             synchronized (nexusCache) {
-                if (!nexusCache.containsKey(cacheKey)) {
+                if (nexusCache.containsKey(cacheKey)) {
+                    return nexusCache.getAll(cacheKey);
+                } else {
+                    List<Nexus> found;
                     switch (visibility) {
                         case everyone:
                             found = getDAO().findByFields("canonicalName", nexus.getCanonicalName(), "visibility", EntityVisibility.everyone);
@@ -123,10 +128,10 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
                             found = new ArrayList<>();
                     }
                     nexusCache.putAll(cacheKey, found);
+                    return found;
                 }
             }
         }
-        return found;
     }
 
     @Override public List<NexusSummary> getResults() {
