@@ -1,6 +1,7 @@
 package histori.model.support;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import histori.model.Account;
 import histori.model.AccountOwnedEntity;
 
@@ -9,6 +10,8 @@ public enum EntityVisibility {
     everyone, owner, hidden, deleted;
 
     @JsonCreator public static EntityVisibility create(String val) { return EntityVisibility.valueOf(val.toLowerCase()); }
+
+    @JsonIgnore public boolean isEveryone() { return this == everyone; }
 
     public boolean isVisibleTo(AccountOwnedEntity entity, Account account) {
         if (account != null && account.isAdmin()) return this != deleted; // admin sees everything except deleted stuff

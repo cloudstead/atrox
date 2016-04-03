@@ -27,8 +27,10 @@ import static histori.ApiConstants.*;
 import static histori.model.support.EntityVisibility.everyone;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
+import static org.cobbzilla.util.daemon.ZillaRuntime.now;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJson;
+import static org.cobbzilla.util.string.StringUtil.formatDurationFrom;
 import static org.cobbzilla.wizard.resources.ResourceUtil.*;
 
 @Consumes(APPLICATION_JSON)
@@ -90,7 +92,8 @@ public class SearchResource {
 
     private Response search(Account account, SearchQuery searchQuery) {
 
-        final String cacheKey = (account == null ? "null" : account.getUuid()) + ":" + searchQuery.hashCode();
+        long start = now();
+        final String cacheKey = (account == null || searchQuery.getVisibility().isEveryone() ? "null" : account.getUuid()) + ":" + searchQuery.hashCode();
         final String json = searchQuery.isUseCache() ? getSearchCache().get(cacheKey) : null;
         SearchResults<NexusSummary> results = null;
         if (!empty(json)) {
@@ -110,6 +113,7 @@ public class SearchResource {
                 log.error("Error encoding JSON for search cache: "+results+": "+e);
             }
         }
+        log.info("FULL search("+searchQuery.getQuery()+"): "+formatDurationFrom(start));
         return ok(results);
     }
 
