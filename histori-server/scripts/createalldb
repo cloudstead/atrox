@@ -1,0 +1,24 @@
+#!/bin/bash
+
+function die {
+  echo 1>&2 "${1}"
+  exit 1
+}
+
+COUNT="${1:?no count given}" ; shift
+PREFIX="${1:?no prefix given}" ; shift
+
+OPTS=""
+if [ ! -z "${1}" ] ; then
+  OPTS="${@}"
+fi
+
+i=0
+while [ ${i} -lt ${COUNT} ] ; do
+  echo "creating: ${PREFIX}_${i}"
+  createdb ${OPTS} ${PREFIX}_${i}
+  i=$((i + 1))
+done
+
+echo "creating: ${PREFIX}_master"
+createdb ${OPTS} ${PREFIX}_master
