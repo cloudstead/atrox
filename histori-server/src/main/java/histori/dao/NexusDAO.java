@@ -1,6 +1,7 @@
 package histori.dao;
 
 import histori.dao.archive.NexusArchiveDAO;
+import histori.dao.search.ElasticSearchDAO;
 import histori.dao.shard.NexusShardDAO;
 import histori.model.Account;
 import histori.model.Nexus;
@@ -33,6 +34,7 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
     @Autowired @Getter @Setter private SuperNexusDAO superNexusDAO;
     @Autowired @Getter @Setter private TagDAO tagDAO;
     @Autowired @Getter @Setter private RedisService redisService;
+    @Autowired @Getter @Setter private ElasticSearchDAO elasticSearchDAO;
 
     @Getter(lazy=true) private final RedisService nexusCache = initNexusCache();
     private RedisService initNexusCache() { return redisService.prefixNamespace("nexus-cache:", null); }
@@ -88,6 +90,7 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
         getNexusCache().set(nexus.getUuid(), toJsonOrDie(nexus));
         superNexusDAO.updateSuperNexus(nexus);
         tagDAO.updateTags(nexus);
+//        elasticSearchDAO.index(nexus);
     }
 
     public Nexus findByOwnerAndName(Account account, String name) {

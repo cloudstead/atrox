@@ -106,6 +106,7 @@ public class SearchResource {
         }
 
         if (results == null) {
+            log.info("STARTING FULL search("+searchQuery.getQuery()+")...");
             results = nexusSummaryDAO.search(account, searchQuery);
             try {
                 getSearchCache().set(cacheKey, toJson(results), "EX", SEARCH_CACHE_TIMEOUT_SECONDS);

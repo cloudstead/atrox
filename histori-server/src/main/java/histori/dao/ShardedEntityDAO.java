@@ -14,7 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class ShardedEntityDAO<E extends Shardable, D extends SingleShardDAO<E>> extends AbstractShardedDAO<E, D> {
 
     @Autowired private HistoriConfiguration configuration;
-    @Autowired @Getter private ShardDAO shardDAO;
+
+    @Getter private ShardDAO shardDAO;
+    @Autowired public void setShardDAO (ShardDAO shardDAO) {
+        this.shardDAO = shardDAO;
+        initAllDAOs();
+    }
 
     @Override protected DatabaseConfiguration getMasterDbConfiguration() { return configuration.getDatabase(); }
 

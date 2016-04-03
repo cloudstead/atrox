@@ -8,7 +8,7 @@
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <Target>System.out</Target>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>DEBUG</level>
+            <level>INFO</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
@@ -20,7 +20,7 @@
     <appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
         <Target>System.err</Target>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>WARN</level>
+            <level>INFO</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
@@ -29,9 +29,11 @@
         </encoder>
     </appender>
 
-    <logger name="org.hibernate" level="DEBUG" />
-    <logger name="org.hibernate" level="DEBUG" />
-    <logger name="org.hibernate.type" level="TRACE" />
+    <logger name="org.hibernate" level="WARN" />
+    <logger name="org.hibernate" level="WARN" />
+    <logger name="org.hibernate.type" level="WARN" />
+    <logger name="org.springframework" level="WARN" />
+    <logger name="org.cobbzilla.wizard.server" level="WARN" />
     <logger name="org.cobbzilla.wizard.dao.shard" level="INFO" />
     <logger name="histori" level="INFO" />
 
