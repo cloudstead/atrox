@@ -19,6 +19,9 @@ import org.cobbzilla.wizard.util.ResultCollector;
 
 import java.util.*;
 
+import static org.cobbzilla.util.daemon.ZillaRuntime.now;
+import static org.cobbzilla.util.string.StringUtil.formatDurationFrom;
+
 @Slf4j
 public class NexusSearchResults extends MappySortedSet<String, Nexus> implements ShardResultCollector<Nexus> {
 
@@ -74,6 +77,9 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
     }
 
     public List<Nexus> getMatchingNexuses(NexusView nexus) {
+        final String prefix = "getMatchingNexuses("+nexus.getCanonicalName()+"): ";
+        long start = now();
+        log.info(prefix+"starting");
         final List<Nexus> found;
         switch (searchQuery.getVisibility()) {
             case everyone:
@@ -88,7 +94,7 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
                 }
                 break;
             case deleted: default:
-                log.warn("getMatchingNexuses: not returning any results for visibility="+searchQuery.getVisibility());
+                log.warn(prefix+"not returning any results for visibility="+searchQuery.getVisibility());
                 return new ArrayList<>();
         }
         if (searchQuery.hasBlockedOwners()) {
@@ -99,6 +105,7 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
                 }
             }
         }
+        log.info(prefix+"completed in "+formatDurationFrom(start));
         return found;
     }
 

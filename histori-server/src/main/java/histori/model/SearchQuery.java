@@ -23,7 +23,7 @@ import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
 import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
 
 @Entity @NoArgsConstructor @Accessors(chain=true)
-@EqualsAndHashCode(of={"query", "visibility", "timeRange", "bounds"}, callSuper=false)
+@EqualsAndHashCode(of={"query", "visibility", "timeRange", "bounds", "preferredOwners", "blockedOwners"}, callSuper=false)
 public class SearchQuery extends IdentifiableBase {
 
     public SearchQuery (SearchQuery other) { copy(this, other); setUuid(null); }

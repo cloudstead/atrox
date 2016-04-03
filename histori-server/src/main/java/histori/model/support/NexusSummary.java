@@ -52,6 +52,10 @@ public class NexusSummary extends ExpirableBase {
     // If true, this is a stub and the client can ask for the summary again to receive more data
     @Getter @Setter private boolean incomplete;
 
+    @Override public String toString() {
+        return "NexusSummary{primary=" + primary.getCanonicalName() + ", others="+(others == null ? 0 : others.length)+"}";
+    }
+
     private static abstract class NSCompare implements Comparator<NexusSummary> {
         @Override public int compare(NexusSummary o1, NexusSummary o2) {
             long v1 = val(o1);

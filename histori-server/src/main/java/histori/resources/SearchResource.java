@@ -107,7 +107,12 @@ public class SearchResource {
 
         if (results == null) {
             log.info("STARTING FULL search("+searchQuery.getQuery()+")...");
-            results = nexusSummaryDAO.search(account, searchQuery);
+            try {
+                results = nexusSummaryDAO.search(account, searchQuery);
+            } catch (Exception e) {
+                log.error("Error searching ("+searchQuery.getQuery()+", duration "+formatDurationFrom(start)+"): "+e);
+                return serverError();
+            }
             try {
                 getSearchCache().set(cacheKey, toJson(results), "EX", SEARCH_CACHE_TIMEOUT_SECONDS);
             } catch (Exception e) {
