@@ -32,6 +32,7 @@
     <logger name="org.hibernate" level="DEBUG" />
     <logger name="org.hibernate" level="DEBUG" />
     <logger name="org.hibernate.type" level="TRACE" />
+    <logger name="histori" level="INFO" />
 
     <root level="debug">
         <appender-ref ref="STDOUT" />
