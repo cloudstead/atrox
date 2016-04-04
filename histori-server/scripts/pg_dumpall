@@ -9,7 +9,11 @@ function die {
   exit 1
 }
 
-COUNT="${1:?no count given}" ; shift
+if [ ! -z "${PPSQL_COUNT}" ] ; then
+  COUNT="${PPSQL_COUNT}"
+else
+  COUNT="${1:?no count given}" ; shift
+fi
 OUTPUT_DIR="${1:?no output dir given}" ; shift
 
 mkdir -p ${OUTPUT_DIR} || die "Error creating output directory: ${OUTPUT_DIR}"

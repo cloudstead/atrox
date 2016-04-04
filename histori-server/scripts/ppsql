@@ -13,7 +13,11 @@ function die {
   exit 1
 }
 
-COUNT="${1:?no count given}" ; shift
+if [ ! -z "${PPSQL_COUNT}" ] ; then
+  COUNT="${PPSQL_COUNT}"
+else
+  COUNT="${1:?no count given}" ; shift
+fi
 
 OPTS="-t"
 if [ -z "${1}" ] ; then
@@ -37,8 +41,7 @@ while [ ${i} -lt ${COUNT} ] ; do
     result=$(psql ${OPTS} -f "${SQL}" -U histori histori_${i})
   fi
   if [ $(echo "${result}" | tr -d '[[:space:]]' | wc -c | tr -d ' ') -gt 0 ] ; then
-    echo "results from: histori_${i}"
-    echo "${result}"
+    echo "results from: histori_${i}: ${result}"
   fi
   i=$((i + 1))
 done
@@ -49,6 +52,5 @@ else
   result=$(psql ${OPTS} -f "${SQL}" -U histori histori_master)
 fi
 if [ $(echo "${result}" | tr -d '[[:space:]]' | wc -c | tr -d ' ') -gt 0 ] ; then
-  echo "results from: histori_master"
-  echo "${result}"
+  echo "results from: histori_master: ${result}"
 fi

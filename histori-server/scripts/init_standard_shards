@@ -1,6 +1,10 @@
 #!/bin/bash
 
-COUNT=${1:?no count given}
+if [ ! -z "${PPSQL_COUNT}" ] ; then
+  COUNT="${PPSQL_COUNT}"
+else
+  COUNT="${1:?no count given}" ; shift
+fi
 BASE=$(cd $(dirname $0) && pwd)
 
 ${BASE}/init_shards -J jdbc:postgresql://127.0.0.1:5432/histori_ -M jdbc:postgresql://127.0.0.1:5432/histori_master -C ${COUNT}

@@ -5,7 +5,11 @@ function die {
   exit 1
 }
 
-COUNT="${1:?no count given}" ; shift
+if [ ! -z "${PPSQL_COUNT}" ] ; then
+  COUNT="${PPSQL_COUNT}"
+else
+  COUNT="${1:?no count given}" ; shift
+fi
 PREFIX="${1:?no prefix given}" ; shift
 
 OPTS=""
