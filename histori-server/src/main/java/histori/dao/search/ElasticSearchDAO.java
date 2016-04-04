@@ -93,17 +93,6 @@ public class ElasticSearchDAO {
         return response.isFound();
     }
 
-    public static final String HSQL
-            = "FROM SuperNexus n "
-            + "WHERE "
-            + "(   ( (n.bounds.north BETWEEN ? AND ?) AND ((n.bounds.east BETWEEN ? AND ?) OR (n.bounds.west BETWEEN ? AND ?)) ) "
-            +  "OR ( (n.bounds.south BETWEEN ? AND ?) AND ((n.bounds.east BETWEEN ? AND ?) OR (n.bounds.west BETWEEN ? AND ?)) ) "
-            + ") AND ( "
-            + "(n.timeRange.startPoint.instant >= ? AND n.timeRange.startPoint.instant <= ?) "
-            + "OR (n.timeRange.endPoint.instant >= ? AND n.timeRange.endPoint.instant <= ?) "
-            + ") ";
-    public static final String PUBLIC_CLAUSE = " AND owner IS NULL AND visibility = 'everyone'";
-    public static final String PRIVATE_CLAUSE = " AND owner = ? AND visibility = ?";
     public SearchResults<NexusSummary> search(SearchQuery searchQuery) {
         final TimeRange range = searchQuery.getTimeRange();
         final long startInstant = range.getStartPoint().getDateInstant();
