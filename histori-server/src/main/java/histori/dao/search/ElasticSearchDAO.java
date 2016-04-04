@@ -33,8 +33,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
-import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
-import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
+import static org.cobbzilla.util.json.JsonUtil.toJsonOrErr;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 @Repository @Slf4j
 public class ElasticSearchDAO {
@@ -79,8 +79,8 @@ public class ElasticSearchDAO {
                     .upsert(indexRequest);
             final UpdateResponse response = getClient().update(updateRequest).get();
 
-            if (!response.isCreated()) {
-                log.warn("Error indexing Nexus: "+response);
+            if (response.getShardInfo().getSuccessful() == 0) {
+                log.warn("Error indexing Nexus: "+toJsonOrErr(response));
             }
 
         } catch (Exception e) {
@@ -116,23 +116,18 @@ public class ElasticSearchDAO {
                         .must(boolQuery()
                                 .should(rangeQuery("range.startPoint.dateInstant").from(startInstant).to(endInstant))
                                 .should(rangeQuery("range.endPoint.dateInstant")  .from(startInstant).to(endInstant)))
+
                         // one of the corners of the bounding rectangle must be within the bounds of the query
                         // there are more complex polygon-overlap algorithms but would be much harder to implement against
                         // general-purpose tech like a search engine
                         // todo: consider: a custom geo-optimized storage engine
                         .must(boolQuery()
-                                .should(boolQuery()
-                                        .must(rangeQuery("bounds.north").from(south).to(north))
-                                        .should(boolQuery()
-                                                .must(rangeQuery("bounds.east").from(east).to(west))
-                                                .must(rangeQuery("bounds.west").from(east).to(west))))
-                                .should(boolQuery()
-                                        .must(rangeQuery("bounds.south").from(south).to(north))
-                                        .should(boolQuery()
-                                                .must(rangeQuery("bounds.east").from(east).to(west))
-                                                .must(rangeQuery("bounds.west").from(east).to(west)))))
+                                .should(geoBoundingBoxQuery("bounds.topLeft").topLeft(north, west).bottomRight(south, east))
+                                .should(geoBoundingBoxQuery("bounds.topRight").topLeft(north, west).bottomRight(south, east))
+                                .should(geoBoundingBoxQuery("bounds.bottomLeft").topLeft(north, west).bottomRight(south, east))
+                                .should(geoBoundingBoxQuery("bounds.bottomRight").topLeft(north, west).bottomRight(south, east)))
 
-                ).setFrom(0).setSize(NexusSummaryDAO.MAX_SEARCH_RESULTS)
+                ).setFrom(0).setSize(10 * NexusSummaryDAO.MAX_SEARCH_RESULTS)
                 .execute().actionGet();
 
         final NexusEntityFilter entityFilter = new NexusEntityFilter(searchQuery.getQuery(),
@@ -145,6 +140,7 @@ public class ElasticSearchDAO {
             final Nexus nexus = JsonUtil.fromJsonOrDie(hit.getSourceAsString(), Nexus.class);
             if (entityFilter.isAcceptable(nexus)) {
                 results.addResult(new NexusSummary().setPrimary(nexus));
+                if (results.getResults().size() > NexusSummaryDAO.MAX_SEARCH_RESULTS) break;
             }
         }
         Collections.sort(results.getResults(), NexusSummary.comparator(searchQuery.getSummarySortOrder()));

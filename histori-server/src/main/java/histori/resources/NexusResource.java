@@ -90,6 +90,7 @@ public class NexusResource {
             nexus.setOwnerAccount(account);
             nexus = nexusDAO.create(nexus);
         }
+        log.info("created nexus: "+nexus.getCanonicalName()+" (owner="+account.getEmail()+", authoritative="+nexus.isAuthoritative()+")");
         return ok(nexus);
     }
 
@@ -135,7 +136,7 @@ public class NexusResource {
             nexus.setOwnerAccount(account);
             nexus = nexusDAO.update(nexus);
         }
-
+        log.info("updated nexus: "+nexus.getCanonicalName()+" (owner="+account.getEmail()+", authoritative="+nexus.isAuthoritative()+", version="+nexus.getVersion()+")");
         return ok(nexus);
     }
 

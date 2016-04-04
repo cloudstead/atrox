@@ -9,6 +9,7 @@ import org.cobbzilla.wizard.validation.HasValue;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Transient;
 
 @NoArgsConstructor @AllArgsConstructor @Accessors(chain=true)
 @Embeddable
@@ -29,6 +30,16 @@ public class GeoBounds {
     public static GeoBounds blank() {
         return new GeoBounds(Double.MIN_VALUE, Double.MAX_VALUE, Double.MIN_VALUE, Double.MAX_VALUE);
     }
+
+    // used in elasticsearch
+    @Transient public LatLon getTopLeft () { return new LatLon(north, west); }
+    public void setTopLeft (LatLon latLon) { /* noop */ }
+    @Transient public LatLon getTopRight () { return new LatLon(north, east); }
+    public void setTopRight (LatLon latLon) { /* noop */ }
+    @Transient public LatLon getBottomLeft () { return new LatLon(south, west); }
+    public void setBottomLeft (LatLon latLon) { /* noop */ }
+    @Transient public LatLon getBottomRight () { return new LatLon(south, east); }
+    public void setBottomRight (LatLon latLon) { /* noop */ }
 
     public void expandToFit (double lat, double lon) {
         if (lat > north) north = lat;
