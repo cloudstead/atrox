@@ -22,7 +22,6 @@ import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
 
-import static org.cobbzilla.util.daemon.ZillaRuntime.now;
 import static org.cobbzilla.wizard.util.Await.awaitAndCollectSet;
 
 @Slf4j
