@@ -93,7 +93,6 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
     }
 
     public List<Nexus> getMatchingNexuses(NexusView nexus) {
-        long start = now();
         final List<Nexus> found = findNexuses(nexus);
         if (searchQuery.hasBlockedOwners()) {
             for (Iterator<Nexus> iter = found.iterator(); iter.hasNext(); ) {
