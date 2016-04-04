@@ -33,6 +33,7 @@
     <logger name="org.hibernate" level="WARN" />
     <logger name="org.hibernate.type" level="WARN" />
     <logger name="org.springframework" level="WARN" />
+    <logger name="org.cobbzilla.util.yml" level="ERROR" />
     <logger name="org.cobbzilla.wizard.server" level="WARN" />
     <logger name="org.cobbzilla.wizard.dao.shard" level="INFO" />
     <logger name="histori" level="INFO" />

@@ -55,7 +55,10 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
 
     @Override public boolean addResult(Object thing) {
         if (thing != null) {
-            if (size() > getMaxResults()) return false;
+            if (size() > getMaxResults()) {
+                log.info("addResult: size exceeds "+getMaxResults()+", returning false");
+                return false;
+            }
             final NexusView nexus = (NexusView) thing;
 
             if (containsKey(nexus.getCanonicalName())) {

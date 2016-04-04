@@ -62,7 +62,7 @@ public class VersionedEntityDAO<E extends VersionedEntity> {
                     "from " + archive.getClass().getSimpleName() + " t " +
                     "where " + uniqueSql + " " +
                     "order by t.version desc";
-            final List<Object[]> archives = archiveDao.search(new ShardSearch(hsql, args, toShardHash(entity)).setMaxResults(1));
+            final List<Object[]> archives = archiveDao.search(archiveSearch(entity, args, hsql));
             final Object[] latestArchive = archives.isEmpty() ? null : archives.get(0);
             if (latestArchive != null && latestArchive[0] != null) {
                 final String uuid = (String) latestArchive[0];
@@ -84,6 +84,12 @@ public class VersionedEntityDAO<E extends VersionedEntity> {
         } catch (Exception e) {
             die("incrementVersionAndArchive: error saving archive: "+e, e);
         }
+    }
+
+    protected static <E extends VersionedEntity> ShardSearch archiveSearch(E entity, List<Object> args, String hsql) {
+        return new ShardSearch(hsql, args, toShardHash(entity))
+                .setMaxResults(1)
+                .setMaxResultsPerShard(1);
     }
 
     protected static <E extends VersionedEntity> String toShardHash(E entity) {

@@ -1,36 +1,49 @@
 package histori.dao;
 
+import histori.dao.search.CachedSearchResults;
 import histori.dao.search.NexusSearchResults;
-import histori.dao.search.SuperNexusSummaryShardSearch;
+import histori.dao.search.NexusSummarySearch;
 import histori.model.Account;
 import histori.model.Nexus;
 import histori.model.SearchQuery;
+import histori.model.support.EntityVisibility;
 import histori.model.support.NexusSummary;
 import histori.model.support.SearchSortOrder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.cobbzilla.util.system.Sleep;
 import org.cobbzilla.wizard.cache.redis.RedisService;
 import org.cobbzilla.wizard.dao.AbstractRedisDAO;
 import org.cobbzilla.wizard.dao.SearchResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
+import static org.cobbzilla.util.daemon.ZillaRuntime.now;
+import static org.cobbzilla.wizard.resources.ResourceUtil.*;
 
 @Repository @Slf4j
 public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
 
-    private static final int MAX_SEARCH_RESULTS = 200;
+    // todo: allow higher result limits and timeout
+    public static final int MAX_SEARCH_RESULTS = 100;
 
     public static final SearchResults<NexusSummary> NO_RESULTS = new SearchResults<>();
 
-    @Autowired private NexusDAO nexusDAO;
-    @Autowired private SuperNexusDAO superNexusDAO;
-    @Autowired private TagDAO tagDAO;
-    @Autowired private TagTypeDAO tagTypeDAO;
+    private static final long SEARCH_CACHE_EXPIRATION = TimeUnit.MINUTES.toMillis(10);
+    private static final int MAX_CONCURRENT_SEARCHES = 10;
+
+    @Autowired @Getter private NexusDAO nexusDAO;
+    @Autowired @Getter private SuperNexusDAO superNexusDAO;
+    @Autowired @Getter private TagDAO tagDAO;
+    @Autowired @Getter private TagTypeDAO tagTypeDAO;
 
     @Autowired private RedisService redisService;
 
@@ -39,6 +52,9 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
 
     @Getter(lazy=true) private final RedisService nexusSummaryCache = initNexusSummaryCache();
     private RedisService initNexusSummaryCache() { return redisService.prefixNamespace("nexus-summary-cache:", null); }
+
+    private final ConcurrentHashMap<String, CachedSearchResults> searchCache = new ConcurrentHashMap<>();
+    private final Set<String> activeSearches = new HashSet<>(MAX_CONCURRENT_SEARCHES);
 
     /**
      * Find NexusSummaries within the provided range and region
@@ -51,23 +67,36 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
         // empty search always returns nothing
         if (empty(searchQuery.getQuery())) return NO_RESULTS;
 
-        final NexusEntityFilter entityFilter = new NexusEntityFilter(searchQuery.getQuery(), getFilterCache(), tagDAO, tagTypeDAO);
-        final NexusSearchResults nexusResults = new NexusSearchResults(account,
-                                                                       nexusDAO,
-                                                                       searchQuery,
-                                                                       entityFilter,
-                                                                       MAX_SEARCH_RESULTS);
+        final String accountKey = (account != null && searchQuery.getVisibility() != EntityVisibility.everyone) ? account.getUuid() : "public";
+        final String cacheKey = accountKey + ":" +searchQuery.hashCode();
 
-        // todo: check cache for cached value. if not cached, store result in cache
-        // todo: check to see if SuperNexusDAO is already searching for this same query, if so piggyback on result
+        CachedSearchResults cached;
+        cached = searchCache.get(cacheKey);
+        if (cached == null || cached.getAge() > SEARCH_CACHE_EXPIRATION) {
+            synchronized (searchCache) {
+                cached = searchCache.get(cacheKey);
+                if (cached == null || cached.getAge() > SEARCH_CACHE_EXPIRATION) {
 
-        final SuperNexusSummaryShardSearch search = new SuperNexusSummaryShardSearch(account, searchQuery, nexusResults);
-        final List<NexusSummary> searchResults = superNexusDAO.search(search);
-        for (NexusSummary summary : searchResults) {
-            summary.initUuid(account, searchQuery.getVisibility());
+                    // can we even start a brand new search? we might be too busy...
+                    synchronized (activeSearches) {
+                        if (activeSearches.size() >= MAX_CONCURRENT_SEARCHES) throw unavailableEx();
+
+                        cached = new CachedSearchResults();
+                        searchCache.put(cacheKey, cached);
+                        activeSearches.add(cacheKey);
+                        new NexusSummarySearch(this, account, searchQuery, cacheKey, cached, searchCache, activeSearches).start();
+                    }
+                }
+            }
         }
 
-        return new SearchResults<>(searchResults);
+        long start = now();
+        while (!cached.hasResults() && now() - start < superNexusDAO.getShardSearchTimeout()) {
+            Sleep.sleep(200);
+        }
+        if (!cached.hasResults()) throw timeoutEx();
+
+        return cached.getResults().get();
     }
 
     /**
