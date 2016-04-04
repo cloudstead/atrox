@@ -5,6 +5,7 @@ import histori.main.wiki.ArticleNexusMain;
 import histori.main.wiki.ArticlePathMain;
 import histori.main.wiki.WikiIndexerMain;
 import histori.main.wiki.WikiTitleIndexMain;
+import histori.server.HistoriServer;
 import org.cobbzilla.util.collection.MapBuilder;
 import org.cobbzilla.util.string.StringUtil;
 import org.cobbzilla.wizard.main.ConfigurationDataBagMain;
@@ -16,6 +17,7 @@ import java.util.Map;
 public class HistoriMain {
 
     private static Map<String, Class<? extends MainBase>> mainClasses = MapBuilder.build(new Object[][]{
+            {"server",            HistoriServer.class},
             {"index",             WikiIndexerMain.class},
             {"index-titles",      WikiTitleIndexMain.class},
             {"path",              ArticlePathMain.class},
