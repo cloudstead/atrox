@@ -2,7 +2,7 @@ package histori.dao;
 
 import histori.dao.search.CachedSearchResults;
 import histori.dao.search.NexusSearchResults;
-import histori.dao.search.NexusSummarySearch;
+import histori.dao.search.NexusSummarySearchJob;
 import histori.model.Account;
 import histori.model.Nexus;
 import histori.model.SearchQuery;
@@ -18,16 +18,14 @@ import org.cobbzilla.wizard.dao.SearchResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.daemon.ZillaRuntime.now;
-import static org.cobbzilla.wizard.resources.ResourceUtil.*;
+import static org.cobbzilla.wizard.resources.ResourceUtil.timeoutEx;
+import static org.cobbzilla.wizard.resources.ResourceUtil.unavailableEx;
 
 @Repository @Slf4j
 public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
@@ -53,8 +51,8 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
     @Getter(lazy=true) private final RedisService nexusSummaryCache = initNexusSummaryCache();
     private RedisService initNexusSummaryCache() { return redisService.prefixNamespace("nexus-summary-cache:", null); }
 
-    private final ConcurrentHashMap<String, CachedSearchResults> searchCache = new ConcurrentHashMap<>();
-    private final Set<String> activeSearches = new HashSet<>(MAX_CONCURRENT_SEARCHES);
+    private final Map<String, CachedSearchResults> searchCache = new ConcurrentHashMap<>();
+    private final Map<String, NexusSummarySearchJob> activeSearches = new ConcurrentHashMap<>(MAX_CONCURRENT_SEARCHES);
 
     /**
      * Find NexusSummaries within the provided range and region
@@ -83,18 +81,30 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
 
                         cached = new CachedSearchResults();
                         searchCache.put(cacheKey, cached);
-                        activeSearches.add(cacheKey);
-                        new NexusSummarySearch(this, account, searchQuery, cacheKey, cached, searchCache, activeSearches).start();
+
+                        final NexusSummarySearchJob job = new NexusSummarySearchJob(this, account, searchQuery, cacheKey, cached, searchCache, activeSearches);
+                        activeSearches.put(cacheKey, job);
+                        job.start();
                     }
                 }
             }
         }
 
         long start = now();
-        while (!cached.hasResults() && now() - start < superNexusDAO.getShardSearchTimeout()) {
+        while (!cached.hasResults() && now() - start < (superNexusDAO.getShardSearchTimeout() + 2000)) {
             Sleep.sleep(200);
         }
-        if (!cached.hasResults()) throw timeoutEx();
+        if (!cached.hasResults()) {
+            final String prefix = "search("+cacheKey+", "+searchQuery.getQuery()+"): ";
+            NexusSummarySearchJob activeJob = activeSearches.get(cacheKey);
+            if (activeJob != null) {
+                log.warn(prefix+"timed out getting full results, returning early with " + activeJob.getNexusResults().size() + " results");
+                cached.getResults().set(new SearchResults<>(activeJob.getNexusResults().getResults()));
+            } else {
+                log.error(prefix+"timed out getting results ");
+                throw timeoutEx();
+            }
+        }
 
         return cached.getResults().get();
     }

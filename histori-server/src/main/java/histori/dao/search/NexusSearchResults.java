@@ -88,7 +88,7 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
         try {
             awaitAndCollectSet(futures, getMaxResults(), timeout);
         } catch (TimeoutException e) {
-            log.warn("await: Timed out, returning early with "+size()+" results");
+            log.warn("await: timed out, returning early with "+size()+" results");
         }
         return getResults();
     }

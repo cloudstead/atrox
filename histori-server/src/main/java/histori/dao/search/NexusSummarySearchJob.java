@@ -5,16 +5,16 @@ import histori.dao.NexusSummaryDAO;
 import histori.model.Account;
 import histori.model.SearchQuery;
 import histori.model.support.NexusSummary;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.wizard.dao.SearchResults;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-public class NexusSummarySearch implements Runnable {
+public class NexusSummarySearchJob implements Runnable {
 
     private NexusSummaryDAO summaryDAO;
     private Account account;
@@ -23,17 +23,18 @@ public class NexusSummarySearch implements Runnable {
     private CachedSearchResults cached;
 
     private final Map<String, CachedSearchResults> searchCache;
-    private final Set<String> activeSearches;
+    private final Map<String, NexusSummarySearchJob> activeSearches;
 
     private Thread thread = null;
+    @Getter private NexusSearchResults nexusResults;
 
-    public NexusSummarySearch(NexusSummaryDAO summaryDAO,
-                              Account account,
-                              SearchQuery searchQuery,
-                              String cacheKey,
-                              CachedSearchResults cached,
-                              Map<String, CachedSearchResults> searchCache,
-                              Set<String> activeSearches) {
+    public NexusSummarySearchJob(NexusSummaryDAO summaryDAO,
+                                 Account account,
+                                 SearchQuery searchQuery,
+                                 String cacheKey,
+                                 CachedSearchResults cached,
+                                 Map<String, CachedSearchResults> searchCache,
+                                 Map<String, NexusSummarySearchJob> activeSearches) {
         this.summaryDAO = summaryDAO;
         this.account = account;
         this.searchQuery = searchQuery;
@@ -56,11 +57,11 @@ public class NexusSummarySearch implements Runnable {
                                                                          summaryDAO.getTagDAO(),
                                                                          summaryDAO.getTagTypeDAO());
 
-            final NexusSearchResults nexusResults = new NexusSearchResults(account,
-                                                                           summaryDAO.getNexusDAO(),
-                                                                           searchQuery,
-                                                                           entityFilter,
-                                                                           NexusSummaryDAO.MAX_SEARCH_RESULTS);
+            nexusResults = new NexusSearchResults(account,
+                                                  summaryDAO.getNexusDAO(),
+                                                  searchQuery,
+                                                  entityFilter,
+                                                  NexusSummaryDAO.MAX_SEARCH_RESULTS);
 
             final SuperNexusSummaryShardSearch search = new SuperNexusSummaryShardSearch(account, searchQuery, nexusResults);
             search.setTimeout(TimeUnit.SECONDS.toMillis(30));
