@@ -37,7 +37,7 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
 
     public static final SearchResults<NexusSummary> NO_RESULTS = new SearchResults<>();
 
-    private static final long SEARCH_CACHE_EXPIRATION = TimeUnit.MINUTES.toMillis(10);
+    private static final long SEARCH_CACHE_EXPIRATION = TimeUnit.MINUTES.toMillis(30);
     private static final int MAX_CONCURRENT_SEARCHES = 10;
 
     @Autowired @Getter private NexusDAO nexusDAO;

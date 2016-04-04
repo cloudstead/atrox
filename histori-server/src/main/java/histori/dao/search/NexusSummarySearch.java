@@ -11,6 +11,7 @@ import org.cobbzilla.wizard.dao.SearchResults;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class NexusSummarySearch implements Runnable {
@@ -62,6 +63,7 @@ public class NexusSummarySearch implements Runnable {
                                                                            NexusSummaryDAO.MAX_SEARCH_RESULTS);
 
             final SuperNexusSummaryShardSearch search = new SuperNexusSummaryShardSearch(account, searchQuery, nexusResults);
+            search.setTimeout(TimeUnit.SECONDS.toMillis(5));
 
             List<NexusSummary> searchResults = summaryDAO.getSuperNexusDAO().search(search);
 
