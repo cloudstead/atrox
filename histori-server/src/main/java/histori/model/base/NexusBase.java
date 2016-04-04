@@ -56,6 +56,8 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
         getBounds();  // ensure bounds are set
     }
 
+    @Getter @Setter private boolean authoritative;
+
     @Column(length=NAME_MAXLEN, nullable=false, updatable=false)
     @Size(min=2, max=NAME_MAXLEN, message="err.name.length")
     @Getter @Setter private String canonicalName;

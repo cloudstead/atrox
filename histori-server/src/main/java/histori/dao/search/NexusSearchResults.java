@@ -23,7 +23,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.now;
-import static org.cobbzilla.util.string.StringUtil.formatDurationFrom;
 import static org.cobbzilla.wizard.util.Await.awaitAndCollectSet;
 
 @Slf4j
@@ -94,7 +93,6 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
     }
 
     public List<Nexus> getMatchingNexuses(NexusView nexus) {
-        final String prefix = "getMatchingNexuses("+nexus.getCanonicalName()+"): ";
         long start = now();
         final List<Nexus> found = findNexuses(nexus);
         if (searchQuery.hasBlockedOwners()) {
@@ -105,7 +103,6 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
                 }
             }
         }
-        log.info(prefix+"completed in "+formatDurationFrom(start));
         return found;
     }
 
