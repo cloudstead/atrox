@@ -15,15 +15,10 @@ if [ $(whoami) = "root" ] ; then
       echo "dropped database ${db}, exit status: $?"
     fi
   done
-elif [ $(whoami) = "postgres" ] ; then
-  for db in $(echo "select datname from pg_database" | psql -qt template1 | grep -v template | grep -v postgres) ; do
-    if [[ "${db}" =~ ${MATCH} ]] ; then
-      echo "dropping database ${db}"
-      dropdb ${db}
-      echo "dropped database ${db}, exit status: $?"
-    fi
-  done
 else
-  echo "must be root or postgres user"
-  exit 1
+  for db in $(echo "select datname from pg_database" | psql -qt template1 | grep -v template | grep -v postgres | grep "${MATCH}") ; do
+    echo "dropping database ${db}"
+    dropdb ${db}
+    echo "dropped database ${db}, exit status: $?"
+  done
 fi

@@ -24,10 +24,18 @@ elif [[ "${1}" =~ ^- ]] ; then
 fi
 
 SQL="${@:?no sql given}"
+IS_FILE=0
+if [ -e "${SQL}" ] ; then
+  IS_FILE=1
+fi
 
 i=0
 while [ ${i} -lt ${COUNT} ] ; do
-  result=$(echo "${SQL}" | psql ${OPTS} -U histori histori_${i})
+  if [ ${IS_FILE} -eq 0 ] ; then
+    result=$(echo "${SQL}" | psql ${OPTS} -U histori histori_${i})
+  else
+    result=$(psql ${OPTS} -f "${SQL}" -U histori histori_${i})
+  fi
   if [ $(echo "${result}" | tr -d '[[:space:]]' | wc -c | tr -d ' ') -gt 0 ] ; then
     echo "results from: histori_${i}"
     echo "${result}"
@@ -35,5 +43,12 @@ while [ ${i} -lt ${COUNT} ] ; do
   i=$((i + 1))
 done
 
-echo "results from: histori_master"
-echo "${SQL}" | psql ${OPTS} -U histori histori_master
+if [ ${IS_FILE} -eq 0 ] ; then
+  result=$(echo "${SQL}" | psql ${OPTS} -U histori histori_master)
+else
+  result=$(psql ${OPTS} -f "${SQL}" -U histori histori_master)
+fi
+if [ $(echo "${result}" | tr -d '[[:space:]]' | wc -c | tr -d ' ') -gt 0 ] ; then
+  echo "results from: histori_master"
+  echo "${result}"
+fi
