@@ -100,6 +100,8 @@ public class NexusResource {
         copy(nexus, request, UPDATE_FIELDS);
         if (backup.equals(nexus)) {
             log.info("no changes made, not saving: "+request.getName());
+            // but still re-index in search engine
+            nexusDAO.reindex(nexus);
             return false;
         }
         return true;

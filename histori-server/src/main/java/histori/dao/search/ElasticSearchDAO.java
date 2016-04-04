@@ -53,8 +53,26 @@ public class ElasticSearchDAO {
 
         TransportClient c = TransportClient.builder().settings(settings).build();
         for (String uri : config.getServers()) c = c.addTransportAddress(toTransportAddress(uri));
-
+        setupMappings(c);
         return c;
+    }
+
+    public static final String MAPPING_JSON = "{ \""+ES_NEXUS_TYPE+"\": { \"properties\": {\n"
+            +"\"topLeft\":     { \"type\": \"geo_point\" }, "
+            +"\"topRight\":    { \"type\": \"geo_point\" }, "
+            +"\"bottomLeft\":  { \"type\": \"geo_point\" }, "
+            +"\"bottomRight\": { \"type\": \"geo_point\" } "
+            +"} } } ";
+    private void setupMappings(TransportClient client) {
+        final IndexRequest indexRequest = new IndexRequest(ES_INDEX, ES_NEXUS_TYPE, "_mapping").source(MAPPING_JSON);
+        final UpdateRequest updateRequest = new UpdateRequest(ES_INDEX, ES_NEXUS_TYPE, "_mapping")
+                .doc(MAPPING_JSON)
+                .upsert(indexRequest);
+        try {
+            client.update(updateRequest).get();
+        } catch (Exception e) {
+            die("setupMappings: "+e, e);
+        }
     }
 
     private TransportAddress toTransportAddress(String uri) {

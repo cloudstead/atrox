@@ -111,10 +111,12 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
         tagDAO.updateTags(nexus);
         // todo: when we have multiple API servers, we'll need to broadcast this to all API servers...
         NexusSearchResults.removeFromCache(nexus.getCanonicalName());
-        if (nexus.isAuthoritative()) {
-            elasticSearchDAO.index(nexus);
-        }
+
+        // refresh elasticsearch
+        if (nexus.isAuthoritative()) reindex(nexus);
     }
+
+    public void reindex(Nexus nexus) { elasticSearchDAO.index(nexus); }
 
     public Nexus findByOwnerAndName(Account account, String name) {
         return findByUniqueFields("owner", account.getUuid(), "canonicalName", canonicalize(name));
