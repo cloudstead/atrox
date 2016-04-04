@@ -91,7 +91,17 @@ redis:
 
 elasticSearch:
   cluster: {{HISTORI_ELASTIC_SEARCH_CLUSTER}}
-  servers: [ {{HISTORI_ELASTIC_SEARCH_SERVERS}} ]
+  servers:
+  # it's OK if some of these are empty. as long as there's one
+    - {{HISTORI_ELASTIC_SEARCH_SERVER_0}}
+    - {{HISTORI_ELASTIC_SEARCH_SERVER_1}}
+    - {{HISTORI_ELASTIC_SEARCH_SERVER_2}}
+    - {{HISTORI_ELASTIC_SEARCH_SERVER_3}}
+    - {{HISTORI_ELASTIC_SEARCH_SERVER_4}}
+    - {{HISTORI_ELASTIC_SEARCH_SERVER_5}}
+    - {{HISTORI_ELASTIC_SEARCH_SERVER_6}}
+    - {{HISTORI_ELASTIC_SEARCH_SERVER_7}}
+    - {{HISTORI_ELASTIC_SEARCH_SERVER_8}}
 
 assetStorage:
   type: s3

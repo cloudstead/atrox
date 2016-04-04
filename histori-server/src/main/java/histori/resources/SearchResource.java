@@ -4,6 +4,7 @@ import com.sun.jersey.api.core.HttpContext;
 import histori.dao.NexusDAO;
 import histori.dao.NexusSummaryDAO;
 import histori.dao.SearchQueryDAO;
+import histori.dao.search.ElasticSearchDAO;
 import histori.model.Account;
 import histori.model.Nexus;
 import histori.model.SearchQuery;
@@ -43,6 +44,7 @@ public class SearchResource {
     @Autowired private NexusDAO nexusDAO;
     @Autowired private SearchQueryDAO searchQueryDAO;
     @Autowired private RedisService redisService;
+    @Autowired private ElasticSearchDAO elasticSearchDAO;
 
     private static final long SEARCH_CACHE_TIMEOUT_SECONDS = TimeUnit.MINUTES.toSeconds(1);
 
@@ -51,8 +53,8 @@ public class SearchResource {
 
     @POST
     @Path(EP_QUERY)
-    public Response findByDateRangeAndGeo(@Context HttpContext ctx,
-                                          @Valid SearchQuery query){
+    public Response search(@Context HttpContext ctx,
+                           @Valid SearchQuery query){
 
         final Account account = optionalUserPrincipal(ctx);
 
@@ -64,16 +66,16 @@ public class SearchResource {
 
     @GET
     @Path(EP_QUERY +"/{from}/{to}/{north}/{south}/{east}/{west}")
-    public Response findByDateRangeAndGeo(@Context HttpContext ctx,
-                                          @PathParam("from") String from,
-                                          @PathParam("to") String to,
-                                          @PathParam("north") double north,
-                                          @PathParam("south") double south,
-                                          @PathParam("east") double east,
-                                          @PathParam("west") double west,
-                                          @QueryParam("q") String query,
-                                          @QueryParam("v") String visibility,
-                                          @QueryParam("c") String useCache) {
+    public Response search(@Context HttpContext ctx,
+                           @PathParam("from") String from,
+                           @PathParam("to") String to,
+                           @PathParam("north") double north,
+                           @PathParam("south") double south,
+                           @PathParam("east") double east,
+                           @PathParam("west") double west,
+                           @QueryParam("q") String query,
+                           @QueryParam("v") String visibility,
+                           @QueryParam("c") String useCache) {
 
         final Account account = optionalUserPrincipal(ctx);
 
@@ -93,7 +95,9 @@ public class SearchResource {
     private Response search(Account account, SearchQuery searchQuery) {
 
         long start = now();
-        final String cacheKey = (account == null || searchQuery.getVisibility().isEveryone() ? "null" : account.getUuid()) + ":" + searchQuery.hashCode();
+        final EntityVisibility visibility = searchQuery.getVisibility();
+        final boolean isPublic = visibility.isEveryone();
+        final String cacheKey = (account == null || isPublic ? "null" : account.getUuid()) + ":" + searchQuery.hashCode();
         final String json = searchQuery.isUseCache() ? getSearchCache().get(cacheKey) : null;
         SearchResults<NexusSummary> results = null;
         if (!empty(json)) {
@@ -108,7 +112,11 @@ public class SearchResource {
         if (results == null) {
             log.info("STARTING FULL search("+searchQuery.getQuery()+")...");
             try {
-                results = nexusSummaryDAO.search(account, searchQuery);
+                if (isPublic) {
+                    results = elasticSearchDAO.search(searchQuery);
+                } else {
+                    results = nexusSummaryDAO.search(account, searchQuery);
+                }
             } catch (Exception e) {
                 log.error("Error searching ("+searchQuery.getQuery()+", duration "+formatDurationFrom(start)+"): "+e);
                 return serverError();
