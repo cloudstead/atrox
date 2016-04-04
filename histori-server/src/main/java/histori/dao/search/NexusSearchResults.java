@@ -19,9 +19,12 @@ import org.cobbzilla.wizard.dao.shard.task.ShardResultCollector;
 import org.cobbzilla.wizard.util.ResultCollector;
 
 import java.util.*;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeoutException;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.now;
 import static org.cobbzilla.util.string.StringUtil.formatDurationFrom;
+import static org.cobbzilla.wizard.util.Await.awaitAndCollectSet;
 
 @Slf4j
 public class NexusSearchResults extends MappySortedSet<String, Nexus> implements ShardResultCollector<Nexus> {
@@ -78,6 +81,11 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
             }
         }
         return true;
+    }
+
+    @Override public List await(List<Future<List>> futures, long timeout) throws TimeoutException {
+        // collect results until we are at max, or all jobs finish. use Set to avoid re-adding duplicates
+        return new ArrayList(awaitAndCollectSet(futures, getMaxResults(), timeout));
     }
 
     public List<Nexus> getMatchingNexuses(NexusView nexus) {
