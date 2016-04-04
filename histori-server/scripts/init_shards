@@ -1,0 +1,7 @@
+#!/bin/bash
+
+BASE=$(cd $(dirname $0) && pwd)
+
+for shard in histori-account bookmark super-nexus nexus nexus-archive permalink tag vote vote-archive ; do
+  ${BASE}/../run.sh shard-gen-sql ${@} -S ${shard}
+done
