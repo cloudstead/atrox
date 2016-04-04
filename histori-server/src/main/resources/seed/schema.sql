@@ -125,6 +125,7 @@ CREATE TABLE nexus (
     origin character varying(100),
     version integer NOT NULL,
     visibility character varying(20) NOT NULL,
+    authoritative boolean NOT NULL,
     east double precision NOT NULL,
     north double precision NOT NULL,
     south double precision NOT NULL,
@@ -166,6 +167,7 @@ CREATE TABLE nexus_archive (
     origin character varying(100),
     version integer NOT NULL,
     visibility character varying(20) NOT NULL,
+    authoritative boolean NOT NULL,
     east double precision NOT NULL,
     north double precision NOT NULL,
     south double precision NOT NULL,
@@ -407,7 +409,7 @@ COPY map_image (uuid, ctime, mtime, owner, file_name, uri) FROM stdin;
 -- Data for Name: nexus; Type: TABLE DATA; Schema: public; Owner: histori
 --
 
-COPY nexus (uuid, ctime, mtime, owner, markdown, origin, version, visibility, east, north, south, west, canonical_name, geo_json, name, nexus_type, tags_json, end_day, end_hour, end_instant, end_minute, end_month, end_second, end_year, start_day, start_hour, start_instant, start_minute, start_month, start_second, start_year) FROM stdin;
+COPY nexus (uuid, ctime, mtime, owner, markdown, origin, version, visibility, authoritative, east, north, south, west, canonical_name, geo_json, name, nexus_type, tags_json, end_day, end_hour, end_instant, end_minute, end_month, end_second, end_year, start_day, start_hour, start_instant, start_minute, start_month, start_second, start_year) FROM stdin;
 \.
 
 
@@ -415,7 +417,7 @@ COPY nexus (uuid, ctime, mtime, owner, markdown, origin, version, visibility, ea
 -- Data for Name: nexus_archive; Type: TABLE DATA; Schema: public; Owner: histori
 --
 
-COPY nexus_archive (uuid, ctime, mtime, owner, markdown, origin, version, visibility, east, north, south, west, canonical_name, geo_json, name, nexus_type, tags_json, end_day, end_hour, end_instant, end_minute, end_month, end_second, end_year, start_day, start_hour, start_instant, start_minute, start_month, start_second, start_year, identifier) FROM stdin;
+COPY nexus_archive (uuid, ctime, mtime, owner, markdown, origin, version, visibility, authoritative, east, north, south, west, canonical_name, geo_json, name, nexus_type, tags_json, end_day, end_hour, end_instant, end_minute, end_month, end_second, end_year, start_day, start_hour, start_instant, start_minute, start_month, start_second, start_year, identifier) FROM stdin;
 \.
 
 
@@ -424,8 +426,6 @@ COPY nexus_archive (uuid, ctime, mtime, owner, markdown, origin, version, visibi
 --
 
 COPY permalink (name, ctime, mtime, json) FROM stdin;
-@@American Civil War	1459197707041	1459197707041	{\n    "timeline" : {\n      "range" : {\n        "start" : 1861.275,\n        "end" : 1865.375\n      },\n      "zoom_stack" : [ {\n        "start" : -10000,\n        "end" : 2016\n      }, {\n        "start" : -4000,\n        "end" : 2016\n      }, {\n        "start" : 1500,\n        "end" : 2016\n      }, {\n        "start" : 1860,\n        "end" : 1866\n      } ]\n    },\n    "map" : {\n      "north" : 49.82792914537133,\n      "south" : 16.957833217096223,\n      "east" : 27.7,\n      "west" : -145.0068359375\n    },\n    "searches" : [ {\n      "query" : "Union Victory",\n      "icon" : "/markers/blue_MarkerU.png"\n    }, {\n      "query" : "Confederate Victory",\n      "icon" : "/markers/red_MarkerC.png"\n    } ]\n  }
-@@Punic Wars (Rome vs Carthage)	1459197707042	1459197707042	{\n   "timeline" : {\n     "range" : {\n       "start" : -264,\n       "end" : -146\n     },\n     "zoom_stack" : [ {\n       "start" : -10000,\n       "end" : 2016\n     }, {\n       "start" : -4000,\n       "end" : 2016\n     }, {\n       "start" : 1500,\n       "end" : 2016\n     }, {\n       "start" : -264.9990892531876,\n       "end" : -159.9990892531876\n     } ]\n   },\n   "map" : {\n     "north" : 46.87957901439934,\n     "south" : 31.302785052433514,\n     "east" : 40.3857421875,\n     "west" : -21.2255859375\n   },\n   "searches" : [ {\n     "query" : "Punic War",\n     "icon" : "/markers/orange_MarkerP.png"\n   } ]\n }
 \.
 
 

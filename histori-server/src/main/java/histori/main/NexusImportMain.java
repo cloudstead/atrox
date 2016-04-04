@@ -45,6 +45,7 @@ public class NexusImportMain extends HistoriApiMain<NexusImportOptions> {
         final String path = NEXUS_ENDPOINT + "/" + urlEncode(request.getName());
 
         request.getTags().addTag("automated_entry_please_verify", "meta");
+        request.setAuthoritative(true); // imports are always authoritative
 
         final Nexus nexus = fromJson(api.post(path, toJson(request)).json, Nexus.class);
 

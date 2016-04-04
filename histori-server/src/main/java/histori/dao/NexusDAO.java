@@ -40,18 +40,27 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
     @Getter(lazy=true) private final RedisService nexusCache = initNexusCache();
     private RedisService initNexusCache() { return redisService.prefixNamespace("nexus-cache:", null); }
 
-    @Override public Object preCreate(@Valid Nexus entity) {
-        entity.prepareForSave();
+    @Override public Object preCreate(@Valid Nexus nexus) {
+        nexus.prepareForSave();
 
         // ensure tag is present, or create it if not
-        if (entity.hasNexusType()) {
-            return new NexusTag().setTagName(entity.getNexusType()).setTagType(EVENT_TYPE);
+        if (nexus.hasNexusType()) {
+            return new NexusTag().setTagName(nexus.getNexusType()).setTagType(EVENT_TYPE);
         }
 
         // create version
-        VersionedEntityDAO.incrementVersionAndArchive(entity, this, nexusArchiveDAO);
+        VersionedEntityDAO.incrementVersionAndArchive(nexus, this, nexusArchiveDAO);
 
-        return super.preCreate(entity);
+        // if this version is authoritative, unset authoritative flag if set on another version
+        if (nexus.isAuthoritative()) {
+            final Nexus authoritative = findByName(nexus.getName());
+            if (authoritative != null) {
+                authoritative.setAuthoritative(false);
+                update(authoritative);
+            }
+        }
+
+        return super.preCreate(nexus);
     }
 
     @Override public Object preUpdate(@Valid Nexus nexus) {
@@ -73,6 +82,15 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
 
         // create version
         VersionedEntityDAO.incrementVersionAndArchive(nexus, this, nexusArchiveDAO);
+
+        // if this version is authoritative, unset authoritative flag if set on another version
+        if (nexus.isAuthoritative()) {
+            final Nexus authoritative = findByName(nexus.getName());
+            if (authoritative != null && !authoritative.getUuid().equals(nexus.getUuid())) {
+                authoritative.setAuthoritative(false);
+                update(authoritative);
+            }
+        }
 
         return super.preUpdate(nexus);
     }
@@ -104,7 +122,9 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
 
     @Override public String getNameField() { return "canonicalName"; }
 
-    @Override public Nexus findByName(String name) { return findByUniqueField("canonicalName", canonicalize(name)); }
+    @Override public Nexus findByName(String name) {
+        return findByUniqueFields("canonicalName", canonicalize(name), "authoritative", true);
+    }
 
     public List<Nexus> findByNameAndVisibleToAccount(String name, Account account) {
         final List<Nexus> found = findByField("canonicalName", canonicalize(name));
