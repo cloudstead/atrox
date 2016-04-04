@@ -18,9 +18,14 @@ public class SuperNexusSummaryShardSearch extends ShardSearch {
     public static final String HSQL
             = "FROM SuperNexus n "
             + "WHERE "
+            // one of the corners of the bounding rectangle must be within the bounds of the query
+            // there are more complex polygon-overlap algorithms but would be much harder to implement against
+            // a general-purpose relational database
+            // todo: consider: a custom geo-optimized storage engine
             + "(   ( (n.bounds.north BETWEEN ? AND ?) AND ((n.bounds.east BETWEEN ? AND ?) OR (n.bounds.west BETWEEN ? AND ?)) ) "
             +  "OR ( (n.bounds.south BETWEEN ? AND ?) AND ((n.bounds.east BETWEEN ? AND ?) OR (n.bounds.west BETWEEN ? AND ?)) ) "
             + ") AND ( "
+            // either nexus start or end must fall within query time range
             + "(n.timeRange.startPoint.instant >= ? AND n.timeRange.startPoint.instant <= ?) "
             + "OR (n.timeRange.endPoint.instant >= ? AND n.timeRange.endPoint.instant <= ?) "
             + ") ";

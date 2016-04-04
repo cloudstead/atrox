@@ -89,6 +89,10 @@ redis:
   key: '{{HISTORI_REDIS_ENCRYPTION_KEY}}'
   prefix: histori
 
+elasticSearch:
+  cluster: {{HISTORI_ELASTIC_SEARCH_CLUSTER}}
+  servers: [ {{HISTORI_ELASTIC_SEARCH_SERVERS}} ]
+
 assetStorage:
   type: s3
   config:

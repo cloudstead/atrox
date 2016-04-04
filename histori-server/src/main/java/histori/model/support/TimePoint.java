@@ -11,6 +11,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import javax.persistence.Embeddable;
+import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
@@ -38,6 +39,7 @@ public class TimePoint {
     public static final long MAX_YEAR = 10_000;
 
     public static final TimePoint MIN_VALUE = new TimePoint(String.valueOf(MIN_YEAR));
+    public static final BigInteger DATE_INSTANT_DIVISOR = BigInteger.valueOf(1_000_000L);
 
     public TimePoint (long timestamp) { this(DATE_TIME_FORMATTER.print(timestamp)); }
 
@@ -96,6 +98,14 @@ public class TimePoint {
 
     @Getter @Setter private BigInteger instant;
     public TimePoint initInstant () { if (instant == null) initInstant(toString()); return this; }
+
+    // For indexing in elasticsearch, which has poor support for range queries based in BigInteger
+    @Transient public long getDateInstant () {
+        return instant == null ? 0 : instant.divide(DATE_INSTANT_DIVISOR).longValue();
+    }
+    public void setDateInstant (long instant) {
+        if (getDateInstant() != instant) this.instant = BigInteger.valueOf(instant).multiply(DATE_INSTANT_DIVISOR);
+    }
 
     @Min(value=MIN_YEAR, message="err.timePoint.year.tooEarly")
     @Max(value=MAX_YEAR, message="err.timePoint.year.tooLate")

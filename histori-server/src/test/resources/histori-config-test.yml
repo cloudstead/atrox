@@ -89,6 +89,9 @@ redis:
   key: '{{HISTORI_REDIS_ENCRYPTION_KEY}}'
   prefix: histori
 
+elasticSearch:
+  servers: [ http://127.0.0.1:9200 ]
+
 assetStorage:
   type: local
   config:

@@ -16,10 +16,7 @@ import org.cobbzilla.util.reflect.ReflectionUtil;
 import org.cobbzilla.wizard.cache.redis.HasRedisConfiguration;
 import org.cobbzilla.wizard.cache.redis.RedisConfiguration;
 import org.cobbzilla.wizard.dao.DAO;
-import org.cobbzilla.wizard.server.config.DatabaseConfiguration;
-import org.cobbzilla.wizard.server.config.HasDatabaseConfiguration;
-import org.cobbzilla.wizard.server.config.RecaptchaConfig;
-import org.cobbzilla.wizard.server.config.RestServerConfiguration;
+import org.cobbzilla.wizard.server.config.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -49,6 +46,8 @@ public class HistoriConfiguration extends RestServerConfiguration
         if (empty(redis.getPrefix())) redis.setPrefix("histori");
         return redis;
     }
+
+    @Getter @Setter private ElasticSearchConfig elasticSearch = new ElasticSearchConfig();
 
     @Getter @Setter private SmtpMailConfig smtp;
     @Getter @Setter private Map<String, SimpleEmailMessage> emailSenderNames = new HashMap<>();

@@ -27,8 +27,11 @@ SQL="${@:?no sql given}"
 
 i=0
 while [ ${i} -lt ${COUNT} ] ; do
-  echo "results from: histori_${i}"
-  echo "${SQL}" | psql ${OPTS} -U histori histori_${i}
+  result=$(echo "${SQL}" | psql ${OPTS} -U histori histori_${i})
+  if [ $(echo "${result}" | tr -d '[[:space:]]' | wc -c | tr -d ' ') -gt 0 ] ; then
+    echo "results from: histori_${i}"
+    echo "${result}"
+  fi
   i=$((i + 1))
 done
 
