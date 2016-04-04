@@ -13,6 +13,25 @@ function die {
   exit 1
 }
 
+function exec_psql {
+  IS_FILE=${1} ; shift
+  DB_NAME=${1} ; shift
+  SQL="${@}"
+  if [ ${IS_FILE} -eq 0 ] ; then
+    result=$(echo "${SQL}" | psql ${OPTS} -U histori ${DB_NAME})
+  else
+    result=$(psql ${OPTS} -f "${SQL}" -U histori ${DB_NAME})
+  fi
+  if [ $(echo "${result}" | tr -d '[[:space:]]' | wc -c | tr -d ' ') -gt 0 ] ; then
+    if [[ ${result} == *$'\n'* ]] ; then
+      echo ">>> results from: ${DB_NAME}:"
+      echo "${result}"
+    else
+      echo ">>> results from: ${DB_NAME}: ${result}"
+    fi
+  fi
+}
+
 if [ ! -z "${PPSQL_COUNT}" ] ; then
   COUNT="${PPSQL_COUNT}"
 else
@@ -35,22 +54,8 @@ fi
 
 i=0
 while [ ${i} -lt ${COUNT} ] ; do
-  if [ ${IS_FILE} -eq 0 ] ; then
-    result=$(echo "${SQL}" | psql ${OPTS} -U histori histori_${i})
-  else
-    result=$(psql ${OPTS} -f "${SQL}" -U histori histori_${i})
-  fi
-  if [ $(echo "${result}" | tr -d '[[:space:]]' | wc -c | tr -d ' ') -gt 0 ] ; then
-    echo "results from: histori_${i}: ${result}"
-  fi
+  exec_psql ${IS_FILE} histori_${i} "${SQL}"
   i=$((i + 1))
 done
 
-if [ ${IS_FILE} -eq 0 ] ; then
-  result=$(echo "${SQL}" | psql ${OPTS} -U histori histori_master)
-else
-  result=$(psql ${OPTS} -f "${SQL}" -U histori histori_master)
-fi
-if [ $(echo "${result}" | tr -d '[[:space:]]' | wc -c | tr -d ' ') -gt 0 ] ; then
-  echo "results from: histori_master: ${result}"
-fi
+exec_psql ${IS_FILE} histori_master "${SQL}"
