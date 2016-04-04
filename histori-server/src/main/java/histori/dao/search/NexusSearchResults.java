@@ -85,7 +85,13 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
 
     @Override public List await(List<Future<List>> futures, long timeout) throws TimeoutException {
         // collect results until we are at max, or all jobs finish. use Set to avoid re-adding duplicates
-        return new ArrayList(awaitAndCollectSet(futures, getMaxResults(), timeout));
+        final Set results = new HashSet();
+        try {
+            awaitAndCollectSet(futures, getMaxResults(), timeout, results);
+        } catch (TimeoutException e) {
+            log.warn("await: Timed out, returning early with "+results.size()+" results");
+        }
+        return new ArrayList(results);
     }
 
     public List<Nexus> getMatchingNexuses(NexusView nexus) {
