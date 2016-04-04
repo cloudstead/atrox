@@ -63,7 +63,7 @@ public class NexusSummarySearch implements Runnable {
                                                                            NexusSummaryDAO.MAX_SEARCH_RESULTS);
 
             final SuperNexusSummaryShardSearch search = new SuperNexusSummaryShardSearch(account, searchQuery, nexusResults);
-            search.setTimeout(TimeUnit.SECONDS.toMillis(5));
+            search.setTimeout(TimeUnit.SECONDS.toMillis(30));
 
             List<NexusSummary> searchResults = summaryDAO.getSuperNexusDAO().search(search);
 
