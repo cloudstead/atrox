@@ -37,6 +37,21 @@ public class NexusSummary extends ExpirableBase {
                 + "-" + visibility.name());
     }
 
+    @Override public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        NexusSummary summary = (NexusSummary) o;
+        return primary.getCanonicalName().equals(summary.primary.getCanonicalName());
+    }
+
+    @Override public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + primary.getCanonicalName().hashCode();
+        return result;
+    }
+
     @JsonIgnore public JavaType getSearchResultType() { return SearchResults.jsonType(getClass()); }
 
     @Getter @Setter private Nexus primary;
@@ -48,9 +63,6 @@ public class NexusSummary extends ExpirableBase {
 
     // Number of nexuses with this name, in total
     @Getter @Setter private int totalCount;
-
-    // If true, this is a stub and the client can ask for the summary again to receive more data
-    @Getter @Setter private boolean incomplete;
 
     @Override public String toString() {
         return "NexusSummary{primary=" + primary.getCanonicalName() + ", others="+(others == null ? 0 : others.length)+"}";
