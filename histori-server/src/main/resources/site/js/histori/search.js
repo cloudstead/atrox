@@ -103,7 +103,7 @@ function newSearch (term) {
 
 function newSearchLink (term) {
     // todo: cannot figure out how to get proper link styling using CSS, forced to use style attribute here
-    return '<a href="." class="searchLink" style="text-decoration: none; color: black" onclick="newExactSearch(\''+term.escape()+'\'); return false;">'+term+'</a>'
+    return (typeof term == "undefined") ? '' : '<a href="." class="searchLink" style="text-decoration: none; color: black" onclick="newExactSearch(\''+term.escape()+'\'); return false;">'+term+'</a>'
 }
 
 function colorPickerClickHandler (color) {

@@ -119,7 +119,7 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
     public void reindex(Nexus nexus) { elasticSearchDAO.index(nexus); }
 
     public Nexus findByOwnerAndName(Account account, String name) {
-        return findByUniqueFields("owner", account.getUuid(), "canonicalName", canonicalize(name));
+        return findByUniqueFieldsNoCache("owner", account.getUuid(), "canonicalName", canonicalize(name));
     }
 
     @Override public String getNameField() { return "canonicalName"; }
