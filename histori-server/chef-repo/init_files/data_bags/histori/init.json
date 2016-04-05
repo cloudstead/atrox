@@ -26,6 +26,14 @@
     "HISTORI_SUPERUSER" : "user@example.com",
     "HISTORI_SUPERUSER_PASS" : "superuser-password",
     "HISTORI_DB_ENCRYPTION_KEY" : "another-long-data-key",
-    "ASSETS_LOCAL_CACHE_DIR" : "/tmp/histori-assets"
+    "ASSETS_LOCAL_CACHE_DIR" : "/tmp/histori-assets",
+    "HISTORI_ELASTIC_SEARCH_CLUSTER" : "elasticsearch",
+    "HISTORI_ELASTIC_SEARCH_SERVER_0": "http://localhost:9300",
+    "HISTORI_ELASTIC_SEARCH_SERVER_1": "",
+    "HISTORI_ELASTIC_SEARCH_SERVER_2": "",
+    "HISTORI_ELASTIC_SEARCH_SERVER_3": "",
+    "HISTORI_ELASTIC_SEARCH_SERVER_4": "",
+    "HISTORI_ELASTIC_SEARCH_SERVER_6": "",
+    "HISTORI_ELASTIC_SEARCH_SERVER_7": ""
   }
 }
