@@ -4,7 +4,8 @@
     "schema": {
       "fields": [
         {"name": "name", "fieldType": "world_actor", "multiple": false},
-        {"name": "role", "fieldType": "role_type", "multiple": true}
+        {"name": "role", "fieldType": "role_type", "multiple": true},
+        {"name": "see_also", "fieldType": "string", "multiple": true}
       ]
     }
   },
@@ -14,7 +15,8 @@
       "fields": [
         {"name": "name", "fieldType": "person", "multiple": false},
         {"name": "role", "fieldType": "role_type", "multiple": true},
-        {"name": "world_actor", "fieldType": "world_actor", "multiple": true}
+        {"name": "world_actor", "fieldType": "world_actor", "multiple": true},
+        {"name": "see_also", "fieldType": "string", "multiple": true}
       ]
     }
   },
@@ -23,7 +25,8 @@
     "schema": {
       "fields": [
         {"name": "name", "fieldType": "event", "multiple": false},
-        {"name": "relationship", "fieldType": "relationship_type", "multiple": true}
+        {"name": "relationship", "fieldType": "relationship_type", "multiple": true},
+        {"name": "see_also", "fieldType": "string", "multiple": true}
       ]
     }
   },
@@ -32,7 +35,8 @@
     "schema": {
       "fields": [
         {"name": "name", "fieldType": "result", "multiple": false},
-        {"name": "world_actor", "fieldType": "world_actor", "multiple": true}
+        {"name": "world_actor", "fieldType": "world_actor", "multiple": true},
+        {"name": "see_also", "fieldType": "string", "multiple": true}
       ]
     }
   },
@@ -44,7 +48,8 @@
         {"name": "world_actor", "fieldType": "world_actor", "multiple": true},
         {"name": "low_estimate", "fieldType": "integer", "multiple": false},
         {"name": "estimate", "fieldType": "integer", "multiple": false},
-        {"name": "high_estimate", "fieldType": "integer", "multiple": false}
+        {"name": "high_estimate", "fieldType": "integer", "multiple": false},
+        {"name": "see_also", "fieldType": "string", "multiple": true}
       ]
     }
   },
@@ -52,21 +57,24 @@
     "schema": {
       "fields": [
         {"name": "name", "fieldType": "citation", "multiple": false},
-        {"name": "excerpt", "fieldType": "string", "multiple": true}
+        {"name": "excerpt", "fieldType": "string", "multiple": true},
+        {"name": "see_also", "fieldType": "string", "multiple": true}
       ]
     }
   },
   { "name": "Idea",
     "schema": {
       "fields": [
-        {"name": "name", "fieldType": "idea", "multiple": false}
+        {"name": "name", "fieldType": "idea", "multiple": false},
+        {"name": "see_also", "fieldType": "string", "multiple": true}
       ]
     }
   },
   { "name": "Event Type",
     "schema": {
       "fields": [
-        {"name": "name", "fieldType": "event_type", "multiple": false}
+        {"name": "name", "fieldType": "event_type", "multiple": false},
+        {"name": "see_also", "fieldType": "string", "multiple": true}
       ]
     }
   },

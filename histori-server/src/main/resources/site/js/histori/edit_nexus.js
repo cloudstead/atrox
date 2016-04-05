@@ -134,7 +134,7 @@ function openNexusDetails (uuid, tries) {
                 var listOfTags = "";
                 for (var j = 0; j < tags.length; j++) {
                     var nexusTagId = 'nexusTag_' + tags[j].uuid + '_' + tags[j].tagName;
-                    listOfTags += "<div class='nexusTag'><div class='nexusTag_tagName' id='" + nexusTagId + "'>" + newSearchLink(tags[j].displayName) + "</div>";
+                    listOfTags += "<div class='nexusTag'><div class='nexusTag_tagName' id='" + nexusTagId + "'>" + newSearchLink(tags[j].name) + "</div>";
                     if (typeof tags[j].values != "undefined" && is_array(tags[j].values)) {
                         var prevField = '';
                         var numValues = tags[j].values.length;
@@ -332,13 +332,13 @@ function edit_nexus_field (id) {
     }
 }
 
-function update_tag_display_name (id, displayName) {
-    if (displayName.lastIndexOf('http://', 0) === 0 || displayName.lastIndexOf('https://', 0) === 0) {
-        displayName = '<a target="_blank" href=' + displayName + '>' + window.decodeURI(displayName) + "</a>";
-    } else if (displayName == "automated_entry_please_verify") {
-        displayName = '<a style="text-decoration: underline; color: black;" onclick="return false;" href="." title="Coming Soon! Support for user-contributed updates!">' + displayName + "</a>";
+function update_tag_display_name (id, name) {
+    if (name.lastIndexOf('http://', 0) === 0 || name.lastIndexOf('https://', 0) === 0) {
+        name = '<a target="_blank" href=' + name + '>' + window.decodeURI(name) + "</a>";
+    } else if (name == "automated_entry_please_verify") {
+        name = '<a style="text-decoration: underline; color: black;" onclick="return false;" href="." title="Coming Soon! Support for user-contributed updates!">' + name + "</a>";
     }
-    $('#'+id).html(newSearchLink(displayName));
+    $('#'+id).html(newSearchLink(name));
 }
 
 function closeNexusDetails () {

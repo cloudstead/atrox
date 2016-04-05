@@ -6,7 +6,6 @@ import histori.model.NexusTag;
 import histori.model.NexusView;
 import histori.model.SocialEntity;
 import histori.model.support.GeoBounds;
-import histori.model.support.LatLon;
 import histori.model.support.SearchSortOrder;
 import histori.model.support.TimeRange;
 import lombok.Getter;
@@ -74,8 +73,7 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
         return this;
     }
 
-    @Transient public String getDisplayName () { return name == null ? null : name.replace("_", " ").trim(); }
-    public void setDisplayName (String name) {/* noop */}
+    @Transient @Getter @Setter private String displayName;
 
     // Which event_type tag is "primary" (if there is only 1 then it is here by default)
     @Column(length=NAME_MAXLEN)
@@ -118,16 +116,6 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
         return bounds;
     }
 
-    // used in elasticsearch indexing/searching
-    @Transient public LatLon getTopLeft () { return bounds == null ? null : bounds.getTopLeft(); }
-    public void setTopLeft (LatLon latLon) { /* noop */ }
-    @Transient public LatLon getTopRight () { return bounds == null ? null : bounds.getTopRight(); }
-    public void setTopRight (LatLon latLon) { /* noop */ }
-    @Transient public LatLon getBottomLeft () { return bounds == null ? null : bounds.getBottomLeft(); }
-    public void setBottomLeft (LatLon latLon) { /* noop */ }
-    @Transient public LatLon getBottomRight () { return bounds == null ? null : bounds.getBottomRight(); }
-    public void setBottomRight (LatLon latLon) { /* noop */ }
-
     @Transient private GeoJsonObject geo = null;
     public GeoJsonObject getGeo() {
         if (geo == null) geo = fromJsonOrDie(geoJson, GeoJsonObject.class);
@@ -162,7 +150,7 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
         if (hasScripting(getMarkdown())) return true;
         if (hasTags()) {
             for (NexusTag tag : getTags()) {
-                if (hasScripting(tag.getCanonicalName()) || hasScripting(tag.getDisplayName())) return true;
+                if (hasScripting(tag.getCanonicalName()) || hasScripting(tag.getTagName())) return true;
                 if (tag.hasSchemaValues()) {
                     for (Map.Entry<String, TreeSet<String>> entry : tag.getSchemaValueMap().allEntrySets()) {
                         if (hasScripting(entry.getKey())) return true;

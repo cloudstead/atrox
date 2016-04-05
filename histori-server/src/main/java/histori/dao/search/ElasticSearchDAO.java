@@ -1,6 +1,5 @@
 package histori.dao.search;
 
-import edu.emory.mathcs.backport.java.util.Collections;
 import histori.dao.NexusEntityFilter;
 import histori.dao.NexusSummaryDAO;
 import histori.model.Nexus;
@@ -9,12 +8,12 @@ import histori.model.support.GeoBounds;
 import histori.model.support.NexusSummary;
 import histori.model.support.TimeRange;
 import histori.server.HistoriConfiguration;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.cobbzilla.util.cache.AutoRefreshingReference;
 import org.cobbzilla.util.http.URIUtil;
-import org.cobbzilla.util.json.JsonUtil;
 import org.cobbzilla.wizard.dao.SearchResults;
 import org.cobbzilla.wizard.server.config.ElasticSearchConfig;
+import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchResponse;
@@ -31,21 +30,29 @@ import org.springframework.stereotype.Repository;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
-import static org.cobbzilla.util.json.JsonUtil.toJsonOrErr;
+import static org.cobbzilla.util.io.StreamUtil.loadResourceAsStringOrDie;
+import static org.cobbzilla.util.json.JsonUtil.*;
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 @Repository @Slf4j
 public class ElasticSearchDAO {
 
     public static final String ES_INDEX = "histori";
-    public static final String ES_NEXUS_TYPE = "nexus";
+    public static final String ES_NEXUS_TYPE = "es-nexus";
+    public static final long CLIENT_REFRESH_INTERVAL = TimeUnit.HOURS.toMillis(1);
 
     @Autowired private HistoriConfiguration configuration;
     @Autowired private NexusSummaryDAO summaryDAO;
 
-    @Getter(lazy=true) private final Client client = initClient();
+    private final AutoRefreshingReference<Client> client = new AutoRefreshingReference<Client>() {
+        @Override public Client refresh() { return initClient(); }
+        @Override public long getTimeout() { return CLIENT_REFRESH_INTERVAL; }
+    };
+
     private Client initClient() {
 
         final ElasticSearchConfig config = configuration.getElasticSearch();
@@ -53,27 +60,17 @@ public class ElasticSearchDAO {
 
         TransportClient c = TransportClient.builder().settings(settings).build();
         for (String uri : config.getServers()) c = c.addTransportAddress(toTransportAddress(uri));
-        setupMappings(c);
+
+        try {
+            c.admin().indices().putMapping(new PutMappingRequest(ES_INDEX).source(getMappingJson()));
+        } catch (Exception e) {
+            die("initClient: error setting up mappings: "+e, e);
+        }
+
         return c;
     }
 
-    public static final String MAPPING_JSON = "{ \""+ES_NEXUS_TYPE+"\": { \"properties\": {\n"
-            +"\"topLeft\":     { \"type\": \"geo_point\" }, "
-            +"\"topRight\":    { \"type\": \"geo_point\" }, "
-            +"\"bottomLeft\":  { \"type\": \"geo_point\" }, "
-            +"\"bottomRight\": { \"type\": \"geo_point\" } "
-            +"} } } ";
-    private void setupMappings(TransportClient client) {
-        final IndexRequest indexRequest = new IndexRequest(ES_INDEX, ES_NEXUS_TYPE, "_mapping").source(MAPPING_JSON);
-        final UpdateRequest updateRequest = new UpdateRequest(ES_INDEX, ES_NEXUS_TYPE, "_mapping")
-                .doc(MAPPING_JSON)
-                .upsert(indexRequest);
-        try {
-            client.update(updateRequest).get();
-        } catch (Exception e) {
-            die("setupMappings: "+e, e);
-        }
-    }
+    private String getMappingJson() { return loadResourceAsStringOrDie("seed/elasticsearch_mapping.json"); }
 
     private TransportAddress toTransportAddress(String uri) {
         try {
@@ -89,13 +86,16 @@ public class ElasticSearchDAO {
             return;
         }
         try {
-            final String json = JsonUtil.toJsonOrDie(nexus);
+            final String json = toJson(nexus);
 
             final IndexRequest indexRequest = new IndexRequest(ES_INDEX, ES_NEXUS_TYPE, nexus.getCanonicalName()).source(json);
             final UpdateRequest updateRequest = new UpdateRequest(ES_INDEX, ES_NEXUS_TYPE, nexus.getCanonicalName())
                     .doc(json)
                     .upsert(indexRequest);
-            final UpdateResponse response = getClient().update(updateRequest).get();
+            final UpdateResponse response;
+            synchronized (client) {
+                response = client.get().update(updateRequest).get();
+            }
 
             if (response.getShardInfo().getSuccessful() == 0) {
                 log.warn("Error indexing Nexus: "+toJsonOrErr(response));
@@ -107,7 +107,10 @@ public class ElasticSearchDAO {
     }
 
     public boolean delete (Nexus nexus) {
-        DeleteResponse response = getClient().prepareDelete(ES_INDEX, ES_NEXUS_TYPE, nexus.getCanonicalName()).get();
+        DeleteResponse response;
+        synchronized (client) {
+            response = client.get().prepareDelete(ES_INDEX, ES_NEXUS_TYPE, nexus.getCanonicalName()).get();
+        }
         return response.isFound();
     }
 
@@ -128,12 +131,12 @@ public class ElasticSearchDAO {
             east = bounds.getWest();
             west = bounds.getEast();
         }
-        final SearchResponse response = getClient().prepareSearch(ES_INDEX).setTypes(ES_NEXUS_TYPE)
+        final SearchResponse response = client.get().prepareSearch(ES_INDEX).setTypes(ES_NEXUS_TYPE)
                 .setPostFilter(boolQuery()
                         // either nexus start or end must fall within query time range
                         .must(boolQuery()
                                 .should(rangeQuery("range.startPoint.dateInstant").from(startInstant).to(endInstant))
-                                .should(rangeQuery("range.endPoint.dateInstant")  .from(startInstant).to(endInstant)))
+                                .should(rangeQuery("range.endPoint.dateInstant").from(startInstant).to(endInstant)))
 
                         // one of the corners of the bounding rectangle must be within the bounds of the query
                         // there are more complex polygon-overlap algorithms but would be much harder to implement against
@@ -155,7 +158,7 @@ public class ElasticSearchDAO {
 
         final SearchResults<NexusSummary> results = new SearchResults<>();
         for (SearchHit hit : response.getHits()) {
-            final Nexus nexus = JsonUtil.fromJsonOrDie(hit.getSourceAsString(), Nexus.class);
+            final Nexus nexus = fromJsonOrDie(hit.getSourceAsString(), Nexus.class);
             if (entityFilter.isAcceptable(nexus)) {
                 results.addResult(new NexusSummary().setPrimary(nexus));
                 if (results.getResults().size() > NexusSummaryDAO.MAX_SEARCH_RESULTS) break;

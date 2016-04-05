@@ -38,9 +38,7 @@ public class NexusTag extends IdentifiableBase implements Comparable<NexusTag> {
     @Column(length=NAME_MAXLEN, nullable=false, updatable=false)
     @Getter @Setter private String canonicalName;
 
-    @Transient
-    public String getDisplayName () { return tagName.replace("_", " ").trim(); }
-    public void setDisplayName (String name) {/* noop */}
+    @Transient @Getter @Setter private String displayName;
 
     // denormalized
     @Size(max=NAME_MAXLEN, message="err.tagType.tooLong")
