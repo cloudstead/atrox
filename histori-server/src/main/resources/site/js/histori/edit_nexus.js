@@ -134,7 +134,7 @@ function openNexusDetails (uuid, tries) {
                 var listOfTags = "";
                 for (var j = 0; j < tags.length; j++) {
                     var nexusTagId = 'nexusTag_' + tags[j].uuid + '_' + tags[j].tagName;
-                    listOfTags += "<div class='nexusTag'><div class='nexusTag_tagName' id='" + nexusTagId + "'>" + newSearchLink(tags[j].name) + "</div>";
+                    listOfTags += "<div class='nexusTag'><div class='nexusTag_tagName' id='" + nexusTagId + "'>" + newSearchLink(tags[j].tagName) + "</div>";
                     if (typeof tags[j].values != "undefined" && is_array(tags[j].values)) {
                         var prevField = '';
                         var numValues = tags[j].values.length;

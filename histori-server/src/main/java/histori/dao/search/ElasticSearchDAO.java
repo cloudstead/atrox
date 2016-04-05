@@ -52,6 +52,8 @@ public class ElasticSearchDAO {
 
     public static final String ES_INDEX = "histori";
     public static final String ES_NEXUS_TYPE = "nexus";
+
+    public static final int MAX_PUBLIC_SEARCH_RESULTS = 200;
     public static final long CLIENT_REFRESH_INTERVAL = TimeUnit.HOURS.toMillis(1);
 
     @Autowired private HistoriConfiguration configuration;
@@ -159,7 +161,7 @@ public class ElasticSearchDAO {
                                 .should(geoBoundingBoxQuery("bounds.bottomLeft").topLeft(north, west).bottomRight(south, east))
                                 .should(geoBoundingBoxQuery("bounds.bottomRight").topLeft(north, west).bottomRight(south, east)))
 
-                ).setFrom(0).setSize(NexusSummaryDAO.MAX_SEARCH_RESULTS);
+                ).setFrom(0).setSize(MAX_PUBLIC_SEARCH_RESULTS);
 
         final SearchResponse response = requestBuilder.execute().actionGet();
         final SearchHits hits = response.getHits();
