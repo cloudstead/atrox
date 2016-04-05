@@ -51,7 +51,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class ElasticSearchDAO {
 
     public static final String ES_INDEX = "histori";
-    public static final String ES_NEXUS_TYPE = "es2-nexus";
+    public static final String ES_NEXUS_TYPE = "nexus";
     public static final long CLIENT_REFRESH_INTERVAL = TimeUnit.HOURS.toMillis(1);
 
     @Autowired private HistoriConfiguration configuration;
@@ -166,7 +166,7 @@ public class ElasticSearchDAO {
 
         for (SearchHit hit : hits) {
             final Nexus nexus = fromJsonOrDie(hit.getSourceAsString(), Nexus.class);
-            results.addResult(new NexusSummary().setPrimary(nexus));
+            results.addResult(new NexusSummary().setPrimary(nexus).initSearchUuid());
         }
 
         Collections.sort(results.getResults(), NexusSummary.comparator(searchQuery.getSummarySortOrder()));
@@ -191,7 +191,7 @@ public class ElasticSearchDAO {
                     response = client.get().update(updateRequest).get();
                 }
 
-                if (response.getShardInfo().getSuccessful() == 0) {
+                if (response.getShardInfo().getSuccessful() == 0 && response.getShardInfo().getFailed() > 0) {
                     log.warn("Error indexing Nexus: "+toJsonOrErr(response));
                 }
 
