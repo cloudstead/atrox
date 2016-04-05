@@ -141,7 +141,7 @@ public class ElasticSearchDAO {
                         .should(commonTermsQuery("tags.canonicalName", query).boost(1.5f))
                         .should(commonTermsQuery("tags.values.field", query).boost(0.8f))
                         .should(commonTermsQuery("tags.values.value", query).boost(0.8f))
-                        .should(commonTermsQuery("markdown", query).boost(0.3f))
+                        .should(commonTermsQuery("markdown", query).boost(0.1f))
                 ))
 
                 // filters are time + geo
