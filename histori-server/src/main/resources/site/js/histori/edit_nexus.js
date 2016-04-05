@@ -39,7 +39,9 @@ function hideLoadingMessage () {
 }
 
 function openNexusDetails (uuid, tries) {
+
     closeForm();
+    var container = $('#nexusDetailsContainer');
     var nexusSummary = nexusSummariesByUuid[uuid];
 
     if (typeof nexusSummary == "undefined" || nexusSummary == null) return;
@@ -164,7 +166,15 @@ function openNexusDetails (uuid, tries) {
             Api.resolve_tags(names, update_tag_display_name);
         }
     }
-    var container = $('#nexusDetailsContainer');
+
+    if (nexus.bounds.east > map.getBounds().getCenter().lng()) {
+        container.css('left', '20px');
+        container.css('right', '');
+    } else {
+        container.css('left', '');
+        container.css('right', '20px');
+    }
+
     container.css('zIndex', 1);
 }
 
