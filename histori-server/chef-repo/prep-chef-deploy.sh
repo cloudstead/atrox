@@ -36,6 +36,9 @@ cd ${HISTORI_SERVER_DIR} && tar czf ${ASSETS_DIR}/histori-email-templates.tar.gz
 cd ${HISTORI_SERVER_DIR}/src/main/resources && tar czf ${ASSETS_DIR}/histori-site.tar.gz site
 cp ${HISTORI_SERVER_DIR}/run.sh ${ASSETS_DIR}
 
+# Legal stuff
+cd ${HISTORI_SERVER_DIR}/.. && tar czf ${ASSETS_DIR}/legal.tar.gz legal
+
 # Other scripts
 mkdir -p ${ASSETS_DIR}/scripts
 cp ${HISTORI_SERVER_DIR}/scripts/* ${ASSETS_DIR}/scripts

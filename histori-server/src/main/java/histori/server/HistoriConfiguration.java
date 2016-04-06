@@ -57,6 +57,8 @@ public class HistoriConfiguration extends RestServerConfiguration
 
     @Getter @Setter private RecaptchaConfig recaptcha;
 
+    @Getter @Setter private LegalInfo legal = new LegalInfo();
+
     @Getter @Setter private AssetStorageConfiguration assetStorage;
     @JsonIgnore @Getter(lazy=true) private final AssetStorageService assetStorageService = initStorageService();
     public AssetStorageService initStorageService () { return AssetStorageService.build(assetStorage); }

@@ -44,6 +44,8 @@ database:
       entity: histori.model.Vote
     - name: vote-archive
       entity: histori.model.archive.VoteArchive
+    - name: map-image
+      entity: histori.model.MapImage
 
 staticAssets:
   baseUri: /
@@ -118,3 +120,6 @@ threadPoolSizes:
 recaptcha:
   publicKey: {{RECAPTCHA_PUBLIC_KEY}}
   privateKey: {{RECAPTCHA_PRIVATE_KEY}}
+
+legal:
+  base: {{LEGAL_INFO}}

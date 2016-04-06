@@ -1,4 +1,3 @@
-
 function showHelp () {
     var helpContainer = $('#helpContainer');
     var quickHelpLink = $('#helpContainer_quickHelp');
@@ -12,7 +11,6 @@ function showHelp () {
     helpIframeDiv.css({
         top: 0 - topicsDiv.outerHeight() - 20,
         left: topicsDiv.outerWidth() + 20,
-        height: '100%',
         'overflow-y': 'auto'
     });
     showForm('helpContainer');
@@ -60,3 +58,18 @@ function showQuickHelp () {
     });
     closeForm();
 }
+
+function resizeHeight () {
+    var eof = $('#EOF');
+    var top = eof.offset().top;
+    $('#helpContainer_iframe', window.parent.document).height(top);
+    $('#helpIframe', window.parent.document).height(top);
+    console.log('>>> resized to: '+top);
+}
+
+$(function () {
+    // Set help topic link attributes: make link target help frame, auto-resize frame
+    $('.helpTopic').each(function () {
+        $(this).attr('target', 'helpFrame');
+    });
+});

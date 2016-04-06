@@ -1,0 +1,93 @@
+<html>
+<head>
+    <title>the histori.city project: account removal</title>
+    <link rel="stylesheet" type="text/css" href="../css/histori.css"/>
+    <meta charset="utf-8">
+    <style>
+        body {
+            padding: 50px;
+            overflow: scroll;
+        }
+    </style>
+    <script>
+        function formError () {
+            var err = $('.authError');
+            err.css({ border: '2px solid red', color: 'red' });
+            err.html('sorry, something you entered wasn\'t right');
+        }
+        function clearErrors () {
+            var err = $('.authError');
+            err.css({ border: '' });
+            err.empty();
+        }
+        function successfulRemoval () {
+            Histori.logout();
+            location.href = '/';
+        }
+    </script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+</head>
+<body>
+
+<div class="dialogContainer">
+<h3>histori.city Account Removal</h3>
+<hr/>
+<p>
+    <em>Note: this action is permanent. Make sure it's what you really want to do.</em>
+    <br/><br/>
+    Your account and all data associated with your account will be deleted.<br/>
+    Every Nexus, Vote, Bookmark and Map Image you have created will be removed.
+    <br/><br/>
+    If other users have made copies of your Nexuses, those copies will <em>not</em> be removed.<br/>
+    To report a complaint about the activity of another user, please <a href="mailto:support@histori.city">contact support</a>.
+    <br/><br/>
+</p>
+<hr/>
+<br/>
+<div class="authError"></div>
+<form name="reg" onsubmit="clearErrors(); Histori.remove_account(this.elements, successfulRemoval, formError); return false;" method="post">
+    <table border="0">
+        <tbody>
+        <tr>
+            <td>nickname:</td>
+            <td><input type="text" name="name"/></td>
+        </tr>
+        <tr>
+            <td>email:</td>
+            <td><input type="text" name="email"/></td>
+        </tr>
+        <tr>
+            <td>password:</td>
+            <td><input type="password" name="password"/></td>
+        </tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="delete my account and everything associated with it"/>
+                <br/><br/>
+                <button onclick="location.replace('/');">cancel</button>
+                <br/><br/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" id="recaptchaContainer" height="500">
+                <iframe frameborder="0" id="captcha_iframe" src="signup.html" scrolling="yes" height="100%" width="100%"></iframe>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+</div>
+
+</body>
+<script src="js/jquery.js"></script>
+<script src="js/histori/api.js"></script>
+<script src="js/histori/histori.js"></script>
+<script>
+    $(function () {
+        var dialog = $('.dialogContainer');
+        dialog.css({width: '50%', 'padding-left': '25px', 'padding-right': '25px', 'overflow-y': 'scroll', height: '600', zIndex: 1});
+        dialog.center();
+    });
+</script>
+</html>

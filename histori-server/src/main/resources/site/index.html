@@ -32,7 +32,14 @@
     <h2>Quick Help</h2>
     <hr/>
     <h3>Look around the screen for help boxes with a border like this one</h3>
-    <p>Click anywhere on the map to dismiss the help boxes.</p>
+    Tips:
+    <ul>
+        <li>Click <img class="mainControlButton" title="search" src="iconic/png/magnifying-glass-2x.png" onclick="showSearchOptions();"/> to search history. You can view many searches on the map at the same time</li>
+        <li>Click a marker to see more details</li>
+        <li>Hover over a map marker and it will be highlighted on the timeline</li>
+        <li>Hover over a timeline marker and it will bounce on the map</li>
+        <li>Click anywhere on the map to dismiss the help boxes</li>
+    </ul>
 </div>
 
 <div id="mapImageContainer">
@@ -374,17 +381,19 @@
     </div>
     <div id="helpContainer_topics">
         <hr/>
-        <a href="help/faq.html" target="helpFrame">common questions</a>
+        <a class="helpTopic" href="help/faq.html">common questions</a>
         <hr/>
-        <a href="help/contact.html" target="helpFrame">get in touch</a>
+        <a class="helpTopic" href="help/contact.html">get in touch</a>
         <hr/>
-        <a href="help/bug.html" target="helpFrame">report a bug</a>
+        <a class="helpTopic" href="help/bug.html">report a bug</a>
         <hr/>
-        <a href="help/contribute.html" target="helpFrame">contribute to histori.city</a>
+        <a class="helpTopic" href="help/contribute.html">contribute to histori.city</a>
+        <hr/>
+        <a class="helpTopic" href="help/legal.html">legal stuff</a>
         <hr/>
     </div>
-    <div id="helpContainer_iframe" style="overflow: auto">
-      <iframe id="helpIframe" class="helpIframe" name="helpFrame" frameborder="0" scrolling="yes" width="100%" height="100%" src="help/faq.html"></iframe>
+    <div id="helpContainer_iframe">
+      <iframe id="helpIframe" class="helpIframe" name="helpFrame" frameborder="0" scrolling="yes" width="100%" src="help/faq.html"></iframe>
     </div>
 </div>
 

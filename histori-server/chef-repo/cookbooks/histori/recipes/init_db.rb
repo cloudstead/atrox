@@ -78,7 +78,7 @@ temp=$(mktemp /tmp/shards.XXXXXXX.sql) || exit 1
 
 # todo: it would be nice to have these shard names programmatically provided, as opposed to hard-coded here
 ./run.sh shard-gen-sql \
-  -S "histori-account, nexus, nexus-archive, super-nexus, vote, vote-archive, bookmark, permalink, tag" \
+  -S "histori-account, nexus, nexus-archive, super-nexus, vote, vote-archive, bookmark, permalink, tag, map-image" \
   -J jdbc:postgresql://127.0.0.1:5432/histori_ \
   -C #{db_count} \
   -M jdbc:postgresql://127.0.0.1:5432/histori_master \

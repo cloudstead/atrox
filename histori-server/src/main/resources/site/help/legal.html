@@ -1,0 +1,76 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../css/histori.css"/>
+    <meta charset="utf-8">
+    <style>
+        a:link a:visited {
+            text-decoration: none;
+            color: black;
+        }
+
+        a:hover a:active {
+            text-decoration: underline;
+            color: black;
+        }
+    </style>
+    <script language="JavaScript">
+        function showLegal (type, containerId) {
+            var markupConverter = new showdown.Converter();
+
+            var closeButton = $('<button>close</button>');
+            closeButton.on('click', function () { toggle(type); });
+
+            var container = $('#'+containerId);
+            container.append($('<hr/><div id="'+containerId+'_contents"/><hr/>'));
+            container.append(closeButton);
+
+            Api.get_config('legal.'+type+"?refresh=true",
+                    function (data) {
+                        var contents = $('#'+containerId+'_contents');
+                        contents.html(markupConverter.makeHtml(data));
+                        contents.find('a').attr('target', '_blank');
+                        resizeHeight();
+                    },
+                    function () { $('#'+containerId+'_contents').html('oops, this server doesn\'t know anything about '+type); }
+            );
+        }
+        function toggle (type) {
+            var button = $('#btn_'+type);
+            var containerId = type+'Container';
+            if ( button.html() == 'show' ) {
+                button.html('close');
+                showLegal(type, containerId);
+            } else {
+                button.html('show');
+                $('#'+containerId).empty();
+                resizeHeight();
+                $('body').animate({scrollTop:0}, 'fast');
+            }
+        }
+    </script>
+</head>
+<body>
+
+<h3>Terms of Use</h3>
+<p>By using histori.city, you agree to these Terms of Use.</p>
+<button id="btn_terms" onclick="toggle('terms'); return false;">show</button>
+<div id="termsContainer"></div>
+
+<h3>Privacy Policy</h3>
+<p>histori.city respects your privacy.</p>
+<button id="btn_privacy" onclick="toggle('privacy'); return false;">show</button>
+<div id="privacyContainer"></div>
+
+<h3>Software Licenses</h3>
+<p>We use a lot of open source software.</p>
+<button id="btn_licenses" onclick="toggle('licenses'); return false;">show</button>
+<div id="licensesContainer"></div>
+
+<p id="EOF">&nbsp;</p>
+</body>
+<script src="../js/showdown.js"></script>
+<script src="../js/jquery.js"></script>
+<script src="../js/histori/api.js"></script>
+<script src="../js/histori/histori.js"></script>
+<script src="../js/histori/help.js"></script>
+</html>

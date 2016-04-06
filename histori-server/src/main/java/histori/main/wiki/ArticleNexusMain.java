@@ -12,11 +12,11 @@ import org.cobbzilla.wizard.main.MainBase;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import static histori.wiki.WikiArchive.getArticlePath;
+import static org.cobbzilla.util.daemon.ZillaRuntime.stdin;
 import static org.cobbzilla.util.io.FileUtil.abs;
 import static org.cobbzilla.util.io.FileUtil.listFilesRecursively;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
@@ -35,7 +35,7 @@ public class ArticleNexusMain extends MainBase<ArticleNexusOptions> {
 
         String input = options.getInput();
         if (input == null) {
-            BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
+            BufferedReader r = stdin();
             String line;
             while ((line = r.readLine()) != null) {
                 try {

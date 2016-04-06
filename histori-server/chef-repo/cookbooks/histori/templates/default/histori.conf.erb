@@ -10,6 +10,9 @@ SSLCertificateChainFile /etc/ssl/certs/StartSslIntermediate.crt
 ServerSignature Off
 Header add Strict-Transport-Security: "max-age=15768000;includeSubdomains"
 
+ProxyPass /legal http://127.0.0.1:<%=@api_port%>/api/configs/legal
+ProxyPassReverse /legal http://127.0.0.1:<%=@api_port%>/api/configs/legal
+
 ProxyPass / http://127.0.0.1:<%=@api_port%>/
 ProxyPassReverse / http://127.0.0.1:<%=@api_port%>/
 

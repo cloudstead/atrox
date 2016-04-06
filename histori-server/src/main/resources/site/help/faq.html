@@ -5,21 +5,298 @@
 </head>
 <body>
 
-<h3>What is it histori.city?</h3>
+<h1>the histori.city project</h1>
+
+<hr/>
+<p>
+    <em>The beauty of History is too often obscured by a profusion of prose.</em>
+</p>
 <hr/>
 
-<h4>histori.city is a maps app with a time slider</h4>
+<p>
+    I find the irony amusing: by its traditional definition, the very essence of history is the written word.
+    Technically, without the written word you don't have history, you have pre-history. In common parlance, the meaning of the word is
+    usually construed more broadly; one could even say <a href="https://en.wikipedia.org/w/index.php?title=History_of_the_Universe">cosmic history</a>
+    includes every event that has occurred since the beginning of time.
+</p><p>
+    Irrespective of how it is defined, the sole format that a disproportionately huge amount of historical information is
+    available is text: a stream of typographic symbols for your eyes to read and your brain to process in a sequential manner.
+</p><p>
+    With no disrespect to the written word (how could I? I'm writing this aren't I?), I assert that there are other ways of
+    understanding history: more visual ways, more non-sequential and non-linear ways, more interactive ways.
+</p><p>
+    histori.city is my attempt to explore some of those new ways. Towards that end, I say:
+    <br/><br/>
+    <em>History doesn't happen in books. History happens at specific times and places, right here on planet Earth.</em>
+    <br/><br/>
+    <b>histori.city seeks to record every piece of history on an interactive, collaboratively-editable map</b>
+</p>
+<p>
+    That being said, histori.city is most definitely a work-in-progress. What we have now is just a glimpse of what can be done.
+</p>
+
+<br/><hr/>
+<h4><img height="24" src="../images/earth.png"/> What is histori.city?</h4>
 
 <p>
-    Histori.city is a maps application with a time slider. Just like a regular map app, you can zoom in to focus on a small patch of land, or
-    zoom out to view a whole continent. <b>Unlike</b> most other map apps, you can also zoom around in <b>TIME</b>.
-    You can zoom down to a examine events on a single day, or zoom out to a millenium to look at broader trends.
+    Histori.city is a history book, spread across space and time.
+</p><p>
+    Like any other map-oriented application, you can zoom in to a small patch of land, or zoom out to whole continent.
+</p><p>
+    <b>Unlike</b> most other map apps, you can also zoom around <b>time</b>.
+    You can zoom down to a single day, or zoom out to a millennium.
+</p><p>
+    Within your space-and-time frame of reference, you can run searches and see them appear on both the map and the timeline.
 </p>
+
 <p>
     Although the current version does not yet allow user-contributed edits, the long-term vision is for most of the content on
     histori.city to be crowd-sourced, much like Wikipedia.
 </p>
 
+<br/><hr/>
+<h4><img height="24" src="../images/earth.png"/> What are some key concepts I should understand?</h4>
 
+<p>
+    histori.city is organized around a few core concepts: Nexus, Tag, and Decorations.
+</p>
+<ul>
+    <li>Each <b>nexus</b> is represented by a marker on the map and a marker on the timeline.</li>
+    <li><b>Tags</b> are attached to nexuses; a tag ties a concept to a nexus.</li>
+    <li><b>Decorations</b> are attached to tags; a decoration describes how its tag applies to its nexus.</li>
+</ul>
+
+<h3>Nexus</h3>
+<p>
+    A nexus represents some historical event or state that can span both time and space.
+    If you think of histori.city as a geo-temporal version of Wikipedia, then a page on Wikipedia is roughly equivalent to a nexus on histori.city.
+    It is the atomic unit of information, and the entire histori.city system is, in one sense, nothing more than the totality of the nexuses that comprise it.
+</p>
+<p>
+    A nexus is known by a name, has a well-defined location in time and space, and may have some tags and commentary attached.
+    The attributes of a nexus are described in more detail below.
+<ul>
+    <li><b>time</b>: every nexus happened sometime. It can have a start time and an end time.
+        If the start and end times are the same, we say the nexus occurred at a particular instant in time.
+        If they are different, we say that the nexus spans a time range.</li>
+    <li><b>space</b>: every nexus happened somewhere. It could be a single point (latitude/longitude), for example the Battle of Waterloo,
+        or it could be a shape (a sequence of latitude/longitude points), for example the extent of the Roman Empire under Trajan.</li>
+    <li><b>tags</b>: describes concepts that relate to this nexus; these are described in more detail below.</li>
+    <li><b>commentary</b>: free-form text (with <a href="http://daringfireball.net/projects/markdown/basics">Markdown</a> support): the written word lives on!</li>
+</ul>
+</p>
+<p>
+    All nexuses are versioned. Every edit creates a new version, just like Wikipedia.
+    Different people can have different versions of the same nexus.
+</p><p>
+    When viewing the public histori.city site, you are seeing the "authoritative" nexuses. We exercise some editorial control over
+    which version of a nexus is designated as the public version.
+    When we introduce our user-editable version, you will be able to set a list of preferred authors (and blocked authors) to
+    customize your own view of histori.city.
+</p>
+
+<h3>Tag</h3>
+<p>
+    A nexus may have tags attached to it. Tags are used to describe some of the qualities of the nexus that might be shared with other nexuses.
+    Every tag has a tag type. The tag types are listed in the table below.
+    <br/><br/>
+<table border="0" cellpadding="5" cellspacing="10">
+    <thead>
+    <tr><th nowrap width="20%" align="center">tag type</th><th nowrap align="center">description</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="tagTypeCell">event</td><td>an event in history, which may or may not be a nexus, for example the War of 1812</td>
+    </tr><tr>
+        <td class="tagTypeCell">event type</td><td>a type of historical event, for example the founding of a city</td>
+    </tr><tr>
+        <td class="tagTypeCell">world actor</td><td>a mover-and-shaker on the world stage, for example the Mongol Empire</td>
+    </tr><tr>
+        <td class="tagTypeCell">person</td><td>an individual person, for example Amelia Earhart</td>
+    </tr><tr>
+        <td class="tagTypeCell">result</td><td>the outcome following a nexus, for example the result of a battle in the American Civil War might be a 'Union Victory' or a 'Confederate Victory'</td>
+    </tr><tr>
+        <td class="tagTypeCell">impact</td><td>a quantified effect that the nexus had, for example the number of soldiers who died at the Battle of Gettysburg, or the number of French and Spanish ships captured at the Battle of Trafalgar.</td>
+    </tr><tr>
+        <td class="tagTypeCell">idea</td><td>an ideology or philosophy that is associated with the nexus</td>
+    </tr><tr>
+        <td class="tagTypeCell">citation</td><td>a reference to a third-party historical source that corroborates what is described in the nexus, for example a link to a Wikipedia page</td>
+    </tr><tr>
+        <td class="tagTypeCell">meta</td><td>a special tag used for internal purposes, for example to mark that a particular nexus was automatically imported by histori.city's Wikibot and not created by a real person</td>
+    </tr>
+    </tbody>
+</table>
+<br/>
+
+You can attach any number of tags to a nexus. When viewing a nexus, you can click on a tag to create a new search for all nexuses that also
+have that tag.
+</p>
+
+<h3>Decoration</h3>
+<p>
+    Just as a nexus can have many tags, a tag can have many decorations. A decoration is a piece of information that qualifies <em>how</em>
+    the tag applies to the nexus. For example, in the nexus 'Battle of Waterloo', a 'person' tag for 'Napoleon' is attached.
+    This tells us that Napoleon was associated with the event, but how? The decorations tell us: there is a 'role' decoration with the value
+    'commander', and a 'world actor' decoration with the value 'France'.
+    Now we know that Napoleon's role at the Battle of Waterloo was as commander of the French.
+</p><p>
+    There are different rules for which decorations are allowed on which tags. For the most part, the user interface tries to make this
+    so easy you don't even need to think about it. All tags, except Meta tags, can have a 'see_also' decoration, which can point to
+    any other tag or nexus. The 'event type' and 'idea' tags do not take any other decorations. The decorations you can put on the other
+    kinds of tags are described in the table below.
+    <br/><br/>
+<table border="0">
+    <table border="0" cellpadding="5" cellspacing="10">
+        <thead>
+        <tr><th nowrap width="20%" align="center">tag type</th><th nowrap align="center">decorations</th></tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="tagTypeCell">event</td>
+            <td>
+                 <table class="faqDecorator">
+                    <tbody><tr><td class="faqDecoratorName">relationship</td><td>
+                        how this event relates to the one named in the tag. For example, the Battle of Gettysburg might have an 'event' tag named 'American Civil War'. That tag would have a relationship decoration whose value was 'part of', indicating that this nexus was a part of some larger event.
+                    </td></tr></tbody>
+                </table>
+            </td>
+        </tr><tr>
+            <td class="tagTypeCell">world actor</td>
+            <td>
+                <table class="faqDecorator">
+                    <tbody><tr><td class="faqDecoratorName">role</td><td>
+                        the role that this world actor played in relation to the nexus
+                    </td></tr></tbody>
+                </table>
+            </td>
+        </tr><tr>
+            <td class="tagTypeCell">person</td>
+            <td>
+                <table class="faqDecorator">
+                    <tbody><tr><td class="faqDecoratorName">role</td><td>
+                        the role that this person played in relation to the nexus
+                    </td></tr><tr><td class="faqDecoratorName">world actor</td><td>
+                        the world actor that this person was associated with for the nexus
+                    </td></tr></tbody>
+                </table>
+            </td>
+        </tr><tr>
+            <td class="tagTypeCell">result</td>
+            <td>
+                <table class="faqDecorator">
+                    <tbody><tr><td class="faqDecoratorName">world actor</td><td>
+                        the world actor that this result applies so, usually names one of the world actor tags on the nexus
+                    </td></tr></tbody>
+                </table>
+            </td>
+        </tr><tr>
+            <td class="tagTypeCell">impact</td>
+            <td>
+                <table class="faqDecorator">
+                    <tbody><tr><td class="faqDecoratorName">world actor</td><td>
+                        the world actor that this impact applies so, usually names one of the world actor tags on the nexus
+                    </td></tr><tr><td class="faqDecoratorName">estimate</td><td>
+                        a number that quantifies this estimate of this impact
+                    </td></tr><tr><td class="faqDecoratorName">high estimate</td><td>
+                        optionally, a number that quantifies the higher-bound of estimates for this impact
+                    </td></tr><tr><td class="faqDecoratorName">low estimate</td><td>
+                        optionally, a number that quantifies the lower-bound of estimates for this impact
+                    </td></tr></tbody>
+                </table>
+            </td>
+        </tr><tr>
+            <td class="tagTypeCell">citation</td>
+            <td>
+                <table class="faqDecorator">
+                    <tbody><tr><td class="faqDecoratorName">excerpt</td><td>
+                        a brief snippet from the citation, as it pertains to a fact described in the nexus
+                    </td></tr></tbody>
+                </table>
+            </td>
+        </tr><tr>
+            <td class="tagTypeCell">meta</td>
+            <td>
+                <table class="faqDecorator">
+                    <tbody><tr><td class="faqDecoratorName">value</td><td>
+                        a value that is only meaningful for things that care about meta tags
+                    </td></tr></tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</table>
+</p>
+
+<br/><br/><hr/>
+<h4><img height="24" src="../images/earth.png"/> Why do I only see battles and city foundings?</h4>
+
+<p>
+    TLDR: it was relatively easy to load these events from Wikipedia.
+</p>
+<h5>Soon, there will be much more.</h5>
+<p>
+    In the long run, the idea is for histori.city to be maintained by the public. But it's usually difficult for most of us to start from a blank slate.
+    By pre-loading content from Wikipedia, it is much easier to see what histori.city is all about and how much fun it can be to play with.
+</p>
+
+<br/><hr/>
+<h4><img height="24" src="../images/earth.png"/> What kinds of open source software are behind histori.city?</h4>
+
+<p>
+    I'm so glad you asked. Like many open source projects today, histori.city stands on the shoulders of
+    <a target="_blank" href="https://github.com/cloudstead/histori/blob/master/licenses.md">an army of giants</a>.</p>
+
+<p>
+    Longer answer:
+<ul>
+    <li>
+        The core histori.city code is a <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST</a>-ish
+        <a href="http://json.org/">JSON</a> server written in <a href="https://www.java.com/en/">Java</a>.
+    </li>
+    <li>
+        Internally, the server is built using the <a href="https://github.com/cobbzilla/cobbzilla-wizard">cobbzilla-wizard</a> framework,
+        a long-ago bastard fork of Coda Hale's well-regarded <a href="http://www.dropwizard.io/">Dropwizard</a> framework. It provides
+        an embedded <a href="https://grizzly.java.net/">Grizzly</a> web server,
+        <a href="https://jersey.java.net/">Jersey</a>/<a href="https://jax-rs-spec.java.net/">JAX-RS</a> resources,
+        a highly customizable <a href="http://www.springframework.net/">Spring</a> container, and lots more.
+    </li>
+    <li>
+        Data is stored across several <a href="http://www.postgresql.org/">PostgreSQL</a> shards, using a custom built
+        <a href="http://hibernate.org/">Hibernate</a> shard engine.
+    </li>
+    <li>
+        We use <a href="http://redis.io/">Redis</a> for caching.
+    </li>
+    <li>
+        The frontend is a lightweight "single-page-app" <a href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a> client
+        built on <a href="http://jquery.com/">jQuery</a> and <a href="https://developers.google.com/maps/">Google Maps</a>.
+        We use a bunch of the <a href="https://useiconic.com/open">Open Iconic</a> icons,
+        a few <a href="http://jqueryui.com/">jQueryUI</a> components,
+        and <a href="https://github.com/showdownjs/showdown">Showdown</a> for converting markdown to HTML.
+    </li>
+    <li>
+        We use <a href="https://httpd.apache.org/">Apache 2</a> for connection management, SSL termination and proxying requests to the Java server.
+    </li>
+    <li>
+        Search indexing is provided by an <a href="https://www.elastic.co/">ElasticSearch</a> cluster.
+    </li>
+    <li>
+        We're also big fans of <a href="https://github.com/FasterXML/jackson">Jackson</a> and <a href="https://projectlombok.org/">Lombok</a>
+        which have made developing histori.city easier and more fun.
+    </li>
+</ul>
+</p>
+
+<p id="EOF">&nbsp;</p>
 </body>
+<script src="../js/jquery.js"></script>
+<script src="../js/histori/histori.js"></script>
+<script src="../js/histori/help.js"></script>
+<script>
+    $(function () {
+        resizeHeight();
+        $('a').each(function () {$(this).attr('target', '_blank');});
+    });
+</script>
 </html>

@@ -51,7 +51,7 @@ end
   end
 end
 
-%w(site email-templates).each do |archive|
+%w(site email-templates legal).each do |archive|
   cookbook_file "#{current}/#{archive}.tar.gz" do
     source "assets/histori-#{archive}.tar.gz"
     owner run_as
@@ -71,6 +71,7 @@ end
 env['DEPLOY_ENV'] = 'default'
 env['ASSETS_DIR'] = "#{current}/site"
 env['EMAIL_TEMPLATE_ROOT'] = "#{current}/email"
+env['LEGAL_DOCS'] = "#{current}/legal"
 
 server_name = URI.parse(env['PUBLIC_BASE_URI']).host.downcase
 

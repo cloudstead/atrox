@@ -4,10 +4,14 @@ import cloudos.dao.BasicAccountDAO;
 import cloudos.model.AccountBase;
 import cloudos.model.auth.AuthenticationException;
 import cloudos.model.auth.LoginRequest;
+import cloudos.service.asset.AssetStorageService;
 import histori.ApiConstants;
+import histori.dao.archive.NexusArchiveDAO;
+import histori.dao.archive.VoteArchiveDAO;
 import histori.dao.internal.AuditLogDAO;
 import histori.dao.shard.AccountShardDAO;
 import histori.model.Account;
+import histori.model.MapImage;
 import histori.model.auth.RegistrationRequest;
 import histori.server.HistoriConfiguration;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.List;
 
 import static cloudos.model.AccountBase.canonicalizeEmail;
 import static histori.ApiConstants.ERR_CAPTCHA_INCORRECT;
@@ -212,4 +218,34 @@ public class AccountDAO extends ShardedEntityDAO<Account, AccountShardDAO> imple
 
     public boolean adminsExist() { return !findByField("admin", true).isEmpty(); }
 
+    // these are only needed for account removal
+    @Autowired private NexusDAO nexusDAO;
+    @Autowired private NexusArchiveDAO nexusArchiveDAO;
+    @Autowired private VoteDAO voteDAO;
+    @Autowired private VoteArchiveDAO voteArchiveDAO;
+    @Autowired private BookmarkDAO bookmarkDAO;
+    @Autowired private MapImageDAO mapImageDAO;
+
+    public List<ShardedEntityDAO> getAccountOwnedDAOs () {
+        return Arrays.asList(new ShardedEntityDAO[]{
+                nexusDAO, nexusArchiveDAO, voteDAO, voteArchiveDAO, bookmarkDAO, mapImageDAO
+        });
+    }
+
+    public void removeAccount(Account account) {
+        // delete stored map images
+        final List<MapImage> mapImages = mapImageDAO.findByOwner(account);
+        final AssetStorageService storageService = configuration.getAssetStorageService();
+        for (MapImage image : mapImages) {
+            if (storageService.exists(image.getUri())) storageService.delete(image.getUri());
+        }
+
+        // delete all other account-owned entities
+        for (ShardedEntityDAO dao : getAccountOwnedDAOs()) {
+            dao.deleteAll("owner", account.getUuid());
+        }
+
+        // delete account
+        delete(account.getUuid());
+    }
 }

@@ -213,7 +213,7 @@ Histori = {
         $('#btnAccount').attr('title', 'sign in / sign up');
         sessionStorage.clear();
         this.clear_session_data();
-        window.location.href = location.protocol + '//' + location.host + location.pathname;
+        window.location.href = location.protocol + '//' + location.host + '/';
     },
 
     forgot_password: function (email, success, fail) {
@@ -231,6 +231,15 @@ Histori = {
             currentPassword: fields['currentPassword'].value,
             newPassword: fields['newPassword'].value,
             subscribe: fields['subscribe'].checked
+        }, success, fail);
+    },
+
+    remove_account: function (fields, success, fail) {
+        Api.remove_account({
+            name: fields['name'].value,
+            email: fields['email'].value,
+            password: fields['password'].value,
+            captcha: sessionStorage.getItem('g-recaptcha-response')
         }, success, fail);
     },
 

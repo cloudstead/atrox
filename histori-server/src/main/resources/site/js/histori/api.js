@@ -117,6 +117,10 @@ Api = {
         Api._post('accounts', info, success, fail);
     },
 
+    remove_account: function (info, success, fail) {
+        Api._post('accounts/remove', info, success, fail);
+    },
+
     create_anonymous_session: function () {
         var auth_response = Api._post('accounts/register', {}, null, null, true);
         if (typeof auth_response != "undefined" && auth_response != null) {

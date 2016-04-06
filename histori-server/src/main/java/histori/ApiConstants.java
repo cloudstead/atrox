@@ -42,6 +42,7 @@ public class ApiConstants {
     // auth endpoints
     public static final String EP_REGISTER = "/register";
     public static final String EP_LOGIN = "/login";
+    public static final String EP_REMOVE = "/remove";
 
     // map image endpoints
     public static final String EP_PUBLIC = "/public";

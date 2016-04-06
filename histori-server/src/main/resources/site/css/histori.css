@@ -382,9 +382,10 @@ a:hover a:active {
     pointer-events: visible;
     border: 2px solid black;
     padding: 5px;
-    width: 60%;
-    height: 60%;
-    overflow: auto;
+    width: 80%;
+    height: 80%;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 #helpContainer_logo {
@@ -398,14 +399,36 @@ a:hover a:active {
 }
 
 #helpContainer_topics {
-    width: 30%;
+    width: 20%;
     position: relative;
     left: 0;
     top: 0;
 }
 
 #helpContainer_iframe {
-    width: 65%;
+    width: 75%;
+    height: 100%;
     position: relative;
     overflow-y: auto;
+    overflow-x: hidden;
+}
+#helpIframe {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.faqDecorator {
+    padding: 5px;
+    width: 100%;
+    border-spacing: 3px;
+}
+
+.faqDecorator td {
+    padding: 10px;
+}
+
+.faqDecoratorName {
+    border: 1px solid blue;
+    width: 30%;
+    text-align: center;
 }

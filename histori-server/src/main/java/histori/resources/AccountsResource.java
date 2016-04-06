@@ -169,4 +169,30 @@ public class AccountsResource extends AuthResourceBase<Account> {
     }
 
     @Override protected String getResetPasswordUrl(String token) { return configuration.getResetPasswordUrl(token); }
+
+    @POST
+    @Path(EP_REMOVE)
+    public Response remove (@Context HttpContext ctx, @Valid RegistrationRequest request) {
+
+        request.setUserAgent(ctx.getRequest().getHeaderValue(USER_AGENT));
+
+        final Account byEmail = accountDAO.findByEmail(request.getEmail());
+        if (byEmail == null) return notFound();
+
+        // bypass cache on this lookup to ensure the account really exists, and to populate the HashedPassword field
+        final Account byName = accountDAO.findByName(request.getName(), false);
+        if (byName == null || !byName.getUuid().equals(byEmail.getUuid())) return notFound();
+
+        if (!byName.getHashedPassword().isCorrectPassword(request.getPassword())) return notFound();
+
+        if (!configuration.getRecaptcha().verify(request.getCaptcha())) {
+            log.warn("remove: captcha failed, returning invalid");
+            return invalid(ERR_CAPTCHA_INCORRECT);
+        }
+
+        accountDAO.removeAccount(byName);
+
+        return ok_empty();
+    }
+
 }
