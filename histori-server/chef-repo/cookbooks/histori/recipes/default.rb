@@ -71,7 +71,7 @@ end
 env['DEPLOY_ENV'] = 'default'
 env['ASSETS_DIR'] = "#{current}/site"
 env['EMAIL_TEMPLATE_ROOT'] = "#{current}/email"
-env['LEGAL_DOCS'] = "#{current}/legal"
+env['LEGAL_INFO'] = "#{current}/legal"
 
 server_name = URI.parse(env['PUBLIC_BASE_URI']).host.downcase
 
