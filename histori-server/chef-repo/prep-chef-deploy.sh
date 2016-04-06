@@ -37,7 +37,7 @@ cd ${HISTORI_SERVER_DIR}/src/main/resources && tar czf ${ASSETS_DIR}/histori-sit
 cp ${HISTORI_SERVER_DIR}/run.sh ${ASSETS_DIR}
 
 # Legal stuff
-cd ${HISTORI_SERVER_DIR}/.. && tar czf ${ASSETS_DIR}/legal.tar.gz legal
+cd ${HISTORI_SERVER_DIR}/.. && tar czf ${ASSETS_DIR}/histori-legal.tar.gz legal
 
 # Other scripts
 mkdir -p ${ASSETS_DIR}/scripts
