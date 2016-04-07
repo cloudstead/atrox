@@ -9,7 +9,7 @@
 <p>
     A nexus may have tags attached to it. Tags have a name, a type, and optionally some decorations.
 </p><p>
-    Tags are used to describe some of the qualities of the nexus, particularly those that are shared with other nexuses.
+    Tags describe qualities of the nexus, in particular those that are shared with other nexuses.
 </p><p>
     A tag's name can be just about anything. A tag's type has fewer options. The tag types are listed in the table below.
     <br/><br/>
@@ -44,6 +44,9 @@
 You can attach any number of tags to a nexus. When viewing a nexus, you can click on a tag to create a new search for all nexuses that also
 have that tag.
 </p>
+<p>
+    Tags may have a number of <a class="no_change_target" href="decoration.html">decorations</a>.
+</p>
 
 <p id="EOF">&nbsp;</p>
 </body>
@@ -53,7 +56,9 @@ have that tag.
 <script>
     $(function () {
         resizeHeight();
-        $('a').each(function () {$(this).attr('target', '_blank');});
+        if ((typeof element.attr('class') == "undefined") || (element.attr('class') != 'no_change_target')) {
+            element.attr('target', '_blank');
+        }
     });
 </script>
 </html>

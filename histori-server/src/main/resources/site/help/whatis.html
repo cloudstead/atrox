@@ -94,11 +94,12 @@ Learn more about
     Longer answer:
 <ul>
     <li>
-        The core histori.city code is a <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST</a>-ish
+        The <a href="https://github.com/cloudstead/histori">core histori.city code</a> is a
+        <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST</a>-ish
         <a href="http://json.org/">JSON</a> server written in <a href="https://www.java.com/en/">Java</a>.
     </li>
     <li>
-        Internally, the server is built using the <a href="https://github.com/cobbzilla/cobbzilla-wizard">cobbzilla-wizard</a> framework,
+        Internally, the server is an extension of the <a href="https://github.com/cobbzilla/cobbzilla-wizard">cobbzilla-wizard</a> framework,
         a long-ago bastard fork of Coda Hale's well-regarded <a href="http://www.dropwizard.io/">Dropwizard</a> framework. It provides
         an embedded <a href="https://grizzly.java.net/">Grizzly</a> web server,
         <a href="https://jersey.java.net/">Jersey</a>/<a href="https://jax-rs-spec.java.net/">JAX-RS</a> resources,
@@ -112,9 +113,11 @@ Learn more about
         We use <a href="http://redis.io/">Redis</a> for caching.
     </li>
     <li>
-        The frontend is a lightweight "single-page-app" <a href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a> client
+        The frontend is a lightweight <a href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a> client
         built on <a href="http://jquery.com/">jQuery</a> and <a href="https://developers.google.com/maps/">Google Maps</a>.
-        We use a bunch of the <a href="https://useiconic.com/open">Open Iconic</a> icons,
+    </li>
+    <li>
+        We use a bunch of icons from <a href="https://useiconic.com/open">Open Iconic</a>,
         a few <a href="http://jqueryui.com/">jQueryUI</a> components,
         and <a href="https://github.com/showdownjs/showdown">Showdown</a> for converting markdown to HTML.
     </li>
@@ -125,10 +128,25 @@ Learn more about
         Search indexing is provided by an <a href="https://www.elastic.co/">ElasticSearch</a> cluster.
     </li>
     <li>
+        histori.city runs on <a href="https://ubuntu.com">Ubuntu</a> 14.04, a popular <a href="https://fsf.org">GNU</a>/<a href="https://kernel.org">Linux</a> distribution/
+    </li>
+    <li>
+    Our current servers are running on <a href="https://aws.amazon.com/">Amazon AWS</a>, having been provisioned via <a href="https://www.chef.io/">Chef</a> automation.
+    </li>
+    <li>
         We're also big fans of <a href="https://github.com/FasterXML/jackson">Jackson</a> and <a href="https://projectlombok.org/">Lombok</a>
         which have made developing histori.city easier and more fun.
     </li>
 </ul>
+</p>
+<p>
+    We're always looking for help, so if you have coding skills please
+    <a href="https://github.com/cloudstead/histori">check out our source</a> and have some fun with it.
+    Pull requests are always welcome.
+</p>
+<p>
+    We are particularly looking for help with the frontend: if you know Ember, Angular or React and are interested in
+    making the histori.city UI/UX something truly extraordinary, please <a href="mailto:jonathan@histori.city">let me know</a>.
 </p>
 
 <p id="EOF">&nbsp;</p>

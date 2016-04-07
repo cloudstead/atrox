@@ -8,8 +8,8 @@
 <h2>Nexus</h2>
 <p>
     A nexus represents some historical event or state that can span both time and space.
-    If you think of histori.city as a geo-temporal version of Wikipedia, then a page on Wikipedia is roughly equivalent to a nexus on histori.city.
-    It is the atomic unit of information, and the entire histori.city system is, in one sense, nothing more than the totality of the nexuses that comprise it.
+    If you think of histori.city as a geo-temporal version of Wikipedia, then a <em>"page on Wikipedia"</em> is roughly equivalent to a <em>"nexus on histori.city"</em>.
+    The nexus is the atomic unit of information, and the entire histori.city system is, in one sense, nothing more than the totality of the nexuses that comprise it.
 </p>
 <p>
     A nexus is known by a name, has a well-defined location in time and space, and may have some tags and commentary attached.
@@ -32,7 +32,7 @@
         If they are different, we say that the nexus spans a time range.</li>
     <li><b>space</b>: every nexus happened somewhere. It could be a single point (latitude/longitude), for example the Battle of Waterloo,
         or it could be a shape (a sequence of latitude/longitude points), for example the extent of the Roman Empire under Trajan.</li>
-    <li><b>tags</b>: describes concepts that relate to this nexus; these are described in more detail below.</li>
+    <li><b>tags</b>: describes concepts that relate to this nexus. Learn more about <a class="no_change_target" href="tag.html">tags</a>.</li>
     <li><b>commentary</b>: free-form text, with <a href="http://daringfireball.net/projects/markdown/basics">Markdown</a> support: the written word lives on!</li>
 </ul>
 </p><p>
@@ -71,7 +71,9 @@
 <script>
     $(function () {
         resizeHeight();
-        $('a').each(function () {$(this).attr('target', '_blank');});
+        if ((typeof element.attr('class') == "undefined") || (element.attr('class') != 'no_change_target')) {
+            element.attr('target', '_blank');
+        }
     });
 </script>
 </html>

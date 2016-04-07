@@ -7,20 +7,38 @@
 
 <h2>Decoration</h2>
 <p>
-    Just as a nexus can have many tags, a tag can have many decorations. A decoration qualifies <em>how</em>
-    the tag applies to the nexus. For example, in the nexus 'Battle of Waterloo', a 'person' tag for 'Napoleon' is attached.
-    This tells us that Napoleon was associated with the event, but how? The decorations tell us: there is a 'role' decoration with the value
-    'commander', and a 'world actor' decoration with the value 'France'.
-    Now we know that Napoleon's role at the Battle of Waterloo was as commander of the French.
+    Just as a nexus can have many tags, a tag can have many decorations.
 </p><p>
+    A decoration qualifies <em>how</em> the tag applies to the nexus.
+</p><p>
+    Tags, and decorations on tags, are a big part of what makes histori.city so fun to play with. By exploring commonality
+    of themes across time and space,
+</p><p>
+    For example, in the nexus 'Battle of Waterloo', there is a 'person' tag attached named 'Napoleon'.
+    This tells us that Napoleon was associated with this event, but how?
+</p><p>
+    There are two decorations attached to the 'person: Napoleon' tag:
+    <ul class="sm_spaced_bullets">
+      <li>role: commander</li>
+      <li>world actor: France</li>
+    </ul>
+    So Napoleon's role at the Battle of Waterloo was as commander of the French.
+</p><p>
+<hr/>
+<h4>What decorations are allowed on a tag?</h4>
     There are different rules for which decorations are allowed on which tags. For the most part, the user interface tries to make this
     so easy you don't even need to think about it.
 </p><p>
-    All tags, except Meta tags, can have multiple 'see_also' decorations, these can point to
-    any other tag or nexus, or even be a free-form URL or text reference.
+<h5>see_also</h5>
+    You can put 'see_also' decorations on just about anything, except Meta tags.
 </p><p>
-    The 'event type' and 'idea' tags do not take any other decorations. The decorations you can put on the other
-    kinds of tags are described in the table below.
+    A 'see_also' decoration can point to any other tag or nexus, or even be a free-form URL or text reference.
+</p><p>
+<h5>Tags without other decorations</h5>
+    The 'event type' and 'idea' tags do not allow any other decorations other than 'see_also'.
+</p><p>
+<h5>Tags with decorations</h5>
+    The table below lists which kinds of decorations can be attached to which kinds of tags.
 </p>
 <table border="0">
     <table border="0" cellpadding="5" cellspacing="10">
@@ -33,7 +51,11 @@
             <td>
                 <table class="faqDecorator">
                     <tbody><tr><td class="faqDecoratorName">relationship</td><td>
-                        how this event relates to the one named in the tag. For example, the Battle of Gettysburg might have an 'event' tag named 'American Civil War'. That tag would have a relationship decoration whose value was 'part of', indicating that this nexus was a part of some larger event.
+                        how this event relates to the one named in the tag.
+                        For example, the Battle of Gettysburg might have an 'event' tag named 'American Civil War'.<br/>
+                        That tag has the decoration: 'relationship: part of'<br/>
+                        This indicates that the nature of this nexus's relationship
+                        to the tag (American Civil War), is that it was a part of that larger event.
                     </td></tr></tbody>
                 </table>
             </td>
@@ -75,9 +97,9 @@
                     </td></tr><tr><td class="faqDecoratorName">estimate</td><td>
                         a number that quantifies this estimate of this impact
                     </td></tr><tr><td class="faqDecoratorName">high estimate</td><td>
-                        optionally, a number that quantifies the higher-bound of estimates for this impact
+                        a number that quantifies the higher-bound of estimates for this impact
                     </td></tr><tr><td class="faqDecoratorName">low estimate</td><td>
-                        optionally, a number that quantifies the lower-bound of estimates for this impact
+                        a number that quantifies the lower-bound of estimates for this impact
                     </td></tr></tbody>
                 </table>
             </td>
@@ -103,6 +125,9 @@
         </tbody>
     </table>
 </table>
+</p>
+<p>
+Most tags accept multiple decorations of the same decorator type, as long as their decorator values are different.
 </p>
 
 
