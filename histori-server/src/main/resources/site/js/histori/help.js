@@ -70,6 +70,7 @@ function resizeHeight () {
 $(function () {
     // Set help topic link attributes: make link target help frame, auto-resize frame
     $('.helpTopic').each(function () {
-        $(this).attr('target', 'helpFrame');
+        var element = $(this);
+        if (typeof element.attr('target') == "undefined") element.attr('target', 'helpFrame');
     });
 });
