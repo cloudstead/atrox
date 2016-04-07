@@ -1,0 +1,150 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../css/histori.css"/>
+    <meta charset="utf-8">
+</head>
+<body>
+
+<h1>the histori.city project</h1>
+
+<hr/>
+<p>
+    <em>The beauty of History is too often obscured by a profusion of prose.</em>
+</p>
+<hr/>
+
+<p>
+    I find the irony amusing: by its traditional definition, the very essence of history is the written word.
+    Technically, without the written word you don't have history, you have pre-history. In common parlance, the meaning of the word is
+    usually construed more broadly; one could even say <a href="https://en.wikipedia.org/w/index.php?title=History_of_the_Universe">cosmic history</a>
+    includes every event that has occurred since the beginning of time.
+</p><p>
+    Irrespective of how it is defined, the sole format that a disproportionately huge amount of historical information is
+    available is text: a stream of typographic symbols for your eyes to read and your brain to process in a sequential manner.
+</p><p>
+    With no disrespect to the written word (how could I? I'm writing this aren't I?), I assert that there are other ways of
+    understanding history: more visual ways, more non-sequential and non-linear ways, more interactive ways.
+</p><p>
+    histori.city is my attempt to explore some of those new ways. Towards that end, I say:
+    <br/><br/>
+    <em>History doesn't happen in books. History happens at specific times and places, right here on planet Earth.</em>
+    <br/><br/>
+    <b>histori.city seeks to record every piece of history on an interactive, collaboratively-editable map</b>
+</p>
+<p>
+    That being said, histori.city is most definitely a work-in-progress. What we have now is just a glimpse of what can be done.
+</p>
+
+<br/><hr/>
+<h4><img height="24" src="../images/earth.png"/> What is histori.city?</h4>
+
+<p>
+    Histori.city is a history book, spread across space and time.
+</p><p>
+    Like any other map-oriented application, you can zoom in to a small patch of land, or zoom out to whole continent.
+</p><p>
+    <b>Unlike</b> most other map apps, you can also zoom around <b>time</b>.
+    You can zoom down to a single day, or zoom out to a millennium.
+</p><p>
+    Within your space-and-time frame of reference, you can run searches and see them appear on both the map and the timeline.
+</p>
+
+<p>
+    Although the current version does not yet allow user-contributed edits, the long-term vision is for most of the content on
+    histori.city to be crowd-sourced, much like Wikipedia.
+</p>
+
+<br/><hr/>
+<h4><img height="24" src="../images/earth.png"/> What are some key concepts I should understand?</h4>
+
+<p>
+    histori.city is organized around a few core concepts: Nexus, Tag, and Decorations.
+</p>
+<ul class="med_spaced_bullets">
+    <li>Each <b>nexus</b> is represented by a marker on the map and a marker on the timeline.</li>
+    <li><b>Tags</b> are attached to nexuses; a tag ties a concept to a nexus.</li>
+    <li><b>Decorations</b> are attached to tags; a decoration describes how its tag applies to its nexus.</li>
+</ul>
+Learn more about
+<a class="no_change_target" href="nexus.html">Nexuses</a>,
+<a class="no_change_target" href="tag.html">Tags</a> and
+<a class="no_change_target" href="decoration.html">Decorations</a>.
+
+<br/><br/><hr/>
+<h4><img height="24" src="../images/earth.png"/> Why do I only see battles and city foundings?</h4>
+
+<p>
+    TLDR: it was relatively easy to load these events from Wikipedia.
+</p>
+<h5>Soon, there will be much more.</h5>
+<p>
+    In the long run, the idea is for histori.city to be maintained by the public. But it's usually difficult for most of us to start from a blank slate.
+    By pre-loading content from Wikipedia, it is much easier to see what histori.city is all about and how much fun it can be to play with.
+</p>
+
+<br/><hr/>
+<h4><img height="24" src="../images/earth.png"/> What kinds of open source software is histori.city built upon?</h4>
+
+<p>
+    I'm so glad you asked. Like many open source projects today, histori.city stands on the shoulders of
+    <a href="/api/configs/legal/licenses">an army of giants</a>.</p>
+
+<p>
+    Longer answer:
+<ul>
+    <li>
+        The core histori.city code is a <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST</a>-ish
+        <a href="http://json.org/">JSON</a> server written in <a href="https://www.java.com/en/">Java</a>.
+    </li>
+    <li>
+        Internally, the server is built using the <a href="https://github.com/cobbzilla/cobbzilla-wizard">cobbzilla-wizard</a> framework,
+        a long-ago bastard fork of Coda Hale's well-regarded <a href="http://www.dropwizard.io/">Dropwizard</a> framework. It provides
+        an embedded <a href="https://grizzly.java.net/">Grizzly</a> web server,
+        <a href="https://jersey.java.net/">Jersey</a>/<a href="https://jax-rs-spec.java.net/">JAX-RS</a> resources,
+        a highly customizable <a href="http://www.springframework.net/">Spring</a> container, and lots more.
+    </li>
+    <li>
+        Data is stored across several <a href="http://www.postgresql.org/">PostgreSQL</a> shards, using a custom built
+        <a href="http://hibernate.org/">Hibernate</a> shard engine.
+    </li>
+    <li>
+        We use <a href="http://redis.io/">Redis</a> for caching.
+    </li>
+    <li>
+        The frontend is a lightweight "single-page-app" <a href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a> client
+        built on <a href="http://jquery.com/">jQuery</a> and <a href="https://developers.google.com/maps/">Google Maps</a>.
+        We use a bunch of the <a href="https://useiconic.com/open">Open Iconic</a> icons,
+        a few <a href="http://jqueryui.com/">jQueryUI</a> components,
+        and <a href="https://github.com/showdownjs/showdown">Showdown</a> for converting markdown to HTML.
+    </li>
+    <li>
+        We use <a href="https://httpd.apache.org/">Apache 2</a> for connection management, SSL termination and proxying requests to the Java server.
+    </li>
+    <li>
+        Search indexing is provided by an <a href="https://www.elastic.co/">ElasticSearch</a> cluster.
+    </li>
+    <li>
+        We're also big fans of <a href="https://github.com/FasterXML/jackson">Jackson</a> and <a href="https://projectlombok.org/">Lombok</a>
+        which have made developing histori.city easier and more fun.
+    </li>
+</ul>
+</p>
+
+<p id="EOF">&nbsp;</p>
+</body>
+<script src="../js/jquery.js"></script>
+<script src="../js/histori/histori.js"></script>
+<script src="../js/histori/help.js"></script>
+<script>
+    $(function () {
+        resizeHeight();
+        $('a').each(function () {
+            var element = $(this);
+            if ((typeof element.attr('class') == "undefined") || (element.attr('class') != 'no_change_target')) {
+                element.attr('target', '_blank');
+            }
+        });
+        $('body').animate({scrollTop:0}, 'fast');
+    });
+</script>
+</html>

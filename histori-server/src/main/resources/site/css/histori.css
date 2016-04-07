@@ -432,3 +432,15 @@ a:hover a:active {
     width: 30%;
     text-align: center;
 }
+
+.large_spaced_bullets li {
+    margin: 8px 0;
+}
+
+.med_spaced_bullets li {
+    margin: 6px 0;
+}
+
+.sm_spaced_bullets li {
+    margin: 4px 0;
+}

@@ -1,0 +1,59 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../css/histori.css"/>
+    <meta charset="utf-8">
+</head>
+<body>
+
+<h2>Tag</h2>
+<p>
+    A nexus may have tags attached to it. Tags have a name, a type, and optionally some decorations.
+</p><p>
+    Tags are used to describe some of the qualities of the nexus, particularly those that are shared with other nexuses.
+</p><p>
+    A tag's name can be just about anything. A tag's type has fewer options. The tag types are listed in the table below.
+    <br/><br/>
+<table border="0" cellpadding="5" cellspacing="10">
+    <thead>
+    <tr><th nowrap width="20%" align="center">tag type</th><th nowrap align="center">description</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="tagTypeCell">event</td><td>an event in history, which may or may not be a nexus, for example the War of 1812</td>
+    </tr><tr>
+        <td class="tagTypeCell">event type</td><td>a type of historical event, for example the founding of a city</td>
+    </tr><tr>
+        <td class="tagTypeCell">world actor</td><td>a mover-and-shaker on the world stage, for example the Mongol Empire</td>
+    </tr><tr>
+        <td class="tagTypeCell">person</td><td>an individual person, for example Amelia Earhart</td>
+    </tr><tr>
+        <td class="tagTypeCell">result</td><td>the outcome following a nexus, for example the result of a battle in the American Civil War might be a 'Union Victory' or a 'Confederate Victory'</td>
+    </tr><tr>
+        <td class="tagTypeCell">impact</td><td>a quantified effect that the nexus had, for example the number of soldiers who died at the Battle of Gettysburg, or the number of French and Spanish ships captured at the Battle of Trafalgar.</td>
+    </tr><tr>
+        <td class="tagTypeCell">idea</td><td>an ideology or philosophy that is associated with the nexus</td>
+    </tr><tr>
+        <td class="tagTypeCell">citation</td><td>a reference to a third-party historical source that corroborates what is described in the nexus, for example a link to a Wikipedia page</td>
+    </tr><tr>
+        <td class="tagTypeCell">meta</td><td>a special tag used for internal purposes, for example to mark that a particular nexus was automatically imported by histori.city's Wikibot and not created by a real person</td>
+    </tr>
+    </tbody>
+</table>
+<br/>
+
+You can attach any number of tags to a nexus. When viewing a nexus, you can click on a tag to create a new search for all nexuses that also
+have that tag.
+</p>
+
+<p id="EOF">&nbsp;</p>
+</body>
+<script src="../js/jquery.js"></script>
+<script src="../js/histori/histori.js"></script>
+<script src="../js/histori/help.js"></script>
+<script>
+    $(function () {
+        resizeHeight();
+        $('a').each(function () {$(this).attr('target', '_blank');});
+    });
+</script>
+</html>

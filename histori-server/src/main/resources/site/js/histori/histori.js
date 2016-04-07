@@ -164,6 +164,19 @@ function display_range(range) {
     return start + ' to ' + end;
 }
 
+function toggle_visibility (elementId, html) {
+    var element = $('#'+elementId);
+    if ( element.css('visibility') == 'visible' ) {
+        element.css('visibility', 'hidden');
+        element.empty();
+    } else {
+        element.css('visibility', 'visible');
+        if (typeof html != "undefined") {
+            element.html(html);
+        }
+    }
+}
+
 DEFAULT_STATE = {
     timeline: {
         range: {start: 1500, end: 2016},

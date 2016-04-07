@@ -1,3 +1,8 @@
+Software Licenses
+=================
+
+The following third-party software is used by histori.city, in accordance with the license listed for each.
+
 # jQuery
  * Site: [https://jquery.com/](https://jquery.com/)
  * License: [https://jquery.org/license/](https://jquery.org/license/)
@@ -243,6 +248,6 @@
   * Site: [https://github.com/showdownjs/showdown](https://github.com/showdownjs/showdown)
   * License: [https://raw.githubusercontent.com/showdownjs/showdown/master/license.txt](https://raw.githubusercontent.com/showdownjs/showdown/master/license.txt)
 
-# Image of Earth in logo
+# Image of Earth (logo)
   * Site: [https://commons.wikimedia.org/wiki/File:The_Earth_seen_from_Apollo_17.jpg](https://commons.wikimedia.org/wiki/File:The_Earth_seen_from_Apollo_17.jpg)
   * License: Public Domain
