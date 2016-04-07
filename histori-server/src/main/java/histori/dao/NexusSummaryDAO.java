@@ -1,6 +1,7 @@
 package histori.dao;
 
 import histori.dao.search.CachedSearchResults;
+import histori.dao.search.NexusEntityFilter;
 import histori.dao.search.NexusSearchResults;
 import histori.dao.search.NexusSummarySearchJob;
 import histori.model.Account;

@@ -9,6 +9,7 @@ import histori.server.HistoriConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.wizard.dao.AbstractElasticSearchDAO;
 import org.cobbzilla.wizard.server.config.ElasticSearchConfig;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,7 +19,6 @@ import java.util.concurrent.TimeUnit;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.io.StreamUtil.loadResourceAsStringOrDie;
-import static org.cobbzilla.util.string.StringUtil.trimQuotes;
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 @Repository @Slf4j
@@ -53,21 +53,49 @@ public class ElasticSearchDAO extends AbstractElasticSearchDAO<Nexus, SearchQuer
     }
 
     @Override protected QueryBuilder getQuery(SearchQuery searchQuery) {
-        final String query = trimQuotes(searchQuery.getQuery());
-        return boolQuery().must(boolQuery()
-                .should(commonTermsQuery("name", query).boost(1.5f))
-                .should(commonTermsQuery("nexusType", query).boost(2.5f))
-                .should(commonTermsQuery("canonicalName", query).boost(2.0f))
-                .should(commonTermsQuery("tags.tagType", query).boost(1.1f))
-                .should(commonTermsQuery("tags.tagName", query).boost(1.4f))
-                .should(commonTermsQuery("tags.canonicalName", query).boost(1.5f))
-                .should(commonTermsQuery("tags.values.field", query).boost(0.8f))
-                .should(commonTermsQuery("tags.values.value", query).boost(0.8f))
-                .should(commonTermsQuery("markdown", query).boost(0.1f))
-        );
+        // add query terms
+        BoolQueryBuilder query = boolQuery();
+        final NexusQueryTerms terms = new NexusQueryTerms(searchQuery.getQuery());
+        for (NexusQueryTerm term : terms) {
+            query = query.should(nexusTermQuery(term));
+        }
+        return query;
     }
 
     @Override protected QueryBuilder getPostFilter(SearchQuery searchQuery) {
+        // basic query is geo + time
+        BoolQueryBuilder query = basicBoundsQuery(searchQuery);
+
+        // add query terms
+        final NexusQueryTerms terms = new NexusQueryTerms(searchQuery.getQuery());
+        for (NexusQueryTerm term : terms) {
+            if (term.isExact()) query = query.must(nexusTermQuery(term));
+        }
+
+        return query;
+    }
+
+    private QueryBuilder nexusTermQuery(NexusQueryTerm term) {
+        BoolQueryBuilder b = boolQuery();
+        if (term.isName()) b = b.should(singleTerm("name", term)).should(singleTerm("canonicalName", term));
+        if (term.isNexusType()) b = b.should(singleTerm("nexusType", term));
+        if (term.isMarkdown()) b = b.should(singleTerm("markdown", term));
+        if (term.isTagType()) b = b.should(singleTerm("tags.tagType", term));
+        if (term.isTagName()) b = b.should(singleTerm("tags.tagName", term));
+        if (term.isDecoratorName()) b = b.should(singleTerm("tags.values.field", term));
+        if (term.isDecoratorValue()) b = b.should(singleTerm("tags.values.value", term));
+        return b;
+    }
+
+    private QueryBuilder singleTerm(String field, NexusQueryTerm term) {
+        if (term.isExact()) return termQuery(field, term.getTerm());
+        if (term.isFuzzy()) return commonTermsQuery(field, term.getTerm());
+        if (term.isRegex()) return regexpQuery(field, term.getTerm());
+        log.warn("singleTerm("+field+", "+term+"): unrecognized match type");
+        return commonTermsQuery(field, term.getTerm());
+    }
+
+    private BoolQueryBuilder basicBoundsQuery(SearchQuery searchQuery) {
         final TimeRange range = searchQuery.getTimeRange();
         final long startInstant = range.getStartPoint().getDateInstant();
         final long endInstant = range.getEndPoint().getDateInstant();

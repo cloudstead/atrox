@@ -17,6 +17,9 @@ public interface NexusView {
     boolean hasNexusType();
     String getNexusType();
 
+    boolean hasMarkdown();
+    String getMarkdown();
+
     boolean hasTags();
     List<NexusTag> getTags();
 

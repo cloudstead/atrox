@@ -15,6 +15,8 @@ import javax.validation.constraints.Size;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
+
 @MappedSuperclass @Accessors(chain=true)
 public abstract class SocialEntity extends AccountOwnedEntity implements VersionedEntity {
 
@@ -28,6 +30,7 @@ public abstract class SocialEntity extends AccountOwnedEntity implements Version
     @Size(max=MARKDOWN_MAXLEN, message="err.markdown.tooLong")
     @Column(length=MARKDOWN_MAXLEN)
     @Getter @Setter private String markdown;
+    public boolean hasMarkdown () { return !empty(markdown); }
 
     @Column(nullable=false, length=20)
     @Enumerated(EnumType.STRING)

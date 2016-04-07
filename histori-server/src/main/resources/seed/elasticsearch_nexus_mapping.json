@@ -1,9 +1,9 @@
 {
   "properties": {
-    "name":          { "type": "string" },
-    "nexusType":     { "type": "string" },
+    "name":          { "type": "string", "index": "not_analyzed" },
+    "nexusType":     { "type": "string", "index": "not_analyzed" },
     "markdown":      { "type": "string" },
-    "canonicalName": { "type": "string" },
+    "canonicalName": { "type": "string", "index": "not_analyzed" },
     "authoritative": { "type": "boolean" },
     "timeRange": {
       "type": "object",
@@ -30,14 +30,14 @@
     "tags": {
       "type": "nested",
       "properties": {
-        "tagName":       { "type": "string" },
-        "canonicalName": { "type": "string" },
-        "tagType":       { "type": "string" },
+        "tagName":       { "type": "string", "index": "not_analyzed" },
+        "canonicalName": { "type": "string", "index": "not_analyzed" },
+        "tagType":       { "type": "string", "index": "not_analyzed" },
         "values": {
           "type": "nested",
           "properties": {
-            "field": { "type": "string" },
-            "value": { "type": "string" }
+            "field": { "type": "string", "index": "not_analyzed" },
+            "value": { "type": "string", "index": "not_analyzed" }
           }
         }
       }

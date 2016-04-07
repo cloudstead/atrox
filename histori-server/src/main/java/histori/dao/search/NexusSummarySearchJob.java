@@ -1,6 +1,5 @@
 package histori.dao.search;
 
-import histori.dao.NexusEntityFilter;
 import histori.dao.NexusSummaryDAO;
 import histori.model.Account;
 import histori.model.SearchQuery;
