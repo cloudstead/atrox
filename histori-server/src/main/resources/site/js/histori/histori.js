@@ -61,6 +61,11 @@ function isAnonymous() {
     return (get_token() == NO_TOKEN || ((typeof Histori.account() == 'undefined') || (typeof Histori.account().email == 'undefined' || Histori.account().anonymous)));
 }
 
+function hideQuickTips () {
+    $('.ui-tooltip').css('visibility', 'hidden');
+    $('.quick-help').css('visibility', 'hidden');
+}
+
 var activeForm = null;
 function showForm(id, position_func, position_arg) {
     var container = $('#'+id);
@@ -82,6 +87,7 @@ function showForm(id, position_func, position_arg) {
         container.css({zIndex: 1, visibility: 'visible'});
         activeForm = id;
     }
+    hideQuickTips();
 }
 
 function closeForm(id) {

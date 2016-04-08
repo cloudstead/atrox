@@ -116,8 +116,7 @@ function initMap () {
         // always close nexus details upon map click (unless pinned)
         closeNexusDetails();
         closeForm(activeForm);
-        $('.ui-tooltip').css('visibility', 'hidden');
-        $('.quick-help').css('visibility', 'hidden');
+        hideQuickTips();
 
         // disabled for now until we implement geo creation properly
         if (1 == 1) return;
