@@ -19,7 +19,7 @@ RewriteCond expr "%{REQUEST_URI} -strmatch '/legal/*'"
 RewriteRule ^(.*?/legal/(.*))$ http://127.0.0.1:9090/?help=legal.html%3Ft=$2  [P]
 #LogLevel alert rewrite:trace6
 
-# Add favicons to every html page
+# Add favicons after every <head>, and copyright notice before every </body>
 ProxyPass /__favicon.html !
 RewriteRule ^/__favicon.html - [END]
 <Location />
@@ -27,6 +27,7 @@ RewriteRule ^/__favicon.html - [END]
   FilterDeclare HISTORI_HEAD_SUBST
   FilterProvider HISTORI_HEAD_SUBST SUBSTITUTE "%{CONTENT_TYPE} =~ m|^text/html|"
   SUBSTITUTE 's|<head>|<head><!--#include virtual="/__favicon.html" -->|ni'
+  SUBSTITUTE 's|</body>|<!--#include virtual="/__footer.html" --></body>|ni'
 
   FilterDeclare HISTORI_HEAD_TAG
   FilterProvider HISTORI_HEAD_TAG INCLUDES "%{CONTENT_TYPE} =~ m|^text/html|"

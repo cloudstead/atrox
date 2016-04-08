@@ -186,7 +186,7 @@ function initMap () {
 function init() {
     $(function() {
         // are we on a small screen?
-        if ($(window).width() < 800) {
+        if ($(window).width() < 800 && !window.location.pathname.startsWith('/legal/')) {
             $('#small_screen_message').css({
                 visibility: 'visible',
                 zIndex: 100
