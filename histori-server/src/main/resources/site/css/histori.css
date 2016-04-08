@@ -402,7 +402,7 @@ a:hover a:active {
     width: 20%;
     position: relative;
     left: 0;
-    top: 0;
+    top: -10px;
 }
 
 #helpContainer_iframe {
