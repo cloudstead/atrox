@@ -186,12 +186,14 @@ function initMap () {
 function init() {
     $(function() {
         // are we on a small screen?
-        if ($(window).width() < 800 && !window.location.pathname.startsWith('/legal/')) {
-            $('#small_screen_message').css({
-                visibility: 'visible',
-                zIndex: 100
-            });
-            $('#small_screen_inner_message').center();
+        if ($(window).width() < 800) {
+            if (!window.location.pathname.startsWith('/legal/')) {
+                $('#small_screen_message').css({
+                    visibility: 'visible',
+                    zIndex: 100
+                });
+                $('#small_screen_inner_message').center();
+            }
 
         } else {
             // not on a small screen, make legal link regular
