@@ -194,6 +194,9 @@ function init() {
             $('#small_screen_inner_message').center();
 
         } else {
+            // not on a small screen, make legal link regular
+            $('#footer_copyright_link').attr('href', '/legal/terms');
+
             google.maps.event.addDomListener(window, "load", initMap);
             var keyParam = getParameterByName('key');
             if (keyParam != null && keyParam.length > 5 && isAnonymous()) {
