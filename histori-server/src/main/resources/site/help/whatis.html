@@ -20,7 +20,7 @@
     includes every event that has occurred since the beginning of time.
 </p><p>
     Irrespective of how it is defined, the fact remains: the sole format in which a disproportionately huge quantity
-    of historical information is available to you is via text: a stream of typographic symbols for your eyes to read
+    of historical information is available to you is text: a stream of typographic symbols for your eyes to read
     and your brain to process in a sequential manner.
 </p><p>
     With no disrespect to the written word (how could I? I'm writing this aren't I?), I assert that there are other ways of
@@ -47,7 +47,7 @@
     <b>Unlike</b> most other map apps, you can also zoom around <b>time</b>.
     You can zoom down to a single day, or zoom out to a millennium.
 </p><p>
-    Within your space-and-time frame of reference, you can run searches and see them appear on both the map and the timeline.
+    Within your chosen space-time view, you can run searches and see the results appear on both the map and the timeline.
 </p>
 
 <p>
@@ -79,7 +79,7 @@ Learn more about
 </p>
 <h5>Soon, there will be much more.</h5>
 <p>
-    In the long run, the idea is for histori.city to be maintained by the public. But it's usually difficult for most of us to start from a blank slate.
+    In the long run, the idea is for histori.city to be maintained by the public. But it's difficult to start from a blank slate.
     By pre-loading content from Wikipedia, it is much easier to see what histori.city is all about and how much fun it can be to play with.
 </p>
 
@@ -88,25 +88,24 @@ Learn more about
 
 <p>
     I'm so glad you asked. Like many open source projects today, histori.city stands on the shoulders of
-    <a href="/api/configs/legal/licenses">an army of giants</a>.</p>
+    <a class="no_change_target" href="legal.html?t=licenses">an army of giants</a>.</p>
 
-<p>
-    Longer answer:
 <ul>
     <li>
-        The <a href="https://github.com/cloudstead/histori">core histori.city code</a> is a
+        The <a href="https://github.com/cloudstead/histori">core of histori.city</a> is a
         <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST</a>-ish
         <a href="http://json.org/">JSON</a> server written in <a href="https://www.java.com/en/">Java</a>.
     </li>
     <li>
-        Internally, the server is an extension of the <a href="https://github.com/cobbzilla/cobbzilla-wizard">cobbzilla-wizard</a> framework,
-        a long-ago bastard fork of Coda Hale's well-regarded <a href="http://www.dropwizard.io/">Dropwizard</a> framework. It provides
-        an embedded <a href="https://grizzly.java.net/">Grizzly</a> web server,
+        Internally, the server extends the <a href="https://github.com/cobbzilla/cobbzilla-wizard">cobbzilla-wizard</a> framework,
+        a long-ago bastard fork of Coda Hale's well-regarded <a href="http://dropwizard.io/">Dropwizard</a> framework.
+        It provides an embedded <a href="https://grizzly.java.net/">Grizzly</a> web server,
         <a href="https://jersey.java.net/">Jersey</a>/<a href="https://jax-rs-spec.java.net/">JAX-RS</a> resources,
-        a highly customizable <a href="http://www.springframework.net/">Spring</a> container, and lots more.
+        a <a href="http://www.springframework.net/">Spring</a> <a href="https://en.wikipedia.org/wiki/Inversion_of_control">IoC container</a>,
+        and lots more.
     </li>
     <li>
-        Data is stored across several <a href="http://www.postgresql.org/">PostgreSQL</a> shards, using a custom built
+        Data is stored across several <a href="http://www.postgresql.org/">PostgreSQL</a> shards using a custom built
         <a href="http://hibernate.org/">Hibernate</a> shard engine.
     </li>
     <li>
@@ -122,23 +121,20 @@ Learn more about
         and <a href="https://github.com/showdownjs/showdown">Showdown</a> for converting markdown to HTML.
     </li>
     <li>
-        We use <a href="https://httpd.apache.org/">Apache 2</a> for connection management, SSL termination and proxying requests to the Java server.
+        <a href="https://httpd.apache.org/">Apache 2</a> handles our connection management, SSL termination and proxying requests to the Java server.
     </li>
     <li>
         Search indexing is provided by an <a href="https://www.elastic.co/">ElasticSearch</a> cluster.
     </li>
     <li>
-        histori.city runs on <a href="https://ubuntu.com">Ubuntu</a> 14.04, a popular <a href="https://fsf.org">GNU</a>/<a href="https://kernel.org">Linux</a> distribution/
-    </li>
-    <li>
-    Our current servers are running on <a href="https://aws.amazon.com/">Amazon AWS</a>, having been provisioned via <a href="https://www.chef.io/">Chef</a> automation.
+        Our systems are powered by <a href="https://ubuntu.com">Ubuntu</a> <a href="https://fsf.org">GNU</a>/<a href="https://kernel.org">Linux</a>,
+        hosted by <a href="https://aws.amazon.com/">Amazon AWS</a> and provisioned by <a href="https://www.chef.io/">Chef</a>.
     </li>
     <li>
         We're also big fans of <a href="https://github.com/FasterXML/jackson">Jackson</a> and <a href="https://projectlombok.org/">Lombok</a>
         which have made developing histori.city easier and more fun.
     </li>
 </ul>
-</p>
 <p>
     We're always looking for help, so if you have coding skills please
     <a href="https://github.com/cloudstead/histori">check out our source</a> and have some fun with it.

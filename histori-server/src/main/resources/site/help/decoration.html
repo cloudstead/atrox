@@ -9,12 +9,13 @@
 <p>
     Just as a nexus can have many tags, a tag can have many decorations.
 </p><p>
+    Tags, and decorations on tags, are a big part of what makes histori.city so fun to play with. By exploring common
+    themes across time and space, you can discover events in history you never knew about and find fascinating connections between events
+    that might leave you scratching your head.
+</p><p>
     A decoration qualifies <em>how</em> the tag applies to the nexus.
 </p><p>
-    Tags, and decorations on tags, are a big part of what makes histori.city so fun to play with. By exploring commonality
-    of themes across time and space,
-</p><p>
-    For example, in the nexus 'Battle of Waterloo', there is a 'person' tag attached named 'Napoleon'.
+    For example, in the nexus 'Battle of Waterloo', there is a 'person: Napoleon' tag attached.
     This tells us that Napoleon was associated with this event, but how?
 </p><p>
     There are two decorations attached to the 'person: Napoleon' tag:
@@ -95,7 +96,7 @@
                     <tbody><tr><td class="faqDecoratorName">world actor</td><td>
                         the world actor that this impact applies so, usually names one of the world actor tags on the nexus
                     </td></tr><tr><td class="faqDecoratorName">estimate</td><td>
-                        a number that quantifies this estimate of this impact
+                        a number that quantifies the estimate of this impact
                     </td></tr><tr><td class="faqDecoratorName">high estimate</td><td>
                         a number that quantifies the higher-bound of estimates for this impact
                     </td></tr><tr><td class="faqDecoratorName">low estimate</td><td>
@@ -108,7 +109,7 @@
             <td>
                 <table class="faqDecorator">
                     <tbody><tr><td class="faqDecoratorName">excerpt</td><td>
-                        a brief snippet from the citation, as it pertains to a fact described in the nexus
+                        a brief snippet from the citation, relevant for the nexus
                     </td></tr></tbody>
                 </table>
             </td>
@@ -139,7 +140,13 @@ Most tags accept multiple decorations of the same decorator type, as long as the
 <script>
     $(function () {
         resizeHeight();
-        $('a').each(function () {$(this).attr('target', '_blank');});
+        $('a').each(function () {
+            var element = $(this);
+            if ((typeof element.attr('class') == "undefined") || (element.attr('class') != 'no_change_target')) {
+                element.attr('target', '_blank');
+            }
+        });
+        $('body').animate({scrollTop:0}, 'fast');
     });
 </script>
 </html>

@@ -73,4 +73,16 @@
 <script src="../js/histori/api.js"></script>
 <script src="../js/histori/histori.js"></script>
 <script src="../js/histori/help.js"></script>
+<script>
+    var display = null;
+    $(function (){
+        display = getParameterByName("t");
+        if (typeof display != "undefined") {
+            if ($('#btn_'+display).html() == 'show') {
+                console.log('toggling: '+display);
+                toggle(display);
+            }
+        }
+    });
+</script>
 </html>

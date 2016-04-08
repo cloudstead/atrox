@@ -30,7 +30,7 @@
     <li><b>time</b>: every nexus happened sometime. It can have a start time and an end time.
         If the start and end times are the same, we say the nexus occurred at a particular instant in time.
         If they are different, we say that the nexus spans a time range.</li>
-    <li><b>space</b>: every nexus happened somewhere. It could be a single point (latitude/longitude), for example the Battle of Waterloo,
+    <li><b>location</b>: every nexus happened somewhere. It could be a single point (latitude/longitude), for example the Battle of Waterloo,
         or it could be a shape (a sequence of latitude/longitude points), for example the extent of the Roman Empire under Trajan.</li>
     <li><b>tags</b>: describes concepts that relate to this nexus. Learn more about <a class="no_change_target" href="tag.html">tags</a>.</li>
     <li><b>commentary</b>: free-form text, with <a href="http://daringfireball.net/projects/markdown/basics">Markdown</a> support: the written word lives on!</li>
@@ -39,7 +39,7 @@
     When viewing the histori.city site today, you are seeing only the data we have auto-imported from Wikipedia using
     our <a href="https://enwiki.histori.city">special open source tools</a>.
 </p><p>
-    When we introduce our new version that allows end users to contribute historical data:
+    We will soon introduce a new version that allows end users to contribute historical data. Then we can have some real fun:
 <ul class="med_spaced_bullets">
     <li>
         You will be able to create new nexuses, and designate them as public or private.
@@ -50,13 +50,13 @@
 </li><li>
     Different people can have different versions of the same nexus.
 </li><li>
-    We will exercise some editorial control over which version of a nexus is designated as the public version.
-    The default view of our data to anonymous users will be of our designated nexuses.
+    We will exercise some editorial control over which version of a nexus is designated as the authoritative public version.
+    The default view for anonymous users will be the authoritative public nexuses.
 </li><li>
-    When making a designation of whether a nexus should be considered public,
-    we will embrace transparency, impartiality, and a clear and shared understanding of rules and standards being applied.
+    When making a designation of whether a nexus should be considered authoritative,
+    we will embrace transparency, impartiality, and a clear and shared understanding of the rules and standards being applied.
 </li><li>
-    Regardless of our choice of the "official" version of a nexus, you will be able to set a list of preferred authors
+    Regardless of our choice of the authoritative version of any particular nexus, you will be able to set a list of preferred authors
     (and also blocked authors) to customize your own view of histori.city.
 </li>
 </ul>
@@ -71,9 +71,12 @@
 <script>
     $(function () {
         resizeHeight();
-        if ((typeof element.attr('class') == "undefined") || (element.attr('class') != 'no_change_target')) {
-            element.attr('target', '_blank');
-        }
+        $('a').each(function () {
+            var element = $(this);
+            if ((typeof element.attr('class') == "undefined") || (element.attr('class') != 'no_change_target')) {
+                element.attr('target', '_blank');
+            }
+        });
     });
 </script>
 </html>

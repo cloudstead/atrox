@@ -27,6 +27,10 @@ The following third-party software is used by histori.city, in accordance with t
 ## ant, commons-beanutils, commons-codec, commons-collections, commons-email, commons-io, commons-lang3, httpcomponents, jersey, log4j, xalan
   * Site: [https://www.apache.org/](https://www.apache.org/)
   * License: [http://www.apache.org/licenses/](http://www.apache.org/licenses/)
+
+# DropWizard
+  * Site: [http://dropwizard.io](http://dropwizard.io)
+  * License: [https://github.com/dropwizard/dropwizard/blob/master/LICENSE](https://github.com/dropwizard/dropwizard/blob/master/LICENSE)
   
 # Guava
   * Site: [https://github.com/google/guava](https://github.com/google/guava)
