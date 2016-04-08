@@ -12,6 +12,10 @@ SSLCertificateChainFile /etc/ssl/certs/StartSslIntermediate.crt
 ServerSignature Off
 Header add Strict-Transport-Security: "max-age=15768000;includeSubdomains"
 
+RewriteEngine on
+RewriteCond expr "%{REQUEST_URI} -strmatch '/'"
+RewriteRule ^.*$ /categories [R]
+
 ProxyPass /hist http://127.0.0.1:<%=@api_port%>/
 ProxyPassReverse /hist http://127.0.0.1:<%=@api_port%>/
 
