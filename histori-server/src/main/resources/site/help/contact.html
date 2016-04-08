@@ -3,18 +3,87 @@
 <head>
     <link rel="stylesheet" type="text/css" href="../css/histori.css"/>
     <meta charset="utf-8">
+    <style>
+        .contact_button {
+            color: black;
+        }
+
+        a:link a:visited {
+            text-decoration: none;
+            color: black;
+        }
+
+        a:hover a:active {
+            text-decoration: underline;
+            color: black;
+        }
+    </style>
 </head>
 <body>
 
-<h3>Contact histori.city</h3>
+<h1>Contact histori.city</h1>
 
-<h5>Report a bug or a new feature idea</h5>
+<h3><button class="contact_button" onclick="toggle_contact('bug'); return false;">Report a bug or a new feature idea</button></h3>
+<div id="contact_bug" class="contact_block"></div>
 
-<h5>Ask a question about histori.city</h5>
+<h3><button class="contact_button" onclick="toggle_contact('question'); return false;">Ask a question about histori.city</button></h3>
+<div id="contact_question" class="contact_block"></div>
 
-<h5>Send histori.city some general feedback</h5>
+<h3><button class="contact_button" onclick="toggle_contact('feedback'); return false;">Send histori.city some general feedback</button></h3>
+<div id="contact_feedback" class="contact_block"></div>
 
-<h5>Get technical support for a problem you are having</h5>
+<h3><button class="contact_button" onclick="toggle_contact('support'); return false;">Get technical support for a problem you are having</button></h3>
+<div id="contact_support" class="contact_block"></div>
 
+<h3><button class="contact_button" onclick="toggle_contact('mail'); return false;">Send us a letter</button></h3>
+<div id="contact_mail" class="contact_block"></div>
+
+<p id="EOF">&nbsp;</p>
 </body>
+<script src="../js/jquery.js"></script>
+<script src="../js/histori/histori.js"></script>
+<script src="../js/histori/help.js"></script>
+<script>
+    var info = {
+        'bug': 'histori.city is a young project. There are likely to be bugs and lots of rough edges. Consider that ' +
+        'you may not be the first person to encounter a particular bug or issue. ' +
+        'Please check out our <a href="https://github.com/cloudstead/histori/issues">GitHub issues page</a>' +
+        ' to see if someone has already reported a similar issue. If not, feel free to create a new one.',
+
+        'question': 'Please take a look at the <a href="https://bbs.histori.city/c/support">Questions and Support</a> section on our discussion forums.' +
+        ' There might already be a lively discussion around your very question. If not, you can create a new discussion topic.',
+
+        'feedback': 'Please take a look at the <a href="https://bbs.histori.city/c/feedback">Feedback and Suggestions</a> section on our discussion forums and share your thoughts.',
+
+        'support':  'histori.city is a young project. There are likely to be bugs and lots of rough edges. Consider that ' +
+        'you may not be the first person to encounter a particular bug or issue.<br/><br/>' +
+        'With that in mind, first take a look at the <a href="https://bbs.histori.city/c/support">Questions and Support</a> section on our discussion forums.' +
+        ' There might already be a lively discussion around your very question. If not, you can create a new discussion topic.<br/><br/>' +
+                'If you believe you\'ve found a bug, check out our <a href="https://github.com/cloudstead/histori/issues">GitHub issues page</a>' +
+                ' to see if someone has already reported a similar issue. If not, feel free to create a new one.<br/><br/>' +
+                'If all else fails and none of the above are helpful, you may send email to <a href="mailto:support@histori.city">support@histori.city</a>.',
+
+        'mail': 'Our mailing address:<h5><a href="https://goo.gl/maps/EBdSBd6VXeE2">histori.city c/o Cloudstead<br/>344 Thomas L Berkley Way<br/>Oakland, CA 94612</a></h5>'
+    };
+    $(function () {
+        resizeHeight();
+        $('body').animate({scrollTop:0}, 'fast');
+    });
+    function toggle_contact(type) {
+        var selected = $('#contact_'+type);
+        if (selected.css('visibility') == 'visible') {
+            selected.empty();
+            selected.css('visibility', 'hidden');
+
+        } else {
+            var allBlocks = $('.contact_block');
+            allBlocks.empty();
+            allBlocks.css('visibility', 'hidden');
+
+            selected.html(info[type]);
+            selected.css('visibility', 'visible');
+        }
+        resizeHeight();
+    }
+</script>
 </html>

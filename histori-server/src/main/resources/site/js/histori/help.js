@@ -64,7 +64,12 @@ function resizeHeight () {
     var top = eof.offset().top;
     $('#helpContainer_iframe', window.parent.document).height(top);
     $('#helpIframe', window.parent.document).height(top);
-    console.log('>>> resized to: '+top);
+    $('a').each(function () {
+        var element = $(this);
+        if ((typeof element.attr('class') == "undefined") || (element.attr('class') != 'no_change_target')) {
+            element.attr('target', '_blank');
+        }
+    });
 }
 
 $(function () {

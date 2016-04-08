@@ -16,7 +16,7 @@ html, body {
     font-weight: bold;
 }
 
-a {
+a, body a {
     text-decoration: none;
 }
 
@@ -402,7 +402,6 @@ a:hover a:active {
     width: 20%;
     position: relative;
     left: 0;
-    top: -10px;
 }
 
 #helpContainer_iframe {
@@ -449,4 +448,8 @@ a:hover a:active {
 .key_concepts {
     position: relative;
     top: 8px;
+}
+
+.contact_block {
+    visibility: hidden;
 }

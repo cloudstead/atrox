@@ -57,12 +57,6 @@ have that tag.
 <script>
     $(function () {
         resizeHeight();
-        $('a').each(function () {
-            var element = $(this);
-            if ((typeof element.attr('class') == "undefined") || (element.attr('class') != 'no_change_target')) {
-                element.attr('target', '_blank');
-            }
-        });
         $('body').animate({scrollTop:0}, 'fast');
     });
 </script>
