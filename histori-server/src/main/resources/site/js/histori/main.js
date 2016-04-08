@@ -154,17 +154,28 @@ function initMap () {
         refresh_map();
     });
 
-    // restore previous session or permalink
-    var link_id = getParameterByName('link');
-    if (link_id != null && link_id.length >= 5) {
-        Histori.restore_permalink(link_id);
-    } else {
-        if (Histori.has_session_data()) {
-            Histori.restore_session();
+    // don't try to restore session/anything if URL indicates to display a help window
+    var help = getParameterByName('help');
+    if (typeof help == "undefined" || help == null) {
+        // restore previous session or permalink
+        var link_id = getParameterByName('link');
+        if (link_id != null && link_id.length >= 5) {
+            Histori.restore_permalink(link_id);
         } else {
-            showStandardPermalinks();
+            if (Histori.has_session_data()) {
+                Histori.restore_session();
+            } else {
+                showStandardPermalinks();
+            }
         }
+    } else if (window.location.pathname.startsWith('/legal/')) {
+        var pos = window.location.pathname.indexOf('/legal/');
+        var type = window.location.pathname.substring(pos+1);
+        var helpUrl = '/help/legal.html?t='+type;
+        $('#helpIframe').attr('src', helpUrl);
+        showHelp();
     }
+
 }
 
 function init() {

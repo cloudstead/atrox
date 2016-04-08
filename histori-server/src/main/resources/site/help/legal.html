@@ -77,7 +77,7 @@
     var display = null;
     $(function (){
         display = getParameterByName("t");
-        if (typeof display != "undefined") {
+        if (typeof display != "undefined" && display != null) {
             if ($('#btn_'+display).html() == 'show') {
                 console.log('toggling: '+display);
                 toggle(display);

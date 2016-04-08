@@ -73,4 +73,15 @@ $(function () {
         var element = $(this);
         if (typeof element.attr('target') == "undefined") element.attr('target', 'helpFrame');
     });
+    var selectTopic = getParameterByName("help");
+    if (typeof selectTopic != "undefined" && selectTopic != null) {
+        if (selectTopic.indexOf(':') != -1) return; // sanity check
+        var qPos = selectTopic.indexOf('?');
+        var query = (qPos == -1) ? '' : decodeURIComponent(selectTopic.substring(qPos+1));
+        if (qPos != -1) selectTopic = selectTopic.substring(0, qPos);
+        var helpUrl = '/help/'+selectTopic+'.html?'+query;
+        console.log('helpUrl='+helpUrl);
+        $('#helpIframe').attr('src', helpUrl);
+        showHelp();
+    }
 });
