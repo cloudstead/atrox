@@ -453,3 +453,8 @@ a:hover a:active {
 .contact_block {
     visibility: hidden;
 }
+
+.donate_button {
+    font-size: larger;
+    font-weight: bold;
+}
