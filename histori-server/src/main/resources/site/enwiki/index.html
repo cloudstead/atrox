@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicons/favicon-194x194.png" sizes="194x194">
+    <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/favicons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/favicons/manifest.json">
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="apple-mobile-web-app-title" content="histori.city">
+    <meta name="application-name" content="histori.city">
+    <meta name="msapplication-TileColor" content="#00aba9">
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <base href="/"/>
+    <link rel="stylesheet" type="text/css" href="/css/histori.css"/>
+    <meta charset="utf-8">
+    <style>
+        html, body {
+            font-family: Tahoma,sans-serif;
+            padding-left: 20px;
+            padding-right: 20px;
+            overflow: scroll;
+        }
+    </style>
+    <title>Wikipedia Tools at histori.city</title>
+</head>
+<body>
+
+<h1>Wikipedia Tools at histori.city</h1>
+
+<em>This is a work in progress. Stay tuned for updates as we fill out the information available here.</em>
+
+<p>
+In order to import so much data onto the <a href="https://alpha3.histori.city">histori.city</a> map,
+we had to write a number of tools to work with such a large data set.
+We thought other people might find them useful, so we have tried to make that as easy as possible.
+</p>
+<p>
+If you are looking for programmatic access to the entire set of articles from the English language Wikipedia,
+you've come to the right place.
+</p>
+<p>
+Using histori.city tools, you can retrieve the contents of any Wikipedia article with a single HTTP request.
+You can navigate a structured object model of the article, with support for nested structures
+including infoboxes, plainlists, links, and more.
+</p>
+<p>
+You can even write importers that will transform Wikipedia pages into histori.city Nexuses.
+You can then import these onto your histori.city map.
+</p>
+
+<h3>Using the Tools</h3>
+
+<p>
+You will need a Java 7 JDK installed. Then <a href="https://github.com/cloudstead/histori">download the code</a>. You will use the the run.sh (or run.bat) script to run commands, or use the library
+directly from your Java code.
+</p>
+
+<p>
+You will also need an Amazon account and AWS access credentials to access the S3 bucket that contains the JSON files. 
+</p>
+
+
+<h4>Retrieve an article</h4>
+
+<h5>Using command-line</h5>
+
+todo: add options for AWS authentication
+<code>
+curl http://enwiki-20160204-histori-json.s3-website-us-west-2.amazonaws.com/index/$(./run.sh path 'Title of article')
+</code>
+
+<h5>In Java</h5>
+
+todo: reference example class in source repo
+
+<h4>Parse an article</h4>
+
+<h5>Using command-line</h5>
+
+todo: write WikiNode JSON-ify routine
+
+<h5>In Java</h5>
+
+todo: reference example class in source repo
+
+</body>
+</html>
