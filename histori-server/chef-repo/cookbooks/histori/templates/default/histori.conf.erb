@@ -15,8 +15,8 @@ ServerSignature Off
 Header add Strict-Transport-Security: "max-age=15768000;includeSubdomains"
 
 RewriteEngine on
-RewriteCond expr "%{REQUEST_URI} -strmatch '/legal/*'"
-RewriteRule ^(.*?/legal/(.*))$ http://127.0.0.1:9090/?help=legal.html%3Ft=$2  [P]
+#RewriteCond expr "%{REQUEST_URI} -strmatch '/legal/*'"
+#RewriteRule ^(.*?/legal/(.*))$ http://127.0.0.1:9090/?help=legal.html%3Ft=$2  [P]
 #LogLevel alert rewrite:trace6
 
 # Add favicons after every <head>, and copyright notice before every </body>
