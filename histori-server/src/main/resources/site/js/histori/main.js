@@ -185,32 +185,42 @@ function initMap () {
 
 function init() {
     $(function() {
-        google.maps.event.addDomListener(window, "load", initMap);
-        var keyParam = getParameterByName('key');
-        if (keyParam != null && keyParam.length > 5 && isAnonymous()) {
-            showResetPassForm();
-        }
+        // are we on a small screen?
+        if ($(window).width() < 800) {
+            $('#small_screen_message').css({
+                visibility: 'visible',
+                zIndex: 100
+            });
+            $('#small_screen_inner_message').center();
 
-        // Setup tooltips
-        $( document ).tooltip({
-            content: function() {
-                var title = this.getAttribute("title");
-
-                // cannot figure out how to disable tooltip on google's recaptcha widget any other way
-                if (title.toLowerCase().indexOf("recaptcha widget") != -1) return '';
-
-                // convert pipe chars to line breaks (cannot directly put HTML tags within the title attribute)
-                return title.replace(/\|/g, '<br />');
+        } else {
+            google.maps.event.addDomListener(window, "load", initMap);
+            var keyParam = getParameterByName('key');
+            if (keyParam != null && keyParam.length > 5 && isAnonymous()) {
+                showResetPassForm();
             }
-        });
 
-        $(document).on('keyup', function (e) {
-            if (e.keyCode == 27) closeForm();
-        });
+            // Setup tooltips
+            $(document).tooltip({
+                content: function () {
+                    var title = this.getAttribute("title");
 
-        // Set account button tooltip
-        if (!isAnonymous()) {
-            Histori.set_account(Histori.account());
+                    // cannot figure out how to disable tooltip on google's recaptcha widget any other way
+                    if (title.toLowerCase().indexOf("recaptcha widget") != -1) return '';
+
+                    // convert pipe chars to line breaks (cannot directly put HTML tags within the title attribute)
+                    return title.replace(/\|/g, '<br />');
+                }
+            });
+
+            $(document).on('keyup', function (e) {
+                if (e.keyCode == 27) closeForm();
+            });
+
+            // Set account button tooltip
+            if (!isAnonymous()) {
+                Histori.set_account(Histori.account());
+            }
         }
     });
 }

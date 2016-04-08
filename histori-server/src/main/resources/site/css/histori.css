@@ -458,3 +458,19 @@ a:hover a:active {
     font-size: larger;
     font-weight: bold;
 }
+
+#small_screen_message {
+    font-family: Tahoma,sans-serif;
+    background-color: whitesmoke;
+    position: absolute;
+    top: 0; left: 0;
+    opacity: 1.0;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    overflow: auto;
+    height: 1000px;
+    width: 100%;
+    visibility: hidden;
+    z-index: -1;
+}

@@ -4,7 +4,7 @@ ServerName <%=@server_name%>
 
 DocumentRoot <%=@doc_root%>
 <Directory <%=@doc_root%>>
-  Require local
+  Require all granted
 </Directory>
 
 SSLEngine on

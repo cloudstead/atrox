@@ -1,12 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="../css/histori.css"/>
+    <base href="/"/>
+    <link rel="stylesheet" type="text/css" href="css/histori.css"/>
     <meta charset="utf-8">
 </head>
 <body>
 
-<!--<h1>the histori.city project</h1>-->
+<div id="fullpage_help_nav" style="visibility: hidden; padding-top: 10px">
+    <div id="helpContainer_logo">
+        <img src="images/histori.city-256px-transparent.png">
+    </div>
+    <hr/>
+    <div id="helpContainer_topics">
+        <ul class="sm_spaced_bullets">
+            <li>key&nbsp;concepts:
+                <ul class="sm_spaced_bullets">
+                    <li><a href="help/nexus.html">Nexus</a></li>
+                    <li><a href="help/tag.html">Tag</a></li>
+                    <li><a href="help/decoration.html">Decoration</a></li>
+                </ul>
+            </li>
+            <li>
+            <a href="help/contact.html">get&nbsp;in&nbsp;touch</a><br/>
+            </li><li>
+            <a href="help/contribute.html">contribute</a><br/>
+            </li><li>
+            <a href="https://bbs.histori.city" target="_blank">community</a><br/>
+            </li><li>
+            <a href="help/legal.html">legal&nbsp;stuff</a><br/>
+            </li>
+        </ul>
+    </div>
+    <hr/>
+</div>
 
 <!--<hr/>-->
 <p style="font-size: larger;">
@@ -157,6 +184,11 @@ Learn more about
     $(function () {
         resizeHeight();
         $('body').animate({scrollTop:0}, 'fast');
+        if (window.parent == window) {
+            $('#fullpage_help_nav').css('visibility', 'visible');
+        } else {
+            $('#fullpage_help_nav').empty();
+        }
     });
 </script>
 </html>
