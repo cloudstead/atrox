@@ -1,0 +1,31 @@
+# todo: this template is not yet used because we haven't yet written a 'bbs' recipe to install the histori.city discussion forums
+# This is more of a placeholder to make sure if we need to re-setup discourse we can remember what the Apache settings were
+# The rest of the settings/data should be saved with our regular backups.
+<VirtualHost *:443>
+
+ServerName bbs.histori.city
+
+SSLEngine on
+SSLCertificateFile      /etc/ssl/certs/<%=@cert_name%>.pem
+SSLCertificateKeyFile   /etc/ssl/private/<%=@cert_name%>.key
+SSLCertificateChainFile /etc/ssl/certs/StartSslIntermediate.crt
+ServerSignature Off
+Header add Strict-Transport-Security: "max-age=15768000;includeSubdomains"
+
+ProxyPass /hist http://127.0.0.1:<%=@api_port%>/
+ProxyPassReverse /hist http://127.0.0.1:<%=@api_port%>/
+
+ProxyPass / http://127.0.0.1:<%=@discourse_port%>/
+ProxyPassReverse / http://127.0.0.1:<%=@discourse_port%>/
+
+ErrorLog ${APACHE_LOG_DIR}/bbs.histori.city_error.log
+CustomLog ${APACHE_LOG_DIR}/bbs.histori.city_access.log combined env=!dontlog
+CustomLog ${APACHE_LOG_DIR}/bbs.histori.city.log combined
+
+BrowserMatch "MSIE [2-6]" \
+nokeepalive ssl-unclean-shutdown \
+downgrade-1.0 force-response-1.0
+# MSIE 7 and newer should be able to use keepalive
+BrowserMatch "MSIE [17-9]" ssl-unclean-shutdown
+
+</VirtualHost>
