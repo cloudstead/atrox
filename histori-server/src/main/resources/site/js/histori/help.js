@@ -1,4 +1,7 @@
-function showHelp () {
+function showHelp (showQuick) {
+    if (typeof showQuick != "undefined" && showQuick == false) {
+        $('#btn_quickHelp').css('visibility', 'hidden');
+    }
     var helpContainer = $('#helpContainer');
     var quickHelpLink = $('#helpContainer_quickHelp');
     var hcWidth = helpContainer.outerWidth();
@@ -60,16 +63,20 @@ function showQuickHelp () {
 }
 
 function resizeHeight () {
-    var eof = $('#EOF');
-    var top = eof.offset().top;
-    $('#helpContainer_iframe', window.parent.document).height(top);
-    $('#helpIframe', window.parent.document).height(top);
-    $('a').each(function () {
-        var element = $(this);
-        if ((typeof element.attr('class') == "undefined") || (element.attr('class') != 'no_change_target')) {
-            element.attr('target', '_blank');
-        }
-    });
+    if (window.parent != window) {
+        var eof = $('#EOF');
+        var top = eof.offset().top;
+        $('#helpContainer_iframe', window.parent.document).height(top);
+        $('#helpIframe', window.parent.document).height(top);
+        $('a').each(function () {
+            var element = $(this);
+            if ((typeof element.attr('class') == "undefined") || (element.attr('class') != 'no_change_target')) {
+                element.attr('target', '_blank');
+            }
+        });
+    } else {
+        $('body').css({overflow: 'scroll', 'padding-left': '50px', 'padding-right': '50px'});
+    }
 }
 
 $(function () {

@@ -1,7 +1,11 @@
 <VirtualHost *:443>
 
 ServerName <%=@server_name%>
+
 DocumentRoot <%=@doc_root%>
+<Directory <%=@doc_root%>>
+  Require local
+</Directory>
 
 SSLEngine on
 SSLCertificateFile      /etc/ssl/certs/<%=@cert_name%>.pem
@@ -14,6 +18,27 @@ RewriteEngine on
 RewriteCond expr "%{REQUEST_URI} -strmatch '/legal/*'"
 RewriteRule ^(.*?/legal/(.*))$ http://127.0.0.1:9090/?help=legal.html%3Ft=$2  [P]
 #LogLevel alert rewrite:trace6
+
+# Add favicons to every html page
+ProxyPass /__favicon.html !
+RewriteRule ^/__favicon.html - [END]
+<Location />
+  Options +Includes
+  FilterDeclare HISTORI_HEAD_SUBST
+  FilterProvider HISTORI_HEAD_SUBST SUBSTITUTE "%{CONTENT_TYPE} =~ m|^text/html|"
+  SUBSTITUTE 's|<head>|<head><!--#include virtual="/__favicon.html" -->|ni'
+
+  FilterDeclare HISTORI_HEAD_TAG
+  FilterProvider HISTORI_HEAD_TAG INCLUDES "%{CONTENT_TYPE} =~ m|^text/html|"
+
+  FilterDeclare INFLATE
+  FilterDeclare DEFLATE
+
+  FilterProvider INFLATE INFLATE "%{req:Accept-Encoding} =~ /gzip/"
+  FilterProvider DEFLATE DEFLATE "%{req:Accept-Encoding} =~ /gzip/"
+
+  FilterChain INFLATE HISTORI_HEAD_SUBST HISTORI_HEAD_TAG DEFLATE
+</Location>
 
 # these will work in a pinch and are more reliable, if the above ever breaks due to JavaScript madness
 #ProxyPass /legal http://127.0.0.1:<%=@api_port%>/api/configs/legal
