@@ -204,6 +204,10 @@ function init() {
             }
         });
 
+        $(document).on('keyup', function (e) {
+            if (e.keyCode == 27) closeForm();
+        });
+
         // Set account button tooltip
         if (!isAnonymous()) {
             Histori.set_account(Histori.account());
