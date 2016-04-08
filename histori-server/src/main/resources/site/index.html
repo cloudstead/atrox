@@ -127,10 +127,13 @@
 <div class="quick-help" id="help-top-left_sliderContainer">
     <h3 >To change the time range</h3>
     <hr/>
-        Use the <button onclick="slider.edit_start();" title="set start date">start</button> or <button onclick="slider.edit_end();" title="set end date">end</button> buttons, or
-    <br/>
-        position the slide controls, then click <button onclick="slider.zoom_in();" title="zoom to dates set with slider controls">zoom&gt;&gt;&gt;</button>
-        to zoom in to the new time range.
+    <ul>
+        <li>Use the <button onclick="slider.edit_start();" title="set start date">start</button> or <button onclick="slider.edit_end();" title="set end date">end</button> buttons
+        under the center of the timeline.</li>
+        <li>Or, position the slider controls, then press <button onclick="slider.zoom_in();" title="zoom to dates set with slider controls">zoom&gt;&gt;&gt;</button>
+        to zoom in to the new time range.</li>
+        <li>Or, tap one of the date fields (located at either end of the timeline) and they'll become editable fields. Press Enter to save your changes.</li>
+    </ul>
 </div>
 
 <div id="mainControlPanel">
@@ -150,7 +153,34 @@
 <div class="quick-help" id="help-bottom-left_mainControlPanel">
     <h3>This is the main control panel</h3>
     <hr/>
-    Mouse over the icons to see what they do. Click them to do stuff.
+    <table border="0" cellpadding="5">
+        <tbody>
+        <tr>
+            <td><img class="mainControlButton" src="iconic/png/magnifying-glass-2x.png" onclick="showSearchOptions();"/></td>
+            <td>search the map</td>
+        </tr>
+        <tr>
+            <td><img class="mainControlButton" src="iconic/png/plus-2x.png"/></td>
+            <td>coming soon! support for user-contributed updates!</td>
+        </tr>
+        <tr>
+            <td><img class="mainControlButton" src="iconic/png/person-2x.png" onclick="showLoginForm();"/></td>
+            <td>account stuff: sign in, sign up, edit your profile, sign out</td>
+        </tr>
+        <tr>
+            <td><img class="mainControlButton" onclick="showHelp();" src="iconic/png/question-mark-2x.png"/></td>
+            <td>help and information about histori.city</td>
+        </tr>
+        <tr>
+            <td><img class="mainControlButton" onclick="showBookmarks();" src="iconic/png/star-2x.png"/></td>
+            <td>manage your bookmarks and shareable permalinks</td>
+        </tr>
+        <tr>
+            <td><img class="mainControlButton" onclick="showStandardPermalinks();" src="iconic/png/map-2x.png"/></td>
+            <td>look some interesting views from history from these built-in permalinks</td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 <div id="standardPermalinksContainer" class="dialogContainer">
