@@ -388,7 +388,7 @@ a:hover a:active {
     overflow-x: hidden;
 }
 
-#helpContainer_logo {
+.helpContainer_logo {
     position: relative;
     top: 5px;
     left: 5px;

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="../css/histori.css"/>
+    <base href="/"/>
+    <link rel="stylesheet" type="text/css" href="css/histori.css"/>
     <meta charset="utf-8">
     <style>
         a:link a:visited {
@@ -52,6 +53,8 @@
 </head>
 <body>
 
+<div class="helpContainer_logo"></div>
+
 <h3>Terms of Use</h3>
 <p>By using histori.city, you agree to these Terms of Use.</p>
 <button id="btn_terms" onclick="toggle('terms'); return false;">show</button>
@@ -85,6 +88,11 @@
             }
         }
         resizeHeight();
+        if (window == parent.window) {
+            var logo = $('.helpContainer_logo');
+            logo.html('<img src="images/histori.city-256px-transparent.png">');
+            logo.css({'margin-top': '15px'});
+        }
     });
 </script>
 </html>
