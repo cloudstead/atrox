@@ -160,8 +160,9 @@ function initMap () {
         // Is this a /legal/privacy or /legal/terms link that Apache has rewritten?
         if (window.location.pathname.startsWith('/legal/')) {
             var pos = window.location.pathname.indexOf('/legal/');
-            var type = window.location.pathname.substring(pos+1);
+            var type = window.location.pathname.substring(pos+'/legal/'.length);
             var helpUrl = '/help/legal.html?t='+type;
+            console.log('helpUrl is '+helpUrl);
             $('#helpIframe').attr('src', helpUrl);
             showHelp();
         } else {

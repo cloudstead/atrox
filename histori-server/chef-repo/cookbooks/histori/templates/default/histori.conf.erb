@@ -10,8 +10,14 @@ SSLCertificateChainFile /etc/ssl/certs/StartSslIntermediate.crt
 ServerSignature Off
 Header add Strict-Transport-Security: "max-age=15768000;includeSubdomains"
 
-ProxyPass /legal http://127.0.0.1:<%=@api_port%>/api/configs/legal
-ProxyPassReverse /legal http://127.0.0.1:<%=@api_port%>/api/configs/legal
+RewriteEngine on
+RewriteCond expr "%{REQUEST_URI} -strmatch '/legal/*'"
+RewriteRule ^(.*?/legal/(.*))$ http://127.0.0.1:9090/?help=legal.html%3Ft=$2  [P]
+#LogLevel alert rewrite:trace6
+
+# these will work in a pinch and are more reliable, if the above ever breaks due to JavaScript madness
+#ProxyPass /legal http://127.0.0.1:<%=@api_port%>/api/configs/legal
+#ProxyPassReverse /legal http://127.0.0.1:<%=@api_port%>/api/configs/legal
 
 ProxyPass / http://127.0.0.1:<%=@api_port%>/
 ProxyPassReverse / http://127.0.0.1:<%=@api_port%>/
