@@ -2,9 +2,11 @@
 
 ServerName <%=@server_name%>
 
+# Apache will server static assets instead of histori-server
 DocumentRoot <%=@doc_root%>
 <Directory <%=@doc_root%>>
   Require all granted
+  DirectoryIndex index.html
 </Directory>
 
 SSLEngine on
@@ -16,13 +18,13 @@ Header add Strict-Transport-Security: "max-age=15768000;includeSubdomains"
 # Add favicons after every <head>, and copyright notice before every </body>
 <Location />
   Options +Includes
-  FilterDeclare HISTORI_HEAD_SUBST
-  FilterProvider HISTORI_HEAD_SUBST SUBSTITUTE "%{CONTENT_TYPE} =~ m|^text/html|"
+  FilterDeclare HISTORI_SUBST
+  FilterProvider HISTORI_SUBST SUBSTITUTE "%{CONTENT_TYPE} =~ m|^text/html|"
   SUBSTITUTE 's|<head>|<head><!--#include virtual="/__favicon.html" -->|ni'
   SUBSTITUTE 's|</body>|<!--#include virtual="/__footer.html" --></body>|ni'
 
-  FilterDeclare HISTORI_HEAD_TAG
-  FilterProvider HISTORI_HEAD_TAG INCLUDES "%{CONTENT_TYPE} =~ m|^text/html|"
+  FilterDeclare HISTORI_TAG
+  FilterProvider HISTORI_TAG INCLUDES "%{CONTENT_TYPE} =~ m|^text/html|"
 
   FilterDeclare INFLATE
   FilterDeclare DEFLATE
@@ -30,15 +32,12 @@ Header add Strict-Transport-Security: "max-age=15768000;includeSubdomains"
   FilterProvider INFLATE INFLATE "%{req:Accept-Encoding} =~ /gzip/"
   FilterProvider DEFLATE DEFLATE "%{req:Accept-Encoding} =~ /gzip/"
 
-  FilterChain INFLATE HISTORI_HEAD_SUBST HISTORI_HEAD_TAG DEFLATE
+  FilterChain INFLATE HISTORI_SUBST HISTORI_TAG DEFLATE
 </Location>
 
-# these will work in a pinch and are more reliable, if the above ever breaks due to JavaScript madness
-#ProxyPass /legal http://127.0.0.1:<%=@api_port%>/api/configs/legal
-#ProxyPassReverse /legal http://127.0.0.1:<%=@api_port%>/api/configs/legal
-
-ProxyPass / http://127.0.0.1:<%=@api_port%>/
-ProxyPassReverse / http://127.0.0.1:<%=@api_port%>/
+# send API calls to histori-server
+ProxyPass /api http://127.0.0.1:<%=@api_port%>/api
+ProxyPassReverse /api http://127.0.0.1:<%=@api_port%>/api
 
 ErrorLog ${APACHE_LOG_DIR}/<%=@server_name%>_error.log
 CustomLog ${APACHE_LOG_DIR}/<%=@server_name%>_access.log combined env=!dontlog

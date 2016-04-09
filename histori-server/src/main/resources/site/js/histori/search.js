@@ -295,7 +295,7 @@ function buildSearchRow (color) {
 
     var bringToFrontImage = $('<img id="bringToFront_'+ id+'" class="searchBox_bringToFront" title="bring markers to front" src="iconic/png/data-transfer-upload.png"/>');
     var markerImage = $('<img id="marker_'+ id+'" class="searchBox_markerImage" src="markers/'+color+'_Marker_blank.png"/>');
-    var loadingImage = $('<img id="loading_'+ id+'" class="searchBox_loadingSpinner" src="icons/spinner.gif" style="visibility: hidden"/>');
+    var loadingImage = $('<img id="loading_'+ id+'" class="searchBox_loadingSpinner" src="/images/spinner.gif" style="visibility: hidden"/>');
     var markerCell = $('<td id="markerClickTarget_'+id+'" align="center" valign="middle"></td>')
         .append(bringToFrontImage)
         .append('&nbsp;&nbsp;')
