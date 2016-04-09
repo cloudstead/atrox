@@ -49,7 +49,7 @@
     a stream of typographic symbols for your eyes to read and your brain to process in a sequential manner.
 </p><p>
     With no disrespect to the written word (it sure is useful right here, isn't it?) I assert that there are other ways to
-    understand history: more visual ways, more non-sequential and non-linear ways, more interactive ways.
+    understand history: more visual ways, more non-linear ways, more interactive ways.
 </p><p>
     histori.city is my attempt to explore some of those new ways. Towards that end, I say:
     <br/><br/>
@@ -122,43 +122,36 @@ Learn more about
         The <a href="https://github.com/cloudstead/histori">core of histori.city</a> is a
         <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST</a>-ish
         <a href="http://json.org/">JSON</a> server written in <a href="https://www.java.com/en/">Java</a>.
-    </li>
-    <li>
+    </li><li>
         Internally, the server extends the <a href="https://github.com/cobbzilla/cobbzilla-wizard">cobbzilla-wizard</a> framework.
         Inspired by Coda Hale's well-regarded <a href="http://dropwizard.io/">Dropwizard</a> framework, cobbzilla-wizard
         provides an embedded <a href="https://grizzly.java.net/">Grizzly</a> web server,
         <a href="https://jersey.java.net/">Jersey</a>/<a href="https://jax-rs-spec.java.net/">JAX-RS</a> resources,
         a <a href="http://www.springframework.net/">Spring</a> <a href="https://en.wikipedia.org/wiki/Inversion_of_control">IoC container</a>,
         and lots more.
-    </li>
-    <li>
+    </li><li>
         Data is stored across several <a href="http://www.postgresql.org/">PostgreSQL</a> shards using a custom built
         <a href="http://hibernate.org/">Hibernate</a> shard engine.
-    </li>
-    <li>
+    </li><li>
         We use <a href="http://redis.io/">Redis</a> for caching.
-    </li>
-    <li>
+    </li><li>
         The frontend is a lightweight <a href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a> client
         built on <a href="http://jquery.com/">jQuery</a> and <a href="https://developers.google.com/maps/">Google Maps</a>.
-    </li>
-    <li>
+    </li><li>
         We use a bunch of icons from <a href="https://useiconic.com/open">Open Iconic</a>,
         a few <a href="http://jqueryui.com/">jQueryUI</a> components,
         and <a href="https://github.com/showdownjs/showdown">Showdown</a> for converting markdown to HTML.
-    </li>
-    <li>
-        <a href="https://httpd.apache.org/">Apache 2</a> handles our connection management, SSL termination and proxying requests to the Java server.
-    </li>
-    <li>
+    </li><li>
+        <a href="https://httpd.apache.org/">Apache 2</a> handles all inbound connections, SSL termination, server-side includes, and proxying requests to the Java server.
+    </li><li>
         Search indexing is provided by an <a href="https://www.elastic.co/">ElasticSearch</a> cluster.
-    </li>
-    <li>
-        Our systems are powered by <a href="https://ubuntu.com">Ubuntu</a> <a href="https://gnu.org">GNU</a>/<a href="https://kernel.org">Linux</a>,
+    </li><li>
+        <a href="https://discourse.org">Discourse</a> runs our <a href="https://bbs.histori.city">community forums</a>.
+    </li><li>
+        Production systems are powered by <a href="https://ubuntu.com">Ubuntu</a> <a href="https://gnu.org">GNU</a>/<a href="https://kernel.org">Linux</a>,
         hosted by <a href="https://aws.amazon.com/">Amazon AWS</a> and provisioned by <a href="https://www.chef.io/">Chef</a>.
-    </li>
-    <li>
-        We're also big fans of <a href="https://github.com/FasterXML/jackson">Jackson</a> and <a href="https://projectlombok.org/">Lombok</a>
+    </li><li>
+        We're big fans of <a href="https://github.com/FasterXML/jackson">Jackson</a> and <a href="https://projectlombok.org/">Lombok</a>
         which have made developing histori.city easier and more fun.
     </li>
 </ul>
@@ -185,8 +178,7 @@ Learn more about
 </p><p>
     I hold five software patents even though I don't believe the US Patent Office should issue such things.
 </p><p>
-    I'm also
-    the founder of mobile-video innovator <a href="https://www.crunchbase.com/organization/kiptronic">Kiptronic</a>,
+    I'm the founder of mobile-video innovator <a href="https://www.crunchbase.com/organization/kiptronic">Kiptronic</a>,
     author of the handy <a href="https://github.com/cobbzilla/s3s3mirror">s3s3mirror</a> utility,
     and a proud supporter of these organizations, which I will shamelessly plug right now:
 <ul class="sm_spaced_bullets">
