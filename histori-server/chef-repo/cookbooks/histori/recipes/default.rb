@@ -104,7 +104,7 @@ env | grep -v '^_' \
   EOH
 end
 
-%w(ssl proxy proxy_http headers include substitute).each do |mod|
+%w(ssl proxy proxy_http headers include substitute expires).each do |mod|
   apache2.enable_module self, mod
 end
 

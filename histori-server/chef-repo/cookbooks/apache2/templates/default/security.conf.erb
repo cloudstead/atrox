@@ -1,0 +1,17 @@
+<Directory />
+  AllowOverride None
+  Order Deny,Allow
+  Deny from all
+</Directory>
+
+ServerTokens Prod
+ServerSignature Off
+TraceEnable Off
+
+<DirectoryMatch "/\.git">
+  Require all denied
+</DirectoryMatch>
+
+Header set X-Content-Type-Options: "nosniff"
+Header set X-Frame-Options: "sameorigin"
+Header unset X-Powered-By

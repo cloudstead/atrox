@@ -255,3 +255,7 @@ The following third-party software is used by histori.city, in accordance with t
 # Image of Earth (logo)
   * Site: [https://commons.wikimedia.org/wiki/File:The_Earth_seen_from_Apollo_17.jpg](https://commons.wikimedia.org/wiki/File:The_Earth_seen_from_Apollo_17.jpg)
   * License: Public Domain
+
+# Apache Boilerplate Configuration
+  * Site: [https://github.com/h5bp/html5-boilerplate](https://github.com/h5bp/html5-boilerplate)
+  * License: [https://github.com/h5bp/html5-boilerplate/blob/master/LICENSE.txt](https://github.com/h5bp/html5-boilerplate/blob/master/LICENSE.txt)

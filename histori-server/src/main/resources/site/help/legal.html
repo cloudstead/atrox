@@ -26,7 +26,7 @@
             container.append($('<hr/><div id="'+containerId+'_contents"/><hr/>'));
             container.append(closeButton);
 
-            Api.get_config('legal.'+type+"?refresh=true",
+            Api.get_config('legal.'+type/*+"?refresh=true"*/,  // uncomment to always refresh
                     function (data) {
                         var contents = $('#'+containerId+'_contents');
                         contents.html(markupConverter.makeHtml(data));

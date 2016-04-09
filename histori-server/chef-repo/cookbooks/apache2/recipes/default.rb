@@ -20,6 +20,11 @@ rescue
   puts 'No apache2 init databag defined, using default settings'
 end
 
+template '/etc/apache2/conf-available/security.conf' do
+  mode '0744'
+  action :create
+end
+
 if apache2_bag.nil? || apache2_bag['https_only']
   apache2.enable_module self, 'ssl'
   apache2.enable_module self, 'rewrite'
