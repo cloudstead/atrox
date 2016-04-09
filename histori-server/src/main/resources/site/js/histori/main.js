@@ -196,7 +196,7 @@ function init() {
 
         } else {
             // not on a small screen, make legal link regular
-            $('#footer_copyright_link').attr('href', '/legal/terms');
+            $('#footer_copyright_link').attr('href', '/legal/terms.html');
 
             google.maps.event.addDomListener(window, "load", initMap);
             var keyParam = getParameterByName('key');
