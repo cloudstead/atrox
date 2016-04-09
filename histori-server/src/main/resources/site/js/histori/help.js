@@ -70,7 +70,7 @@ function resizeHeight () {
         $('#helpIframe', window.parent.document).height(top);
         $('a').each(function () {
             var element = $(this);
-            if ((typeof element.attr('class') == "undefined") || (element.attr('class') != 'no_change_target')) {
+            if (((typeof element.attr('class') == "undefined") || (element.attr('class') != 'no_change_target')) && !element.attr('href').startsWith("mailto:")) {
                 element.attr('target', '_blank');
             }
         });
