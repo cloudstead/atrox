@@ -7,6 +7,17 @@ DocumentRoot <%=@doc_root%>
 <Directory <%=@doc_root%>>
   Require all granted
   DirectoryIndex index.html
+
+  ExpiresActive On
+  <FilesMatch "\.(ico|pdf|jpg|jpeg|png|gif|js|css|swf|flv)$">
+    ExpiresDefault "access plus 1 month"
+    Header unset Pragma
+    Header unset ETag
+    #Header  edit "ETag" "^(.*[^g][^z][^i][^p])$" "$1-gzip"
+    #Header unset Last-Modified
+    Header set Cache-Control "public, max-age=864000"
+    Header unset Vary:
+  </FilesMatch>
 </Directory>
 
 SSLEngine on
@@ -15,9 +26,9 @@ SSLCertificateKeyFile   /etc/ssl/private/<%=@cert_name%>.key
 SSLCertificateChainFile /etc/ssl/certs/StartSslIntermediate.crt
 Header add Strict-Transport-Security: "max-age=15768000;includeSubdomains"
 
-# Add favicons after every <head>, and copyright notice before every </body>
+# For files with "Content-Type: text/html*" --
+# insert favicons after every <head>, and insert footer before every </body>
 <Location />
-  Options +Includes
   FilterDeclare HISTORI_SUBST
   FilterProvider HISTORI_SUBST SUBSTITUTE "%{CONTENT_TYPE} =~ m|^text/html|"
   SUBSTITUTE 's|<head>|<head><!--#include virtual="/__favicon.html" -->|ni'
