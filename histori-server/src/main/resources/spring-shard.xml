@@ -18,13 +18,13 @@
     <!-- DB-related beans (dataSource, sessionFactory, hibernateTemplate, etc) -->
     <context:component-scan base-package="org.cobbzilla.wizard.spring.config.rdbms"/>
 
-    <!-- Mock templated mail sender -->
+    <!-- Use mock templated mail sender, no emails should be sent from shard context -->
     <bean class="org.cobbzilla.mail.sender.mock.MockTemplatedMailService"/>
 
     <!-- RedisService -->
     <context:component-scan base-package="org.cobbzilla.wizard.cache.redis"/>
 
-    <!-- jersey resources, DAOs -->
+    <!-- only models and DAOs are required for shard context -->
     <context:component-scan base-package="histori.model"/>
     <context:component-scan base-package="histori.dao"/>
 
