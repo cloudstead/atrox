@@ -7,6 +7,7 @@ import histori.dao.SearchQueryDAO;
 import histori.dao.search.ElasticSearchDAO;
 import histori.model.Account;
 import histori.model.Nexus;
+import histori.model.QueryBackend;
 import histori.model.SearchQuery;
 import histori.model.support.EntityVisibility;
 import histori.model.support.NexusSummary;
@@ -14,6 +15,7 @@ import histori.model.support.SearchSortOrder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.wizard.cache.redis.RedisService;
+import org.cobbzilla.wizard.dao.DebugSearchQuery;
 import org.cobbzilla.wizard.dao.SearchResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,7 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.daemon.ZillaRuntime.now;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJson;
+import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
 import static org.cobbzilla.util.string.StringUtil.EMPTY_ARRAY;
 import static org.cobbzilla.util.string.StringUtil.formatDurationFrom;
 import static org.cobbzilla.wizard.resources.ResourceUtil.*;
@@ -76,7 +79,9 @@ public class SearchResource {
                            @PathParam("west") double west,
                            @QueryParam("q") String query,
                            @QueryParam("v") String visibility,
-                           @QueryParam("c") String useCache) {
+                           @QueryParam("c") String useCache,
+                           @QueryParam("t") long timeout,
+                           @QueryParam("qb") String backend) {
 
         final Account account = optionalUserPrincipal(ctx);
 
@@ -85,7 +90,9 @@ public class SearchResource {
                 .setVisibility(EntityVisibility.create(visibility, everyone))
                 .setUseCache(empty(useCache) || !useCache.equalsIgnoreCase("false"))
                 .setRange(from, to)
-                .setBounds(north, south, east, west);
+                .setBounds(north, south, east, west)
+                .setTimeout(timeout)
+                .setBackend(QueryBackend.create(backend));
 
         // it must pass validation and be anonymously recorded in order to proceed
         searchQueryDAO.create(new SearchQuery(q));
@@ -98,7 +105,7 @@ public class SearchResource {
         if (empty(searchQuery.getQuery())) return ok(EMPTY_ARRAY);
 
         long start = now();
-        final EntityVisibility visibility = searchQuery.getVisibility();
+        final EntityVisibility visibility = searchQuery.hasVisibility() ? searchQuery.getVisibility() : EntityVisibility.everyone;
         final boolean isPublic = visibility.isEveryone();
         final String cacheKey = (account == null || isPublic ? "null" : account.getUuid()) + ":" + searchQuery.hashCode();
         final String json = searchQuery.isUseCache() ? getSearchCache().get(cacheKey) : null;
@@ -115,7 +122,16 @@ public class SearchResource {
         if (results == null) {
             log.info("STARTING FULL search("+searchQuery.getQuery()+")...");
             try {
-                if (isPublic) {
+                if (searchQuery.hasBackend()) {
+                    switch (searchQuery.getBackend()) {
+                        case es: default:
+                            results = elasticSearchDAO.search(searchQuery);
+                            break;
+                        case pg:
+                            results = nexusSummaryDAO.search(account, searchQuery);
+                            break;
+                    }
+                } else if (isPublic) {
                     results = elasticSearchDAO.search(searchQuery);
                 } else {
                     results = nexusSummaryDAO.search(account, searchQuery);
@@ -152,6 +168,14 @@ public class SearchResource {
             return ok(summary);
         }
         return ok(nexusSummaryDAO.search(account, nexus, SearchSortOrder.valueOf(sortOrder, SearchSortOrder.up_vote)));
+    }
+
+    @POST
+    @Path(EP_DEBUG)
+    public Response debugSearch(@Context HttpContext ctx,
+                                DebugSearchQuery debugQuery) {
+
+        return ok(toJsonOrDie(elasticSearchDAO.debugSearch(debugQuery)));
     }
 
 }

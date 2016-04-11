@@ -137,6 +137,7 @@ public class TimePoint {
     @Getter @Setter private Byte second;
 
     @Override public String toString () {
+
         StringBuilder b = new StringBuilder(String.valueOf(year));
 
         if (month == null) return b.toString();

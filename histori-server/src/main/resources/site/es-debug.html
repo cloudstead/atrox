@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>histori.city - search debugger</title>
+    <link rel="stylesheet" type="text/css" href="css/histori.css"/>
+    <meta charset="utf-8">
+    <style>
+        body {
+            padding: 50px;
+            overflow: scroll;
+        }
+    </style>
+</head>
+<body>
+
+    <h3>histori.city Search Debugger</h3>
+    <hr/>
+    <br/>
+    <div class="authError"></div>
+    <form name="debug_search" onsubmit="clearErrors(); Histori.search(this.elements, successfulRemoval, formError); return false;" method="post">
+        <table border="0">
+            <tbody>
+            <tr>
+                <td>nickname:</td>
+                <td><input type="text" name="name"/></td>
+            </tr>
+            <tr>
+                <td>email:</td>
+                <td><input type="text" name="email"/></td>
+            </tr>
+            <tr>
+                <td>password:</td>
+                <td><input type="password" name="password"/></td>
+            </tr>
+            <tr><td>&nbsp;</td></tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="delete my account and everything associated with it"/>
+                    <br/><br/>
+                    <button onclick="location.replace('/');">cancel</button>
+                    <br/><br/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" id="recaptchaContainer" height="500">
+                    <iframe frameborder="0" id="captcha_iframe" src="signup.html" scrolling="yes" height="100%" width="100%"></iframe>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+</body>
+<script src="js/jquery.js"></script>
+<script src="js/histori/api.js"></script>
+<script src="js/histori/histori.js"></script>
+<script>
+    $(function () {
+    });
+</script>
+</html>

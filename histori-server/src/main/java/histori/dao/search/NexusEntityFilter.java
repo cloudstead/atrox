@@ -24,6 +24,8 @@ public class NexusEntityFilter implements EntityFilter<NexusView> {
     private static final long FILTER_CACHE_TIMEOUT_SECONDS = TimeUnit.MINUTES.toSeconds(1);
 
     @Getter private final RedisService filterCache;
+    public boolean hasFilterCache () { return filterCache != null; }
+
     @Getter private final TagDAO tagDAO;
     @Getter private final TagTypeDAO tagTypeDAO;
     private final String queryHash;
@@ -52,22 +54,13 @@ public class NexusEntityFilter implements EntityFilter<NexusView> {
         if (terms.size() == 1 && terms.first().equals("*")) return true; // now a single '*' matches everything
 
         final String cacheKey = nexus.getUuid() + ":query:" + queryHash;
-        String cached = null;
-        try {
-            cached = getFilterCache().get(cacheKey);
-        } catch (Exception e) {
-            log.error("Error reading from NexusEntityFilter query cache: " + e);
-        }
+        String cached = getCached(cacheKey);
 
         if (!empty(cached)) return Boolean.valueOf(cached);
 
         boolean match = isMatch(nexus);
 
-        try {
-            getFilterCache().set(cacheKey, String.valueOf(match), "EX", FILTER_CACHE_TIMEOUT_SECONDS);
-        } catch (Exception e) {
-            log.error("Error writing to NexusEntityFilter query cache: " + e);
-        }
+        setCacheKey(cacheKey, match);
 
         return match;
     }
@@ -77,12 +70,7 @@ public class NexusEntityFilter implements EntityFilter<NexusView> {
         // must match on all search terms
         for (NexusQueryTerm term : terms) {
             final String cacheKey = nexus.getUuid() + ":term:" + sha256_hex(term.toString());
-            String cached = null;
-            try {
-                cached = getFilterCache().get(cacheKey);
-            } catch (Exception e) {
-                log.error("Error reading from NexusEntityFilter query-term cache: " + e);
-            }
+            String cached = getCached(cacheKey);
 
             if (!empty(cached)) {
                 boolean match = Boolean.valueOf(cached);
@@ -98,17 +86,32 @@ public class NexusEntityFilter implements EntityFilter<NexusView> {
         return true;
     }
 
-    private void setCacheKey(String cacheKey, boolean match) {
+    private String getCached(String cacheKey) {
+        if (!hasFilterCache()) return null;
         try {
-            getFilterCache().set(cacheKey, String.valueOf(match), "EX", FILTER_CACHE_TIMEOUT_SECONDS);
+            return getFilterCache().get(cacheKey);
         } catch (Exception e) {
-            log.error("Error writing to NexusEntityFilter query-term cache: " + e);
+            log.error("Error reading from NexusEntityFilter query cache: " + e);
+            return null;
+        }
+    }
+
+    private void setCacheKey(String cacheKey, Boolean match) {
+        if (hasFilterCache()) {
+            try {
+                getFilterCache().set(cacheKey, match.toString(), "EX", FILTER_CACHE_TIMEOUT_SECONDS);
+            } catch (Exception e) {
+                log.error("Error writing to NexusEntityFilter query-term cache: " + e);
+            }
         }
     }
 
     protected boolean matchTerm(NexusView nexus, NexusQueryTerm term) {
 
         // name match is fuzzy
+        if (nexus.getCanonicalName().equals("battle-of-waterloo")) {
+            log.info("this should match");
+        }
         if (matchField(NexusQueryTerm.FIELD_NAME, nexus.getName(), term)) return true;
 
         // type match must be exact (ignoring case)

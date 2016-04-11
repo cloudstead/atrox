@@ -10,7 +10,10 @@ import org.cobbzilla.wizard.dao.SearchResults;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+
+import static histori.ApiConstants.MAX_SEARCH_RESULTS;
+import static histori.ApiConstants.DEFAULT_SEARCH_TIMEOUT;
+import static histori.ApiConstants.MAX_SEARCH_TIMEOUT;
 
 @Slf4j
 public class NexusSummarySearchJob implements Runnable {
@@ -52,7 +55,7 @@ public class NexusSummarySearchJob implements Runnable {
     public void run () {
         try {
             final NexusEntityFilter entityFilter = new NexusEntityFilter(searchQuery.getQuery(),
-                                                                         summaryDAO.getFilterCache(),
+                                                                         searchQuery.isUseCache() ? summaryDAO.getFilterCache() : null,
                                                                          summaryDAO.getTagDAO(),
                                                                          summaryDAO.getTagTypeDAO());
 
@@ -60,10 +63,12 @@ public class NexusSummarySearchJob implements Runnable {
                                                   summaryDAO.getNexusDAO(),
                                                   searchQuery,
                                                   entityFilter,
-                                                  NexusSummaryDAO.MAX_SEARCH_RESULTS);
+                                                  MAX_SEARCH_RESULTS);
 
             final SuperNexusSummaryShardSearch search = new SuperNexusSummaryShardSearch(account, searchQuery, nexusResults);
-            search.setTimeout(TimeUnit.SECONDS.toMillis(30));
+
+            long timeout = Math.min(MAX_SEARCH_TIMEOUT, searchQuery.hasTimeout() ? searchQuery.getTimeout() : DEFAULT_SEARCH_TIMEOUT);
+            search.setTimeout(timeout);
 
             List<NexusSummary> searchResults = summaryDAO.getSuperNexusDAO().search(search);
 

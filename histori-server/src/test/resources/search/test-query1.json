@@ -1,0 +1,51 @@
+{
+  "bool" : {
+    "should" : {
+      "bool" : {
+        "should" : [ {
+          "common" : {
+            "name" : {
+              "query" : "Canada"
+            }
+          }
+        }, {
+          "common" : {
+            "canonicalName" : {
+              "query" : "Canada"
+            }
+          }
+        }, {
+          "common" : {
+            "nexusType" : {
+              "query" : "Canada"
+            }
+          }
+        }, {
+          "common" : {
+            "tags.tagType" : {
+              "query" : "Canada"
+            }
+          }
+        }, {
+          "common" : {
+            "tags.tagName" : {
+              "query" : "Canada"
+            }
+          }
+        }, {
+          "common" : {
+            "tags.values.field" : {
+              "query" : "Canada"
+            }
+          }
+        }, {
+          "common" : {
+            "tags.values.value" : {
+              "query" : "Canada"
+            }
+          }
+        } ]
+      }
+    }
+  }
+}

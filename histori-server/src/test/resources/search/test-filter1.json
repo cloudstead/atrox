@@ -1,0 +1,59 @@
+{
+    "bool" : {
+      "must" : [ {
+        "bool" : {
+          "should" : [ {
+            "range" : {
+              "timeRange.startPoint.dateInstant" : {
+                "from" : 15000000,
+                "to" : 20160000,
+                "include_lower" : true,
+                "include_upper" : true
+              }
+            }
+          }, {
+            "range" : {
+              "timeRange.endPoint.dateInstant" : {
+                "from" : 15000000,
+                "to" : 20160000,
+                "include_lower" : true,
+                "include_upper" : true
+              }
+            }
+          } ]
+        }
+      }, {
+        "bool" : {
+          "should" : [ {
+            "geo_bbox" : {
+              "bounds.topLeft" : {
+                "top_left" : [ -146.7333984375, 70.72383481784935 ],
+                "bottom_right" : [ -20.1708984375, 32.90340043220847 ]
+              }
+            }
+          }, {
+            "geo_bbox" : {
+              "bounds.topRight" : {
+                "top_left" : [ -146.7333984375, 70.72383481784935 ],
+                "bottom_right" : [ -20.1708984375, 32.90340043220847 ]
+              }
+            }
+          }, {
+            "geo_bbox" : {
+              "bounds.bottomLeft" : {
+                "top_left" : [ -146.7333984375, 70.72383481784935 ],
+                "bottom_right" : [ -20.1708984375, 32.90340043220847 ]
+              }
+            }
+          }, {
+            "geo_bbox" : {
+              "bounds.bottomRight" : {
+                "top_left" : [ -146.7333984375, 70.72383481784935 ],
+                "bottom_right" : [ -20.1708984375, 32.90340043220847 ]
+              }
+            }
+          } ]
+        }
+      } ]
+    }
+}

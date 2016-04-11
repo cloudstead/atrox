@@ -1,5 +1,6 @@
 package histori.dao;
 
+import histori.ApiConstants;
 import histori.dao.search.CachedSearchResults;
 import histori.dao.search.NexusEntityFilter;
 import histori.dao.search.NexusSearchResults;
@@ -21,7 +22,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.daemon.ZillaRuntime.now;
@@ -31,13 +31,7 @@ import static org.cobbzilla.wizard.resources.ResourceUtil.unavailableEx;
 @Repository @Slf4j
 public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
 
-    // todo: allow higher result limits and timeout
-    public static final int MAX_SEARCH_RESULTS = 100;
-
     public static final SearchResults<NexusSummary> NO_RESULTS = new SearchResults<>();
-
-    private static final long SEARCH_CACHE_EXPIRATION = TimeUnit.MINUTES.toMillis(30);
-    private static final int MAX_CONCURRENT_SEARCHES = 10;
 
     @Autowired @Getter private NexusDAO nexusDAO;
     @Autowired @Getter private SuperNexusDAO superNexusDAO;
@@ -53,7 +47,7 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
     private RedisService initNexusSummaryCache() { return redisService.prefixNamespace("nexus-summary-cache:", null); }
 
     private final Map<String, CachedSearchResults> searchCache = new ConcurrentHashMap<>();
-    private final Map<String, NexusSummarySearchJob> activeSearches = new ConcurrentHashMap<>(MAX_CONCURRENT_SEARCHES);
+    private final Map<String, NexusSummarySearchJob> activeSearches = new ConcurrentHashMap<>(ApiConstants.MAX_CONCURRENT_SEARCHES);
 
     /**
      * Find NexusSummaries within the provided range and region
@@ -71,14 +65,14 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
 
         CachedSearchResults cached;
         cached = searchCache.get(cacheKey);
-        if (cached == null || cached.getAge() > SEARCH_CACHE_EXPIRATION) {
+        if (cached == null || cached.getAge() > ApiConstants.SEARCH_CACHE_EXPIRATION) {
             synchronized (searchCache) {
                 cached = searchCache.get(cacheKey);
-                if (cached == null || cached.getAge() > SEARCH_CACHE_EXPIRATION) {
+                if (cached == null || cached.getAge() > ApiConstants.SEARCH_CACHE_EXPIRATION) {
 
                     // can we even start a brand new search? we might be too busy...
                     synchronized (activeSearches) {
-                        if (activeSearches.size() >= MAX_CONCURRENT_SEARCHES) throw unavailableEx();
+                        if (activeSearches.size() >= ApiConstants.MAX_CONCURRENT_SEARCHES) throw unavailableEx();
 
                         cached = new CachedSearchResults();
                         searchCache.put(cacheKey, cached);

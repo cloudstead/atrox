@@ -28,10 +28,18 @@ public class SearchQuery extends IdentifiableBase {
 
     public SearchQuery (SearchQuery other) { copy(this, other); setUuid(null); }
 
+    @Getter @Setter private boolean useCache = true;
+
+    @Enumerated(STRING)
+    @Column(length=10, updatable=false)
+    @Getter @Setter private QueryBackend backend;
+    public boolean hasBackend () { return backend != null; }
+
+    @Getter @Setter private Long timeout;
+    public boolean hasTimeout () { return timeout != null; }
+
     @Column(length=1024, updatable=false)
     @Getter @Setter private String query;
-
-    @Getter @Setter private boolean useCache = true;
 
     @Embedded @Getter @Setter private TimeRange timeRange;
     public SearchQuery setRange(String from, String to) {
@@ -49,6 +57,7 @@ public class SearchQuery extends IdentifiableBase {
 
     @Enumerated(value=STRING)
     @Getter @Setter private EntityVisibility visibility;
+    public boolean hasVisibility () { return visibility != null; }
 
     @Enumerated(value=STRING)
     @Getter @Setter private SearchSortOrder summarySortOrder = SearchSortOrder.vote_tally;

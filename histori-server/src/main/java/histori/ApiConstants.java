@@ -3,6 +3,8 @@ package histori;
 import histori.model.SocialEntity;
 import org.apache.commons.lang3.RandomStringUtils;
 
+import java.util.concurrent.TimeUnit;
+
 import static org.cobbzilla.util.daemon.ZillaRuntime.now;
 
 public class ApiConstants {
@@ -55,6 +57,7 @@ public class ApiConstants {
     // search endpoints
     public static final String EP_QUERY = "/q";
     public static final String EP_NEXUS = "/n";
+    public static final String EP_DEBUG = "/debug";
 
     // tag endpoints and query params
     public static final String EP_TAG = "/tag";
@@ -72,6 +75,13 @@ public class ApiConstants {
     public static final String EP_UPVOTE = "/up";
     public static final String EP_DOWNVOTE = "/down";
     public static final String EP_SUMMARY = "/summary";
+
+    // search constants
+    public static final int MAX_SEARCH_RESULTS = 100;     // todo: allow higher result limits and timeout
+    public static final int MAX_CONCURRENT_SEARCHES = 10; // todo: make this configurable
+    public static final long SEARCH_CACHE_EXPIRATION = TimeUnit.MINUTES.toMillis(30);
+    public static final long DEFAULT_SEARCH_TIMEOUT  = TimeUnit.SECONDS.toMillis(30);
+    public static final long MAX_SEARCH_TIMEOUT      = TimeUnit.MINUTES.toMillis(10);
 
     public static String anonymousEmail() {
         return ANONYMOUS_EMAIL.replace("#STAMP#", RandomStringUtils.randomAlphanumeric(10)+"-"+now());

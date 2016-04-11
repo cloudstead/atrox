@@ -345,14 +345,14 @@ function buildSearchRow (color) {
     var searchButtonCell = $('<td align="center"></td>').append(searchButton);
     row.append(searchButtonCell);
 
-    var removeRowButton = $('<button class="removeMarkerButton" ></button>');
+    var removeRowButton = $('<button id="removeMarkerButton_'+ id+'" class="removeMarkerButton" ></button>');
     var removeRowIcon = $('<img id="removeMarkerIcon_'+ id+'" class="removeMarkerIcon" src="iconic/png/x.png"/>');
     removeRowButton.css({
         position: 'relative',
         top: '7px',
         left: '-20px'
     });
-    removeRowIcon.click(function (e) {
+    removeRowButton.on('click', function (e) {
         var id = searchRowIdFromOtherId(e.target.id);
         $('#row_'+id).remove();
         remove_markers(id);

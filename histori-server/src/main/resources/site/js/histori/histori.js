@@ -57,6 +57,18 @@ function is_array (x) {
     return Object.prototype.toString.call( x ) === '[object Array]'
 }
 
+function to_bool (val) {
+    if (typeof val == "undefined" || val == null) {
+        return null;
+    } else if (val === 'false' || val === 'f') {
+        return false;
+    } else if (val === 'true' || val === 't') {
+        return true;
+    } else {
+        return null;
+    }
+}
+
 function isAnonymous() {
     return (get_token() == NO_TOKEN || ((typeof Histori.account() == 'undefined') || (typeof Histori.account().email == 'undefined' || Histori.account().anonymous)));
 }

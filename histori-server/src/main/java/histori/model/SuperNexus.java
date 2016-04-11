@@ -1,5 +1,6 @@
 package histori.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import histori.model.cache.VoteSummary;
 import histori.model.support.EntityVisibility;
 import histori.model.support.GeoBounds;
@@ -53,6 +54,10 @@ public class SuperNexus extends IdentifiableBase implements NexusView, Shardable
     @Column(nullable=false, length=20)
     @Enumerated(EnumType.STRING)
     @Getter @Setter private EntityVisibility visibility = EntityVisibility.everyone;
+
+    // only for completeness with NexusView. always empty for a SuperNexus
+    @Transient @JsonIgnore @Getter @Setter private String markdown;
+    public boolean hasMarkdown () { return false; }
 
     // set to true in SuperNexusDAO when a Nexus has been deleted (we don't know how to shrink the geo/time)
     @Getter @Setter private boolean dirty = false;

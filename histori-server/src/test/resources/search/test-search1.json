@@ -1,0 +1,114 @@
+{
+  "from" : 0,
+  "size" : 200,
+  "query" : {
+    "bool" : {
+      "should" : {
+        "bool" : {
+          "should" : [ {
+            "common" : {
+              "name" : {
+                "query" : "Canada"
+              }
+            }
+          }, {
+            "common" : {
+              "canonicalName" : {
+                "query" : "Canada"
+              }
+            }
+          }, {
+            "common" : {
+              "nexusType" : {
+                "query" : "Canada"
+              }
+            }
+          }, {
+            "common" : {
+              "tags.tagType" : {
+                "query" : "Canada"
+              }
+            }
+          }, {
+            "common" : {
+              "tags.tagName" : {
+                "query" : "Canada"
+              }
+            }
+          }, {
+            "common" : {
+              "tags.values.field" : {
+                "query" : "Canada"
+              }
+            }
+          }, {
+            "common" : {
+              "tags.values.value" : {
+                "query" : "Canada"
+              }
+            }
+          } ]
+        }
+      }
+    }
+  },
+  "post_filter" : {
+    "bool" : {
+      "must" : [ {
+        "bool" : {
+          "should" : [ {
+            "range" : {
+              "timeRange.startPoint.dateInstant" : {
+                "from" : 15000000,
+                "to" : 20160000,
+                "include_lower" : true,
+                "include_upper" : true
+              }
+            }
+          }, {
+            "range" : {
+              "timeRange.endPoint.dateInstant" : {
+                "from" : 15000000,
+                "to" : 20160000,
+                "include_lower" : true,
+                "include_upper" : true
+              }
+            }
+          } ]
+        }
+      }, {
+        "bool" : {
+          "should" : [ {
+            "geo_bbox" : {
+              "bounds.topLeft" : {
+                "top_left" : [ -113.115234375, 51.499040722856115 ],
+                "bottom_right" : [ -49.833984375, 25.98354011412641 ]
+              }
+            }
+          }, {
+            "geo_bbox" : {
+              "bounds.topRight" : {
+                "top_left" : [ -113.115234375, 51.499040722856115 ],
+                "bottom_right" : [ -49.833984375, 25.98354011412641 ]
+              }
+            }
+          }, {
+            "geo_bbox" : {
+              "bounds.bottomLeft" : {
+                "top_left" : [ -113.115234375, 51.499040722856115 ],
+                "bottom_right" : [ -49.833984375, 25.98354011412641 ]
+              }
+            }
+          }, {
+            "geo_bbox" : {
+              "bounds.bottomRight" : {
+                "top_left" : [ -113.115234375, 51.499040722856115 ],
+                "bottom_right" : [ -49.833984375, 25.98354011412641 ]
+              }
+            }
+          } ]
+        }
+      } ]
+    }
+  }
+}
