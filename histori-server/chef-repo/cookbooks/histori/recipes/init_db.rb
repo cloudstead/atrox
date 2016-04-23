@@ -38,7 +38,7 @@ env = histori_bag['environment']
 dbpass = env['HISTORI_DB_PASS']
 db_count = histori_bag['db_count']
 
-pgsql.create_user self, dbuser, env['HISTORI_DB_PASS']
+pgsql.create_user self, dbuser, dbpass
 
 # use with extreme caution
 if histori_bag['reinit_database'] && histori_bag['reinit_database'] == 'true'
