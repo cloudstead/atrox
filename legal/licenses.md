@@ -259,3 +259,7 @@ The following third-party software is used by histori.city, in accordance with t
 # Apache Boilerplate Configuration
   * Site: [https://github.com/h5bp/html5-boilerplate](https://github.com/h5bp/html5-boilerplate)
   * License: [https://github.com/h5bp/html5-boilerplate/blob/master/LICENSE.txt](https://github.com/h5bp/html5-boilerplate/blob/master/LICENSE.txt)
+
+# JSONB support for PostgreSQL + Hibernate
+  * Site: [https://stackoverflow.com/a/16049086/1251543](https://stackoverflow.com/a/16049086/1251543)
+  * License: [https://stackoverflow.com/help/licensing](https://stackoverflow.com/help/licensing)

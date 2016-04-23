@@ -63,11 +63,12 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
         final String accountKey = (account != null && searchQuery.getVisibility() != EntityVisibility.everyone) ? account.getUuid() : "public";
         final String cacheKey = accountKey + ":" +searchQuery.hashCode();
 
+        final boolean useCache = searchQuery.isUseCache();
         CachedSearchResults cached;
-        cached = searchCache.get(cacheKey);
+        cached = useCache ? searchCache.get(cacheKey) : null;
         if (cached == null || cached.getAge() > ApiConstants.SEARCH_CACHE_EXPIRATION) {
             synchronized (searchCache) {
-                cached = searchCache.get(cacheKey);
+                cached = useCache ? searchCache.get(cacheKey) : null;
                 if (cached == null || cached.getAge() > ApiConstants.SEARCH_CACHE_EXPIRATION) {
 
                     // can we even start a brand new search? we might be too busy...
@@ -75,7 +76,9 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
                         if (activeSearches.size() >= ApiConstants.MAX_CONCURRENT_SEARCHES) throw unavailableEx();
 
                         cached = new CachedSearchResults();
-                        searchCache.put(cacheKey, cached);
+                        if (useCache) {
+                            searchCache.put(cacheKey, cached);
+                        }
 
                         final NexusSummarySearchJob job = new NexusSummarySearchJob(this, account, searchQuery, cacheKey, cached, searchCache, activeSearches);
                         activeSearches.put(cacheKey, job);

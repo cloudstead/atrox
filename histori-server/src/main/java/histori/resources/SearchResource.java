@@ -4,10 +4,8 @@ import com.sun.jersey.api.core.HttpContext;
 import histori.dao.NexusDAO;
 import histori.dao.NexusSummaryDAO;
 import histori.dao.SearchQueryDAO;
-import histori.dao.search.ElasticSearchDAO;
 import histori.model.Account;
 import histori.model.Nexus;
-import histori.model.QueryBackend;
 import histori.model.SearchQuery;
 import histori.model.support.EntityVisibility;
 import histori.model.support.NexusSummary;
@@ -15,7 +13,6 @@ import histori.model.support.SearchSortOrder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.wizard.cache.redis.RedisService;
-import org.cobbzilla.wizard.dao.DebugSearchQuery;
 import org.cobbzilla.wizard.dao.SearchResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +30,6 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.daemon.ZillaRuntime.now;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJson;
-import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
 import static org.cobbzilla.util.string.StringUtil.EMPTY_ARRAY;
 import static org.cobbzilla.util.string.StringUtil.formatDurationFrom;
 import static org.cobbzilla.wizard.resources.ResourceUtil.*;
@@ -48,7 +44,6 @@ public class SearchResource {
     @Autowired private NexusDAO nexusDAO;
     @Autowired private SearchQueryDAO searchQueryDAO;
     @Autowired private RedisService redisService;
-    @Autowired private ElasticSearchDAO elasticSearchDAO;
 
     private static final long SEARCH_CACHE_TIMEOUT_SECONDS = TimeUnit.MINUTES.toSeconds(1);
 
@@ -80,8 +75,7 @@ public class SearchResource {
                            @QueryParam("q") String query,
                            @QueryParam("v") String visibility,
                            @QueryParam("c") String useCache,
-                           @QueryParam("t") long timeout,
-                           @QueryParam("qb") String backend) {
+                           @QueryParam("t") long timeout) {
 
         final Account account = optionalUserPrincipal(ctx);
 
@@ -91,8 +85,7 @@ public class SearchResource {
                 .setUseCache(empty(useCache) || !useCache.equalsIgnoreCase("false"))
                 .setRange(from, to)
                 .setBounds(north, south, east, west)
-                .setTimeout(timeout)
-                .setBackend(QueryBackend.create(backend));
+                .setTimeout(timeout);
 
         // it must pass validation and be anonymously recorded in order to proceed
         searchQueryDAO.create(new SearchQuery(q));
@@ -122,20 +115,7 @@ public class SearchResource {
         if (results == null) {
             log.info("STARTING FULL search("+searchQuery.getQuery()+")...");
             try {
-                if (searchQuery.hasBackend()) {
-                    switch (searchQuery.getBackend()) {
-                        case es: default:
-                            results = elasticSearchDAO.search(searchQuery);
-                            break;
-                        case pg:
-                            results = nexusSummaryDAO.search(account, searchQuery);
-                            break;
-                    }
-                } else if (isPublic) {
-                    results = elasticSearchDAO.search(searchQuery);
-                } else {
-                    results = nexusSummaryDAO.search(account, searchQuery);
-                }
+                results = nexusSummaryDAO.search(account, searchQuery);
             } catch (Exception e) {
                 log.error("Error searching ("+searchQuery.getQuery()+", duration "+formatDurationFrom(start)+"): "+e);
                 return serverError();
@@ -168,14 +148,6 @@ public class SearchResource {
             return ok(summary);
         }
         return ok(nexusSummaryDAO.search(account, nexus, SearchSortOrder.valueOf(sortOrder, SearchSortOrder.up_vote)));
-    }
-
-    @POST
-    @Path(EP_DEBUG)
-    public Response debugSearch(@Context HttpContext ctx,
-                                DebugSearchQuery debugQuery) {
-
-        return ok(toJsonOrDie(elasticSearchDAO.debugSearch(debugQuery)));
     }
 
 }

@@ -1,7 +1,6 @@
 package histori.dao;
 
 import histori.dao.archive.NexusArchiveDAO;
-import histori.dao.search.ElasticSearchDAO;
 import histori.dao.search.NexusSearchResults;
 import histori.dao.shard.NexusShardDAO;
 import histori.model.Account;
@@ -35,7 +34,6 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
     @Autowired @Getter @Setter private SuperNexusDAO superNexusDAO;
     @Autowired @Getter @Setter private TagDAO tagDAO;
     @Autowired @Getter @Setter private RedisService redisService;
-    @Autowired @Getter @Setter private ElasticSearchDAO elasticSearchDAO;
 
     @Getter(lazy=true) private final RedisService nexusCache = initNexusCache();
     private RedisService initNexusCache() { return redisService.prefixNamespace("nexus-cache:", null); }
@@ -111,12 +109,7 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
         tagDAO.updateTags(nexus);
         // todo: when we have multiple API servers, we'll need to broadcast this to all API servers...
         NexusSearchResults.removeFromCache(nexus.getCanonicalName());
-
-        // refresh elasticsearch
-        if (nexus.isAuthoritative()) reindex(nexus);
     }
-
-    public void reindex(Nexus nexus) { elasticSearchDAO.index(nexus); }
 
     public Nexus findByOwnerAndName(Account account, String name) {
         return findByUniqueFieldsNoCache("owner", account.getUuid(), "canonicalName", canonicalize(name));

@@ -30,11 +30,6 @@ public class SearchQuery extends IdentifiableBase {
 
     @Getter @Setter private boolean useCache = true;
 
-    @Enumerated(STRING)
-    @Column(length=10, updatable=false)
-    @Getter @Setter private QueryBackend backend;
-    public boolean hasBackend () { return backend != null; }
-
     @Getter @Setter private Long timeout;
     public boolean hasTimeout () { return timeout != null; }
 

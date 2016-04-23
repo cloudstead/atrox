@@ -18,6 +18,7 @@ import org.geojson.GeoJsonObject;
 import org.geojson.Geometry;
 import org.geojson.LngLatAlt;
 import org.geojson.Point;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -34,6 +35,7 @@ import static org.cobbzilla.util.json.JsonUtil.fromJsonOrDie;
 import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
 import static org.cobbzilla.util.string.StringUtil.hasScripting;
 import static org.cobbzilla.util.system.Bytes.MB;
+import static org.cobbzilla.wizard.model.json.StringJsonUserType.JSONB_TYPE;
 import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
 
 @MappedSuperclass @Accessors(chain=true) @ToString(of="name") @Slf4j
@@ -170,7 +172,8 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
 
     // note that this field is updated by NexusTags, whenever the collection changes via add/set/remove/etc
     @Column(length=(int)(MB)) // 1 megabyte should be enough... famous last words, right? we can always expand, or go to a document store
-    @JsonIgnore @Getter @Setter private String tagsJson;
+    @JsonIgnore @Type(type=JSONB_TYPE)
+    @Getter @Setter private String tagsJson;
 
     @Transient private NexusTags tags = null;
 

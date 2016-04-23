@@ -21,7 +21,8 @@ database:
     entityPackages:
     - histori.model
     - org.cobbzilla.wizard.model.crypto   # for encrypted column support
-    dialect: org.hibernate.dialect.PostgreSQLDialect
+    - org.cobbzilla.wizard.model.json     # for JSONB column support
+    dialect: org.cobbzilla.wizard.model.json.JsonPostgreSQLDialect
     showSql: true
     hbm2ddlAuto: create
     validationMode: ddl

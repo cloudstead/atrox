@@ -47,8 +47,6 @@ public class HistoriConfiguration extends RestServerConfiguration
         return redis;
     }
 
-    @Getter @Setter private ElasticSearchConfig elasticSearch = new ElasticSearchConfig();
-
     @Getter @Setter private SmtpMailConfig smtp;
     @Getter @Setter private Map<String, SimpleEmailMessage> emailSenderNames = new HashMap<>();
     @Getter @Setter private String emailTemplateRoot;

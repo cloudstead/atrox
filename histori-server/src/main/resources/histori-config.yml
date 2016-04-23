@@ -20,7 +20,8 @@ database:
     entityPackages:
     - histori.model
     - org.cobbzilla.wizard.model.crypto   # for encrypted column support
-    dialect: org.hibernate.dialect.PostgreSQLDialect
+    - org.cobbzilla.wizard.model.json     # for JSONB column support
+    dialect: org.cobbzilla.wizard.model.json.JsonPostgreSQLDialect
     showSql: false
     hbm2ddlAuto: validate
     validationMode: ddl
@@ -90,19 +91,6 @@ smtp:
 redis:
   key: '{{HISTORI_REDIS_ENCRYPTION_KEY}}'
   prefix: histori
-
-elasticSearch:
-  cluster: {{HISTORI_ELASTIC_SEARCH_CLUSTER}}
-  servers:
-  # it's OK if some of these are empty. as long as there's one
-    - {{HISTORI_ELASTIC_SEARCH_SERVER_0}}
-    - {{HISTORI_ELASTIC_SEARCH_SERVER_1}}
-    - {{HISTORI_ELASTIC_SEARCH_SERVER_2}}
-    - {{HISTORI_ELASTIC_SEARCH_SERVER_3}}
-    - {{HISTORI_ELASTIC_SEARCH_SERVER_4}}
-    - {{HISTORI_ELASTIC_SEARCH_SERVER_5}}
-    - {{HISTORI_ELASTIC_SEARCH_SERVER_6}}
-    - {{HISTORI_ELASTIC_SEARCH_SERVER_7}}
 
 assetStorage:
   type: s3
