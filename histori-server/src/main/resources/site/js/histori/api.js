@@ -1,3 +1,4 @@
+// from https://stackoverflow.com/a/105074/1251543
 function guid() {
     function s4() {
         return Math.floor((1 + Math.random()) * 0x10000)
