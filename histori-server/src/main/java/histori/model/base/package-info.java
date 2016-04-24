@@ -2,9 +2,6 @@
         @TypeDef(name = NexusTags.JSONB_TYPE,
                 typeClass = JSONBUserType.class,
                 parameters = {@Parameter(name=JSONBUserType.PARAM_CLASS, value="histori.model.base.NexusTags")})
-//        @TypeDef(name = JSONBUserType.JSONB_TYPE,
-//                typeClass = JSONBUserType.class,
-//                parameters = {@Parameter(name=JSONBUserType.PARAM_CLASS, value="histori.model.base.NexusTags")})
 })
 
 package histori.model.base;
