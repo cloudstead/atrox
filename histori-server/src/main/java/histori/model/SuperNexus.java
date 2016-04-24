@@ -1,6 +1,7 @@
 package histori.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import histori.model.base.NexusTags;
 import histori.model.cache.VoteSummary;
 import histori.model.support.EntityVisibility;
 import histori.model.support.GeoBounds;
@@ -14,8 +15,6 @@ import org.cobbzilla.wizard.model.shard.Shardable;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-
-import java.util.List;
 
 import static histori.ApiConstants.NAME_MAXLEN;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
@@ -95,6 +94,6 @@ public class SuperNexus extends IdentifiableBase implements NexusView, Shardable
     @Override public boolean hasNexusType() { return false; }
     @Override public String getNexusType() { return null; }
     @Override public boolean hasTags() { return false; }
-    @Override public List<NexusTag> getTags() { return null; }
+    @Override public NexusTags getTags() { return null; }
 
 }

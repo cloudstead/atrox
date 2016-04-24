@@ -1,6 +1,7 @@
 package histori.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import histori.model.base.NexusTags;
 import histori.model.tag_schema.TagSchemaValue;
 import lombok.Getter;
 import lombok.Setter;
@@ -75,7 +76,7 @@ public class NexusTag extends IdentifiableBase implements Comparable<NexusTag> {
 
     @JsonIgnore @Transient public String getSchemaHash() { return getSchemaValueMap().getHash(); }
 
-    public static List<NexusTag> filterByType(List<NexusTag> tags, String type) {
+    public static List<NexusTag> filterByType(NexusTags tags, String type) {
         final List<NexusTag> found = new ArrayList<>();
         if (!empty(tags)) {
             for (NexusTag tag : tags) {

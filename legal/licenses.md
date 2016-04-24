@@ -263,3 +263,7 @@ The following third-party software is used by histori.city, in accordance with t
 # JSONB support for PostgreSQL + Hibernate
   * Site: [https://stackoverflow.com/a/16049086/1251543](https://stackoverflow.com/a/16049086/1251543)
   * License: [https://stackoverflow.com/help/licensing](https://stackoverflow.com/help/licensing)
+
+# JSONB support for PostgreSQL + Hibernate
+  * Site: [https://github.com/pires/hibernate-postgres-jsonb](https://github.com/pires/hibernate-postgres-jsonb)
+  * License: [https://raw.githubusercontent.com/pires/hibernate-postgres-jsonb/master/LICENSE](https://raw.githubusercontent.com/pires/hibernate-postgres-jsonb/master/LICENSE)

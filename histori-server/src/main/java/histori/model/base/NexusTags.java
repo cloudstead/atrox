@@ -3,8 +3,12 @@ package histori.model.base;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.emory.mathcs.backport.java.util.Arrays;
 import histori.model.NexusTag;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.cobbzilla.util.collection.MapBuilder;
 import org.cobbzilla.util.collection.mappy.MappySortedSet;
+import org.cobbzilla.wizard.model.json.JSONBUserType;
 
 import javax.persistence.Transient;
 import java.util.*;
@@ -12,91 +16,23 @@ import java.util.*;
 import static histori.model.CanonicalEntity.canonicalize;
 import static histori.model.TagType.EVENT_TYPE;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
-import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
 
-public class NexusTags extends ArrayList<NexusTag> {
+@NoArgsConstructor
+public class NexusTags implements Iterable<NexusTag> {
 
-    @JsonIgnore private NexusBase nexus;
+    public static final String JSONB_TYPE = JSONBUserType.JSONB_TYPE+"_NexusTagsType";
 
-    public NexusTags(NexusBase nexus) { this.nexus = nexus; }
+    @Getter @Setter private ArrayList<NexusTag> tags = new ArrayList<>();
 
-    public NexusTags(NexusBase nexus, NexusTag[] nexusTags) {
-        this(nexus);
-        addAll(Arrays.asList(nexusTags));
-    }
+    @JsonIgnore public boolean isEmpty () { return tags.isEmpty(); }
+    public int size() { return tags.size(); }
+    public NexusTag get(int i) { return tags.get(i); }
 
-    public NexusTags(NexusBase nexus, List<NexusTag> tags) {
-        this(nexus);
-        addAll(tags);
-    }
+    @Override public Iterator<NexusTag> iterator() { return tags.iterator(); }
 
-    @Override public NexusTag set(int index, NexusTag element) {
-        final NexusTag rval = super.set(index, element);
-        nexus.setTagsJson(toJsonOrDie(this));
-        return rval;
-    }
+    public NexusTags(NexusTag[] nexusTags) { tags.addAll((Collection<NexusTag>) Arrays.asList(nexusTags)); }
 
-    @Override public boolean add(NexusTag nexusTag) {
-        final boolean rval = super.add(nexusTag);
-        nexus.setTagsJson(toJsonOrDie(this));
-        return rval;
-    }
-
-    @Override public void add(int index, NexusTag element) {
-        super.add(index, element);
-        nexus.setTagsJson(toJsonOrDie(this));
-    }
-
-    @Override public NexusTag remove(int index) {
-        final NexusTag rval = super.remove(index);
-        nexus.setTagsJson(toJsonOrDie(this));
-        return rval;
-    }
-
-    @Override public boolean remove(Object o) {
-        final boolean rval = super.remove(o);
-        nexus.setTagsJson(toJsonOrDie(this));
-        return rval;
-    }
-
-    @Override public void clear() {
-        super.clear();
-        nexus.setTagsJson(toJsonOrDie(this));
-    }
-
-    @Override public boolean addAll(Collection<? extends NexusTag> c) {
-        boolean rval = false;
-        for (NexusTag t : c) {
-            if (empty(t.getCanonicalName())) continue; // cannot add a tag without a name
-            final boolean added = super.add(t);
-            rval = rval || added;
-        }
-        nexus.setTagsJson(toJsonOrDie(this));
-        return rval;
-    }
-
-    @Override public boolean addAll(int index, Collection<? extends NexusTag> c) {
-        final boolean rval = super.addAll(index, c);
-        nexus.setTagsJson(toJsonOrDie(this));
-        return rval;
-    }
-
-    @Override protected void removeRange(int fromIndex, int toIndex) {
-        super.removeRange(fromIndex, toIndex);
-        nexus.setTagsJson(toJsonOrDie(this));
-    }
-
-    @Override public boolean removeAll(Collection<?> c) {
-        final boolean rval = super.removeAll(c);
-        nexus.setTagsJson(toJsonOrDie(this));
-        return rval;
-    }
-
-    @Override public boolean retainAll(Collection<?> c) {
-        final boolean rval = super.retainAll(c);
-        nexus.setTagsJson(toJsonOrDie(this));
-        return rval;
-    }
+    public NexusTags(Collection<NexusTag> tags) { tags.addAll(tags); }
 
     @Override public boolean equals(Object o) {
         return (o instanceof NexusTags) && getTagMap().equals(((NexusTags) o).getTagMap());
@@ -115,7 +51,7 @@ public class NexusTags extends ArrayList<NexusTag> {
             }
             if (tag.isSameTag(existing)) return this; // re-adding an identical tag is OK, just a noop
         }
-        add(tag);
+        tags.add(tag);
         return this;
     }
 
@@ -144,7 +80,7 @@ public class NexusTags extends ArrayList<NexusTag> {
         final List<NexusTag> found = new ArrayList<>();
         if (!isEmpty()) {
             final String canonical = canonicalize(name);
-            for (NexusTag tag : this) {
+            for (NexusTag tag : this.tags) {
                 if (canonicalize(tag.getTagName()).equals(canonical)) found.add(tag);
             }
         }
@@ -155,7 +91,7 @@ public class NexusTags extends ArrayList<NexusTag> {
         final List<NexusTag> found = new ArrayList<>();
         if (!isEmpty()) {
             final String canonical = canonicalize(name);
-            for (NexusTag tag : this) {
+            for (NexusTag tag : this.tags) {
                 if (tag.getTagType().equalsIgnoreCase(tagType) && canonicalize(tag.getTagName()).equals(canonical)) {
                     found.add(tag);
                 }
@@ -167,7 +103,7 @@ public class NexusTags extends ArrayList<NexusTag> {
     public boolean hasTag(String name) {
         if (isEmpty() || empty(name)) return false;
         final String canonical = canonicalize(name);
-        for (NexusTag tag : this) {
+        for (NexusTag tag : this.tags) {
             if (canonicalize(tag.getTagName()).equals(canonical)) return true;
         }
         return false;
@@ -176,18 +112,18 @@ public class NexusTags extends ArrayList<NexusTag> {
     public boolean hasTag(String name, String type) {
         if (isEmpty() || empty(name)) return false;
         final String canonical = canonicalize(name);
-        for (NexusTag tag : this) {
+        for (NexusTag tag : this.tags) {
             if (type != null && (!tag.hasTagType() || !tag.getTagType().equals(type))) continue;
             if (canonicalize(tag.getTagName()).equals(canonical)) return true;
         }
         return false;
     }
 
-    @JsonIgnore @Transient public int getTagCount() { return isEmpty() ? 0 : size(); }
+    @JsonIgnore @Transient public int getTagCount() { return isEmpty() ? 0 : tags.size(); }
 
     public boolean hasExactTag(NexusTag match) {
         if (isEmpty()) return false;
-        for (NexusTag tag : this) {
+        for (NexusTag tag : this.tags) {
             if (!tag.getTagName().equalsIgnoreCase(match.getTagName())) continue;
             if (!tag.getTagType().equalsIgnoreCase(match.getTagType())) continue;
 
@@ -212,14 +148,14 @@ public class NexusTags extends ArrayList<NexusTag> {
     public List<NexusTag> getTagsByType(String type) {
         final List<NexusTag> found = new ArrayList<>();
         if (!isEmpty()) {
-            for (NexusTag tag : this) if (tag.getTagType().equalsIgnoreCase(type)) found.add(tag);
+            for (NexusTag tag : this.tags) if (tag.getTagType().equalsIgnoreCase(type)) found.add(tag);
         }
         return found;
     }
 
     @JsonIgnore @Transient public String getFirstEventType () {
         if (!isEmpty()) {
-            for (NexusTag tag : this) if (tag.hasTagType() && tag.getTagType().equalsIgnoreCase(EVENT_TYPE)) return tag.getTagName();
+            for (NexusTag tag : this.tags) if (tag.hasTagType() && tag.getTagType().equalsIgnoreCase(EVENT_TYPE)) return tag.getTagName();
         }
         return null;
     }
@@ -234,11 +170,10 @@ public class NexusTags extends ArrayList<NexusTag> {
 
     @JsonIgnore @Transient public MappySortedSet<String, NexusTag> getTagMap () {
         final MappySortedSet<String, NexusTag> map = new MappySortedSet<>();
-        for (NexusTag tag : this) {
+        for (NexusTag tag : this.tags) {
             map.put(tag.getCanonicalName(), tag);
         }
         return map;
     }
-
 
 }

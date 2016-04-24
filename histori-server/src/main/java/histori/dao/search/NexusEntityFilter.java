@@ -3,13 +3,13 @@ package histori.dao.search;
 import histori.dao.TagDAO;
 import histori.dao.TagTypeDAO;
 import histori.model.*;
+import histori.model.base.NexusTags;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.string.StringUtil;
 import org.cobbzilla.wizard.cache.redis.RedisService;
 import org.cobbzilla.wizard.dao.EntityFilter;
 
-import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
@@ -124,7 +124,7 @@ public class NexusEntityFilter implements EntityFilter<NexusView> {
         if (!nexus.hasTags()) return false;
 
         // check nexusTags
-        final List<NexusTag> nexusTags = nexus.getTags();
+        final NexusTags nexusTags = nexus.getTags();
         for (NexusTag nexusTag : nexusTags) {
 
             // tag name match is fuzzy

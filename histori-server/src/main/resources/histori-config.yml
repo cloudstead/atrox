@@ -21,7 +21,7 @@ database:
     - histori.model
     - org.cobbzilla.wizard.model.crypto   # for encrypted column support
     - org.cobbzilla.wizard.model.json     # for JSONB column support
-    dialect: org.cobbzilla.wizard.model.json.JsonPostgreSQLDialect
+    dialect: org.cobbzilla.wizard.model.json.JSONBPostgreSQLDialect
     showSql: false
     hbm2ddlAuto: validate
     validationMode: ddl

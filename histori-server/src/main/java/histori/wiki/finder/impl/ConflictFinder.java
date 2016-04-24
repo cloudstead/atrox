@@ -1,13 +1,14 @@
 package histori.wiki.finder.impl;
 
 import histori.model.NexusTag;
+import histori.model.base.NexusTags;
 import histori.model.support.NexusRequest;
 import histori.model.support.RelationshipType;
 import histori.model.support.RoleType;
-import histori.wiki.finder.InfoboxNames;
 import histori.wiki.WikiNode;
 import histori.wiki.WikiNodeType;
 import histori.wiki.finder.FinderBase;
+import histori.wiki.finder.InfoboxNames;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.collection.SingletonSet;
 
@@ -16,9 +17,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static histori.model.TagType.EVENT_TYPE;
-import static histori.wiki.finder.impl.ConflictParticipant.commander;
 import static histori.wiki.finder.impl.ConflictFinder.CommanderParseState.seeking_commander;
 import static histori.wiki.finder.impl.ConflictFinder.CommanderParseState.seeking_flag;
+import static histori.wiki.finder.impl.ConflictParticipant.commander;
 
 @Slf4j
 public class ConflictFinder extends FinderBase<NexusRequest> {
@@ -161,13 +162,11 @@ public class ConflictFinder extends FinderBase<NexusRequest> {
             }
         }
 
-        request.setTags(tags);
+        request.setTags(new NexusTags(tags));
         return request;
     }
 
-    private void addImpactTag(List<NexusTag> tags, NexusTag nexusTag) {
-        if (nexusTag != null) tags.add(nexusTag);
-    }
+    private void addImpactTag(List<NexusTag> tags, NexusTag nexusTag) { if (nexusTag != null) tags.add(nexusTag); }
 
     private boolean hasCasualties(WikiNode ref) {
         if (!ref.hasChildren()) return false;

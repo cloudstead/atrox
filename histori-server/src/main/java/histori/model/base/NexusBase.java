@@ -30,12 +30,11 @@ import java.util.*;
 import static histori.ApiConstants.GEOJSON_MAXLEN;
 import static histori.ApiConstants.NAME_MAXLEN;
 import static histori.model.TagType.EVENT_TYPE;
+import static histori.model.base.NexusTags.JSONB_TYPE;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.json.JsonUtil.fromJsonOrDie;
 import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
 import static org.cobbzilla.util.string.StringUtil.hasScripting;
-import static org.cobbzilla.util.system.Bytes.MB;
-import static org.cobbzilla.wizard.model.json.StringJsonUserType.JSONB_TYPE;
 import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
 
 @MappedSuperclass @Accessors(chain=true) @ToString(of="name") @Slf4j
@@ -133,12 +132,11 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
         if (containsScripting()) throw invalidEx("err.scripting");
 
         // ensure event type tag exists
-        if (hasNexusType() && getTags().getFirstEventType() == null) getTags().addTag(getNexusType(), EVENT_TYPE);
+        if (hasNexusType() && (!hasTags() || getTags().getFirstEventType() == null)) getTags().addTag(getNexusType(), EVENT_TYPE);
 
         // ensure all tags have uuids, refresh tagsJson
         if (hasTags()) {
             for (NexusTag tag : getTags()) if (!tag.hasUuid()) tag.initUuid();
-            setTagsJson(toJsonOrDie(getTags()));
         }
 
         if (timeRange == null) throw invalidEx("err.timeRange.empty", "Time range cannot be empty");
@@ -170,26 +168,9 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
 
     public void setTimeRange(String startDate, String endDate) { setTimeRange(new TimeRange(startDate, endDate)); }
 
-    // note that this field is updated by NexusTags, whenever the collection changes via add/set/remove/etc
-    @Column(length=(int)(MB)) // 1 megabyte should be enough... famous last words, right? we can always expand, or go to a document store
-    @JsonIgnore @Type(type=JSONB_TYPE)
-    @Getter @Setter private String tagsJson;
-
-    @Transient private NexusTags tags = null;
-
-    public NexusTags getTags () {
-        if (empty(tagsJson) && empty(tags)) return new NexusTags(this);
-        if (tags == null) tags = new NexusTags(this, fromJsonOrDie(tagsJson, NexusTag[].class));
-        return tags;
-    }
-
-    public NexusBase setTags (List<NexusTag> tags) {
-        this.tags = new NexusTags(this, tags);
-        this.tagsJson = toJsonOrDie(this.tags);
-        return this;
-    }
-
-    public boolean hasTags () { return !empty(tags) || !empty(tagsJson); }
+    @Type(type=JSONB_TYPE)
+    @Getter @Setter private NexusTags tags = new NexusTags();
+    public boolean hasTags () { return !empty(tags); }
 
     @Override public boolean equals(Object o) {
         if (this == o) return true;

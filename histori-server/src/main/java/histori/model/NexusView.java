@@ -1,8 +1,7 @@
 package histori.model;
 
+import histori.model.base.NexusTags;
 import histori.model.cache.VoteSummary;
-
-import java.util.List;
 
 public interface NexusView {
 
@@ -21,7 +20,7 @@ public interface NexusView {
     String getMarkdown();
 
     boolean hasTags();
-    List<NexusTag> getTags();
+    NexusTags getTags();
 
     VoteSummary getVotes();
     boolean hasVotes();

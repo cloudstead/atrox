@@ -22,6 +22,8 @@ CREATE INDEX nexus_idx_start_year ON nexus(start_year);
 
 CREATE UNIQUE INDEX nexus_idx_canonical_name_authoritative ON nexus(canonical_name) WHERE authoritiative = TRUE;
 
+CREATE INDEX ON nexus USING GIN (tags);
+
 --------------------------
 -- NexusArchive indexes --
 --------------------------
