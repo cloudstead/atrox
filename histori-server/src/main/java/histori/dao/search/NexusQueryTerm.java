@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.Transient;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,11 +59,90 @@ public class NexusQueryTerm implements Comparable<NexusQueryTerm> {
     }
 
     @Getter @Setter private String term;
-    @Getter @Setter private FieldType fieldType;
-    @Getter @Setter private MatchType matchType;
+    @Getter @Setter private FieldType fieldType = FieldType.any;
+    @Getter @Setter private MatchType matchType = MatchType.fuzzy;
 
     @Getter(lazy=true, value=AccessLevel.PROTECTED) private final Pattern pattern = initPattern();
     private Pattern initPattern() { return Pattern.compile(term); }
+
+    public String sqlClause() { return sqlClause(fieldType, matchType); }
+
+    public void sqlArgs(List<Object> args) { sqlArgs(fieldType, sqlArg(term), args); }
+
+    private String sqlArg(String term) {
+        switch (matchType) {
+            case exact: case regex: default: return term;
+            case fuzzy: return "%" + term.replaceAll("\\s+", " ").trim().replace(" ", "%") + "%";
+        }
+    }
+
+    public static void sqlArgs(FieldType fieldType, String arg, List<Object> args) {
+        switch (fieldType) {
+            case any:
+                sqlArgs(FieldType.name, arg, args);
+                sqlArgs(FieldType.nexus_type, arg, args);
+                sqlArgs(FieldType.tags, arg, args);
+                break;
+            case any_including_markdown:
+                sqlArgs(FieldType.any, arg, args);
+                sqlArgs(FieldType.markdown, arg, args);
+                break;
+            case name:
+            case nexus_type:
+            case tag_name:
+            case tag_type:
+            case decorator_name:
+            case decorator_value:
+            case markdown:
+            case tags:
+                args.add(arg);
+        }
+    }
+
+    private static final String FIND_TAG
+            = "(SELECT count(*) FROM "
+            + "   (SELECT x::jsonb ->> 'canonicalName' canonicalName, x::jsonb ->> 'tagType' tagType "
+            + "    FROM jsonb_array_elements(n.tags->'tags') as x) y "
+            + "    WHERE @@WHERE@@"
+            + ") > 0";
+    private static final String FIND_DECORATOR
+            = "(select count(*) FROM jsonb_to_recordset($tags -> 'tags') as x(values text)"
+            + "  WHERE x.values is not null"
+            + "  AND (SELECT count(*) FROM jsonb_array_elements(x.values::jsonb) y WHERE @@WHERE@@) > 0"
+            + ") > 0";
+    public static String sqlClause(FieldType fieldType, MatchType matchType) {
+        switch (fieldType) {
+            case any: default:
+                return "(" + sqlClause(FieldType.name, matchType)
+                        + " OR " + sqlClause(FieldType.nexus_type, matchType)
+                        + " OR " + sqlClause(FieldType.tags, matchType) + ")";
+
+            case any_including_markdown:
+                return "(" + sqlClause(FieldType.any, matchType)
+                        + " OR " + sqlClause(FieldType.markdown, matchType);
+
+            case name:       return sqlComparison("$canonical_name", matchType);
+            case nexus_type: return sqlComparison("$nexus_type", matchType);
+            case markdown:   return sqlComparison("$markdown", matchType);
+            case tags:       return sqlComparison("($tags -> 'tags')::text", matchType);
+
+            case tag_name:   return FIND_TAG.replace("@@WHERE@@", sqlComparison("y.canonicalName", matchType));
+            case tag_type:   return FIND_TAG.replace("@@WHERE@@", sqlComparison("y.tagType", matchType));
+
+            case decorator_name:
+                return FIND_DECORATOR.replace("@@WHERE@@", sqlComparison("(y::jsonb ->> 'field')", matchType));
+            case decorator_value:
+                return FIND_DECORATOR.replace("@@WHERE@@", sqlComparison("(y::jsonb ->> 'value')", matchType));
+        }
+    }
+
+    private static String sqlComparison(String name, MatchType matchType) {
+        switch (matchType) {
+            case fuzzy: default: return name + " ilike ?";
+            case exact: return name + " = ?";
+            case regex: return name + " ~* ?";
+        }
+    }
 
     @JsonIgnore @Transient public boolean isFuzzy () { return matchType == null || matchType == MatchType.fuzzy; }
     @JsonIgnore @Transient public boolean isExact () { return matchType == MatchType.exact; }
@@ -106,13 +186,16 @@ public class NexusQueryTerm implements Comparable<NexusQueryTerm> {
 
     public static final String MATCH_TYPE_REGEX = "[efr]|exact|fuzzy|regex";
     public static final String FIELD_TYPE_REGEX = "[nNmTtyDd]|name|nexus[-_ ]type|markdown|tags|tag[-_ ]name|tag[-_ ]type|decorator[-_ ]name|decorator[-_ ]value";
-    public static final String TERM_REGEX = "^((?<match>"+MATCH_TYPE_REGEX+"):)?((?<field>"+FIELD_TYPE_REGEX+"):)?(?<query>.+)$";
+
+    public static final String QUALIFIER_REGEX = "^((?<match>"+MATCH_TYPE_REGEX+"):)?((?<field>"+FIELD_TYPE_REGEX+"):)?";
+    public static final Pattern BARE_QUALIFIER_PATTERN = Pattern.compile(QUALIFIER_REGEX+"$");
+
+    public static final String TERM_REGEX = QUALIFIER_REGEX + "(?<query>.+)$";
     public static final Pattern TERM_PATTERN = Pattern.compile(TERM_REGEX);
 
-    public NexusQueryTerm (String term) {
-        this.term = term;
-        this.fieldType = FieldType.any;
-        this.matchType = MatchType.fuzzy;
+    public static boolean isBareQualifier(String val) {
+        final Matcher matcher = BARE_QUALIFIER_PATTERN.matcher(val);
+        return matcher.find() && (matcher.group("match") != null || matcher.group("field") != null);
     }
 
     public static NexusQueryTerm create (String input) {

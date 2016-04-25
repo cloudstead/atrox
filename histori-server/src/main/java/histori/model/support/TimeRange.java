@@ -1,5 +1,6 @@
 package histori.model.support;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -50,6 +51,15 @@ public class TimeRange {
     public BigInteger start () { return getStartPoint().getInstant(); }
     public BigInteger end () { return hasEnd() ? getEndPoint().getInstant() : start(); }
 
+    @JsonIgnore @Transient public TimePoint getOrCreateStartPoint() {
+        if (startPoint == null) startPoint = new TimePoint();
+        return startPoint;
+    }
+    @JsonIgnore @Transient public TimePoint getOrCreateEndPoint() {
+        if (endPoint == null) endPoint = new TimePoint();
+        return endPoint;
+    }
+
     /**
      * @param timeRange range to compare
      * @return true if the range argument has a either start date that is before, or an end date that is after, the range of this
@@ -58,4 +68,5 @@ public class TimeRange {
         return timeRange.start().compareTo(start()) < 0
             || timeRange.end().compareTo(end()) > 0;
     }
+
 }

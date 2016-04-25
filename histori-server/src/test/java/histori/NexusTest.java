@@ -30,9 +30,10 @@ public class NexusTest extends ApiClientTestBase {
 
     private AccountAuthResponse authResponse;
     private Account account;
+    private String password = randomName();
 
     @Before public void createAccount () throws Exception {
-        authResponse = newAnonymousAccount();
+        authResponse = newAdminAccount(password);
         account = authResponse.getAccount();
     }
 
@@ -101,7 +102,7 @@ public class NexusTest extends ApiClientTestBase {
         assertNotEquals(updatedNexus.getUuid(), createdNexus.getUuid());
 
         apiDocs.addNote("Add another tag - this will create a second version of the nexus");
-        String tag4 = "Foobar";
+        String tag4 = randomName(100);
         nexus.getTags().addTag(tag4);
         updatedNexus = post(updatedNexusPath, nexus);
 
@@ -125,11 +126,33 @@ public class NexusTest extends ApiClientTestBase {
         NexusArchive[] archives = get(ARCHIVES_ENDPOINT+"/Nexus/"+found.getUuid(), NexusArchive[].class);
         assertEquals(3, archives.length);
 
+        apiDocs.addNote("Lookup based on matching tag value");
+        searchResults = search(startDate, endDate, "fuzzy:tag-name:"+tag4.substring(tag4.length()/2));
+        assertEquals(1, searchResults.count());
+
+        apiDocs.addNote("Lookup based on matching tag value, using alternate syntax");
+        searchResults = search(startDate, endDate, "fuzzy:tag-name:\""+tag4.substring(tag4.length()/2)+"\"");
+        assertEquals(1, searchResults.count());
+
+        apiDocs.addNote("Lookup based on matching decorator value");
+        searchResults = search(startDate, endDate, "exact:decorator-value:"+tagComments);
+        assertEquals(1, searchResults.count());
+
+        apiDocs.addNote("Lookup based on matching anything in tags");
+        searchResults = search(startDate, endDate, "tags:"+tag4);
+        assertEquals(1, searchResults.count());
+
         apiDocs.addNote("Delete the nexus");
         delete(updatedNexusPath);
 
         apiDocs.addNote("Lookup by id, should fail");
         assertEquals(NOT_FOUND, doGet(updatedNexusPath).status);
+
+        apiDocs.addNote("Delete the original nexus");
+        delete(nexusPath);
+
+        apiDocs.addNote("Lookup original by id, should fail");
+        assertEquals(NOT_FOUND, doGet(nexusPath).status);
 
         // force SuperNexusDAO to refresh dirty records
         long start = now();

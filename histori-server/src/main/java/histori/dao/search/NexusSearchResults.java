@@ -69,7 +69,7 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
                 final TreeSet<Nexus> sorted = new TreeSet<>(getComparator());
                 sorted.addAll(getMatchingNexuses(nexus));
                 if (!sorted.isEmpty()) {
-                    if (entityFilter != null && entityFilter.isAcceptable(sorted.first())) {
+                    if (entityFilter == null || entityFilter.isAcceptable(sorted.first())) {
                         putAll(nexus.getCanonicalName(), sorted);
                     }
                 } else {

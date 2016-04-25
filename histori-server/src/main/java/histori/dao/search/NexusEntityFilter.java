@@ -109,9 +109,6 @@ public class NexusEntityFilter implements EntityFilter<NexusView> {
     protected boolean matchTerm(NexusView nexus, NexusQueryTerm term) {
 
         // name match is fuzzy
-        if (nexus.getCanonicalName().equals("battle-of-waterloo")) {
-            log.info("this should match");
-        }
         if (matchField(NexusQueryTerm.FIELD_NAME, nexus.getName(), term)) return true;
 
         // type match must be exact (ignoring case)

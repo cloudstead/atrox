@@ -3,32 +3,25 @@ package histori.dao.search;
 import histori.dao.NexusSummaryDAO;
 import histori.model.Account;
 import histori.model.SearchQuery;
-import histori.model.support.NexusSummary;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.cobbzilla.wizard.dao.SearchResults;
 
-import java.util.List;
 import java.util.Map;
 
-import static histori.ApiConstants.MAX_SEARCH_RESULTS;
-import static histori.ApiConstants.DEFAULT_SEARCH_TIMEOUT;
-import static histori.ApiConstants.MAX_SEARCH_TIMEOUT;
-
 @Slf4j
-public class NexusSummarySearchJob implements Runnable {
+public abstract class NexusSummarySearchJob implements Runnable {
 
-    private NexusSummaryDAO summaryDAO;
-    private Account account;
-    private SearchQuery searchQuery;
-    private String cacheKey;
-    private CachedSearchResults cached;
+    protected NexusSummaryDAO summaryDAO;
+    protected Account account;
+    protected SearchQuery searchQuery;
+    protected String cacheKey;
+    protected CachedSearchResults cached;
 
-    private final Map<String, CachedSearchResults> searchCache;
-    private final Map<String, NexusSummarySearchJob> activeSearches;
+    protected final Map<String, CachedSearchResults> searchCache;
+    protected final Map<String, NexusSummarySearchJob> activeSearches;
 
-    private Thread thread = null;
-    @Getter private NexusSearchResults nexusResults;
+    protected Thread thread = null;
+    @Getter protected NexusSearchResults nexusResults;
 
     public NexusSummarySearchJob(NexusSummaryDAO summaryDAO,
                                  Account account,
@@ -52,31 +45,11 @@ public class NexusSummarySearchJob implements Runnable {
         thread.start();
     }
 
-    public void run () {
+    protected abstract void runSearch();
+
+    @Override public void run() {
         try {
-            final NexusEntityFilter entityFilter = new NexusEntityFilter(searchQuery.getQuery(),
-                                                                         searchQuery.isUseCache() ? summaryDAO.getFilterCache() : null,
-                                                                         summaryDAO.getTagDAO(),
-                                                                         summaryDAO.getTagTypeDAO());
-
-            nexusResults = new NexusSearchResults(account,
-                                                  summaryDAO.getNexusDAO(),
-                                                  searchQuery,
-                                                  entityFilter,
-                                                  MAX_SEARCH_RESULTS);
-
-            final SuperNexusSummaryShardSearch search = new SuperNexusSummaryShardSearch(account, searchQuery, nexusResults);
-
-            long timeout = Math.min(MAX_SEARCH_TIMEOUT, searchQuery.hasTimeout() ? searchQuery.getTimeout() : DEFAULT_SEARCH_TIMEOUT);
-            search.setTimeout(timeout);
-
-            List<NexusSummary> searchResults = summaryDAO.getSuperNexusDAO().search(search);
-
-            for (NexusSummary summary : searchResults) {
-                summary.initUuid(account, searchQuery.getVisibility());
-            }
-
-            cached.getResults().set(new SearchResults<>(searchResults));
+            runSearch();
 
         } catch (RuntimeException e) {
             log.warn("search: error (removing cache key): " + e);
@@ -91,5 +64,4 @@ public class NexusSummarySearchJob implements Runnable {
             }
         }
     }
-
 }

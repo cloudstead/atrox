@@ -5,15 +5,18 @@ import histori.model.CanonicalEntity;
 import histori.model.NexusTag;
 import histori.model.NexusView;
 import histori.model.SocialEntity;
-import histori.model.support.GeoBounds;
-import histori.model.support.SearchSortOrder;
-import histori.model.support.TimeRange;
+import histori.model.support.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.collection.mappy.MappySortedSet;
+import org.cobbzilla.util.json.JsonUtil;
+import org.cobbzilla.util.math.Cardinal;
+import org.cobbzilla.util.reflect.ReflectionUtil;
+import org.cobbzilla.wizard.dao.sql.SQLFieldTransformer;
 import org.geojson.GeoJsonObject;
 import org.geojson.Geometry;
 import org.geojson.LngLatAlt;
@@ -25,6 +28,7 @@ import javax.persistence.Embedded;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
+import java.math.BigInteger;
 import java.util.*;
 
 import static histori.ApiConstants.GEOJSON_MAXLEN;
@@ -252,4 +256,99 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
         static final NCompare_vote_tally instance = new NCompare_vote_tally();
         @Override protected long val(NexusView view) { return view.hasVotes() ? view.getVotes().getTally() : 0; }
     }
+
+    @JsonIgnore @Transient
+    @Getter(lazy=true) private final Map<String, SQLFieldTransformer> sQLFieldTransformers = initSQLFieldTransformers();
+    private Map<String, SQLFieldTransformer> initSQLFieldTransformers() {
+        final Map<String, SQLFieldTransformer> map = super.getSQLFieldTransformers();
+        map.put("visibility", EntityVisibility.TRANSFORMER);
+        map.put("north", NORTH_XFORM);
+        map.put("south", SOUTH_XFORM);
+        map.put("east", EAST_XFORM);
+        map.put("west", WEST_XFORM);
+        map.put("start_instant", START_INSTANT_XFORM);
+        map.put("start_year", START_YEAR_XFORM);
+        map.put("start_month", START_MONTH_XFORM);
+        map.put("start_day", START_DAY_XFORM);
+        map.put("start_hour", START_HOUR_XFORM);
+        map.put("start_minute", START_MINUTE_XFORM);
+        map.put("start_second", START_SECOND_XFORM);
+        map.put("end_instant", END_INSTANT_XFORM);
+        map.put("end_year", END_YEAR_XFORM);
+        map.put("end_month", END_MONTH_XFORM);
+        map.put("end_day", END_DAY_XFORM);
+        map.put("end_hour", END_HOUR_XFORM);
+        map.put("end_minute", END_MINUTE_XFORM);
+        map.put("end_second", END_SECOND_XFORM);
+        map.put("tags", TAGS_XFORM);
+        return map;
+    }
+
+    @AllArgsConstructor @Slf4j
+    public static class BoundsTransformer implements SQLFieldTransformer {
+        private Cardinal direction;
+        @Override public Object sqlToObject(Object object, Object input) {
+            final NexusBase nexus = (NexusBase) object;
+            GeoBounds bounds = nexus.getBounds();
+            if (bounds == null) {
+                bounds = new GeoBounds();
+                nexus.setBounds(bounds);
+            }
+            final Double value = ((Number) input).doubleValue();
+            switch (direction) {
+                case north: bounds.setNorth(value); break;
+                case south: bounds.setNorth(value); break;
+                case east: bounds.setNorth(value); break;
+                case west: bounds.setNorth(value); break;
+                default: log.warn("unknown cardinality: "+direction);
+            }
+            return null;
+        }
+    }
+    public static final SQLFieldTransformer NORTH_XFORM = new BoundsTransformer(Cardinal.north);
+    public static final SQLFieldTransformer SOUTH_XFORM = new BoundsTransformer(Cardinal.south);
+    public static final SQLFieldTransformer EAST_XFORM = new BoundsTransformer(Cardinal.east);
+    public static final SQLFieldTransformer WEST_XFORM = new BoundsTransformer(Cardinal.west);
+
+    @AllArgsConstructor @Slf4j
+    public static class TimeRangeTransformer implements SQLFieldTransformer {
+        private String startOrEnd;
+        private String field;
+        @Override public Object sqlToObject(Object object, Object input) {
+            final NexusBase nexus = (NexusBase) object;
+            TimeRange range = nexus.getTimeRange();
+            if (range == null) {
+                range = new TimeRange();
+                nexus.setTimeRange(range);
+            }
+            TimePoint point = (startOrEnd.equals("start") ? range.getOrCreateStartPoint() : range.getOrCreateEndPoint());
+            switch (field) {
+                case "instant": point.setInstant(new BigInteger(input.toString())); break;
+                case "year": point.setYear(((Number) input).longValue()); break;
+                default: ReflectionUtil.set(point, field, ((Number) input).byteValue());
+            }
+            return null;
+        }
+    }
+    public static final SQLFieldTransformer START_INSTANT_XFORM = new TimeRangeTransformer("start", "instant");
+    public static final SQLFieldTransformer START_YEAR_XFORM = new TimeRangeTransformer("start", "year");
+    public static final SQLFieldTransformer START_MONTH_XFORM = new TimeRangeTransformer("start", "month");
+    public static final SQLFieldTransformer START_DAY_XFORM = new TimeRangeTransformer("start", "day");
+    public static final SQLFieldTransformer START_HOUR_XFORM = new TimeRangeTransformer("start", "hour");
+    public static final SQLFieldTransformer START_MINUTE_XFORM = new TimeRangeTransformer("start", "minute");
+    public static final SQLFieldTransformer START_SECOND_XFORM = new TimeRangeTransformer("start", "second");
+
+    public static final SQLFieldTransformer END_INSTANT_XFORM = new TimeRangeTransformer("end", "instant");
+    public static final SQLFieldTransformer END_YEAR_XFORM = new TimeRangeTransformer("end", "year");
+    public static final SQLFieldTransformer END_MONTH_XFORM = new TimeRangeTransformer("end", "month");
+    public static final SQLFieldTransformer END_DAY_XFORM = new TimeRangeTransformer("end", "day");
+    public static final SQLFieldTransformer END_HOUR_XFORM = new TimeRangeTransformer("end", "hour");
+    public static final SQLFieldTransformer END_MINUTE_XFORM = new TimeRangeTransformer("end", "minute");
+    public static final SQLFieldTransformer END_SECOND_XFORM = new TimeRangeTransformer("end", "second");
+
+    public static final SQLFieldTransformer TAGS_XFORM = new SQLFieldTransformer() {
+        @Override public Object sqlToObject(Object object, Object input) {
+            return JsonUtil.fromJsonOrDie(input.toString(), NexusTags.class);
+        }
+    };
 }

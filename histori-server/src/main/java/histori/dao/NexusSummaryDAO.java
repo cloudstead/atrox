@@ -1,10 +1,7 @@
 package histori.dao;
 
 import histori.ApiConstants;
-import histori.dao.search.CachedSearchResults;
-import histori.dao.search.NexusEntityFilter;
-import histori.dao.search.NexusSearchResults;
-import histori.dao.search.NexusSummarySearchJob;
+import histori.dao.search.*;
 import histori.model.Account;
 import histori.model.Nexus;
 import histori.model.SearchQuery;
@@ -60,7 +57,8 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
         // empty search always returns nothing
         if (empty(searchQuery.getQuery())) return NO_RESULTS;
 
-        final String accountKey = (account != null && searchQuery.getVisibility() != EntityVisibility.everyone) ? account.getUuid() : "public";
+        final boolean isPublic = account == null || searchQuery.getVisibility() == EntityVisibility.everyone;
+        final String accountKey = isPublic ? "public" : account.getUuid();
         final String cacheKey = accountKey + ":" +searchQuery.hashCode();
 
         final boolean useCache = searchQuery.isUseCache();
@@ -76,11 +74,11 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
                         if (activeSearches.size() >= ApiConstants.MAX_CONCURRENT_SEARCHES) throw unavailableEx();
 
                         cached = new CachedSearchResults();
-                        if (useCache) {
-                            searchCache.put(cacheKey, cached);
-                        }
+                        if (useCache) searchCache.put(cacheKey, cached);
 
-                        final NexusSummarySearchJob job = new NexusSummarySearchJob(this, account, searchQuery, cacheKey, cached, searchCache, activeSearches);
+                        final NexusSummarySearchJob job = isPublic
+                                ? new NexusSummarySearchJob_public(this, account, searchQuery, cacheKey, cached, searchCache, activeSearches)
+                                : new NexusSummarySearchJob_private(this, account, searchQuery, cacheKey, cached, searchCache, activeSearches);
                         activeSearches.put(cacheKey, job);
                         job.start();
                     }

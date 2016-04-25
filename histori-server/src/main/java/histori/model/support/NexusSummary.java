@@ -37,9 +37,6 @@ public class NexusSummary extends ExpirableBase {
                 + "-" + visibility.name());
     }
 
-    // used by elastic search
-    public NexusSummary initSearchUuid() { setUuid("public:"+getPrimary().getCanonicalName()); return this; }
-
     @Override public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

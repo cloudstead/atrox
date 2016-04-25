@@ -4,8 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import histori.model.Account;
 import histori.model.AccountOwnedEntity;
+import org.cobbzilla.wizard.dao.sql.SQLFieldTransformer;
 
-public enum EntityVisibility {
+public enum EntityVisibility implements SQLFieldTransformer {
 
     everyone, owner, hidden, deleted;
 
@@ -28,6 +29,13 @@ public enum EntityVisibility {
         } catch (Exception ignored) {
             return defaultValue;
         }
+    }
+
+    // It doesn't matter which instance we use, we are just calling a static method
+    // But it's nice to have a more meaningful name for the variable, when you are looking in a calling class
+    public static final EntityVisibility TRANSFORMER = everyone;
+    @Override public Object sqlToObject(Object entity, Object input) {
+        return valueOf(input.toString());
     }
 
 }

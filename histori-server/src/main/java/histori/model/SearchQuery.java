@@ -1,6 +1,7 @@
 package histori.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import histori.dao.search.NexusQueryTerms;
 import histori.model.support.EntityVisibility;
 import histori.model.support.GeoBounds;
 import histori.model.support.SearchSortOrder;
@@ -23,7 +24,7 @@ import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
 import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
 
 @Entity @NoArgsConstructor @Accessors(chain=true)
-@EqualsAndHashCode(of={"query", "visibility", "timeRange", "bounds", "preferredOwners", "blockedOwners"}, callSuper=false)
+@EqualsAndHashCode(of={"terms", "visibility", "timeRange", "bounds", "preferredOwners", "blockedOwners"}, callSuper=false)
 public class SearchQuery extends IdentifiableBase {
 
     public SearchQuery (SearchQuery other) { copy(this, other); setUuid(null); }
@@ -35,6 +36,9 @@ public class SearchQuery extends IdentifiableBase {
 
     @Column(length=1024, updatable=false)
     @Getter @Setter private String query;
+
+    @JsonIgnore @Transient @Getter(lazy=true) private final NexusQueryTerms terms = initTerms();
+    private NexusQueryTerms initTerms() { return new NexusQueryTerms(query); }
 
     @Embedded @Getter @Setter private TimeRange timeRange;
     public SearchQuery setRange(String from, String to) {

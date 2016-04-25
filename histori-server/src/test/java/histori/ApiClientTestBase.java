@@ -1,6 +1,9 @@
 package histori;
 
+import cloudos.model.auth.LoginRequest;
 import com.fasterxml.jackson.databind.JavaType;
+import histori.dao.AccountDAO;
+import histori.model.Account;
 import histori.model.Nexus;
 import histori.model.auth.RegistrationRequest;
 import histori.model.support.AccountAuthResponse;
@@ -32,6 +35,7 @@ import static histori.ApiConstants.*;
 import static histori.model.support.TimePoint.TP_SEP;
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.string.StringUtil.urlEncode;
+import static org.cobbzilla.wizardtest.RandomUtil.randomEmail;
 import static org.cobbzilla.wizardtest.RandomUtil.randomName;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -74,9 +78,8 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
         return (MockTemplatedMailSender) getTemplatedMailService().getMailSender();
     }
 
-    protected boolean skipAdminCreation() { return false; }
-
     public static final String REGISTER_URL = ACCOUNTS_ENDPOINT + EP_REGISTER;
+    public static final String LOGIN_URL = ACCOUNTS_ENDPOINT + EP_LOGIN;
 
     public AccountAuthResponse register(RegistrationRequest request) throws Exception {
         AccountAuthResponse response = post(REGISTER_URL, request, AccountAuthResponse.class);
@@ -92,6 +95,27 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
         assertTrue(response.hasSessionId());
         assertTrue(response.getAccount().isAnonymous());
         return response;
+    }
+
+
+    public AccountAuthResponse newAdminAccount(String password) throws Exception {
+        final String email = randomEmail();
+        AccountAuthResponse authResponse = register(new RegistrationRequest(email, password));
+
+        // make the account an admin, so that Nexuses created are authoritative
+        final AccountDAO accountDAO = getBean(AccountDAO.class);
+        accountDAO.update((Account) accountDAO.findByEmail(email).setAdmin(true));
+
+        // re-login to update the API session, will now show admin=true
+        logout();
+        authResponse = login(email, password);
+        pushToken(authResponse.getSessionId());
+
+        return authResponse;
+    }
+
+    public AccountAuthResponse login(String email, String password) throws Exception {
+        return post(LOGIN_URL, new LoginRequest(email, password), AccountAuthResponse.class);
     }
 
     public TimeRange randomTimeRange() {
@@ -135,6 +159,7 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
     public Nexus createNexus(Nexus nexus) throws Exception { return createNexus(nexus.getName(), nexus); }
 
     public Nexus createNexus(String nexusName, Nexus nexus) throws Exception {
+        nexus.setAuthoritative(true);
         Nexus createdNexus = post(NEXUS_ENDPOINT+"/"+urlEncode(nexusName), nexus);
         assertEquals(nexusName, createdNexus.getName());
         return createdNexus;
