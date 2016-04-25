@@ -297,9 +297,9 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
             final Double value = ((Number) input).doubleValue();
             switch (direction) {
                 case north: bounds.setNorth(value); break;
-                case south: bounds.setNorth(value); break;
-                case east: bounds.setNorth(value); break;
-                case west: bounds.setNorth(value); break;
+                case south: bounds.setSouth(value); break;
+                case east: bounds.setEast(value); break;
+                case west: bounds.setWest(value); break;
                 default: log.warn("unknown cardinality: "+direction);
             }
             return null;
