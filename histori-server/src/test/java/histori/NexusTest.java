@@ -269,7 +269,7 @@ public class NexusTest extends ApiClientTestBase {
         Nexus createdNexus = createNexus(nexusName, nexus);
 
         apiDocs.addNote("Register another user account");
-        newAnonymousAccount();
+        newAdminAccount();
 
         apiDocs.addNote("Edit the nexus created by the first user, verify we get a copy");
         final String nexusPath = NEXUS_ENDPOINT + "/" + createdNexus.getName();

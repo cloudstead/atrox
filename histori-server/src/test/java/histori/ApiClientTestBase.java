@@ -82,6 +82,7 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
     public static final String LOGIN_URL = ACCOUNTS_ENDPOINT + EP_LOGIN;
 
     public AccountAuthResponse register(RegistrationRequest request) throws Exception {
+        logout();
         AccountAuthResponse response = post(REGISTER_URL, request, AccountAuthResponse.class);
         if (response != null) pushToken(response.getSessionId());
         return response;
@@ -98,7 +99,10 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
     }
 
 
+    public AccountAuthResponse newAdminAccount() throws Exception { return newAdminAccount(randomName()); }
+
     public AccountAuthResponse newAdminAccount(String password) throws Exception {
+        logout();
         final String email = randomEmail();
         AccountAuthResponse authResponse = register(new RegistrationRequest(email, password));
 
