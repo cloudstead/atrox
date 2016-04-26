@@ -4,6 +4,7 @@ import histori.model.Nexus;
 import histori.model.support.NexusRequest;
 import histori.resources.BulkNexusResource;
 import org.apache.commons.io.FileUtils;
+import org.cobbzilla.util.http.HttpResponseBean;
 import org.cobbzilla.wizard.client.ApiClientBase;
 
 import java.io.File;
@@ -41,7 +42,12 @@ public class NexusImportMain extends HistoriApiMain<NexusImportOptions> {
 
         } else if (isDecompressible(source)) {
             final ApiClientBase api = getApiClient();
-            out(bulkImport(source, api.getBaseUri(), getApiHeaderTokenName(), api.getToken()));
+            final HttpResponseBean responseBean = bulkImport(source, api.getBaseUri(), getApiHeaderTokenName(), api.getToken());
+            if (responseBean.isOk()) {
+                out("successfully completed bulk loading");
+            } else {
+                out(responseBean.toString() + ": \n" + responseBean.getEntityString());
+            }
 
         } else {
             importNexus(source);
@@ -65,11 +71,11 @@ public class NexusImportMain extends HistoriApiMain<NexusImportOptions> {
         out("imported: "+request.getName()+" with "+nexus.getTags().getTagCount()+"/"+request.getTags().getTagCount()+" tags (version "+nexus.getVersion()+")");
     }
 
-    public static String bulkImport(File tarball, String apiBase, String tokenName, String tokenValue) throws Exception {
+    public static HttpResponseBean bulkImport(File tarball, String apiBase, String tokenName, String tokenValue) throws Exception {
 
         final Map<String, String> headers = new HashMap<>();
         headers.put(tokenName, tokenValue);
         headers.put(BulkNexusResource.BULK_TAG_PREFIX+"automated_entry_please_verify", "meta");
-        return upload(apiBase+BULK_ENDPOINT+EP_FILE, tarball, headers).toString();
+        return upload(apiBase+BULK_ENDPOINT+EP_FILE, tarball, headers);
     }
 }
