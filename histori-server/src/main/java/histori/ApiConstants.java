@@ -55,6 +55,7 @@ public class ApiConstants {
     // bulk endpoints
     public static final String EP_FILE = "/file";
     public static final String EP_LOAD = "/load";
+    public static final String EP_CANCEL = "/cancel";
 
     // search endpoints
     public static final String EP_QUERY = "/q";

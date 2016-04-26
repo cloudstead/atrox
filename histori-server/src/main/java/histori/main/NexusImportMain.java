@@ -1,9 +1,11 @@
 package histori.main;
 
 import histori.model.Nexus;
+import histori.model.support.BulkLoadResult;
 import histori.model.support.NexusRequest;
 import histori.resources.BulkNexusResource;
 import org.apache.commons.io.FileUtils;
+import org.cobbzilla.util.daemon.ZillaRuntime;
 import org.cobbzilla.util.http.HttpResponseBean;
 import org.cobbzilla.wizard.client.ApiClientBase;
 
@@ -11,14 +13,15 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static histori.ApiConstants.*;
 import static org.cobbzilla.util.http.HttpUtil.upload;
 import static org.cobbzilla.util.io.Decompressors.isDecompressible;
 import static org.cobbzilla.util.io.FileUtil.abs;
-import static org.cobbzilla.util.json.JsonUtil.fromJson;
-import static org.cobbzilla.util.json.JsonUtil.toJson;
+import static org.cobbzilla.util.json.JsonUtil.*;
 import static org.cobbzilla.util.string.StringUtil.urlEncode;
+import static org.cobbzilla.util.system.Sleep.sleep;
 
 public class NexusImportMain extends HistoriApiMain<NexusImportOptions> {
 
@@ -42,11 +45,14 @@ public class NexusImportMain extends HistoriApiMain<NexusImportOptions> {
 
         } else if (isDecompressible(source)) {
             final ApiClientBase api = getApiClient();
-            final HttpResponseBean responseBean = bulkImport(source, api.getBaseUri(), getApiHeaderTokenName(), api.getToken());
-            if (responseBean.isOk()) {
-                out("successfully completed bulk loading");
-            } else {
-                out(responseBean.toString() + ": \n" + responseBean.getEntityString());
+            bulkImport(source, api.getBaseUri(), getApiHeaderTokenName(), api.getToken());
+            while (true) {
+                sleep(TimeUnit.SECONDS.toMillis(15));
+                final BulkLoadResult result = api.get(BULK_ENDPOINT, BulkLoadResult.class);
+                out(toJsonOrDie(result));
+                if (result == null || result.isCancelled() || result.isCompleted()) {
+                    break;
+                }
             }
 
         } else {
@@ -71,11 +77,11 @@ public class NexusImportMain extends HistoriApiMain<NexusImportOptions> {
         out("imported: "+request.getName()+" with "+nexus.getTags().getTagCount()+"/"+request.getTags().getTagCount()+" tags (version "+nexus.getVersion()+")");
     }
 
-    public static HttpResponseBean bulkImport(File tarball, String apiBase, String tokenName, String tokenValue) throws Exception {
-
+    public static void bulkImport(File tarball, String apiBase, String tokenName, String tokenValue) throws Exception {
         final Map<String, String> headers = new HashMap<>();
         headers.put(tokenName, tokenValue);
         headers.put(BulkNexusResource.BULK_TAG_PREFIX+"automated_entry_please_verify", "meta");
-        return upload(apiBase+BULK_ENDPOINT+EP_FILE, tarball, headers);
+        final HttpResponseBean response = upload(apiBase + BULK_ENDPOINT + EP_FILE, tarball, headers);
+        if (!response.isOk()) ZillaRuntime.die(response.toString());
     }
 }
