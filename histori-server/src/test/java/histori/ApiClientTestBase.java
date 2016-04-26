@@ -160,10 +160,14 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
         return nexus;
     }
 
-    public Nexus createNexus(Nexus nexus) throws Exception { return createNexus(nexus.getName(), nexus); }
+    public Nexus createNexus(Nexus nexus) throws Exception { return createNexus(nexus.getName(), nexus, true); }
 
-    public Nexus createNexus(String nexusName, Nexus nexus) throws Exception {
-        nexus.setAuthoritative(true);
+    public Nexus createNexus(Nexus nexus, boolean authoritative) throws Exception { return createNexus(nexus.getName(), nexus, authoritative); }
+
+    public Nexus createNexus(String nexusName, Nexus nexus) throws Exception { return createNexus(nexusName, nexus, true); }
+
+    public Nexus createNexus(String nexusName, Nexus nexus, boolean authoritative) throws Exception {
+        nexus.setAuthoritative(authoritative);
         Nexus createdNexus = post(NEXUS_ENDPOINT+"/"+urlEncode(nexusName), nexus);
         assertEquals(nexusName, createdNexus.getName());
         return createdNexus;

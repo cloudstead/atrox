@@ -22,7 +22,7 @@ public class VoteTest extends ApiClientTestBase {
     @Override public void onStart(RestServer<HistoriConfiguration> server) {
         try {
             authResponse = newAnonymousAccount();
-            nexus = createNexus(dummyNexus());
+            nexus = createNexus(dummyNexus(), false);
         } catch (Exception e) { die("onStart: error setting up: "+e); }
 
         // todo: create some tags that could also be voted on

@@ -42,7 +42,7 @@ public class VoteSummaryTest extends ApiClientTestBase {
 
         range = randomTimeRange();
         nexuses.clear();
-        for (int i = 0; i<MAX_NEXUSES; i++) nexuses.add(createNexus(dummyNexus(range)));
+        for (int i = 0; i<MAX_NEXUSES; i++) nexuses.add(createNexus(dummyNexus(range), false));
 
         for (Nexus nexus : nexuses) {
             // each account casts a random vote, usually an upvote
