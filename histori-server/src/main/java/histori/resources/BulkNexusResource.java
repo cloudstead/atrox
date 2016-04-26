@@ -41,6 +41,7 @@ import static javax.ws.rs.core.MediaType.MULTIPART_FORM_DATA;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.io.Decompressors.isDecompressible;
 import static org.cobbzilla.util.io.Decompressors.unroll;
+import static org.cobbzilla.util.io.FileUtil.abs;
 import static org.cobbzilla.util.io.FileUtil.listFilesRecursively;
 import static org.cobbzilla.util.json.JsonUtil.JSON_FILES;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
@@ -155,11 +156,15 @@ public class BulkNexusResource {
                         final Nexus nexus = createNexus(account, request, nexusDAO);
                         if (nexus == null) {
                             // should never happen
+                            log.info("bulkLoad: error creating from: "+abs(f));
                             result.addViolation("err.nexus.bulkLoad.loadError", "Error creating nexus: " + f.getName(), f.getName());
+                        } else {
+                            log.info("bulkLoad: imported "+nexus.getName() + " (canonical: "+nexus.getCanonicalName()+")");
                         }
                     }
 
                 } catch (Exception e) {
+                    log.info("bulkLoad: error importing "+abs(f));
                     result.addViolation("err.nexus.bulkLoad.loadError", "Error loading nexus: " + f.getName() + ": " + e, f.getName());
                 }
             }
