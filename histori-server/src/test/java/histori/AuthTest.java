@@ -38,7 +38,7 @@ public class AuthTest extends ApiClientTestBase {
         String password = randomName();
 
         apiDocs.addNote("Call register again, and because we are logged in anonymously, this should register the current account as a normal account");
-        AccountAuthResponse normalResponse = register(new RegistrationRequest(email, password));
+        AccountAuthResponse normalResponse = register(new RegistrationRequest(email, password), false);
 
         assertNotEquals(anonResponse.getSessionId(), normalResponse.getSessionId()); // a new session
         assertEquals(anonResponse.getAccount().getUuid(), normalResponse.getAccount().getUuid()); // but the same account uuid

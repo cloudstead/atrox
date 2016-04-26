@@ -98,32 +98,32 @@ public class ArticleNexusExpectedResult {
     public List<NexusTag> tags = new ArrayList<>();
 
     public ArticleNexusExpectedResult tag(String tagType, String tagName) {
-        tags.add((NexusTag) new NexusTag().setTagType(tagType).setTagName(tagName));
+        tags.add(new NexusTag().setTagType(tagType).setTagName(tagName));
         return this;
     }
 
     public ArticleNexusExpectedResult tag(String tagType, String tagName, String field1, String value1) {
-        tags.add((NexusTag) new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1));
+        tags.add(new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1));
         return this;
     }
 
     public ArticleNexusExpectedResult tag(String tagType, String tagName, String field1, String value1, String f2, String v2) {
-        tags.add((NexusTag) new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1).setValue(f2, v2));
+        tags.add(new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1).setValue(f2, v2));
         return this;
     }
 
     public ArticleNexusExpectedResult tag(String tagType, String tagName, String field1, String value1, String f2, String v2, String f3, String v3) {
-        tags.add((NexusTag) new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1).setValue(f2, v2).setValue(f3, v3));
+        tags.add(new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1).setValue(f2, v2).setValue(f3, v3));
         return this;
     }
 
     public ArticleNexusExpectedResult tag(String tagType, String tagName, String field1, String value1, String f2, String v2, String f3, String v3, String f4, String v4) {
-        tags.add((NexusTag) new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1).setValue(f2, v2).setValue(f3, v3).setValue(f4, v4));
+        tags.add(new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1).setValue(f2, v2).setValue(f3, v3).setValue(f4, v4));
         return this;
     }
 
     public ArticleNexusExpectedResult tag(String tagType, String tagName, String field1, String value1, String f2, String v2, String f3, String v3, String f4, String v4, String f5, String v5) {
-        tags.add((NexusTag) new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1).setValue(f2, v2).setValue(f3, v3).setValue(f4, v4).setValue(f5, v5));
+        tags.add(new NexusTag().setTagType(tagType).setTagName(tagName).setValue(field1, value1).setValue(f2, v2).setValue(f3, v3).setValue(f4, v4).setValue(f5, v5));
         return this;
     }
 

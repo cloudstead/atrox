@@ -82,7 +82,10 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
     public static final String LOGIN_URL = ACCOUNTS_ENDPOINT + EP_LOGIN;
 
     public AccountAuthResponse register(RegistrationRequest request) throws Exception {
-        logout();
+        return register(request, true);
+    }
+    public AccountAuthResponse register(RegistrationRequest request, boolean logout) throws Exception {
+        if (logout) logout();
         AccountAuthResponse response = post(REGISTER_URL, request, AccountAuthResponse.class);
         if (response != null) pushToken(response.getSessionId());
         return response;
