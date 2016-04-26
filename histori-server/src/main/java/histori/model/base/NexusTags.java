@@ -32,7 +32,7 @@ public class NexusTags implements Iterable<NexusTag> {
 
     public NexusTags(NexusTag[] nexusTags) { tags.addAll((Collection<NexusTag>) Arrays.asList(nexusTags)); }
 
-    public NexusTags(Collection<NexusTag> tags) { tags.addAll(tags); }
+    public NexusTags(Collection<NexusTag> nexusTags) { tags.addAll(nexusTags); }
 
     @Override public boolean equals(Object o) {
         return (o instanceof NexusTags) && getTagMap().equals(((NexusTags) o).getTagMap());
