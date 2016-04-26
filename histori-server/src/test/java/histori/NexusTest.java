@@ -134,6 +134,10 @@ public class NexusTest extends ApiClientTestBase {
         searchResults = search(startDate, endDate, "fuzzy:tag-name:\""+tag4.substring(tag4.length()/2)+"\"");
         assertEquals(1, searchResults.count());
 
+        apiDocs.addNote("Lookup based on matching tag value, using regex");
+        searchResults = search(startDate, endDate, "regex:tag-name:\""+tag4.substring(0, tag4.length()/3)+".+"+tag4.substring(tag4.length()-tag4.length()/3)+"\"");
+        assertEquals(1, searchResults.count());
+
         apiDocs.addNote("Lookup based on matching decorator value");
         searchResults = search(startDate, endDate, "exact:decorator-value:"+tagComments);
         assertEquals(1, searchResults.count());
