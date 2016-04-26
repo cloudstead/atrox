@@ -5,7 +5,6 @@ import histori.dao.search.*;
 import histori.model.Account;
 import histori.model.Nexus;
 import histori.model.SearchQuery;
-import histori.model.support.EntityVisibility;
 import histori.model.support.NexusSummary;
 import histori.model.support.SearchSortOrder;
 import lombok.Getter;
@@ -17,7 +16,9 @@ import org.cobbzilla.wizard.dao.SearchResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
@@ -44,7 +45,7 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
     private RedisService initNexusSummaryCache() { return redisService.prefixNamespace("nexus-summary-cache:", null); }
 
     private final Map<String, CachedSearchResults> searchCache = new ConcurrentHashMap<>();
-    private final Map<String, NexusSummarySearchJob> activeSearches = new ConcurrentHashMap<>(ApiConstants.MAX_CONCURRENT_SEARCHES);
+    private final Map<String, NexusSummarySearchJobBase> activeSearches = new ConcurrentHashMap<>(ApiConstants.MAX_CONCURRENT_SEARCHES);
 
     /**
      * Find NexusSummaries within the provided range and region
@@ -57,9 +58,7 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
         // empty search always returns nothing
         if (empty(searchQuery.getQuery())) return NO_RESULTS;
 
-        final boolean isPublic = account == null || searchQuery.getVisibility() == EntityVisibility.everyone;
-        final String accountKey = isPublic ? "public" : account.getUuid();
-        final String cacheKey = accountKey + ":" +searchQuery.hashCode();
+        final String cacheKey = String.valueOf(searchQuery.hashCode());
 
         final boolean useCache = searchQuery.isUseCache();
         CachedSearchResults cached;
@@ -76,9 +75,7 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
                         cached = new CachedSearchResults();
                         if (useCache) searchCache.put(cacheKey, cached);
 
-                        final NexusSummarySearchJob job = isPublic
-                                ? new NexusSummarySearchJob_public(this, account, searchQuery, cacheKey, cached, searchCache, activeSearches)
-                                : new NexusSummarySearchJob_private(this, account, searchQuery, cacheKey, cached, searchCache, activeSearches);
+                        final NexusSummarySearchJobBase job = new NexusSummarySearchJob(this, account, searchQuery, cacheKey, cached, searchCache, activeSearches);
                         activeSearches.put(cacheKey, job);
                         job.start();
                     }
@@ -92,7 +89,7 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
         }
         if (!cached.hasResults()) {
             final String prefix = "search("+cacheKey+", "+searchQuery.getQuery()+"): ";
-            NexusSummarySearchJob activeJob = activeSearches.get(cacheKey);
+            NexusSummarySearchJobBase activeJob = activeSearches.get(cacheKey);
             if (activeJob != null) {
                 log.warn(prefix+"timed out getting full results, returning early with " + activeJob.getNexusResults().size() + " results");
                 cached.getResults().set(new SearchResults<>(activeJob.getNexusResults().getResults()));

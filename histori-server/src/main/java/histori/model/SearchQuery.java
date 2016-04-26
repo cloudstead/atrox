@@ -24,12 +24,14 @@ import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
 import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
 
 @Entity @NoArgsConstructor @Accessors(chain=true)
-@EqualsAndHashCode(of={"terms", "visibility", "timeRange", "bounds", "preferredOwners", "blockedOwners"}, callSuper=false)
+@EqualsAndHashCode(of={"terms", "authoritative", "visibility", "timeRange", "bounds", "preferredOwners", "blockedOwners"}, callSuper=false)
 public class SearchQuery extends IdentifiableBase {
 
     public SearchQuery (SearchQuery other) { copy(this, other); setUuid(null); }
 
     @Getter @Setter private boolean useCache = true;
+
+    @Getter @Setter private boolean authoritative = true;
 
     @Getter @Setter private Long timeout;
     public boolean hasTimeout () { return timeout != null; }

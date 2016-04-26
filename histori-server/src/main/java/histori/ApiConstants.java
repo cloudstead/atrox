@@ -19,6 +19,7 @@ public class ApiConstants {
     public static final String PERMALINKS_ENDPOINT = "/permalinks";
     public static final String MAP_IMAGES_ENDPOINT = "/map_images";
     public static final String NEXUS_ENDPOINT = "/nexus";
+    public static final String BULK_ENDPOINT = "/bulk";
     public static final String SEARCH_ENDPOINT = "/search";
     public static final String TAGS_ENDPOINT = "/tags";
     public static final String TAG_TYPES_ENDPOINT = "/tag_types";
@@ -51,8 +52,9 @@ public class ApiConstants {
     public static final String EP_GET_MAP_IMAGE = "/image";
     public static final String EP_TRANSFORM_MAP_IMAGE = "/transform";
 
-    // nexus endpoints
-    public static final String EP_TAGS = "/tags";
+    // bulk endpoints
+    public static final String EP_FILE = "/file";
+    public static final String EP_LOAD = "/load";
 
     // search endpoints
     public static final String EP_QUERY = "/q";

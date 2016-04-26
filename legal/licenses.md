@@ -260,6 +260,10 @@ The following third-party software is used by histori.city, in accordance with t
   * Site: [https://github.com/h5bp/html5-boilerplate](https://github.com/h5bp/html5-boilerplate)
   * License: [https://github.com/h5bp/html5-boilerplate/blob/master/LICENSE.txt](https://github.com/h5bp/html5-boilerplate/blob/master/LICENSE.txt)
 
+# Java unzip
+  * Site: [https://stackoverflow.com/a/10634536/1251543](https://stackoverflow.com/a/10634536/1251543)
+  * License: [https://stackoverflow.com/help/licensing](https://stackoverflow.com/help/licensing)
+
 # JSONB support for PostgreSQL + Hibernate
   * Site: [https://stackoverflow.com/a/16049086/1251543](https://stackoverflow.com/a/16049086/1251543)
   * License: [https://stackoverflow.com/help/licensing](https://stackoverflow.com/help/licensing)

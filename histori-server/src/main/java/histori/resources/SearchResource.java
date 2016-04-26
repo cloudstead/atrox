@@ -73,6 +73,7 @@ public class SearchResource {
                            @PathParam("east") double east,
                            @PathParam("west") double west,
                            @QueryParam("q") String query,
+                           @QueryParam("a") String authoritative,
                            @QueryParam("v") String visibility,
                            @QueryParam("c") String useCache,
                            @QueryParam("t") long timeout) {
@@ -81,6 +82,7 @@ public class SearchResource {
 
         final SearchQuery q = new SearchQuery()
                 .setQuery(query)
+                .setAuthoritative(empty(authoritative) || !authoritative.equals("false"))
                 .setVisibility(EntityVisibility.create(visibility, everyone))
                 .setUseCache(empty(useCache) || !useCache.equalsIgnoreCase("false"))
                 .setRange(from, to)

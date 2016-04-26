@@ -77,11 +77,18 @@ public class NexusResource {
         name = urlDecode(name); // no url-encoded chars allowed
 
         if (!name.equals(request.getName())) return invalid("err.name.mismatch");
-        if (request.isAuthoritative() && !account.isAdmin()) return forbidden();
+        final Nexus nexus = createNexus(account, request, nexusDAO);
+        log.info("created nexus: "+nexus.getCanonicalName()+" (owner="+account.getEmail()+", authoritative="+nexus.isAuthoritative()+")");
+        return ok(nexus);
+    }
+
+    public static Nexus createNexus (Account account, NexusRequest request, NexusDAO nexusDAO) {
+        final String name = request.getName();
+        if (request.isAuthoritative() && !account.isAdmin()) throw forbiddenEx();
 
         Nexus nexus = nexusDAO.findByOwnerAndName(account, name);
         if (nexus != null) {
-            if (!updateNexus(request, nexus)) return ok(nexus);
+            if (!updateNexus(request, nexus)) return nexus;
             nexus.setOwnerAccount(account); // for sanity. nothing can change the owner.
             nexus = nexusDAO.update(nexus);
         } else {
@@ -90,11 +97,10 @@ public class NexusResource {
             nexus.setOwnerAccount(account);
             nexus = nexusDAO.create(nexus);
         }
-        log.info("created nexus: "+nexus.getCanonicalName()+" (owner="+account.getEmail()+", authoritative="+nexus.isAuthoritative()+")");
-        return ok(nexus);
+        return nexus;
     }
 
-    public boolean updateNexus(@Valid NexusRequest request, Nexus nexus) {
+    public static boolean updateNexus(@Valid NexusRequest request, Nexus nexus) {
         final Nexus backup = new Nexus();
         copy(backup, nexus);
         copy(nexus, request, UPDATE_FIELDS);
@@ -155,5 +161,4 @@ public class NexusResource {
 
         return ok();
     }
-
 }

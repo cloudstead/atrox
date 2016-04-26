@@ -125,6 +125,10 @@ CREATE TABLE nexus (
     origin character varying(100),
     version integer NOT NULL,
     visibility character varying(20) NOT NULL,
+    down_votes bigint,
+    tally bigint,
+    up_votes bigint,
+    vote_count bigint,
     authoritative boolean NOT NULL,
     east double precision NOT NULL,
     north double precision NOT NULL,
@@ -134,7 +138,7 @@ CREATE TABLE nexus (
     geo_json character varying(64000) NOT NULL,
     name character varying(1024) NOT NULL,
     nexus_type character varying(1024),
-    tags_json character varying(1048576),
+    tags jsonb,
     end_day smallint,
     end_hour smallint,
     end_instant numeric(29,0),
@@ -167,6 +171,10 @@ CREATE TABLE nexus_archive (
     origin character varying(100),
     version integer NOT NULL,
     visibility character varying(20) NOT NULL,
+    down_votes bigint,
+    tally bigint,
+    up_votes bigint,
+    vote_count bigint,
     authoritative boolean NOT NULL,
     east double precision NOT NULL,
     north double precision NOT NULL,
@@ -176,7 +184,7 @@ CREATE TABLE nexus_archive (
     geo_json character varying(64000) NOT NULL,
     name character varying(1024) NOT NULL,
     nexus_type character varying(1024),
-    tags_json character varying(1048576),
+    tags jsonb,
     end_day smallint,
     end_hour smallint,
     end_instant numeric(29,0),
@@ -219,6 +227,7 @@ CREATE TABLE search_query (
     uuid character varying(100) NOT NULL,
     ctime bigint NOT NULL,
     mtime bigint NOT NULL,
+    authoritative boolean NOT NULL,
     blocked_owners character varying(255),
     east double precision NOT NULL,
     north double precision NOT NULL,
@@ -242,6 +251,7 @@ CREATE TABLE search_query (
     start_month smallint,
     start_second smallint,
     start_year bigint,
+    timeout bigint,
     use_cache boolean NOT NULL,
     visibility character varying(255)
 );
@@ -299,10 +309,10 @@ CREATE TABLE super_nexus (
     start_second smallint,
     start_year bigint,
     visibility character varying(20) NOT NULL,
-    down_votes bigint NOT NULL,
-    tally bigint NOT NULL,
-    up_votes bigint NOT NULL,
-    vote_count bigint NOT NULL
+    down_votes bigint,
+    tally bigint,
+    up_votes bigint,
+    vote_count bigint
 );
 
 
@@ -409,7 +419,7 @@ COPY map_image (uuid, ctime, mtime, owner, file_name, uri) FROM stdin;
 -- Data for Name: nexus; Type: TABLE DATA; Schema: public; Owner: histori
 --
 
-COPY nexus (uuid, ctime, mtime, owner, markdown, origin, version, visibility, authoritative, east, north, south, west, canonical_name, geo_json, name, nexus_type, tags_json, end_day, end_hour, end_instant, end_minute, end_month, end_second, end_year, start_day, start_hour, start_instant, start_minute, start_month, start_second, start_year) FROM stdin;
+COPY nexus (uuid, ctime, mtime, owner, markdown, origin, version, visibility, down_votes, tally, up_votes, vote_count, authoritative, east, north, south, west, canonical_name, geo_json, name, nexus_type, tags, end_day, end_hour, end_instant, end_minute, end_month, end_second, end_year, start_day, start_hour, start_instant, start_minute, start_month, start_second, start_year) FROM stdin;
 \.
 
 
@@ -417,7 +427,7 @@ COPY nexus (uuid, ctime, mtime, owner, markdown, origin, version, visibility, au
 -- Data for Name: nexus_archive; Type: TABLE DATA; Schema: public; Owner: histori
 --
 
-COPY nexus_archive (uuid, ctime, mtime, owner, markdown, origin, version, visibility, authoritative, east, north, south, west, canonical_name, geo_json, name, nexus_type, tags_json, end_day, end_hour, end_instant, end_minute, end_month, end_second, end_year, start_day, start_hour, start_instant, start_minute, start_month, start_second, start_year, identifier) FROM stdin;
+COPY nexus_archive (uuid, ctime, mtime, owner, markdown, origin, version, visibility, down_votes, tally, up_votes, vote_count, authoritative, east, north, south, west, canonical_name, geo_json, name, nexus_type, tags, end_day, end_hour, end_instant, end_minute, end_month, end_second, end_year, start_day, start_hour, start_instant, start_minute, start_month, start_second, start_year, identifier) FROM stdin;
 \.
 
 
@@ -426,6 +436,8 @@ COPY nexus_archive (uuid, ctime, mtime, owner, markdown, origin, version, visibi
 --
 
 COPY permalink (name, ctime, mtime, json) FROM stdin;
+@@American Civil War	1461653722199	1461653722199	{\n    "timeline" : {\n      "range" : {\n        "start" : 1861.275,\n        "end" : 1865.375\n      },\n      "zoom_stack" : [ {\n        "start" : -10000,\n        "end" : 2016\n      }, {\n        "start" : -4000,\n        "end" : 2016\n      }, {\n        "start" : 1500,\n        "end" : 2016\n      }, {\n        "start" : 1860,\n        "end" : 1866\n      } ]\n    },\n    "map" : {\n      "north" : 49.82792914537133,\n      "south" : 16.957833217096223,\n      "east" : 27.7,\n      "west" : -145.0068359375\n    },\n    "searches" : [ {\n      "query" : "Union Victory",\n      "icon" : "/markers/blue_MarkerU.png"\n    }, {\n      "query" : "Confederate Victory",\n      "icon" : "/markers/red_MarkerC.png"\n    } ]\n  }
+@@Punic Wars (Rome vs Carthage)	1461653722199	1461653722199	{\n   "timeline" : {\n     "range" : {\n       "start" : -264,\n       "end" : -146\n     },\n     "zoom_stack" : [ {\n       "start" : -10000,\n       "end" : 2016\n     }, {\n       "start" : -4000,\n       "end" : 2016\n     }, {\n       "start" : 1500,\n       "end" : 2016\n     }, {\n       "start" : -264.9990892531876,\n       "end" : -159.9990892531876\n     } ]\n   },\n   "map" : {\n     "north" : 46.87957901439934,\n     "south" : 31.302785052433514,\n     "east" : 40.3857421875,\n     "west" : -21.2255859375\n   },\n   "searches" : [ {\n     "query" : "Punic War",\n     "icon" : "/markers/orange_MarkerP.png"\n   } ]\n }
 \.
 
 
@@ -433,7 +445,7 @@ COPY permalink (name, ctime, mtime, json) FROM stdin;
 -- Data for Name: search_query; Type: TABLE DATA; Schema: public; Owner: histori
 --
 
-COPY search_query (uuid, ctime, mtime, blocked_owners, east, north, south, west, nexus_sort_order, preferred_owners, query, summary_sort_order, end_day, end_hour, end_instant, end_minute, end_month, end_second, end_year, start_day, start_hour, start_instant, start_minute, start_month, start_second, start_year, use_cache, visibility) FROM stdin;
+COPY search_query (uuid, ctime, mtime, authoritative, blocked_owners, east, north, south, west, nexus_sort_order, preferred_owners, query, summary_sort_order, end_day, end_hour, end_instant, end_minute, end_month, end_second, end_year, start_day, start_hour, start_instant, start_minute, start_month, start_second, start_year, timeout, use_cache, visibility) FROM stdin;
 \.
 
 
@@ -466,14 +478,14 @@ COPY tag (canonical_name, alias_for, name, tag_type) FROM stdin;
 --
 
 COPY tag_type (canonical_name, alias_for, name, schema_json) FROM stdin;
-world-actor	\N	World Actor	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "world_actor",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "role",\n    "fieldType" : "role_type",\n    "required" : false,\n    "multiple" : true\n  } ]\n}
-person	\N	Person	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "person",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "role",\n    "fieldType" : "role_type",\n    "required" : false,\n    "multiple" : true\n  }, {\n    "name" : "world_actor",\n    "fieldType" : "world_actor",\n    "required" : false,\n    "multiple" : true\n  } ]\n}
-event	\N	Event	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "event",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "relationship",\n    "fieldType" : "relationship_type",\n    "required" : false,\n    "multiple" : true\n  } ]\n}
-result	\N	Result	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "result",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "world_actor",\n    "fieldType" : "world_actor",\n    "required" : false,\n    "multiple" : true\n  } ]\n}
-impact	\N	Impact	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "impact",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "world_actor",\n    "fieldType" : "world_actor",\n    "required" : false,\n    "multiple" : true\n  }, {\n    "name" : "low_estimate",\n    "fieldType" : "integer",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "estimate",\n    "fieldType" : "integer",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "high_estimate",\n    "fieldType" : "integer",\n    "required" : false,\n    "multiple" : false\n  } ]\n}
-citation	\N	Citation	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "citation",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "excerpt",\n    "fieldType" : "string",\n    "required" : false,\n    "multiple" : true\n  } ]\n}
-idea	\N	Idea	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "idea",\n    "required" : false,\n    "multiple" : false\n  } ]\n}
-event-type	\N	Event Type	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "event_type",\n    "required" : false,\n    "multiple" : false\n  } ]\n}
+world-actor	\N	World Actor	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "world_actor",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "role",\n    "fieldType" : "role_type",\n    "required" : false,\n    "multiple" : true\n  }, {\n    "name" : "see_also",\n    "fieldType" : "string",\n    "required" : false,\n    "multiple" : true\n  } ]\n}
+person	\N	Person	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "person",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "role",\n    "fieldType" : "role_type",\n    "required" : false,\n    "multiple" : true\n  }, {\n    "name" : "world_actor",\n    "fieldType" : "world_actor",\n    "required" : false,\n    "multiple" : true\n  }, {\n    "name" : "see_also",\n    "fieldType" : "string",\n    "required" : false,\n    "multiple" : true\n  } ]\n}
+event	\N	Event	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "event",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "relationship",\n    "fieldType" : "relationship_type",\n    "required" : false,\n    "multiple" : true\n  }, {\n    "name" : "see_also",\n    "fieldType" : "string",\n    "required" : false,\n    "multiple" : true\n  } ]\n}
+result	\N	Result	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "result",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "world_actor",\n    "fieldType" : "world_actor",\n    "required" : false,\n    "multiple" : true\n  }, {\n    "name" : "see_also",\n    "fieldType" : "string",\n    "required" : false,\n    "multiple" : true\n  } ]\n}
+impact	\N	Impact	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "impact",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "world_actor",\n    "fieldType" : "world_actor",\n    "required" : false,\n    "multiple" : true\n  }, {\n    "name" : "low_estimate",\n    "fieldType" : "integer",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "estimate",\n    "fieldType" : "integer",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "high_estimate",\n    "fieldType" : "integer",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "see_also",\n    "fieldType" : "string",\n    "required" : false,\n    "multiple" : true\n  } ]\n}
+citation	\N	Citation	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "citation",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "excerpt",\n    "fieldType" : "string",\n    "required" : false,\n    "multiple" : true\n  }, {\n    "name" : "see_also",\n    "fieldType" : "string",\n    "required" : false,\n    "multiple" : true\n  } ]\n}
+idea	\N	Idea	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "idea",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "see_also",\n    "fieldType" : "string",\n    "required" : false,\n    "multiple" : true\n  } ]\n}
+event-type	\N	Event Type	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "event_type",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "see_also",\n    "fieldType" : "string",\n    "required" : false,\n    "multiple" : true\n  } ]\n}
 meta	\N	Meta	{\n  "fields" : [ {\n    "name" : "name",\n    "fieldType" : "string",\n    "required" : false,\n    "multiple" : false\n  }, {\n    "name" : "value",\n    "fieldType" : "string",\n    "required" : false,\n    "multiple" : true\n  } ]\n}
 \.
 

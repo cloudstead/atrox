@@ -2,16 +2,17 @@ package histori.dao.search;
 
 import histori.model.Account;
 import histori.model.SearchQuery;
+import histori.model.support.EntityVisibility;
 import histori.model.support.SearchSortOrder;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.wizard.dao.sql.ObjectSQLQuery;
 
 @Slf4j
-public class AuthoritativeNexusSummaryShardSearch extends NexusSummaryShardSearchBase {
+public class NexusSummaryShardSearch extends NexusSummaryShardSearchBase {
 
-    public AuthoritativeNexusSummaryShardSearch(Account account,
-                                                SearchQuery searchQuery,
-                                                NexusSearchResults nexusResults) {
+    public NexusSummaryShardSearch(Account account,
+                                   SearchQuery searchQuery,
+                                   NexusSearchResults nexusResults) {
         super(account, searchQuery, nexusResults);
     }
 
@@ -20,7 +21,13 @@ public class AuthoritativeNexusSummaryShardSearch extends NexusSummaryShardSearc
     @Override public boolean isSql() { return true; }
 
     @Override public String whereClause(Account account, SearchQuery searchQuery) {
-        final StringBuilder b = new StringBuilder("$authoritative = true AND $visibility = 'everyone'");
+        final StringBuilder b = new StringBuilder();
+        if (searchQuery.isAuthoritative()) {
+            b.append("$authoritative = true AND $visibility = 'everyone' ");
+        } else {
+            b.append("$visibility = ? ");
+        }
+
         if (searchQuery.hasBlockedOwners()) {
             b.append(" AND $owner NOT IN ");
             b.append(ObjectSQLQuery.nParams(searchQuery.getBlockedOwnersList().size()));
@@ -36,6 +43,12 @@ public class AuthoritativeNexusSummaryShardSearch extends NexusSummaryShardSearc
     @Override public void setArgs(Account account, SearchQuery searchQuery) {
         if (searchQuery.hasBlockedOwners()) {
             args.addAll(searchQuery.getBlockedOwnersList());
+        }
+        if (!searchQuery.isAuthoritative()) {
+            final EntityVisibility visibility = searchQuery.hasVisibility()
+                    ? searchQuery.getVisibility()
+                    : EntityVisibility.everyone;
+            args.add(visibility.name());
         }
         for (NexusQueryTerm term : searchQuery.getTerms()) {
             term.sqlArgs(args);
