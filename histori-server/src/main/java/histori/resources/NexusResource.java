@@ -18,6 +18,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import java.util.Iterator;
 
+import static histori.ApiConstants.NAME_MAXLEN;
 import static histori.ApiConstants.NEXUS_ENDPOINT;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
@@ -90,11 +91,14 @@ public class NexusResource {
         final String name = request.getName();
         if (request.isAuthoritative() && !account.isAdmin()) throw forbiddenEx();
 
-        // remove tags with null names
+        // remove tags with null names, or names that are too long
         final NexusTags tags = request.getTags();
         for (Iterator<NexusTag> iter = tags.iterator(); iter.hasNext(); ) {
             NexusTag tag = iter.next();
-            if (empty(tag.getCanonicalName())) iter.remove();
+            if (empty(tag.getCanonicalName()) || tag.getCanonicalName().length() > NAME_MAXLEN) {
+                log.warn("createNexus: removing invalid tag: "+tag);
+                iter.remove();
+            }
         }
 
         Nexus nexus = nexusDAO.findByOwnerAndName(account, name);
