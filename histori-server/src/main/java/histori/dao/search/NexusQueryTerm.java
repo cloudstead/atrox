@@ -72,9 +72,8 @@ public class NexusQueryTerm implements Comparable<NexusQueryTerm> {
 
     public void sqlArgs(List<Object> args) { sqlArgs(fieldType, term, args); }
 
-    private String sqlArg(String term) {
-        return sqlArg(term, false);
-    }
+    private String sqlArg(String term) { return sqlArg(term, false); }
+
     private String sqlArg(String term, boolean canonicalize) {
         switch (matchType) {
             case exact:          return canonicalize ? canonicalize(term) : term;
