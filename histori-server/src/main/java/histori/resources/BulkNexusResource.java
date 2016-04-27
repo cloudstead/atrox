@@ -206,7 +206,7 @@ public class BulkNexusResource {
             try {
                 dir = unroll(temp);
                 for (File f : listFilesRecursively(dir, JSON_FILES)) {
-                    final String fileName = abs(f).substring(abs(dir).length());
+                    final String fileName = abs(f).substring(abs(dir).length()+1);
                     if (isCancelled()) {
                         result.setCancelled(true);
                         break;
