@@ -27,8 +27,8 @@ CHEF_USER_HOME=$(bash -c "cd ~${CHEF_USER} && pwd")
 JAR="${CHEF_USER_HOME}/chef/cookbooks/histori/files/default/assets/histori-server.jar"
 JAR_URL="http://kyuss.org/downloads/histori-server.jar"
 
-SITE="${CHEF_USER_HOME}/chef/cookbooks/histori/files/default/assets/histori-site.jar"
-SITE_URL="http://kyuss.org/downloads/histori-site.jar"
+SITE="${CHEF_USER_HOME}/chef/cookbooks/histori/files/default/assets/histori-site.tar.gz"
+SITE_URL="http://kyuss.org/downloads/histori-site.tar.gz"
 
 download ${JAR} ${JAR_URL}
 download ${SITE} ${SITE_URL}
