@@ -183,6 +183,7 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
 
         final NexusBase nexusBase = (NexusBase) o;
 
+        if (authoritative != nexusBase.authoritative) return false;
         if (!canonicalName.equals(nexusBase.canonicalName)) return false;
         if (!timeRange.equals(nexusBase.timeRange)) return false;
         if (!geoJson.equals(nexusBase.geoJson)) return false;
@@ -198,6 +199,7 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
 
     @Override public int hashCode() {
         int result = super.hashCode();
+        result = 31 * result + Boolean.valueOf(authoritative).hashCode();
         result = 31 * result + canonicalName.hashCode();
         result = 31 * result + timeRange.hashCode();
         result = 31 * result + getGeoJson().hashCode();
