@@ -21,7 +21,7 @@ public class NexusImportOptions extends HistoriApiOptions {
     @Getter @Setter private boolean force = false;
 
     public static final String USAGE_AUTHORITATIVE = "Sets the 'authoritative' flag on imported Nexuses. Must be admin user.";
-    public static final String OPT_AUTHORITATIVE = "-a";
+    public static final String OPT_AUTHORITATIVE = "-A";
     public static final String LONGOPT_AUTHORITATIVE= "--authoritative";
     @Option(name=OPT_AUTHORITATIVE, aliases=LONGOPT_AUTHORITATIVE, usage=USAGE_AUTHORITATIVE)
     @Getter @Setter private boolean authoritative = false;
