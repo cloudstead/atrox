@@ -22,6 +22,9 @@ public class BulkLoadResult {
     @JsonIgnore public long getAge () { return now() - startTime; }
 
     public int getSuccessCount () { return successes.size(); }
+    public void setSuccessCount (int ct) {} // noop
+
     public int getErrorCount () { return validation.getViolationBeans().size(); }
+    public void setErrorCount (int ct) {} // noop
 
 }
