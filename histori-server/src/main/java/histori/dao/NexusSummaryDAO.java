@@ -89,7 +89,7 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
         }
         if (!cached.hasResults()) {
             final String prefix = "search("+cacheKey+", "+searchQuery.getQuery()+"): ";
-            NexusSummarySearchJobBase activeJob = activeSearches.get(cacheKey);
+            final NexusSummarySearchJobBase activeJob = activeSearches.get(cacheKey);
             if (activeJob != null) {
                 log.warn(prefix+"timed out getting full results, returning early with " + activeJob.getNexusResults().size() + " results");
                 cached.getResults().set(new SearchResults<>(activeJob.getNexusResults().getResults()));

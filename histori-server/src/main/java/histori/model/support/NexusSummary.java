@@ -2,7 +2,6 @@ package histori.model.support;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JavaType;
-import histori.model.Account;
 import histori.model.Nexus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,8 +11,6 @@ import org.cobbzilla.wizard.dao.SearchResults;
 import org.cobbzilla.wizard.model.ExpirableBase;
 
 import java.util.Comparator;
-
-import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
 
 @Accessors(chain=true) @NoArgsConstructor
 public class NexusSummary extends ExpirableBase {
@@ -29,12 +26,6 @@ public class NexusSummary extends ExpirableBase {
             case vote_count:          return NSCompare_vote_count.instance;
             case vote_tally: default: return NSCompare_vote_tally.instance;
         }
-    }
-
-    public void initUuid(Account account, EntityVisibility visibility) {
-        setUuid("account:" + (account == null ? "null" : account.getUuid())
-                + "-" + sha256_hex(primary.getCanonicalName())
-                + "-" + visibility.name());
     }
 
     @Override public boolean equals(Object o) {
@@ -55,6 +46,7 @@ public class NexusSummary extends ExpirableBase {
     @JsonIgnore public JavaType getSearchResultType() { return SearchResults.jsonType(getClass()); }
 
     @Getter @Setter private Nexus primary;
+    @Getter @Setter private boolean incomplete;
 
     @Getter @Setter private NexusTagSummary[] tags;
 

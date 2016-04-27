@@ -156,6 +156,7 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
     public static NexusSummary toNexusSummary(SortedSet<Nexus> all) {
         final Nexus primary = all.first();
         final NexusSummary summary = new NexusSummary();
+        summary.setUuid(primary.getUuid());
         summary.setPrimary(primary);
         primary.getTags(); // force tag initialization from tagsJson
 
@@ -163,6 +164,7 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
         uuids.remove(primary.getUuid());
 
         summary.setOthers(uuids.toArray(new String[uuids.size()]));
+        summary.setIncomplete(uuids.isEmpty());
         summary.setTags(null); // todo: tag summary? shows total count of all articles that have the same tag
         return summary;
     }
