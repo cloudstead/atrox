@@ -42,17 +42,14 @@ function openNexusDetails (uuid, tries) {
 
     closeForm();
     var container = $('#nexusDetailsContainer');
-    var nexusSummary = nexusSummariesByUuid[uuid];
+    var nexus = Api.nexusCache[uuid];
 
-    if (typeof nexusSummary == "undefined" || nexusSummary == null) return;
-    if (typeof nexusSummary.dirty != "undefined" && nexusSummary.dirty) {
+    if (typeof nexus == "undefined" || nexus == null) return;
+    if (typeof nexus.dirty != "undefined" && nexus.dirty) {
         $('#btn_nexusSave').css('visibility', 'visible');
     } else {
         $('#btn_nexusSave').css('visibility', 'hidden');
     }
-
-    activeNexusSummary = nexusSummary;
-    var nexus = activeNexusSummary.primary;
 
     $('#nexusNameContainer').html(nexus.name);
     Api.owner_name(nexus.owner, '#nexusAuthorContainer', "v" + nexus.version +" created by: ");
@@ -82,13 +79,14 @@ function openNexusDetails (uuid, tries) {
     var commentaryContainer = $('#nexusCommentaryContainer');
     commentaryContainer.empty();
     if (typeof nexus.markdown != "undefined") {
-        commentaryContainer.append('<p class="commentaryMarkdown">'+markupConverter.makeHtml(nexus.markdown).replaceAll('<a ', '<a target="_blank" ')+'</p>');
+        var markdown = $('<p class="commentaryMarkdown">'+markupConverter.makeHtml(nexus.markdown.replaceAll('\&amp;nbsp;', '&nbsp;')).replaceAll('<a ', '<a target="_blank" ')+'</p>');
+        commentaryContainer.append(markdown);
     }
 
     var tagsContainer = $('#nexusTagsContainer');
     tagsContainer.empty();
 
-    if (nexusSummary.incomplete) {
+    if (nexus.incomplete) {
         if (tries < 5) {
             window.setTimeout(function () {
                 console.log('trying to find nexus, try #' + tries);
@@ -181,7 +179,6 @@ function openNexusDetails (uuid, tries) {
 function findNexus(nexus, tries) {
     Api.find_nexus(nexus.uuid, function (data) {
         console.log('find_nexus for try #' + tries + ' returned nexus, incomplete=' + data.incomplete);
-        nexusSummariesByUuid[nexus.uuid] = data;
         openNexusDetails(nexus.uuid, tries + 1);
     }, null);
 }
@@ -252,7 +249,7 @@ function commitNexusEdits () {
     //save_fields();
 
     if (activeNexusSummary != null) {
-        var nexusSummary = nexusSummariesByUuid[activeNexusSummary.uuid];
+        var nexusSummary = Api.nexusCache[activeNexusSummary.uuid];
         if (typeof nexusSummary != "undefined" && typeof nexusSummary.primary != "undefined") {
             Histori.edit_nexus(nexusSummary.primary, function (data) {
                 findNexus(data, 0);
@@ -289,9 +286,9 @@ function save_field(name) {
         if (!ok) return false;
 
         // todo: if it did not change, do not mark as dirty
-        nexusSummariesByUuid[activeNexusSummary.uuid].dirty = true;
+        Api.nexusCache[activeNexusSummary.uuid].dirty = true;
         console.log('updating in-mem timeRange: '+timeRange);
-        nexusSummariesByUuid[activeNexusSummary.uuid].primary.timeRange = timeRange;
+        Api.nexusCache[activeNexusSummary.uuid].primary.timeRange = timeRange;
 
         $('#btn_nexusSave').css('visibility', 'visible');
 

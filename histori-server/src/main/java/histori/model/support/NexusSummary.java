@@ -46,12 +46,14 @@ public class NexusSummary extends ExpirableBase {
     @JsonIgnore public JavaType getSearchResultType() { return SearchResults.jsonType(getClass()); }
 
     @Getter @Setter private Nexus primary;
-    @Getter @Setter private boolean incomplete;
 
     @Getter @Setter private NexusTagSummary[] tags;
 
     // UUIDs of other Nexuses with the same name, first 100
     @Getter @Setter private String[] others;
+
+    // true if 'others' may not be complete
+    @Getter @Setter private boolean incomplete;
 
     // Number of nexuses with this name, in total
     @Getter @Setter private int totalCount;

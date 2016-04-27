@@ -108,13 +108,17 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
      * @param nexus The nexus to build a summary for
      * @return the NexusSummary
      */
-    public NexusSummary search(Account account, Nexus nexus, SearchSortOrder sortOrder) {
+    public NexusSummary search(Account account, Nexus nexus, List<String> blockedOwners, SearchSortOrder sort) {
 
         final List<Nexus> nexusList = nexusDAO.findByNameAndVisibleToAccount(nexus.getName(), account);
         if (nexusList.isEmpty()) return null;
 
-        final TreeSet<Nexus> sorted = new TreeSet<>(Nexus.comparator(sortOrder));
-        sorted.addAll(nexusList);
+        final TreeSet<Nexus> sorted = new TreeSet<>(Nexus.comparator(sort));
+        for (Nexus found : nexusList) {
+            if (blockedOwners == null || !blockedOwners.contains(found.getOwner())) {
+                sorted.addAll(nexusList);
+            }
+        }
 
         return NexusSearchResults.toNexusSummary(sorted);
     }

@@ -114,17 +114,20 @@ public class NexusQueryTerm implements Comparable<NexusQueryTerm> {
         switch (fieldType) {
             case any: default:
                 return "(" + sqlClause(FieldType.name, matchType)
-                        + " OR " + sqlClause(FieldType.nexus_type, matchType)
-                        + " OR " + sqlClause(FieldType.tags, matchType) + ")";
+                  + " OR " + sqlClause(FieldType.nexus_type, matchType)
+                  + " OR " + sqlClause(FieldType.tags, matchType) + ")";
 
             case any_including_markdown:
                 return "(" + sqlClause(FieldType.any, matchType)
-                        + " OR " + sqlClause(FieldType.markdown, matchType);
+                  + " OR " + sqlClause(FieldType.markdown, matchType) + ")";
+
+            case tags:
+                return "(" + sqlClause(FieldType.tag_name, matchType)
+                  + " OR " + sqlClause(FieldType.decorator_value, matchType) + ")";
 
             case name:       return sqlComparison("$canonical_name", matchType);
             case nexus_type: return sqlComparison("$nexus_type", matchType);
             case markdown:   return sqlComparison("$markdown", matchType);
-            case tags:       return sqlComparison("($tags -> 'tags')::text", matchType);
 
             case tag_name:   return FIND_TAG.replace("@@WHERE@@", sqlComparison("y.canonicalName", matchType));
             case tag_type:   return FIND_TAG.replace("@@WHERE@@", sqlComparison("y.tagType", matchType));

@@ -136,6 +136,9 @@ Api = {
 
     _find_nexuses_timers: {},
 
+    // Hash of nexus UUID -> nexus
+    nexusCache: {},
+
     find_nexuses: function (search_id, search, start_func, success, fail) {
         //console.log('find_nexuses::'+origin+", "+current);
         if (typeof Api._find_nexuses_timers[search_id] != "undefined") {
@@ -157,12 +160,31 @@ Api = {
                 + (timeout != null ? '&t='+timeout : '')
                 + (useCache != null ? '&c='+useCache : '');
             console.log('searching('+search_id+'): '+search_uri);
-            Api._get(search_uri, success, fail);
+            Api._get(search_uri, function (data) {
+                // adjust data model: set version if absent, move tags up one level
+                // also, set in cache. a nexus is immutable.
+                if (data && data.results && data.results instanceof Array) {
+                    for (var i = 0; i < data.results.length; i++) {
+                        var result = data.results[i];
+                        if (typeof result.primary != "undefined" && result.primary != null) {
+                            var nexus = result.primary;
+                            if (typeof nexus.version == "undefined" || nexus.version == null) nexus.version = 0;
+                            if (nexus.tags) nexus.tags = nexus.tags.tags;
+                            Api.nexusCache[nexus.uuid] = nexus;
+                        }
+                    }
+                }
+                success(data);
+            }, fail);
         }, 2000);
     },
 
     find_nexus: function (uuid, success, fail) {
-        Api._get('search/n/'+uuid, success, fail);
+        Api._get('search/n/'+uuid, function (nexus) {
+            if (typeof nexus.version == "undefined" || nexus.version == null) nexus.version = 0;
+            if (nexus.tags) nexus.tags = nexus.tags.tags;
+            success(nexus);
+        }, fail);
     },
 
     autocomplete: function (matchType) {

@@ -287,9 +287,6 @@ function newMarkerListener(nexusSummaryUuid) {
 var all_markers = [];
 var active_markers = {};
 
-// Hash of searchbox_id -> list of summaries it generated
-var nexusSummariesByUuid = {};
-
 // useful to just create these once, used in date calculations
 var this_year = new Date().getFullYear();
 var year1_millis = Date.UTC(this_year, 0);
@@ -348,20 +345,20 @@ function update_map (searchbox_id) {
         }
 
         if (data && data.results && data.results instanceof Array) {
-
             for (var i = 0; i < data.results.length; i++) {
                 var result = data.results[i];
                 //console.log("update_map: result[" + i + "] is: " + result.primary.name);
-                if (typeof result.primary != "undefined" && typeof result.primary.geo != "undefined" && result.primary.geo != null && result.primary.geo.type == "Point") {
+                var primary = result.primary;
+                if (typeof primary != "undefined" && typeof primary.geo != "undefined" && primary.geo != null && primary.geo.type == "Point") {
+
                     var marker = new google.maps.Marker({
-                        position: {lat: result.primary.geo.coordinates[1], lng: result.primary.geo.coordinates[0]},
-                        title: result.primary.name,
+                        position: {lat: primary.geo.coordinates[1], lng: primary.geo.coordinates[0]},
+                        title: primary.name,
                         icon: markerImageSrc,
                         map: map
                     });
                     all_markers.push(marker);
 
-                    nexusSummariesByUuid[result.uuid] = result;
                     var clickHandler = newMarkerListener(result.uuid);
                     if (clickHandler == null) {
                         console.log("update_map: error adding: "+result.uuid);
@@ -370,13 +367,13 @@ function update_map (searchbox_id) {
                     marker.addListener('click', clickHandler);
 
                     // convert start/end instant to raw date value (year.fraction)
-                    var start = canonical_date_to_raw(result.primary.timeRange.startPoint);
-                    var end = (typeof result.primary.timeRange.endPoint == 'undefined'
-                                || result.primary.timeRange.endPoint == null
-                                || result.primary.timeRange.startPoint.instant == result.primary.timeRange.endPoint.instant)
-                        ? null : canonical_date_to_raw(result.primary.timeRange.endPoint);
+                    var start = canonical_date_to_raw(primary.timeRange.startPoint);
+                    var end = (typeof primary.timeRange.endPoint == 'undefined'
+                                || primary.timeRange.endPoint == null
+                                || primary.timeRange.startPoint.instant == primary.timeRange.endPoint.instant)
+                        ? null : canonical_date_to_raw(primary.timeRange.endPoint);
 
-                    var timeline_marker = slider.add_marker(searchbox_id, marker, start, end, result.primary.name, markerImageSrc, clickHandler);
+                    var timeline_marker = slider.add_marker(searchbox_id, marker, start, end, primary.name, markerImageSrc, clickHandler);
 
                     marker.addListener('mouseover', highlight_timeline_marker(timeline_marker));
                     marker.addListener('mouseout', unhighlight_timeline_marker(timeline_marker));

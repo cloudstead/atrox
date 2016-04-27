@@ -235,6 +235,7 @@ The following third-party software is used by histori.city, in accordance with t
 # Wikipedia
   * Site: [https://en.wikipedia.org/](https://en.wikipedia.org/)
   * License: [https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License](https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License)
+  * Note: For all Wikipedia content presented on histori.city there is a link back to Wikipedia for proper attribution 
 
 # GeoJSON Jackson
   * Site: [https://github.com/opendatalab-de/geojson-jackson](https://github.com/opendatalab-de/geojson-jackson)

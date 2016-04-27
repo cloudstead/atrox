@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 import static histori.ApiConstants.*;
 import static histori.model.support.EntityVisibility.everyone;
+import static histori.model.support.SearchSortOrder.up_vote;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.daemon.ZillaRuntime.now;
@@ -132,6 +133,7 @@ public class SearchResource {
         return ok(results);
     }
 
+    // todo: support preferred/blocked owners. maybe do this as a POST with a SearchQuery? or a superclass?
     @GET
     @Path(EP_NEXUS+"/{uuid}")
     public Response findByUuid(@Context HttpContext ctx,
@@ -139,17 +141,14 @@ public class SearchResource {
                                @QueryParam("sort") String sortOrder) {
 
         final Account account = optionalUserPrincipal(ctx);
+
         final Nexus nexus = nexusDAO.findByUuid(uuid);
         if (nexus == null) return notFound(uuid);
 
-        final NexusSummary summary = nexusSummaryDAO.get(uuid);
-        if (summary != null && summary.getPrimary() != null &&
-                (summary.getPrimary().getVisibility() == everyone ||
-                        (account != null &&
-                                (account.isAdmin() || summary.getPrimary().isOwner(account.getUuid())) ))) {
-            return ok(summary);
-        }
-        return ok(nexusSummaryDAO.search(account, nexus, SearchSortOrder.valueOf(sortOrder, SearchSortOrder.up_vote)));
+        final SearchSortOrder sort = SearchSortOrder.valueOf(sortOrder, up_vote);
+        final NexusSummary summary = nexusSummaryDAO.search(account, nexus, null, sort);
+
+        return summary != null ? ok(summary.setIncomplete(false)) : notFound(uuid);
     }
 
 }
