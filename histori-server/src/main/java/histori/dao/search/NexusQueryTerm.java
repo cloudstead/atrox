@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static histori.model.CanonicalEntity.canonicalize;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.string.StringUtil.trimQuotes;
 
@@ -93,8 +94,11 @@ public class NexusQueryTerm implements Comparable<NexusQueryTerm> {
                 break;
 
             case name:
-            case nexus_type:
             case tag_name:
+                args.add(canonicalize(arg));
+                break;
+
+            case nexus_type:
             case tag_type:
             case decorator_name:
             case decorator_value:
@@ -145,9 +149,9 @@ public class NexusQueryTerm implements Comparable<NexusQueryTerm> {
 
     private static String sqlComparison(String name, MatchType matchType) {
         switch (matchType) {
-            case fuzzy: default: return name + " ilike ?";
-            case exact: return name + " = ?";
-            case regex: return name + " ~* ?";
+            case fuzzy: default: return "( " + name + " ilike ? )";
+            case exact: return "( " + name + " = ? )";
+            case regex: return "( " + name + " ~* ? )";
         }
     }
 
