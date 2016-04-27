@@ -17,6 +17,7 @@ import lombok.Cleanup;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.cobbzilla.util.http.HttpUtil;
 import org.cobbzilla.util.io.FileUtil;
 import org.cobbzilla.wizard.cache.redis.RedisService;
@@ -205,6 +206,7 @@ public class BulkNexusResource {
             try {
                 dir = unroll(temp);
                 for (File f : listFilesRecursively(dir, JSON_FILES)) {
+                    final String fileName = abs(f).substring(abs(dir).length());
                     if (isCancelled()) {
                         result.setCancelled(true);
                         break;
@@ -228,16 +230,16 @@ public class BulkNexusResource {
                             if (nexus == null) {
                                 // should never happen
                                 log.info("bulkLoad: error creating from: " + abs(f));
-                                invalids.addViolation("err.nexus.bulkLoad.loadError", "Error creating nexus: " + f.getName(), f.getName());
+                                invalids.addViolation("err.nexus.bulkLoad.loadError", "Error creating nexus: " + f.getName(), fileName);
                             } else {
                                 log.info("bulkLoad: imported " + nexus.getName() + " (canonical: " + nexus.getCanonicalName() + ")");
-                                successes.add(abs(f).substring(abs(dir).length()));
+                                successes.add(fileName);
                             }
                         }
 
                     } catch (Exception e) {
                         log.info("bulkLoad: error importing " + abs(f));
-                        invalids.addViolation("err.nexus.bulkLoad.loadError", "Error loading nexus: " + f.getName() + ": " + e, f.getName());
+                        invalids.addViolation("err.nexus.bulkLoad.loadError", "Error loading nexus: " + f.getName() + ": " + e + "\n" + ExceptionUtils.getStackTrace(e), fileName);
                     }
                     updateRedis();
                 }
