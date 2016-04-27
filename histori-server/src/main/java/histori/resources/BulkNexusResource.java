@@ -102,7 +102,8 @@ public class BulkNexusResource {
     public Response bulkCreateNexuses(@Context HttpContext ctx,
                                       @FormDataParam("file") InputStream fileStream,
                                       @FormDataParam("file") FormDataContentDisposition fileDetail,
-                                      @QueryParam("force") boolean force) {
+                                      @QueryParam("f") boolean force,
+                                      @QueryParam("a") boolean authoritative) {
         final Account account = userPrincipal(ctx);
 
         final String fileName = fileDetail.getFileName();
@@ -114,7 +115,7 @@ public class BulkNexusResource {
             final File temp = File.createTempFile("bulk-nexus", ext);
             temp.deleteOnExit();
             FileUtil.toFile(temp, fileStream);
-            bulkLoad(account, temp, extraTags, force);
+            bulkLoad(account, temp, extraTags, force, authoritative);
             return ok();
 
         } catch (Exception e) {
@@ -127,7 +128,8 @@ public class BulkNexusResource {
     @Path(EP_LOAD)
     public Response bukCreateNexuses(@Context HttpContext ctx,
                                      @Valid BulkCreateNexusRequest request,
-                                     @QueryParam("force") boolean force) {
+                                     @QueryParam("force") boolean force,
+                                     @QueryParam("a") boolean authoritative) {
 
         final Account account = userPrincipal(ctx);
 
@@ -141,7 +143,7 @@ public class BulkNexusResource {
 
             @Cleanup final InputStream in = HttpUtil.get(url);
             FileUtil.toFile(temp, in);
-            bulkLoad(account, temp, request.getExtraTags(), force);
+            bulkLoad(account, temp, request.getExtraTags(), force, authoritative);
             return ok();
 
         } catch (Exception e) {
@@ -178,12 +180,20 @@ public class BulkNexusResource {
 
     private static final long MAX_BULK_JOB_AGE = TimeUnit.DAYS.toMillis(1);
 
-    public void bulkLoad(Account account, File temp, Map<String, String> extraTags, boolean force) throws Exception {
+    public void bulkLoad(Account account,
+                         File temp,
+                         Map<String, String> extraTags,
+                         boolean force,
+                         boolean authoritative) throws Exception {
+
+        if (authoritative && !account.isAdmin()) throw forbiddenEx();
+
         final BulkLoadResult result = getRedis().getObject(account.getUuid(), BulkLoadResult.class);
         if (!force && result != null && !result.isCompleted() && result.getAge() < MAX_BULK_JOB_AGE) {
             throw invalidEx("err.nexus.bulkLoad.alreadyRunning");
         }
-        final BulkLoadJob job = new BulkLoadJob(account, temp, extraTags);
+
+        final BulkLoadJob job = new BulkLoadJob(account, temp, extraTags, authoritative);
         clearCancelledFlag(account.getUuid());
         executor.submit(job);
     }
@@ -194,6 +204,7 @@ public class BulkNexusResource {
         private Account account;
         private File temp;
         private Map<String, String> extraTags;
+        private boolean authoritative;
         private final BulkLoadResult result = new BulkLoadResult();
 
         public void updateRedis() { getRedis().setObject(account.getUuid(), result); }
@@ -226,6 +237,7 @@ public class BulkNexusResource {
                                     request.getTags().addTag(tag.getKey(), tag.getValue());
                                 }
                             }
+                            request.setAuthoritative(authoritative);
                             final Nexus nexus = createNexus(account, request, nexusDAO);
                             if (nexus == null) {
                                 // should never happen
