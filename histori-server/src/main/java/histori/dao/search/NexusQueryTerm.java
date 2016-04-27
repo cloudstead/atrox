@@ -203,7 +203,7 @@ public class NexusQueryTerm implements Comparable<NexusQueryTerm> {
     }
 
     public static final String MATCH_TYPE_REGEX = "[efr]|exact|fuzzy|regex";
-    public static final String FIELD_TYPE_REGEX = "[nNmTtyDd]|name|nexus[-_ ]type|markdown|tags|tag[-_ ]name|tag[-_ ]type|decorator[-_ ]name|decorator[-_ ]value";
+    public static final String FIELD_TYPE_REGEX = "[nNmTtyDd\\*@]|any[-_ ]including[-_ ]markdown|any|name|nexus[-_ ]type|markdown|tags|tag[-_ ]name|tag[-_ ]type|decorator[-_ ]name|decorator[-_ ]value";
 
     public static final String QUALIFIER_REGEX = "^((?<match>"+MATCH_TYPE_REGEX+"):)?((?<field>"+FIELD_TYPE_REGEX+"):)?";
     public static final Pattern BARE_QUALIFIER_PATTERN = Pattern.compile(QUALIFIER_REGEX+"$");
