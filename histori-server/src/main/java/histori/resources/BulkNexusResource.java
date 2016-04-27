@@ -200,7 +200,7 @@ public class BulkNexusResource {
 
         @Override public BulkLoadResult call() throws Exception {
             final ValidationResult invalids = this.result.getValidation();
-            final List<Nexus> successes = this.result.getSuccesses();
+            final List<String> successes = this.result.getSuccesses();
             File dir = null;
             try {
                 dir = unroll(temp);
@@ -231,7 +231,7 @@ public class BulkNexusResource {
                                 invalids.addViolation("err.nexus.bulkLoad.loadError", "Error creating nexus: " + f.getName(), f.getName());
                             } else {
                                 log.info("bulkLoad: imported " + nexus.getName() + " (canonical: " + nexus.getCanonicalName() + ")");
-                                successes.add(nexus);
+                                successes.add(abs(f).substring(abs(dir).length()));
                             }
                         }
 
