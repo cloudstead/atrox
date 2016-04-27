@@ -2,6 +2,7 @@ package histori.dao.search;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import histori.model.CanonicalEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
@@ -72,9 +73,19 @@ public class NexusQueryTerm implements Comparable<NexusQueryTerm> {
     public void sqlArgs(List<Object> args) { sqlArgs(fieldType, term, args); }
 
     private String sqlArg(String term) {
+        return sqlArg(term, false);
+    }
+    private String sqlArg(String term, boolean canonicalize) {
         switch (matchType) {
-            case exact: case regex: default: return term;
-            case fuzzy: return "%" + term.replaceAll("\\s+", " ").trim().replace(" ", "%") + "%";
+            case exact:          return canonicalize ? canonicalize(term) : term;
+            case regex:          return term;
+            case fuzzy: default:
+                if (canonicalize) {
+                    term = canonicalize(term).replace(CanonicalEntity.WORD_SEP, "%");
+                } else {
+                    term = term.replaceAll("\\s+", " ").replace(" ", "%");
+                }
+                return "%" + term + "%";
         }
     }
 
@@ -98,8 +109,7 @@ public class NexusQueryTerm implements Comparable<NexusQueryTerm> {
 
             case name:
             case tag_name:
-                // we do our own processing -- otherwise canonicalize encodes the % that are supposed to be used in ilike
-                args.add(sqlArg(canonicalize(arg)));
+                args.add(sqlArg(arg, true));
                 break;
 
             case nexus_type:

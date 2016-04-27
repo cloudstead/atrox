@@ -21,6 +21,8 @@ import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
 @MappedSuperclass @NoArgsConstructor @Accessors(chain=true) @ToString(of="canonicalName")
 public abstract class CanonicalEntity implements Identifiable {
 
+    public static final String WORD_SEP = "-";
+
     public CanonicalEntity(String name) { setName(name); }
 
     @Override public void beforeCreate() { checkName(); }
@@ -41,7 +43,7 @@ public abstract class CanonicalEntity implements Identifiable {
     public void setCanonicalName(String val) { this.canonicalName = val; }
 
     public static String canonicalize(String val) {
-        return val == null ? "" : urlEncode(val.replace("_", "-").replace(" ", "-").toLowerCase());
+        return val == null ? "" : urlEncode(val.replace("_", WORD_SEP).replace(" ", WORD_SEP).toLowerCase());
     }
 
     @Override public String getUuid() { return getCanonicalName(); }
