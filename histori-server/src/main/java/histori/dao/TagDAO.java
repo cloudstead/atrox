@@ -101,6 +101,10 @@ public class TagDAO extends ShardedEntityDAO<Tag, TagShardDAO> {
         if (!nexus.hasTags()) return;
         boolean added = false;
         for (NexusTag nexusTag : nexus.getTags()) {
+            if (empty(nexusTag.getTagName())) {
+                log.info("skipping empty tag: "+nexusTag);
+                continue;
+            }
             if (isNumber(nexusTag.getTagName())) {
                 log.info("skipping numeric tag: "+nexusTag);
                 continue;

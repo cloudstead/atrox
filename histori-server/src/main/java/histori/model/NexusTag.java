@@ -10,7 +10,6 @@ import org.cobbzilla.util.collection.ArrayUtil;
 import org.cobbzilla.util.collection.mappy.MappySortedSet;
 import org.cobbzilla.wizard.model.IdentifiableBase;
 
-import javax.persistence.Column;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -26,24 +25,14 @@ import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
 public class NexusTag extends IdentifiableBase implements Comparable<NexusTag> {
 
     @Size(max=NAME_MAXLEN, message="err.tagName.tooLong")
-    @Column(length=NAME_MAXLEN, nullable=false, updatable=false)
-    @Getter private String tagName;
+    @Getter @Setter private String tagName;
 
-    public NexusTag setTagName(String tagName) {
-        this.tagName = tagName;
-        this.canonicalName = canonicalize(tagName);
-        return this;
-    }
 
-    @Size(max=NAME_MAXLEN, message="err.tagName.tooLong")
-    @Column(length=NAME_MAXLEN, nullable=false, updatable=false)
-    @Getter @Setter private String canonicalName;
-
-    @Transient @Getter @Setter private String displayName;
+    public String getCanonicalName() { return canonicalize(getTagName()); }
+    public void setCanonicalName(String name) {} // noop
 
     // denormalized
     @Size(max=NAME_MAXLEN, message="err.tagType.tooLong")
-    @Column(length=NAME_MAXLEN)
     @Getter @Setter private String tagType;
     public boolean hasTagType () { return !empty(tagType); }
 
@@ -168,7 +157,7 @@ public class NexusTag extends IdentifiableBase implements Comparable<NexusTag> {
 
         NexusTag nexusTag = (NexusTag) o;
 
-        if (!canonicalName.equals(nexusTag.canonicalName)) return false;
+        if (!getCanonicalName().equals(nexusTag.getCanonicalName())) return false;
         if (tagType != null ? !tagType.equals(nexusTag.tagType) : nexusTag.tagType != null) return false;
         return getSchemaValueMap().equals(nexusTag.getSchemaValueMap());
 
@@ -176,7 +165,7 @@ public class NexusTag extends IdentifiableBase implements Comparable<NexusTag> {
 
     @Override public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + canonicalName.hashCode();
+        result = 31 * result + getCanonicalName().hashCode();
         result = 31 * result + (tagType != null ? tagType.hashCode() : 0);
         result = 31 * result + getSchemaHash().hashCode();
         return result;

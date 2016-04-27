@@ -4,6 +4,8 @@ import com.sun.jersey.api.core.HttpContext;
 import histori.dao.NexusDAO;
 import histori.model.Account;
 import histori.model.Nexus;
+import histori.model.NexusTag;
+import histori.model.base.NexusTags;
 import histori.model.support.EntityVisibility;
 import histori.model.support.NexusRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -14,9 +16,11 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import java.util.Iterator;
 
 import static histori.ApiConstants.NEXUS_ENDPOINT;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
 import static org.cobbzilla.util.string.StringUtil.urlDecode;
 import static org.cobbzilla.wizard.resources.ResourceUtil.*;
@@ -85,6 +89,13 @@ public class NexusResource {
     public static Nexus createNexus (Account account, NexusRequest request, NexusDAO nexusDAO) {
         final String name = request.getName();
         if (request.isAuthoritative() && !account.isAdmin()) throw forbiddenEx();
+
+        // remove tags with null names
+        final NexusTags tags = request.getTags();
+        for (Iterator<NexusTag> iter = tags.iterator(); iter.hasNext(); ) {
+            NexusTag tag = iter.next();
+            if (empty(tag.getCanonicalName())) iter.remove();
+        }
 
         Nexus nexus = nexusDAO.findByOwnerAndName(account, name);
         if (nexus != null) {

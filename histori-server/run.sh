@@ -53,4 +53,4 @@ if [ ! -f ${JAR} ] ; then
   fi
 fi
 
-exec java ${debug} -Xmx1900m -Xms1900m -Djava.net.preferIPv4Stack=true -server -cp ${JAR} ${CLASS} ${command} "${@}"
+exec java ${debug} -XX:-OmitStackTraceInFastThrow -Xmx1900m -Xms1900m -Djava.net.preferIPv4Stack=true -server -cp ${JAR} ${CLASS} ${command} "${@}"
