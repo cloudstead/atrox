@@ -12,6 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static histori.model.CanonicalEntity.canonicalize;
+import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.string.StringUtil.trimQuotes;
 
@@ -68,7 +69,7 @@ public class NexusQueryTerm implements Comparable<NexusQueryTerm> {
 
     public String sqlClause() { return sqlClause(fieldType, matchType); }
 
-    public void sqlArgs(List<Object> args) { sqlArgs(fieldType, sqlArg(term), args); }
+    public void sqlArgs(List<Object> args) { sqlArgs(fieldType, term, args); }
 
     private String sqlArg(String term) {
         switch (matchType) {
@@ -77,17 +78,19 @@ public class NexusQueryTerm implements Comparable<NexusQueryTerm> {
         }
     }
 
-    public static void sqlArgs(FieldType fieldType, String arg, List<Object> args) {
+    public void sqlArgs(FieldType fieldType, String arg, List<Object> args) {
         switch (fieldType) {
             case any:
                 sqlArgs(FieldType.name, arg, args);
                 sqlArgs(FieldType.nexus_type, arg, args);
                 sqlArgs(FieldType.tags, arg, args);
                 break;
+
             case any_including_markdown:
                 sqlArgs(FieldType.any, arg, args);
                 sqlArgs(FieldType.markdown, arg, args);
                 break;
+
             case tags:
                 sqlArgs(FieldType.tag_name, arg, args);
                 sqlArgs(FieldType.decorator_value, arg, args);
@@ -95,7 +98,8 @@ public class NexusQueryTerm implements Comparable<NexusQueryTerm> {
 
             case name:
             case tag_name:
-                args.add(canonicalize(arg));
+                // we do our own processing -- otherwise canonicalize encodes the % that are supposed to be used in ilike
+                args.add(sqlArg(canonicalize(arg)));
                 break;
 
             case nexus_type:
@@ -103,7 +107,10 @@ public class NexusQueryTerm implements Comparable<NexusQueryTerm> {
             case decorator_name:
             case decorator_value:
             case markdown:
-                args.add(arg);
+                args.add(sqlArg(arg));
+                break;
+
+            default: die("sqlArgs: invalid fieldType: "+fieldType);
         }
     }
 
