@@ -87,6 +87,11 @@ public class NexusQueryTerm implements Comparable<NexusQueryTerm> {
                 sqlArgs(FieldType.any, arg, args);
                 sqlArgs(FieldType.markdown, arg, args);
                 break;
+            case tags:
+                sqlArgs(FieldType.tag_name, arg, args);
+                sqlArgs(FieldType.decorator_value, arg, args);
+                break;
+
             case name:
             case nexus_type:
             case tag_name:
@@ -94,7 +99,6 @@ public class NexusQueryTerm implements Comparable<NexusQueryTerm> {
             case decorator_name:
             case decorator_value:
             case markdown:
-            case tags:
                 args.add(arg);
         }
     }
