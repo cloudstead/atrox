@@ -15,7 +15,7 @@ public class NexusImportOptions extends HistoriApiOptions {
     @Getter @Setter private File file = null;
 
     public static final String USAGE_FORCE = "When bulk loading, force-cancels any previous bulk loading job";
-    public static final String OPT_FORCE = "-F";
+    public static final String OPT_FORCE = "-f";
     public static final String LONGOPT_FORCE= "--force";
     @Option(name=OPT_FORCE, aliases=LONGOPT_FORCE, usage=USAGE_FORCE)
     @Getter @Setter private boolean force = false;
