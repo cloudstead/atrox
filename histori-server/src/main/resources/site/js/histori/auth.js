@@ -30,7 +30,11 @@ function showStandardPermalinks () {
     Api.get_standard_permalinks(function (links) {
         var tbody = $('#standardPermalinksTbody');
         tbody.empty();
+        var names = {};
         for (var i=0; i<links.length; i++) {
+            if (names.hasOwnProperty(links[i].name)) continue; // no duplicates
+            names[links[i].name] = links[i];
+
             var row = $('<tr></tr>');
             var nameCell = $('<td></td>');
 
