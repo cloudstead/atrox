@@ -144,9 +144,6 @@ Api = {
         if (typeof Api._find_nexuses_timers[search_id] != "undefined") {
             window.clearTimeout(Api._find_nexuses_timers[search_id]);
         }
-        var backend = getParameterByName('qb');
-        if (typeof backend == "undefined" || backend == null || backend.length == 0) backend = null;
-
         var timeout = getParameterByName('timeout');
         if (typeof timeout == "undefined" || timeout == null || timeout.length == 0) timeout = null;
 
@@ -155,8 +152,7 @@ Api = {
         var s = search;
         Api._find_nexuses_timers[search_id] = window.setTimeout(function () {
             start_func();
-            var search_uri = 'search/q/'+s.start+'/'+s.end+'/'+s.north+'/'+s.south+'/'+s.east+'/'+s.west+'?q='+s.query
-                + (backend != null ? '&qb='+backend : '')
+            var search_uri = 'search/q/'+s.start+'/'+s.end+'/'+s.north+'/'+s.south+'/'+s.east+'/'+s.west+'?q='+encodeURIComponent(s.query)
                 + (timeout != null ? '&t='+timeout : '')
                 + (useCache != null ? '&c='+useCache : '');
             console.log('searching('+search_id+'): '+search_uri);
