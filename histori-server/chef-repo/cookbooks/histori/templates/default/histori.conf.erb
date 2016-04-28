@@ -7,6 +7,7 @@ DocumentRoot <%=@doc_root%>
 <Directory <%=@doc_root%>>
   Require all granted
   DirectoryIndex index.html
+  Options +IncludesNOEXEC
 
   ExpiresActive On
   <FilesMatch "\.(ico|pdf|jpg|jpeg|png|gif|js|css|swf|flv)$">
