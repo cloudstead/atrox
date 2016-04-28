@@ -79,7 +79,7 @@ function openNexusDetails (uuid, tries) {
     var commentaryContainer = $('#nexusCommentaryContainer');
     commentaryContainer.empty();
     if (typeof nexus.markdown != "undefined") {
-        var markdown = $('<p class="commentaryMarkdown">'+markupConverter.makeHtml(nexus.markdown.replaceAll('\&amp;nbsp;', '&nbsp;')).replaceAll('<a ', '<a target="_blank" ')+'</p>');
+        var markdown = $('<p class="commentaryMarkdown">'+markupConverter.makeHtml(nexus.markdown.replaceAll('\&amp;nbsp;', '&nbsp;').replaceAll('\&amp;ndash;', '&ndash;')).replaceAll('<a ', '<a target="_blank" ')+'</p>');
         commentaryContainer.append(markdown);
     }
 
