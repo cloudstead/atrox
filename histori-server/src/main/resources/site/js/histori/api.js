@@ -19,7 +19,7 @@ function add_api_auth (xhr) {
     xhr.setRequestHeader(Api.API_TOKEN, token);
 }
 
-// Must match what is in histori-config.xml, then add a trailing slash here
+// Must match what is in histori-config.yml, then add a trailing slash here
 API_PREFIX = "/api/";
 
 Api = {

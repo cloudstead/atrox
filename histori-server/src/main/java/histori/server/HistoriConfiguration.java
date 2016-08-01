@@ -3,6 +3,7 @@ package histori.server;
 import cloudos.server.asset.AssetStorageConfiguration;
 import cloudos.service.asset.AssetStorageService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.github.jknack.handlebars.Handlebars;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -46,6 +47,8 @@ public class HistoriConfiguration extends RestServerConfiguration
         if (empty(redis.getPrefix())) redis.setPrefix("histori");
         return redis;
     }
+
+    @Getter(lazy=true) private final Handlebars handlebars = null;
 
     @Getter @Setter private SmtpMailConfig smtp;
     @Getter @Setter private Map<String, SimpleEmailMessage> emailSenderNames = new HashMap<>();

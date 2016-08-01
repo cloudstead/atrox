@@ -10,7 +10,7 @@ import histori.model.support.NexusSummary;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
-import org.cobbzilla.util.collection.FieldTransfomer;
+import org.cobbzilla.util.collection.FieldTransformer;
 import org.cobbzilla.util.collection.mappy.MappyList;
 import org.cobbzilla.util.collection.mappy.MappySortedSet;
 import org.cobbzilla.wizard.dao.DAO;
@@ -160,7 +160,7 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
         summary.setPrimary(primary);
         primary.getTags(); // force tag initialization from tagsJson
 
-        final List<String> uuids = (List<String>) CollectionUtils.collect(all, FieldTransfomer.TO_UUID);
+        final List<String> uuids = (List<String>) CollectionUtils.collect(all, FieldTransformer.TO_UUID);
         uuids.remove(primary.getUuid());
 
         summary.setOthers(uuids.toArray(new String[uuids.size()]));
