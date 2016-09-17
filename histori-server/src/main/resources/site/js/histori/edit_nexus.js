@@ -38,6 +38,25 @@ function hideLoadingMessage () {
     $('#nexusLoadingContainer').remove();
 }
 
+function enableNexusEditButtons (enable) {
+    if (enable) {
+        $('.nexusEditButtons').css('visibility', 'visible');
+        $('.nexusViewButtons').css('visibility', 'hidden');
+    } else {
+        $('.nexusEditButtons').css('visibility', 'hidden');
+        $('.nexusViewButtons').css('visibility', 'visible');
+    }
+    var editButton = $('#btn_nexusEdit');
+    if (isAnonymous()) {
+        editButton.html('sign in to edit');
+        editButton.off('click');
+        editButton.on('click', function () { showLoginForm(); return false; });
+    } else {
+        editButton.html('edit');
+        editButton.off('click');
+        editButton.on('click', function () { startEditingNexus(); return false; });
+    }
+}
 function openNexusDetails (uuid, tries) {
 
     closeForm();
@@ -45,11 +64,7 @@ function openNexusDetails (uuid, tries) {
     var nexus = Api.nexusCache[uuid];
 
     if (typeof nexus == "undefined" || nexus == null) return;
-    if (typeof nexus.dirty != "undefined" && nexus.dirty) {
-        $('#btn_nexusSave').css('visibility', 'visible');
-    } else {
-        $('#btn_nexusSave').css('visibility', 'hidden');
-    }
+    enableNexusEditButtons(typeof nexus.dirty != "undefined" && nexus.dirty);
 
     $('#nexusNameContainer').html(nexus.name);
     Api.owner_name(nexus.owner, '#nexusAuthorContainer', "v" + nexus.version +" created by: ");
@@ -245,6 +260,10 @@ function update_time_point (timePoint, value) {
     return true;
 }
 
+function startEditingNexus () {}
+
+function cancelNexusEdits () {}
+
 function commitNexusEdits () {
     //save_fields();
 
@@ -290,7 +309,7 @@ function save_field(name) {
         console.log('updating in-mem timeRange: '+timeRange);
         Api.nexusCache[activeNexusSummary.uuid].primary.timeRange = timeRange;
 
-        $('#btn_nexusSave').css('visibility', 'visible');
+        enableNexusEditButtons(true);
 
         var rangeStart = $('.nexusRangeStart');
         var rangeEnd = $('.nexusRangeEnd');
@@ -351,7 +370,7 @@ function update_tag_display_name (id, name) {
 function closeNexusDetails () {
     var container = $('#nexusDetailsContainer');
     container.css('zIndex', -1);
-    $('#btn_nexusSave').css('visibility', 'hidden');
+    enableNexusEditButtons(false);
     activeNexusSummary = null;
 }
 

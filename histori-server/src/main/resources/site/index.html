@@ -65,8 +65,10 @@
     <div id="nexusTitleContainer">
         <span id="nexusNameContainer"></span>
         <span id="nexusDetailsControl">
-            <button id="btn_nexusSave" class="nexusSaveButton" style="visibility: hidden" onclick="commitNexusEdits(); return false;">save</button>
-            <button id="btn_nexusVersions" class="nexusButton" onclick="viewNexusVersions(); return false;">versions</button>
+            <button id="btn_nexusEdit" class="nexusEditButton nexusViewButtons" style="visibility: hidden" onclick="startEditingNexus(); return false;">edit</button>
+            <button id="btn_nexusCancelEdit" class="nexusCancelEditButton nexusEditButtons" style="visibility: hidden" onclick="cancelNexusEdits(); return false;">cancel</button>
+            <button id="btn_nexusSave" class="nexusSaveButton nexusEditButtons" style="visibility: hidden" onclick="commitNexusEdits(); return false;">save</button>
+            <button id="btn_nexusVersions" class="nexusVersionsButton" onclick="viewNexusVersions(); return false;">versions</button>
         </span>
     </div>
     <div id="nexusRangeContainer">

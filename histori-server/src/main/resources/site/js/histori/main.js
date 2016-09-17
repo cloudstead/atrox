@@ -171,15 +171,22 @@ function initMap () {
             if (link_id != null && link_id.length >= 5) {
                 Histori.restore_permalink(link_id);
             } else {
-                if (Histori.has_session_data()) {
-                    Histori.restore_session();
-                } else {
-                    showStandardPermalinks();
+                if (!shouldShowResetPassForm) {
+                    if (Histori.has_session_data()) {
+                        Histori.restore_session();
+                    } else {
+                        showStandardPermalinks();
+                    }
                 }
             }
         }
     }
 
+}
+
+function shouldShowResetPassForm () {
+    var keyParam = getParameterByName('key');
+    return keyParam != null && keyParam.length > 5 && isAnonymous();
 }
 
 function init() {
@@ -199,10 +206,7 @@ function init() {
             $('#footer_copyright_link').attr('href', '/legal/terms.html');
 
             google.maps.event.addDomListener(window, "load", initMap);
-            var keyParam = getParameterByName('key');
-            if (keyParam != null && keyParam.length > 5 && isAnonymous()) {
-                showResetPassForm();
-            }
+            if (shouldShowResetPassForm()) showResetPassForm();
 
             // Setup tooltips
             $(document).tooltip({
