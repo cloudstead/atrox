@@ -25,6 +25,16 @@ For commercial use, please contact cloudstead.io
             <groupId>org.cobbzilla</groupId>
             <artifactId>wizard-server</artifactId>
             <version>1.0.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.cobbzilla</groupId>
+                    <artifactId>wizard-form</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.cobbzilla</groupId>
+                    <artifactId>wizard-thrift</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- RDBMS persistence -->
