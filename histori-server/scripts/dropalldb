@@ -1,6 +1,8 @@
 #!/bin/bash
 #
-# Drop all databases whose name matches a pattern
+# Usage: dropalldb <prefix>
+#
+# Drop all databases whose name matches the <prefix> pattern
 #
 # Databases whose names contain "template" or "postgres" will not be dropped, no matter what
 #
