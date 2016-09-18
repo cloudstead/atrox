@@ -34,14 +34,9 @@ public class TimeRange {
     public TimePoint getEndPoint() { return endPoint == null || endPoint.equals(startPoint) ? null : endPoint; }
     public boolean hasEnd() { return endPoint != null && !endPoint.equals(startPoint); }
 
-    public TimeRange(String startDate, String endDate) {
-        setStartPoint(new TimePoint(startDate));
-        setEndPoint(new TimePoint(endDate));
-    }
+    public TimeRange(String startDate, String endDate) { this(new TimePoint(startDate), new TimePoint(endDate)); }
 
-    public TimeRange(String startDate) {
-        setStartPoint(new TimePoint(startDate));
-    }
+    public TimeRange(String startDate) { setStartPoint(new TimePoint(startDate)); }
 
     public TimeRange(TimePoint start) { this.startPoint = start.initInstant(); }
 

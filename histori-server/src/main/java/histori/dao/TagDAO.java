@@ -9,23 +9,19 @@ import histori.model.support.AutocompleteSuggestions;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.cache.AutoRefreshingReference;
+import org.cobbzilla.util.cache.BackgroundRefreshingReference;
 import org.cobbzilla.wizard.server.config.DatabaseConfiguration;
 import org.cobbzilla.wizard.server.config.ShardSetConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
 
 import static histori.model.CanonicalEntity.canonicalize;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
-import static org.cobbzilla.util.daemon.ZillaRuntime.now;
 import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
 import static org.cobbzilla.util.string.StringUtil.isNumber;
 import static org.cobbzilla.wizard.resources.ResourceUtil.invalidEx;
@@ -44,18 +40,21 @@ public class TagDAO extends ShardedEntityDAO<Tag, TagShardDAO> {
     }
 
     @Override public Tag postCreate(Tag tag, Object context) {
-        tagCache.put(tag.getCanonicalName(), tag);
+        updateCache(tag);
         return super.postCreate(tag, context);
     }
 
     @Override public Tag postUpdate(@Valid Tag tag, Object context) {
-        tagCache.put(tag.getCanonicalName(), tag);
+        updateCache(tag);
         return super.postUpdate(tag, context);
     }
 
-    @Override public Tag create(@Valid Tag entity) {
-        final Tag found = tagCache.get(entity.getCanonicalName());
-        return found != null ? found : super.create(entity);
+    @Override public Tag create(@Valid Tag tag) {
+        final Map<String, Tag> cache = tagCache.get();
+        Tag found = null;
+        if (cache != null) found = cache.get(tag.getCanonicalName());
+        if (found == null) found = findByCanonicalName(tag.getCanonicalName());
+        return found != null ? found : super.create(tag);
     }
 
     public List<Tag> findByCanonicalNames(String[] names) {
@@ -67,21 +66,33 @@ public class TagDAO extends ShardedEntityDAO<Tag, TagShardDAO> {
 
     // findByCanonicalName needs to be lightning-fast
     private static final long TAG_CACHE_REFRESH = TimeUnit.MINUTES.toMillis(10);
-    private final AtomicLong lastCacheFill = new AtomicLong(0);
-    private final Map<String, Tag> tagCache = new ConcurrentHashMap<>();
+
+    private final BackgroundRefreshingReference<Map<String, Tag>> tagCache = new BackgroundRefreshingReference<Map<String, Tag>>() {
+        @Override public boolean initialize() { return false; }
+
+        @Override public Map<String, Tag> refresh() {
+            final Map<String, Tag> cache = new ConcurrentHashMap<>();
+            for (Tag tag : findAll()) {
+                cache.put(tag.getCanonicalName(), tag);
+            }
+            return cache;
+        }
+
+        @Override public long getTimeout() { return TAG_CACHE_REFRESH; }
+    };
+
+    protected void updateCache(Tag tag) {
+        final Map<String, Tag> cache = tagCache.get();
+        if (cache != null) cache.put(tag.getCanonicalName(), tag);
+    }
+
+    public void warmCache () { tagCache.update(); }
 
     public Tag findByCanonicalName(String canonicalName) {
-        if (now() - lastCacheFill.get() > TAG_CACHE_REFRESH) {
-            synchronized (lastCacheFill) {
-                if (now() - lastCacheFill.get() > TAG_CACHE_REFRESH) {
-                    for (Tag tag : findAll()) {
-                        tagCache.put(tag.getCanonicalName(), tag);
-                    }
-                    lastCacheFill.set(now());
-                }
-            }
-        }
-        return tagCache.get(canonicalName);
+        final Map<String, Tag> cache = tagCache.get();
+        if (cache != null) return cache.get(canonicalName);
+        log.info("findByCanonicalName: cache not initialized, doing real-time lookup of "+canonicalName);
+        return super.findByName(canonicalName);
     }
 
     private final Map<String, AutoRefreshingReference<AutocompleteSuggestions>> autocompleteCache = new ConcurrentHashMap<>();
@@ -130,7 +141,7 @@ public class TagDAO extends ShardedEntityDAO<Tag, TagShardDAO> {
                 }
             }
         }
-        if (added) lastCacheFill.set(0);
+        if (added) tagCache.set(null);
     }
 
     @AllArgsConstructor

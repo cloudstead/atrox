@@ -191,7 +191,7 @@ function openNexusDetails (uuid, tries) {
 }
 
 function findNexus(nexus, tries) {
-    Api.find_nexus(nexus.uuid, function (data) {
+    Api.find_nexus_exact(nexus.uuid, function (data) {
         console.log('find_nexus for try #' + tries + ' returned nexus, incomplete=' + data.incomplete);
         openNexusDetails(nexus.uuid, tries + 1);
     }, null);
@@ -259,7 +259,10 @@ function isDirty (nexus) {
         return true;
     }
     var endRangeField = $('#nedit_nexusRangeEnd');
-    if (endRangeField && endRangeField[0] && !isSameDate(nexus.timeRange.endPoint, endRangeField)) {
+    if (endRangeField && endRangeField[0]
+        // end is optional, so additionally we check if one side is empty/null/undefined and the other has a value
+        && (nexus.timeRange.endPoint && !isSameDate(nexus.timeRange.endPoint, endRangeField))
+            || endRangeField.val().trim().length > 0) {
         return true;
     }
     return false;
@@ -268,6 +271,10 @@ function isDirty (nexus) {
 function textFieldDirtyChecks () { return 'onkeyup="checkDirty()" onchange="checkDirty()" onblur="checkDirty()"'; }
 
 function startEditingNexus () {
+    if (isAnonymous()) {
+        showLoginForm();
+        return;
+    }
     closeForm();
     var container = $('#nexusDetailsContainer');
     var nexus = Histori.active_nexus;
@@ -421,68 +428,36 @@ function startEditingNexus () {
 }
 
 function cancelNexusEdits () {
-    Histori.active_nexus.dirty = false;
-    openNexusDetails(Histori.active_nexus.uuid, 0);
+    if (checkDirtyTimer != null) window.clearTimeout(checkDirtyTimer);
+    if (Histori.active_nexus) {
+        Histori.active_nexus.dirty = false;
+        openNexusDetails(Histori.active_nexus.uuid, 0);
+    }
 }
 
 function populateEditedNexus () {
     var edits = {};
     edits.name = $('#nedit_name').val();
+    edits.timeRange = {
+        startPoint: { inputString: $('#nedit_nexusRangeStart').val() },
+        endPoint: { inputString: $('#nedit_nexusRangeEnd').val() }
+    };
+    edits.point = { type: 'Point', coordinates: [ 0.0, 0.0 ] };
     return edits;
 }
 
 function commitNexusEdits () {
     if (Histori.active_nexus != null && isDirty(Histori.active_nexus)) {
-        Histori.edit_nexus(Histori.active_nexus.uuid, populateEditedNexus(), function (data) {
-            findNexus(data.uuid, 0);
+        Api.edit_nexus(Histori.active_nexus, populateEditedNexus(), function (data) {
+            Histori.active_nexus.dirty = false;
+            Histori.active_nexus = data;
+            if (checkDirtyTimer != null) window.clearTimeout(checkDirtyTimer);
+            newExactSearch();
+            findNexus(data, 0);
         });
-        Histori.active_nexus.dirty = false;
     }
 }
-//
-//function save_field(name) {
-//    console.log('save_field: '+name);
-//    if (name == "nexusRangeStart" || name == "nexusRangeEnd") {
-//        var timeRange = { startPoint: {}, endPoint: {} };
-//        var startField = $('.edit_nexusRangeStart');
-//        var endField = $('.edit_nexusRangeEnd');
-//        var ok = true;
-//        if (!update_time_point(timeRange.startPoint, startField.val())) {
-//            display_error_field(startField);
-//            ok = false;
-//        }
-//        var endVal = endField.val();
-//        if (typeof endVal == "undefined" || endVal.length == 0) {
-//            timeRange.endPoint = null;
-//        } else {
-//            if (!update_time_point(timeRange.endPoint, endVal)) {
-//                display_error_field(endField);
-//                ok = false;
-//            }
-//        }
-//        if (timeRange.endPoint != null && timeRange.endPoint.instant < timeRange.startPoint.instant) {
-//            display_error_field(endField);
-//            ok = false;
-//        }
-//        if (!ok) return false;
-//
-//        // todo: if it did not change, do not mark as dirty
-//        Api.nexusCache[Histori.active_nexus.uuid].dirty = true;
-//        console.log('updating in-mem timeRange: '+timeRange);
-//        Api.nexusCache[Histori.active_nexus.uuid].primary.timeRange = timeRange;
-//
-//        enableNexusEditButtons(true);
-//
-//        var rangeStart = $('.nexusRangeStart');
-//        var rangeEnd = $('.nexusRangeEnd');
-//        rangeStart.off("keyup");
-//        rangeEnd.off("keyup");
-//        clear_error_field(startField);
-//        clear_error_field(endField);
-//        displayTimeRange(timeRange);
-//    }
-//}
-//
+
 function display_error_field(field) { field.css('border', '3px solid red'); }
 function clear_error_field(field) { field.css('border', '1px solid gray'); }
 

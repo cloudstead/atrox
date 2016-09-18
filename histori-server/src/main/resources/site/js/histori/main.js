@@ -329,6 +329,64 @@ function unhighlight_timeline_marker(timeline_marker) {
     }
 }
 
+function add_nexus_to_map (searchbox_id, primary) {
+
+    if (typeof primary != "undefined" && typeof primary.geo != "undefined" && primary.geo != null) {
+        console.log('add_nexus_to_map: no primary nexus');
+        return;
+    }
+
+    // ensure we do not add the same nexus to the map twice for the same searchbox
+    // todo: use a hash here, this is O(N) and will not perform well with large sets of markers
+    for (var i=0; i<all_markers.length; i++) {
+        if (typeof all_markers[i].nexus != 'undefined' && all_markers[i].nexus.uuid == primary.uuid) {
+            console.log('already has a marker: '+primary.uuid);
+            return;
+        }
+    }
+
+    if (primary.geo.type == "Point") {
+        var markerImageSrc = rowMarkerImageSrc(searchbox_id);
+        if (markerImageSrc == null) {
+            console.log('marker was removed ('+searchbox_id+'), cannot add results');
+            return;
+        }
+
+        var marker = new google.maps.Marker({
+            nexus: primary,
+            position: {lat: primary.geo.coordinates[1], lng: primary.geo.coordinates[0]},
+            title: primary.name,
+            icon: markerImageSrc,
+            map: map
+        });
+
+        var clickHandler = newMarkerListener(primary.uuid);
+        if (clickHandler == null) {
+            console.log("update_map: error adding: "+primary.uuid);
+            return;
+        }
+        marker.addListener('click', clickHandler);
+        all_markers.push(marker);
+
+        // convert start/end instant to raw date value (year.fraction)
+        var start = canonical_date_to_raw(primary.timeRange.startPoint);
+        var end = (typeof primary.timeRange.endPoint == 'undefined'
+        || primary.timeRange.endPoint == null
+        || primary.timeRange.startPoint.instant == primary.timeRange.endPoint.instant)
+            ? null : canonical_date_to_raw(primary.timeRange.endPoint);
+
+        var timeline_marker = slider.add_marker(searchbox_id, marker, start, end, primary.name, markerImageSrc, clickHandler);
+
+        marker.addListener('mouseover', highlight_timeline_marker(timeline_marker));
+        marker.addListener('mouseout', unhighlight_timeline_marker(timeline_marker));
+
+        active_markers[searchbox_id].push(marker);
+
+    } else {
+        // handle polygons and other geometries here
+        console.log('add_nexus_to_map: unsupported geometry: '+JSON.stringify(primary.geo));
+    }
+}
 function update_map (searchbox_id) {
 
     return function (data) {
@@ -342,48 +400,10 @@ function update_map (searchbox_id) {
         remove_markers(searchbox_id);
         slider.remove_markers(searchbox_id);
 
-        var markerImageSrc = rowMarkerImageSrc(searchbox_id);
-        if (markerImageSrc == null) {
-            console.log('marker was removed ('+searchbox_id+'), cannot add results');
-            return;
-        }
-
         if (data && data.results && data.results instanceof Array) {
             for (var i = 0; i < data.results.length; i++) {
                 var result = data.results[i];
-                //console.log("update_map: result[" + i + "] is: " + result.primary.name);
-                var primary = result.primary;
-                if (typeof primary != "undefined" && typeof primary.geo != "undefined" && primary.geo != null && primary.geo.type == "Point") {
-
-                    var marker = new google.maps.Marker({
-                        position: {lat: primary.geo.coordinates[1], lng: primary.geo.coordinates[0]},
-                        title: primary.name,
-                        icon: markerImageSrc,
-                        map: map
-                    });
-                    all_markers.push(marker);
-
-                    var clickHandler = newMarkerListener(result.uuid);
-                    if (clickHandler == null) {
-                        console.log("update_map: error adding: "+result.uuid);
-                        continue;
-                    }
-                    marker.addListener('click', clickHandler);
-
-                    // convert start/end instant to raw date value (year.fraction)
-                    var start = canonical_date_to_raw(primary.timeRange.startPoint);
-                    var end = (typeof primary.timeRange.endPoint == 'undefined'
-                                || primary.timeRange.endPoint == null
-                                || primary.timeRange.startPoint.instant == primary.timeRange.endPoint.instant)
-                        ? null : canonical_date_to_raw(primary.timeRange.endPoint);
-
-                    var timeline_marker = slider.add_marker(searchbox_id, marker, start, end, primary.name, markerImageSrc, clickHandler);
-
-                    marker.addListener('mouseover', highlight_timeline_marker(timeline_marker));
-                    marker.addListener('mouseout', unhighlight_timeline_marker(timeline_marker));
-
-                    active_markers[searchbox_id].push(marker);
-                }
+                add_nexus_to_map(searchbox_id, result.primary);
             }
 
             if (data.results.length >= MAX_SEARCH_RESULTS) {

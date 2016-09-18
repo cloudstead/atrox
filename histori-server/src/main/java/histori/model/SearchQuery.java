@@ -61,11 +61,14 @@ public class SearchQuery extends IdentifiableBase {
     public boolean hasVisibility () { return visibility != null; }
 
     @Enumerated(value=STRING)
+    @Column(length=50)
     @Getter @Setter private SearchSortOrder summarySortOrder = SearchSortOrder.vote_tally;
 
     @Enumerated(value=STRING)
+    @Column(length=50)
     @Getter @Setter private SearchSortOrder nexusSortOrder = SearchSortOrder.vote_tally;
 
+    @Column(length=(UUID_MAXLEN*100))
     @JsonIgnore private String preferredOwners = null;
     public String getPreferredOwners() {
         if (!empty(preferredOwners)) return preferredOwners;
@@ -88,6 +91,7 @@ public class SearchQuery extends IdentifiableBase {
         return preferredOwnersList;
     }
 
+    @Column(length=(UUID_MAXLEN*100))
     @JsonIgnore private String blockedOwners = null;
     public String getBlockedOwners() {
         if (!empty(blockedOwners)) return blockedOwners;

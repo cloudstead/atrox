@@ -3,10 +3,12 @@ package histori.model.support;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import histori.ApiConstants;
 import histori.wiki.OrdinalCentury;
+import histori.wiki.WikiDateFormat;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -19,8 +21,10 @@ import java.math.BigInteger;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.bigint;
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
+import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
+import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
 
-@Embeddable @NoArgsConstructor @EqualsAndHashCode(of={"instant"})
+@Embeddable @NoArgsConstructor @EqualsAndHashCode(of={"instant"}) @Slf4j
 public class TimePoint {
 
     // allows us to represent any TimePoint as a BigInteger
@@ -96,6 +100,18 @@ public class TimePoint {
         setInstant(instant);
     }
 
+    // UI will set this and no other fields, when setter gets called by Jackson it populates the object
+    @Transient @Getter private String inputString;
+    public void setInputString(String inputString) {
+        if (empty(inputString)) return; // could be empty endPoint
+        final TimeRange parsed = WikiDateFormat.parse(inputString);
+        if (parsed == null) {
+            die("setInputString: error parsing: "+inputString);
+            return;
+        }
+        copy(this, parsed.getStartPoint());
+    }
+
     @Getter @Setter private BigInteger instant;
     public TimePoint initInstant () { if (instant == null) initInstant(toString()); return this; }
 
@@ -111,7 +127,7 @@ public class TimePoint {
     @Max(value=MAX_YEAR, message="err.timePoint.year.tooLate")
     @Getter @Setter private long year;
 
-    @JsonIgnore public String getCentury () { return OrdinalCentury.forYear(getYear()); }
+    @Transient @JsonIgnore public String getCentury () { return OrdinalCentury.forYear(getYear()); }
     public void setCentury (String ordinal) { setYear(OrdinalCentury.getYear(ordinal)); }
 
     public void invertYear() { year *= -1; }
@@ -158,8 +174,6 @@ public class TimePoint {
         return b.toString();
     }
 
-    public Serializable pad(Number val) {
-        return val.longValue() < 10L ? "0"+val : val;
-    }
+    public Serializable pad(Number val) { return val.longValue() < 10L ? "0"+val : val; }
 
 }

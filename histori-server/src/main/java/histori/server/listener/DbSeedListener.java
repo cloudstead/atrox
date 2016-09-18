@@ -1,9 +1,10 @@
-package histori.server;
+package histori.server.listener;
 
 import histori.dao.AccountDAO;
 import histori.dao.CanonicalEntityDAO;
 import histori.dao.ShardedEntityDAO;
 import histori.model.*;
+import histori.server.HistoriConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.wizard.dao.DAO;
 import org.cobbzilla.wizard.model.HashedPassword;

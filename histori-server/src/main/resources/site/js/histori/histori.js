@@ -70,7 +70,11 @@ function to_bool (val) {
 }
 
 function isAnonymous() {
-    return (get_token() == NO_TOKEN || ((typeof Histori.account() == 'undefined') || (typeof Histori.account().email == 'undefined' || Histori.account().anonymous)));
+    return (get_token() == NO_TOKEN
+            || (typeof Histori.account() == 'undefined'
+            || (typeof Histori.account().email == 'undefined'
+            //|| (Histori.account().email.startsWith('anonymous-') && Histori.account().email.endsWith('@example.com'))
+            || Histori.account().anonymous)));
 }
 
 function hideQuickTips () {
@@ -81,12 +85,10 @@ function hideQuickTips () {
 var activeForm = null;
 function showForm(id, position_func, position_arg) {
     var container = $('#'+id);
-    if (container.css('z-index') > 0) {
+    if (id != activeForm && container.css('z-index') > 0) {
         container.css('z-index', -1);
     } else {
-        if (activeForm != null) {
-            closeForm(activeForm);
-        }
+        if (activeForm != null) closeForm(activeForm);
         if (typeof position_func != "undefined") {
             if (typeof position_arg != "undefined") {
                 position_func.call(container, position_arg);
@@ -109,12 +111,17 @@ function closeForm(id) {
     var container = $('#' + id);
     container.css('z-index', -1);
     $(".authError").empty();
+    activeForm = null;
 }
 
 String.prototype.trim = String.prototype.trim || function trim() { return this.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); };
 
 String.prototype.endsWith = function(suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
+};
+
+String.prototype.startsWith = function(prefix) {
+    return this.indexOf(prefix) == 0;
 };
 
 // adapted from https://stackoverflow.com/a/13538245/1251543
@@ -292,10 +299,6 @@ Histori = {
         return default_value;
     },
     set_session: function (name, value) { sessionStorage.setItem(name, value); },
-
-    edit_nexus: function (nexus, success, fail) {
-        Api.edit_nexus(nexus, success, fail);
-    },
 
     // Session save-state functions (stored in localStorage)
     _search_state: '__histori.search_state',

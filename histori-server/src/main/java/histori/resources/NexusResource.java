@@ -144,13 +144,21 @@ public class NexusResource {
         if (!name.equals(idNexus.getName())) return invalid("err.name.mismatch");
 
         Nexus nexus = nexusDAO.findByOwnerAndName(account, name);
-        if (nexus == null || !idNexus.isOwner(account)) {
+        if (nexus == null) {
             nexus = new Nexus();
             copy(nexus, idNexus, CREATE_FIELDS);
             copy(nexus, request, UPDATE_FIELDS);
             nexus.setOrigin(idNexus.getUuid());
             nexus.setOwnerAccount(account);
             nexus = nexusDAO.create(nexus);
+
+        } else if (!idNexus.isOwner(account)) {
+            copy(nexus, idNexus, CREATE_FIELDS);
+            copy(nexus, request, UPDATE_FIELDS);
+            nexus.setOrigin(idNexus.getUuid());
+            nexus.setOwnerAccount(account);
+            nexus = nexusDAO.update(nexus);
+
         } else {
             if (!updateNexus(request, nexus)) return ok(nexus);
             nexus.setOrigin(idNexus.getUuid());

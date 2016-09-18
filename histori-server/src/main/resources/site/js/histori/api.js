@@ -175,10 +175,11 @@ Api = {
         }, 2000);
     },
 
-    find_nexus: function (uuid, success, fail) {
-        Api._get('search/n/'+uuid, function (nexus) {
+    find_nexus_exact: function (uuid, success, fail) {
+        Api._get('search/n/'+uuid+"?exact=true", function (nexus) {
             if (typeof nexus.version == "undefined" || nexus.version == null) nexus.version = 0;
             if (nexus.tags) nexus.tags = nexus.tags.tags;
+            Api.nexusCache[uuid] = nexus.primary;
             success(nexus);
         }, fail);
     },
@@ -268,8 +269,12 @@ Api = {
         });
     },
 
-    edit_nexus: function (nexus, success, fail) {
-        Api._post('nexus/' + nexus.uuid, nexus, success, fail);
+    edit_nexus: function (nexus, edited, success, fail) {
+        if (edited.name != nexus.name) {
+            Api._put('nexus/' + encodeURIComponent(edited.name), edited, success, fail);
+        } else {
+            Api._post('nexus/' + encodeURIComponent(nexus.name) + '/' + nexus.uuid, edited, success, fail);
+        }
     },
 
     // Bookmark endpoints
@@ -302,8 +307,13 @@ Api = {
         return src.replace("/public/image/", "/public/transform/w_"+width+"-h_"+height+"/");
     },
 
+    _date_cache: {},
+
     parse_date: function (dateString) {
-        return Api._post('utils/date/parse', dateString);
+        if (!Api._date_cache[dateString]) {
+            Api._date_cache[dateString] = Api._post('utils/date/parse', dateString);
+        }
+        return Api._date_cache[dateString];
     }
 
     //addRegion: function (email, password) { return Api._post('/api/accounts/' + email, {'name': email, 'password': password}); }

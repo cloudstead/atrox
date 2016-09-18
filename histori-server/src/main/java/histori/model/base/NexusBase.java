@@ -35,6 +35,8 @@ import static histori.ApiConstants.GEOJSON_MAXLEN;
 import static histori.ApiConstants.NAME_MAXLEN;
 import static histori.model.TagType.EVENT_TYPE;
 import static histori.model.base.NexusTags.JSONB_TYPE;
+import static java.math.BigInteger.ZERO;
+import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.json.JsonUtil.fromJsonOrDie;
 import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
@@ -80,8 +82,8 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
 
     @Transient @Getter @Setter private String displayName;
 
-    @Column(length=NAME_MAXLEN)
-    @Size(max=NAME_MAXLEN, message="err.library.length")
+    @Column(length=100)
+    @Size(max=100, message="err.library.length")
     @Getter @Setter private String libraryName;
 
     // Which event_type tag is "primary" (if there is only 1 then it is here by default)
@@ -90,12 +92,42 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
     @Getter @Setter private String nexusType;
     public boolean hasNexusType () { return !empty(nexusType); }
 
-    @Embedded @Getter @Setter private TimeRange timeRange;
+    @Embedded @Getter private TimeRange timeRange;
+
+    public NexusBase setTimeRange(TimeRange range) {
+        if (range == null || !range.hasStart() || range.getStartPoint().getInstant().equals(ZERO)) {
+            log.warn("setTimeRange: not overwriting self with empty value");
+        } else {
+            this.timeRange = range;
+        }
+        return this;
+    }
+
     public boolean hasRange () { return timeRange != null && timeRange.hasStart(); }
 
     @Size(max=GEOJSON_MAXLEN, message="err.geolocation.tooLong")
     @Column(length=GEOJSON_MAXLEN, nullable=false)
-    @JsonIgnore @Getter @Setter private String geoJson;
+    @JsonIgnore @Getter private String geoJson;
+
+    public void setGeoJson(String geoJson) {
+        if (empty(geoJson) || emptyGeo(geoJson(geoJson))) {
+            log.warn("setGeoJson: not overwriting self with empty value");
+            return;
+        }
+        this.geoJson = geoJson;
+    }
+
+    private static boolean emptyGeo(GeoJsonObject geo) {
+        if (geo == null) return true;
+        if (geo instanceof Point) {
+            final Point p = (Point) geo;
+            LngLatAlt coordinates = p.getCoordinates();
+            if (coordinates == null || (coordinates.getLongitude() == 0 && coordinates.getLatitude() == 0)) return true;
+        } else {
+            die("emptyGeo: not supported: "+geo.getClass().getName());
+        }
+        return false;
+    }
 
     @Embedded @Setter private GeoBounds bounds = null;
     public GeoBounds getBounds() {
@@ -127,9 +159,12 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
 
     @Transient private GeoJsonObject geo = null;
     public GeoJsonObject getGeo() {
-        if (geo == null) geo = fromJsonOrDie(geoJson, GeoJsonObject.class);
+        if (geo == null) geo = geoJson(getGeoJson());
         return geo;
     }
+
+    protected GeoJsonObject geoJson(String geoJson) { return fromJsonOrDie(geoJson, GeoJsonObject.class); }
+
     public void setGeo(GeoJsonObject geo) {
         this.geo = geo;
         this.geoJson = toJsonOrDie(geo);

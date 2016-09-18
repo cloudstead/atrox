@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.cobbzilla.util.collection.ArrayUtil;
 import org.cobbzilla.wizard.dao.SearchResults;
 import org.cobbzilla.wizard.model.ExpirableBase;
 
@@ -51,6 +52,7 @@ public class NexusSummary extends ExpirableBase {
 
     // UUIDs of other Nexuses with the same name, first 100
     @Getter @Setter private String[] others;
+    public void addOther (String uuid) { others = ArrayUtil.append(others, uuid); }
 
     // true if 'others' may not be complete
     @Getter @Setter private boolean incomplete;

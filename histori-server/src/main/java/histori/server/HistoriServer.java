@@ -1,5 +1,7 @@
 package histori.server;
 
+import histori.server.listener.DbSeedListener;
+import histori.server.listener.TagCacheWarmerListener;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.util.system.CommandShell;
 import org.cobbzilla.wizard.server.RestServerBase;
@@ -20,7 +22,8 @@ public class HistoriServer extends RestServerBase<HistoriConfiguration> {
 
     private static final List<RestServerLifecycleListener> listeners = Arrays.asList(new RestServerLifecycleListener[] {
             new DbSeedListener(),
-            new FlywayShardMigrationListener<>()
+            new FlywayShardMigrationListener<>(),
+            new TagCacheWarmerListener()
     });
 
     // args are ignored, config is loaded from the classpath

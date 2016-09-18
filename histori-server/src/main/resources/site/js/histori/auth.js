@@ -355,3 +355,7 @@ function validateAccountForm (form) {
     }
     return ok;
 }
+
+function showSpecialAuthorsForm (type) {
+
+}

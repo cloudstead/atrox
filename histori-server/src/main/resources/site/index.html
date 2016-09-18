@@ -373,10 +373,20 @@
                         <button onclick="closeAccountForm(); return false; ">close</button>
                     </td>
                 </tr>
+                <tr>
+                    <td colspan="2">
+                        Manage:
+                        <button onclick="showSpecialAuthorsForm('preferred'); return false; ">preferred authors</button>
+                        <button onclick="showSpecialAuthorsForm('blocked'); return false; ">blocked authors</button>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </form>
     </div>
+</div>
+
+<div id="specialAuthorsContainer" class="dialogContainer">
 </div>
 
 <div id="searchOptionsContainer" class="dialogContainer">

@@ -9,7 +9,7 @@ import histori.model.auth.RegistrationRequest;
 import histori.model.support.AccountAuthResponse;
 import histori.model.support.NexusSummary;
 import histori.model.support.TimeRange;
-import histori.server.DbSeedListener;
+import histori.server.listener.DbSeedListener;
 import histori.server.HistoriConfiguration;
 import histori.server.HistoriServer;
 import lombok.extern.slf4j.Slf4j;

@@ -29,6 +29,10 @@ database:
   shard:
     - name: histori-account
       entity: histori.model.Account
+    - name: preferred-owner
+      entity: histori.model.PreferredOwner
+    - name: blocked-owner
+      entity: histori.model.BlockedOwner
     - name: bookmark
       entity: histori.model.Bookmark
     - name: super-nexus

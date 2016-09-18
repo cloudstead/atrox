@@ -1,9 +1,7 @@
 package histori.resources;
 
 import com.sun.jersey.api.core.HttpContext;
-import histori.dao.NexusDAO;
-import histori.dao.NexusSummaryDAO;
-import histori.dao.SearchQueryDAO;
+import histori.dao.*;
 import histori.model.Account;
 import histori.model.Nexus;
 import histori.model.SearchQuery;
@@ -44,6 +42,8 @@ public class SearchResource {
     @Autowired private NexusSummaryDAO nexusSummaryDAO;
     @Autowired private NexusDAO nexusDAO;
     @Autowired private SearchQueryDAO searchQueryDAO;
+    @Autowired private PreferredOwnerDAO preferredOwnerDAO;
+    @Autowired private BlockedOwnerDAO blockedOwnerDAO;
     @Autowired private RedisService redisService;
 
     private static final long SEARCH_CACHE_TIMEOUT_SECONDS = TimeUnit.MINUTES.toSeconds(1);
@@ -89,6 +89,11 @@ public class SearchResource {
                 .setRange(from, to)
                 .setBounds(north, south, east, west)
                 .setTimeout(timeout);
+
+        if (account != null) {
+            q.setPreferredOwners(preferredOwnerDAO.findPreferredUuidsByOwner(account));
+            q.setBlockedOwners(blockedOwnerDAO.findBlockedUuidsByOwner(account));
+        }
 
         // it must pass validation and be anonymously recorded in order to proceed
         searchQueryDAO.create(new SearchQuery(q));
@@ -138,7 +143,8 @@ public class SearchResource {
     @Path(EP_NEXUS+"/{uuid}")
     public Response findByUuid(@Context HttpContext ctx,
                                @PathParam("uuid") String uuid,
-                               @QueryParam("sort") String sortOrder) {
+                               @QueryParam("sort") String sortOrder,
+                               @QueryParam("exact") boolean exact) {
 
         final Account account = optionalUserPrincipal(ctx);
 
@@ -147,6 +153,10 @@ public class SearchResource {
 
         final SearchSortOrder sort = SearchSortOrder.valueOf(sortOrder, up_vote);
         final NexusSummary summary = nexusSummaryDAO.search(account, nexus, null, sort);
+        if (exact && !summary.getPrimary().getUuid().equals(uuid)) {
+            summary.addOther(summary.getPrimary().getUuid());
+            summary.setPrimary(nexus);
+        }
 
         return summary != null ? ok(summary.setIncomplete(false)) : notFound(uuid);
     }

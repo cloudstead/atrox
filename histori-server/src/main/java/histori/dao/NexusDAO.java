@@ -6,6 +6,7 @@ import histori.dao.shard.NexusShardDAO;
 import histori.model.Account;
 import histori.model.Nexus;
 import histori.model.NexusTag;
+import histori.model.Tag;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +44,7 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
 
         // ensure tag is present, or create it if not
         if (nexus.hasNexusType()) {
-            return new NexusTag().setTagName(nexus.getNexusType()).setTagType(EVENT_TYPE);
+            nexus.setNexusType(tagDAO.create(new Tag(nexus.getNexusType(), EVENT_TYPE)).getCanonicalName());
         }
 
         // create version
