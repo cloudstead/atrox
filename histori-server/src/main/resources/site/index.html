@@ -360,6 +360,16 @@
                 </tr>
                 <tr>
                     <td colspan="2">
+                        <hr/>
+                        <span>
+                            <button onclick="showSpecialAuthorsForm('preferred'); return false; ">preferred authors</button>
+                            <button onclick="showSpecialAuthorsForm('blocked'); return false; ">blocked authors</button>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <hr/>
                         <span style="font-size: x-small">
                             <input type="checkbox" name="subscribe"/> Email me when there's new stuff on histori.city
                         </span><br/>
@@ -368,16 +378,10 @@
                 </tr>
                 <tr>
                     <td colspan="2">
+                        <hr/>
                         <input type="submit" value="update"/>
                         <button onclick="Histori.logout(); closeAccountForm(); return false; ">sign out</button>
                         <button onclick="closeAccountForm(); return false; ">close</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        Manage:
-                        <button onclick="showSpecialAuthorsForm('preferred'); return false; ">preferred authors</button>
-                        <button onclick="showSpecialAuthorsForm('blocked'); return false; ">blocked authors</button>
                     </td>
                 </tr>
                 </tbody>

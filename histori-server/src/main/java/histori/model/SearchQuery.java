@@ -121,6 +121,7 @@ public class SearchQuery extends IdentifiableBase {
 
     private class NexusComparator implements Comparator<NexusView> {
         @Override public int compare(NexusView n1, NexusView n2) {
+            if (n1.getUuid().equals(n2.getUuid())) return 0;
             // give preferred owners special treatment first
             if (hasPreferredOwners()) {
                 final List<String> preferred = getPreferredOwnersList();

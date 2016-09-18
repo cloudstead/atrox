@@ -331,15 +331,15 @@ function unhighlight_timeline_marker(timeline_marker) {
 
 function add_nexus_to_map (searchbox_id, primary) {
 
-    if (typeof primary != "undefined" && typeof primary.geo != "undefined" && primary.geo != null) {
-        console.log('add_nexus_to_map: no primary nexus');
+    if (typeof primary == "undefined" || typeof primary.geo == "undefined" || primary.geo == null) {
+        console.log('add_nexus_to_map: no primary nexus or missing geometry');
         return;
     }
 
     // ensure we do not add the same nexus to the map twice for the same searchbox
-    // todo: use a hash here, this is O(N) and will not perform well with large sets of markers
-    for (var i=0; i<all_markers.length; i++) {
-        if (typeof all_markers[i].nexus != 'undefined' && all_markers[i].nexus.uuid == primary.uuid) {
+    var markers = active_markers[searchbox_id];
+    for (var i=0; i<markers.length; i++) {
+        if (typeof markers[i].nexus != 'undefined' && markers[i].nexus.uuid == primary.uuid) {
             console.log('already has a marker: '+primary.uuid);
             return;
         }
