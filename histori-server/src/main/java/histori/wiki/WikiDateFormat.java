@@ -298,6 +298,9 @@ public class WikiDateFormat {
     }
 
     private static String scrub(String date) {
+        date = date.trim();
+        if (date.startsWith("\"") || date.startsWith("'")) date = date.substring(1);
+        if (date.endsWith("\"") || date.endsWith("'")) date = date.substring(0, date.length()-1);
         int pos = date.indexOf("<");
         if (pos != -1) date = date.substring(0, pos).trim();
         pos = date.indexOf("&lt;");

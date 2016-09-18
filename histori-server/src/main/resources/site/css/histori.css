@@ -173,6 +173,30 @@ input[type=file] {
     clear: right;
 }
 
+.editNexusField {
+    font-family: Tahoma,sans-serif;
+    font-weight: normal;
+    font-size: medium;
+    width: 300px;
+    border: 1px solid gray;
+    margin-top: 1px;
+}
+
+.editNexusDateField {
+    font-family: Tahoma,sans-serif;
+    font-weight: normal;
+    font-size: medium;
+    width: 150px;
+    border: 1px solid gray;
+    margin-top: 1px;
+}
+
+.editNexusLabel {
+    font-family: Tahoma,sans-serif;
+    font-weight: bold;
+    font-size: medium;
+}
+
 #nexusNameContainer {
     font-family: Tahoma,sans-serif;
     font-size: large;

@@ -26,6 +26,7 @@ public class ApiConstants {
     public static final String VOTES_ENDPOINT = "/votes";
     public static final String ARCHIVES_ENDPOINT = "/archives";
     public static final String CONFIGS_ENDPOINT = "/configs";
+    public static final String UTILS_ENDPOINT = "/utils";
 
     // admin endpoints
     public static final String SHARDS_ENDPOINT = "/admin/shards";

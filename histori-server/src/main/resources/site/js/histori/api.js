@@ -300,6 +300,10 @@ Api = {
 
     transform_image: function (src, width, height) {
         return src.replace("/public/image/", "/public/transform/w_"+width+"-h_"+height+"/");
+    },
+
+    parse_date: function (dateString) {
+        return Api._post('utils/date/parse', dateString);
     }
 
     //addRegion: function (email, password) { return Api._post('/api/accounts/' + email, {'name': email, 'password': password}); }
