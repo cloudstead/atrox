@@ -270,10 +270,14 @@ function isDirty (nexus) {
     if (visibilityField && visibilityField[0] && nexus.visibility != visibilityField.val()) {
         return true;
     }
+    var commentaryField= $('#nedit_markdown');
+    if (commentaryField && commentaryField[0] && commentaryField.val() != $('#nedit_markdown_original').val()) {
+        return true;
+    }
     return false;
 }
 
-function textFieldDirtyChecks () { return 'onkeyup="checkDirty()" onchange="checkDirty()" onblur="checkDirty()"'; }
+function jsFieldDirtyChecks () { return 'onkeyup="checkDirty()" onchange="checkDirty()" onblur="checkDirty()"'; }
 
 function startEditingNexus () {
     if (isAnonymous()) {
@@ -290,13 +294,13 @@ function startEditingNexus () {
     var nameContainer = $('#nexusNameContainer');
     nameContainer.empty();
     nameContainer.append($('<span class="editNexusLabel">Name:</span>'));
-    nameContainer.append($('<input class="editNexusField" id="nedit_name" type="text" name="name" value="'+nexus.name+'" '+textFieldDirtyChecks()+'>'));
+    nameContainer.append($('<input class="editNexusField" id="nedit_name" type="text" name="name" value="'+nexus.name+'" '+jsFieldDirtyChecks()+'>'));
 
     // set author label and add visibility field
     var authorContainer = $('#nexusAuthorContainer');
     authorContainer.append($('<span>edited by: '+Histori.account().name+'</span>'));
     authorContainer.append($('<br/>'));
-    var visibilityControl = $('<select id="nedit_visibility" '+textFieldDirtyChecks+'></select>');
+    var visibilityControl = $('<select id="nedit_visibility" '+jsFieldDirtyChecks+'></select>');
     visibilityControl.append($('<option value="everyone"'+(nexus.visibility == "everyone" ? "selected" : "")+'>everyone</option>'));
     visibilityControl.append($('<option value="owner"'+(nexus.visibility == "owner" ? "selected" : "")+'>just me</option>'));
     visibilityControl.append($('<option value="hidden"'+(nexus.visibility == "hidden" ? "selected" : "")+'>hidden</option>'));
@@ -342,9 +346,13 @@ function startEditingNexus () {
 
     var commentaryContainer = $('#nexusCommentaryContainer');
     commentaryContainer.empty();
-    if (typeof nexus.markdown != "undefined") {
-        var markdown = $('<p class="commentaryMarkdown">'+markupConverter.makeHtml(nexus.markdown.replaceAll('\&amp;nbsp;', '&nbsp;').replaceAll('\&amp;ndash;', '&ndash;')).replaceAll('<a ', '<a target="_blank" ')+'</p>');
-        commentaryContainer.append(markdown);
+    var commentaryField = $('<textarea rows=12 cols=100 id="nedit_markdown" '+jsFieldDirtyChecks()+'></textarea>');
+    commentaryContainer.append(commentaryField);
+    if (typeof nexus.markdown != "undefined" && nexus.markdown != null && nexus.markdown.length > 0) {
+        commentaryField.html(nexus.markdown);
+        var origMarkdown = $('<input type="hidden" id="nedit_markdown_original"/>');
+        origMarkdown.val(commentaryField.val());
+        commentaryContainer.append(origMarkdown);
     }
 
     var tagsContainer = $('#nexusTagsContainer');
@@ -451,11 +459,13 @@ function cancelNexusEdits () {
 function populateEditedNexus () {
     var edits = {};
     edits.name = $('#nedit_name').val();
+    edits.visibility = $('#nedit_visibility option:selected').val();
     edits.timeRange = {
         startPoint: { inputString: $('#nedit_nexusRangeStart').val() },
         endPoint: { inputString: $('#nedit_nexusRangeEnd').val() }
     };
     edits.point = { type: 'Point', coordinates: [ 0.0, 0.0 ] };
+    edits.markdown = $('#nedit_markdown').val();
     return edits;
 }
 
@@ -476,7 +486,7 @@ function clear_error_field(field) { field.css('border', '1px solid gray'); }
 
 function timePointInputBox(id, timePoint) {
     var val = (timePoint == null ? '' : formatTimePoint(timePoint));
-    return $('<input type="text" class="editNexusField editNexusDateField" id="nedit_' + id + '" value="' + val + '" '+textFieldDirtyChecks()+'/>');
+    return $('<input type="text" class="editNexusField editNexusDateField" id="nedit_' + id + '" value="' + val + '" '+jsFieldDirtyChecks()+'/>');
 }
 
 function update_tag_display_name (id, name) {
