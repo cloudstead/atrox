@@ -56,15 +56,22 @@ function enableNexusEditButtons (enable) {
         editButton.off('click');
         editButton.on('click', function () { startEditingNexus(); return false; });
     }
+    var nexus = Histori.active_nexus;
+    if (nexus != null && typeof nexus.dirty != "undefined" && nexus.dirty) {
+        $('#btn_nexusSave').removeAttr('disabled');
+    } else {
+        $('#btn_nexusSave').attr('disabled', 'disabled');
+    }
 }
 function openNexusDetails (uuid, tries) {
 
     closeForm();
     var container = $('#nexusDetailsContainer');
     var nexus = Api.nexusCache[uuid];
+    Histori.active_nexus = nexus;
 
     if (typeof nexus == "undefined" || nexus == null) return;
-    enableNexusEditButtons(typeof nexus.dirty != "undefined" && nexus.dirty);
+    enableNexusEditButtons(false);
 
     $('#nexusNameContainer').html(nexus.name);
     Api.owner_name(nexus.owner, '#nexusAuthorContainer', "v" + nexus.version +" created by: ");
@@ -260,9 +267,13 @@ function update_time_point (timePoint, value) {
     return true;
 }
 
-function startEditingNexus () {}
+function startEditingNexus () {
+    enableNexusEditButtons(true);
+}
 
-function cancelNexusEdits () {}
+function cancelNexusEdits () {
+    enableNexusEditButtons(false);
+}
 
 function commitNexusEdits () {
     //save_fields();
