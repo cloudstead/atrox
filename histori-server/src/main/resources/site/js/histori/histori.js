@@ -213,6 +213,7 @@ DEFAULT_STATE = {
 Histori = {
 
     active_nexus: null,
+    edited_nexus: null,
 
     json_safe_parse: function (j) {
         return j ? JSON.parse(j) : null;

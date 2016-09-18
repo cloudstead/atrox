@@ -267,19 +267,164 @@ function update_time_point (timePoint, value) {
     return true;
 }
 
-function startEditingNexus () {
+function checkDirty () {
+    var nexus = Histori.active_nexus;
+    if (nexus == null) return;
+    Histori.active_nexus.dirty = isDirty(nexus);
     enableNexusEditButtons(true);
 }
 
+function isDirty (nexus) {
+    var editNameField = $('#nedit_name');
+    if (editNameField && editNameField[0] && nexus.name != editNameField.val()) {
+        return true;
+    }
+    return false;
+}
+function startEditingNexus () {
+    closeForm();
+    var container = $('#nexusDetailsContainer');
+    var nexus = Histori.active_nexus;
+    if (typeof nexus == "undefined" || nexus == null) return;
+    enableNexusEditButtons(true);
+
+    var nameContainer = $('#nexusNameContainer');
+    nameContainer.empty();
+    nameContainer.append($('<input id="nedit_name" type="text" name="name" value="'+nexus.name+'" onkeyup="checkDirty()" onchange="checkDirty()" onblur="checkDirty()">'));
+    $('#nexusAuthorContainer').html("edited by: "+Histori.account().name);
+    displayTimeRange(nexus.timeRange);
+
+    $('#nexusGeoContainer').html(display_bounds(nexus.bounds));
+
+    var otherVersionCount = 0;
+    if (typeof nexus.others != "undefined" && is_array(nexus.others)) {
+        otherVersionCount = nexus.others.length;
+    }
+    var btnNexusVersions = $('#btn_nexusVersions');
+    switch (otherVersionCount) {
+        case 0:
+            btnNexusVersions.css('visibility', 'hidden');
+            break;
+        case 1:
+            btnNexusVersions.html('1 other version');
+            btnNexusVersions.css('visibility', 'visible');
+            break;
+        default:
+            btnNexusVersions.html(otherVersionCount + ' other versions');
+            btnNexusVersions.css('visibility', 'visible');
+            break;
+    }
+
+    var commentaryContainer = $('#nexusCommentaryContainer');
+    commentaryContainer.empty();
+    if (typeof nexus.markdown != "undefined") {
+        var markdown = $('<p class="commentaryMarkdown">'+markupConverter.makeHtml(nexus.markdown.replaceAll('\&amp;nbsp;', '&nbsp;').replaceAll('\&amp;ndash;', '&ndash;')).replaceAll('<a ', '<a target="_blank" ')+'</p>');
+        commentaryContainer.append(markdown);
+    }
+
+    var tagsContainer = $('#nexusTagsContainer');
+    tagsContainer.empty();
+
+    if (nexus.incomplete) {
+        if (tries < 5) {
+            window.setTimeout(function () {
+                console.log('trying to find nexus, try #' + tries);
+                findNexus(nexus, tries);
+            }, tries * 2000);
+            showLoadingMessage("Loading nexus...");
+
+        } else {
+            showLoadingMessage("Loading nexus failed, maybe try again later");
+        }
+    } else {
+        hideLoadingMessage();
+        if (typeof nexus.tags != "undefined" && is_array(nexus.tags)) {
+            var names = [];
+            var tagsTable = $('<table id="nexusTagsTable">');
+
+            tagsContainer.append(tagsTable);
+
+            var tagsByType = {};
+            for (var i = 0; i < nexus.tags.length; i++) {
+                var tag = nexus.tags[i];
+                if (typeof tagsByType[tag.tagType] == "undefined") {
+                    tagsByType[tag.tagType] = [];
+                }
+                tagsByType[tag.tagType].push(tag);
+            }
+
+            var tbody = $('<tbody>');
+            tagsTable.append(tbody);
+            for (var typeIndex = 0; typeIndex < TAG_TYPES.length; typeIndex++) {
+                var tagType = TAG_TYPES[typeIndex];
+                if (typeof tagsByType[tagType] == "undefined") continue;
+
+                var tags = tagsByType[tagType];
+
+                var tagTypeName = TAG_TYPE_NAMES[typeIndex];
+                if (tags.length == 1 && tagTypeName.endsWith("s")) {
+                    tagTypeName = tagTypeName.substring(0, tagTypeName.length - 1);
+                }
+
+                var tagRow = $('<tr class="tagTypeRow">');
+                tagRow.append($('<td class="tagTypeCell">' + tagTypeName + '</td>'));
+                tbody.append(tagRow);
+
+                var listOfTags = "";
+                for (var j = 0; j < tags.length; j++) {
+                    var nexusTagId = 'nexusTag_' + tags[j].uuid + '_' + tags[j].tagName;
+                    listOfTags += "<div class='nexusTag'><div class='nexusTag_tagName' id='" + nexusTagId + "'>" + newSearchLink(tags[j].tagName) + "</div>";
+                    if (typeof tags[j].values != "undefined" && is_array(tags[j].values)) {
+                        var prevField = '';
+                        var numValues = tags[j].values.length;
+                        for (var k = 0; k < numValues; k++) {
+                            var schemaVal = tags[j].values[k];
+                            var displayField;
+                            var schemaValueId = nexusTagId + '_' + k + '_' + schemaVal.value;
+                            var schemaTypeIndex = $.inArray(schemaVal.field, TAG_TYPES);
+                            if (schemaTypeIndex != -1) {
+                                displayField = TAG_TYPE_NAMES[schemaTypeIndex];
+                                names.push({tag: schemaVal.value, id: schemaValueId});
+                            } else {
+                                displayField = schemaVal.field;
+                            }
+                            if (numValues > 1 && prevField != displayField) {
+                                //listOfTags += "<div class='schema_field'>"+ displayField.replace('_', ' ') + "</div>";
+                                prevField = displayField;
+                            }
+                            listOfTags += "<div id='" + schemaValueId + "' class='schema_value'>" + schemaVal.value.replace('_', ' ') + "</div>";
+                        }
+                    }
+                    listOfTags += "</div>";
+                    names.push({tag: tags[j].tagName, id: nexusTagId});
+                }
+                tagRow.append($('<td class="tagCell">' + listOfTags + '</td>'));
+            }
+            Api.resolve_tags(names, update_tag_display_name);
+        }
+    }
+
+    if (nexus.bounds.east > map.getBounds().getCenter().lng()) {
+        container.css('left', '20px');
+        container.css('right', '');
+    } else {
+        container.css('left', '');
+        container.css('right', '20px');
+    }
+
+    container.css('zIndex', 1);
+}
+
 function cancelNexusEdits () {
-    enableNexusEditButtons(false);
+    Histori.active_nexus.dirty = false;
+    openNexusDetails(Histori.active_nexus.uuid, 0);
 }
 
 function commitNexusEdits () {
     //save_fields();
 
-    if (activeNexusSummary != null) {
-        var nexusSummary = Api.nexusCache[activeNexusSummary.uuid];
+    if (Histori.active_nexus != null) {
+        var nexusSummary = Api.nexusCache[Histori.active_nexus.uuid];
         if (typeof nexusSummary != "undefined" && typeof nexusSummary.primary != "undefined") {
             Histori.edit_nexus(nexusSummary.primary, function (data) {
                 findNexus(data, 0);
@@ -316,9 +461,9 @@ function save_field(name) {
         if (!ok) return false;
 
         // todo: if it did not change, do not mark as dirty
-        Api.nexusCache[activeNexusSummary.uuid].dirty = true;
+        Api.nexusCache[Histori.active_nexus.uuid].dirty = true;
         console.log('updating in-mem timeRange: '+timeRange);
-        Api.nexusCache[activeNexusSummary.uuid].primary.timeRange = timeRange;
+        Api.nexusCache[Histori.active_nexus.uuid].primary.timeRange = timeRange;
 
         enableNexusEditButtons(true);
 
@@ -342,7 +487,7 @@ function timePointInputBox(id, timePoint) {
 function edit_nexus_field (id) {
     if (id == "nexusRangeStart" || id == "nexusRangeEnd") {
         console.log('edit_nexus_field (range): '+id);
-        var timeRange = activeNexusSummary.primary.timeRange;
+        var timeRange = Histori.active_nexus.primary.timeRange;
         var startField = $('.edit_nexusRangeStart');
         var endField = $('.edit_nexusRangeEnd');
 
@@ -382,7 +527,7 @@ function closeNexusDetails () {
     var container = $('#nexusDetailsContainer');
     container.css('zIndex', -1);
     enableNexusEditButtons(false);
-    activeNexusSummary = null;
+    Histori.active_nexus = null;
 }
 
 function viewNexusVersions () {
