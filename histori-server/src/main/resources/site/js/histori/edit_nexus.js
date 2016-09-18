@@ -214,7 +214,7 @@ function displayTimeRange(timeRange) {
 var checkDirtyTimer = null;
 function checkDirty () {
     if (checkDirtyTimer != null) window.clearTimeout(checkDirtyTimer);
-    checkDirtyTimer = window.setTimeout('_checkDirty()', 1000);
+    checkDirtyTimer = window.setTimeout('_checkDirty()', 600);
 }
 
 function _checkDirty () {
@@ -262,7 +262,12 @@ function isDirty (nexus) {
     if (endRangeField && endRangeField[0]
         // end is optional, so additionally we check if one side is empty/null/undefined and the other has a value
         && (nexus.timeRange.endPoint && !isSameDate(nexus.timeRange.endPoint, endRangeField))
-            || endRangeField.val().trim().length > 0) {
+            || ((typeof nexus.timeRange.endPoint == "undefined" || nexus.timeRange.endPoint == null)
+                 && endRangeField.val().trim().length > 0)) {
+        return true;
+    }
+    var visibilityField = $('#nedit_visibility option:selected');
+    if (visibilityField && visibilityField[0] && nexus.visibility != visibilityField.val()) {
         return true;
     }
     return false;
@@ -287,8 +292,16 @@ function startEditingNexus () {
     nameContainer.append($('<span class="editNexusLabel">Name:</span>'));
     nameContainer.append($('<input class="editNexusField" id="nedit_name" type="text" name="name" value="'+nexus.name+'" '+textFieldDirtyChecks()+'>'));
 
-    // set author label
-    $('#nexusAuthorContainer').html("edited by: "+Histori.account().name);
+    // set author label and add visibility field
+    var authorContainer = $('#nexusAuthorContainer');
+    authorContainer.append($('<span>edited by: '+Histori.account().name+'</span>'));
+    authorContainer.append($('<br/>'));
+    var visibilityControl = $('<select id="nedit_visibility" '+textFieldDirtyChecks+'></select>');
+    visibilityControl.append($('<option value="everyone"'+(nexus.visibility == "everyone" ? "selected" : "")+'>everyone</option>'));
+    visibilityControl.append($('<option value="owner"'+(nexus.visibility == "owner" ? "selected" : "")+'>just me</option>'));
+    visibilityControl.append($('<option value="hidden"'+(nexus.visibility == "hidden" ? "selected" : "")+'>hidden</option>'));
+    authorContainer.append($('<span class="editNexusLabel">Visibility: </span>'));
+    authorContainer.append(visibilityControl);
 
     // create time range fields
     var timeRange = nexus.timeRange;
