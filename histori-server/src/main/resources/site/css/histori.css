@@ -513,3 +513,11 @@ a:hover a:active {
     visibility: hidden;
     z-index: -1;
 }
+
+.geoLatLonField {
+    text-align: left;
+    width: 100px;
+    font-size: medium;
+}
+
+.geoSpecific {}

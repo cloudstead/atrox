@@ -66,6 +66,7 @@ function openNexusDetails (uuid, tries) {
     enableNexusEditButtons(false);
 
     $('#nexusNameContainer').html(nexus.name);
+    $('#nexusAuthorContainer').empty();
     Api.owner_name(nexus.owner, '#nexusAuthorContainer', "v" + nexus.version +" created by: ");
     displayTimeRange(nexus.timeRange);
 
@@ -274,10 +275,61 @@ function isDirty (nexus) {
     if (commentaryField && commentaryField[0] && commentaryField.val() != $('#nedit_markdown_original').val()) {
         return true;
     }
+    switch (nexus.geo.type) {
+        case "Point":
+            var latField = $('#nedit_lat');
+            var lonField = $('#nedit_lon');
+            if (latField && lonField && latField[0] && lonField[0]
+                && (latField.val() != nexus.geo.coordinates[1] || lonField.val() != nexus.geo.coordinates[0])) {
+                return true;
+            }
+            break;
+    }
     return false;
 }
 
 function jsFieldDirtyChecks () { return 'onkeyup="checkDirty()" onchange="checkDirty()" onblur="checkDirty()"'; }
+
+function updateGeoControls (geoContainer, nexus, geoTypeSelect) {
+    return function () { addGeoControlsForType(geoContainer, nexus, $('#nedit_geo_type').val(), geoTypeSelect); };
+}
+
+function addGeoControls (geoContainer, nexus) {
+    var geoTypeSelect = $('<select id="nedit_geo_type"></select>');
+    geoTypeSelect.append($('<option>point</option>'));
+    geoTypeSelect.append($('<option>line</option>'));
+    geoTypeSelect.append($('<option>polygon</option>'));
+    geoTypeSelect.append($('<option>multi-polygon</option>'));
+    geoTypeSelect.on('change', updateGeoControls(geoContainer, nexus, geoTypeSelect));
+    geoContainer.append(geoTypeSelect);
+
+    var type = nexus.geo.type.toLowerCase();
+    geoTypeSelect.val(type);
+    addGeoControlsForType(geoContainer, nexus, type, geoTypeSelect);
+}
+
+function addGeoControlsForType(geoContainer, nexus, type, geoTypeSelect) {
+    var geoSpecific = $('.geoSpecific');
+    geoSpecific.remove();
+    geoSpecific.off('change');
+    geoSpecific.on('change', function () {
+        switch (type.toLowerCase()) {
+            case "point":
+                // todo: update marker location on map
+                break;
+        }
+    });
+    switch (type) {
+        case "point":
+            geoContainer.append($('<span class="geoSpecific"> Lat: </span>'));
+            geoContainer.append($('<input class="editNexusField geoLatLonField geoSpecific" id="nedit_lat" type="text" size="7" ' + jsFieldDirtyChecks() + ' value="' + nexus.geo.coordinates[1] + '"/>'));
+            geoContainer.append($('<span class="geoSpecific"> Lon: </span>'));
+            geoContainer.append($('<input class="editNexusField geoLatLonField geoSpecific" id="nedit_lon" type="text" size="7" ' + jsFieldDirtyChecks() + ' value="' + nexus.geo.coordinates[0] + '"/>'));
+            break;
+        default:
+            console.log('addGeoControls: unsupported: '+nexus.geo.type);
+    }
+}
 
 function startEditingNexus () {
     if (isAnonymous()) {
@@ -293,11 +345,12 @@ function startEditingNexus () {
     // create name fields
     var nameContainer = $('#nexusNameContainer');
     nameContainer.empty();
-    nameContainer.append($('<span class="editNexusLabel">Name:</span>'));
+    nameContainer.append($('<span class="editNexusLabel">Name: </span>'));
     nameContainer.append($('<input class="editNexusField" id="nedit_name" type="text" name="name" value="'+nexus.name+'" '+jsFieldDirtyChecks()+'>'));
 
     // set author label and add visibility field
     var authorContainer = $('#nexusAuthorContainer');
+    authorContainer.empty();
     authorContainer.append($('<span>edited by: '+Histori.account().name+'</span>'));
     authorContainer.append($('<br/>'));
     var visibilityControl = $('<select id="nedit_visibility" '+jsFieldDirtyChecks+'></select>');
@@ -317,13 +370,16 @@ function startEditingNexus () {
     var rangeHyphen = $('.nexusRangeHyphen');
     var rangeEnd = $('.nexusRangeEnd');
     rangeStart.empty(); rangeHyphen.empty(); rangeEnd.empty();
-    rangeStart.append($('<span class="editNexusLabel">Date(s):</span>'));
+    rangeStart.append($('<span class="editNexusLabel">Date(s): </span>'));
     rangeStart.append(startField);
     rangeHyphen.html(' to ');
     rangeEnd.append(endField);
 
     // create geo fields and map-edit button
-    $('#nexusGeoContainer').html(display_bounds(nexus.bounds));
+    var geoContainer = $('#nexusGeoContainer');
+    geoContainer.empty();
+    geoContainer.append($('<span>Location: </span>'));
+    addGeoControls(geoContainer, nexus);
 
     var otherVersionCount = 0;
     if (typeof nexus.others != "undefined" && is_array(nexus.others)) {
