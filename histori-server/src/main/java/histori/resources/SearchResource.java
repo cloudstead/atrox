@@ -83,9 +83,9 @@ public class SearchResource {
 
         final SearchQuery q = new SearchQuery()
                 .setQuery(query)
-                .setAuthoritative(empty(authoritative) || !authoritative.equals("false"))
+                .setAuthoritative(trueUnlessAccountRequestsFalse(authoritative, account))
                 .setVisibility(EntityVisibility.create(visibility, everyone))
-                .setUseCache(empty(useCache) || !useCache.equalsIgnoreCase("false"))
+                .setUseCache(trueUnlessAccountRequestsFalse(useCache, account))
                 .setRange(from, to)
                 .setBounds(north, south, east, west)
                 .setTimeout(timeout);
@@ -99,6 +99,10 @@ public class SearchResource {
         searchQueryDAO.create(new SearchQuery(q));
 
         return search(account, q);
+    }
+
+    protected boolean trueUnlessAccountRequestsFalse(String val, Account account) {
+        return account == null || account.isAnonymous() || empty(val) || !val.equals("false");
     }
 
     private Response search(Account account, SearchQuery searchQuery) {
