@@ -7,6 +7,7 @@ import histori.model.Account;
 import histori.model.Nexus;
 import histori.model.NexusTag;
 import histori.model.Tag;
+import histori.model.support.EntityVisibility;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -122,10 +123,11 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
         return findByUniqueFields("canonicalName", canonicalize(name), "authoritative", true);
     }
 
-    public List<Nexus> findByNameAndVisibleToAccount(String name, Account account) {
+    public List<Nexus> findByNameAndVisibleToAccountInSearchResults(String name, Account account) {
         final List<Nexus> found = findByField("canonicalName", canonicalize(name));
         for (Iterator<Nexus> iter = found.iterator(); iter.hasNext(); ) {
-            if (!iter.next().isVisibleTo(account)) iter.remove();
+            final Nexus nexus = iter.next();
+            if (!nexus.isVisibleTo(account) || nexus.getVisibility() == EntityVisibility.hidden) iter.remove();
         }
         return found;
     }

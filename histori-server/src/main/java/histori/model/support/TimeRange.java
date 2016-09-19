@@ -31,8 +31,8 @@ public class TimeRange {
             @AttributeOverride(name="second",column=@Column(name="endSecond")),
     })
     @Embedded @Setter private TimePoint endPoint;
-    public TimePoint getEndPoint() { return endPoint == null || endPoint.equals(startPoint) ? null : endPoint; }
-    public boolean hasEnd() { return endPoint != null && !endPoint.equals(startPoint); }
+    public TimePoint getEndPoint() { return !hasEnd() ? null : endPoint; }
+    public boolean hasEnd() { return endPoint != null && !endPoint.equals(startPoint) && endPoint.getYear() != 0; }
 
     public TimeRange(String startDate, String endDate) { this(new TimePoint(startDate), new TimePoint(endDate)); }
 

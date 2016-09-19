@@ -297,6 +297,15 @@ var year1_millis = Date.UTC(this_year, 0);
 var year2_millis = Date.UTC(this_year+1, 0);
 var millis_in_year = year2_millis - year1_millis;
 
+function find_markers (uuid) {
+    var found = [];
+    for (var i=0; i<all_markers.length; i++) {
+        var marker = all_markers[i];
+        if (marker.nexus.uuid == uuid) found.push(marker);
+    }
+    return found;
+}
+
 // called when data is returned from the server, to populate the map with a new set of markers for a particular search box
 function canonical_date_to_raw(canonical) {
     var year = canonical.year;

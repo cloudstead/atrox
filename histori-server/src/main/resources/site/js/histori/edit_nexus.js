@@ -206,7 +206,7 @@ function displayTimeRange(timeRange) {
     rangeHyphen.empty();
     rangeEnd.empty();
     rangeStart.html(formatTimePoint(timeRange.startPoint));
-    if (typeof timeRange.endPoint != "undefined" && timeRange.endPoint != null && ((typeof timeRange.endPoint.year != "undefined") && timeRange.endPoint.year != null)) {
+    if (typeof timeRange.endPoint != "undefined" && timeRange.endPoint != null && ((typeof timeRange.endPoint.year != "undefined") && timeRange.endPoint.year != null && timeRange.endPoint.year != 0)) {
         rangeHyphen.html(' - ');
         rangeEnd.html(formatTimePoint(timeRange.endPoint));
     }
@@ -308,17 +308,21 @@ function addGeoControls (geoContainer, nexus) {
     addGeoControlsForType(geoContainer, nexus, type, geoTypeSelect);
 }
 
+function resetGeo (nexus) {
+    switch (nexus.geo.type.toLowerCase()) {
+        case "point":
+            var markers = find_markers(nexus.uuid);
+            if (!markers || !markers[0] || markers.length > 1) {
+                console.log('no markers or more than one marker: '+JSON.stringify(markers));
+            }
+            markers[0].setPosition(new google.maps.LatLng(nexus.geo.coordinates[1], nexus.geo.coordinates[0]));
+            break;
+    }
+}
+
 function addGeoControlsForType(geoContainer, nexus, type, geoTypeSelect) {
     var geoSpecific = $('.geoSpecific');
     geoSpecific.remove();
-    geoSpecific.off('change');
-    geoSpecific.on('change', function () {
-        switch (type.toLowerCase()) {
-            case "point":
-                // todo: update marker location on map
-                break;
-        }
-    });
     switch (type) {
         case "point":
             geoContainer.append($('<span class="geoSpecific"> Lat: </span>'));
@@ -327,8 +331,22 @@ function addGeoControlsForType(geoContainer, nexus, type, geoTypeSelect) {
             geoContainer.append($('<input class="editNexusField geoLatLonField geoSpecific" id="nedit_lon" type="text" size="7" ' + jsFieldDirtyChecks() + ' value="' + nexus.geo.coordinates[0] + '"/>'));
             break;
         default:
-            console.log('addGeoControls: unsupported: '+nexus.geo.type);
+            geoContainer.append($('<span class="geoSpecific"> not (yet) supported</span>'));
+            break;
     }
+    var geoLatLonFields = $('.geoLatLonField');
+    geoLatLonFields.off('change');
+    geoLatLonFields.on('change', function () {
+        switch (type.toLowerCase()) {
+            case "point":
+                var markers = find_markers(nexus.uuid);
+                if (!markers || !markers[0] || markers.length > 1) {
+                    console.log('no markers or more than one marker: '+JSON.stringify(markers));
+                }
+                markers[0].setPosition(new google.maps.LatLng($('#nedit_lat').val(), $('#nedit_lon').val()));
+                break;
+        }
+    });
 }
 
 function startEditingNexus () {
@@ -508,6 +526,7 @@ function cancelNexusEdits () {
     if (checkDirtyTimer != null) window.clearTimeout(checkDirtyTimer);
     if (Histori.active_nexus) {
         Histori.active_nexus.dirty = false;
+        resetGeo(Histori.active_nexus);
         openNexusDetails(Histori.active_nexus.uuid, 0);
     }
 }
@@ -520,7 +539,15 @@ function populateEditedNexus () {
         startPoint: { inputString: $('#nedit_nexusRangeStart').val() },
         endPoint: { inputString: $('#nedit_nexusRangeEnd').val() }
     };
-    edits.point = { type: 'Point', coordinates: [ 0.0, 0.0 ] };
+    switch ($('#nedit_geo_type').val()) {
+        case "point":
+            var lon = Number($('#nedit_lon').val());
+            var lat = Number($('#nedit_lat').val());
+            if (!isNaN(lon) && !isNaN(lat) && !(lon == 0 && lat == 0)) {
+                edits.point = {type: 'Point', coordinates: [lon, lat]};
+            }
+            break;
+    }
     edits.markdown = $('#nedit_markdown').val();
     return edits;
 }

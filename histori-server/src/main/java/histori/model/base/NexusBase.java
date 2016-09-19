@@ -185,7 +185,11 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
         if (timeRange == null) throw invalidEx("err.timeRange.empty", "Time range cannot be empty");
         if (!timeRange.hasStart()) throw invalidEx("err.timeRange.start.empty", "Start date cannot be empty");
         timeRange.getStartPoint().initInstant();
-        if (timeRange.hasEnd()) timeRange.getEndPoint().initInstant();
+        if (timeRange.hasEnd()) {
+            timeRange.getEndPoint().initInstant();
+        } else {
+            timeRange.setEndPoint(null);
+        }
     }
 
     public boolean containsScripting() {
