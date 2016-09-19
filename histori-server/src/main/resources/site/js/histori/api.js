@@ -148,13 +148,16 @@ Api = {
         if (typeof timeout == "undefined" || timeout == null || timeout.length == 0) timeout = null;
 
         var useCache = to_bool(getParameterByName('use-cache'));
+        var authoritativeParam = getParameterByName('authoritative');
+        var authoritative = !authoritativeParam || authoritativeParam.trim().length == 0 || to_bool(authoritativeParam);
 
         var s = search;
         Api._find_nexuses_timers[search_id] = window.setTimeout(function () {
             start_func();
             var search_uri = 'search/q/'+s.start+'/'+s.end+'/'+s.north+'/'+s.south+'/'+s.east+'/'+s.west+'?q='+encodeURIComponent(s.query)
                 + (timeout != null ? '&t='+timeout : '')
-                + (useCache != null ? '&c='+useCache : '');
+                + (useCache != null ? '&c='+useCache : '')
+                + (!authoritative ? '&a=false' : '');
             console.log('searching('+search_id+'): '+search_uri);
             Api._get(search_uri, function (data) {
                 // adjust data model: set version if absent, move tags up one level
