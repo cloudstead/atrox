@@ -314,8 +314,23 @@ Api = {
             Api._date_cache[dateString] = Api._post('utils/date/parse', dateString);
         }
         return Api._date_cache[dateString];
-    }
+    },
 
-    //addRegion: function (email, password) { return Api._post('/api/accounts/' + email, {'name': email, 'password': password}); }
+    find_preferred_authors: function (success, fail) { return Api._get('/prefers', success, fail); },
+    find_blocked_authors: function (success, fail) { return Api._get('/blocks', success, fail); },
+
+    add_preferred_author: function (author, success, fail) {
+        if (!author.priority || isNaN(author.priority)) author.priority = 0;
+        return Api._put('/prefers', author, success, fail);
+    },
+    add_blocked_author: function (author, success, fail) {
+        return Api._put('/blocks', author, success, fail);
+    },
+
+    remove_preferred_author: function (uuid, success, fail) { return Api._delete('/prefers/'+uuid, success, fail); },
+    remove_blocked_author: function (uuid, success, fail) { return Api._delete('/blocks/'+uuid, success, fail); },
+
+    toggle_preferred_author: function (uuid, success, fail) { return Api._post('/prefers/'+uuid+'/toggleActive', {}, success, fail); },
+    toggle_blocked_author: function (uuid, success, fail) { return Api._post('/blocks/'+uuid+'/toggleActive', {}, success, fail); }
 
 };

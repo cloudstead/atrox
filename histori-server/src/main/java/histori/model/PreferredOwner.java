@@ -5,16 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.cobbzilla.wizard.model.Identifiable;
 import org.cobbzilla.wizard.model.shard.Shardable;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.util.Comparator;
 
 @Entity @NoArgsConstructor @Accessors(chain=true)
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"owner", "preferred"}, name="preferred_owner_UNIQ_owner_preferred"))
-public class PreferredOwner extends AccountOwnedEntity implements Shardable {
-
-    @Override public String getHashToShardField() { return "owner"; }
+public class PreferredOwner extends SpecialAuthorEntity implements Shardable {
 
     public static final Comparator<PreferredOwner> SORT_PRIORITY = new Comparator<PreferredOwner>() {
         @Override public int compare(PreferredOwner o1, PreferredOwner o2) {
@@ -28,11 +30,17 @@ public class PreferredOwner extends AccountOwnedEntity implements Shardable {
         setName(preferred.getName());
     }
 
+    @Override public void update(Identifiable thing) {
+        final PreferredOwner other = (PreferredOwner) thing;
+        setPriority(other.getPriority());
+        super.update(thing);
+    }
+
     @Column(length=UUID_MAXLEN, nullable=false)
     @Getter @Setter private String preferred;
 
-    @Transient @Getter @Setter private String name;
-
     @Getter @Setter private int priority = 0;
 
+    @Override public String getSpecialAuthor() { return getPreferred(); }
+    @Override public SpecialAuthorEntity setSpecialAuthor(String author) { return setPreferred(author); }
 }

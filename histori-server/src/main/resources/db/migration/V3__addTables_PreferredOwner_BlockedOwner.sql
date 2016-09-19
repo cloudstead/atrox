@@ -4,6 +4,7 @@ CREATE TABLE preferred_owner (
   mtime bigint NOT NULL,
   owner character varying(100) NOT NULL,
   preferred character varying(100) NOT NULL,
+  active boolean NOT NULL,
   priority integer NOT NULL
 );
 
@@ -15,7 +16,8 @@ CREATE TABLE blocked_owner (
   ctime bigint NOT NULL,
   mtime bigint NOT NULL,
   owner character varying(100) NOT NULL,
-  blocked character varying(100) NOT NULL
+  blocked character varying(100) NOT NULL,
+  active boolean NOT NULL
 );
 
 ALTER TABLE ONLY blocked_owner ADD CONSTRAINT blocked_owner_pkey PRIMARY KEY (uuid);

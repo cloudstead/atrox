@@ -91,8 +91,8 @@ public class SearchResource {
                 .setTimeout(timeout);
 
         if (account != null) {
-            q.setPreferredOwners(preferredOwnerDAO.findPreferredUuidsByOwner(account));
-            q.setBlockedOwners(blockedOwnerDAO.findBlockedUuidsByOwner(account));
+            q.setPreferredOwners(preferredOwnerDAO.findActiveUuidsByOwner(account));
+            q.setBlockedOwners(blockedOwnerDAO.findActiveUuidsByOwner(account));
         }
 
         // it must pass validation and be anonymously recorded in order to proceed

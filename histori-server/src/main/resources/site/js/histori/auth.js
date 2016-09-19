@@ -292,39 +292,45 @@ function successfulAccountUpdate (data) {
     }
 }
 
+function getAuthErrorMessage (authType, jqXHR) {
+    if (jqXHR.status == 404) {
+        return "account not found";
+
+    } else if (jqXHR.status == 422) {
+        if (typeof jqXHR.responseJSON != "undefined" && is_array(jqXHR.responseJSON)) {
+            var msg = '';
+            for (var i=0; i<jqXHR.responseJSON.length; i++) {
+                if (msg.length > 0) msg += '<br/>';
+                if (typeof jqXHR.responseJSON[i].message != "undefined") {
+                    msg += jqXHR.responseJSON[i].message;
+                } else {
+                    msg += jqXHR.responseJSON[i].messageTemplate;
+                }
+            }
+        }
+        return msg;
+
+    } else if (authType == 'login') {
+        return "login error";
+
+    } else {
+        return "authentication error";
+    }
+}
+
+function showError (message) {
+    var authError = $(".authError");
+    authError.css('color', 'red');
+    authError.html(message);
+}
+
 function handleAuthError (authType) {
     return function (jqXHR, status, error) {
-
         if (jqXHR.status == 200) {
             console.log('not an error: '+jqXHR.status);
             return;
         }
-
-        var authError = $(".authError");
-        authError.css('color', 'red');
-        if (jqXHR.status == 404) {
-            authError.html("account not found");
-
-        } else if (jqXHR.status == 422) {
-            if (typeof jqXHR.responseJSON != "undefined" && is_array(jqXHR.responseJSON)) {
-                var msg = '';
-                for (var i=0; i<jqXHR.responseJSON.length; i++) {
-                    if (msg.length > 0) msg += '<br/>';
-                    if (typeof jqXHR.responseJSON[i].message != "undefined") {
-                        msg += jqXHR.responseJSON[i].message;
-                    } else {
-                        msg += jqXHR.responseJSON[i].messageTemplate;
-                    }
-                }
-            }
-            authError.html(msg);
-
-        } else if (authType == 'login') {
-            authError.html("login error");
-
-        } else {
-            authError.html("authentication error");
-        }
+        showError(getAuthErrorMessage(authType, jqXHR));
     }
 }
 
@@ -356,6 +362,166 @@ function validateAccountForm (form) {
     return ok;
 }
 
-function showSpecialAuthorsForm (type) {
+function removePreferred (uuid) {
+    return function () {
+        Api.remove_preferred_author(uuid, function (data) {
+            showSpecialAuthorsForm('preferred');
+        }, function () {
+            showError('error removing preferred author');
+        });
+    };
+}
 
+function removeBlocked (uuid) {
+    return function () {
+        Api.remove_blocked_author(uuid, function (data) {
+            showSpecialAuthorsForm('blocked');
+        }, function () {
+            showError('error removing blocked author');
+        });
+    };
+}
+
+function toggleAuthor (type, author) {
+    var apiFunc;
+    switch (type) {
+        case 'preferred':
+            apiFunc = Api.toggle_preferred_author;
+            break;
+        case 'blocked':
+            apiFunc = Api.toggle_blocked_author;
+            break;
+        default:
+            console.log('toggleAuthor: unsupported type: '+type);
+            return;
+    }
+    return function () {
+        apiFunc(author.uuid, function () {
+            showSpecialAuthorsForm(type);
+        }, function (jqXHR, status, error) {
+            if (jqXHR.status == 200) {
+                showSpecialAuthorsForm(type);
+            } else {
+                showError('error changing enabled/disable state');
+            }
+        });
+        return false; // called from <a>, do not follow link to "."
+    };
+}
+
+function showSpecialAuthorsForm (type) {
+    var thead = $('#specialAuthorsThead');
+    thead.empty();
+    $('.authError').empty();
+    var prioritySpan = $('#specialAuthorToAddPriority');
+    prioritySpan.empty();
+    var headerRow = $('<tr></tr>');
+
+    switch (type) {
+        case 'preferred':
+            thead.append(headerRow);
+            headerRow.append($('<th>name</th>'));
+            headerRow.append($('<th>priority</th>'));
+            headerRow.append($('<th>active<br/>(click to toggle)</th>'));
+            headerRow.append($('<th>remove</th>'));
+            prioritySpan.append($('<span>priority:</span>'));
+            prioritySpan.append($('<input type="text" id="specialAuthorPriorityField" size="4" value="0"/>'));
+            Api.find_preferred_authors(function (data) {
+                var tbody = $('#specialAuthorsTbody');
+                tbody.empty();
+                for (var i=0; i<data.length; i++) {
+                    var row = $('<tr></tr>');
+                    row.append($('<td>'+data[i].name+'</td>'));
+                    row.append($('<td>'+data[i].priority+'</td>'));
+
+                    if (data[i].preferred != Histori.account().uuid) {
+                        var activeToggle = $('<a href=".">'+(data[i].active ? 'yes' : 'no')+'</a>');
+                        activeToggle.on('click', toggleAuthor(type, data[i]));
+                        var activeCell = $('<td></td>');
+                        activeCell.append(activeToggle);
+                        row.append(activeCell);
+
+                        var removeButton = $('<button><img title="remove" src="iconic/png/x.png"/></button>');
+                        removeButton.on('click', removePreferred(data[i].uuid));
+                        var removeCell = $('<td></td>');
+                        removeCell.append(removeButton);
+                        row.append(removeCell);
+                    } else {
+                        row.append($('<td>yes</td>'));
+                    }
+                    tbody.append(row);
+                }
+
+                var addButton = $('#btn_addSpecialAuthor');
+                addButton.off('click');
+                addButton.on('click', function () {
+                    var name = $('#specialAuthorToAdd').val().trim();
+                    if (name.length > 0) {
+                        Api.add_preferred_author({
+                            name: name,
+                            priority: $('#specialAuthorPriorityField').val(),
+                            active: true
+                        }, function (data) {
+                            showSpecialAuthorsForm(type);
+                        }, function () {
+                            showError('error adding preferred author');
+                        });
+                    }
+                });
+
+                showForm('specialAuthorsContainer');
+            }, null);
+            break;
+
+        case 'blocked':
+            thead.append(headerRow);
+            headerRow.append($('<th>name</th>'));
+            headerRow.append($('<th>active<br/>(click to toggle)</th>'));
+            headerRow.append($('<th>remove</th>'));
+            Api.find_blocked_authors(function (data) {
+                var tbody = $('#specialAuthorsTbody');
+                tbody.empty();
+                for (var i=0; i<data.length; i++) {
+                    var row = $('<tr></tr>');
+                    row.append($('<td>'+data[i].name+'</td>'));
+
+                    var activeToggle = $('<a href=".">'+(data[i].active ? 'yes' : 'no')+'</a>');
+                    activeToggle.on('click', toggleAuthor(type, data[i]));
+                    var activeCell = $('<td></td>');
+                    activeCell.append(activeToggle);
+                    row.append(activeCell);
+
+                    var removeButton = $('<button><img title="remove" src="iconic/png/x.png"/></button>');
+                    removeButton.on('click', removeBlocked(data[i].uuid));
+                    var removeCell = $('<td></td>');
+                    removeCell.append(removeButton);
+                    row.append(removeCell);
+
+                    tbody.append(row);
+                }
+
+                var addButton = $('#btn_addSpecialAuthor');
+                addButton.off('click');
+                addButton.on('click', function () {
+                    var name = $('#specialAuthorToAdd').val().trim();
+                    if (name.length > 0) {
+                        Api.add_blocked_author({
+                            name: name,
+                            active: true
+                        }, function (data) {
+                            showSpecialAuthorsForm(type);
+                        }, function () {
+                            showError('error adding blocked author');
+                        });
+                    }
+                });
+
+                showForm('specialAuthorsContainer');
+            }, null);
+            break;
+
+        default:
+            console.log('showSpecialAuthorsForm: unrecognized type: '+type);
+            return;
+    }
 }
