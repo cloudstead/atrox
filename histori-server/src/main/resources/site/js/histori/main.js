@@ -396,6 +396,7 @@ function add_nexus_to_map (searchbox_id, primary) {
         console.log('add_nexus_to_map: unsupported geometry: '+JSON.stringify(primary.geo));
     }
 }
+
 function update_map (searchbox_id) {
 
     return function (data) {
@@ -474,4 +475,47 @@ function bring_markers_to_front(searchbox_id) {
         active_markers[searchbox_id][i].setZIndex(2);
     }
     slider.bring_markers_to_front(searchbox_id);
+}
+
+var editing_markers = [];
+
+function enable_editable_markers (nexus, handler) {
+    for (var i=0; i<all_markers.length; i++) {
+        var marker = all_markers[i];
+        if (marker.nexus.uuid == nexus.uuid) {
+            marker.setMap(null);
+            var editable_marker = new google.maps.Marker({
+                nexus: nexus,
+                position: {lat: nexus.geo.coordinates[1], lng: nexus.geo.coordinates[0]},
+                title: nexus.name,
+                icon: marker.getIcon(),
+                map: map,
+                draggable: true
+            });
+            google.maps.event.addListener(editable_marker, 'dragend', function() {
+                handler(editable_marker);
+            });
+            google.maps.event.addListener(editable_marker, 'drag', function() {
+                handler(editable_marker);
+            });
+            editing_markers.push(editable_marker);
+        }
+    }
+}
+
+function remove_editable_markers (nexus) {
+    var i;
+    // remove all editing markers
+    for (i=0; i<editing_markers.length; i++) {
+        editing_markers[i].setMap(null);
+    }
+    editing_markers = [];
+
+    // re-enable map markers for nexus
+    for (i=0; i<all_markers.length; i++) {
+        var marker = all_markers[i];
+        if (marker.nexus.uuid == nexus.uuid) {
+            marker.setMap(map);
+        }
+    }
 }

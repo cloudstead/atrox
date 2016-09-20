@@ -56,7 +56,10 @@ function enableNexusEditButtons (enable) {
     }
 }
 function openNexusDetails (uuid, tries) {
-
+    if (activeForm == 'editNexus') {
+        console.log('open: edit in progress, not opening new nexus');
+        return;
+    }
     closeForm();
     var container = $('#nexusDetailsContainer');
     var nexus = Api.nexusCache[uuid];
@@ -309,13 +312,15 @@ function addGeoControls (geoContainer, nexus) {
 }
 
 function resetGeo (nexus) {
+    remove_editable_markers(nexus);
     switch (nexus.geo.type.toLowerCase()) {
         case "point":
             var markers = find_markers(nexus.uuid);
             if (!markers || !markers[0] || markers.length > 1) {
-                console.log('no markers or more than one marker: '+JSON.stringify(markers));
+                console.log('no markers or more than one marker');
+            } else {
+                markers[0].setPosition(new google.maps.LatLng(nexus.geo.coordinates[1], nexus.geo.coordinates[0]));
             }
-            markers[0].setPosition(new google.maps.LatLng(nexus.geo.coordinates[1], nexus.geo.coordinates[0]));
             break;
     }
 }
@@ -340,16 +345,28 @@ function addGeoControlsForType(geoContainer, nexus, type, geoTypeSelect) {
         switch (type.toLowerCase()) {
             case "point":
                 var markers = find_markers(nexus.uuid);
-                if (!markers || !markers[0] || markers.length > 1) {
-                    console.log('no markers or more than one marker: '+JSON.stringify(markers));
+                if (markers && markers[0] && markers.length > 0) {
+                    for (var i=0; i<markers.length; i++) {
+                        markers[i].setPosition(new google.maps.LatLng($('#nedit_lat').val(), $('#nedit_lon').val()));
+                    }
                 }
-                markers[0].setPosition(new google.maps.LatLng($('#nedit_lat').val(), $('#nedit_lon').val()));
+                break;
+        }
+    });
+    enable_editable_markers(nexus, function (marker) {
+        var position = marker.getPosition();
+        switch (type.toLowerCase()) {
+            case "point":
+                $('#nedit_lat').val(position.lat());
+                $('#nedit_lon').val(position.lng());
+                checkDirty();
                 break;
         }
     });
 }
 
 function startEditingNexus () {
+    activeForm = 'editNexus';
     if (isAnonymous()) {
         showLoginForm();
         return;
@@ -393,7 +410,7 @@ function startEditingNexus () {
     rangeHyphen.html(' to ');
     rangeEnd.append(endField);
 
-    // create geo fields and map-edit button
+    // create geo fields, make map markers movable
     var geoContainer = $('#nexusGeoContainer');
     geoContainer.empty();
     geoContainer.append($('<span>Location: </span>'));
@@ -527,6 +544,7 @@ function cancelNexusEdits () {
     if (Histori.active_nexus) {
         Histori.active_nexus.dirty = false;
         resetGeo(Histori.active_nexus);
+        activeForm = null; // allow nexuses to be opened again
         openNexusDetails(Histori.active_nexus.uuid, 0);
     }
 }
@@ -558,7 +576,7 @@ function commitNexusEdits () {
             Histori.active_nexus.dirty = false;
             Histori.active_nexus = data;
             if (checkDirtyTimer != null) window.clearTimeout(checkDirtyTimer);
-            newExactSearch();
+            activeForm = null; // allow nexuses to be opened again
             findNexus(data, 0);
         });
     }
@@ -582,10 +600,12 @@ function update_tag_display_name (id, name) {
 }
 
 function closeNexusDetails () {
-    var container = $('#nexusDetailsContainer');
-    container.css('zIndex', -1);
-    enableNexusEditButtons(false);
-    Histori.active_nexus = null;
+    if (activeForm != 'editNexus') {
+        var container = $('#nexusDetailsContainer');
+        container.css('zIndex', -1);
+        enableNexusEditButtons(false);
+        Histori.active_nexus = null;
+    }
 }
 
 function viewNexusVersions () {

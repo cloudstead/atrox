@@ -108,10 +108,16 @@ function closeForm(id) {
     if (typeof id == "undefined" || id == null) {
         id = activeForm;
     }
-    var container = $('#' + id);
-    container.css('z-index', -1);
-    $(".authError").empty();
-    activeForm = null;
+    if (id == 'editNexus') {
+        console.log('not closing, edit in progress');
+
+    } else {
+        console.log('closing form: ' + id);
+        var container = $('#' + id);
+        container.css('z-index', -1);
+        $(".authError").empty();
+        activeForm = null;
+    }
 }
 
 String.prototype.trim = String.prototype.trim || function trim() { return this.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); };
