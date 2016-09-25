@@ -374,6 +374,10 @@ function addGeoControlsForType(geoContainer, nexus, type, geoTypeSelect) {
     });
 }
 
+function getSchemaValueId (tag, index, schemaVal) {
+    return getTagNameDivId(tag) + '_' + index + '_' + schemaVal.value.safeId();
+}
+
 function nexusTagContent (tag, names, editable) {
     var tagNameDivId = getTagNameDivId(tag);
     var tagName = editable ? tag.tagName : newSearchLink(tag.tagName);
@@ -384,7 +388,7 @@ function nexusTagContent (tag, names, editable) {
         for (var k = 0; k < numValues; k++) {
             var schemaVal = tag.values[k];
             var displayField;
-            var schemaValueId = tagNameDivId + '_' + k + '_' + schemaVal.value;
+            var schemaValueId = getSchemaValueId(tag, k, schemaVal);
             var schemaTypeIndex = $.inArray(schemaVal.field, TAG_TYPES);
             if (schemaTypeIndex != -1) {
                 displayField = TAG_TYPE_NAMES[schemaTypeIndex];
@@ -393,7 +397,7 @@ function nexusTagContent (tag, names, editable) {
                 displayField = schemaVal.field;
             }
             if (numValues > 1 && prevField != displayField) {
-                //listOfTags += "<div class='schema_field'>"+ displayField.replace('_', ' ') + "</div>";
+                //listOfTags += "<div class='schema_field'>"+ displayField.safeId() + "</div>";
                 prevField = displayField;
             }
             html += "<div id='" + schemaValueId + "' class='schema_value'>" + schemaVal.field.replace('_', ' ') + ": " + schemaVal.value.replace('_', ' ') + "</div>";
@@ -572,17 +576,52 @@ function startEditingTag (tagUuid) {
         return;
     }
 
-    console.log('>>>> startEditingTag: tag='+JSON.stringify(tag));
-
-    var tagDiv = $('#'+getNexusTagDivId(tag));
-    console.log('tagDiv.length='+tagDiv.length);
-
-    var nexusTagId = getTagNameDivId(tag);
+    var tagNameDivId = getNexusTagDivId(tag);
+    var tagDiv = $('#'+ tagNameDivId);
     var tagName = $('#' + getTagNameDivId(tag))[0].innerHTML;
     tagDiv.empty();
     var nameField = $('<input type="text" id="editTag_name" value="'+tagName+'"/>');
     tagDiv.append($('<span>Name: </span>'));
     tagDiv.append(nameField);
+
+    var decoratorTable = $('<table></table>');
+    //var thead = $('<thead><tr><th>type</th><th>value</th></tr></thead>');
+    var tbody = $('<tbody></tbody>');
+    decoratorTable.append(tbody);
+
+    // decorators
+    if (typeof tag.values != "undefined" && is_array(tag.values)) {
+        var prevField = '';
+        var numValues = tag.values.length;
+        for (var k = 0; k < numValues; k++) {
+            var tableRow = $('<tr></tr>');
+            tbody.append(tableRow);
+
+            var schemaVal = tag.values[k];
+            var displayField;
+            var schemaValueId = tagNameDivId + '_' + k + '_' + schemaVal.value;
+            var schemaTypeIndex = $.inArray(schemaVal.field, TAG_TYPES);
+            if (schemaTypeIndex != -1) {
+                displayField = TAG_TYPE_NAMES[schemaTypeIndex];
+            } else {
+                displayField = schemaVal.field;
+            }
+            if (numValues > 1 && prevField != displayField) {
+                prevField = displayField;
+            }
+
+            tableRow.append($('<td>'+schemaVal.field.replace('_', ' ')+': </td>'));
+
+            var displayVal = schemaVal.value.replace('_', ' ');
+            var valCell = $('<td></td>');
+            tableRow.append(valCell);
+
+            var valInput = $('<input id="editTag_'+schemaValueId+'" type="text" value="'+displayVal+'"/>');
+            valCell.append(valInput);
+        }
+    }
+
+    tagDiv.append(decoratorTable);
 
     var deleteButton = $('<button><img src="iconic/png/x.png"/></button>');
     deleteButton.on('click', function () {

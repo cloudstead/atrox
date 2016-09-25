@@ -122,6 +122,8 @@ function closeForm(id) {
 
 String.prototype.trim = String.prototype.trim || function trim() { return this.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); };
 
+String.prototype.safeId = String.prototype.safeId || function safeId () { return this.replaceAll("\\W", ""); };
+
 String.prototype.endsWith = function(suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
