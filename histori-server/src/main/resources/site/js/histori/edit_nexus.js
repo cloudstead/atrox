@@ -13,8 +13,7 @@ function formatTimePoint(date) {
     return (day + ' ' + month + ' ' + (eraMultiplier * year) + suffix).trim();
 }
 
-var activeNexusSummary = null;
-var markupConverter = new showdown.Converter()
+var markupConverter = new showdown.Converter();
 
 function showLoadingMessage (message) {
     var loadingContainer = $('#nexusLoadingContainer');
@@ -55,6 +54,10 @@ function enableNexusEditButtons (enable) {
         $('#btn_nexusSave').attr('disabled', 'disabled');
     }
 }
+
+function getTagNameDivId (tag) { return 'nexusTag_' + tag.uuid; }
+function getNexusTagDivId (tag) { return 'nexusTagDiv_' + tag.uuid; }
+
 function openNexusDetails (uuid, tries) {
     if (activeForm == 'editNexus') {
         console.log('open: edit in progress, not opening new nexus');
@@ -151,30 +154,36 @@ function openNexusDetails (uuid, tries) {
 
                 var listOfTags = "";
                 for (var j = 0; j < tags.length; j++) {
-                    var nexusTagId = 'nexusTag_' + tags[j].uuid + '_' + tags[j].tagName;
-                    listOfTags += "<div class='nexusTag'><div class='nexusTag_tagName' id='" + nexusTagId + "'>" + newSearchLink(tags[j].tagName) + "</div>";
-                    if (typeof tags[j].values != "undefined" && is_array(tags[j].values)) {
-                        var prevField = '';
-                        var numValues = tags[j].values.length;
-                        for (var k = 0; k < numValues; k++) {
-                            var schemaVal = tags[j].values[k];
-                            var displayField;
-                            var schemaValueId = nexusTagId + '_' + k + '_' + schemaVal.value;
-                            var schemaTypeIndex = $.inArray(schemaVal.field, TAG_TYPES);
-                            if (schemaTypeIndex != -1) {
-                                displayField = TAG_TYPE_NAMES[schemaTypeIndex];
-                                names.push({tag: schemaVal.value, id: schemaValueId});
-                            } else {
-                                displayField = schemaVal.field;
-                            }
-                            if (numValues > 1 && prevField != displayField) {
-                                //listOfTags += "<div class='schema_field'>"+ displayField.replace('_', ' ') + "</div>";
-                                prevField = displayField;
-                            }
-                            listOfTags += "<div id='" + schemaValueId + "' class='schema_value'>" + schemaVal.value.replace('_', ' ') + "</div>";
-                        }
-                    }
+                    var tagDivId = getNexusTagDivId(tags[j]);
+                    listOfTags += '<div id="'+tagDivId+'" class="nexusTag">';
+                    listOfTags += nexusTagContent(tags[j], names, false);
                     listOfTags += "</div>";
+
+                    var nexusTagId = getTagNameDivId(tags[j]);
+                    //listOfTags += "<div class='nexusTag'><div class='nexusTag_tagName' id='" + nexusTagId + "'>" + newSearchLink(tags[j].tagName) + "</div>";
+                    //if (typeof tags[j].values != "undefined" && is_array(tags[j].values)) {
+                    //    var prevField = '';
+                    //    var numValues = tags[j].values.length;
+                    //    for (var k = 0; k < numValues; k++) {
+                    //        var schemaVal = tags[j].values[k];
+                    //        var displayField;
+                    //        var schemaValueId = nexusTagId + '_' + k + '_' + schemaVal.value;
+                    //        var schemaTypeIndex = $.inArray(schemaVal.field, TAG_TYPES);
+                    //        if (schemaTypeIndex != -1) {
+                    //            displayField = TAG_TYPE_NAMES[schemaTypeIndex];
+                    //            names.push({tag: schemaVal.value, id: schemaValueId});
+                    //        } else {
+                    //            displayField = schemaVal.field;
+                    //        }
+                    //        if (numValues > 1 && prevField != displayField) {
+                    //            //listOfTags += "<div class='schema_field'>"+ displayField.replace('_', ' ') + "</div>";
+                    //            prevField = displayField;
+                    //        }
+                    //        //listOfTags += "<div id='" + schemaValueId + "' class='schema_value'>" + schemaVal.value.replace('_', ' ') + "</div>";
+                    //        listOfTags += "<div id='" + schemaValueId + "' class='schema_value'>" + schemaVal.field.replace('_', ' ') + ": " + schemaVal.value.replace('_', ' ') + "</div>";
+                    //    }
+                    //}
+                    //listOfTags += "</div>";
                     names.push({tag: tags[j].tagName, id: nexusTagId});
                 }
                 tagRow.append($('<td class="tagCell">' + listOfTags + '</td>'));
@@ -365,6 +374,34 @@ function addGeoControlsForType(geoContainer, nexus, type, geoTypeSelect) {
     });
 }
 
+function nexusTagContent (tag, names, editable) {
+    var tagNameDivId = getTagNameDivId(tag);
+    var tagName = editable ? tag.tagName : newSearchLink(tag.tagName);
+    var html = '<div class="nexusTag_tagName" id="' + tagNameDivId + '">' + tagName + '</div>';
+    if (typeof tag.values != "undefined" && is_array(tag.values)) {
+        var prevField = '';
+        var numValues = tag.values.length;
+        for (var k = 0; k < numValues; k++) {
+            var schemaVal = tag.values[k];
+            var displayField;
+            var schemaValueId = tagNameDivId + '_' + k + '_' + schemaVal.value;
+            var schemaTypeIndex = $.inArray(schemaVal.field, TAG_TYPES);
+            if (schemaTypeIndex != -1) {
+                displayField = TAG_TYPE_NAMES[schemaTypeIndex];
+                if (names)  names.push({tag: schemaVal.value, id: schemaValueId});
+            } else {
+                displayField = schemaVal.field;
+            }
+            if (numValues > 1 && prevField != displayField) {
+                //listOfTags += "<div class='schema_field'>"+ displayField.replace('_', ' ') + "</div>";
+                prevField = displayField;
+            }
+            html += "<div id='" + schemaValueId + "' class='schema_value'>" + schemaVal.field.replace('_', ' ') + ": " + schemaVal.value.replace('_', ' ') + "</div>";
+        }
+    }
+    return html;
+}
+
 function startEditingNexus () {
     activeForm = 'editNexus';
     if (isAnonymous()) {
@@ -383,11 +420,11 @@ function startEditingNexus () {
     nameContainer.append($('<span class="editNexusLabel">Name: </span>'));
     nameContainer.append($('<input class="editNexusField" id="nedit_name" type="text" name="name" value="'+nexus.name+'" '+jsFieldDirtyChecks()+'>'));
 
-    // set author label and add visibility field
+    // empty author tag
     var authorContainer = $('#nexusAuthorContainer');
     authorContainer.empty();
-    authorContainer.append($('<span>edited by: '+Histori.account().name+'</span>'));
-    authorContainer.append($('<br/>'));
+
+    // add visibility field
     var visibilityControl = $('<select id="nedit_visibility" '+jsFieldDirtyChecks+'></select>');
     visibilityControl.append($('<option value="everyone"'+(nexus.visibility == "everyone" ? "selected" : "")+'>everyone</option>'));
     visibilityControl.append($('<option value="owner"'+(nexus.visibility == "owner" ? "selected" : "")+'>just me</option>'));
@@ -450,7 +487,6 @@ function startEditingNexus () {
     tagsContainer.empty();
 
     if (typeof nexus.tags != "undefined" && is_array(nexus.tags)) {
-        var names = [];
         var tagsTable = $('<table id="nexusTagsTable">');
 
         tagsContainer.append(tagsTable);
@@ -483,36 +519,14 @@ function startEditingNexus () {
 
             var listOfTags = "";
             for (var j = 0; j < tags.length; j++) {
-                var nexusTagId = 'nexusTag_' + tags[j].uuid + '_' + tags[j].tagName;
-                listOfTags += "<div class='nexusTag'><div class='nexusTag_tagName' id='" + nexusTagId + "'>" + tags[j].tagName + "</div>";
-                if (typeof tags[j].values != "undefined" && is_array(tags[j].values)) {
-                    var prevField = '';
-                    var numValues = tags[j].values.length;
-                    for (var k = 0; k < numValues; k++) {
-                        var schemaVal = tags[j].values[k];
-                        var displayField;
-                        var schemaValueId = nexusTagId + '_' + k + '_' + schemaVal.value;
-                        var schemaTypeIndex = $.inArray(schemaVal.field, TAG_TYPES);
-                        if (schemaTypeIndex != -1) {
-                            displayField = TAG_TYPE_NAMES[schemaTypeIndex];
-                            names.push({tag: schemaVal.value, id: schemaValueId});
-                        } else {
-                            displayField = schemaVal.field;
-                        }
-                        if (numValues > 1 && prevField != displayField) {
-                            //listOfTags += "<div class='schema_field'>"+ displayField.replace('_', ' ') + "</div>";
-                            prevField = displayField;
-                        }
-                        listOfTags += "<div id='" + schemaValueId + "' class='schema_value'>" + schemaVal.value.replace('_', ' ') + "</div>";
-                    }
-                }
+                var tagDivId = getNexusTagDivId(tags[j]);
+                listOfTags += '<div id="'+tagDivId+'" class="nexusTag" onclick="startEditingTag(\''+tags[j].uuid+'\'); return false;">';
+                listOfTags += nexusTagContent(tags[j], null, true);
                 listOfTags += "</div>";
-                names.push({tag: tags[j].tagName, id: nexusTagId});
             }
             listOfTags += "<div class='addTagButtonCell'><button><img src='iconic/png/plus.png'/></button></div>";
             tagRow.append($('<td class="tagCell">' + listOfTags + '</td>'));
         }
-        Api.resolve_tags(names, update_tag_display_name);
     }
 
     if (nexus.bounds.east > map.getBounds().getCenter().lng()) {
@@ -524,6 +538,76 @@ function startEditingNexus () {
     }
 
     container.css('zIndex', 1);
+}
+
+var editingTag = null;
+
+function findTag (tagUuid) {
+    var nexus = Histori.active_nexus;
+    var tag = null;
+    for (var i = 0; i < nexus.tags.length; i++) {
+        if (nexus.tags[i].uuid == tagUuid) {
+            tag = nexus.tags[i];
+            break;
+        }
+    }
+    return tag;
+}
+
+JUST_CANCELED = 'just-canceled';
+
+function startEditingTag (tagUuid) {
+    if (editingTag == tagUuid) return;
+    console.log("START>>> TAGUUID= "+tagUuid+", editingTag="+editingTag);
+    if (editingTag == JUST_CANCELED) {
+        editingTag = null;
+        return;
+    }
+    if (editingTag != null) cancelEditingTag(editingTag);
+    editingTag = tagUuid;
+
+    var tag = findTag(tagUuid);
+    if (tag == null) {
+        console.log('startEditingTag: tag not found');
+        return;
+    }
+
+    console.log('>>>> startEditingTag: tag='+JSON.stringify(tag));
+
+    var tagDiv = $('#'+getNexusTagDivId(tag));
+    console.log('tagDiv.length='+tagDiv.length);
+
+    var nexusTagId = getTagNameDivId(tag);
+    var tagName = tag.tagName;
+    tagDiv.empty();
+    var nameField = $('<input type="text" id="editTag_name" value="'+tagName+'"/>');
+    tagDiv.append($('<span>Name: </span>'));
+    tagDiv.append(nameField);
+
+    var saveButton = $('<button>save</button>');
+    var deleteButton = $('<button>delete</button>');
+    var cancelButton = $('<button>cancel</button>');
+    cancelButton.on('click', function () { cancelEditingTag(tagUuid) });
+    var buttonSpan = $('<div></div>');
+    buttonSpan.append(saveButton);
+    buttonSpan.append($('<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>'));
+    buttonSpan.append(deleteButton);
+    buttonSpan.append($('<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>'));
+    buttonSpan.append(cancelButton);
+    tagDiv.append(buttonSpan);
+}
+
+function cancelEditingTag (tagUuid) {
+    var tag = findTag(tagUuid);
+    if (tag == null) {
+        console.log('cancelEditingTag: tag not found');
+        return;
+    }
+    var tagDiv = $('#'+getNexusTagDivId(tag));
+    console.log('cancelEditing: div='+tagDiv.length);
+    tagDiv.empty();
+    tagDiv.append(nexusTagContent(tag, null, true));
+    editingTag = JUST_CANCELED;
 }
 
 function cancelNexusEdits () {
@@ -583,7 +667,11 @@ function update_tag_display_name (id, name) {
     } else if (name == "automated_entry_please_verify") {
         name = '<a style="text-decoration: underline; color: black;" onclick="return false;" href="." title="Coming Soon! Support for user-contributed updates!">' + name + "</a>";
     }
-    $('#'+id).html(newSearchLink(name));
+    if (activeForm != 'editNexus') {
+        $('#'+id).html(newSearchLink(name));
+    } else {
+        $('#'+id).html(name);
+    }
 }
 
 function closeNexusDetails () {

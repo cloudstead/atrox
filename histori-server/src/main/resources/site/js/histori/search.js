@@ -71,9 +71,7 @@ function hideLoadingSpinner (id) {
     }
 }
 
-function newExactSearch (term) { return newSearch('"'+term+'"'); }
-
-function newSearch (term) {
+function newExactSearch (term) { return newSearch('"'+term+'"'); }function newSearch (term) {
     var rows = $('.searchRow');
     var row = null;
     // If this is the first search, and the first search is blank, replace it
