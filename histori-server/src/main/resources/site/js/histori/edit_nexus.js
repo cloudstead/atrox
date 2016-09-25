@@ -1,6 +1,19 @@
 
 TAG_TYPES = ['event_type', 'world_actor', 'result', 'impact', 'person', 'event', 'citation', 'idea', 'meta'];
 TAG_TYPE_NAMES = ['event types', 'world actors', 'results', 'impacts', 'persons', 'events', 'citations', 'ideas', 'meta'];
+TAG_TYPE_NAMES_SINGULAR = ['event type', 'world actor', 'result', 'impact', 'person', 'event', 'citation', 'idea', 'meta'];
+
+DECORATORS_BY_TAG_TYPE = {
+    'event': ['relationship', 'see_also'],
+    'world_actor': ['role', 'see_also'],
+    'person': ['role', 'world_actor', 'see_also'],
+    'result': ['role', 'world_actor', 'see_also'],
+    'impact': ['world_actor', 'estimate', 'low_estimate', 'high_estimate', 'see_also'],
+    'citation': ['excerpt', 'see_also'],
+    'idea': ['see_also'],
+    'meta': ['value'],
+    'unknown': ['value']
+};
 
 function formatTimePoint(date) {
     if (typeof date == "undefined" || date == null) return "";
@@ -60,7 +73,7 @@ function getNexusTagDivId (tag) { return 'nexusTagDiv_' + tag.uuid; }
 
 function openNexusDetails (uuid, tries) {
     if (activeForm == 'editNexus') {
-        console.log('open: edit in progress, not opening new nexus');
+        console.log('openNexusDetails: edit in progress, not opening new nexus');
         return;
     }
     closeForm();
@@ -160,30 +173,6 @@ function openNexusDetails (uuid, tries) {
                     listOfTags += "</div>";
 
                     var nexusTagId = getTagNameDivId(tags[j]);
-                    //listOfTags += "<div class='nexusTag'><div class='nexusTag_tagName' id='" + nexusTagId + "'>" + newSearchLink(tags[j].tagName) + "</div>";
-                    //if (typeof tags[j].values != "undefined" && is_array(tags[j].values)) {
-                    //    var prevField = '';
-                    //    var numValues = tags[j].values.length;
-                    //    for (var k = 0; k < numValues; k++) {
-                    //        var schemaVal = tags[j].values[k];
-                    //        var displayField;
-                    //        var schemaValueId = nexusTagId + '_' + k + '_' + schemaVal.value;
-                    //        var schemaTypeIndex = $.inArray(schemaVal.field, TAG_TYPES);
-                    //        if (schemaTypeIndex != -1) {
-                    //            displayField = TAG_TYPE_NAMES[schemaTypeIndex];
-                    //            names.push({tag: schemaVal.value, id: schemaValueId});
-                    //        } else {
-                    //            displayField = schemaVal.field;
-                    //        }
-                    //        if (numValues > 1 && prevField != displayField) {
-                    //            //listOfTags += "<div class='schema_field'>"+ displayField.replace('_', ' ') + "</div>";
-                    //            prevField = displayField;
-                    //        }
-                    //        //listOfTags += "<div id='" + schemaValueId + "' class='schema_value'>" + schemaVal.value.replace('_', ' ') + "</div>";
-                    //        listOfTags += "<div id='" + schemaValueId + "' class='schema_value'>" + schemaVal.field.replace('_', ' ') + ": " + schemaVal.value.replace('_', ' ') + "</div>";
-                    //    }
-                    //}
-                    //listOfTags += "</div>";
                     names.push({tag: tags[j].tagName, id: nexusTagId});
                 }
                 tagRow.append($('<td class="tagCell">' + listOfTags + '</td>'));
@@ -566,6 +555,52 @@ JUST_CANCELED = 'just-canceled';
 
 function deleteIdFunc (id) { return function () { $('#'+id).remove(); } }
 
+function getDecoratorRowId (schemaValueId) { return 'decorator_'+schemaValueId; }
+
+function addDecoratorRow (tag, k, tbody) {
+    if (typeof k == "undefined" || k == null) k = tag.values.length - 1; // undefined/null means use the most recently added decorator
+    if (typeof tbody == "undefined") tbody = $('#decoratorTbody');
+
+    var schemaVal = tag.values[k];
+    var schemaValueId = getSchemaValueId(tag, k, schemaVal);
+    var decoratorRowId = getDecoratorRowId(schemaValueId);
+
+    var tableRow = $('<tr id="'+decoratorRowId+'"></tr>');
+    tbody.append(tableRow);
+
+    var displayField;
+    var schemaTypeIndex = $.inArray(schemaVal.field, TAG_TYPES);
+    if (schemaTypeIndex != -1) {
+        displayField = TAG_TYPE_NAMES_SINGULAR[schemaTypeIndex];
+    } else {
+        displayField = schemaVal.field.replace('_', ' ');
+    }
+    tableRow.append($('<td>'+displayField+': </td>'));
+
+    var displayVal = schemaVal.value.replace('_', ' ');
+    var valCell = $('<td></td>');
+    tableRow.append(valCell);
+
+    var valInput = $('<input id="editTag_'+schemaValueId+'" class="editNexusField editNexusDecoratorField" type="text" value="'+displayVal+'"/>');
+    var typeInput = $('<input id="editTag_'+schemaValueId+'_type" type="hidden" value="'+schemaVal.field+'"/>');
+    valCell.append(valInput);
+    valCell.append(typeInput);
+
+    var delCell = $('<td></td>');
+    var delButton = $('<button><img src="iconic/png/x.png"/></button>');
+    delButton.on('click', deleteIdFunc(decoratorRowId));
+    delCell.append(delButton);
+    tableRow.append(delCell);
+}
+
+function addDecoratorFunc (tag) {
+    return function () {
+        if (typeof tag.values == "undefined") tag.values = [];
+        tag.values.push({field: $('#editTag_newDecoratorType').val(), value: $('#editTag_newDecoratorValue').val()});
+        addDecoratorRow(tag);
+    }
+}
+
 function startEditingTag (tagUuid) {
     if (editingTag == tagUuid) return;
     console.log("START>>> TAGUUID= "+tagUuid+", editingTag="+editingTag);
@@ -604,52 +639,43 @@ function startEditingTag (tagUuid) {
     // decorator table
     var decoratorTable = $('<table></table>');
     //var thead = $('<thead><tr><th>type</th><th>value</th></tr></thead>');
-    var tbody = $('<tbody></tbody>');
+    var tbody = $('<tbody id="decoratorTbody"></tbody>');
+    var tfoot = $('<tfoot></tfoot>');
     decoratorTable.append(tbody);
 
     if (typeof tag.values != "undefined" && is_array(tag.values)) {
-        var prevField = '';
         var numValues = tag.values.length;
         for (var k = 0; k < numValues; k++) {
-            var schemaVal = tag.values[k];
-            var schemaValueId = getSchemaValueId(tag, k, schemaVal);
-            var decoratorRowId = 'decorator_'+schemaValueId;
-
-            var tableRow = $('<tr id="'+decoratorRowId+'"></tr>');
-            tbody.append(tableRow);
-
-            var displayField;
-            var schemaTypeIndex = $.inArray(schemaVal.field, TAG_TYPES);
-            if (schemaTypeIndex != -1) {
-                displayField = TAG_TYPE_NAMES[schemaTypeIndex];
-            } else {
-                displayField = schemaVal.field;
-            }
-            if (numValues > 1 && prevField != displayField) {
-                prevField = displayField;
-            }
-
-            tableRow.append($('<td>'+schemaVal.field.replace('_', ' ')+': </td>'));
-
-            var displayVal = schemaVal.value.replace('_', ' ');
-            var valCell = $('<td></td>');
-            tableRow.append(valCell);
-
-            var valInput = $('<input id="editTag_'+schemaValueId+'" class="editNexusField editNexusDecoratorField" type="text" value="'+displayVal+'"/>');
-            var typeInput = $('<input id="editTag_'+schemaValueId+'_type" type="hidden" value="'+schemaVal.field+'"/>');
-            valCell.append(valInput);
-            valCell.append(typeInput);
-
-            var delCell = $('<td></td>');
-            var delButton = $('<button><img src="iconic/png/x.png"/></button>');
-            delButton.on('click', deleteIdFunc(decoratorRowId));
-            delCell.append(delButton);
-            tableRow.append(delCell);
+            addDecoratorRow(tag, k, tbody);
         }
 
-        // todo: one more row to add a new decorator
+        var addRow = $('<tr></tr>');
+
+        var typeCell = $('<td></td>');
+        var typeSelect = $('<select id="editTag_newDecoratorType"></select>');
+        var decoratorTypes = DECORATORS_BY_TAG_TYPE[tag.tagType];
+        if (typeof decoratorTypes == "undefined") decoratorTypes = DECORATORS_BY_TAG_TYPE['unknown'];
+        for (var typeIndex = 0; typeIndex < decoratorTypes.length; typeIndex++) {
+            typeSelect.append($('<option value="'+decoratorTypes[typeIndex]+'">'+decoratorTypes[typeIndex].replace('_', ' ')+'</option>'));
+        }
+        typeCell.append(typeSelect);
+
+        var addValCell = $('<td></td>');
+        var addValInput = $('<input id="editTag_newDecoratorValue" type="text" class="editNexusField editNexusDecoratorField"/>');
+        addValCell.append(addValInput);
+
+        var addButtonCell = $('<td></td>');
+        var addButton = $('<button><img src="iconic/png/plus.png"></button>');
+        addButton.on('click', addDecoratorFunc(tag));
+        addButtonCell.append(addButton);
+
+        addRow.append(typeCell);
+        addRow.append(addValCell);
+        addRow.append(addButtonCell);
+        tfoot.append(addRow);
     }
 
+    decoratorTable.append(tfoot);
     tagDiv.append(decoratorTable);
 }
 
@@ -664,14 +690,16 @@ function commitEditingTag (tagUuid) {
     tag.values = [];
 
     $('.editNexusDecoratorField').each(function (index) {
-        var type = $('#'+$(this)[0].id+'_type').val();
-        tag.values.push({field: type, value: $(this).val()});
+        var typeField = $('#'+$(this)[0].id+'_type');
+        if (typeField && typeField[0]) {
+            var type = typeField.val();
+            tag.values.push({field: type, value: $(this).val()});
+        }
     });
 
     var tagDiv = $('#'+getNexusTagDivId(tag));
     tagDiv.empty();
     tagDiv.append(nexusTagContent(tag, null, true));
-    // $('#' + getTagNameDivId(tag)).html(tag.tagName);
 
     editingTag = JUST_CANCELED;
 }
@@ -687,6 +715,8 @@ function cancelNexusEdits () {
 }
 
 function populateEditedNexus () {
+    if (editingTag != null) commitEditingTag(editingTag);
+
     deltaNexus.name = $('#nedit_name').val();
     deltaNexus.visibility = $('#nedit_visibility option:selected').val();
     deltaNexus.timeRange = {
@@ -703,6 +733,9 @@ function populateEditedNexus () {
             break;
     }
     deltaNexus.markdown = $('#nedit_markdown').val();
+
+    // tag editor keeps tags up to date
+
     return deltaNexus;
 }
 
@@ -711,6 +744,7 @@ function commitNexusEdits () {
         Api.edit_nexus(Histori.active_nexus, populateEditedNexus(), function (data) {
             Histori.active_nexus.dirty = false;
             Histori.active_nexus = data;
+            // todo: should we update the nexuses that are cached in main.js?
             if (checkDirtyTimer != null) window.clearTimeout(checkDirtyTimer);
             activeForm = null; // allow nexuses to be opened again
             findNexus(data, 0);
