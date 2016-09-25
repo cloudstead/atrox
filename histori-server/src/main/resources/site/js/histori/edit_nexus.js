@@ -500,25 +500,19 @@ function startEditingNexus () {
         tagsTable.append(tbody);
         for (var typeIndex = 0; typeIndex < TAG_TYPES.length; typeIndex++) {
             var tagType = TAG_TYPES[typeIndex];
-            if (typeof tagsByType[tagType] == "undefined") continue;
-
             var tags = tagsByType[tagType];
-
-            var tagTypeName = TAG_TYPE_NAMES[typeIndex];
-            if (tags.length == 1 && tagTypeName.endsWith("s")) {
-                tagTypeName = tagTypeName.substring(0, tagTypeName.length - 1);
-            }
-
+            var tagTypeName = TAG_TYPE_NAMES_SINGULAR[typeIndex];
             var tagRow = $('<tr class="tagTypeRow">');
             tagRow.append($('<td class="tagTypeCell">' + tagTypeName + '</td>'));
             tbody.append(tagRow);
-
             var listOfTags = "";
-            for (var j = 0; j < tags.length; j++) {
-                var tagDivId = getNexusTagDivId(tags[j]);
-                listOfTags += '<div id="'+tagDivId+'" class="nexusTag" onclick="startEditingTag(\''+tags[j].uuid+'\'); return false;">';
-                listOfTags += nexusTagContent(tags[j], null, true);
-                listOfTags += "</div>";
+            if (typeof tags != "undefined") {
+                for (var j = 0; j < tags.length; j++) {
+                    var tagDivId = getNexusTagDivId(tags[j]);
+                    listOfTags += '<div id="'+tagDivId+'" class="nexusTag" onclick="startEditingTag(\''+tags[j].uuid+'\'); return false;">';
+                    listOfTags += nexusTagContent(tags[j], null, true);
+                    listOfTags += "</div>";
+                }
             }
             listOfTags += "<div class='addTagButtonCell'><button><img src='iconic/png/plus.png'/></button></div>";
             tagRow.append($('<td class="tagCell">' + listOfTags + '</td>'));
