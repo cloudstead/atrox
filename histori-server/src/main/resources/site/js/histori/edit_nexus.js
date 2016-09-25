@@ -514,7 +514,7 @@ function startEditingNexus () {
                     listOfTags += "</div>";
                 }
             }
-            listOfTags += "<div class='addTagButtonCell'><button><img src='iconic/png/plus.png'/></button></div>";
+            listOfTags += "<div id='addTag_"+tagType+"' class='addTagButtonCell'><button onclick='addTag(\""+tagType+"\"); return false;'><img src='iconic/png/plus.png'/></button></div>";
             tagRow.append($('<td class="tagCell">' + listOfTags + '</td>'));
         }
     }
@@ -528,6 +528,19 @@ function startEditingNexus () {
     }
 
     container.css('zIndex', 1);
+}
+
+function addTag (tagType) {
+    var addCell = $('#addTag_'+tagType);
+    var newTag = {uuid: guid(), tagName: '', tagType: tagType, values: []};
+    var tagDivId = getNexusTagDivId(newTag);
+    var html = '<div id="'+tagDivId+'" class="nexusTag" onclick="startEditingTag(\''+newTag.uuid+'\'); return false;">';
+    html += nexusTagContent(newTag, null, true);
+    html += "</div>";
+    $(html).insertBefore(addCell);
+    if (typeof deltaNexus.tags == "undefined") deltaNexus.tags = [];
+    deltaNexus.tags.push(newTag);
+    startEditingTag(newTag.uuid);
 }
 
 var editingTag = null;
@@ -614,7 +627,13 @@ function startEditingTag (tagUuid) {
     // name field
     var tagNameDivId = getNexusTagDivId(tag);
     var tagDiv = $('#'+ tagNameDivId);
-    var tagName = $('#' + getTagNameDivId(tag))[0].innerHTML;
+    var tagNameField = $('#' + getTagNameDivId(tag));
+    if (!tagNameField || !tagNameField.length) {
+        console.log('tag name field not found: '+JSON.stringify(tag));
+        editingTag = null;
+        return;
+    }
+    var tagName = tagNameField[0].innerHTML;
     tagDiv.empty();
     var nameField = $('<input type="text" id="editTag_name" value="'+tagName+'"/>');
     tagDiv.append($('<span>Name: </span>'));
