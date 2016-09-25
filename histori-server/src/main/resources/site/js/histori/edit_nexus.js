@@ -286,7 +286,8 @@ function isDirty (nexus) {
             }
             break;
     }
-    return false;
+
+    return tagsDirty;
 }
 
 function jsFieldDirtyChecks () { return 'onkeyup="checkDirty()" onchange="checkDirty()" onblur="checkDirty()"'; }
@@ -396,6 +397,7 @@ function nexusTagContent (tag, names, editable) {
 }
 
 var deltaNexus = null;
+var tagsDirty = false;
 
 function startEditingNexus () {
     activeForm = 'editNexus';
@@ -407,6 +409,7 @@ function startEditingNexus () {
     var container = $('#nexusDetailsContainer');
     var nexus = deltaNexus = JSON.parse(JSON.stringify(Histori.active_nexus)); // make a copy
     editingTag = null; // reset tag editor
+    tagsDirty = false;
 
     if (typeof nexus == "undefined" || nexus == null) return;
     enableNexusEditButtons(true);
@@ -716,6 +719,8 @@ function commitEditingTag (tagUuid) {
     tagDiv.append(nexusTagContent(tag, null, true));
 
     editingTag = JUST_CANCELED;
+    tagsDirty = true;
+    checkDirty();
 }
 
 function cancelNexusEdits () {
@@ -758,6 +763,7 @@ function commitNexusEdits () {
         Api.edit_nexus(Histori.active_nexus, populateEditedNexus(), function (data) {
             Histori.active_nexus.dirty = false;
             Histori.active_nexus = data;
+            tagsDirty = false;
             // todo: should we update the nexuses that are cached in main.js?
             if (checkDirtyTimer != null) window.clearTimeout(checkDirtyTimer);
             activeForm = null; // allow nexuses to be opened again
