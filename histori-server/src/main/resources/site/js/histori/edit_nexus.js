@@ -563,7 +563,7 @@ function startEditingTag (tagUuid) {
         editingTag = null;
         return;
     }
-    if (editingTag != null) cancelEditingTag(editingTag);
+    if (editingTag != null) commitEditingTag(editingTag);
     editingTag = tagUuid;
 
     var tag = findTag(tagUuid);
@@ -578,35 +578,36 @@ function startEditingTag (tagUuid) {
     console.log('tagDiv.length='+tagDiv.length);
 
     var nexusTagId = getTagNameDivId(tag);
-    var tagName = tag.tagName;
+    var tagName = $('#' + getTagNameDivId(tag))[0].innerHTML;
     tagDiv.empty();
     var nameField = $('<input type="text" id="editTag_name" value="'+tagName+'"/>');
     tagDiv.append($('<span>Name: </span>'));
     tagDiv.append(nameField);
 
-    var saveButton = $('<button>save</button>');
-    var deleteButton = $('<button>delete</button>');
-    var cancelButton = $('<button>cancel</button>');
-    cancelButton.on('click', function () { cancelEditingTag(tagUuid) });
-    var buttonSpan = $('<div></div>');
-    buttonSpan.append(saveButton);
-    buttonSpan.append($('<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>'));
-    buttonSpan.append(deleteButton);
-    buttonSpan.append($('<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>'));
-    buttonSpan.append(cancelButton);
-    tagDiv.append(buttonSpan);
+    var deleteButton = $('<button><img src="iconic/png/x.png"/></button>');
+    deleteButton.on('click', function () {
+        tagDiv.remove();
+        editingTag = null;
+    });
+    var buttonDiv = $('<div class="deleteTagButton"></div>');
+    buttonDiv.append(deleteButton);
+    tagDiv.append(buttonDiv);
 }
 
-function cancelEditingTag (tagUuid) {
+function commitEditingTag (tagUuid) {
     var tag = findTag(tagUuid);
     if (tag == null) {
-        console.log('cancelEditingTag: tag not found');
+        console.log('commitEditingTag: tag not found');
         return;
     }
+
+    var tagName = $('#editTag_name').val();
+
     var tagDiv = $('#'+getNexusTagDivId(tag));
-    console.log('cancelEditing: div='+tagDiv.length);
     tagDiv.empty();
     tagDiv.append(nexusTagContent(tag, null, true));
+    $('#' + getTagNameDivId(tag)).html(tagName);
+
     editingTag = JUST_CANCELED;
 }
 

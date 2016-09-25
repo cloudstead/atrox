@@ -269,6 +269,17 @@ input[type=file] {
     pointer-events: visible;
 }
 
+.deleteTagButton {
+    font-family: Tahoma,sans-serif;
+    float: right;
+    text-align: right;
+    padding-left: 2px;
+    padding-right: 2px;
+    margin: 2px;
+    font-size: small;
+    pointer-events: visible;
+}
+
 .schema_field {
     font-family: Tahoma,sans-serif;
     font-size: xx-small;
