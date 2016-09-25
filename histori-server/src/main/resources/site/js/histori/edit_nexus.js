@@ -560,6 +560,8 @@ function findTag (tagUuid) {
 
 JUST_CANCELED = 'just-canceled';
 
+function deleteIdFunc (id) { return function () { $('#'+id).remove(); } }
+
 function startEditingTag (tagUuid) {
     if (editingTag == tagUuid) return;
     console.log("START>>> TAGUUID= "+tagUuid+", editingTag="+editingTag);
@@ -594,12 +596,14 @@ function startEditingTag (tagUuid) {
         var prevField = '';
         var numValues = tag.values.length;
         for (var k = 0; k < numValues; k++) {
-            var tableRow = $('<tr></tr>');
+            var schemaVal = tag.values[k];
+            var schemaValueId = getSchemaValueId(tag, k, schemaVal);
+            var decoratorRowId = 'decorator_'+schemaValueId;
+
+            var tableRow = $('<tr id="'+decoratorRowId+'"></tr>');
             tbody.append(tableRow);
 
-            var schemaVal = tag.values[k];
             var displayField;
-            var schemaValueId = tagNameDivId + '_' + k + '_' + schemaVal.value;
             var schemaTypeIndex = $.inArray(schemaVal.field, TAG_TYPES);
             if (schemaTypeIndex != -1) {
                 displayField = TAG_TYPE_NAMES[schemaTypeIndex];
@@ -618,6 +622,12 @@ function startEditingTag (tagUuid) {
 
             var valInput = $('<input id="editTag_'+schemaValueId+'" type="text" value="'+displayVal+'"/>');
             valCell.append(valInput);
+
+            var delCell = $('<td></td>');
+            var delButton = $('<button><img src="iconic/png/x.png"/></button>');
+            delButton.on('click', deleteIdFunc(decoratorRowId));
+            delCell.append(delButton);
+            tableRow.append(delCell);
         }
     }
 
