@@ -191,6 +191,15 @@ input[type=file] {
     margin-top: 1px;
 }
 
+.editNexusDecoratorField {
+    font-family: Tahoma,sans-serif;
+    font-weight: normal;
+    font-size: medium;
+    width: 150px;
+    border: 1px solid gray;
+    margin-top: 1px;
+}
+
 .editNexusLabel {
     font-family: Tahoma,sans-serif;
     font-weight: bold;

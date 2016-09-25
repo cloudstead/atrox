@@ -406,6 +406,8 @@ function nexusTagContent (tag, names, editable) {
     return html;
 }
 
+var deltaNexus = null;
+
 function startEditingNexus () {
     activeForm = 'editNexus';
     if (isAnonymous()) {
@@ -414,7 +416,8 @@ function startEditingNexus () {
     }
     closeForm();
     var container = $('#nexusDetailsContainer');
-    var nexus = Histori.active_nexus;
+    var nexus = deltaNexus = JSON.parse(JSON.stringify(Histori.active_nexus)); // make a copy
+
     if (typeof nexus == "undefined" || nexus == null) return;
     enableNexusEditButtons(true);
 
@@ -547,7 +550,8 @@ function startEditingNexus () {
 var editingTag = null;
 
 function findTag (tagUuid) {
-    var nexus = Histori.active_nexus;
+    var nexus = deltaNexus;
+    if (nexus == null) nexus = Histori.active_nexus;
     var tag = null;
     for (var i = 0; i < nexus.tags.length; i++) {
         if (nexus.tags[i].uuid == tagUuid) {
@@ -578,6 +582,7 @@ function startEditingTag (tagUuid) {
         return;
     }
 
+    // name field
     var tagNameDivId = getNexusTagDivId(tag);
     var tagDiv = $('#'+ tagNameDivId);
     var tagName = $('#' + getTagNameDivId(tag))[0].innerHTML;
@@ -586,12 +591,22 @@ function startEditingTag (tagUuid) {
     tagDiv.append($('<span>Name: </span>'));
     tagDiv.append(nameField);
 
+    // delete button
+    var deleteButton = $('<button><img src="iconic/png/x-2x.png"/></button>');
+    deleteButton.on('click', function () {
+        tagDiv.remove();
+        editingTag = null;
+    });
+    var deleteSpan = $('<span class="deleteTagButton"></span>');
+    deleteSpan.append(deleteButton);
+    tagDiv.append(deleteSpan);
+
+    // decorator table
     var decoratorTable = $('<table></table>');
     //var thead = $('<thead><tr><th>type</th><th>value</th></tr></thead>');
     var tbody = $('<tbody></tbody>');
     decoratorTable.append(tbody);
 
-    // decorators
     if (typeof tag.values != "undefined" && is_array(tag.values)) {
         var prevField = '';
         var numValues = tag.values.length;
@@ -620,8 +635,10 @@ function startEditingTag (tagUuid) {
             var valCell = $('<td></td>');
             tableRow.append(valCell);
 
-            var valInput = $('<input id="editTag_'+schemaValueId+'" type="text" value="'+displayVal+'"/>');
+            var valInput = $('<input id="editTag_'+schemaValueId+'" class="editNexusField editNexusDecoratorField" type="text" value="'+displayVal+'"/>');
+            var typeInput = $('<input id="editTag_'+schemaValueId+'_type" type="hidden" value="'+schemaVal.field+'"/>');
             valCell.append(valInput);
+            valCell.append(typeInput);
 
             var delCell = $('<td></td>');
             var delButton = $('<button><img src="iconic/png/x.png"/></button>');
@@ -629,18 +646,11 @@ function startEditingTag (tagUuid) {
             delCell.append(delButton);
             tableRow.append(delCell);
         }
+
+        // todo: one more row to add a new decorator
     }
 
     tagDiv.append(decoratorTable);
-
-    var deleteButton = $('<button><img src="iconic/png/x.png"/></button>');
-    deleteButton.on('click', function () {
-        tagDiv.remove();
-        editingTag = null;
-    });
-    var buttonDiv = $('<div class="deleteTagButton"></div>');
-    buttonDiv.append(deleteButton);
-    tagDiv.append(buttonDiv);
 }
 
 function commitEditingTag (tagUuid) {
@@ -650,12 +660,18 @@ function commitEditingTag (tagUuid) {
         return;
     }
 
-    var tagName = $('#editTag_name').val();
+    tag.tagName = $('#editTag_name').val();
+    tag.values = [];
+
+    $('.editNexusDecoratorField').each(function (index) {
+        var type = $('#'+$(this)[0].id+'_type').val();
+        tag.values.push({field: type, value: $(this).val()});
+    });
 
     var tagDiv = $('#'+getNexusTagDivId(tag));
     tagDiv.empty();
     tagDiv.append(nexusTagContent(tag, null, true));
-    $('#' + getTagNameDivId(tag)).html(tagName);
+    // $('#' + getTagNameDivId(tag)).html(tag.tagName);
 
     editingTag = JUST_CANCELED;
 }
@@ -671,10 +687,9 @@ function cancelNexusEdits () {
 }
 
 function populateEditedNexus () {
-    var edits = {};
-    edits.name = $('#nedit_name').val();
-    edits.visibility = $('#nedit_visibility option:selected').val();
-    edits.timeRange = {
+    deltaNexus.name = $('#nedit_name').val();
+    deltaNexus.visibility = $('#nedit_visibility option:selected').val();
+    deltaNexus.timeRange = {
         startPoint: { inputString: $('#nedit_nexusRangeStart').val() },
         endPoint: { inputString: $('#nedit_nexusRangeEnd').val() }
     };
@@ -683,12 +698,12 @@ function populateEditedNexus () {
             var lon = Number($('#nedit_lon').val());
             var lat = Number($('#nedit_lat').val());
             if (!isNaN(lon) && !isNaN(lat) && !(lon == 0 && lat == 0)) {
-                edits.point = {type: 'Point', coordinates: [lon, lat]};
+                deltaNexus.point = {type: 'Point', coordinates: [lon, lat]};
             }
             break;
     }
-    edits.markdown = $('#nedit_markdown').val();
-    return edits;
+    deltaNexus.markdown = $('#nedit_markdown').val();
+    return deltaNexus;
 }
 
 function commitNexusEdits () {
