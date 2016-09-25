@@ -477,13 +477,26 @@ function bring_markers_to_front(searchbox_id) {
     slider.bring_markers_to_front(searchbox_id);
 }
 
-var editing_markers = [];
+var editable_markers = [];
+
+function find_editable_markers (uuid) {
+    var found = [];
+    for (var i=0; i<editable_markers.length; i++) {
+        var marker = editable_markers[i];
+        if (marker.nexus.uuid == uuid) found.push(marker);
+    }
+    return found;
+}
+
+function editable_marker_handler (editable_marker, handler) {
+    return function() { handler(editable_marker); }
+}
 
 function enable_editable_markers (nexus, handler) {
     for (var i=0; i<all_markers.length; i++) {
         var marker = all_markers[i];
+        marker.setMap(null);
         if (marker.nexus.uuid == nexus.uuid) {
-            marker.setMap(null);
             var editable_marker = new google.maps.Marker({
                 nexus: nexus,
                 position: {lat: nexus.geo.coordinates[1], lng: nexus.geo.coordinates[0]},
@@ -492,30 +505,34 @@ function enable_editable_markers (nexus, handler) {
                 map: map,
                 draggable: true
             });
-            google.maps.event.addListener(editable_marker, 'dragend', function() {
-                handler(editable_marker);
-            });
-            google.maps.event.addListener(editable_marker, 'drag', function() {
-                handler(editable_marker);
-            });
-            editing_markers.push(editable_marker);
+            editable_marker.historiDragEndHandler = google.maps.event.addListener(editable_marker, 'dragend', editable_marker_handler(editable_marker, handler));
+            editable_marker.historiDragHandler = google.maps.event.addListener(editable_marker, 'drag', editable_marker_handler(editable_marker, handler));
+            editable_markers.push(editable_marker);
         }
     }
 }
 
 function remove_editable_markers (nexus) {
-    var i;
-    // remove all editing markers
-    for (i=0; i<editing_markers.length; i++) {
-        editing_markers[i].setMap(null);
-    }
-    editing_markers = [];
+    var i, marker;
 
-    // re-enable map markers for nexus
+    // remove all editable markers and drag listeners
+    for (i=0; i<editable_markers.length; i++) {
+        marker = editable_markers[i];
+        google.maps.event.removeListener(marker.historiDragEndHandler);
+        google.maps.event.removeListener(marker.historiDragHandler);
+        marker.setMap(null);
+    }
+
+    // re-enable all map markers
     for (i=0; i<all_markers.length; i++) {
-        var marker = all_markers[i];
-        if (marker.nexus.uuid == nexus.uuid) {
-            marker.setMap(map);
+        marker = all_markers[i];
+        marker.draggable = false;
+        if (marker.historiDragEndHandler) {
+            google.maps.event.removeListener(marker.historiDragEndHandler);
         }
+        if (marker.historiDragHandler) {
+            google.maps.event.removeListener(marker.historiDragHandler);
+        }
+        marker.setMap(map);
     }
 }

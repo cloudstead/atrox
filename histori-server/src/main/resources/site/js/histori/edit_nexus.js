@@ -344,7 +344,7 @@ function addGeoControlsForType(geoContainer, nexus, type, geoTypeSelect) {
     geoLatLonFields.on('change', function () {
         switch (type.toLowerCase()) {
             case "point":
-                var markers = find_markers(nexus.uuid);
+                var markers = find_editable_markers(nexus.uuid);
                 if (markers && markers[0] && markers.length > 0) {
                     for (var i=0; i<markers.length; i++) {
                         markers[i].setPosition(new google.maps.LatLng($('#nedit_lat').val(), $('#nedit_lon').val()));
@@ -449,83 +449,70 @@ function startEditingNexus () {
     var tagsContainer = $('#nexusTagsContainer');
     tagsContainer.empty();
 
-    if (nexus.incomplete) {
-        if (tries < 5) {
-            window.setTimeout(function () {
-                console.log('trying to find nexus, try #' + tries);
-                findNexus(nexus, tries);
-            }, tries * 2000);
-            showLoadingMessage("Loading nexus...");
+    if (typeof nexus.tags != "undefined" && is_array(nexus.tags)) {
+        var names = [];
+        var tagsTable = $('<table id="nexusTagsTable">');
 
-        } else {
-            showLoadingMessage("Loading nexus failed, maybe try again later");
+        tagsContainer.append(tagsTable);
+
+        var tagsByType = {};
+        for (var i = 0; i < nexus.tags.length; i++) {
+            var tag = nexus.tags[i];
+            if (typeof tagsByType[tag.tagType] == "undefined") {
+                tagsByType[tag.tagType] = [];
+            }
+            tagsByType[tag.tagType].push(tag);
         }
-    } else {
-        hideLoadingMessage();
-        if (typeof nexus.tags != "undefined" && is_array(nexus.tags)) {
-            var names = [];
-            var tagsTable = $('<table id="nexusTagsTable">');
 
-            tagsContainer.append(tagsTable);
+        var tbody = $('<tbody>');
+        tagsTable.append(tbody);
+        for (var typeIndex = 0; typeIndex < TAG_TYPES.length; typeIndex++) {
+            var tagType = TAG_TYPES[typeIndex];
+            if (typeof tagsByType[tagType] == "undefined") continue;
 
-            var tagsByType = {};
-            for (var i = 0; i < nexus.tags.length; i++) {
-                var tag = nexus.tags[i];
-                if (typeof tagsByType[tag.tagType] == "undefined") {
-                    tagsByType[tag.tagType] = [];
-                }
-                tagsByType[tag.tagType].push(tag);
+            var tags = tagsByType[tagType];
+
+            var tagTypeName = TAG_TYPE_NAMES[typeIndex];
+            if (tags.length == 1 && tagTypeName.endsWith("s")) {
+                tagTypeName = tagTypeName.substring(0, tagTypeName.length - 1);
             }
 
-            var tbody = $('<tbody>');
-            tagsTable.append(tbody);
-            for (var typeIndex = 0; typeIndex < TAG_TYPES.length; typeIndex++) {
-                var tagType = TAG_TYPES[typeIndex];
-                if (typeof tagsByType[tagType] == "undefined") continue;
+            var tagRow = $('<tr class="tagTypeRow">');
+            tagRow.append($('<td class="tagTypeCell">' + tagTypeName + '</td>'));
+            tbody.append(tagRow);
 
-                var tags = tagsByType[tagType];
-
-                var tagTypeName = TAG_TYPE_NAMES[typeIndex];
-                if (tags.length == 1 && tagTypeName.endsWith("s")) {
-                    tagTypeName = tagTypeName.substring(0, tagTypeName.length - 1);
-                }
-
-                var tagRow = $('<tr class="tagTypeRow">');
-                tagRow.append($('<td class="tagTypeCell">' + tagTypeName + '</td>'));
-                tbody.append(tagRow);
-
-                var listOfTags = "";
-                for (var j = 0; j < tags.length; j++) {
-                    var nexusTagId = 'nexusTag_' + tags[j].uuid + '_' + tags[j].tagName;
-                    listOfTags += "<div class='nexusTag'><div class='nexusTag_tagName' id='" + nexusTagId + "'>" + newSearchLink(tags[j].tagName) + "</div>";
-                    if (typeof tags[j].values != "undefined" && is_array(tags[j].values)) {
-                        var prevField = '';
-                        var numValues = tags[j].values.length;
-                        for (var k = 0; k < numValues; k++) {
-                            var schemaVal = tags[j].values[k];
-                            var displayField;
-                            var schemaValueId = nexusTagId + '_' + k + '_' + schemaVal.value;
-                            var schemaTypeIndex = $.inArray(schemaVal.field, TAG_TYPES);
-                            if (schemaTypeIndex != -1) {
-                                displayField = TAG_TYPE_NAMES[schemaTypeIndex];
-                                names.push({tag: schemaVal.value, id: schemaValueId});
-                            } else {
-                                displayField = schemaVal.field;
-                            }
-                            if (numValues > 1 && prevField != displayField) {
-                                //listOfTags += "<div class='schema_field'>"+ displayField.replace('_', ' ') + "</div>";
-                                prevField = displayField;
-                            }
-                            listOfTags += "<div id='" + schemaValueId + "' class='schema_value'>" + schemaVal.value.replace('_', ' ') + "</div>";
+            var listOfTags = "";
+            for (var j = 0; j < tags.length; j++) {
+                var nexusTagId = 'nexusTag_' + tags[j].uuid + '_' + tags[j].tagName;
+                listOfTags += "<div class='nexusTag'><div class='nexusTag_tagName' id='" + nexusTagId + "'>" + tags[j].tagName + "</div>";
+                if (typeof tags[j].values != "undefined" && is_array(tags[j].values)) {
+                    var prevField = '';
+                    var numValues = tags[j].values.length;
+                    for (var k = 0; k < numValues; k++) {
+                        var schemaVal = tags[j].values[k];
+                        var displayField;
+                        var schemaValueId = nexusTagId + '_' + k + '_' + schemaVal.value;
+                        var schemaTypeIndex = $.inArray(schemaVal.field, TAG_TYPES);
+                        if (schemaTypeIndex != -1) {
+                            displayField = TAG_TYPE_NAMES[schemaTypeIndex];
+                            names.push({tag: schemaVal.value, id: schemaValueId});
+                        } else {
+                            displayField = schemaVal.field;
                         }
+                        if (numValues > 1 && prevField != displayField) {
+                            //listOfTags += "<div class='schema_field'>"+ displayField.replace('_', ' ') + "</div>";
+                            prevField = displayField;
+                        }
+                        listOfTags += "<div id='" + schemaValueId + "' class='schema_value'>" + schemaVal.value.replace('_', ' ') + "</div>";
                     }
-                    listOfTags += "</div>";
-                    names.push({tag: tags[j].tagName, id: nexusTagId});
                 }
-                tagRow.append($('<td class="tagCell">' + listOfTags + '</td>'));
+                listOfTags += "</div>";
+                names.push({tag: tags[j].tagName, id: nexusTagId});
             }
-            Api.resolve_tags(names, update_tag_display_name);
+            listOfTags += "<div class='addTagButtonCell'><button><img src='iconic/png/plus.png'/></button></div>";
+            tagRow.append($('<td class="tagCell">' + listOfTags + '</td>'));
         }
+        Api.resolve_tags(names, update_tag_display_name);
     }
 
     if (nexus.bounds.east > map.getBounds().getCenter().lng()) {

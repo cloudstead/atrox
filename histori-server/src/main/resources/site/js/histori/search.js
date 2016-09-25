@@ -71,6 +71,8 @@ function hideLoadingSpinner (id) {
     }
 }
 
+function newExactSearch (term) { return newSearch('"'+term+'"'); }
+
 function newSearch (term) {
     var rows = $('.searchRow');
     var row = null;
