@@ -406,6 +406,7 @@ function startEditingNexus () {
     closeForm();
     var container = $('#nexusDetailsContainer');
     var nexus = deltaNexus = JSON.parse(JSON.stringify(Histori.active_nexus)); // make a copy
+    editingTag = null; // reset tag editor
 
     if (typeof nexus == "undefined" || nexus == null) return;
     enableNexusEditButtons(true);
