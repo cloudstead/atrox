@@ -137,7 +137,7 @@ public class NexusResource {
         name = urlDecode(name); // no url-encoded chars allowed
 
         if (!name.equals(request.getName())) return invalid("err.name.mismatch");
-        if (request.isAuthoritative() && !account.isAdmin()) return forbidden();
+        if (request.isAuthoritative() && !account.isAdmin()) request.setAuthoritative(false);
 
         final Nexus idNexus = nexusDAO.findByUuid(uuid);
         if (idNexus == null || !idNexus.isVisibleTo(account)) return notFound(uuid);

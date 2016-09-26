@@ -373,6 +373,7 @@ function nexusTagContent (tag, names, editable) {
     var tagNameDivId = getTagNameDivId(tag);
     var tagName = editable ? tag.tagName : newSearchLink(tag.tagName);
     var html = '<div class="nexusTag_tagName" id="' + tagNameDivId + '">' + tagName + '</div>';
+    if (editable) html += '<input type="hidden" class="nexusTag_tagType" value="'+tag.tagType+'"/>';
     if (typeof tag.values != "undefined" && is_array(tag.values)) {
         var prevField = '';
         var numValues = tag.values.length;
@@ -765,7 +766,25 @@ function populateEditedNexus () {
     }
     deltaNexus.markdown = $('#nedit_markdown').val();
 
-    // tag editor keeps tags up to date
+    var tags = [];
+    $('.nexusTag').each(function (index) {
+        var tagName = $(this).find('.nexusTag_tagName')[0].innerHTML;
+        var tagType = $(this).find('.nexusTag_tagType').val();
+        var values = [];
+        $(this).find('.schema_value').each(function (index) {
+            var html = $(this)[0].innerHTML.trim();
+            var colonPos = html.indexOf(':');
+            if (colonPos == -1 || colonPos == html.length - 1) {
+                console.log('invalid schema value: '+html);
+                return;
+            }
+            var decoratorType = html.substring(0, colonPos);
+            var decoratorValue = html.substring(colonPos+1);
+            values.push({field: decoratorType, value: decoratorValue});
+        });
+        tags.push({tagName: tagName, tagType: tagType, values: values});
+    });
+    deltaNexus.tags = { tags: tags };
 
     return deltaNexus;
 }
