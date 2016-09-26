@@ -763,10 +763,11 @@ function populateEditedNexus () {
             var lon = Number($('#nedit_lon').val());
             var lat = Number($('#nedit_lat').val());
             if (!isNaN(lon) && !isNaN(lat) && !(lon == 0 && lat == 0)) {
-                deltaNexus.point = {type: 'Point', coordinates: [lon, lat]};
+                deltaNexus.geo = {type: 'Point', coordinates: [lon, lat]};
             }
             break;
     }
+    // deltaNexus.geoJson = JSON.stringify(deltaNexus.point);
     deltaNexus.markdown = $('#nedit_markdown').val();
 
     var tags = [];
