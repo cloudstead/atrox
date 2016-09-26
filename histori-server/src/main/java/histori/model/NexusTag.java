@@ -167,7 +167,11 @@ public class NexusTag extends IdentifiableBase implements Comparable<NexusTag> {
         int result = super.hashCode();
         result = 31 * result + getCanonicalName().hashCode();
         result = 31 * result + (tagType != null ? tagType.hashCode() : 0);
-        result = 31 * result + getSchemaHash().hashCode();
+        if (hasSchemaValues()) {
+            for (TagSchemaValue value : values) {
+                result = 31 * result + value.hashCode();
+            }
+        }
         return result;
     }
 }

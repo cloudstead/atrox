@@ -83,6 +83,9 @@ function openNexusDetails (uuid, tries) {
     Histori.active_nexus = nexus;
 
     if (typeof nexus == "undefined" || nexus == null) return;
+    if (typeof nexus.tags != "undefined" && typeof nexus.tags.tags != "undefined" && is_array(nexus.tags.tags)) {
+        nexus.tags = nexus.tags.tags;
+    }
     enableNexusEditButtons(false);
 
     $('#nexusNameContainer').html(nexus.name);
@@ -121,7 +124,7 @@ function openNexusDetails (uuid, tries) {
     var tagsContainer = $('#nexusTagsContainer');
     tagsContainer.empty();
 
-    if (nexus.incomplete) {
+    if (typeof nexus.incomplete != "undefined" && nexus.incomplete) {
         if (tries < 5) {
             window.setTimeout(function () {
                 console.log('trying to find nexus, try #' + tries);
@@ -778,8 +781,8 @@ function populateEditedNexus () {
                 console.log('invalid schema value: '+html);
                 return;
             }
-            var decoratorType = html.substring(0, colonPos);
-            var decoratorValue = html.substring(colonPos+1);
+            var decoratorType = html.substring(0, colonPos).trim();
+            var decoratorValue = html.substring(colonPos+1).trim();
             values.push({field: decoratorType, value: decoratorValue});
         });
         tags.push({tagName: tagName, tagType: tagType, values: values});
@@ -792,9 +795,13 @@ function populateEditedNexus () {
 function commitNexusEdits () {
     if (Histori.active_nexus != null && isDirty(Histori.active_nexus)) {
         Api.edit_nexus(Histori.active_nexus, populateEditedNexus(), function (data) {
+            data.tags = data.tags.tags; // re-adjust tags
             Histori.active_nexus.dirty = false;
             Histori.active_nexus = data;
+            Histori.active_nexus.incomplete = false;
+            resetGeo(Histori.active_nexus);
             tagsDirty = false;
+            editingTag = null;
             // todo: should we update the nexuses that are cached in main.js?
             if (checkDirtyTimer != null) window.clearTimeout(checkDirtyTimer);
             activeForm = null; // allow nexuses to be opened again

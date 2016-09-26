@@ -38,7 +38,15 @@ public class NexusTags implements Iterable<NexusTag> {
         return (o instanceof NexusTags) && getTagMap().equals(((NexusTags) o).getTagMap());
     }
 
-    @Override public int hashCode() { return getTagMap().hashCode(); }
+    @Override public int hashCode() {
+        int result = 0;
+        if (!isEmpty()) {
+            for (NexusTag tag : tags) {
+                result = 31 * result + tag.hashCode();
+            }
+        }
+        return result;
+    }
 
     public NexusTags addTag (NexusTag tag) {
         if (tag == null) return this; // should never happen, but just in case (ConflictFinder had a bug that did this once)

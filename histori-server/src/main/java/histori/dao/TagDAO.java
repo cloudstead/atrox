@@ -53,7 +53,7 @@ public class TagDAO extends ShardedEntityDAO<Tag, TagShardDAO> {
         final Map<String, Tag> cache = tagCache.get();
         Tag found = null;
         if (cache != null) found = cache.get(tag.getCanonicalName());
-        if (found == null) found = findByCanonicalName(tag.getCanonicalName());
+        if (found == null) found = findByCanonicalNameNoCache(tag.getCanonicalName());
         return found != null ? found : super.create(tag);
     }
 
@@ -92,8 +92,10 @@ public class TagDAO extends ShardedEntityDAO<Tag, TagShardDAO> {
         final Map<String, Tag> cache = tagCache.get();
         if (cache != null) return cache.get(canonicalName);
         log.info("findByCanonicalName: cache not initialized, doing real-time lookup of "+canonicalName);
-        return super.findByName(canonicalName);
+        return findByCanonicalNameNoCache(canonicalName);
     }
+
+    public Tag findByCanonicalNameNoCache(String canonicalName) { return super.findByName(canonicalName); }
 
     private final Map<String, AutoRefreshingReference<AutocompleteSuggestions>> autocompleteCache = new ConcurrentHashMap<>();
 

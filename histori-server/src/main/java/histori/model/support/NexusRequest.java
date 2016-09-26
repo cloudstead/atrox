@@ -28,4 +28,7 @@ public class NexusRequest extends Nexus {
         return die("getGeoJson: no geometry defined");
     }
 
+    public boolean isDirty () { return false; }
+    public void setDirty (boolean dirty) {} // noop
+
 }

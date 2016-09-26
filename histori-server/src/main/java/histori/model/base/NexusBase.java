@@ -12,7 +12,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
-import org.cobbzilla.util.collection.mappy.MappySortedSet;
 import org.cobbzilla.util.json.JsonUtil;
 import org.cobbzilla.util.math.Cardinal;
 import org.cobbzilla.util.reflect.ReflectionUtil;
@@ -235,9 +234,9 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
         else if (nexusType != null && nexusBase.nexusType == null) return false;
         else if (nexusType != null && !nexusType.equals(nexusBase.nexusType)) return false;
 
-        final MappySortedSet<String, NexusTag> tagMap = getTags().getTagMap();
-        final MappySortedSet<String, NexusTag> nexusMap = nexusBase.getTags().getTagMap();
-        return tagMap.equals(nexusMap);
+        final int thisHash = getTags().hashCode();
+        final int otherHash = nexusBase.getTags().hashCode();
+        return thisHash == otherHash;
     }
 
     @Override public int hashCode() {
