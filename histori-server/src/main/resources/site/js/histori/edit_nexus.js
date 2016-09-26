@@ -4,6 +4,7 @@ TAG_TYPE_NAMES = ['event types', 'world actors', 'results', 'impacts', 'persons'
 TAG_TYPE_NAMES_SINGULAR = ['event type', 'world actor', 'result', 'impact', 'person', 'event', 'citation', 'idea', 'meta'];
 
 DECORATORS_BY_TAG_TYPE = {
+    'event_type': ['see_also'],
     'event': ['relationship', 'see_also'],
     'world_actor': ['role', 'see_also'],
     'person': ['role', 'world_actor', 'see_also'],
@@ -607,8 +608,11 @@ function addDecoratorRow (tag, k, tbody) {
 function addDecoratorFunc (tag) {
     return function () {
         if (typeof tag.values == "undefined") tag.values = [];
-        tag.values.push({field: $('#editTag_newDecoratorType').val(), value: $('#editTag_newDecoratorValue').val()});
+        var decoratorType = $('#editTag_newDecoratorType');
+        var decoratorValue = $('#editTag_newDecoratorValue');
+        tag.values.push({field: decoratorType.val(), value: decoratorValue.val()});
         addDecoratorRow(tag);
+        decoratorValue.val('');
     }
 }
 
@@ -621,6 +625,8 @@ function startEditingTag (tagUuid) {
     }
     if (editingTag != null) commitEditingTag(editingTag);
     editingTag = tagUuid;
+    tagsDirty = true;
+    checkDirty();
 
     var tag = findTag(tagUuid);
     if (tag == null) {
@@ -660,37 +666,44 @@ function startEditingTag (tagUuid) {
     var tfoot = $('<tfoot></tfoot>');
     decoratorTable.append(tbody);
 
-    if (typeof tag.values != "undefined" && is_array(tag.values)) {
-        var numValues = tag.values.length;
-        for (var k = 0; k < numValues; k++) {
-            addDecoratorRow(tag, k, tbody);
-        }
+    if (typeof tag.values == "undefined" || !is_array(tag.values)) {
+        tag.values = [];
+    }
+    var numValues = tag.values.length;
+    for (var k = 0; k < numValues; k++) {
+        addDecoratorRow(tag, k, tbody);
+    }
 
-        var addRow = $('<tr></tr>');
+    var addRow = $('<tr></tr>');
 
-        var typeCell = $('<td></td>');
+    var typeCell = $('<td></td>');
+    var decoratorTypes = DECORATORS_BY_TAG_TYPE[tag.tagType];
+    if (typeof decoratorTypes == "undefined" || decoratorTypes.length == 0) decoratorTypes = DECORATORS_BY_TAG_TYPE['unknown'];
+    if (decoratorTypes.length == 1) {
+        var typeControl = $('<input type="hidden" id="editTag_newDecoratorType" value="'+decoratorTypes[0]+'"/>');
+        typeCell.append(typeControl);
+        typeCell.append($('<span>'+decoratorTypes[0].replace('_', ' ')+'</span>'));
+    } else {
         var typeSelect = $('<select id="editTag_newDecoratorType"></select>');
-        var decoratorTypes = DECORATORS_BY_TAG_TYPE[tag.tagType];
-        if (typeof decoratorTypes == "undefined") decoratorTypes = DECORATORS_BY_TAG_TYPE['unknown'];
         for (var typeIndex = 0; typeIndex < decoratorTypes.length; typeIndex++) {
-            typeSelect.append($('<option value="'+decoratorTypes[typeIndex]+'">'+decoratorTypes[typeIndex].replace('_', ' ')+'</option>'));
+            typeSelect.append($('<option value="' + decoratorTypes[typeIndex] + '">' + decoratorTypes[typeIndex].replace('_', ' ') + '</option>'));
         }
         typeCell.append(typeSelect);
-
-        var addValCell = $('<td></td>');
-        var addValInput = $('<input id="editTag_newDecoratorValue" type="text" class="editNexusField editNexusDecoratorField"/>');
-        addValCell.append(addValInput);
-
-        var addButtonCell = $('<td></td>');
-        var addButton = $('<button><img src="iconic/png/plus.png"></button>');
-        addButton.on('click', addDecoratorFunc(tag));
-        addButtonCell.append(addButton);
-
-        addRow.append(typeCell);
-        addRow.append(addValCell);
-        addRow.append(addButtonCell);
-        tfoot.append(addRow);
     }
+
+    var addValCell = $('<td></td>');
+    var addValInput = $('<input id="editTag_newDecoratorValue" type="text" class="editNexusField editNexusDecoratorField"/>');
+    addValCell.append(addValInput);
+
+    var addButtonCell = $('<td></td>');
+    var addButton = $('<button><img src="iconic/png/plus.png"></button>');
+    addButton.on('click', addDecoratorFunc(tag));
+    addButtonCell.append(addButton);
+
+    addRow.append(typeCell);
+    addRow.append(addValCell);
+    addRow.append(addButtonCell);
+    tfoot.append(addRow);
 
     decoratorTable.append(tfoot);
     tagDiv.append(decoratorTable);
@@ -719,7 +732,6 @@ function commitEditingTag (tagUuid) {
     tagDiv.append(nexusTagContent(tag, null, true));
 
     editingTag = JUST_CANCELED;
-    tagsDirty = true;
     checkDirty();
 }
 
