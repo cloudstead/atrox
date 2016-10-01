@@ -767,7 +767,7 @@ function populateEditedNexus () {
             }
             break;
     }
-    // deltaNexus.geoJson = JSON.stringify(deltaNexus.point);
+    deltaNexus.bounds = null; // server will recalculate them
     deltaNexus.markdown = $('#nedit_markdown').val();
 
     var tags = [];
