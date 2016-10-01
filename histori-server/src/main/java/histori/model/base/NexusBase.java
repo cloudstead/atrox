@@ -82,8 +82,8 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
     @Transient @Getter @Setter private String displayName;
 
     @Column(length=100)
-    @Size(max=100, message="err.library.length")
-    @Getter @Setter private String libraryName;
+    @Size(max=100, message="err.book.length")
+    @Getter @Setter private String book;
 
     // Which event_type tag is "primary" (if there is only 1 then it is here by default)
     @Column(length=NAME_MAXLEN)

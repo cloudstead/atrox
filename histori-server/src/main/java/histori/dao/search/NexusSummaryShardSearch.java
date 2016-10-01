@@ -41,14 +41,14 @@ public class NexusSummaryShardSearch extends NexusSummaryShardSearchBase {
     }
 
     @Override public void setArgs(Account account, SearchQuery searchQuery) {
-        if (searchQuery.hasBlockedOwners()) {
-            args.addAll(searchQuery.getBlockedOwnersList());
-        }
         if (!searchQuery.isAuthoritative()) {
             final EntityVisibility visibility = searchQuery.hasVisibility()
                     ? searchQuery.getVisibility()
                     : EntityVisibility.everyone;
             args.add(visibility.name());
+        }
+        if (searchQuery.hasBlockedOwners()) {
+            args.addAll(searchQuery.getBlockedOwnersList());
         }
         for (NexusQueryTerm term : searchQuery.getTerms()) {
             term.sqlArgs(args);
