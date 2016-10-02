@@ -256,6 +256,7 @@ Histori = {
                 success(auth_response);
                 sessionStorage.setItem('histori_session', auth_response.sessionId);
                 Histori.set_account(auth_response.account);
+                enableNexusEditButtons(false);
             }, fail);
     },
 
