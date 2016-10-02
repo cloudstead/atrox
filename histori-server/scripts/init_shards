@@ -2,6 +2,6 @@
 
 BASE=$(cd $(dirname $0) && pwd)
 
-for shard in histori-account bookmark super-nexus nexus nexus-archive permalink tag vote vote-archive map-image ; do
+for shard in histori-account preferred-owner blocked-owner bookmark super-nexus nexus nexus-archive permalink tag vote vote-archive map-image ; do
   ${BASE}/../run.sh shard-gen-sql ${@} -S ${shard}
 done
