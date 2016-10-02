@@ -45,6 +45,8 @@ public class SuperNexus extends IdentifiableBase implements NexusView, Shardable
         this.canonicalName = CanonicalEntity.canonicalize(name);
     }
 
+    public boolean isAuthoritative () { return false; }
+
     @Embedded @Getter @Setter private TimeRange timeRange;
     @Embedded @Getter @Setter private GeoBounds bounds;
     @Embedded @Getter @Setter private VoteSummary votes = new VoteSummary();

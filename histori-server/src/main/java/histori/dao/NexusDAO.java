@@ -35,6 +35,7 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
 
     @Autowired @Getter @Setter private SuperNexusDAO superNexusDAO;
     @Autowired @Getter @Setter private TagDAO tagDAO;
+    @Autowired @Getter @Setter private AccountDAO accountDAO;
     @Autowired @Getter @Setter private RedisService redisService;
 
     @Getter(lazy=true) private final RedisService nexusCache = initNexusCache();
@@ -110,7 +111,8 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
         superNexusDAO.updateSuperNexus(nexus);
         tagDAO.updateTags(nexus);
         // todo: when we have multiple API servers, we'll need to broadcast this to all API servers...
-        NexusSearchResults.removeFromCache(nexus.getCanonicalName());
+        final Account account = accountDAO.findByUuid(nexus.getOwner());
+        NexusSearchResults.removeFromCache(nexus, account);
     }
 
     public Nexus findByOwnerAndName(Account account, String name) {

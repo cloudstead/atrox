@@ -19,6 +19,7 @@ import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.math.BigInteger;
 
+import static java.math.BigInteger.ZERO;
 import static org.cobbzilla.util.daemon.ZillaRuntime.bigint;
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
@@ -175,5 +176,7 @@ public class TimePoint {
     }
 
     public Serializable pad(Number val) { return val.longValue() < 10L ? "0"+val : val; }
+
+    @JsonIgnore @Transient public boolean isZero() { return instant != null && instant.equals(ZERO); }
 
 }

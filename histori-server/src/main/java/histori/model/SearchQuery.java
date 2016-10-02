@@ -75,9 +75,10 @@ public class SearchQuery extends IdentifiableBase {
         return preferredOwnersList != null ? StringUtil.toString(preferredOwnersList, ",") : null;
     }
 
-    public void setPreferredOwners(String preferredOwners) {
+    public SearchQuery setPreferredOwners(String preferredOwners) {
         this.preferredOwners = preferredOwners;
         this.preferredOwnersList = StringUtil.split(preferredOwners, ", ");
+        return this;
     }
 
     public boolean hasPreferredOwners () { return !empty(getPreferredOwners()); }
@@ -98,9 +99,10 @@ public class SearchQuery extends IdentifiableBase {
         return blockedOwnersList != null ? StringUtil.toString(blockedOwnersList, ",") : null;
     }
 
-    public void setBlockedOwners(String blockedOwners) {
+    public SearchQuery setBlockedOwners(String blockedOwners) {
         this.blockedOwners = blockedOwners;
         this.blockedOwnersList = StringUtil.split(blockedOwners, ", ");
+        return this;
     }
 
     public boolean hasBlockedOwners () { return !empty(getBlockedOwners()); }
@@ -122,13 +124,25 @@ public class SearchQuery extends IdentifiableBase {
     private class NexusComparator implements Comparator<NexusView> {
         @Override public int compare(NexusView n1, NexusView n2) {
             if (n1.getUuid().equals(n2.getUuid())) return 0;
-            // give preferred owners special treatment first
+
+            // if search is authoritative, that one is always first
+            if (isAuthoritative()) {
+                if (n1.isAuthoritative()) return -1;
+                if (n2.isAuthoritative()) return 1;
+            }
+
+            // give preferred owners special treatment
             if (hasPreferredOwners()) {
                 final List<String> preferred = getPreferredOwnersList();
-                int n1index = n1.hasOwner() ? preferred.indexOf(n1.getOwner()) : Integer.MAX_VALUE;
-                int n2index = n2.hasOwner() ? preferred.indexOf(n2.getOwner()) : Integer.MAX_VALUE;
-                if (n1index != n2index) return (n2index - n1index);
+                int n1index = n1.hasOwner() ? preferred.indexOf(n1.getOwner()) : -1;
+                int n2index = n2.hasOwner() ? preferred.indexOf(n2.getOwner()) : -1;
+                if (!(n1index == -1 && n2index == -1)) {
+                    if (n1index != -1 && n2index != -1) return n1index < n2index ? -1 : 1;
+                    if (n1index != -1) return -1;
+                    return 1;
+                }
             }
+
             // otherwise, newest first
             return nexusSortOrder == null
                     ? Nexus.comparator(SearchSortOrder.newest).compare(n1, n2)

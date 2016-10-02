@@ -7,6 +7,8 @@ public interface NexusView {
 
     String getUuid();
 
+    boolean isAuthoritative();
+
     String getOwner(); // may be null, like for SuperNexus
     boolean hasOwner();
 

@@ -106,11 +106,19 @@ public abstract class SpecialAuthorDAO<E extends SpecialAuthorEntity, D extends 
 
     public String findActiveUuidsByOwner(Account account) {
         final StringBuilder b = new StringBuilder();
-        for (E owner : findActiveByOwner(account)) {
+        for (String uuid : findActiveUuidListByOwner(account)) {
             if (b.length() > 0) b.append(",");
-            b.append(owner.getSpecialAuthor());
+            b.append(uuid);
         }
         return b.toString();
+    }
+
+    public List<String> findActiveUuidListByOwner(Account account) {
+        final List<String> uuids = new ArrayList<>();
+        for (E owner : findActiveByOwner(account)) {
+            uuids.add(owner.getSpecialAuthor());
+        }
+        return uuids;
     }
 
 }

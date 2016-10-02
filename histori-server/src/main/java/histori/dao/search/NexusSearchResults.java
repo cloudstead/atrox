@@ -9,8 +9,6 @@ import histori.model.support.EntityVisibility;
 import histori.model.support.NexusSummary;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.CollectionUtils;
-import org.cobbzilla.util.collection.FieldTransformer;
 import org.cobbzilla.util.collection.mappy.MappyList;
 import org.cobbzilla.util.collection.mappy.MappySortedSet;
 import org.cobbzilla.wizard.dao.DAO;
@@ -22,6 +20,7 @@ import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
 
+import static org.cobbzilla.wizard.model.IdentifiableBase.toUuidList;
 import static org.cobbzilla.wizard.util.Await.awaitAndCollectSet;
 
 @Slf4j
@@ -105,12 +104,17 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
     }
 
     private static final MappyList<String, Nexus> nexusCache = new MappyList<>(100_000);
-    public static void removeFromCache(String canonicalName) { nexusCache.remove(canonicalName); }
+    public static void removeFromCache(Nexus nexus, Account account) {
+        final String canonicalName = nexus.getCanonicalName();
+        final EntityVisibility visibility = nexus.getVisibility();
+        nexusCache.remove(nexusCacheKey(canonicalName, visibility, account));
+        if (account.isAdmin()) nexusCache.remove(nexusCacheKey(canonicalName, visibility, null));
+    }
 
     protected List<Nexus> findNexuses(NexusView nexus) {
         final String prefix = "getMatchingNexuses("+nexus.getCanonicalName()+"): ";
         final EntityVisibility visibility = searchQuery.getVisibility();
-        final String cacheKey = nexus.getCanonicalName()+"\t"+ visibility +"\t"+(account == null || visibility == EntityVisibility.everyone ? "null" : account.getUuid());
+        final String cacheKey = nexusCacheKey(nexus.getCanonicalName(), visibility, account);
         if (nexusCache.containsKey(cacheKey)) {
             return nexusCache.getAll(cacheKey);
 
@@ -145,6 +149,10 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
         }
     }
 
+    private static String nexusCacheKey(String canonicalName, EntityVisibility visibility, Account account) {
+        return canonicalName+"\t"+ visibility +"\t"+(account == null || account.isAnonymous() ? "null" : account.getUuid());
+    }
+
     @Override public List<NexusSummary> getResults() {
         final List<NexusSummary> summaries = new ArrayList<>();
         for (String key : keySet()) {
@@ -160,7 +168,7 @@ public class NexusSearchResults extends MappySortedSet<String, Nexus> implements
         summary.setPrimary(primary);
         primary.getTags(); // force tag initialization from tagsJson
 
-        final List<String> uuids = (List<String>) CollectionUtils.collect(all, FieldTransformer.TO_UUID);
+        final List<String> uuids = toUuidList(all);
         uuids.remove(primary.getUuid());
 
         summary.setOthers(uuids.toArray(new String[uuids.size()]));

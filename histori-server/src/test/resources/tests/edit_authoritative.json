@@ -1,0 +1,181 @@
+[
+  {
+    "comment": "login as superuser",
+    "request": {
+      "session": "new",
+      "uri": "accounts/login",
+      "entity": {
+        "name": "jonathan@kyuss.org",
+        "password": "foobar"
+      }
+    },
+    "response": {
+      "sessionName": "superuser",
+      "session": "sessionId"
+    }
+  },
+
+  {
+    "comment": "create an authoritative nexus",
+    "request": {
+      "uri": "nexus/Test+Nexus",
+      "entity": {
+        "authoritative": true,
+        "name": "Test Nexus",
+        "timeRange": { "startPoint": { "year": 2016, "month": 9, "day": 30 } },
+        "point": { "type": "Point", "coordinates": [ 1.0, 1.0 ] },
+        "tags": {
+          "tags": [ {"tagName": "test-tag"} ]
+        }
+      }
+    },
+    "response": {
+      "store": "authoritativeNexus",
+      "type": "histori.model.Nexus",
+      "check": [
+        { "condition": "json.canonicalName == 'test-nexus'" }
+      ]
+    }
+  },
+
+  {
+    "comment": "register a regular user account",
+    "request": {
+      "session": "new",
+      "uri": "accounts/register",
+      "entity": {
+        "name": "test@example.com",
+        "email": "test@example.com",
+        "password": "test"
+      }
+    },
+    "response": {
+      "sessionName": "user",
+      "session": "sessionId"
+    }
+  },
+
+  {
+    "comment": "search nexuses, find authoritative nexus and no others",
+    "request": {
+      "uri": "search/q/2015/2017/0/2/0/2?q=test"
+    },
+    "response": {
+      "type": "org.cobbzilla.wizard.dao.SearchResults",
+      "store": "authoritativeSearchResults",
+      "check": [
+        {"condition": "json.results.size() == 1"},
+        {"condition": "json.getResult(0).get('others').empty"}
+      ]
+    }
+  },
+
+  {
+    "comment": "create a new non-authoritative version of this nexus, with a different month and geo",
+    "request": {
+      "uri": "nexus/Test+Nexus",
+      "entity": {
+        "name": "Test Nexus",
+        "timeRange": { "startPoint": { "year": 2016, "month": 10, "day": 31 } },
+        "point": { "type": "Point", "coordinates": [ 1.1, 1.1 ] },
+        "tags": {
+          "tags": [ {"tagName": "test-tag"}, {"tagName": "non-auth-tag"} ]
+        }
+      }
+    },
+    "response": {
+      "store": "nonAuthoritativeNexus",
+      "type": "histori.model.Nexus",
+      "check": [
+        { "condition": "json.canonicalName == 'test-nexus'" }
+      ]
+    }
+  },
+
+  {
+    "comment": "search nexuses using authoritative search, see authoritative nexus and ours as other",
+    "request": {
+      "uri": "search/q/2015/2017/0/2/0/2?q=test&a=true"
+    },
+    "response": {
+      "type": "org.cobbzilla.wizard.dao.SearchResults",
+      "check": [
+        {"condition": "json.results.size() == 1"},
+        {"condition": "json.getResult(0).get('primary').get('timeRange').get('startPoint').get('month') == 9"},
+        {"condition": "json.getResult(0).get('primary').get('bounds').get('north') == 1"},
+        {"condition": "json.getResult(0).get('others').size() == 1"},
+        {"condition": "json.getResult(0).get('others').get(0) == '{{nonAuthoritativeNexus.uuid}}'"}
+      ]
+    }
+  },
+
+  {
+    "comment": "search nexuses using default search, see our nexus and authoritative as other",
+    "request": {
+      "uri": "search/q/2015/2017/0/2/0/2?q=test"
+    },
+    "response": {
+      "type": "org.cobbzilla.wizard.dao.SearchResults",
+      "check": [
+        {"condition": "json.results.size() == 1"},
+        {"condition": "json.getResult(0).get('primary').get('timeRange').get('startPoint').get('month') == 10"},
+        {"condition": "json.getResult(0).get('primary').get('bounds').get('north') == 1.1"},
+        {"condition": "json.getResult(0).get('others').size() == 1"},
+        {"condition": "json.getResult(0).get('others').get(0) == '{{authoritativeNexus.uuid}}'"}
+      ]
+    }
+  },
+
+  {
+    "comment": "search nexuses using non-authoritative search, we see our new nexus",
+    "request": {
+      "uri": "search/q/2015/2017/0/2/0/2?q=test&a=false"
+    },
+    "response": {
+      "type": "org.cobbzilla.wizard.dao.SearchResults",
+      "check": [
+        {"condition": "json.results.size() == 1"},
+        {"condition": "json.getResult(0).get('primary').get('timeRange').get('startPoint').get('month') == 10"},
+        {"condition": "json.getResult(0).get('primary').get('bounds').get('north') == 1.1"},
+        {"condition": "json.getResult(0).get('others').size() == 1"},
+        {"condition": "json.getResult(0).get('others').get(0) == '{{authoritativeNexus.uuid}}'"}
+      ]
+    }
+  },
+
+  {
+    "comment": "as anonymous user, search nexuses using default search, see authoritative nexus and non-authoritative alternate",
+    "request": {
+      "session": "new",
+      "uri": "search/q/2015/2017/0/2/0/2?q=test"
+    },
+    "response": {
+      "type": "org.cobbzilla.wizard.dao.SearchResults",
+      "check": [
+        {"condition": "json.results.size() == 1"},
+        {"condition": "json.getResult(0).get('primary').get('timeRange').get('startPoint').get('month') == 9"},
+        {"condition": "json.getResult(0).get('primary').get('bounds').get('north') == 1"},
+        {"condition": "json.getResult(0).get('others').size() == 1"},
+        {"condition": "json.getResult(0).get('others').get(0) == '{{nonAuthoritativeNexus.uuid}}'"}
+      ]
+    }
+  },
+
+  {
+    "comment": "as superuser, search nexuses using default search, see authoritative nexus with secondary listed in 'others'",
+    "request": {
+      "session": "superuser",
+      "uri": "search/q/2015/2017/0/2/0/2?q=test"
+    },
+    "response": {
+      "type": "org.cobbzilla.wizard.dao.SearchResults",
+      "check": [
+        {"condition": "json.results.size() == 1"},
+        {"condition": "json.getResult(0).get('primary').get('timeRange').get('startPoint').get('month') == 9"},
+        {"condition": "json.getResult(0).get('others').size() == 1"},
+        {"condition": "json.getResult(0).get('others').get(0) == '{{nonAuthoritativeNexus.uuid}}'"}
+      ]
+    }
+  }
+
+]

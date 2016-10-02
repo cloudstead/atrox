@@ -34,7 +34,6 @@ import static histori.ApiConstants.GEOJSON_MAXLEN;
 import static histori.ApiConstants.NAME_MAXLEN;
 import static histori.model.TagType.EVENT_TYPE;
 import static histori.model.base.NexusTags.JSONB_TYPE;
-import static java.math.BigInteger.ZERO;
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.json.JsonUtil.fromJsonOrDie;
@@ -94,7 +93,7 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
     @Embedded @Getter private TimeRange timeRange;
 
     public NexusBase setTimeRange(TimeRange range) {
-        if (range == null || !range.hasStart() || range.getStartPoint().getInstant().equals(ZERO)) {
+        if (range == null || !range.hasStart() || range.getStartPoint().isZero()) {
             log.warn("setTimeRange: not overwriting self with empty value");
         } else {
             this.timeRange = range;
@@ -116,7 +115,7 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
         this.geoJson = geoJson;
     }
 
-    public boolean emptyGeo() { return emptyGeo(geoJson(geoJson)); }
+    public boolean emptyGeo() { return emptyGeo(geoJson(getGeoJson())); }
 
     public static boolean emptyGeo(GeoJsonObject geo) {
         if (geo == null) return true;

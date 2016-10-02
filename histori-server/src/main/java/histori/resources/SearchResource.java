@@ -19,6 +19,7 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static histori.ApiConstants.*;
@@ -80,10 +81,15 @@ public class SearchResource {
                            @QueryParam("t") long timeout) {
 
         final Account account = optionalUserPrincipal(ctx);
-
+        final boolean useAuthoritative;
+        if (account == null || account.isAnonymous()) {
+            useAuthoritative = true;
+        } else {
+            useAuthoritative = empty(authoritative) ? false : Boolean.valueOf(authoritative);
+        }
         final SearchQuery q = new SearchQuery()
                 .setQuery(query)
-                .setAuthoritative(trueUnlessAccountRequestsFalse(authoritative, account))
+                .setAuthoritative(useAuthoritative)
                 .setVisibility(EntityVisibility.create(visibility, everyone))
                 .setUseCache(trueUnlessAccountRequestsFalse(useCache, account))
                 .setRange(from, to)
@@ -142,7 +148,6 @@ public class SearchResource {
         return ok(results);
     }
 
-    // todo: support preferred/blocked owners. maybe do this as a POST with a SearchQuery? or a superclass?
     @GET
     @Path(EP_NEXUS+"/{uuid}")
     public Response findByUuid(@Context HttpContext ctx,
@@ -155,8 +160,15 @@ public class SearchResource {
         final Nexus nexus = nexusDAO.findByUuid(uuid);
         if (nexus == null) return notFound(uuid);
 
+        List<String> preferred = null;
+        List<String> blocked = null;
+        if (account != null) {
+            preferred = preferredOwnerDAO.findActiveUuidListByOwner(account);
+            blocked = blockedOwnerDAO.findActiveUuidListByOwner(account);
+        }
+
         final SearchSortOrder sort = SearchSortOrder.valueOf(sortOrder, up_vote);
-        final NexusSummary summary = nexusSummaryDAO.search(account, nexus, null, sort);
+        final NexusSummary summary = nexusSummaryDAO.search(account, nexus, preferred, blocked, sort);
         if (exact && !summary.getPrimary().getUuid().equals(uuid)) {
             summary.addOther(summary.getPrimary().getUuid());
             summary.setPrimary(nexus);

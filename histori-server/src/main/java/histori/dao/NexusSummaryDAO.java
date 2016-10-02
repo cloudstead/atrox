@@ -4,11 +4,13 @@ import histori.ApiConstants;
 import histori.dao.search.*;
 import histori.model.Account;
 import histori.model.Nexus;
+import histori.model.NexusView;
 import histori.model.SearchQuery;
 import histori.model.support.NexusSummary;
 import histori.model.support.SearchSortOrder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.cobbzilla.util.string.StringUtil;
 import org.cobbzilla.util.system.Sleep;
 import org.cobbzilla.wizard.cache.redis.RedisService;
 import org.cobbzilla.wizard.dao.AbstractRedisDAO;
@@ -16,6 +18,7 @@ import org.cobbzilla.wizard.dao.SearchResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
@@ -108,12 +111,26 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
      * @param nexus The nexus to build a summary for
      * @return the NexusSummary
      */
-    public NexusSummary search(Account account, Nexus nexus, List<String> blockedOwners, SearchSortOrder sort) {
+    public NexusSummary search(Account account, Nexus nexus,
+                               final List<String> preferredOwners,
+                               final List<String> blockedOwners,
+                               final SearchSortOrder sort) {
 
         final List<Nexus> nexusList = nexusDAO.findByNameAndVisibleToAccountInSearchResults(nexus.getName(), account);
         if (nexusList.isEmpty()) return null;
 
-        final TreeSet<Nexus> sorted = new TreeSet<>(Nexus.comparator(sort));
+        final Comparator<NexusView> comparator;
+        if (!empty(preferredOwners)) {
+            final SearchQuery searchQuery = new SearchQuery()
+                    .setBlockedOwners(StringUtil.toString(blockedOwners))
+                    .setPreferredOwners(StringUtil.toString(preferredOwners))
+                    .setNexusSortOrder(sort)
+                    .setSummarySortOrder(sort);
+            comparator = searchQuery.getNexusComparator();
+        } else {
+            comparator = Nexus.comparator(sort);
+        }
+        final TreeSet<Nexus> sorted = new TreeSet<>(comparator);
         for (Nexus found : nexusList) {
             if (blockedOwners == null || !blockedOwners.contains(found.getOwner())) {
                 sorted.addAll(nexusList);
@@ -122,4 +139,5 @@ public class NexusSummaryDAO extends AbstractRedisDAO<NexusSummary> {
 
         return NexusSearchResults.toNexusSummary(sorted);
     }
+
 }
