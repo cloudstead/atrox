@@ -177,7 +177,7 @@ public class NexusTest extends ApiClientTestBase {
         tag = get(tagUri, Tag.class);
         assertEquals(canonicalize(tag3), tag.getCanonicalName());
 
-        apiDocs.addNote("Test resolving several tags at once. Try to resolve 4, only 3 will have a type");
+        apiDocs.addNote("Test resolving several tags at once. Try to resolve 4, only 2 will have a type");
         Tag[] tags = post(TAGS_ENDPOINT+"/"+EP_RESOLVE, new String[] {tag1, tag2, tag3, tag4.toLowerCase()}, Tag[].class);
         assertEquals(4, tags.length);
         int numberMissingType = 0;
@@ -194,7 +194,8 @@ public class NexusTest extends ApiClientTestBase {
 
         apiDocs.addNote("Test autocomplete for any tag");
         autoComplete = get(autocompleteUri + acQuery, AutocompleteSuggestions.class);
-        assertEquals(4, autoComplete.getSuggestions().size());
+        // we know at least 4 should match. due to random names, there might be more than 4 matches. that's ok
+        assertTrue(autoComplete.getSuggestions().size() >= 4);
 
         apiDocs.addNote("Test autocomplete for only event_type tags");
         autoComplete = get(autocompleteUri +"/Event_type" + acQuery, AutocompleteSuggestions.class);
@@ -230,7 +231,7 @@ public class NexusTest extends ApiClientTestBase {
         apiDocs.addNote("Lookup the Nexus we created by name, verify it has a single event_type tag");
         found = get(NEXUS_ENDPOINT+"/"+urlEncode(nexus.getName()), Nexus.class);
         assertEquals(nexusName, found.getName());
-        assertEquals(nexusType, found.getNexusType());
+        assertEquals(canonicalize(nexusType), found.getNexusType());
         assertEquals(1, found.getTags().size());
         assertEquals(EVENT_TYPE, found.getTags().get(0).getTagType());
         assertEquals(nexusType, found.getTags().get(0).getTagName());

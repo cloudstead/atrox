@@ -95,7 +95,7 @@ public class TagDAO extends ShardedEntityDAO<Tag, TagShardDAO> {
         return findByCanonicalNameNoCache(canonicalName);
     }
 
-    public Tag findByCanonicalNameNoCache(String canonicalName) { return super.findByName(canonicalName); }
+    public Tag findByCanonicalNameNoCache(String canonicalName) { return findByUniqueField("canonicalName", canonicalName, false); }
 
     private final Map<String, AutoRefreshingReference<AutocompleteSuggestions>> autocompleteCache = new ConcurrentHashMap<>();
 

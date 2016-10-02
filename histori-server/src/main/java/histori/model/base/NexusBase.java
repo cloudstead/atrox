@@ -116,7 +116,9 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
         this.geoJson = geoJson;
     }
 
-    private static boolean emptyGeo(GeoJsonObject geo) {
+    public boolean emptyGeo() { return emptyGeo(geoJson(geoJson)); }
+
+    public static boolean emptyGeo(GeoJsonObject geo) {
         if (geo == null) return true;
         if (geo instanceof Point) {
             final Point p = (Point) geo;

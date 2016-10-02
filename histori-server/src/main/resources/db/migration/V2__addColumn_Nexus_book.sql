@@ -8,4 +8,3 @@ update nexus_archive set book = 'Wikipedia - Battles' where nexus_type = 'battle
 
 -- add missing indexes
 CREATE INDEX nexus_idx_authoritative ON nexus(authoritative);
-CREATE UNIQUE INDEX nexus_uniq_canonical_name_owner ON nexus(canonical_name, owner);

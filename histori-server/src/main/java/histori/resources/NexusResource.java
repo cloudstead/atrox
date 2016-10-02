@@ -90,8 +90,10 @@ public class NexusResource {
     public static Nexus createNexus (Account account, NexusRequest request, NexusDAO nexusDAO) {
         final String name = request.getName();
         if (request.isAuthoritative() && !account.isAdmin()) throw forbiddenEx();
+        if (request.emptyGeo()) throw invalidEx("err.geo.empty");
 
         // remove tags with null names, or names that are too long
+        // ensure other tags exist
         final NexusTags tags = request.getTags();
         for (Iterator<NexusTag> iter = tags.iterator(); iter.hasNext(); ) {
             NexusTag tag = iter.next();

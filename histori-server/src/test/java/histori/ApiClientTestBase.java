@@ -158,7 +158,7 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
         final Nexus nexus = new Nexus();
         nexus.setName(nexusName);
         nexus.setTimeRange(startDate, endDate);
-        nexus.setGeo(new Point(0, 0));
+        nexus.setGeo(new Point(1, 1));
         nexus.setMarkdown(markdown);
         return nexus;
     }

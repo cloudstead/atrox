@@ -19,6 +19,7 @@ CREATE INDEX nexus_idx_end_instant ON nexus(end_instant);
 CREATE INDEX nexus_idx_end_year ON nexus(end_year);
 CREATE INDEX nexus_idx_start_instant ON nexus(start_instant);
 CREATE INDEX nexus_idx_start_year ON nexus(start_year);
+CREATE INDEX nexus_idx_authoritative ON nexus(authoritative);
 
 CREATE UNIQUE INDEX nexus_idx_canonical_name_authoritative ON nexus(canonical_name) WHERE authoritiative = TRUE;
 
