@@ -43,7 +43,7 @@ public abstract class CanonicalEntity implements Identifiable {
     public void setCanonicalName(String val) { this.canonicalName = val; }
 
     public static String canonicalize(String val) {
-        return val == null ? "" : urlEncode(val.trim().replace("_", WORD_SEP).replace(" ", WORD_SEP).toLowerCase());
+        return val == null ? "" : urlEncode(val.trim().replace("_", WORD_SEP).replace(" ", WORD_SEP).replaceAll("-+", "-").toLowerCase());
     }
 
     @Override public String getUuid() { return getCanonicalName(); }
