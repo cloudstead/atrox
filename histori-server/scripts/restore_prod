@@ -1,5 +1,10 @@
 #!/bin/bash
 
+function die {
+  echo 1>&2 "${1}"
+  exit 1
+}
+
 if [ ! -z "${PPSQL_COUNT}" ] ; then
   COUNT="${PPSQL_COUNT}"
 else
@@ -10,16 +15,18 @@ BASE=$(cd $(dirname $0) && pwd)
 ARCHIVE=${1:?no SQL archive given}
 
 dropdb histori_master
-createdb histori_master
-gzcat ${ARCHIVE} | psql -U histori histori_master
-echo "delete from shard" | psql -U histori histori_master
+createdb histori_master || die "error creating histori_master"
+gzcat ${ARCHIVE} | psql -U histori histori_master  || die "error populating histori_master"
+echo "delete from shard" | psql -U histori histori_master || die "error deleting shards from histori_master"
 
 i=0
-while [ $i -lt ${COUNT} ] ; do
+while [ ${i} -lt ${COUNT} ] ; do
   dropdb histori_${i}
-  createdb histori_${i}
-  pg_dump histori_master | psql -U histori histori_${i}
-  echo "drop table shard" | psql -U histori histori_${i}
+  createdb histori_${i} || die "error creating histori_${i}"
+  pg_dump histori_master | psql -U histori histori_${i} || die "error populating histori_${i}"
+  echo "delete from shard" | psql -U histori histori_${i} || die "error deleting shards from histori_${i}"
+  i=$(expr ${i} + 1)
 done
 
-${BASE}/init_standard_shards ${COUNT} | psql -U histori histori_master
+${BASE}/init_standard_shards ${COUNT} | psql -U histori histori_master || die "error writing standard shards to histori_master"
+
