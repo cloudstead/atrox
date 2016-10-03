@@ -273,7 +273,7 @@ Api = {
     },
 
     edit_nexus: function (nexus, edited, success, fail) {
-        if (edited.name != nexus.name) {
+        if (nexus == null || edited.name != nexus.name) {
             Api._put('nexus/' + encodeURIComponent(edited.name), edited, success, fail);
         } else {
             Api._post('nexus/' + encodeURIComponent(nexus.name) + '/' + nexus.uuid, edited, success, fail);
@@ -337,6 +337,6 @@ Api = {
     toggle_blocked_author: function (uuid, success, fail) { return Api._post('blocks/'+uuid+'/toggleActive', {}, success, fail); },
 
     find_my_nexuses: function (success, fail) { return Api._get('accounts/n', success, fail); },
-    remove_nexus: function (uuid, success, fail) { return Api._delete('accounts/n/'+uuid, success, fail); }
+    remove_nexus: function (name, success, fail) { return Api._delete('accounts/n/'+encodeURIComponent(name), success, fail); }
 
 };

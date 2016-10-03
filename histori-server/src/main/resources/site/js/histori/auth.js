@@ -526,11 +526,29 @@ function showSpecialAuthorsForm (type) {
     }
 }
 
+function openNexusFunc (nexus) {
+    return function () {
+        openNexusDetails(nexus.uuid)
+        return false;
+    };
+}
+
+function removeNexusFunc (nexus) {
+    return function () { Api.remove_nexus(nexus.name, showMyNexuses); };
+}
+
 function showMyNexuses() {
     $('.authError').empty();
     Api.find_my_nexuses(function (data) {
         var tbody = $('#myNexusesTbody');
         tbody.empty();
+        if (typeof data == "undefined" || data == null || data.length == 0) {
+            showAccountForm();
+            var authError = $(".authError");
+            authError.css('color', 'red');
+            authError.html('No user-created nexuses found');
+            return;
+        }
         for (var i=0; i<data.length; i++) {
             var nexus = data[i];
             var row = $('<tr></tr>');
@@ -538,7 +556,8 @@ function showMyNexuses() {
             // Nexus link - clicking opens nexus
             var linkCell = $('<td nowrap class="bookmark_info"></td>');
             var link = $('<a class="bookmark_link" href=".">'+nexus.name+'</a>');
-            link.on('click', openNexusDetails(nexus.uuid));
+            link.on('click', openNexusFunc(nexus));
+            linkCell.append(link);
             row.append(linkCell);
 
             // bounds cell
@@ -548,14 +567,16 @@ function showMyNexuses() {
             row.append(boundsCell);
 
             // time cell
-            var range = {start: nexus.timeRange.startPoint.instant, end: nexus.timeRange.endPoint.instant};
-            var rangeCell = $('<td nowrap class="bookmark_info">'+display_range(range)+'</td>');
+            var startInstant = formatTimePoint(nexus.timeRange.startPoint);
+            var endInstant = (typeof nexus.timeRange.endPoint != "undefined") ? formatTimePoint(nexus.timeRange.endPoint) : null;
+            var displayRange = startInstant + ((endInstant == null) ? '' : ' - ' + endInstant);
+            var rangeCell = $('<td nowrap class="bookmark_info">'+displayRange+'</td>');
             row.append(rangeCell);
 
             // remove cell
             var removeButtonCell = $('<td valign="middle"></td>');
             var removeButton = $('<button><img title="remove" class="removeBookmarkIcon" src="iconic/png/x.png"/></button>');
-            removeButton.on('click', Api.remove_nexus(nexus.uuid, function () { showMyNexuses(); }));
+            removeButton.on('click', removeNexusFunc(nexus));
             removeButtonCell.append(removeButton);
             row.append(removeButtonCell);
 

@@ -806,6 +806,7 @@ function commitNexusEdits () {
             // todo: should we update the nexuses that are cached in main.js?
             if (checkDirtyTimer != null) window.clearTimeout(checkDirtyTimer);
             activeForm = null; // allow nexuses to be opened again
+            refresh_map();
             findNexus(data, 0);
         });
     }

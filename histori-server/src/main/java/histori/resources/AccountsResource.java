@@ -56,10 +56,10 @@ public class AccountsResource extends AuthResourceBase<Account> {
      */
     @GET
     public Response me (@Context HttpContext ctx) {
-        Account found = optionalUserPrincipal(ctx);
-        if (found == null) return notFound();
-        found = accountDAO.findByUuid(found.getUuid());
-        return (found == null) ? notFound() : ok(found);
+        Account account = optionalUserPrincipal(ctx);
+        if (account == null) return notFound();
+        account = accountDAO.findByUuid(account.getUuid());
+        return (account == null) ? notFound() : ok(account);
     }
 
     /**
@@ -70,10 +70,10 @@ public class AccountsResource extends AuthResourceBase<Account> {
     @GET
     @Path(EP_NEXUS)
     public Response findMyNexuses (@Context HttpContext ctx) {
-        Account found = optionalUserPrincipal(ctx);
-        if (found == null) return notFound();
-        found = accountDAO.findByUuid(found.getUuid());
-        return (found == null) ? notFound() : ok(nexusDAO.findByOwner(found));
+        Account account = optionalUserPrincipal(ctx);
+        if (account == null) return notFound();
+        account = accountDAO.findByUuid(account.getUuid());
+        return (account == null) ? notFound() : ok(nexusDAO.findByOwner(account));
     }
 
     /**
@@ -85,13 +85,16 @@ public class AccountsResource extends AuthResourceBase<Account> {
     @Path(EP_NEXUS+"/{name}")
     public Response removeNexus (@Context HttpContext ctx,
                                  @PathParam("name") String name) {
-        Account found = optionalUserPrincipal(ctx);
-        if (found == null) return notFound();
-        found = accountDAO.findByUuid(found.getUuid());
-        if (found == null) return notFound();
-        Nexus nexus = nexusDAO.findByOwnerAndName(found, name);
-        if (nexus == null) nexus = nexusDAO.findByOwnerAndName(found, urlDecode(name));
-        if (nexus == null) return notFound();
+        Account account = optionalUserPrincipal(ctx);
+        if (account == null) return notFound();
+        account = accountDAO.findByUuid(account.getUuid());
+        if (account == null) return notFound();
+        Nexus nexus = nexusDAO.findByOwnerAndName(account, name);
+        if (nexus == null) nexus = nexusDAO.findByOwnerAndName(account, urlDecode(name));
+        if (nexus == null) {
+            nexus = nexusDAO.findByUuid(name);
+            if (nexus == null || !nexus.getOwner().equals(account.getUuid())) return notFound();
+        }
         nexusDAO.delete(nexus.getUuid());
         return ok_empty();
     }
