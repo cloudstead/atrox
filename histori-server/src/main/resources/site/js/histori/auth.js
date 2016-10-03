@@ -525,3 +525,44 @@ function showSpecialAuthorsForm (type) {
             return;
     }
 }
+
+function showMyNexuses() {
+    $('.authError').empty();
+    Api.find_my_nexuses(function (data) {
+        var tbody = $('#myNexusesTbody');
+        tbody.empty();
+        for (var i=0; i<data.length; i++) {
+            var nexus = data[i];
+            var row = $('<tr></tr>');
+
+            // Nexus link - clicking opens nexus
+            var linkCell = $('<td nowrap class="bookmark_info"></td>');
+            var link = $('<a class="bookmark_link" href=".">'+nexus.name+'</a>');
+            link.on('click', openNexusDetails(nexus.uuid));
+            row.append(linkCell);
+
+            // bounds cell
+            var bounds = nexus.bounds;
+            var boundsCell = $('<td class="bookmark_info"></td>');
+            boundsCell.append(display_bounds(bounds));
+            row.append(boundsCell);
+
+            // time cell
+            var range = {start: nexus.timeRange.startPoint.instant, end: nexus.timeRange.endPoint.instant};
+            var rangeCell = $('<td nowrap class="bookmark_info">'+display_range(range)+'</td>');
+            row.append(rangeCell);
+
+            // remove cell
+            var removeButtonCell = $('<td valign="middle"></td>');
+            var removeButton = $('<button><img title="remove" class="removeBookmarkIcon" src="iconic/png/x.png"/></button>');
+            removeButton.on('click', Api.remove_nexus(nexus.uuid, function () { showMyNexuses(); }));
+            removeButtonCell.append(removeButton);
+            row.append(removeButtonCell);
+
+            tbody.append(row);
+        }
+
+        showForm('myNexusesContainer');
+    }, null);
+
+}

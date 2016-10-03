@@ -93,6 +93,20 @@
   },
 
   {
+    "comment": "find my nexuses",
+    "request": {
+      "uri": "accounts/n"
+    },
+    "response": {
+      "type": "histori.model.Nexus[]",
+      "check": [
+        {"condition": "json.length == 1"},
+        {"condition": "json[0].name == 'Test Nexus'"}
+      ]
+    }
+  },
+
+  {
     "comment": "search nexuses using authoritative search, see authoritative nexus and ours as other",
     "request": {
       "uri": "search/q/2015/2017/0/2/0/2?q=test&a=true"
@@ -174,6 +188,27 @@
         {"condition": "json.getResult(0).get('primary').get('timeRange').get('startPoint').get('month') == 9"},
         {"condition": "json.getResult(0).get('others').size() == 1"},
         {"condition": "json.getResult(0).get('others').get(0) == '{{nonAuthoritativeNexus.uuid}}'"}
+      ]
+    }
+  },
+
+  {
+    "comment": "delete nexuses",
+    "request": {
+      "method": "delete",
+      "uri": "accounts/n/Test+Nexus"
+    }
+  },
+
+  {
+    "comment": "find my nexuses, now empty",
+    "request": {
+      "uri": "accounts/n"
+    },
+    "response": {
+      "type": "histori.model.Nexus[]",
+      "check": [
+        {"condition": "json.length == 0"}
       ]
     }
   }

@@ -5,8 +5,10 @@ import cloudos.model.auth.AuthenticationException;
 import cloudos.resources.AuthResourceBase;
 import com.sun.jersey.api.core.HttpContext;
 import histori.dao.AccountDAO;
+import histori.dao.NexusDAO;
 import histori.dao.SessionDAO;
 import histori.model.Account;
+import histori.model.Nexus;
 import histori.model.auth.HistoriLoginRequest;
 import histori.model.auth.RegistrationRequest;
 import histori.model.support.AccountAuthResponse;
@@ -27,6 +29,7 @@ import javax.ws.rs.core.Response;
 import static histori.ApiConstants.*;
 import static javax.ws.rs.core.HttpHeaders.USER_AGENT;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static org.cobbzilla.util.string.StringUtil.urlDecode;
 import static org.cobbzilla.wizard.resources.ResourceUtil.*;
 
 @Consumes(APPLICATION_JSON)
@@ -39,6 +42,7 @@ public class AccountsResource extends AuthResourceBase<Account> {
     @Autowired private SessionDAO sessionDAO;
     @Autowired @Getter private AccountDAO accountDAO;
     @Autowired @Getter private TemplatedMailService templatedMailService;
+    @Autowired @Getter private NexusDAO nexusDAO;
 
     // only allow password resets via email
     @Override public Account findAccountForForgotPassword(String name) {
@@ -56,6 +60,40 @@ public class AccountsResource extends AuthResourceBase<Account> {
         if (found == null) return notFound();
         found = accountDAO.findByUuid(found.getUuid());
         return (found == null) ? notFound() : ok(found);
+    }
+
+    /**
+     * Get nexuses owned by the currently logged in user
+     * @param ctx session info
+     * @return a List of Nexuses owned by the currently logged in user
+     */
+    @GET
+    @Path(EP_NEXUS)
+    public Response findMyNexuses (@Context HttpContext ctx) {
+        Account found = optionalUserPrincipal(ctx);
+        if (found == null) return notFound();
+        found = accountDAO.findByUuid(found.getUuid());
+        return (found == null) ? notFound() : ok(nexusDAO.findByOwner(found));
+    }
+
+    /**
+     * Delete a nexus owned by the currently logged in user
+     * @param name the name of the nexus
+     * @param ctx session info
+     */
+    @DELETE
+    @Path(EP_NEXUS+"/{name}")
+    public Response removeNexus (@Context HttpContext ctx,
+                                 @PathParam("name") String name) {
+        Account found = optionalUserPrincipal(ctx);
+        if (found == null) return notFound();
+        found = accountDAO.findByUuid(found.getUuid());
+        if (found == null) return notFound();
+        Nexus nexus = nexusDAO.findByOwnerAndName(found, name);
+        if (nexus == null) nexus = nexusDAO.findByOwnerAndName(found, urlDecode(name));
+        if (nexus == null) return notFound();
+        nexusDAO.delete(nexus.getUuid());
+        return ok_empty();
     }
 
     /**

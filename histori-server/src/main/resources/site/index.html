@@ -362,6 +362,7 @@
                     <td colspan="2">
                         <hr/>
                         <span>
+                            <button onclick="showMyNexuses(); return false; ">my contributions</button>
                             <button onclick="showSpecialAuthorsForm('preferred'); return false; ">preferred authors</button>
                             <button onclick="showSpecialAuthorsForm('blocked'); return false; ">blocked authors</button>
                         </span>
@@ -380,8 +381,8 @@
                     <td colspan="2">
                         <hr/>
                         <input type="submit" value="update"/>
-                        <button onclick="Histori.logout(); closeAccountForm(); return false; ">sign out</button>
-                        <button onclick="closeAccountForm(); return false; ">close</button>
+                        <button onclick="Histori.logout(); closeAccountForm(); return false;">sign out</button>
+                        <button onclick="closeAccountForm(); return false;">close</button>
                     </td>
                 </tr>
                 </tbody>
@@ -400,6 +401,22 @@
     name: <input type="text" id="specialAuthorToAdd"/>
     <span id="specialAuthorToAddPriority"></span>
     <button id="btn_addSpecialAuthor">add</button>
+</div>
+
+<div id="myNexusesContainer" class="dialogContainer">
+    <div class="authError"></div>
+    <table id="myNexusesTable" border="0" cellpadding="3">
+        <thead>
+        <tr id="myNexusesThead">
+            <td>name</td>
+            <td width="200">geo</td>
+            <td>time</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody id="myNexusesTbody">
+        </tbody>
+    </table>
 </div>
 
 <div id="searchOptionsContainer" class="dialogContainer">

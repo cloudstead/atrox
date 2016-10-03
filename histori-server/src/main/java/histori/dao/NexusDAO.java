@@ -119,6 +119,8 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
         return findByUniqueFieldsNoCache("owner", account.getUuid(), "canonicalName", canonicalize(name));
     }
 
+    public List<Nexus> findByOwner(Account account) { return findByField("owner", account.getUuid()); }
+
     @Override public String getNameField() { return "canonicalName"; }
 
     @Override public Nexus findByName(String name) {
