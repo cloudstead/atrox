@@ -528,7 +528,7 @@ function showSpecialAuthorsForm (type) {
 
 function openNexusFunc (nexus) {
     return function () {
-        openNexusDetails(nexus.uuid)
+        openNexusDetails(nexus.uuid, 'my_nexuses', 0);
         return false;
     };
 }

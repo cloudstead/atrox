@@ -72,14 +72,35 @@ function enableNexusEditButtons (enable) {
 function getTagNameDivId (tag) { return 'nexusTag_' + tag.uuid; }
 function getNexusTagDivId (tag) { return 'nexusTagDiv_' + tag.uuid; }
 
-function openNexusDetails (uuid, tries) {
+var nexusSearchBox = null;
+function openNexusDetails (uuid, searchbox, tries) {
     if (activeForm == 'editNexus') {
         console.log('openNexusDetails: edit in progress, not opening new nexus');
         return;
     }
     closeForm();
     var container = $('#nexusDetailsContainer');
-    var nexus = Api.nexusCache[uuid];
+    nexusSearchBox = searchbox;
+    var nexus;
+    if (uuid == null) {
+        var lat = map.getCenter().lat();
+        var lon = map.getCenter().lng();
+        var midTime = slider.canonical_for_raw_value(slider.range.start + ((slider.range.end - slider.range.start) / 2));
+        nexus = {
+            uuid: null,
+            owner: Histori.account().uuid,
+            name: '',
+            // center of map
+            bounds: { "north": lat, "south": lat, "east": lon, "west": lon },
+            geo: { "type": "Point", "coordinates": [ lon, lat ] },
+            // center of timeline
+            timeRange: { "startPoint": midTime },
+            // todo: anything else to add?
+            tags: []
+        };
+    } else {
+        nexus = Api.nexusCache[uuid];
+    }
     Histori.active_nexus = nexus;
 
     if (typeof nexus == "undefined" || nexus == null) return;
@@ -192,14 +213,17 @@ function openNexusDetails (uuid, tries) {
         container.css('left', '');
         container.css('right', '20px');
     }
-
+    if (nexus.uuid == null) {
+        startEditingNexus();
+        $('#nedit_name').focus();
+    }
     container.css('zIndex', 1);
 }
 
 function findNexus(nexus, tries) {
     Api.find_nexus_exact(nexus.uuid, function (data) {
         console.log('find_nexus for try #' + tries + ' returned nexus, incomplete=' + data.incomplete);
-        openNexusDetails(nexus.uuid, tries + 1);
+        openNexusDetails(nexus.uuid, nexusSearchBox, tries + 1);
     }, null);
 }
 
@@ -296,22 +320,22 @@ function isDirty (nexus) {
 
 function jsFieldDirtyChecks () { return 'onkeyup="checkDirty()" onchange="checkDirty()" onblur="checkDirty()"'; }
 
-function updateGeoControls (geoContainer, nexus, geoTypeSelect) {
-    return function () { addGeoControlsForType(geoContainer, nexus, $('#nedit_geo_type').val(), geoTypeSelect); };
+function updateGeoControls (geoContainer, nexus, searchbox, geoTypeSelect) {
+    return function () { addGeoControlsForType(geoContainer, nexus, searchbox, $('#nedit_geo_type').val(), geoTypeSelect); };
 }
 
-function addGeoControls (geoContainer, nexus) {
+function addGeoControls (geoContainer, nexus, searchbox) {
     var geoTypeSelect = $('<select id="nedit_geo_type"></select>');
     geoTypeSelect.append($('<option>point</option>'));
     geoTypeSelect.append($('<option>line</option>'));
     geoTypeSelect.append($('<option>polygon</option>'));
     geoTypeSelect.append($('<option>multi-polygon</option>'));
-    geoTypeSelect.on('change', updateGeoControls(geoContainer, nexus, geoTypeSelect));
+    geoTypeSelect.on('change', updateGeoControls(geoContainer, nexus, searchbox, geoTypeSelect));
     geoContainer.append(geoTypeSelect);
 
     var type = nexus.geo.type.toLowerCase();
     geoTypeSelect.val(type);
-    addGeoControlsForType(geoContainer, nexus, type, geoTypeSelect);
+    addGeoControlsForType(geoContainer, nexus, searchbox, type, geoTypeSelect);
 }
 
 function resetGeo (nexus) {
@@ -328,7 +352,7 @@ function resetGeo (nexus) {
     }
 }
 
-function addGeoControlsForType(geoContainer, nexus, type, geoTypeSelect) {
+function addGeoControlsForType(geoContainer, nexus, searchbox, type, geoTypeSelect) {
     var geoSpecific = $('.geoSpecific');
     geoSpecific.remove();
     switch (type) {
@@ -356,7 +380,7 @@ function addGeoControlsForType(geoContainer, nexus, type, geoTypeSelect) {
                 break;
         }
     });
-    enable_editable_markers(nexus, function (marker) {
+    enable_editable_markers(nexus, searchbox, function (marker) {
         var position = marker.getPosition();
         switch (type.toLowerCase()) {
             case "point":
@@ -456,7 +480,7 @@ function startEditingNexus () {
     var geoContainer = $('#nexusGeoContainer');
     geoContainer.empty();
     geoContainer.append($('<span>Location: </span>'));
-    addGeoControls(geoContainer, nexus);
+    addGeoControls(geoContainer, nexus, nexusSearchBox);
 
     var otherVersionCount = 0;
     if (typeof nexus.others != "undefined" && is_array(nexus.others)) {
@@ -745,7 +769,7 @@ function cancelNexusEdits () {
         Histori.active_nexus.dirty = false;
         resetGeo(Histori.active_nexus);
         activeForm = null; // allow nexuses to be opened again
-        openNexusDetails(Histori.active_nexus.uuid, 0);
+        openNexusDetails(Histori.active_nexus.uuid, nexusSearchBox, 0);
     }
 }
 

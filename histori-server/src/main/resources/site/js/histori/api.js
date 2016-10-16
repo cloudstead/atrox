@@ -274,7 +274,7 @@ Api = {
 
     edit_nexus: function (nexus, edited, success, fail) {
         if (nexus == null || edited.name != nexus.name) {
-            Api._put('nexus/' + encodeURIComponent(edited.name), edited, success, fail);
+            Api._post('nexus/' + encodeURIComponent(edited.name), edited, success, fail);
         } else {
             Api._post('nexus/' + encodeURIComponent(nexus.name) + '/' + nexus.uuid, edited, success, fail);
         }

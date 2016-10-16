@@ -275,14 +275,14 @@ function addRegionForm () {
         '</div>';
 }
 
-function newMarkerListener(nexusSummaryUuid) {
+function newMarkerListener(nexusSummaryUuid, searchbox) {
     return function(e) {
         // fixme: this doesn't work
         // When you click on a timeline marker, the slider control moves to where the marker is
         // I'd like it so that if a marker gets a click event, the slider does not receive it
         //e.stopPropagation();
         //e.preventDefault();
-        openNexusDetails(nexusSummaryUuid, 0);
+        openNexusDetails(nexusSummaryUuid, searchbox, 0);
         //return false;
     }
 }
@@ -346,11 +346,14 @@ function add_nexus_to_map (searchbox_id, primary) {
     }
 
     // ensure we do not add the same nexus to the map twice for the same searchbox
-    var markers = active_markers[searchbox_id];
-    for (var i=0; i<markers.length; i++) {
-        if (typeof markers[i].nexus != 'undefined' && markers[i].nexus.uuid == primary.uuid) {
-            console.log('already has a marker: '+primary.uuid);
-            return;
+    if (searchbox_id != null) {
+        var markers = active_markers[searchbox_id];
+        if (typeof markers == "undefined") markers = active_markers[searchbox_id] = [];
+        for (var i = 0; i < markers.length; i++) {
+            if (typeof markers[i].nexus != 'undefined' && markers[i].nexus.uuid == primary.uuid) {
+                console.log('already has a marker: ' + primary.uuid);
+                return;
+            }
         }
     }
 
@@ -363,13 +366,14 @@ function add_nexus_to_map (searchbox_id, primary) {
 
         var marker = new google.maps.Marker({
             nexus: primary,
+            searchbox: searchbox_id,
             position: {lat: primary.geo.coordinates[1], lng: primary.geo.coordinates[0]},
             title: primary.name,
             icon: markerImageSrc,
             map: map
         });
 
-        var clickHandler = newMarkerListener(primary.uuid);
+        var clickHandler = newMarkerListener(primary.uuid, searchbox_id);
         if (clickHandler == null) {
             console.log("update_map: error adding: "+primary.uuid);
             return;
@@ -492,22 +496,37 @@ function editable_marker_handler (editable_marker, handler) {
     return function() { handler(editable_marker); }
 }
 
-function enable_editable_markers (nexus, handler) {
-    for (var i=0; i<all_markers.length; i++) {
-        var marker = all_markers[i];
-        marker.setMap(null);
-        if (marker.nexus.uuid == nexus.uuid) {
-            var editable_marker = new google.maps.Marker({
-                nexus: nexus,
-                position: {lat: nexus.geo.coordinates[1], lng: nexus.geo.coordinates[0]},
-                title: nexus.name,
-                icon: marker.getIcon(),
-                map: map,
-                draggable: true
-            });
-            editable_marker.historiDragEndHandler = google.maps.event.addListener(editable_marker, 'dragend', editable_marker_handler(editable_marker, handler));
-            editable_marker.historiDragHandler = google.maps.event.addListener(editable_marker, 'drag', editable_marker_handler(editable_marker, handler));
-            editable_markers.push(editable_marker);
+function enable_editable_markers (nexus, searchbox, handler) {
+    var editable_marker;
+    if (nexus.uuid == null) {
+        editable_marker = new google.maps.Marker({
+            nexus: nexus,
+            position: {lat: nexus.geo.coordinates[1], lng: nexus.geo.coordinates[0]},
+            title: nexus.name,
+            icon: 'markers/'+pickUnusedColor()+'_Marker_blank.png',
+            map: map,
+            draggable: true
+        });
+        editable_marker.historiDragEndHandler = google.maps.event.addListener(editable_marker, 'dragend', editable_marker_handler(editable_marker, handler));
+        editable_marker.historiDragHandler = google.maps.event.addListener(editable_marker, 'drag', editable_marker_handler(editable_marker, handler));
+        editable_markers.push(editable_marker);
+    } else {
+        for (var i = 0; i < all_markers.length; i++) {
+            var marker = all_markers[i];
+            marker.setMap(null);
+            if (marker.nexus.uuid == nexus.uuid && marker.searchbox == searchbox) {
+                editable_marker = new google.maps.Marker({
+                    nexus: nexus,
+                    position: {lat: nexus.geo.coordinates[1], lng: nexus.geo.coordinates[0]},
+                    title: nexus.name,
+                    icon: marker.getIcon(),
+                    map: map,
+                    draggable: true
+                });
+                editable_marker.historiDragEndHandler = google.maps.event.addListener(editable_marker, 'dragend', editable_marker_handler(editable_marker, handler));
+                editable_marker.historiDragHandler = google.maps.event.addListener(editable_marker, 'drag', editable_marker_handler(editable_marker, handler));
+                editable_markers.push(editable_marker);
+            }
         }
     }
 }
