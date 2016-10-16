@@ -46,6 +46,7 @@ public class SuperNexus extends IdentifiableBase implements NexusView, Shardable
     }
 
     public boolean isAuthoritative () { return false; }
+    public void setAuthoritative (boolean authoritative) {} // noop
 
     @Embedded @Getter @Setter private TimeRange timeRange;
     @Embedded @Getter @Setter private GeoBounds bounds;

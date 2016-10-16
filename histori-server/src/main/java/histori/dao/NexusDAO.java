@@ -3,10 +3,7 @@ package histori.dao;
 import histori.dao.archive.NexusArchiveDAO;
 import histori.dao.search.NexusSearchResults;
 import histori.dao.shard.NexusShardDAO;
-import histori.model.Account;
-import histori.model.Nexus;
-import histori.model.NexusTag;
-import histori.model.Tag;
+import histori.model.*;
 import histori.model.support.EntityVisibility;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +34,7 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
     @Autowired @Getter @Setter private TagDAO tagDAO;
     @Autowired @Getter @Setter private AccountDAO accountDAO;
     @Autowired @Getter @Setter private RedisService redisService;
+    @Autowired @Getter @Setter private BookDAO bookDAO;
 
     @Getter(lazy=true) private final RedisService nexusCache = initNexusCache();
     private RedisService initNexusCache() { return redisService.prefixNamespace("nexus-cache:", null); }
@@ -48,6 +46,8 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
         if (nexus.hasNexusType()) {
             nexus.setNexusType(tagDAO.create(new Tag(nexus.getNexusType(), EVENT_TYPE)).getCanonicalName());
         }
+
+        ensureBookExists(nexus);
 
         // create version
         VersionedEntityDAO.incrementVersionAndArchive(nexus, this, nexusArchiveDAO);
@@ -81,6 +81,8 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
             nexus.setNexusType(nexus.getTags().getFirstEventType());
         }
 
+        ensureBookExists(nexus);
+
         // create version
         VersionedEntityDAO.incrementVersionAndArchive(nexus, this, nexusArchiveDAO);
 
@@ -94,6 +96,22 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
         }
 
         return super.preUpdate(nexus);
+    }
+
+    public void ensureBookExists(@Valid Nexus nexus) {
+        if (nexus.hasBook()) {
+            Book book = bookDAO.findByName(nexus.getBook());
+            if (book == null) {
+                book = bookDAO.create((Book) new Book()
+                        .setName(nexus.getBook())
+                        .setShortName(nexus.getBook())
+                        .setOwner(nexus.getOwner()));
+            }
+            nexus.setBook(book.getShortName());
+            nexus.setInOwnerBook(book.getOwner().equals(nexus.getOwner()));
+        } else {
+            nexus.setInOwnerBook(false);
+        }
     }
 
     @Override public Nexus postCreate(Nexus nexus, Object context) {
@@ -135,5 +153,7 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
         }
         return found;
     }
+
+    public List<Nexus> findByBook(String name) { return findByField("book", name); }
 
 }

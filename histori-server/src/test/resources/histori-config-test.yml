@@ -52,6 +52,8 @@ database:
       entity: histori.model.archive.VoteArchive
     - name: map-image
       entity: histori.model.MapImage
+    - name: book
+      entity: histori.model.Book
 
 staticAssets:
   baseUri: /

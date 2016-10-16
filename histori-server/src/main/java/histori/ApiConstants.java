@@ -29,6 +29,7 @@ public class ApiConstants {
     public static final String UTILS_ENDPOINT = "/utils";
     public static final String BLOCKED_OWNERS_ENDPOINT = "/blocks";
     public static final String PREFERRED_OWNERS_ENDPOINT = "/prefers";
+    public static final String BOOKS_ENDPOINT = "/books";
 
     // admin endpoints
     public static final String SHARDS_ENDPOINT = "/admin/shards";
