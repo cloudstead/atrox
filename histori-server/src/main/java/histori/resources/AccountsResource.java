@@ -135,7 +135,7 @@ public class AccountsResource extends AuthResourceBase<Account> {
 
         final Account sessionAccount = userPrincipal(ctx);
         final String accountUuid = sessionAccount.getUuid();
-        final Account account = accountDAO.findByUuid(accountUuid);
+        final Account account = accountDAO.findByUuid(accountUuid, false);
 
         // Is this also a change password request? If so, try that first
         final ValidationResult validationResult = new ValidationResult();
