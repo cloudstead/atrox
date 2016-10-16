@@ -360,8 +360,12 @@ function add_nexus_to_map (searchbox_id, primary) {
     if (primary.geo.type == "Point") {
         var markerImageSrc = rowMarkerImageSrc(searchbox_id);
         if (markerImageSrc == null) {
-            console.log('marker was removed ('+searchbox_id+'), cannot add results');
-            return;
+            if (searchbox_id == 'my_nexuses') {
+                markerImageSrc = 'markers/'+pickUnusedColor()+'_Marker_blank.png';
+            } else {
+                console.log('marker was removed (' + searchbox_id + '), cannot add results');
+                return;
+            }
         }
 
         var marker = new google.maps.Marker({

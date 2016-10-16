@@ -528,6 +528,8 @@ function showSpecialAuthorsForm (type) {
 
 function openNexusFunc (nexus) {
     return function () {
+        Api.nexusCache[nexus.uuid] = nexus;
+        add_nexus_to_map('my_nexuses', nexus);
         openNexusDetails(nexus.uuid, 'my_nexuses', 0);
         return false;
     };
