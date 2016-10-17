@@ -53,6 +53,8 @@ database:
       entity: histori.model.MapImage
     - name: book
       entity: histori.model.Book
+    - name: feed
+      entity: histori.model.Feed
 
 staticAssets:
   baseUri: /

@@ -33,7 +33,7 @@ import java.util.*;
 import static histori.ApiConstants.GEOJSON_MAXLEN;
 import static histori.ApiConstants.NAME_MAXLEN;
 import static histori.model.TagType.EVENT_TYPE;
-import static histori.model.base.NexusTags.JSONB_TYPE;
+import static histori.model.base.NexusTags.TAGS_JSONB_TYPE;
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.json.JsonUtil.fromJsonOrDie;
@@ -218,7 +218,7 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
 
     public void setTimeRange(String startDate, String endDate) { setTimeRange(new TimeRange(startDate, endDate)); }
 
-    @Type(type=JSONB_TYPE)
+    @Type(type=TAGS_JSONB_TYPE)
     @Getter @Setter private NexusTags tags = new NexusTags();
     public boolean hasTags () { return !empty(tags); }
 

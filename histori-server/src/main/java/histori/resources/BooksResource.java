@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -75,6 +76,22 @@ public class BooksResource {
                 .setOwner(account.getUuid());
 
         return ok(bookDAO.create(book));
+    }
+
+    @POST
+    @Path("/{name}")
+    public Response updateBook (@Context HttpContext ctx,
+                                @PathParam("name") String name,
+                                @Valid Book request) {
+        final Account account = userPrincipal(ctx);
+
+        final Book book = bookDAO.findByName(name);
+        if (book == null) return notFound(name);
+
+        if (!book.getOwner().equals(account.getUuid())) return forbidden();
+
+        book.setName(request.getName()); // only name can be updated
+        return ok(bookDAO.update(book));
     }
 
     @DELETE

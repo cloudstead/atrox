@@ -22,6 +22,8 @@ public class BookDAO extends ShardedEntityDAO<Book, BookShardDAO> {
         return findByUniqueFields("owner", account.getUuid(), "name", name);
     }
 
+    @Override public Book findByName(String name) { return findByName(name, true); }
+
     @Override public Book findByName(String name, boolean useCache) {
         final Book found = findByUniqueField("shortName", name, useCache);
         return found != null ? found : super.findByName(name, useCache);

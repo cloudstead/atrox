@@ -1,10 +1,13 @@
 package histori.model.support;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import histori.wiki.WikiDateFormat;
 import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigInteger;
+
+import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 
 @Embeddable @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode(of={"startPoint", "endPoint"})
 public class TimeRange {
@@ -20,6 +23,17 @@ public class TimeRange {
     })
     @Embedded @Getter @Setter private TimePoint startPoint;
     public boolean hasStart() { return startPoint != null; }
+
+    public void setStart (String freeform) {
+        final TimeRange parsed = WikiDateFormat.parse(freeform);
+        if (parsed == null) die("setStart: invalid date: "+freeform);
+        startPoint = parsed.getStartPoint();
+    }
+    public void setEnd (String freeform) {
+        final TimeRange parsed = WikiDateFormat.parse(freeform);
+        if (parsed == null) die("setEnd: invalid date: "+freeform);
+        endPoint = parsed.getStartPoint();
+    }
 
     @AttributeOverrides({
             @AttributeOverride(name="instant",column=@Column(name="endInstant", columnDefinition="numeric(29,0)")),

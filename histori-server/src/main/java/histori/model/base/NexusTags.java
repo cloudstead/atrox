@@ -20,7 +20,7 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 @NoArgsConstructor
 public class NexusTags implements Iterable<NexusTag> {
 
-    public static final String JSONB_TYPE = JSONBUserType.JSONB_TYPE+"_NexusTagsType";
+    public static final String TAGS_JSONB_TYPE = JSONBUserType.JSONB_TYPE+"_NexusTagsType";
 
     @Getter @Setter private ArrayList<NexusTag> tags = new ArrayList<>();
 

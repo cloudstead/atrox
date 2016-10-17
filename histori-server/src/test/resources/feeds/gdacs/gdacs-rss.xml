@@ -1,0 +1,1867 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:asgard="http://asgard.jrc.it" xmlns:gdacs="http://www.gdacs.org" xmlns:glide="http://glidenumber.net" xmlns:georss="http://www.georss.org/georss" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>GDACS RSS information</title>
+        <link>http://www.gdacs.org/</link>
+        <description>Near real-time alerts about natural disaster with a potential humanitarian impact</description>
+        <managingEditor>info@gdacs.org</managingEditor>
+        <!--Records number 8-->
+        <!--Start 10/16/2016 10:12:58 PM-->
+        <!--=Start 10/16/2016 10:12:58 PM-->
+        <webMaster>info@gdacs.org</webMaster>
+        <pubDate>Sun, 16 Oct 2016 20:12:58 GMT</pubDate>
+        <atom:link href="http://www.gdacs.org/xml/rss.xml" rel="self" type="application/rss+xml" />
+        <item>
+            <title>Green earthquake alert (Magnitude 5.5M, Depth:21.45km) in Greece 15/10/2016 20:14 UTC, 738809 people within 100km.</title>
+            <description>On 10/15/2016 8:14:49 PM, an earthquake occurred in Greece potentially affecting 738809 people within 100km. The earthquake had Magnitude 5.5M, Depth:21.45km.</description>
+            <enclosure type="image/png" length="1" url="http://dma.gdacs.org/saved/gdacs/eq/eq1142957_1.png" />
+            <link>http://www.gdacs.org/report.aspx?eventtype=EQ&amp;eventid=1095793</link>
+            <pubDate>Sat, 15 Oct 2016 20:14:49 GMT</pubDate>
+            <gdacs:fromdate>Sat, 15 Oct 2016 20:14:49 GMT</gdacs:fromdate>
+            <gdacs:todate>Sat, 15 Oct 2016 20:14:49 GMT</gdacs:todate>
+            <gdacs:year>2016</gdacs:year>
+            <dc:subject>EQ1</dc:subject>
+            <guid isPermaLink="false">EQ1095793</guid>
+            <geo:Point>
+                <geo:lat>39.8114</geo:lat>
+                <geo:long>20.6571</geo:long>
+            </geo:Point>
+            <georss:point>39.8114 20.6571</georss:point>
+            <gdacs:cap>http://www.gdacs.org/cap.aspx?eventtype=EQ&amp;eventid=1095793</gdacs:cap>
+            <gdacs:version>1</gdacs:version>
+            <gdacs:eventtype>EQ</gdacs:eventtype>
+            <gdacs:alertlevel>Green</gdacs:alertlevel>
+            <gdacs:eventname />
+            <gdacs:eventid>1095793</gdacs:eventid>
+            <gdacs:episodeid>1142957</gdacs:episodeid>
+            <gdacs:calculationtype>earthquakeonly</gdacs:calculationtype>
+            <gdacs:severity unit="M" value="5.5">Magnitude 5.5M, Depth:21.45km</gdacs:severity>
+            <gdacs:population unit="Pop100" value="738809">738809 people within 100km</gdacs:population>
+            <gdacs:vulnerability value="0" />
+            <gdacs:iso3 />
+            <gdacs:country>Greece</gdacs:country>
+            <gdacs:glide />
+            <gdacs:mapimage />
+            <gdacs:maplink />
+            <gdacs:gtsimage>http://www.gdacs.org//images/satellite-icon.png</gdacs:gtsimage>
+            <gdacs:gtslink>http://www.gdacs.org/gts_list.aspx?eventid=1095793&amp;eventtype=EQ</gdacs:gtslink>
+            <gdacs:resources>
+                <gdacs:resource id="overviewmap" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/eq/eq1142957_2.png" type="image">
+                    <gdacs:title>Population density map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged. Population data from LandScan 2008.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="UNOSATmaps_country" version="0" source="" url="http://www.unitar.org/unosat/maps/GRC" type="html">
+                    <gdacs:title>UNOSAT maps by country</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="interactive_event_map" version="0" source="JRC" url="http://dma.gdacs.org/map?application=EARTHQUAKE&amp;eventid=1095793&amp;episodeid=1142957&amp;coordinate=20.6571,39.8114" type="map">
+                    <gdacs:title>Interactive earthquake event map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="impact_xml" version="0" source="JRC" url="http://www.gdacs.org/gis/calculation/EQ1_WPS/021\eq_02065_03980.xml" type="xml">
+                    <gdacs:title>Affected population and infrastructure</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt&amp;pname=eventtype&amp;pvalue=EQ</gdacs:xslt>
+                    <gdacs:description>GIS analysis of the area affected by the earthquake</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="ocha_sitrep" version="0" source="OCHA" url="http://www.reliefweb.int/updates?sl=environment-report_listing%252Ctaxonomy_index_tid_source-1503%252Ctaxonomy_index_tid_content_format-10%252Ctaxonomy_index_tid_disaster_type-4628" type="rss">
+                    <gdacs:title>OCHA Situation Reports for Earthquakes</gdacs:title>
+                    <gdacs:description>List of most recent OCHA situation reports published on ReliefWeb</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="geooffice" version="0" source="INGV" url="http://cnt.rm.ingv.it/" type="link">
+                    <gdacs:title>Istituto Nazionale di Geofisica e Vulcanologia</gdacs:title>
+                    <gdacs:description>Latest earthquakes recorded by the Italian National Earthquake Centre</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="gdacs_active_alerts" version="0" source="JRC" url="http://dma.gdacs.org/arcgis/services/GDACS/gdacsAlertsActiveBG/MapServer/WMSServer" type="wms">
+                    <gdacs:title>WMS service of GDACS Active Alerts</gdacs:title>
+                    <gdacs:description>This WMS service shows GDACS alerts of the past 7 days.</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="gdacs_active_earthquakes" version="0" source="JRC" url="http://dma.gdacs.org/ArcGIS/services/GDACS/gdacsEQactiveBG/MapServer/WMSServer" type="wms">
+                    <gdacs:title>WMS service of GDACS Earthquake Alerts</gdacs:title>
+                    <gdacs:description>This WMS service shows the earthquakes in the past 7 days</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="thumbnailmap_cached" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/eq/eq1142957_1.png" type="image">
+                    <gdacs:title>Overview thumbnail map</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="populationmap_cached" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/eq/eq1142957_4.png" type="image">
+                    <gdacs:title>Population map close up</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="emm_news_new" version="0" source="JRC" url="http://www.gdacs.org/news_emm2/2016/10/EQ_1095793.xml" type="rss">
+                    <gdacs:title>Media monitoring feed</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/emm.xslt</gdacs:xslt>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="twitter_graph" version="0" source="JRC" url="http://www.gdacs.org/Twitter/query.aspx?date=10-15-2016 20:14&amp;hours=4&amp;trunc=minutes&amp;words=tsunami,earthquake,Greece&amp;output=graph" type="link">
+                    <gdacs:title>Twitter statistics (Beta)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="twitter_graph2" version="0" source="JRC" url="http://www.gdacs.org/Twitter/query.aspx?date=10-15-2016 20:14&amp;hours=4&amp;trunc=minutes&amp;words=killed,nuclear,landslide,collapsed&amp;output=graph" type="link">
+                    <gdacs:title>Twitter statistics secondary effects (Beta)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="impact_xml_old" version="0" source="JRC" url="http://www.gdacs.org/gis/calculation/EQ1_WPS/020/eq_02065_03980.xml" type="xml">
+                    <gdacs:title>Affected population and infrastructure</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt&amp;pname=eventtype&amp;pvalue=EQ</gdacs:xslt>
+                    <gdacs:description>GIS analysis of the area affected by the earthquake</gdacs:description>
+                    <gdacs:accesslevel>Private</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="gts_message_file" version="0" source="JRC" url="http://www.gdacs.org/gis/gts_message/EQ/1095793/1142957.txt" type="txt">
+                    <gdacs:title>GTS Message</gdacs:title>
+                    <gdacs:description>GTS Message generate for episode</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="kml_link" version="0" source="JRC" url="http://www.gdacs.org/kml.aspx?profile=archive&amp;eventid=1095793&amp;eventtype=EQ" type="kml">
+                    <gdacs:title>KML</gdacs:title>
+                    <gdacs:description>Link to KML data of this event</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="cap_link" version="0" source="JRC" url="http://www.gdacs.org/cap.aspx?profile=archive&amp;eventid=1095793&amp;eventtype=EQ" type="xml">
+                    <gdacs:title>CAP file</gdacs:title>
+                    <gdacs:description>Link to CAP data of this event</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="pager_pop" version="0" source="JRC" url="http://www.gdacs.org/gis/calculation/WEQ_Shakemap/2016/Pop/1095793.xml" type="xml">
+                    <gdacs:title>PAGER based population assessment</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt&amp;pname=eventtype&amp;pvalue=EQ</gdacs:xslt>
+                    <gdacs:description>PAGER based population assessment</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="pager_exp" version="0" source="JRC" url="http://www.gdacs.org/gis/calculation/WEQ_Shakemap/2016/Exposure/1095793.xml" type="xml">
+                    <gdacs:title>PAGER based exposure assessment</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt&amp;pname=eventtype&amp;pvalue=EQ</gdacs:xslt>
+                    <gdacs:description>PAGER based exposure assessment</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="pager_json" version="0" source="NEIC" url="http://www.gdacs.org/gis/calculation/WEQ_Shakemap/2016/USGSjson/1095793.json" type="link">
+                    <gdacs:title>PAGER json</gdacs:title>
+                    <gdacs:description>USGS json feed (cached)</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="dailymap_link_old" version="0" source="JRC" url="http://erccportal.jrc.ec.europa.eu/DesktopModules/XModPro/Feed.aspx?xfd=gdacs_maps&amp;pid=0&amp;GdacsEventId=1095793&amp;eventtype=EQ" type="rss">
+                    <gdacs:title>Daily Map rss</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_USGS_contour_kmz" version="0" source="NEIC" url=" http://www.gdacs.org/gis/calculation/WEQ_Shakemap/2016/Contour/1095793.kmz" type="kml">
+                    <gdacs:title>Intensity Contours from USGS (after 2013)</gdacs:title>
+                    <gdacs:description>Only after 2013</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_USGS_overlay_kml" version="0" source="NEIC" url="http://www.gdacs.org/gis/calculation/WEQ_Shakemap/2016/Overlay/1095793.kmz" type="kml">
+                    <gdacs:title>Intensity Overlay from USGS (after 2013)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_USGS_polygons_kml" version="0" source="NEIC" url="http://www.gdacs.org/gis/calculation/WEQ_Shakemap/2016/Polygon_mi/1095793.kmz" type="kml">
+                    <gdacs:title>Intensity Polygons from USGS (after 2013)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="metoffice" version="0" source="WMO" url="http://www.hnms.gr/" type="link">
+                    <gdacs:title>Hellenic National Meteorological Service</gdacs:title>
+                    <gdacs:description>Official website of meteorological institute</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="report_link" version="0" source="JRC" url="http://portal.gdacs.org/DesktopModules/XModPro/Feed.aspx?xfd=GDACSdoc&amp;pid=0&amp;GdacsEventId=1095793&amp;eventtype=EQ" type="rss">
+                    <gdacs:title>GDACS Report rss</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_populationmap_overview" version="0" source="USGS" url="http://dma.gdacs.org/getmaprest.asp?mapservice=GDACS/EQShakeMap&amp;bboxSR=&amp;layers=&amp;layerdefs=0:gdacsID=1095793;1:gdacs_id=1095793;2:gdacsID=1095793;4:gdacs_id=1095793&amp;imageSR=&amp;format=png24&amp;transparent=false&amp;dpi=&amp;bbox=19.1571,38.8114,22.1571,40.8114&amp;size=500,350&amp;Filename=gdacs\eq\sm\eq1095793_1.png&amp;f=cache" type="image">
+                    <gdacs:title>Population Shakemap Overview </gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_impact_xml" version="0" source="JRC" url="http://www.gdacs.org/gis/calculation/WEQ_Shakemap/2016/ShakeMaps/1095793.xml" type="xml">
+                    <gdacs:title>Affected Population Shake</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary_shakemap.xslt&amp;pname=eventtype&amp;pvalue=EQ</gdacs:xslt>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_populationmap" version="0" source="USGS" url="http://dma.gdacs.org/getmaprest.asp?mapservice=GDACS/ShakeMap&amp;bboxSR=&amp;layers=&amp;layerdefs=0:gdacsID=1095793;1:gdacs_id=1095793;2:gdacsID=1095793&amp;imageSR=&amp;format=png24&amp;transparent=false&amp;dpi=&amp;bbox=17.6571,37.8114,23.6571,41.8114&amp;size=500,350&amp;Filename=gdacs\eq\sm\eq1095793_2.png&amp;f=cache" type="image">
+                    <gdacs:title>Shakemap Image</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="kml_link_episode" version="0" source="JRC" url="http://www.gdacs.org/kml.aspx?profile=archive&amp;eventid=1095793&amp;eventtype=EQ&amp;episodeid=1142957&amp;version=v2" type="kml">
+                    <gdacs:title>KML</gdacs:title>
+                    <gdacs:description>Link to KML data of this single episode</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="event_rss" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/EQ/1095793/rss_1095793_1142957.xml" type="rss">
+                    <gdacs:title>Event in rss format</gdacs:title>
+                    <gdacs:acknowledgements>NASA Experimental Product</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Private</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="event_geojson" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/EQ/1095793/geojson_1095793_1142957.geojson" type="geojson">
+                    <gdacs:title>Event in geojson format</gdacs:title>
+                    <gdacs:acknowledgements>NASA Experimental Product</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Private</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="jsonEvent" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/EQ/1095793/geojson_1095793_1142957.geojson" type="json">
+                    <gdacs:title>The Event in GeoJson format</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_populationmap_static_v01" version="0" source="USGS" url="http://dma.gdacs.org/saved/gdacs/eq/sm/eq1095793_1142957_[shakeid]_2.png" type="image">
+                    <gdacs:title>Shakemap Image</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_populationmap_overview_static_v01" version="0" source="USGS" url="http://dma.gdacs.org/saved/gdacs/eq/sm/eq1095793_1142957_[shakeid]_1.png" type="image">
+                    <gdacs:title>Population Shakemap Overview </gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_impact_xml_v01" version="0" source="JRC" url="http://www.gdacs.org/gis/calculation/Shakemap/1095793/1142957_[shakeid].xml" type="xml">
+                    <gdacs:title>Affected Population Shake</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary_shakemap.xslt&amp;pname=eventtype&amp;pvalue=EQ</gdacs:xslt>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="twitter_data_graph2" version="0" source="JRC" url="[mainfolder]\resources\EQ\1095793\1095793_twitter_graph_2.txt" type="txt">
+                    <gdacs:title>Twitter data statistics secondary effects (Beta)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="twitter_data_alert2" version="0" source="JRC" url="[mainfolder]\resources\EQ\1095793\1095793_twitter_alert_2.txt" type="txt">
+                    <gdacs:title>Twitter data alert statistics secondary effects (Beta)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="twitter_graph_static" version="0" source="JRC" url="http://www.gdacs.org//Twitter/query_data.aspx?eventtype=EQ&amp;eventid=1095793&amp;output=graph" type="link">
+                    <gdacs:title>Twitter statistics (Beta)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="twitter_graph2_static" version="0" source="JRC" url="http://www.gdacs.org//Twitter/query_data.aspx?eventtype=EQ&amp;eventid=1095793&amp;version=2&amp;output=graph" type="link">
+                    <gdacs:title>Twitter statistics secondary effects (Beta)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+            </gdacs:resources>
+            <gdacs:identifiers>
+                <gdacs:identifier id="eqcalculationpath" src="JRC">021\eq_02065_03980.xml</gdacs:identifier>
+            </gdacs:identifiers>
+        </item>
+        <item>
+            <title>White earthquake alert (Magnitude 6.4M, Depth:446.64km) in Papua New Guinea 15/10/2016 08:03 UTC, About 918 people within 100km.</title>
+            <description>On 10/15/2016 8:03:38 AM, an earthquake occurred in Papua New Guinea potentially affecting About 918 people within 100km. The earthquake had Magnitude 6.4M, Depth:446.64km.</description>
+            <enclosure type="image/png" length="1" url="http://dma.gdacs.org/saved/gdacs/eq/eq1142859_1.png" />
+            <link>http://www.gdacs.org/report.aspx?eventtype=EQ&amp;eventid=1095773</link>
+            <pubDate>Sat, 15 Oct 2016 08:03:38 GMT</pubDate>
+            <gdacs:fromdate>Sat, 15 Oct 2016 08:03:38 GMT</gdacs:fromdate>
+            <gdacs:todate>Sat, 15 Oct 2016 08:03:38 GMT</gdacs:todate>
+            <gdacs:year>2016</gdacs:year>
+            <dc:subject>EQ0</dc:subject>
+            <guid isPermaLink="false">EQ1095773</guid>
+            <geo:Point>
+                <geo:lat>-4.2622</geo:lat>
+                <geo:long>150.4063</geo:long>
+            </geo:Point>
+            <georss:point>-4.2622 150.4063</georss:point>
+            <gdacs:cap>http://www.gdacs.org/cap.aspx?eventtype=EQ&amp;eventid=1095773</gdacs:cap>
+            <gdacs:version>1</gdacs:version>
+            <gdacs:eventtype>EQ</gdacs:eventtype>
+            <gdacs:alertlevel>White</gdacs:alertlevel>
+            <gdacs:eventname />
+            <gdacs:eventid>1095773</gdacs:eventid>
+            <gdacs:episodeid>1142859</gdacs:episodeid>
+            <gdacs:calculationtype>earthquakeonly</gdacs:calculationtype>
+            <gdacs:severity unit="M" value="6.4">Magnitude 6.4M, Depth:446.64km</gdacs:severity>
+            <gdacs:population unit="Pop100" value="918">About 918 people within 100km</gdacs:population>
+            <gdacs:vulnerability value="0" />
+            <gdacs:iso3 />
+            <gdacs:country>Papua New Guinea</gdacs:country>
+            <gdacs:glide />
+            <gdacs:mapimage />
+            <gdacs:maplink />
+            <gdacs:gtsimage />
+            <gdacs:gtslink />
+            <gdacs:resources>
+                <gdacs:resource id="overviewmap" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/eq/eq1142859_2.png" type="image">
+                    <gdacs:title>Population density map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged. Population data from LandScan 2008.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="UNOSATmaps_country" version="0" source="" url="http://www.unitar.org/unosat/maps/PNG" type="html">
+                    <gdacs:title>UNOSAT maps by country</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="interactive_event_map" version="0" source="JRC" url="http://dma.gdacs.org/map?application=EARTHQUAKE&amp;eventid=1095773&amp;episodeid=1142859&amp;coordinate=150.4063,-4.2622" type="map">
+                    <gdacs:title>Interactive earthquake event map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="impact_xml" version="0" source="JRC" url="http://www.gdacs.org/gis/calculation/EQ1_WPS/150\eq_15040_-00425.xml" type="xml">
+                    <gdacs:title>Affected population and infrastructure</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt&amp;pname=eventtype&amp;pvalue=EQ</gdacs:xslt>
+                    <gdacs:description>GIS analysis of the area affected by the earthquake</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="ocha_sitrep" version="0" source="OCHA" url="http://www.reliefweb.int/updates?sl=environment-report_listing%252Ctaxonomy_index_tid_source-1503%252Ctaxonomy_index_tid_content_format-10%252Ctaxonomy_index_tid_disaster_type-4628" type="rss">
+                    <gdacs:title>OCHA Situation Reports for Earthquakes</gdacs:title>
+                    <gdacs:description>List of most recent OCHA situation reports published on ReliefWeb</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="geooffice" version="0" source="INGV" url="http://cnt.rm.ingv.it/" type="link">
+                    <gdacs:title>Istituto Nazionale di Geofisica e Vulcanologia</gdacs:title>
+                    <gdacs:description>Latest earthquakes recorded by the Italian National Earthquake Centre</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="gdacs_active_alerts" version="0" source="JRC" url="http://dma.gdacs.org/arcgis/services/GDACS/gdacsAlertsActiveBG/MapServer/WMSServer" type="wms">
+                    <gdacs:title>WMS service of GDACS Active Alerts</gdacs:title>
+                    <gdacs:description>This WMS service shows GDACS alerts of the past 7 days.</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="gdacs_active_earthquakes" version="0" source="JRC" url="http://dma.gdacs.org/ArcGIS/services/GDACS/gdacsEQactiveBG/MapServer/WMSServer" type="wms">
+                    <gdacs:title>WMS service of GDACS Earthquake Alerts</gdacs:title>
+                    <gdacs:description>This WMS service shows the earthquakes in the past 7 days</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="thumbnailmap_cached" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/eq/eq1142859_1.png" type="image">
+                    <gdacs:title>Overview thumbnail map</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="populationmap_cached" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/eq/eq1142859_4.png" type="image">
+                    <gdacs:title>Population map close up</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="emm_news_new" version="0" source="JRC" url="http://www.gdacs.org/news_emm2/2016/10/EQ_1095773.xml" type="rss">
+                    <gdacs:title>Media monitoring feed</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/emm.xslt</gdacs:xslt>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="twitter_graph" version="0" source="JRC" url="http://www.gdacs.org/Twitter/query.aspx?date=10-15-2016 08:03&amp;hours=4&amp;trunc=minutes&amp;words=tsunami,earthquake,Papua New Guinea&amp;output=graph" type="link">
+                    <gdacs:title>Twitter statistics (Beta)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="twitter_graph2" version="0" source="JRC" url="http://www.gdacs.org/Twitter/query.aspx?date=10-15-2016 08:03&amp;hours=4&amp;trunc=minutes&amp;words=killed,nuclear,landslide,collapsed&amp;output=graph" type="link">
+                    <gdacs:title>Twitter statistics secondary effects (Beta)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="impact_xml_old" version="0" source="JRC" url="http://www.gdacs.org/gis/calculation/EQ1_WPS/150/eq_15040_-00425.xml" type="xml">
+                    <gdacs:title>Affected population and infrastructure</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt&amp;pname=eventtype&amp;pvalue=EQ</gdacs:xslt>
+                    <gdacs:description>GIS analysis of the area affected by the earthquake</gdacs:description>
+                    <gdacs:accesslevel>Private</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="gts_message_file" version="0" source="JRC" url="http://www.gdacs.org/gis/gts_message/EQ/1095773/1142859.txt" type="txt">
+                    <gdacs:title>GTS Message</gdacs:title>
+                    <gdacs:description>GTS Message generate for episode</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="kml_link" version="0" source="JRC" url="http://www.gdacs.org/kml.aspx?profile=archive&amp;eventid=1095773&amp;eventtype=EQ" type="kml">
+                    <gdacs:title>KML</gdacs:title>
+                    <gdacs:description>Link to KML data of this event</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="cap_link" version="0" source="JRC" url="http://www.gdacs.org/cap.aspx?profile=archive&amp;eventid=1095773&amp;eventtype=EQ" type="xml">
+                    <gdacs:title>CAP file</gdacs:title>
+                    <gdacs:description>Link to CAP data of this event</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="pager_pop" version="0" source="JRC" url="http://www.gdacs.org/gis/calculation/WEQ_Shakemap/2016/Pop/1095773.xml" type="xml">
+                    <gdacs:title>PAGER based population assessment</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt&amp;pname=eventtype&amp;pvalue=EQ</gdacs:xslt>
+                    <gdacs:description>PAGER based population assessment</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="pager_exp" version="0" source="JRC" url="http://www.gdacs.org/gis/calculation/WEQ_Shakemap/2016/Exposure/1095773.xml" type="xml">
+                    <gdacs:title>PAGER based exposure assessment</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt&amp;pname=eventtype&amp;pvalue=EQ</gdacs:xslt>
+                    <gdacs:description>PAGER based exposure assessment</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="pager_json" version="0" source="NEIC" url="http://www.gdacs.org/gis/calculation/WEQ_Shakemap/2016/USGSjson/1095773.json" type="link">
+                    <gdacs:title>PAGER json</gdacs:title>
+                    <gdacs:description>USGS json feed (cached)</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="dailymap_link_old" version="0" source="JRC" url="http://erccportal.jrc.ec.europa.eu/DesktopModules/XModPro/Feed.aspx?xfd=gdacs_maps&amp;pid=0&amp;GdacsEventId=1095773&amp;eventtype=EQ" type="rss">
+                    <gdacs:title>Daily Map rss</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_USGS_contour_kmz" version="0" source="NEIC" url=" http://www.gdacs.org/gis/calculation/WEQ_Shakemap/2016/Contour/1095773.kmz" type="kml">
+                    <gdacs:title>Intensity Contours from USGS (after 2013)</gdacs:title>
+                    <gdacs:description>Only after 2013</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_USGS_overlay_kml" version="0" source="NEIC" url="http://www.gdacs.org/gis/calculation/WEQ_Shakemap/2016/Overlay/1095773.kmz" type="kml">
+                    <gdacs:title>Intensity Overlay from USGS (after 2013)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_USGS_polygons_kml" version="0" source="NEIC" url="http://www.gdacs.org/gis/calculation/WEQ_Shakemap/2016/Polygon_mi/1095773.kmz" type="kml">
+                    <gdacs:title>Intensity Polygons from USGS (after 2013)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="metoffice" version="0" source="WMO" url="http://www.pi-gcos.org/" type="link">
+                    <gdacs:title>Papua New Guinea Meteorological Service</gdacs:title>
+                    <gdacs:description>Official website of meteorological institute</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="report_link" version="0" source="JRC" url="http://portal.gdacs.org/DesktopModules/XModPro/Feed.aspx?xfd=GDACSdoc&amp;pid=0&amp;GdacsEventId=1095773&amp;eventtype=EQ" type="rss">
+                    <gdacs:title>GDACS Report rss</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_populationmap_overview" version="0" source="USGS" url="http://dma.gdacs.org/getmaprest.asp?mapservice=GDACS/EQShakeMap&amp;bboxSR=&amp;layers=&amp;layerdefs=0:gdacsID=1095773;1:gdacs_id=1095773;2:gdacsID=1095773;4:gdacs_id=1095773&amp;imageSR=&amp;format=png24&amp;transparent=false&amp;dpi=&amp;bbox=148.9063,-5.2622,151.9063,-3.2622&amp;size=500,350&amp;Filename=gdacs\eq\sm\eq1095773_1.png&amp;f=cache" type="image">
+                    <gdacs:title>Population Shakemap Overview </gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_impact_xml" version="0" source="JRC" url="http://www.gdacs.org/gis/calculation/WEQ_Shakemap/2016/ShakeMaps/1095773.xml" type="xml">
+                    <gdacs:title>Affected Population Shake</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary_shakemap.xslt&amp;pname=eventtype&amp;pvalue=EQ</gdacs:xslt>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_populationmap" version="0" source="USGS" url="http://dma.gdacs.org/getmaprest.asp?mapservice=GDACS/ShakeMap&amp;bboxSR=&amp;layers=&amp;layerdefs=0:gdacsID=1095773;1:gdacs_id=1095773;2:gdacsID=1095773&amp;imageSR=&amp;format=png24&amp;transparent=false&amp;dpi=&amp;bbox=147.4063,-6.2622,153.4063,-2.2622&amp;size=500,350&amp;Filename=gdacs\eq\sm\eq1095773_2.png&amp;f=cache" type="image">
+                    <gdacs:title>Shakemap Image</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="kml_link_episode" version="0" source="JRC" url="http://www.gdacs.org/kml.aspx?profile=archive&amp;eventid=1095773&amp;eventtype=EQ&amp;episodeid=1142859&amp;version=v2" type="kml">
+                    <gdacs:title>KML</gdacs:title>
+                    <gdacs:description>Link to KML data of this single episode</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="event_rss" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/EQ/1095773/rss_1095773_1142859.xml" type="rss">
+                    <gdacs:title>Event in rss format</gdacs:title>
+                    <gdacs:acknowledgements>NASA Experimental Product</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Private</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="event_geojson" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/EQ/1095773/geojson_1095773_1142859.geojson" type="geojson">
+                    <gdacs:title>Event in geojson format</gdacs:title>
+                    <gdacs:acknowledgements>NASA Experimental Product</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Private</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="jsonEvent" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/EQ/1095773/geojson_1095773_1142859.geojson" type="json">
+                    <gdacs:title>The Event in GeoJson format</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_populationmap_static_v01" version="0" source="USGS" url="http://dma.gdacs.org/saved/gdacs/eq/sm/eq1095773_1142859_[shakeid]_2.png" type="image">
+                    <gdacs:title>Shakemap Image</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_populationmap_overview_static_v01" version="0" source="USGS" url="http://dma.gdacs.org/saved/gdacs/eq/sm/eq1095773_1142859_[shakeid]_1.png" type="image">
+                    <gdacs:title>Population Shakemap Overview </gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_impact_xml_v01" version="0" source="JRC" url="http://www.gdacs.org/gis/calculation/Shakemap/1095773/1142859_[shakeid].xml" type="xml">
+                    <gdacs:title>Affected Population Shake</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary_shakemap.xslt&amp;pname=eventtype&amp;pvalue=EQ</gdacs:xslt>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="twitter_data_graph2" version="0" source="JRC" url="[mainfolder]\resources\EQ\1095773\1095773_twitter_graph_2.txt" type="txt">
+                    <gdacs:title>Twitter data statistics secondary effects (Beta)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="twitter_data_alert2" version="0" source="JRC" url="[mainfolder]\resources\EQ\1095773\1095773_twitter_alert_2.txt" type="txt">
+                    <gdacs:title>Twitter data alert statistics secondary effects (Beta)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="twitter_graph_static" version="0" source="JRC" url="http://www.gdacs.org//Twitter/query_data.aspx?eventtype=EQ&amp;eventid=1095773&amp;output=graph" type="link">
+                    <gdacs:title>Twitter statistics (Beta)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="twitter_graph2_static" version="0" source="JRC" url="http://www.gdacs.org//Twitter/query_data.aspx?eventtype=EQ&amp;eventid=1095773&amp;version=2&amp;output=graph" type="link">
+                    <gdacs:title>Twitter statistics secondary effects (Beta)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+            </gdacs:resources>
+            <gdacs:identifiers>
+                <gdacs:identifier id="eqcalculationpath" src="JRC">150\eq_15040_-00425.xml</gdacs:identifier>
+                <gdacs:identifier id="gdpcapita" src="JRC">1007.776001</gdacs:identifier>
+            </gdacs:identifiers>
+        </item>
+        <item>
+            <title>Red alert for tropical cyclone HAIMA-16. Population affected by Category 1 (120 km/h) wind speeds or higher is 2.595 million.</title>
+            <description>From 14/10/2016 to 16/10/2016, a Hurricane/Typhoon &gt; 74 mph (maximum wind speed of 259 km/h) HAIMA-16 was active in NWPacific. The cyclone affects these countries: Philippines, China (vulnerability Medium). Estimated population affected by category 1 (120 km/h) wind speeds or higher is 2.595 million.</description>
+            <enclosure type="image/png" length="1" url="http://dma.gdacs.org/saved/gdacs/tc/1000321/1000321_8_tn.png" />
+            <link>http://www.gdacs.org/report.aspx?eventtype=TC&amp;eventid=1000321</link>
+            <pubDate>Sun, 16 Oct 2016 12:00:00 GMT</pubDate>
+            <gdacs:fromdate>Fri, 14 Oct 2016 18:00:00 GMT</gdacs:fromdate>
+            <gdacs:todate>Sun, 16 Oct 2016 12:00:00 GMT</gdacs:todate>
+            <gdacs:year>2016</gdacs:year>
+            <dc:subject>TC3</dc:subject>
+            <guid isPermaLink="false">TC1000321</guid>
+            <geo:Point>
+                <geo:lat>11</geo:lat>
+                <geo:long>138.8</geo:long>
+            </geo:Point>
+            <georss:point>11 138.8</georss:point>
+            <gdacs:cap>http://www.gdacs.org/cap.aspx?eventtype=TC&amp;eventid=1000321</gdacs:cap>
+            <gdacs:version>8</gdacs:version>
+            <gdacs:eventtype>TC</gdacs:eventtype>
+            <gdacs:alertlevel>Red</gdacs:alertlevel>
+            <gdacs:eventname>HAIMA-16</gdacs:eventname>
+            <gdacs:eventid>1000321</gdacs:eventid>
+            <gdacs:episodeid>8</gdacs:episodeid>
+            <gdacs:calculationtype>tropicalcyclonewithstormsurge</gdacs:calculationtype>
+            <gdacs:severity unit="km/h" value="259.2576">Hurricane/Typhoon &gt; 74 mph (maximum wind speed of 259 km/h)</gdacs:severity>
+            <gdacs:population unit="Pop74" value="2595024">Population affected by Category 1 (120 km/h) wind speeds or higher is 2.595 million</gdacs:population>
+            <gdacs:vulnerability value="2">Medium</gdacs:vulnerability>
+            <gdacs:iso3 />
+            <gdacs:country>Philippines, China</gdacs:country>
+            <gdacs:glide />
+            <gdacs:mapimage />
+            <gdacs:maplink />
+            <gdacs:gtsimage>http://www.gdacs.org//images/satellite-icon.png</gdacs:gtsimage>
+            <gdacs:gtslink>http://www.gdacs.org/gts_list.aspx?eventid=1000321&amp;eventtype=TC</gdacs:gtslink>
+            <gdacs:resources>
+                <gdacs:resource id="UNOSATmaps_country" version="0" source="" url="http://www.unitar.org/unosat/maps/PHL" type="html">
+                    <gdacs:title>UNOSAT maps by country</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="impact_report_static" version="0" source="JRC" url="http://www.gdacs.org//Cached/2016/Cyclones/1000321/report_1000321_8.html" type="menu">
+                    <gdacs:title>Automatic cyclone impact report</gdacs:title>
+                    <gdacs:description>Full GDACS report on cyclone impact</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="gdacs_active_alerts" version="0" source="JRC" url="http://dma.gdacs.org/arcgis/services/GDACS/gdacsAlertsActiveBG/MapServer/WMSServer" type="wms">
+                    <gdacs:title>WMS service of GDACS Active Alerts</gdacs:title>
+                    <gdacs:description>This WMS service shows GDACS alerts of the past 7 days.</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="emm_news_new" version="0" source="JRC" url="http://www.gdacs.org/news_emm2/2016/10/TC_1000321.xml" type="rss">
+                    <gdacs:title>Media monitoring feed</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/emm.xslt</gdacs:xslt>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="impact_report" version="0" source="JRC" url="http://www.gdacs.org//Cyclones/report.aspx?eventid=1000321&amp;episodeid=8&amp;eventtype=TC" type="menu">
+                    <gdacs:title>Automatic cyclone impact report</gdacs:title>
+                    <gdacs:description>Full GDACS report on cyclone impact</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="interactive_event_map" version="0" source="JRC" url="http://dma.gdacs.org/map?application=CYCLONES" type="map">
+                    <gdacs:title>Interactive event map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="interactive_map" version="0" source="JRC" url="http://dma.gdacs.org/map?application=CYCLONES" type="map">
+                    <gdacs:title>Interactive map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="link_bom" version="0" source="BOM" url="http://www.bom.gov.au/cyclone/index.shtml" type="link">
+                    <gdacs:title>Bureau of Meteorology of Australia</gdacs:title>
+                    <gdacs:accesslevel>Link</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="link_ptwc" version="0" source="JTWC" url="http://www.usno.navy.mil/JTWC/" type="link">
+                    <gdacs:title>Joint Typhoon Warning Centre</gdacs:title>
+                    <gdacs:accesslevel>Link</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="link_unisys_basin" version="0" source="" url="http://weather.unisys.com/hurricane/w_pacific/2016/index.php" type="link">
+                    <gdacs:title>Unisys provides data and charts for weather experts</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="nasa_earth_observatory" version="0" source="NASA" url="http://earthobservatory.nasa.gov/Feeds/rss/nh.rss" type="rss">
+                    <gdacs:title>Imagery of the NASA Earth Observatory</gdacs:title>
+                    <gdacs:xslt>xslt/rss_default.xslt&amp;pname=contains&amp;pvalue=HAIMA</gdacs:xslt>
+                    <gdacs:description>NASA publishes relevant images related to natural disasters from the many operational sensors</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="noaa_nesdis_event" version="0" source="NOAA" url="http://www.ssd.noaa.gov/PS/TROP/storms/HAIMA.html" type="link">
+                    <gdacs:title>Tropical cyclones potential rainfall (NOAA/NESDIS)</gdacs:title>
+                    <gdacs:description>Website dedicated to the rainfall estimation associated with tropical cyclones</gdacs:description>
+                    <gdacs:accesslevel>Link</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="ocha_sitrep" version="0" source="OCHA" url="http://www.reliefweb.int/updates/rss.xml?sl=environment-report_listing%252Ctaxonomy_index_tid_source-1503%252Ctaxonomy_index_tid_content_format-10%252Ctaxonomy_index_tid_disaster_type-4618" type="rss">
+                    <gdacs:title>OCHA Situation Reports for Tropical Cyclones</gdacs:title>
+                    <gdacs:description>List of most recent OCHA situation reports published on ReliefWeb</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="overviewmap" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/tc/1000321/clouds_1000321_8.png" type="image">
+                    <gdacs:title>Overview map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="rainaccumulationmap" version="0" source="TRMM" url="http://dma.gdacs.org/saved/gdacs/tc/1000321/current_rain_1000321_8.png" type="image">
+                    <gdacs:title>Map of rainfall accummulation in past 24h</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="rainmap_cached" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/tc/1000321/rain_1000321_8.png" type="image">
+                    <gdacs:title>Map of extreme rainfall</gdacs:title>
+                    <gdacs:description>The map shows the accumulated precipitation along the cyclone's track. Yellow area is &gt; 100mm; Red area is &gt; 300mm; Blue area is &gt; 500mm. The accumulated rainfall is calculated based on the Tropical Rainfall Potential of NOAA/NESDIS. The eTRaP is a simple ensemble whose members are the 6-hourly totals from the single-orbit TRaPs, which are rainfall estimates from passive microwave remote sensing.</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>   </gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="rainmap_original" version="0" source="NOAA" url="http://www.ssd.noaa.gov/PS/TROP/DATA/ETRAP/2016/NWPacific/HAIMA/2016HAIMA.pmqpf.10161200.00.GIF" type="image">
+                    <gdacs:title>Map of extreme rainfall (original)</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="real_time_precipitation" version="0" source="SWCB" url="http://246eng.swcb.gov.tw/" type="link">
+                    <gdacs:title>Debris flow disaster prevention information</gdacs:title>
+                    <gdacs:description>Official data of the Soil and Water Conservation Bureau on real-time precipitation and debris flow warnings</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="thumbnailmap_cached" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/tc/1000321/1000321_8_tn.png" type="image">
+                    <gdacs:title>Overview thumbnail map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="unisys_track" version="0" source="Unisys" url="http://weather.unisys.com/hurricane/s_indian/2016/HAIMA/track.gif" type="image">
+                    <gdacs:title>Track (Unisys)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="wms_gdacs_active_cyclones" version="0" source="JRC" url="http://dma.gdacs.org/ArcGIS/services/GDACS/gdacsTCactiveBG/MapServer/WMSServer" type="wms">
+                    <gdacs:title>WMS service of active cyclones</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="gts_message_file" version="0" source="JRC" url="http://www.gdacs.org/gis/gts_message/TC/1000321/8.txt" type="txt">
+                    <gdacs:title>GTS Message</gdacs:title>
+                    <gdacs:description>GTS Message generate for episode</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="kml_link" version="0" source="JRC" url="http://www.gdacs.org/kml.aspx?profile=archive&amp;eventid=1000321&amp;eventtype=TC" type="kml">
+                    <gdacs:title>KML</gdacs:title>
+                    <gdacs:description>Link to KML data of this event</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="cap_link" version="0" source="JRC" url="http://www.gdacs.org/cap.aspx?profile=archive&amp;eventid=1000321&amp;eventtype=TC" type="xml">
+                    <gdacs:title>CAP file</gdacs:title>
+                    <gdacs:description>Link to CAP data of this event</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="dailymap_link_old" version="0" source="JRC" url="http://erccportal.jrc.ec.europa.eu/DesktopModules/XModPro/Feed.aspx?xfd=gdacs_maps&amp;pid=0&amp;GdacsEventId=1000321&amp;eventtype=TC" type="rss">
+                    <gdacs:title>Daily Map rss</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="metoffice" version="0" source="WMO" url="http://www.pagasa.dost.gov.ph/" type="link">
+                    <gdacs:title>Philippine Atmospheric Geophysical and Astronomical Services Administration</gdacs:title>
+                    <gdacs:description>Official website of meteorological institute</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="report_link" version="0" source="JRC" url="http://portal.gdacs.org/DesktopModules/XModPro/Feed.aspx?xfd=GDACSdoc&amp;pid=0&amp;GdacsEventId=1000321&amp;eventtype=TC" type="rss">
+                    <gdacs:title>GDACS Report rss</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="kml_link_episode" version="0" source="JRC" url="http://www.gdacs.org/kml.aspx?profile=archive&amp;eventid=1000321&amp;eventtype=TC&amp;episodeid=8&amp;version=v2" type="kml">
+                    <gdacs:title>KML</gdacs:title>
+                    <gdacs:description>Link to KML data of this single episode</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_animation" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000321_JTWC/final/outres1.gif" type="image">
+                    <gdacs:title>Storm surge animation</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_maxheight" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000321_JTWC/final/P1_MAXHEIGHT_END.jpg" type="image">
+                    <gdacs:title>Storm surge maximum height</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_locations_affected" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000321_JTWC/final/locations.xml" type="xml">
+                    <gdacs:title>Populated places affected by storm surge</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_data" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000321_JTWC/final/" type="data">
+                    <gdacs:title>Storm surge event results</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_data_episode" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000321_JTWC/8/final/" type="data">
+                    <gdacs:title>Storm surge episode results</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_locations_affected_kmz" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000321_JTWC/final/locations.kmz" type="kmz">
+                    <gdacs:title>Storm surge overview for Google Earth</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_locations_affected_episodes" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000321_JTWC/8/final/locations.xml" type="xml">
+                    <gdacs:title>Populated places affected by storm surge for an episode</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="episode_data" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000321_JTWC/8/" type="data">
+                    <gdacs:title>GIS data and impact analyses (latest episode)</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="impact_data" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000321_JTWC/" type="data">
+                    <gdacs:title>GIS data and impact analyses</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="latest_impact_hurricane" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000321_JTWC/8/buffer74_all.xml" type="xml">
+                    <gdacs:title>AsgardXML list of affected population, cities and infrastructure by winds of hurricane strength</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt</gdacs:xslt>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="latest_impact_storm" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000321_JTWC/8/buffer39_all.xml" type="xml">
+                    <gdacs:title>AsgardXML list of affected population, cities and infrastructure by winds of tropical storm strength</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt</gdacs:xslt>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="cyclone_timeline" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000321_JTWC/8/all_inpData.xml" type="rss">
+                    <gdacs:title>Cyclone timeline</gdacs:title>
+                    <gdacs:xslt>xslt/cyclone_timeline.xslt</gdacs:xslt>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="event_rss" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/TC/1000321/rss_1000321_8.xml" type="rss">
+                    <gdacs:title>Event in rss format</gdacs:title>
+                    <gdacs:acknowledgements>NASA Experimental Product</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Private</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="event_geojson" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/TC/1000321/geojson_1000321_8.geojson" type="geojson">
+                    <gdacs:title>Event in geojson format</gdacs:title>
+                    <gdacs:acknowledgements>NASA Experimental Product</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Private</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="jsonEvent" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/TC/1000321/geojson_1000321_8.geojson" type="json">
+                    <gdacs:title>The Event in GeoJson format</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+            </gdacs:resources>
+            <gdacs:identifiers />
+        </item>
+        <item>
+            <title>Orange alert for tropical cyclone SARIKA-16. Population affected by Category 1 (120 km/h) wind speeds or higher is 12.699 million.</title>
+            <description>From 12/10/2016 to 16/10/2016, a Hurricane/Typhoon &gt; 74 mph (maximum wind speed of 213 km/h) SARIKA-16 was active in NWPacific. The cyclone affects these countries: Philippines, China (vulnerability Medium). Estimated population affected by category 1 (120 km/h) wind speeds or higher is 12.699 million.</description>
+            <enclosure type="image/png" length="1" url="http://dma.gdacs.org/saved/gdacs/tc/1000320/1000320_17_tn.png" />
+            <link>http://www.gdacs.org/report.aspx?eventtype=TC&amp;eventid=1000320</link>
+            <pubDate>Sun, 16 Oct 2016 12:00:00 GMT</pubDate>
+            <gdacs:fromdate>Wed, 12 Oct 2016 12:00:00 GMT</gdacs:fromdate>
+            <gdacs:todate>Sun, 16 Oct 2016 12:00:00 GMT</gdacs:todate>
+            <gdacs:year>2016</gdacs:year>
+            <dc:subject>TC2</dc:subject>
+            <guid isPermaLink="false">TC1000320</guid>
+            <geo:Point>
+                <geo:lat>16.7</geo:lat>
+                <geo:long>117.2</geo:long>
+            </geo:Point>
+            <georss:point>16.7 117.2</georss:point>
+            <gdacs:cap>http://www.gdacs.org/cap.aspx?eventtype=TC&amp;eventid=1000320</gdacs:cap>
+            <gdacs:version>17</gdacs:version>
+            <gdacs:eventtype>TC</gdacs:eventtype>
+            <gdacs:alertlevel>Orange</gdacs:alertlevel>
+            <gdacs:eventname>SARIKA-16</gdacs:eventname>
+            <gdacs:eventid>1000320</gdacs:eventid>
+            <gdacs:episodeid>17</gdacs:episodeid>
+            <gdacs:calculationtype>tropicalcyclonewithstormsurge</gdacs:calculationtype>
+            <gdacs:severity unit="km/h" value="212.9616">Hurricane/Typhoon &gt; 74 mph (maximum wind speed of 213 km/h)</gdacs:severity>
+            <gdacs:population unit="Pop74" value="12698980">Population affected by Category 1 (120 km/h) wind speeds or higher is 12.699 million</gdacs:population>
+            <gdacs:vulnerability value="2">Medium</gdacs:vulnerability>
+            <gdacs:iso3 />
+            <gdacs:country>Philippines, China</gdacs:country>
+            <gdacs:glide />
+            <gdacs:mapimage>http://www.gdacs.org/datareport/dailymap/TC/1000320/ECDM_20161014_PHILIPPINES_TC_SARIKA.png</gdacs:mapimage>
+            <gdacs:maplink>http://www.gdacs.org/datareport/dailymap/TC/1000320/ECDM_20161014_PHILIPPINES_TC_SARIKA.pdf</gdacs:maplink>
+            <gdacs:gtsimage>http://www.gdacs.org//images/satellite-icon.png</gdacs:gtsimage>
+            <gdacs:gtslink>http://www.gdacs.org/gts_list.aspx?eventid=1000320&amp;eventtype=TC</gdacs:gtslink>
+            <gdacs:resources>
+                <gdacs:resource id="UNOSATmaps_country" version="0" source="" url="http://www.unitar.org/unosat/maps/PHL" type="html">
+                    <gdacs:title>UNOSAT maps by country</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="impact_report_static" version="0" source="JRC" url="http://www.gdacs.org//Cached/2016/Cyclones/1000320/report_1000320_17.html" type="menu">
+                    <gdacs:title>Automatic cyclone impact report</gdacs:title>
+                    <gdacs:description>Full GDACS report on cyclone impact</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="gdacs_active_alerts" version="0" source="JRC" url="http://dma.gdacs.org/arcgis/services/GDACS/gdacsAlertsActiveBG/MapServer/WMSServer" type="wms">
+                    <gdacs:title>WMS service of GDACS Active Alerts</gdacs:title>
+                    <gdacs:description>This WMS service shows GDACS alerts of the past 7 days.</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="emm_news_new" version="0" source="JRC" url="http://www.gdacs.org/news_emm2/2016/10/TC_1000320.xml" type="rss">
+                    <gdacs:title>Media monitoring feed</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/emm.xslt</gdacs:xslt>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="impact_report" version="0" source="JRC" url="http://www.gdacs.org//Cyclones/report.aspx?eventid=1000320&amp;episodeid=17&amp;eventtype=TC" type="menu">
+                    <gdacs:title>Automatic cyclone impact report</gdacs:title>
+                    <gdacs:description>Full GDACS report on cyclone impact</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="interactive_event_map" version="0" source="JRC" url="http://dma.gdacs.org/map?application=CYCLONES" type="map">
+                    <gdacs:title>Interactive event map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="interactive_map" version="0" source="JRC" url="http://dma.gdacs.org/map?application=CYCLONES" type="map">
+                    <gdacs:title>Interactive map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="link_bom" version="0" source="BOM" url="http://www.bom.gov.au/cyclone/index.shtml" type="link">
+                    <gdacs:title>Bureau of Meteorology of Australia</gdacs:title>
+                    <gdacs:accesslevel>Link</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="link_ptwc" version="0" source="JTWC" url="http://www.usno.navy.mil/JTWC/" type="link">
+                    <gdacs:title>Joint Typhoon Warning Centre</gdacs:title>
+                    <gdacs:accesslevel>Link</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="link_unisys_basin" version="0" source="" url="http://weather.unisys.com/hurricane/w_pacific/2016/index.php" type="link">
+                    <gdacs:title>Unisys provides data and charts for weather experts</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="nasa_earth_observatory" version="0" source="NASA" url="http://earthobservatory.nasa.gov/Feeds/rss/nh.rss" type="rss">
+                    <gdacs:title>Imagery of the NASA Earth Observatory</gdacs:title>
+                    <gdacs:xslt>xslt/rss_default.xslt&amp;pname=contains&amp;pvalue=SARIKA</gdacs:xslt>
+                    <gdacs:description>NASA publishes relevant images related to natural disasters from the many operational sensors</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="noaa_nesdis_event" version="0" source="NOAA" url="http://www.ssd.noaa.gov/PS/TROP/storms/SARIKA.html" type="link">
+                    <gdacs:title>Tropical cyclones potential rainfall (NOAA/NESDIS)</gdacs:title>
+                    <gdacs:description>Website dedicated to the rainfall estimation associated with tropical cyclones</gdacs:description>
+                    <gdacs:accesslevel>Link</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="ocha_sitrep" version="0" source="OCHA" url="http://www.reliefweb.int/updates/rss.xml?sl=environment-report_listing%252Ctaxonomy_index_tid_source-1503%252Ctaxonomy_index_tid_content_format-10%252Ctaxonomy_index_tid_disaster_type-4618" type="rss">
+                    <gdacs:title>OCHA Situation Reports for Tropical Cyclones</gdacs:title>
+                    <gdacs:description>List of most recent OCHA situation reports published on ReliefWeb</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="overviewmap" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/tc/1000320/clouds_1000320_17.png" type="image">
+                    <gdacs:title>Overview map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="rainaccumulationmap" version="0" source="TRMM" url="http://dma.gdacs.org/saved/gdacs/tc/1000320/current_rain_1000320_17.png" type="image">
+                    <gdacs:title>Map of rainfall accummulation in past 24h</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="rainmap_cached" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/tc/1000320/rain_1000320_17.png" type="image">
+                    <gdacs:title>Map of extreme rainfall</gdacs:title>
+                    <gdacs:description>The map shows the accumulated precipitation along the cyclone's track. Yellow area is &gt; 100mm; Red area is &gt; 300mm; Blue area is &gt; 500mm. The accumulated rainfall is calculated based on the Tropical Rainfall Potential of NOAA/NESDIS. The eTRaP is a simple ensemble whose members are the 6-hourly totals from the single-orbit TRaPs, which are rainfall estimates from passive microwave remote sensing.</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>   </gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="rainmap_original" version="0" source="NOAA" url="http://www.ssd.noaa.gov/PS/TROP/DATA/ETRAP/2016/NWPacific/SARIKA/2016SARIKA.pmqpf.10161200.00.GIF" type="image">
+                    <gdacs:title>Map of extreme rainfall (original)</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="real_time_precipitation" version="0" source="SWCB" url="http://246eng.swcb.gov.tw/" type="link">
+                    <gdacs:title>Debris flow disaster prevention information</gdacs:title>
+                    <gdacs:description>Official data of the Soil and Water Conservation Bureau on real-time precipitation and debris flow warnings</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="thumbnailmap_cached" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/tc/1000320/1000320_17_tn.png" type="image">
+                    <gdacs:title>Overview thumbnail map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="unisys_track" version="0" source="Unisys" url="http://weather.unisys.com/hurricane/s_indian/2016/SARIKA/track.gif" type="image">
+                    <gdacs:title>Track (Unisys)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="wms_gdacs_active_cyclones" version="0" source="JRC" url="http://dma.gdacs.org/ArcGIS/services/GDACS/gdacsTCactiveBG/MapServer/WMSServer" type="wms">
+                    <gdacs:title>WMS service of active cyclones</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="gts_message_file" version="0" source="JRC" url="http://www.gdacs.org/gis/gts_message/TC/1000320/17.txt" type="txt">
+                    <gdacs:title>GTS Message</gdacs:title>
+                    <gdacs:description>GTS Message generate for episode</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="kml_link" version="0" source="JRC" url="http://www.gdacs.org/kml.aspx?profile=archive&amp;eventid=1000320&amp;eventtype=TC" type="kml">
+                    <gdacs:title>KML</gdacs:title>
+                    <gdacs:description>Link to KML data of this event</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="cap_link" version="0" source="JRC" url="http://www.gdacs.org/cap.aspx?profile=archive&amp;eventid=1000320&amp;eventtype=TC" type="xml">
+                    <gdacs:title>CAP file</gdacs:title>
+                    <gdacs:description>Link to CAP data of this event</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="dailymap_link_old" version="0" source="JRC" url="http://erccportal.jrc.ec.europa.eu/DesktopModules/XModPro/Feed.aspx?xfd=gdacs_maps&amp;pid=0&amp;GdacsEventId=1000320&amp;eventtype=TC" type="rss">
+                    <gdacs:title>Daily Map rss</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="metoffice" version="0" source="WMO" url="http://www.pagasa.dost.gov.ph/" type="link">
+                    <gdacs:title>Philippine Atmospheric Geophysical and Astronomical Services Administration</gdacs:title>
+                    <gdacs:description>Official website of meteorological institute</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="report_link" version="0" source="JRC" url="http://portal.gdacs.org/DesktopModules/XModPro/Feed.aspx?xfd=GDACSdoc&amp;pid=0&amp;GdacsEventId=1000320&amp;eventtype=TC" type="rss">
+                    <gdacs:title>GDACS Report rss</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="kml_link_episode" version="0" source="JRC" url="http://www.gdacs.org/kml.aspx?profile=archive&amp;eventid=1000320&amp;eventtype=TC&amp;episodeid=17&amp;version=v2" type="kml">
+                    <gdacs:title>KML</gdacs:title>
+                    <gdacs:description>Link to KML data of this single episode</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_animation" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000320_JTWC/final/outres1.gif" type="image">
+                    <gdacs:title>Storm surge animation</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_maxheight" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000320_JTWC/final/P1_MAXHEIGHT_END.jpg" type="image">
+                    <gdacs:title>Storm surge maximum height</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_locations_affected" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000320_JTWC/final/locations.xml" type="xml">
+                    <gdacs:title>Populated places affected by storm surge</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_data" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000320_JTWC/final/" type="data">
+                    <gdacs:title>Storm surge event results</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_data_episode" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000320_JTWC/17/final/" type="data">
+                    <gdacs:title>Storm surge episode results</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_locations_affected_kmz" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000320_JTWC/final/locations.kmz" type="kmz">
+                    <gdacs:title>Storm surge overview for Google Earth</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_locations_affected_episodes" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000320_JTWC/17/final/locations.xml" type="xml">
+                    <gdacs:title>Populated places affected by storm surge for an episode</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="episode_data" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000320_JTWC/17/" type="data">
+                    <gdacs:title>GIS data and impact analyses (latest episode)</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="impact_data" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000320_JTWC/" type="data">
+                    <gdacs:title>GIS data and impact analyses</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="latest_impact_hurricane" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000320_JTWC/17/buffer74_all.xml" type="xml">
+                    <gdacs:title>AsgardXML list of affected population, cities and infrastructure by winds of hurricane strength</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt</gdacs:xslt>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="latest_impact_storm" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000320_JTWC/17/buffer39_all.xml" type="xml">
+                    <gdacs:title>AsgardXML list of affected population, cities and infrastructure by winds of tropical storm strength</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt</gdacs:xslt>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="cyclone_timeline" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000320_JTWC/17/all_inpData.xml" type="rss">
+                    <gdacs:title>Cyclone timeline</gdacs:title>
+                    <gdacs:xslt>xslt/cyclone_timeline.xslt</gdacs:xslt>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="event_rss" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/TC/1000320/rss_1000320_17.xml" type="rss">
+                    <gdacs:title>Event in rss format</gdacs:title>
+                    <gdacs:acknowledgements>NASA Experimental Product</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Private</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="event_geojson" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/TC/1000320/geojson_1000320_17.geojson" type="geojson">
+                    <gdacs:title>Event in geojson format</gdacs:title>
+                    <gdacs:acknowledgements>NASA Experimental Product</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Private</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="jsonEvent" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/TC/1000320/geojson_1000320_17.geojson" type="json">
+                    <gdacs:title>The Event in GeoJson format</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+            </gdacs:resources>
+            <gdacs:identifiers />
+        </item>
+        <item>
+            <title>Green earthquake alert (Magnitude 5.7M, Depth:21.86km) in Papua New Guinea 12/10/2016 03:21 UTC, About 1372 people within 100km.</title>
+            <description>On 10/12/2016 3:21:26 AM, an earthquake occurred in Papua New Guinea potentially affecting About 1372 people within 100km. The earthquake had Magnitude 5.7M, Depth:21.86km.</description>
+            <enclosure type="image/png" length="1" url="http://dma.gdacs.org/saved/gdacs/eq/eq1142611_1.png" />
+            <link>http://www.gdacs.org/report.aspx?eventtype=EQ&amp;eventid=1095621</link>
+            <pubDate>Wed, 12 Oct 2016 03:21:26 GMT</pubDate>
+            <gdacs:fromdate>Wed, 12 Oct 2016 03:21:26 GMT</gdacs:fromdate>
+            <gdacs:todate>Wed, 12 Oct 2016 03:21:26 GMT</gdacs:todate>
+            <gdacs:year>2016</gdacs:year>
+            <dc:subject>EQ1</dc:subject>
+            <guid isPermaLink="false">EQ1095621</guid>
+            <geo:Point>
+                <geo:lat>-5.3711</geo:lat>
+                <geo:long>153.4718</geo:long>
+            </geo:Point>
+            <georss:point>-5.3711 153.4718</georss:point>
+            <gdacs:cap>http://www.gdacs.org/cap.aspx?eventtype=EQ&amp;eventid=1095621</gdacs:cap>
+            <gdacs:version>1</gdacs:version>
+            <gdacs:eventtype>EQ</gdacs:eventtype>
+            <gdacs:alertlevel>Green</gdacs:alertlevel>
+            <gdacs:eventname />
+            <gdacs:eventid>1095621</gdacs:eventid>
+            <gdacs:episodeid>1142611</gdacs:episodeid>
+            <gdacs:calculationtype>earthquakeonly</gdacs:calculationtype>
+            <gdacs:severity unit="M" value="5.7">Magnitude 5.7M, Depth:21.86km</gdacs:severity>
+            <gdacs:population unit="Pop100" value="1372">About 1372 people within 100km</gdacs:population>
+            <gdacs:vulnerability value="0" />
+            <gdacs:iso3 />
+            <gdacs:country>Papua New Guinea</gdacs:country>
+            <gdacs:glide />
+            <gdacs:mapimage />
+            <gdacs:maplink />
+            <gdacs:gtsimage />
+            <gdacs:gtslink />
+            <gdacs:resources>
+                <gdacs:resource id="overviewmap" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/eq/eq1142611_2.png" type="image">
+                    <gdacs:title>Population density map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged. Population data from LandScan 2008.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="UNOSATmaps_country" version="0" source="" url="http://www.unitar.org/unosat/maps/PNG" type="html">
+                    <gdacs:title>UNOSAT maps by country</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="interactive_event_map" version="0" source="JRC" url="http://dma.gdacs.org/map?application=EARTHQUAKE&amp;eventid=1095621&amp;episodeid=1142611&amp;coordinate=153.4718,-5.3711" type="map">
+                    <gdacs:title>Interactive earthquake event map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="impact_xml" version="0" source="JRC" url="http://www.gdacs.org/gis/calculation/EQ1_WPS/153\eq_15345_-00535.xml" type="xml">
+                    <gdacs:title>Affected population and infrastructure</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt&amp;pname=eventtype&amp;pvalue=EQ</gdacs:xslt>
+                    <gdacs:description>GIS analysis of the area affected by the earthquake</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="ocha_sitrep" version="0" source="OCHA" url="http://www.reliefweb.int/updates?sl=environment-report_listing%252Ctaxonomy_index_tid_source-1503%252Ctaxonomy_index_tid_content_format-10%252Ctaxonomy_index_tid_disaster_type-4628" type="rss">
+                    <gdacs:title>OCHA Situation Reports for Earthquakes</gdacs:title>
+                    <gdacs:description>List of most recent OCHA situation reports published on ReliefWeb</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="neic_report" version="0" source="NEIC" url="http://earthquake.usgs.gov/earthquakes/eventpage/us20007dbw#summary" type="html">
+                    <gdacs:title>USGS earthquake report</gdacs:title>
+                    <gdacs:description>Report of the USGS National Earthquake Information Center</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="geooffice" version="0" source="INGV" url="http://cnt.rm.ingv.it/" type="link">
+                    <gdacs:title>Istituto Nazionale di Geofisica e Vulcanologia</gdacs:title>
+                    <gdacs:description>Latest earthquakes recorded by the Italian National Earthquake Centre</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="gdacs_active_alerts" version="0" source="JRC" url="http://dma.gdacs.org/arcgis/services/GDACS/gdacsAlertsActiveBG/MapServer/WMSServer" type="wms">
+                    <gdacs:title>WMS service of GDACS Active Alerts</gdacs:title>
+                    <gdacs:description>This WMS service shows GDACS alerts of the past 7 days.</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="gdacs_active_earthquakes" version="0" source="JRC" url="http://dma.gdacs.org/ArcGIS/services/GDACS/gdacsEQactiveBG/MapServer/WMSServer" type="wms">
+                    <gdacs:title>WMS service of GDACS Earthquake Alerts</gdacs:title>
+                    <gdacs:description>This WMS service shows the earthquakes in the past 7 days</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="thumbnailmap_cached" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/eq/eq1142611_1.png" type="image">
+                    <gdacs:title>Overview thumbnail map</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="populationmap_cached" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/eq/eq1142611_4.png" type="image">
+                    <gdacs:title>Population map close up</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="emm_news_new" version="0" source="JRC" url="http://www.gdacs.org/news_emm2/2016/10/EQ_1095621.xml" type="rss">
+                    <gdacs:title>Media monitoring feed</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/emm.xslt</gdacs:xslt>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="twitter_graph" version="0" source="JRC" url="http://www.gdacs.org/Twitter/query.aspx?date=10-12-2016 03:21&amp;hours=4&amp;trunc=minutes&amp;words=tsunami,earthquake,Papua New Guinea&amp;output=graph" type="link">
+                    <gdacs:title>Twitter statistics (Beta)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="twitter_graph2" version="0" source="JRC" url="http://www.gdacs.org/Twitter/query.aspx?date=10-12-2016 03:21&amp;hours=4&amp;trunc=minutes&amp;words=killed,nuclear,landslide,collapsed&amp;output=graph" type="link">
+                    <gdacs:title>Twitter statistics secondary effects (Beta)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="neic_json" version="0" source="NEIC" url="http://earthquake.usgs.gov/earthquakes/eventpage/us20007dbw.json" type="json">
+                    <gdacs:title>USGS NEIC Json Product Feed</gdacs:title>
+                    <gdacs:description>Json feed of products available on USGS NEIC website</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="impact_xml_old" version="0" source="JRC" url="http://www.gdacs.org/gis/calculation/EQ1_WPS/153/eq_15345_-00535.xml" type="xml">
+                    <gdacs:title>Affected population and infrastructure</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt&amp;pname=eventtype&amp;pvalue=EQ</gdacs:xslt>
+                    <gdacs:description>GIS analysis of the area affected by the earthquake</gdacs:description>
+                    <gdacs:accesslevel>Private</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="gts_message_file" version="0" source="JRC" url="http://www.gdacs.org/gis/gts_message/EQ/1095621/1142611.txt" type="txt">
+                    <gdacs:title>GTS Message</gdacs:title>
+                    <gdacs:description>GTS Message generate for episode</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="kml_link" version="0" source="JRC" url="http://www.gdacs.org/kml.aspx?profile=archive&amp;eventid=1095621&amp;eventtype=EQ" type="kml">
+                    <gdacs:title>KML</gdacs:title>
+                    <gdacs:description>Link to KML data of this event</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="cap_link" version="0" source="JRC" url="http://www.gdacs.org/cap.aspx?profile=archive&amp;eventid=1095621&amp;eventtype=EQ" type="xml">
+                    <gdacs:title>CAP file</gdacs:title>
+                    <gdacs:description>Link to CAP data of this event</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="pager_pop" version="0" source="JRC" url="http://www.gdacs.org/gis/calculation/WEQ_Shakemap/2016/Pop/1095621.xml" type="xml">
+                    <gdacs:title>PAGER based population assessment</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt&amp;pname=eventtype&amp;pvalue=EQ</gdacs:xslt>
+                    <gdacs:description>PAGER based population assessment</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="pager_exp" version="0" source="JRC" url="http://www.gdacs.org/gis/calculation/WEQ_Shakemap/2016/Exposure/1095621.xml" type="xml">
+                    <gdacs:title>PAGER based exposure assessment</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt&amp;pname=eventtype&amp;pvalue=EQ</gdacs:xslt>
+                    <gdacs:description>PAGER based exposure assessment</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="pager_json" version="0" source="NEIC" url="http://www.gdacs.org/gis/calculation/WEQ_Shakemap/2016/USGSjson/1095621.json" type="link">
+                    <gdacs:title>PAGER json</gdacs:title>
+                    <gdacs:description>USGS json feed (cached)</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="dailymap_link_old" version="0" source="JRC" url="http://erccportal.jrc.ec.europa.eu/DesktopModules/XModPro/Feed.aspx?xfd=gdacs_maps&amp;pid=0&amp;GdacsEventId=1095621&amp;eventtype=EQ" type="rss">
+                    <gdacs:title>Daily Map rss</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_USGS_contour_kmz" version="0" source="NEIC" url=" http://www.gdacs.org/gis/calculation/WEQ_Shakemap/2016/Contour/1095621.kmz" type="kml">
+                    <gdacs:title>Intensity Contours from USGS (after 2013)</gdacs:title>
+                    <gdacs:description>Only after 2013</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_USGS_overlay_kml" version="0" source="NEIC" url="http://www.gdacs.org/gis/calculation/WEQ_Shakemap/2016/Overlay/1095621.kmz" type="kml">
+                    <gdacs:title>Intensity Overlay from USGS (after 2013)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_USGS_polygons_kml" version="0" source="NEIC" url="http://www.gdacs.org/gis/calculation/WEQ_Shakemap/2016/Polygon_mi/1095621.kmz" type="kml">
+                    <gdacs:title>Intensity Polygons from USGS (after 2013)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="metoffice" version="0" source="WMO" url="http://www.pi-gcos.org/" type="link">
+                    <gdacs:title>Papua New Guinea Meteorological Service</gdacs:title>
+                    <gdacs:description>Official website of meteorological institute</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="report_link" version="0" source="JRC" url="http://portal.gdacs.org/DesktopModules/XModPro/Feed.aspx?xfd=GDACSdoc&amp;pid=0&amp;GdacsEventId=1095621&amp;eventtype=EQ" type="rss">
+                    <gdacs:title>GDACS Report rss</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_populationmap_overview" version="0" source="USGS" url="http://dma.gdacs.org/getmaprest.asp?mapservice=GDACS/EQShakeMap&amp;bboxSR=&amp;layers=&amp;layerdefs=0:gdacsID=1095621;1:gdacs_id=1095621;2:gdacsID=1095621;4:gdacs_id=1095621&amp;imageSR=&amp;format=png24&amp;transparent=false&amp;dpi=&amp;bbox=151.9718,-6.3711,154.9718,-4.3711&amp;size=500,350&amp;Filename=gdacs\eq\sm\eq1095621_1.png&amp;f=cache" type="image">
+                    <gdacs:title>Population Shakemap Overview </gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_impact_xml" version="0" source="JRC" url="http://www.gdacs.org/gis/calculation/WEQ_Shakemap/2016/ShakeMaps/1095621.xml" type="xml">
+                    <gdacs:title>Affected Population Shake</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary_shakemap.xslt&amp;pname=eventtype&amp;pvalue=EQ</gdacs:xslt>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_populationmap" version="0" source="USGS" url="http://dma.gdacs.org/getmaprest.asp?mapservice=GDACS/ShakeMap&amp;bboxSR=&amp;layers=&amp;layerdefs=0:gdacsID=1095621;1:gdacs_id=1095621;2:gdacsID=1095621&amp;imageSR=&amp;format=png24&amp;transparent=false&amp;dpi=&amp;bbox=150.4718,-7.3711,156.4718,-3.3711&amp;size=500,350&amp;Filename=gdacs\eq\sm\eq1095621_2.png&amp;f=cache" type="image">
+                    <gdacs:title>Shakemap Image</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="kml_link_episode" version="0" source="JRC" url="http://www.gdacs.org/kml.aspx?profile=archive&amp;eventid=1095621&amp;eventtype=EQ&amp;episodeid=1142611&amp;version=v2" type="kml">
+                    <gdacs:title>KML</gdacs:title>
+                    <gdacs:description>Link to KML data of this single episode</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="event_rss" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/EQ/1095621/rss_1095621_1142611.xml" type="rss">
+                    <gdacs:title>Event in rss format</gdacs:title>
+                    <gdacs:acknowledgements>NASA Experimental Product</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Private</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="event_geojson" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/EQ/1095621/geojson_1095621_1142611.geojson" type="geojson">
+                    <gdacs:title>Event in geojson format</gdacs:title>
+                    <gdacs:acknowledgements>NASA Experimental Product</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Private</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="jsonEvent" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/EQ/1095621/geojson_1095621_1142611.geojson" type="json">
+                    <gdacs:title>The Event in GeoJson format</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_populationmap_static_v01" version="0" source="USGS" url="http://dma.gdacs.org/saved/gdacs/eq/sm/eq1095621_1142611_[shakeid]_2.png" type="image">
+                    <gdacs:title>Shakemap Image</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_populationmap_overview_static_v01" version="0" source="USGS" url="http://dma.gdacs.org/saved/gdacs/eq/sm/eq1095621_1142611_[shakeid]_1.png" type="image">
+                    <gdacs:title>Population Shakemap Overview </gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="shakemap_impact_xml_v01" version="0" source="JRC" url="http://www.gdacs.org/gis/calculation/Shakemap/1095621/1142611_[shakeid].xml" type="xml">
+                    <gdacs:title>Affected Population Shake</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary_shakemap.xslt&amp;pname=eventtype&amp;pvalue=EQ</gdacs:xslt>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="twitter_data_graph2" version="0" source="JRC" url="[mainfolder]\resources\EQ\1095621\1095621_twitter_graph_2.txt" type="txt">
+                    <gdacs:title>Twitter data statistics secondary effects (Beta)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="twitter_data_alert2" version="0" source="JRC" url="[mainfolder]\resources\EQ\1095621\1095621_twitter_alert_2.txt" type="txt">
+                    <gdacs:title>Twitter data alert statistics secondary effects (Beta)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="twitter_graph_static" version="0" source="JRC" url="http://www.gdacs.org//Twitter/query_data.aspx?eventtype=EQ&amp;eventid=1095621&amp;output=graph" type="link">
+                    <gdacs:title>Twitter statistics (Beta)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="twitter_graph2_static" version="0" source="JRC" url="http://www.gdacs.org//Twitter/query_data.aspx?eventtype=EQ&amp;eventid=1095621&amp;version=2&amp;output=graph" type="link">
+                    <gdacs:title>Twitter statistics secondary effects (Beta)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+            </gdacs:resources>
+            <gdacs:identifiers>
+                <gdacs:identifier id="eqcalculationpath" src="JRC">153\eq_15345_-00535.xml</gdacs:identifier>
+                <gdacs:identifier id="neicid" src="NEIC">us20007dbw</gdacs:identifier>
+            </gdacs:identifiers>
+        </item>
+        <item>
+            <title>Green alert for tropical cyclone SONGDA-16. Population affected by Category 1 (120 km/h) wind speeds or higher is 0.</title>
+            <description>From 08/10/2016 to 12/10/2016, a Hurricane/Typhoon &gt; 74 mph (maximum wind speed of 241 km/h) SONGDA-16 was active in NWPacific. The cyclone affects these countries: [unknown] (vulnerability [unknown]). Estimated population affected by category 1 (120 km/h) wind speeds or higher is 0.</description>
+            <enclosure type="image/png" length="1" url="http://dma.gdacs.org/saved/gdacs/tc/1000319/1000319_17_tn.png" />
+            <link>http://www.gdacs.org/report.aspx?eventtype=TC&amp;eventid=1000319</link>
+            <pubDate>Wed, 12 Oct 2016 06:00:00 GMT</pubDate>
+            <gdacs:fromdate>Sat, 08 Oct 2016 06:00:00 GMT</gdacs:fromdate>
+            <gdacs:todate>Wed, 12 Oct 2016 06:00:00 GMT</gdacs:todate>
+            <gdacs:year>2016</gdacs:year>
+            <dc:subject>TC1</dc:subject>
+            <guid isPermaLink="false">TC1000319</guid>
+            <geo:Point>
+                <geo:lat>32.5</geo:lat>
+                <geo:long>153.8</geo:long>
+            </geo:Point>
+            <georss:point>32.5 153.8</georss:point>
+            <gdacs:cap>http://www.gdacs.org/cap.aspx?eventtype=TC&amp;eventid=1000319</gdacs:cap>
+            <gdacs:version>17</gdacs:version>
+            <gdacs:eventtype>TC</gdacs:eventtype>
+            <gdacs:alertlevel>Green</gdacs:alertlevel>
+            <gdacs:eventname>SONGDA-16</gdacs:eventname>
+            <gdacs:eventid>1000319</gdacs:eventid>
+            <gdacs:episodeid>17</gdacs:episodeid>
+            <gdacs:calculationtype>tropicalcyclonewithstormsurge</gdacs:calculationtype>
+            <gdacs:severity unit="km/h" value="240.7392">Hurricane/Typhoon &gt; 74 mph (maximum wind speed of 241 km/h)</gdacs:severity>
+            <gdacs:population unit="Pop74" value="0">Population affected by Category 1 (120 km/h) wind speeds or higher is 0</gdacs:population>
+            <gdacs:vulnerability value="0" />
+            <gdacs:iso3 />
+            <gdacs:country />
+            <gdacs:glide />
+            <gdacs:mapimage />
+            <gdacs:maplink />
+            <gdacs:gtsimage>http://www.gdacs.org//images/satellite-icon.png</gdacs:gtsimage>
+            <gdacs:gtslink>http://www.gdacs.org/gts_list.aspx?eventid=1000319&amp;eventtype=TC</gdacs:gtslink>
+            <gdacs:resources>
+                <gdacs:resource id="impact_report_static" version="0" source="JRC" url="http://www.gdacs.org//Cached/2016/Cyclones/1000319/report_1000319_17.html" type="menu">
+                    <gdacs:title>Automatic cyclone impact report</gdacs:title>
+                    <gdacs:description>Full GDACS report on cyclone impact</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="gdacs_active_alerts" version="0" source="JRC" url="http://dma.gdacs.org/arcgis/services/GDACS/gdacsAlertsActiveBG/MapServer/WMSServer" type="wms">
+                    <gdacs:title>WMS service of GDACS Active Alerts</gdacs:title>
+                    <gdacs:description>This WMS service shows GDACS alerts of the past 7 days.</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="emm_news_new" version="0" source="JRC" url="http://www.gdacs.org/news_emm2/2016/10/TC_1000319.xml" type="rss">
+                    <gdacs:title>Media monitoring feed</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/emm.xslt</gdacs:xslt>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="impact_report" version="0" source="JRC" url="http://www.gdacs.org//Cyclones/report.aspx?eventid=1000319&amp;episodeid=17&amp;eventtype=TC" type="menu">
+                    <gdacs:title>Automatic cyclone impact report</gdacs:title>
+                    <gdacs:description>Full GDACS report on cyclone impact</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="interactive_event_map" version="0" source="JRC" url="http://dma.gdacs.org/map?application=CYCLONES" type="map">
+                    <gdacs:title>Interactive event map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="interactive_map" version="0" source="JRC" url="http://dma.gdacs.org/map?application=CYCLONES" type="map">
+                    <gdacs:title>Interactive map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="link_bom" version="0" source="BOM" url="http://www.bom.gov.au/cyclone/index.shtml" type="link">
+                    <gdacs:title>Bureau of Meteorology of Australia</gdacs:title>
+                    <gdacs:accesslevel>Link</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="link_ptwc" version="0" source="JTWC" url="http://www.usno.navy.mil/JTWC/" type="link">
+                    <gdacs:title>Joint Typhoon Warning Centre</gdacs:title>
+                    <gdacs:accesslevel>Link</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="link_unisys_basin" version="0" source="" url="http://weather.unisys.com/hurricane/w_pacific/2016/index.php" type="link">
+                    <gdacs:title>Unisys provides data and charts for weather experts</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="nasa_earth_observatory" version="0" source="NASA" url="http://earthobservatory.nasa.gov/Feeds/rss/nh.rss" type="rss">
+                    <gdacs:title>Imagery of the NASA Earth Observatory</gdacs:title>
+                    <gdacs:xslt>xslt/rss_default.xslt&amp;pname=contains&amp;pvalue=SONGDA</gdacs:xslt>
+                    <gdacs:description>NASA publishes relevant images related to natural disasters from the many operational sensors</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="noaa_nesdis_event" version="0" source="NOAA" url="http://www.ssd.noaa.gov/PS/TROP/storms/SONGDA.html" type="link">
+                    <gdacs:title>Tropical cyclones potential rainfall (NOAA/NESDIS)</gdacs:title>
+                    <gdacs:description>Website dedicated to the rainfall estimation associated with tropical cyclones</gdacs:description>
+                    <gdacs:accesslevel>Link</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="ocha_sitrep" version="0" source="OCHA" url="http://www.reliefweb.int/updates/rss.xml?sl=environment-report_listing%252Ctaxonomy_index_tid_source-1503%252Ctaxonomy_index_tid_content_format-10%252Ctaxonomy_index_tid_disaster_type-4618" type="rss">
+                    <gdacs:title>OCHA Situation Reports for Tropical Cyclones</gdacs:title>
+                    <gdacs:description>List of most recent OCHA situation reports published on ReliefWeb</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="overviewmap" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/tc/1000319/clouds_1000319_17.png" type="image">
+                    <gdacs:title>Overview map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="rainaccumulationmap" version="0" source="TRMM" url="http://dma.gdacs.org/saved/gdacs/tc/1000319/current_rain_1000319_17.png" type="image">
+                    <gdacs:title>Map of rainfall accummulation in past 24h</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="rainmap_cached" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/tc/1000319/rain_1000319_17.png" type="image">
+                    <gdacs:title>Map of extreme rainfall</gdacs:title>
+                    <gdacs:description>The map shows the accumulated precipitation along the cyclone's track. Yellow area is &gt; 100mm; Red area is &gt; 300mm; Blue area is &gt; 500mm. The accumulated rainfall is calculated based on the Tropical Rainfall Potential of NOAA/NESDIS. The eTRaP is a simple ensemble whose members are the 6-hourly totals from the single-orbit TRaPs, which are rainfall estimates from passive microwave remote sensing.</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>   </gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="rainmap_original" version="0" source="NOAA" url="http://www.ssd.noaa.gov/PS/TROP/DATA/ETRAP/2016/NWPacific/SONGDA/2016SONGDA.pmqpf.10120600.00.GIF" type="image">
+                    <gdacs:title>Map of extreme rainfall (original)</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="real_time_precipitation" version="0" source="SWCB" url="http://246eng.swcb.gov.tw/" type="link">
+                    <gdacs:title>Debris flow disaster prevention information</gdacs:title>
+                    <gdacs:description>Official data of the Soil and Water Conservation Bureau on real-time precipitation and debris flow warnings</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="thumbnailmap_cached" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/tc/1000319/1000319_17_tn.png" type="image">
+                    <gdacs:title>Overview thumbnail map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="unisys_track" version="0" source="Unisys" url="http://weather.unisys.com/hurricane/s_indian/2016/SONGDA/track.gif" type="image">
+                    <gdacs:title>Track (Unisys)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="wms_gdacs_active_cyclones" version="0" source="JRC" url="http://dma.gdacs.org/ArcGIS/services/GDACS/gdacsTCactiveBG/MapServer/WMSServer" type="wms">
+                    <gdacs:title>WMS service of active cyclones</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="gts_message_file" version="0" source="JRC" url="http://www.gdacs.org/gis/gts_message/TC/1000319/17.txt" type="txt">
+                    <gdacs:title>GTS Message</gdacs:title>
+                    <gdacs:description>GTS Message generate for episode</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="kml_link" version="0" source="JRC" url="http://www.gdacs.org/kml.aspx?profile=archive&amp;eventid=1000319&amp;eventtype=TC" type="kml">
+                    <gdacs:title>KML</gdacs:title>
+                    <gdacs:description>Link to KML data of this event</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="cap_link" version="0" source="JRC" url="http://www.gdacs.org/cap.aspx?profile=archive&amp;eventid=1000319&amp;eventtype=TC" type="xml">
+                    <gdacs:title>CAP file</gdacs:title>
+                    <gdacs:description>Link to CAP data of this event</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="dailymap_link_old" version="0" source="JRC" url="http://erccportal.jrc.ec.europa.eu/DesktopModules/XModPro/Feed.aspx?xfd=gdacs_maps&amp;pid=0&amp;GdacsEventId=1000319&amp;eventtype=TC" type="rss">
+                    <gdacs:title>Daily Map rss</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="report_link" version="0" source="JRC" url="http://portal.gdacs.org/DesktopModules/XModPro/Feed.aspx?xfd=GDACSdoc&amp;pid=0&amp;GdacsEventId=1000319&amp;eventtype=TC" type="rss">
+                    <gdacs:title>GDACS Report rss</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="kml_link_episode" version="0" source="JRC" url="http://www.gdacs.org/kml.aspx?profile=archive&amp;eventid=1000319&amp;eventtype=TC&amp;episodeid=17&amp;version=v2" type="kml">
+                    <gdacs:title>KML</gdacs:title>
+                    <gdacs:description>Link to KML data of this single episode</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_animation" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000319_JTWC/final/outres1.gif" type="image">
+                    <gdacs:title>Storm surge animation</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_maxheight" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000319_JTWC/final/P1_MAXHEIGHT_END.jpg" type="image">
+                    <gdacs:title>Storm surge maximum height</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_locations_affected" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000319_JTWC/final/locations.xml" type="xml">
+                    <gdacs:title>Populated places affected by storm surge</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_data" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000319_JTWC/final/" type="data">
+                    <gdacs:title>Storm surge event results</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_data_episode" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000319_JTWC/17/final/" type="data">
+                    <gdacs:title>Storm surge episode results</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_locations_affected_kmz" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000319_JTWC/final/locations.kmz" type="kmz">
+                    <gdacs:title>Storm surge overview for Google Earth</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_locations_affected_episodes" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000319_JTWC/17/final/locations.xml" type="xml">
+                    <gdacs:title>Populated places affected by storm surge for an episode</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="episode_data" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000319_JTWC/17/" type="data">
+                    <gdacs:title>GIS data and impact analyses (latest episode)</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="impact_data" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000319_JTWC/" type="data">
+                    <gdacs:title>GIS data and impact analyses</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="latest_impact_hurricane" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000319_JTWC/17/buffer74_all.xml" type="xml">
+                    <gdacs:title>AsgardXML list of affected population, cities and infrastructure by winds of hurricane strength</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt</gdacs:xslt>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="latest_impact_storm" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000319_JTWC/17/buffer39_all.xml" type="xml">
+                    <gdacs:title>AsgardXML list of affected population, cities and infrastructure by winds of tropical storm strength</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt</gdacs:xslt>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="cyclone_timeline" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000319_JTWC/17/all_inpData.xml" type="rss">
+                    <gdacs:title>Cyclone timeline</gdacs:title>
+                    <gdacs:xslt>xslt/cyclone_timeline.xslt</gdacs:xslt>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="event_rss" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/TC/1000319/rss_1000319_17.xml" type="rss">
+                    <gdacs:title>Event in rss format</gdacs:title>
+                    <gdacs:acknowledgements>NASA Experimental Product</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Private</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="event_geojson" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/TC/1000319/geojson_1000319_17.geojson" type="geojson">
+                    <gdacs:title>Event in geojson format</gdacs:title>
+                    <gdacs:acknowledgements>NASA Experimental Product</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Private</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="jsonEvent" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/TC/1000319/geojson_1000319_17.geojson" type="json">
+                    <gdacs:title>The Event in GeoJson format</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+            </gdacs:resources>
+            <gdacs:identifiers />
+        </item>
+        <item>
+            <title>Green alert for tropical cyclone AERE-16. Population affected by Category 1 (120 km/h) wind speeds or higher is 0.</title>
+            <description>From 05/10/2016 to 13/10/2016, a Tropical Depression (maximum wind speed of 102 km/h) AERE-16 was active in NWPacific. The cyclone affects these countries: [unknown] (vulnerability [unknown]). Estimated population affected by category 1 (120 km/h) wind speeds or higher is 0.</description>
+            <enclosure type="image/png" length="1" url="http://dma.gdacs.org/saved/gdacs/tc/1000318/1000318_22_tn.png" />
+            <link>http://www.gdacs.org/report.aspx?eventtype=TC&amp;eventid=1000318</link>
+            <pubDate>Thu, 13 Oct 2016 12:00:00 GMT</pubDate>
+            <gdacs:fromdate>Wed, 05 Oct 2016 12:00:00 GMT</gdacs:fromdate>
+            <gdacs:todate>Thu, 13 Oct 2016 12:00:00 GMT</gdacs:todate>
+            <gdacs:year>2016</gdacs:year>
+            <dc:subject>TC1</dc:subject>
+            <guid isPermaLink="false">TC1000318</guid>
+            <geo:Point>
+                <geo:lat>16.6</geo:lat>
+                <geo:long>108.3</geo:long>
+            </geo:Point>
+            <georss:point>16.6 108.3</georss:point>
+            <gdacs:cap>http://www.gdacs.org/cap.aspx?eventtype=TC&amp;eventid=1000318</gdacs:cap>
+            <gdacs:version>22</gdacs:version>
+            <gdacs:eventtype>TC</gdacs:eventtype>
+            <gdacs:alertlevel>Green</gdacs:alertlevel>
+            <gdacs:eventname>AERE-16</gdacs:eventname>
+            <gdacs:eventid>1000318</gdacs:eventid>
+            <gdacs:episodeid>22</gdacs:episodeid>
+            <gdacs:calculationtype>tropicalcyclonewithstormsurge</gdacs:calculationtype>
+            <gdacs:severity unit="km/h" value="101.8512">Tropical Depression (maximum wind speed of 102 km/h)</gdacs:severity>
+            <gdacs:population unit="Pop74" value="0">Population affected by Category 1 (120 km/h) wind speeds or higher is 0</gdacs:population>
+            <gdacs:vulnerability value="0" />
+            <gdacs:iso3 />
+            <gdacs:country />
+            <gdacs:glide />
+            <gdacs:mapimage />
+            <gdacs:maplink />
+            <gdacs:gtsimage>http://www.gdacs.org//images/satellite-icon.png</gdacs:gtsimage>
+            <gdacs:gtslink>http://www.gdacs.org/gts_list.aspx?eventid=1000318&amp;eventtype=TC</gdacs:gtslink>
+            <gdacs:resources>
+                <gdacs:resource id="impact_report_static" version="0" source="JRC" url="http://www.gdacs.org//Cached/2016/Cyclones/1000318/report_1000318_22.html" type="menu">
+                    <gdacs:title>Automatic cyclone impact report</gdacs:title>
+                    <gdacs:description>Full GDACS report on cyclone impact</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="gdacs_active_alerts" version="0" source="JRC" url="http://dma.gdacs.org/arcgis/services/GDACS/gdacsAlertsActiveBG/MapServer/WMSServer" type="wms">
+                    <gdacs:title>WMS service of GDACS Active Alerts</gdacs:title>
+                    <gdacs:description>This WMS service shows GDACS alerts of the past 7 days.</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="emm_news_new" version="0" source="JRC" url="http://www.gdacs.org/news_emm2/2016/10/TC_1000318.xml" type="rss">
+                    <gdacs:title>Media monitoring feed</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/emm.xslt</gdacs:xslt>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="impact_report" version="0" source="JRC" url="http://www.gdacs.org//Cyclones/report.aspx?eventid=1000318&amp;episodeid=22&amp;eventtype=TC" type="menu">
+                    <gdacs:title>Automatic cyclone impact report</gdacs:title>
+                    <gdacs:description>Full GDACS report on cyclone impact</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="interactive_event_map" version="0" source="JRC" url="http://dma.gdacs.org/map?application=CYCLONES" type="map">
+                    <gdacs:title>Interactive event map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="interactive_map" version="0" source="JRC" url="http://dma.gdacs.org/map?application=CYCLONES" type="map">
+                    <gdacs:title>Interactive map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="link_bom" version="0" source="BOM" url="http://www.bom.gov.au/cyclone/index.shtml" type="link">
+                    <gdacs:title>Bureau of Meteorology of Australia</gdacs:title>
+                    <gdacs:accesslevel>Link</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="link_ptwc" version="0" source="JTWC" url="http://www.usno.navy.mil/JTWC/" type="link">
+                    <gdacs:title>Joint Typhoon Warning Centre</gdacs:title>
+                    <gdacs:accesslevel>Link</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="link_unisys_basin" version="0" source="" url="http://weather.unisys.com/hurricane/w_pacific/2016/index.php" type="link">
+                    <gdacs:title>Unisys provides data and charts for weather experts</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="nasa_earth_observatory" version="0" source="NASA" url="http://earthobservatory.nasa.gov/Feeds/rss/nh.rss" type="rss">
+                    <gdacs:title>Imagery of the NASA Earth Observatory</gdacs:title>
+                    <gdacs:xslt>xslt/rss_default.xslt&amp;pname=contains&amp;pvalue=AERE</gdacs:xslt>
+                    <gdacs:description>NASA publishes relevant images related to natural disasters from the many operational sensors</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="noaa_nesdis_event" version="0" source="NOAA" url="http://www.ssd.noaa.gov/PS/TROP/storms/AERE.html" type="link">
+                    <gdacs:title>Tropical cyclones potential rainfall (NOAA/NESDIS)</gdacs:title>
+                    <gdacs:description>Website dedicated to the rainfall estimation associated with tropical cyclones</gdacs:description>
+                    <gdacs:accesslevel>Link</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="ocha_sitrep" version="0" source="OCHA" url="http://www.reliefweb.int/updates/rss.xml?sl=environment-report_listing%252Ctaxonomy_index_tid_source-1503%252Ctaxonomy_index_tid_content_format-10%252Ctaxonomy_index_tid_disaster_type-4618" type="rss">
+                    <gdacs:title>OCHA Situation Reports for Tropical Cyclones</gdacs:title>
+                    <gdacs:description>List of most recent OCHA situation reports published on ReliefWeb</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="overviewmap" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/tc/1000318/clouds_1000318_22.png" type="image">
+                    <gdacs:title>Overview map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="rainaccumulationmap" version="0" source="TRMM" url="http://dma.gdacs.org/saved/gdacs/tc/1000318/current_rain_1000318_22.png" type="image">
+                    <gdacs:title>Map of rainfall accummulation in past 24h</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="rainmap_cached" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/tc/1000318/rain_1000318_22.png" type="image">
+                    <gdacs:title>Map of extreme rainfall</gdacs:title>
+                    <gdacs:description>The map shows the accumulated precipitation along the cyclone's track. Yellow area is &gt; 100mm; Red area is &gt; 300mm; Blue area is &gt; 500mm. The accumulated rainfall is calculated based on the Tropical Rainfall Potential of NOAA/NESDIS. The eTRaP is a simple ensemble whose members are the 6-hourly totals from the single-orbit TRaPs, which are rainfall estimates from passive microwave remote sensing.</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>   </gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="rainmap_original" version="0" source="NOAA" url="http://www.ssd.noaa.gov/PS/TROP/DATA/ETRAP/2016/NWPacific/AERE/2016AERE.pmqpf.10131200.00.GIF" type="image">
+                    <gdacs:title>Map of extreme rainfall (original)</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="real_time_precipitation" version="0" source="SWCB" url="http://246eng.swcb.gov.tw/" type="link">
+                    <gdacs:title>Debris flow disaster prevention information</gdacs:title>
+                    <gdacs:description>Official data of the Soil and Water Conservation Bureau on real-time precipitation and debris flow warnings</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="thumbnailmap_cached" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/tc/1000318/1000318_22_tn.png" type="image">
+                    <gdacs:title>Overview thumbnail map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="unisys_track" version="0" source="Unisys" url="http://weather.unisys.com/hurricane/s_indian/2016/AERE/track.gif" type="image">
+                    <gdacs:title>Track (Unisys)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="wms_gdacs_active_cyclones" version="0" source="JRC" url="http://dma.gdacs.org/ArcGIS/services/GDACS/gdacsTCactiveBG/MapServer/WMSServer" type="wms">
+                    <gdacs:title>WMS service of active cyclones</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="gts_message_file" version="0" source="JRC" url="http://www.gdacs.org/gis/gts_message/TC/1000318/22.txt" type="txt">
+                    <gdacs:title>GTS Message</gdacs:title>
+                    <gdacs:description>GTS Message generate for episode</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="kml_link" version="0" source="JRC" url="http://www.gdacs.org/kml.aspx?profile=archive&amp;eventid=1000318&amp;eventtype=TC" type="kml">
+                    <gdacs:title>KML</gdacs:title>
+                    <gdacs:description>Link to KML data of this event</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="cap_link" version="0" source="JRC" url="http://www.gdacs.org/cap.aspx?profile=archive&amp;eventid=1000318&amp;eventtype=TC" type="xml">
+                    <gdacs:title>CAP file</gdacs:title>
+                    <gdacs:description>Link to CAP data of this event</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="dailymap_link_old" version="0" source="JRC" url="http://erccportal.jrc.ec.europa.eu/DesktopModules/XModPro/Feed.aspx?xfd=gdacs_maps&amp;pid=0&amp;GdacsEventId=1000318&amp;eventtype=TC" type="rss">
+                    <gdacs:title>Daily Map rss</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="report_link" version="0" source="JRC" url="http://portal.gdacs.org/DesktopModules/XModPro/Feed.aspx?xfd=GDACSdoc&amp;pid=0&amp;GdacsEventId=1000318&amp;eventtype=TC" type="rss">
+                    <gdacs:title>GDACS Report rss</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="kml_link_episode" version="0" source="JRC" url="http://www.gdacs.org/kml.aspx?profile=archive&amp;eventid=1000318&amp;eventtype=TC&amp;episodeid=22&amp;version=v2" type="kml">
+                    <gdacs:title>KML</gdacs:title>
+                    <gdacs:description>Link to KML data of this single episode</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_animation" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000318_JTWC/final/outres1.gif" type="image">
+                    <gdacs:title>Storm surge animation</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_maxheight" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000318_JTWC/final/P1_MAXHEIGHT_END.jpg" type="image">
+                    <gdacs:title>Storm surge maximum height</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_locations_affected" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000318_JTWC/final/locations.xml" type="xml">
+                    <gdacs:title>Populated places affected by storm surge</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_data" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000318_JTWC/final/" type="data">
+                    <gdacs:title>Storm surge event results</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_data_episode" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000318_JTWC/22/final/" type="data">
+                    <gdacs:title>Storm surge episode results</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_locations_affected_kmz" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000318_JTWC/final/locations.kmz" type="kmz">
+                    <gdacs:title>Storm surge overview for Google Earth</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_locations_affected_episodes" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000318_JTWC/22/final/locations.xml" type="xml">
+                    <gdacs:title>Populated places affected by storm surge for an episode</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="episode_data" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000318_JTWC/22/" type="data">
+                    <gdacs:title>GIS data and impact analyses (latest episode)</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="impact_data" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000318_JTWC/" type="data">
+                    <gdacs:title>GIS data and impact analyses</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="latest_impact_hurricane" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000318_JTWC/22/buffer74_all.xml" type="xml">
+                    <gdacs:title>AsgardXML list of affected population, cities and infrastructure by winds of hurricane strength</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt</gdacs:xslt>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="latest_impact_storm" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000318_JTWC/22/buffer39_all.xml" type="xml">
+                    <gdacs:title>AsgardXML list of affected population, cities and infrastructure by winds of tropical storm strength</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt</gdacs:xslt>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="cyclone_timeline" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000318_JTWC/22/all_inpData.xml" type="rss">
+                    <gdacs:title>Cyclone timeline</gdacs:title>
+                    <gdacs:xslt>xslt/cyclone_timeline.xslt</gdacs:xslt>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="event_rss" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/TC/1000318/rss_1000318_22.xml" type="rss">
+                    <gdacs:title>Event in rss format</gdacs:title>
+                    <gdacs:acknowledgements>NASA Experimental Product</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Private</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="event_geojson" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/TC/1000318/geojson_1000318_22.geojson" type="geojson">
+                    <gdacs:title>Event in geojson format</gdacs:title>
+                    <gdacs:acknowledgements>NASA Experimental Product</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Private</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="jsonEvent" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/TC/1000318/geojson_1000318_22.geojson" type="json">
+                    <gdacs:title>The Event in GeoJson format</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+            </gdacs:resources>
+            <gdacs:identifiers />
+        </item>
+        <item>
+            <title>Green alert for tropical cyclone NICOLE-16. Population affected by Category 1 (120 km/h) wind speeds or higher is 69467.</title>
+            <description>From 04/10/2016 to 16/10/2016, a Hurricane/Typhoon &gt; 74 mph (maximum wind speed of 213 km/h) NICOLE-16 was active in Atlantic. The cyclone affects these countries: Bermuda (vulnerability Low). Estimated population affected by category 1 (120 km/h) wind speeds or higher is 69467.</description>
+            <enclosure type="image/png" length="1" url="http://dma.gdacs.org/saved/gdacs/tc/1000317/1000317_50_tn.png" />
+            <link>http://www.gdacs.org/report.aspx?eventtype=TC&amp;eventid=1000317</link>
+            <pubDate>Sun, 16 Oct 2016 15:00:00 GMT</pubDate>
+            <gdacs:fromdate>Tue, 04 Oct 2016 15:00:00 GMT</gdacs:fromdate>
+            <gdacs:todate>Sun, 16 Oct 2016 15:00:00 GMT</gdacs:todate>
+            <gdacs:year>2016</gdacs:year>
+            <dc:subject>TC1</dc:subject>
+            <guid isPermaLink="false">TC1000317</guid>
+            <geo:Point>
+                <geo:lat>39.1</geo:lat>
+                <geo:long>-46.6</geo:long>
+            </geo:Point>
+            <georss:point>39.1 -46.6</georss:point>
+            <gdacs:cap>http://www.gdacs.org/cap.aspx?eventtype=TC&amp;eventid=1000317</gdacs:cap>
+            <gdacs:version>50</gdacs:version>
+            <gdacs:eventtype>TC</gdacs:eventtype>
+            <gdacs:alertlevel>Green</gdacs:alertlevel>
+            <gdacs:eventname>NICOLE-16</gdacs:eventname>
+            <gdacs:eventid>1000317</gdacs:eventid>
+            <gdacs:episodeid>50</gdacs:episodeid>
+            <gdacs:calculationtype>tropicalcyclonewithstormsurge</gdacs:calculationtype>
+            <gdacs:severity unit="km/h" value="212.9616">Hurricane/Typhoon &gt; 74 mph (maximum wind speed of 213 km/h)</gdacs:severity>
+            <gdacs:population unit="Pop74" value="69467">Population affected by Category 1 (120 km/h) wind speeds or higher is 69467</gdacs:population>
+            <gdacs:vulnerability value="1">Low</gdacs:vulnerability>
+            <gdacs:iso3 />
+            <gdacs:country>Bermuda</gdacs:country>
+            <gdacs:glide />
+            <gdacs:mapimage />
+            <gdacs:maplink />
+            <gdacs:gtsimage>http://www.gdacs.org//images/satellite-icon.png</gdacs:gtsimage>
+            <gdacs:gtslink>http://www.gdacs.org/gts_list.aspx?eventid=1000317&amp;eventtype=TC</gdacs:gtslink>
+            <gdacs:resources>
+                <gdacs:resource id="UNOSATmaps_country" version="0" source="" url="http://www.unitar.org/unosat/maps/BMU" type="html">
+                    <gdacs:title>UNOSAT maps by country</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="impact_report_static" version="0" source="JRC" url="http://www.gdacs.org//Cached/2016/Cyclones/1000317/report_1000317_50.html" type="menu">
+                    <gdacs:title>Automatic cyclone impact report</gdacs:title>
+                    <gdacs:description>Full GDACS report on cyclone impact</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="gdacs_active_alerts" version="0" source="JRC" url="http://dma.gdacs.org/arcgis/services/GDACS/gdacsAlertsActiveBG/MapServer/WMSServer" type="wms">
+                    <gdacs:title>WMS service of GDACS Active Alerts</gdacs:title>
+                    <gdacs:description>This WMS service shows GDACS alerts of the past 7 days.</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="emm_news_new" version="0" source="JRC" url="http://www.gdacs.org/news_emm2/2016/10/TC_1000317.xml" type="rss">
+                    <gdacs:title>Media monitoring feed</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/emm.xslt</gdacs:xslt>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="impact_report" version="0" source="JRC" url="http://www.gdacs.org//Cyclones/report.aspx?eventid=1000317&amp;episodeid=50&amp;eventtype=TC" type="menu">
+                    <gdacs:title>Automatic cyclone impact report</gdacs:title>
+                    <gdacs:description>Full GDACS report on cyclone impact</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="interactive_event_map" version="0" source="JRC" url="http://dma.gdacs.org/map?application=CYCLONES" type="map">
+                    <gdacs:title>Interactive event map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="interactive_map" version="0" source="JRC" url="http://dma.gdacs.org/map?application=CYCLONES" type="map">
+                    <gdacs:title>Interactive map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="link_bom" version="0" source="BOM" url="http://www.bom.gov.au/cyclone/index.shtml" type="link">
+                    <gdacs:title>Bureau of Meteorology of Australia</gdacs:title>
+                    <gdacs:accesslevel>Link</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="link_ptwc" version="0" source="JTWC" url="http://www.usno.navy.mil/JTWC/" type="link">
+                    <gdacs:title>Joint Typhoon Warning Centre</gdacs:title>
+                    <gdacs:accesslevel>Link</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="link_unisys_basin" version="0" source="" url="http://weather.unisys.com/hurricane/atlantic/2016/index.php" type="link">
+                    <gdacs:title>Unisys provides data and charts for weather experts</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="nasa_earth_observatory" version="0" source="NASA" url="http://earthobservatory.nasa.gov/Feeds/rss/nh.rss" type="rss">
+                    <gdacs:title>Imagery of the NASA Earth Observatory</gdacs:title>
+                    <gdacs:xslt>xslt/rss_default.xslt&amp;pname=contains&amp;pvalue=NICOLE</gdacs:xslt>
+                    <gdacs:description>NASA publishes relevant images related to natural disasters from the many operational sensors</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="noaa_nesdis_event" version="0" source="NOAA" url="http://www.ssd.noaa.gov/PS/TROP/storms/NICOLE.html" type="link">
+                    <gdacs:title>Tropical cyclones potential rainfall (NOAA/NESDIS)</gdacs:title>
+                    <gdacs:description>Website dedicated to the rainfall estimation associated with tropical cyclones</gdacs:description>
+                    <gdacs:accesslevel>Link</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="ocha_sitrep" version="0" source="OCHA" url="http://www.reliefweb.int/updates/rss.xml?sl=environment-report_listing%252Ctaxonomy_index_tid_source-1503%252Ctaxonomy_index_tid_content_format-10%252Ctaxonomy_index_tid_disaster_type-4618" type="rss">
+                    <gdacs:title>OCHA Situation Reports for Tropical Cyclones</gdacs:title>
+                    <gdacs:description>List of most recent OCHA situation reports published on ReliefWeb</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="overviewmap" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/tc/1000317/clouds_1000317_50.png" type="image">
+                    <gdacs:title>Overview map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="rainaccumulationmap" version="0" source="TRMM" url="http://dma.gdacs.org/saved/gdacs/tc/1000317/current_rain_1000317_50.png" type="image">
+                    <gdacs:title>Map of rainfall accummulation in past 24h</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="rainmap_cached" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/tc/1000317/rain_1000317_50.png" type="image">
+                    <gdacs:title>Map of extreme rainfall</gdacs:title>
+                    <gdacs:description>The map shows the accumulated precipitation along the cyclone's track. Yellow area is &gt; 100mm; Red area is &gt; 300mm; Blue area is &gt; 500mm. The accumulated rainfall is calculated based on the Tropical Rainfall Potential of NOAA/NESDIS. The eTRaP is a simple ensemble whose members are the 6-hourly totals from the single-orbit TRaPs, which are rainfall estimates from passive microwave remote sensing.</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>   </gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="rainmap_original" version="0" source="NOAA" url="http://www.ssd.noaa.gov/PS/TROP/DATA/ETRAP/2016/Atlantic/NICOLE/2016NICOLE.pmqpf.10161500.00.GIF" type="image">
+                    <gdacs:title>Map of extreme rainfall (original)</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="real_time_precipitation" version="0" source="SWCB" url="http://246eng.swcb.gov.tw/" type="link">
+                    <gdacs:title>Debris flow disaster prevention information</gdacs:title>
+                    <gdacs:description>Official data of the Soil and Water Conservation Bureau on real-time precipitation and debris flow warnings</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="thumbnailmap_cached" version="0" source="JRC" url="http://dma.gdacs.org/saved/gdacs/tc/1000317/1000317_50_tn.png" type="image">
+                    <gdacs:title>Overview thumbnail map</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="unisys_track" version="0" source="Unisys" url="http://weather.unisys.com/hurricane/s_indian/2016/NICOLE/track.gif" type="image">
+                    <gdacs:title>Track (Unisys)</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="wms_gdacs_active_cyclones" version="0" source="JRC" url="http://dma.gdacs.org/ArcGIS/services/GDACS/gdacsTCactiveBG/MapServer/WMSServer" type="wms">
+                    <gdacs:title>WMS service of active cyclones</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="gts_message_file" version="0" source="JRC" url="http://www.gdacs.org/gis/gts_message/TC/1000317/50.txt" type="txt">
+                    <gdacs:title>GTS Message</gdacs:title>
+                    <gdacs:description>GTS Message generate for episode</gdacs:description>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="kml_link" version="0" source="JRC" url="http://www.gdacs.org/kml.aspx?profile=archive&amp;eventid=1000317&amp;eventtype=TC" type="kml">
+                    <gdacs:title>KML</gdacs:title>
+                    <gdacs:description>Link to KML data of this event</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="cap_link" version="0" source="JRC" url="http://www.gdacs.org/cap.aspx?profile=archive&amp;eventid=1000317&amp;eventtype=TC" type="xml">
+                    <gdacs:title>CAP file</gdacs:title>
+                    <gdacs:description>Link to CAP data of this event</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="dailymap_link_old" version="0" source="JRC" url="http://erccportal.jrc.ec.europa.eu/DesktopModules/XModPro/Feed.aspx?xfd=gdacs_maps&amp;pid=0&amp;GdacsEventId=1000317&amp;eventtype=TC" type="rss">
+                    <gdacs:title>Daily Map rss</gdacs:title>
+                </gdacs:resource>
+                <gdacs:resource id="report_link" version="0" source="JRC" url="http://portal.gdacs.org/DesktopModules/XModPro/Feed.aspx?xfd=GDACSdoc&amp;pid=0&amp;GdacsEventId=1000317&amp;eventtype=TC" type="rss">
+                    <gdacs:title>GDACS Report rss</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="kml_link_episode" version="0" source="JRC" url="http://www.gdacs.org/kml.aspx?profile=archive&amp;eventid=1000317&amp;eventtype=TC&amp;episodeid=50&amp;version=v2" type="kml">
+                    <gdacs:title>KML</gdacs:title>
+                    <gdacs:description>Link to KML data of this single episode</gdacs:description>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_animation" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000317_NOAA/final/outres1.gif" type="image">
+                    <gdacs:title>Storm surge animation</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_maxheight" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000317_NOAA/final/P1_MAXHEIGHT_END.jpg" type="image">
+                    <gdacs:title>Storm surge maximum height</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_locations_affected" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000317_NOAA/final/locations.xml" type="xml">
+                    <gdacs:title>Populated places affected by storm surge</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_data" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000317_NOAA/final/" type="data">
+                    <gdacs:title>Storm surge event results</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_data_episode" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000317_NOAA/50/final/" type="data">
+                    <gdacs:title>Storm surge episode results</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_locations_affected_kmz" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000317_NOAA/final/locations.kmz" type="kmz">
+                    <gdacs:title>Storm surge overview for Google Earth</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="storm_surge_locations_affected_episodes" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000317_NOAA/50/final/locations.xml" type="xml">
+                    <gdacs:title>Populated places affected by storm surge for an episode</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="episode_data" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000317_NOAA/50/" type="data">
+                    <gdacs:title>GIS data and impact analyses (latest episode)</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="impact_data" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000317_NOAA/" type="data">
+                    <gdacs:title>GIS data and impact analyses</gdacs:title>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="latest_impact_hurricane" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000317_NOAA/50/buffer74_all.xml" type="xml">
+                    <gdacs:title>AsgardXML list of affected population, cities and infrastructure by winds of hurricane strength</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt</gdacs:xslt>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="latest_impact_storm" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000317_NOAA/50/buffer39_all.xml" type="xml">
+                    <gdacs:title>AsgardXML list of affected population, cities and infrastructure by winds of tropical storm strength</gdacs:title>
+                    <gdacs:xslt>http://www.gdacs.org/xslt/asgard_summary.xslt</gdacs:xslt>
+                    <gdacs:acknowledgements>Copyright European Union. Syndication allowed, provided the source is acknowledged.</gdacs:acknowledgements>
+                </gdacs:resource>
+                <gdacs:resource id="cyclone_timeline" version="0" source="JRC" url="http://webcritech.jrc.ec.europa.eu/ModellingCyclone/cyclonesurgeVM/1000317_NOAA/50/all_inpData.xml" type="rss">
+                    <gdacs:title>Cyclone timeline</gdacs:title>
+                    <gdacs:xslt>xslt/cyclone_timeline.xslt</gdacs:xslt>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="event_rss" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/TC/1000317/rss_1000317_50.xml" type="rss">
+                    <gdacs:title>Event in rss format</gdacs:title>
+                    <gdacs:acknowledgements>NASA Experimental Product</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Private</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="event_geojson" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/TC/1000317/geojson_1000317_50.geojson" type="geojson">
+                    <gdacs:title>Event in geojson format</gdacs:title>
+                    <gdacs:acknowledgements>NASA Experimental Product</gdacs:acknowledgements>
+                    <gdacs:accesslevel>Private</gdacs:accesslevel>
+                </gdacs:resource>
+                <gdacs:resource id="jsonEvent" version="0" source="JRC" url="http://www.gdacs.org//datareport/resources/TC/1000317/geojson_1000317_50.geojson" type="json">
+                    <gdacs:title>The Event in GeoJson format</gdacs:title>
+                    <gdacs:accesslevel>Public</gdacs:accesslevel>
+                </gdacs:resource>
+            </gdacs:resources>
+            <gdacs:identifiers />
+        </item>
+    </channel>
+</rss><!--End 10/16/2016 10:13:01 PM-->

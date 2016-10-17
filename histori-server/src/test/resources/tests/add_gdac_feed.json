@@ -1,0 +1,61 @@
+[
+  {
+    "comment": "login as superuser",
+    "request": {
+      "session": "new",
+      "uri": "accounts/login",
+      "entity": {
+        "name": "jonathan@kyuss.org",
+        "password": "foobar"
+      }
+    },
+    "response": {
+      "sessionName": "superuser",
+      "session": "sessionId"
+    }
+  },
+
+  {
+    "comment": "test the GDAC feed with earthquake filter",
+    "request": {
+      "uri": "feeds?preview=true",
+      "entity": {
+        "name": "gdacs",
+        "source": "classpath:feeds/gdacs/gdacs-rss.xml",
+        "book": "gdacs",
+        "poll": "hourly",
+        "path": "channel.item",
+        "match": "{{{xpath-contains 'title' 'earthquake'}}}",
+        "nexus": {
+          "name": "{{{xpath 'title'}}}",
+          "markdown": "{{{xpath 'description'}}}",
+          "geoJson": "{ \"type\": \"Point\", \"coordinates\": [ {{xpath 'geo:Point/geo:lon'}}, {{xpath 'geo:Point/geo:lat'}} ] }",
+          "timeRange": {
+            "start": "{{{xpath 'gdacs:fromdate'}}",
+            "end": "{{{xpath 'gdacs:todate'}}"
+          },
+          "tags": [
+            {"tagType": "event_type", "tagName": "earthquake"},
+            {"tagType": "citation", "tagName": "{{{xpath 'link'}}}"},
+            {"tagType": "comment", "tagName": "GUID: {{{xpath 'guid'}}}"},
+            {"tagType": "impact", "tagName": "people within 100km", "values": [{"field": "estimate", "value": "{{xpath 'gdacs:population[@unit='Pop100']/@value'}}"}]},
+            {"tagType": "impact", "tagName": "magnitude", "values": [{"field": "estimate", "value": "{{xpath 'gdacs:severity[@unit='M']/@value'}}"}]},
+            {"tagType": "impact", "tagName": "alert_level", "values": [{"field": "color", "value": "{{xpath 'gdacs:alertlevel'}}"}]},
+            {
+              "tagType": "world_actor",
+              "tagName": "{{{xpath 'gdacs:country'}}}",
+              "splitName": ",",
+              "values": [{"field": "relationship", "value": "affected"}]
+            }
+          ]
+        }
+      }
+    },
+    "response": {
+      "check": [
+        {"condition": "json.length == 5"}
+      ]
+    }
+  }
+
+]

@@ -5,7 +5,8 @@
       "fields": [
         {"name": "name", "fieldType": "world_actor", "multiple": false},
         {"name": "role", "fieldType": "role_type", "multiple": true},
-        {"name": "see_also", "fieldType": "string", "multiple": true}
+        {"name": "see_also", "fieldType": "string", "multiple": true},
+        {"name": "comment", "fieldType": "string", "multiple": true}
       ]
     }
   },
@@ -16,7 +17,8 @@
         {"name": "name", "fieldType": "person", "multiple": false},
         {"name": "role", "fieldType": "role_type", "multiple": true},
         {"name": "world_actor", "fieldType": "world_actor", "multiple": true},
-        {"name": "see_also", "fieldType": "string", "multiple": true}
+        {"name": "see_also", "fieldType": "string", "multiple": true},
+        {"name": "comment", "fieldType": "string", "multiple": true}
       ]
     }
   },
@@ -26,7 +28,8 @@
       "fields": [
         {"name": "name", "fieldType": "event", "multiple": false},
         {"name": "relationship", "fieldType": "relationship_type", "multiple": true},
-        {"name": "see_also", "fieldType": "string", "multiple": true}
+        {"name": "see_also", "fieldType": "string", "multiple": true},
+        {"name": "comment", "fieldType": "string", "multiple": true}
       ]
     }
   },
@@ -36,7 +39,8 @@
       "fields": [
         {"name": "name", "fieldType": "result", "multiple": false},
         {"name": "world_actor", "fieldType": "world_actor", "multiple": true},
-        {"name": "see_also", "fieldType": "string", "multiple": true}
+        {"name": "see_also", "fieldType": "string", "multiple": true},
+        {"name": "comment", "fieldType": "string", "multiple": true}
       ]
     }
   },
@@ -49,7 +53,8 @@
         {"name": "low_estimate", "fieldType": "integer", "multiple": false},
         {"name": "estimate", "fieldType": "integer", "multiple": false},
         {"name": "high_estimate", "fieldType": "integer", "multiple": false},
-        {"name": "see_also", "fieldType": "string", "multiple": true}
+        {"name": "see_also", "fieldType": "string", "multiple": true},
+        {"name": "comment", "fieldType": "string", "multiple": true}
       ]
     }
   },
@@ -58,7 +63,8 @@
       "fields": [
         {"name": "name", "fieldType": "citation", "multiple": false},
         {"name": "excerpt", "fieldType": "string", "multiple": true},
-        {"name": "see_also", "fieldType": "string", "multiple": true}
+        {"name": "see_also", "fieldType": "string", "multiple": true},
+        {"name": "comment", "fieldType": "string", "multiple": true}
       ]
     }
   },
@@ -66,7 +72,8 @@
     "schema": {
       "fields": [
         {"name": "name", "fieldType": "idea", "multiple": false},
-        {"name": "see_also", "fieldType": "string", "multiple": true}
+        {"name": "see_also", "fieldType": "string", "multiple": true},
+        {"name": "comment", "fieldType": "string", "multiple": true}
       ]
     }
   },
@@ -74,7 +81,8 @@
     "schema": {
       "fields": [
         {"name": "name", "fieldType": "event_type", "multiple": false},
-        {"name": "see_also", "fieldType": "string", "multiple": true}
+        {"name": "see_also", "fieldType": "string", "multiple": true},
+        {"name": "comment", "fieldType": "string", "multiple": true}
       ]
     }
   },
@@ -82,7 +90,8 @@
     "schema": {
       "fields": [
         {"name": "name", "fieldType": "string", "multiple": false},
-        {"name": "value", "fieldType": "string", "multiple": true}
+        {"name": "value", "fieldType": "string", "multiple": true},
+        {"name": "comment", "fieldType": "string", "multiple": true}
       ]
     }
   }
