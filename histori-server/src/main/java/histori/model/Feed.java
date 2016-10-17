@@ -16,8 +16,8 @@ import static histori.model.Nexus.NEXUS_JSONB_TYPE;
 
 @NoArgsConstructor @Accessors(chain=true) @Entity
 @Table(uniqueConstraints={
-        @UniqueConstraint(columnNames={"owner", "name"}),
-        @UniqueConstraint(columnNames={"owner", "source"})
+        @UniqueConstraint(columnNames={"owner", "name"  }, name="feed_uniq_owner_name"),
+        @UniqueConstraint(columnNames={"owner", "source"}, name="feed_uniq_owner_source")
 })
 public class Feed extends AccountOwnedEntity implements Shardable {
 

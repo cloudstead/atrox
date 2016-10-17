@@ -57,3 +57,21 @@ INSERT INTO book (uuid, name, short_name, owner, ctime, mtime) VALUES (
   (select (1000*extract(epoch from now())::bigint)),
   (select (1000*extract(epoch from now())::bigint))
 );
+
+CREATE TABLE feed (
+  uuid character varying(100) NOT NULL,
+  ctime bigint NOT NULL,
+  mtime bigint NOT NULL,
+  owner character varying(100) NOT NULL,
+  book character varying(1024),
+  match character varying(1024),
+  name character varying(1024) NOT NULL,
+  nexus jsonb,
+  path character varying(1024) NOT NULL,
+  poll character varying(30) NOT NULL,
+  source character varying(1024) NOT NULL
+);
+
+ALTER TABLE ONLY feed ADD CONSTRAINT feed_pkey PRIMARY KEY (uuid);
+ALTER TABLE ONLY feed ADD CONSTRAINT feed_uniq_owner_name UNIQUE (owner, name);
+ALTER TABLE ONLY feed ADD CONSTRAINT feed_uniq_owner_source UNIQUE (owner, source);
