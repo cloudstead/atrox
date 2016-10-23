@@ -80,12 +80,17 @@ public abstract class NexusBase extends SocialEntity implements NexusView, Compa
 
     @Transient @Getter @Setter private String displayName;
 
-    @Column(length=100)
-    @Size(max=100, message="err.book.length")
+    @Column(length=NAME_MAXLEN)
+    @Size(max=NAME_MAXLEN, message="err.book.length")
     @Getter @Setter private String book;
     public boolean hasBook () { return !empty(book); }
 
     @Getter @Setter private boolean inOwnerBook = false;
+
+    @Column(length=NAME_MAXLEN)
+    @Size(max=NAME_MAXLEN, message="err.feed.length")
+    @Getter @Setter private String feed;
+    public boolean hasFeed () { return !empty(feed); }
 
     // Which event_type tag is "primary" (if there is only 1 then it is here by default)
     @Column(length=NAME_MAXLEN)

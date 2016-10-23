@@ -22,4 +22,8 @@ public class FeedDAO extends ShardedEntityDAO<Feed, FeedShardDAO> {
         return findByUniqueFields("owner", account.getUuid(), "name", name);
     }
 
+    public Feed findByAccountAndSource(Account account, String source) {
+        return findByUniqueFields("owner", account.getUuid(), "source", source);
+    }
+
 }

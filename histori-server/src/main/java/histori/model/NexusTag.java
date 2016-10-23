@@ -8,7 +8,6 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.cobbzilla.util.collection.ArrayUtil;
 import org.cobbzilla.util.collection.mappy.MappySortedSet;
-import org.cobbzilla.util.string.StringUtil;
 import org.cobbzilla.wizard.model.IdentifiableBase;
 
 import javax.persistence.Transient;
@@ -47,11 +46,6 @@ public class NexusTag extends IdentifiableBase implements Comparable<NexusTag> {
         }
         return this;
     }
-
-    // only used in feeds
-    @Transient @Getter @Setter private String splitNames;
-    public boolean hasSplitNames () { return !empty(splitNames); }
-    @JsonIgnore @Transient public List<String> getNames () { return StringUtil.split(getTagName(), " "+splitNames); }
 
     @Override public String toString() {
         if (hasSchemaValues()) {

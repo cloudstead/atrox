@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.cobbzilla.mail.SimpleEmailMessage;
 import org.cobbzilla.mail.sender.SmtpMailConfig;
 import org.cobbzilla.mail.service.TemplatedMailSenderConfiguration;
+import org.cobbzilla.util.handlebars.HandlebarsUtil;
 import org.cobbzilla.util.reflect.ReflectionUtil;
 import org.cobbzilla.wizard.cache.redis.HasRedisConfiguration;
 import org.cobbzilla.wizard.cache.redis.RedisConfiguration;
@@ -48,7 +49,7 @@ public class HistoriConfiguration extends RestServerConfiguration
         return redis;
     }
 
-    @Getter(lazy=true) private final Handlebars handlebars = null;
+    @Getter(lazy=true) private final Handlebars handlebars = new Handlebars(new HandlebarsUtil("histori"));
 
     @Getter @Setter private SmtpMailConfig smtp;
     @Getter @Setter private Map<String, SimpleEmailMessage> emailSenderNames = new HashMap<>();

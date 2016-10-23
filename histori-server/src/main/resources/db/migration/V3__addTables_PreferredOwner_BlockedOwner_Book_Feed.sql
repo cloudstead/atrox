@@ -66,6 +66,7 @@ CREATE TABLE feed (
   book character varying(1024),
   match character varying(1024),
   name character varying(1024) NOT NULL,
+  reader character varying(1024) NOT NULL,
   nexus jsonb,
   path character varying(1024) NOT NULL,
   poll character varying(30) NOT NULL,
@@ -74,4 +75,3 @@ CREATE TABLE feed (
 
 ALTER TABLE ONLY feed ADD CONSTRAINT feed_pkey PRIMARY KEY (uuid);
 ALTER TABLE ONLY feed ADD CONSTRAINT feed_uniq_owner_name UNIQUE (owner, name);
-ALTER TABLE ONLY feed ADD CONSTRAINT feed_uniq_owner_source UNIQUE (owner, source);

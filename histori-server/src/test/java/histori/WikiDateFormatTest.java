@@ -10,6 +10,7 @@ import static org.junit.Assert.fail;
 public class WikiDateFormatTest {
 
     public static final String[][] TESTS = new String[][]{
+            {"Sat, 15 Oct 2016 20:14:49 GMT", "2016-10-15-20-14-49"},
             {"217 BCE", "-217"},
             {"16 April&amp;nbsp;��� 2 May 1945", "1945-04-16_1945-05-02"},
             {"16 April&nbsp;– 2 May 1945", "1945-04-16_1945-05-02"},

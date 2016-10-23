@@ -69,7 +69,7 @@ public class BooksResource {
         final Account account = userPrincipal(ctx);
 
         Book book = bookDAO.findByName(name);
-        if (book != null) return invalid("err.bookmark.name.notUnique");
+        if (book != null) return invalid("err.book.name.notUnique");
 
         book = (Book) new Book()
                 .setName(name)
