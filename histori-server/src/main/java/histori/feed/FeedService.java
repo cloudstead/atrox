@@ -59,10 +59,11 @@ public class FeedService extends SimpleDaemon {
             items = Arrays.asList(json(nexusJson, Nexus[].class));
         }
         if (feed.isActive() && save) {
-            for (Nexus nexus : items) {
+            for (int i=0; i<items.size(); i++) {
+                final Nexus nexus = items.get(i);
                 nexus.setFeed(feed.getUuid());
                 nexus.getTags().addTag(feed.getSource(), "Citation", MapBuilder.build("last_access", ""+  now()));
-                nexusDAO.createOrUpdateNexus(feedOwner, nexus);
+                items.set(i, nexusDAO.createOrUpdateNexus(feedOwner, nexus));
             }
         }
         return items;

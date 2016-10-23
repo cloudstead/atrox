@@ -2,6 +2,7 @@ package histori.main;
 
 import histori.model.Feed;
 import org.cobbzilla.wizard.client.ApiClientBase;
+import org.cobbzilla.wizard.util.RestResponse;
 
 import static histori.ApiConstants.FEEDS_ENDPOINT;
 import static org.cobbzilla.util.json.JsonUtil.json;
@@ -14,15 +15,16 @@ public class FeedMain extends HistoriApiMain<FeedOptions> {
     @Override protected void run() throws Exception {
         final ApiClientBase api = getApiClient();
         final FeedOptions options = getOptions();
-        final Feed feed = api.post(FEEDS_ENDPOINT, options.getFeedJson(), Feed.class);
-        out(json(feed));
-        out(api.get(getFeedUri(options, feed)));
+        final RestResponse response = api.post(FEEDS_ENDPOINT, options.getFeedJson());
+        final Feed created = json(response.json, Feed.class);
+        out(json(created));
+        out(api.get(getItemsUri(options, created)));
     }
 
-    private String getFeedUri(FeedOptions options, Feed feed) {
+    private String getItemsUri(FeedOptions options, Feed feed) {
         return FEEDS_ENDPOINT
                 +"/"+urlEncode(feed.getName())
-                +"/items?"
+                +"/items"
                 +(options.isSave() ? "?save=true" : options.isPreview() ? "?preview=true" : "");
     }
 
