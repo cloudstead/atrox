@@ -62,6 +62,7 @@
     "schema": {
       "fields": [
         {"name": "name", "fieldType": "citation", "multiple": false},
+        {"name": "last_accessed", "fieldType": "date", "multiple": false},
         {"name": "excerpt", "fieldType": "string", "multiple": true},
         {"name": "see_also", "fieldType": "string", "multiple": true},
         {"name": "comment", "fieldType": "string", "multiple": true}

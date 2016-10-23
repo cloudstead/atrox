@@ -41,7 +41,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import static histori.ApiConstants.*;
-import static histori.resources.NexusResource.createNexus;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.MULTIPART_FORM_DATA;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
@@ -238,7 +237,7 @@ public class BulkNexusResource {
                                 }
                             }
                             request.setAuthoritative(authoritative);
-                            final Nexus nexus = createNexus(account, request, nexusDAO);
+                            final Nexus nexus = nexusDAO.createOrUpdateNexus(account, request);
                             if (nexus == null) {
                                 // should never happen
                                 log.info("bulkLoad: error creating from: " + abs(f));

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static org.cobbzilla.util.string.StringUtil.urlDecode;
+
 @Repository
 public class FeedDAO extends ShardedEntityDAO<Feed, FeedShardDAO> {
 
@@ -25,5 +27,15 @@ public class FeedDAO extends ShardedEntityDAO<Feed, FeedShardDAO> {
     public Feed findByAccountAndSource(Account account, String source) {
         return findByUniqueFields("owner", account.getUuid(), "source", source);
     }
+
+    public Feed findByAccountAndUuidOrName(Account account, String id) {
+        Feed feed = findByUniqueFields("owner", account.getUuid(), "uuid", id);
+        if (feed != null) return feed;
+        feed = findByUniqueFields("owner", account.getUuid(), "name", id);
+        if (feed != null) return feed;
+        return urlDecode(id).equals(id) ? null : findByUniqueFields("owner", account.getUuid(), "name", urlDecode(id));
+    }
+
+    public List<Feed> findActive() { return findByField("active", true); }
 
 }

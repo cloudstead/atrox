@@ -2,10 +2,13 @@ package histori.resources;
 
 import com.sun.jersey.api.core.HttpContext;
 import histori.dao.FeedDAO;
+import histori.dao.NexusDAO;
 import histori.model.Account;
 import histori.model.Feed;
+import histori.model.Nexus;
 import histori.server.HistoriConfiguration;
 import lombok.extern.slf4j.Slf4j;
+import org.cobbzilla.wizard.api.CrudOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,7 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 import static histori.ApiConstants.FEEDS_ENDPOINT;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -26,73 +30,69 @@ public class FeedsResource {
 
     @Autowired private HistoriConfiguration configuration;
     @Autowired private FeedDAO feedDAO;
+    @Autowired private NexusDAO nexusDAO;
 
-    @GET
-    public Response getAllFeeds (@Context HttpContext ctx) {
-        final Account account = userPrincipal(ctx);
-        return ok(feedDAO.findByOwner(account));
+    private FeedItemsResource feedItemsResource = new FeedItemsResource();
+    @Path("/{id}/items")
+    public FeedItemsResource getItemsResource(@Context HttpContext context,
+                                              @PathParam("id") String id) {
+        final FeedContext ctx = new FeedContext(context, id, CrudOperation.read);
+        return feedItemsResource.forContext(configuration.getApplicationContext(), ctx.feed);
     }
 
     @GET
-    @Path("/{name}")
-    public Response getFeed (@Context HttpContext ctx,
-                             @PathParam("name") String name) {
-        final Account account = userPrincipal(ctx);
+    public Response getAllFeeds (@Context HttpContext context) {
+        final FeedContext ctx = new FeedContext(context);
+        return ok(feedDAO.findByOwner(ctx.account));
+    }
 
-        final Feed feed = feedDAO.findByAccountAndName(account, name);
-        if (feed == null) return notFound(name);
-
-        return ok(feed);
+    @GET
+    @Path("/{id}")
+    public Response getFeed (@Context HttpContext context,
+                             @PathParam("id") String id) {
+        final FeedContext ctx = new FeedContext(context, id, CrudOperation.read);
+        return ok(ctx.feed);
     }
 
     @POST
-    public Response addFeed (@Context HttpContext ctx,
-                             @Valid Feed request) {
-        final Account account = userPrincipal(ctx);
-
-        Feed feed = feedDAO.findByAccountAndName(account, request.getName());
-        if (feed != null) return invalid("err.feed.name.notUnique");
-
-        feed = (Feed) new Feed(request).setOwner(account.getUuid());
-
-        final Feed created = feedDAO.create(feed);
-        created.setNexuses(feed.read(configuration));
-
-        return ok(created);
-    }
-
-    @POST
-    @Path("/{name}")
-    public Response updateFeed (@Context HttpContext ctx,
-                                @PathParam("name") String name,
-                                @Valid Feed request) {
-        final Account account = userPrincipal(ctx);
-
-        final Feed feed = feedDAO.findByName(name);
-        if (feed == null) return notFound(name);
-
-        if (!feed.getOwner().equals(account.getUuid())) return forbidden();
-
-        feed.update(request);
-        feed.setNexuses(feed.read(configuration));
-
-        return ok(feedDAO.update(feed));
+    public Response addOrUpdateFeed (@Context HttpContext context,
+                                     @Valid Feed request) {
+        final FeedContext ctx = new FeedContext(context);
+        Feed found = feedDAO.findByAccountAndName(ctx.account, request.getName());
+        if (found != null) {
+            found.update(request);
+            ctx.feed = feedDAO.update(found);
+        } else {
+            found = (Feed) new Feed(request).setOwner(ctx.account.getUuid());
+            ctx.feed = feedDAO.create(found);
+        }
+        return ok(ctx.feed);
     }
 
     @DELETE
-    @Path("/{name}")
-    public Response removeFeed (@Context HttpContext ctx,
-                                @PathParam("name") String name) {
+    @Path("/{id}")
+    public Response removeFeed (@Context HttpContext context,
+                                @PathParam("id") String id) {
+        final FeedContext ctx = new FeedContext(context, id, CrudOperation.delete);
+        final List<Nexus> items = nexusDAO.findByOwnerAndFeed(ctx.account, ctx.feed);
+        for (Nexus nexus : items) {
+            nexus.setFeed(ctx.feed.getSource());
+        }
 
-        final Account account = userPrincipal(ctx);
-        if (!account.isAdmin()) return forbidden();
-
-        final Feed feed = feedDAO.findByAccountAndName(account, name);
-
-        if (feed == null) return notFound(name);
-
-        feedDAO.delete(feed.getUuid());
+        feedDAO.delete(ctx.feed.getUuid());
         return ok();
+    }
+
+    private class FeedContext {
+        public Account account;
+        public Feed feed;
+        public FeedContext(HttpContext ctx) { account = userPrincipal(ctx); }
+        public FeedContext(HttpContext ctx, String id, CrudOperation op) {
+            this(ctx);
+            feed = feedDAO.findByAccountAndUuidOrName(account, id);
+            if (feed == null) throw notFoundEx(id);
+            if (!feed.getOwner().equals(account.getUuid()) && !account.isAdmin()) throw notFoundEx(id);
+        }
     }
 
 }

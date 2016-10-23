@@ -1,4 +1,4 @@
-package histori.reader;
+package histori.feed;
 
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Helper;

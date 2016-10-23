@@ -34,6 +34,7 @@ public class NexusTag extends IdentifiableBase implements Comparable<NexusTag> {
     @Size(max=NAME_MAXLEN, message="err.tagType.tooLong")
     @Getter @Setter private String tagType;
     public boolean hasTagType () { return !empty(tagType); }
+    @Transient @JsonIgnore public String getCanonicalType () { return canonicalize(getTagType()); }
 
     @Getter @Setter private TagSchemaValue[] values;
     public boolean hasSchemaValues () { return !empty(values); }

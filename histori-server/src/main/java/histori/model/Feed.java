@@ -1,7 +1,6 @@
 package histori.model;
 
 import histori.model.template.NexusTemplate;
-import histori.server.HistoriConfiguration;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,13 +12,11 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 import static histori.ApiConstants.NAME_MAXLEN;
 import static histori.model.template.NexusTemplate.NEXUS_TEMPLATE_JSONB_TYPE;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
-import static org.cobbzilla.util.reflect.ReflectionUtil.instantiate;
 
 @NoArgsConstructor @Accessors(chain=true) @Entity
 @Table(uniqueConstraints={
@@ -29,7 +26,9 @@ public class Feed extends AccountOwnedEntity implements Shardable {
 
     @Override public String getHashToShardField() { return "owner"; }
 
-    private static final String[] VALUE_FIELDS = {"name", "book", "poll", "source", "reader", "path", "match", "nexus"};
+    private static final String[] VALUE_FIELDS = {
+        "name", "active", "book", "poll", "source", "reader", "path", "match", "nexus"
+    };
 
     public Feed(Feed other) { update(other); }
 
@@ -39,6 +38,8 @@ public class Feed extends AccountOwnedEntity implements Shardable {
     @Size(min=3, max=NAME_MAXLEN, message="err.name.length")
     @Column(length=NAME_MAXLEN, nullable=false)
     @Getter @Setter private String name;
+
+    @Getter @Setter private boolean active = true;
 
     @Size(min=3, max=NAME_MAXLEN, message="err.book.length")
     @Column(length=NAME_MAXLEN)
@@ -58,12 +59,6 @@ public class Feed extends AccountOwnedEntity implements Shardable {
     @Column(length=NAME_MAXLEN, nullable=false)
     @Getter @Setter private String reader;
 
-    public FeedReader getFeedReader(HistoriConfiguration configuration) {
-        final FeedReader reader = instantiate(getReader());
-        return configuration.autowire(reader);
-    }
-    public List<Nexus> read(HistoriConfiguration configuration) { return getFeedReader(configuration).read(this); }
-
     @HasValue(message="err.path.empty")
     @Size(min=3, max=NAME_MAXLEN, message="err.path.length")
     @Column(length=NAME_MAXLEN, nullable=false)
@@ -76,7 +71,5 @@ public class Feed extends AccountOwnedEntity implements Shardable {
 
     @Type(type=NEXUS_TEMPLATE_JSONB_TYPE)
     @Getter @Setter private NexusTemplate nexus = new NexusTemplate();
-
-    @Transient @Getter @Setter List<Nexus> nexuses;
 
 }

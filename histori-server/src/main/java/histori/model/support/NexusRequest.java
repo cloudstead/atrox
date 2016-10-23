@@ -3,6 +3,7 @@ package histori.model.support;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import histori.model.Nexus;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.geojson.LineString;
@@ -13,7 +14,7 @@ import org.geojson.Polygon;
 import static org.cobbzilla.util.daemon.ZillaRuntime.die;
 import static org.cobbzilla.util.json.JsonUtil.toJsonOrDie;
 
-@Accessors(chain=true)
+@NoArgsConstructor @Accessors(chain=true)
 public class NexusRequest extends Nexus {
 
     // exactly one of these should be filled out, or super.geoJson

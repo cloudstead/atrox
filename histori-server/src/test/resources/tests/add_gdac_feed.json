@@ -23,7 +23,7 @@
       "entity": {
         "name": "GDAC - Earthquakes",
         "source": "classpath:feeds/gdacs/gdacs-rss.xml",
-        "reader": "histori.reader.RssReader",
+        "reader": "histori.feed.RssReader",
         "book": "gdacs",
         "poll": "hourly",
         "path": "//channel/item",
@@ -55,9 +55,7 @@
     },
     "response": {
       "type": "histori.model.Feed",
-      "check": [
-        {"condition": "json.nexuses.size() == 3"}
-      ]
+      "store": "quakeFeed"
     }
   }
 ,
@@ -70,7 +68,7 @@
       "entity": {
         "name": "GDAC - Tropical Storms",
         "source": "classpath:feeds/gdacs/gdacs-rss.xml",
-        "reader": "histori.reader.RssReader",
+        "reader": "histori.feed.RssReader",
         "book": "gdacs",
         "poll": "hourly",
         "path": "//channel/item",
@@ -102,8 +100,50 @@
     },
     "response": {
       "type": "histori.model.Feed",
+      "store": "stormFeed"
+    }
+  },
+
+  {
+    "comment": "search earthquake nexuses, find nothing",
+    "request": {
+      "uri": "search/q/2015/2017/-90/90/-180/180?q=earthquake"
+    },
+    "response": {
+      "type": "org.cobbzilla.wizard.dao.SearchResults",
+      "store": "authoritativeSearchResults",
       "check": [
-        {"condition": "json.nexuses.size() == 5"}
+        {"condition": "json.results.isEmpty()"}
+      ]
+    }
+  },
+
+  {
+    "comment": "request items from feed, and request that they be saved now",
+    "request": {
+      "uri": "feeds/{{urlEncode quakeFeed.name}}/items?save=true"
+    },
+    "response": {
+      "type": "histori.model.Nexus[]",
+      "store": "items",
+      "check": [
+        {"condition": "json.length == 3"},
+        {"condition": "json[0].feed == '{{quakeFeed.uuid}}'"}
+      ]
+    }
+  },
+
+  {
+    "comment": "search earthquake nexuses, find ones we just added",
+    "request": {
+      "uri": "search/q/2015/2017/-90/90/-180/180?q=earthquake"
+    },
+    "response": {
+      "type": "org.cobbzilla.wizard.dao.SearchResults",
+      "store": "authoritativeSearchResults",
+      "check": [
+        {"condition": "json.results.size() == 3"},
+        {"condition": "json.getResult(0).get('primary').get('name').indexOf('earthquake') != -1"}
       ]
     }
   }

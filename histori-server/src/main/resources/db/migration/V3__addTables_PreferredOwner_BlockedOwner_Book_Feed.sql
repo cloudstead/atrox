@@ -66,6 +66,7 @@ CREATE TABLE feed (
   book character varying(1024),
   match character varying(1024),
   name character varying(1024) NOT NULL,
+  active boolean NOT NULL,
   reader character varying(1024) NOT NULL,
   nexus jsonb,
   path character varying(1024) NOT NULL,
@@ -75,3 +76,15 @@ CREATE TABLE feed (
 
 ALTER TABLE ONLY feed ADD CONSTRAINT feed_pkey PRIMARY KEY (uuid);
 ALTER TABLE ONLY feed ADD CONSTRAINT feed_uniq_owner_name UNIQUE (owner, name);
+
+UPDATE tag_type SET schema_json =
+'{
+  "fields": [
+    {"name": "name", "fieldType": "citation", "multiple": false},
+    {"name": "last_accessed", "fieldType": "date", "multiple": false},
+    {"name": "excerpt", "fieldType": "string", "multiple": true},
+    {"name": "see_also", "fieldType": "string", "multiple": true},
+    {"name": "comment", "fieldType": "string", "multiple": true}
+  ]
+}'
+WHERE canonical_name = 'citation';

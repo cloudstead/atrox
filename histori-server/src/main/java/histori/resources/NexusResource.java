@@ -2,10 +2,9 @@ package histori.resources;
 
 import com.sun.jersey.api.core.HttpContext;
 import histori.dao.NexusDAO;
+import histori.dao.TagTypeDAO;
 import histori.model.Account;
 import histori.model.Nexus;
-import histori.model.NexusTag;
-import histori.model.base.NexusTags;
 import histori.model.support.EntityVisibility;
 import histori.model.support.NexusRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -16,13 +15,9 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import java.util.Iterator;
 
-import static histori.ApiConstants.NAME_MAXLEN;
 import static histori.ApiConstants.NEXUS_ENDPOINT;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
-import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
 import static org.cobbzilla.util.string.StringUtil.urlDecode;
 import static org.cobbzilla.wizard.resources.ResourceUtil.*;
 
@@ -40,10 +35,8 @@ import static org.cobbzilla.wizard.resources.ResourceUtil.*;
 @Service @Slf4j
 public class NexusResource {
 
-    public static final String[] CREATE_FIELDS = {"name", "nexusType", "geoJson", "timeRange", "markdown", "visibility", "tags", "authoritative"};
-    public static final String[] UPDATE_FIELDS = {"geoJson", "nexusType", "timeRange", "markdown", "visibility", "tags", "authoritative", "bounds"};
-
     @Autowired private NexusDAO nexusDAO;
+    @Autowired private TagTypeDAO tagTypeDAO;
 
     @GET
     @Path("/{name: .+}")
@@ -82,50 +75,9 @@ public class NexusResource {
         name = urlDecode(name); // no url-encoded chars allowed
 
         if (!name.equals(request.getName())) return invalid("err.name.mismatch");
-        final Nexus nexus = createNexus(account, request, nexusDAO);
+        final Nexus nexus = nexusDAO.createOrUpdateNexus(account, request);
         log.info("created nexus: "+nexus.getCanonicalName()+" (owner="+account.getEmail()+", authoritative="+nexus.isAuthoritative()+")");
         return ok(nexus);
-    }
-
-    public static Nexus createNexus (Account account, NexusRequest request, NexusDAO nexusDAO) {
-        final String name = request.getName();
-        if (request.isAuthoritative() && !account.isAdmin()) throw forbiddenEx();
-        if (request.emptyGeo()) throw invalidEx("err.geo.empty");
-
-        // remove tags with null names, or names that are too long
-        // ensure other tags exist
-        final NexusTags tags = request.getTags();
-        for (Iterator<NexusTag> iter = tags.iterator(); iter.hasNext(); ) {
-            NexusTag tag = iter.next();
-            if (empty(tag.getCanonicalName()) || tag.getCanonicalName().length() > NAME_MAXLEN) {
-                log.warn("createNexus: removing invalid tag: "+tag);
-                iter.remove();
-            }
-        }
-
-        Nexus nexus = nexusDAO.findByOwnerAndName(account, name);
-        if (nexus != null) {
-            if (!updateNexus(request, nexus)) return nexus;
-            nexus.setOwnerAccount(account); // for sanity. nothing can change the owner.
-            nexus = nexusDAO.update(nexus);
-        } else {
-            nexus = new Nexus();
-            copy(nexus, request, CREATE_FIELDS);
-            nexus.setOwnerAccount(account);
-            nexus = nexusDAO.create(nexus);
-        }
-        return nexus;
-    }
-
-    public static boolean updateNexus(@Valid NexusRequest request, Nexus nexus) {
-        final Nexus backup = new Nexus();
-        copy(backup, nexus);
-        copy(nexus, request, UPDATE_FIELDS);
-        if (backup.equals(nexus)) {
-            log.info("no changes made, not saving: "+request.getName());
-            return false;
-        }
-        return true;
     }
 
     @POST
@@ -145,28 +97,7 @@ public class NexusResource {
         if (idNexus == null || !idNexus.isVisibleTo(account)) return notFound(uuid);
         if (!name.equals(idNexus.getName())) return invalid("err.name.mismatch");
 
-        Nexus nexus = nexusDAO.findByOwnerAndName(account, name);
-        if (nexus == null) {
-            nexus = new Nexus();
-            copy(nexus, idNexus, CREATE_FIELDS);
-            copy(nexus, request, UPDATE_FIELDS);
-            nexus.setOrigin(idNexus.getUuid());
-            nexus.setOwnerAccount(account);
-            nexus = nexusDAO.create(nexus);
-
-        } else if (!idNexus.isOwner(account)) {
-            copy(nexus, idNexus, CREATE_FIELDS);
-            copy(nexus, request, UPDATE_FIELDS);
-            nexus.setOrigin(idNexus.getUuid());
-            nexus.setOwnerAccount(account);
-            nexus = nexusDAO.update(nexus);
-
-        } else {
-            if (!updateNexus(request, nexus)) return ok(nexus);
-            nexus.setOrigin(idNexus.getUuid());
-            nexus.setOwnerAccount(account);
-            nexus = nexusDAO.update(nexus);
-        }
+        final Nexus nexus = nexusDAO.updateByOwnerAndName(account, name, request, idNexus);
         log.info("updated nexus: "+nexus.getCanonicalName()+" (owner="+account.getEmail()+", authoritative="+nexus.isAuthoritative()+", version="+nexus.getVersion()+")");
         return ok(nexus);
     }
