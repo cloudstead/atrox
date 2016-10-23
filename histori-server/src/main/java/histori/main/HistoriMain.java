@@ -22,6 +22,7 @@ public class HistoriMain {
             {"index-titles",      WikiTitleIndexMain.class},
             {"path",              ArticlePathMain.class},
             {"nexus",             ArticleNexusMain.class},
+            {"feed",              FeedMain.class},
             {"import",            NexusImportMain.class},
             {"shard-update",      ShardUpdateMain.class},
             {"shard-bulk-update", ShardBulkUpdateMain.class},

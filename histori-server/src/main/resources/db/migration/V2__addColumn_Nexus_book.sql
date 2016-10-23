@@ -1,6 +1,8 @@
-alter table nexus_archive add column book varchar(100) DEFAULT NULL;
+alter table nexus_archive add column book varchar(1024) DEFAULT NULL;
+alter table nexus_archive add column feed varchar(1024);
 alter table nexus_archive add column in_owner_book boolean default false;
 alter table nexus add column book varchar(100) DEFAULT NULL;
+alter table nexus add column feed varchar(1024);
 alter table nexus add column in_owner_book boolean default false;
 
 update nexus set book = 'w.city' where nexus_type = 'founding';
