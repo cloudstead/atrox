@@ -18,6 +18,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.sql.Time;
 
 import static java.math.BigInteger.ZERO;
 import static org.cobbzilla.util.daemon.ZillaRuntime.bigint;
@@ -105,12 +106,12 @@ public class TimePoint {
     @Transient @Getter private String inputString;
     public void setInputString(String inputString) {
         if (empty(inputString)) return; // could be empty endPoint
-        final TimeRange parsed = WikiDateFormat.parse(inputString);
+        final TimePoint parsed = WikiDateFormat.parseStart(inputString);
         if (parsed == null) {
             die("setInputString: error parsing: "+inputString);
             return;
         }
-        copy(this, parsed.getStartPoint());
+        copy(this, parsed);
     }
 
     @Getter @Setter private BigInteger instant;

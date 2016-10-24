@@ -88,3 +88,18 @@ UPDATE tag_type SET schema_json =
   ]
 }'
 WHERE canonical_name = 'citation';
+
+UPDATE tag_type SET schema_json =
+'{
+  "fields": [
+    {"name": "name", "fieldType": "impact", "multiple": false},
+    {"name": "world_actor", "fieldType": "world_actor", "multiple": true},
+    {"name": "low_estimate", "fieldType": "integer", "multiple": false},
+    {"name": "estimate", "fieldType": "integer", "multiple": false},
+    {"name": "value", "fieldType": "integer", "multiple": false},
+    {"name": "high_estimate", "fieldType": "integer", "multiple": false},
+    {"name": "see_also", "fieldType": "string", "multiple": true},
+    {"name": "comment", "fieldType": "string", "multiple": true}
+  ]
+}'
+WHERE canonical_name = 'impact';

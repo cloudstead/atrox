@@ -3,6 +3,7 @@ package histori.model.base;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.emory.mathcs.backport.java.util.Arrays;
 import histori.model.NexusTag;
+import histori.model.tag_schema.TagSchemaValue;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,6 +35,29 @@ public class NexusTags implements Iterable<NexusTag> {
 
     public NexusTags(Collection<NexusTag> nexusTags) { tags.addAll(nexusTags); }
 
+    @JsonIgnore public String toTable () {
+        final StringBuilder b = new StringBuilder();
+        if (!isEmpty()) {
+            final SortedSet<NexusTag> sorted = new TreeSet<>(NexusTag.SORT_NAME);
+            for (NexusTag tag : getTags()) {
+                final NexusTag copy = new NexusTag(tag);
+                sorted.add(copy);
+            }
+            for (NexusTag tag : sorted) {
+                final String prefix = "\n" + tag.getCanonicalType() + "\t" + tag.getCanonicalName();
+                b.append(prefix);
+                if (tag.hasSchemaValues()) {
+                    final SortedSet<TagSchemaValue> sortedValues = new TreeSet<>(TagSchemaValue.SORT_NAME);
+                    sortedValues.addAll(java.util.Arrays.asList(tag.getValues()));
+                    for (TagSchemaValue value : sortedValues) {
+                        b.append(prefix + "\t" + value.getCanonicalField() + "\t" + (value.isHashable() ? value.getValue() : ""));
+                    }
+                }
+            }
+        }
+        return b.toString().trim();
+    }
+
     @Override public boolean equals(Object o) {
         return (o instanceof NexusTags) && getTagMap().equals(((NexusTags) o).getTagMap());
     }
@@ -41,9 +65,7 @@ public class NexusTags implements Iterable<NexusTag> {
     @Override public int hashCode() {
         int result = 0;
         if (!isEmpty()) {
-            for (NexusTag tag : tags) {
-                result = 31 * result + tag.hashCode();
-            }
+            return toTable().hashCode();
         }
         return result;
     }

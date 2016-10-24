@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static histori.model.CanonicalEntity.canonicalize;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 
 public class TagSchema {
@@ -16,7 +17,7 @@ public class TagSchema {
 
     @JsonIgnore public Map<String, TagSchemaField> getFieldMap() {
         final Map<String, TagSchemaField> map = new HashMap<>();
-        if (!empty(fields)) for (TagSchemaField f : fields) map.put(f.getName(), f);
+        if (!empty(fields)) for (TagSchemaField f : fields) map.put(canonicalize(f.getName()), f);
         return map;
     }
 

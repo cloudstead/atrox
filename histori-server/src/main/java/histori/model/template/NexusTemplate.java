@@ -11,6 +11,10 @@ public class NexusTemplate {
     public static final String NEXUS_TEMPLATE_JSONB_TYPE = JSONBUserType.JSONB_TYPE+"_NexusTemplate";
 
     @Getter @Setter private String name;
+
+    @Getter @Setter private String nexusType;
+    public boolean hasNexusType () { return !empty(nexusType); }
+
     @Getter @Setter private String markdown;
     public boolean hasMarkdown () { return !empty(markdown); }
 

@@ -211,10 +211,10 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
         return true;
     }
 
-    public void scrubTags(Nexus request) {
+    public void scrubTags(Nexus nexus) {
         // remove tags with null names, or names that are too long
         // ensure other tags exist
-        final NexusTags tags = request.getTags();
+        final NexusTags tags = nexus.getTags();
         for (Iterator<NexusTag> iter = tags.iterator(); iter.hasNext(); ) {
             NexusTag tag = iter.next();
             if (empty(tag.getCanonicalName()) || tag.getCanonicalName().length() > NAME_MAXLEN) {
@@ -230,12 +230,12 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
                 continue;
             }
             final Map<String, TagSchemaField> fields = tagType.getSchema().getFieldMap();
-            if (tag.hasSchemaValues()) {
+            if (tag.hasSchemaValues() && !tag.getCanonicalType().equals("meta")) {
                 final TagSchemaValue[] values = tag.getValues();
                 int newSize = values.length;
                 for (int i = 0; i< values.length; i++) {
                     final TagSchemaValue value = values[i];
-                    final TagSchemaField tagSchemaField = fields.get(value.getField());
+                    final TagSchemaField tagSchemaField = fields.get(value.getCanonicalField());
                     if (tagSchemaField == null) {
                         values[i] = null;
                         newSize--;
@@ -249,12 +249,15 @@ public class NexusDAO extends ShardedEntityDAO<Nexus, NexusShardDAO> {
                         value.setValue(parsed.getStartPoint().toString());
                     }
                 }
-                final TagSchemaValue[] updated = new TagSchemaValue[newSize];
-                int i=0;
-                for (TagSchemaValue value : values) {
-                    if (value != null) updated[i++] = value;
+                final TagSchemaValue[] updated;
+                if (newSize != values.length) {
+                    updated = new TagSchemaValue[newSize];
+                    int i = 0;
+                    for (TagSchemaValue value : values) {
+                        if (value != null) updated[i++] = value;
+                    }
+                    tag.setValues(updated);
                 }
-                tag.setValues(updated);
             }
         }
     }

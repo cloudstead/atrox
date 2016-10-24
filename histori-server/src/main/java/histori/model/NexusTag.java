@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import histori.model.base.NexusTags;
 import histori.model.tag_schema.TagSchemaValue;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.cobbzilla.util.collection.ArrayUtil;
@@ -13,20 +14,32 @@ import org.cobbzilla.wizard.model.IdentifiableBase;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
 import static histori.ApiConstants.NAME_MAXLEN;
 import static histori.model.CanonicalEntity.canonicalize;
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
+import static org.cobbzilla.util.reflect.ReflectionUtil.copy;
 import static org.cobbzilla.util.security.ShaUtil.sha256_hex;
 
-@Accessors(chain=true)
+@NoArgsConstructor @Accessors(chain=true)
 public class NexusTag extends IdentifiableBase implements Comparable<NexusTag> {
+
+    public static final Comparator<NexusTag> SORT_NAME = new Comparator<NexusTag>() {
+        @Override public int compare(NexusTag t1, NexusTag t2) {
+            int diff = t1.getCanonicalType().compareTo(t2.getCanonicalType());
+            return diff != 0 ? diff : t1.getCanonicalName().compareTo(t2.getCanonicalName());
+        }
+    };
+
+    public static final String[] VALUE_FIELDS = {"tagName", "tagType", "values"};
+
+    public NexusTag(NexusTag other) { copy(this, other, VALUE_FIELDS); }
 
     @Size(max=NAME_MAXLEN, message="err.tagName.tooLong")
     @Getter @Setter private String tagName;
-
     public String getCanonicalName() { return canonicalize(getTagName()); }
     public void setCanonicalName(String name) {} // noop
 
@@ -163,15 +176,4 @@ public class NexusTag extends IdentifiableBase implements Comparable<NexusTag> {
 
     }
 
-    @Override public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + getCanonicalName().hashCode();
-        result = 31 * result + (tagType != null ? tagType.hashCode() : 0);
-        if (hasSchemaValues()) {
-            for (TagSchemaValue value : values) {
-                result = 31 * result + value.hashCode();
-            }
-        }
-        return result;
-    }
 }

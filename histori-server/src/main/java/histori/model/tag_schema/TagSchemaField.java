@@ -6,10 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.Map;
 
 @NoArgsConstructor @AllArgsConstructor
 public class TagSchemaField {
+
+    public static final String LAST_ACCESSED = "last-accessed";
 
     @Getter @Setter private String name;
 

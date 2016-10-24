@@ -173,6 +173,11 @@ public class WikiDateFormat {
         }
     }
 
+    public static TimePoint parseStart(String input) {
+        final TimeRange parsed = parse(input);
+        return parsed == null ? null : parsed.getStartPoint();
+    }
+
     public static TimeRange parse(String input) {
 
         if (empty(input)) return null;
