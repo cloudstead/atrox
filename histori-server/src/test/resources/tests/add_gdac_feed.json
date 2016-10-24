@@ -89,7 +89,7 @@
             {"tagType": "meta", "tagName": "unique-id", "values": [{"field": "guid", "value": "{{{xpath 'guid'}}}"}]},
             {"tagType": "impact", "tagName": "people affected by Category 1 winds", "values": [{"field": "estimate", "value": "{{xpath 'population[@unit=\\'Pop74\\']/@value'}}"}]},
             {"tagType": "impact", "tagName": "maximum wind speed km/h", "values": [{"field": "estimate", "value": "{{xpath 'severity[@unit=\\'km/h\\']/@value'}}"}]},
-            {"tagType": "impact", "tagName": "alert_level", "values": [{"field": "color", "value": "{{xpath 'alertlevel'}}"}]},
+            {"tagType": "impact", "tagName": "alert level", "values": [{"field": "color", "value": "{{xpath 'alertlevel'}}"}]},
             {
               "tagType": "world_actor",
               "tagName": "{{{xpath 'country'}}}",
