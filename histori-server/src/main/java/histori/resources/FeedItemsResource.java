@@ -8,7 +8,6 @@ import histori.model.Feed;
 import histori.model.Nexus;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.cobbzilla.wizard.resources.AbstractCachedSubResource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.*;
@@ -17,7 +16,6 @@ import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.cobbzilla.wizard.resources.ResourceUtil.*;
@@ -26,16 +24,14 @@ import static org.cobbzilla.wizard.resources.ResourceUtil.*;
 @Consumes(APPLICATION_JSON)
 @Produces(APPLICATION_JSON)
 @NoArgsConstructor @Slf4j
-public class FeedItemsResource extends AbstractCachedSubResource<FeedItemsResource> {
-
-    private static final Map<String, FeedItemsResource> resourceCache = new ConcurrentHashMap<>();
-    @Override protected Map<String, FeedItemsResource> getCacheMap() { return resourceCache; }
+public class FeedItemsResource {
 
     @Autowired private NexusDAO nexusDAO;
     @Autowired private FeedService feedService;
 
     private Feed feed;
 
+    @SuppressWarnings("unused")
     public FeedItemsResource (Feed feed) { this.feed = feed; }
 
     @GET

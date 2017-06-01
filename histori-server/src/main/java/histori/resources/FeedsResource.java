@@ -32,12 +32,11 @@ public class FeedsResource {
     @Autowired private FeedDAO feedDAO;
     @Autowired private NexusDAO nexusDAO;
 
-    private FeedItemsResource feedItemsResource = new FeedItemsResource();
     @Path("/{id}/items")
     public FeedItemsResource getItemsResource(@Context HttpContext context,
                                               @PathParam("id") String id) {
         final FeedContext ctx = new FeedContext(context, id, CrudOperation.read);
-        return feedItemsResource.forContext(configuration.getApplicationContext(), ctx.feed);
+        return configuration.subResource(FeedItemsResource.class, ctx.feed);
     }
 
     @GET

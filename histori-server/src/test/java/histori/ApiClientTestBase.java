@@ -68,8 +68,6 @@ public class ApiClientTestBase extends ApiDocsResourceIT<HistoriConfiguration, H
         return new SingletonList<ConfigurationSource>(new StreamConfigurationSource(getTestConfig()));
     }
 
-    @Override protected String getTokenHeader() { return API_TOKEN; }
-
     public MockTemplatedMailService getTemplatedMailService() {
         return getBean(MockTemplatedMailService.class);
     }

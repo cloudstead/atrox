@@ -13,8 +13,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static histori.main.wiki.WikiIndexerOptions.*;
 import static org.cobbzilla.util.daemon.ZillaRuntime.now;
-import static org.cobbzilla.util.string.StringUtil.formatDuration;
 import static org.cobbzilla.util.system.Sleep.sleep;
+import static org.cobbzilla.util.time.TimeUtil.formatDuration;
 
 /**
  * Split a massive Wikipedia dump into one file per article.

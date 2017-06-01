@@ -31,7 +31,7 @@ import static org.cobbzilla.util.daemon.ZillaRuntime.now;
 import static org.cobbzilla.util.json.JsonUtil.fromJson;
 import static org.cobbzilla.util.json.JsonUtil.toJson;
 import static org.cobbzilla.util.string.StringUtil.EMPTY_ARRAY;
-import static org.cobbzilla.util.string.StringUtil.formatDurationFrom;
+import static org.cobbzilla.util.time.TimeUtil.formatDurationFrom;
 import static org.cobbzilla.wizard.resources.ResourceUtil.*;
 
 @Consumes(APPLICATION_JSON)

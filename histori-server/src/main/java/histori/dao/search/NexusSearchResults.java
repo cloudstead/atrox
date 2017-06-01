@@ -20,8 +20,8 @@ import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
 
+import static org.cobbzilla.util.daemon.Await.awaitAndCollectSet;
 import static org.cobbzilla.wizard.model.IdentifiableBase.toUuidList;
-import static org.cobbzilla.wizard.util.Await.awaitAndCollectSet;
 
 @Slf4j
 public class NexusSearchResults extends MappySortedSet<String, Nexus> implements ShardResultCollector<Nexus> {
