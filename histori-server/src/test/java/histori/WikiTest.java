@@ -1,6 +1,6 @@
 package histori;
 
-import cloudos.service.asset.ResourceStorageService;
+import org.cobbzilla.wizard.asset.ResourceStorageService;
 import histori.wiki.WikiArchive;
 import org.cobbzilla.util.system.CommandShell;
 

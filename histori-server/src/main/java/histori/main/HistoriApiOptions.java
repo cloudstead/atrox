@@ -11,5 +11,5 @@ public class HistoriApiOptions extends MainApiOptionsBase {
         return System.getenv().containsKey("HISTORI_API") ? System.getenv("HISTORI_API") : "http://127.0.0.1:9091/api";
     }
 
-    @Override protected boolean requireAccount() { return false; }
+    @Override public boolean requireAccount() { return false; }
 }

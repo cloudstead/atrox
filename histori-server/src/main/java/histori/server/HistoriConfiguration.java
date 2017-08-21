@@ -1,7 +1,7 @@
 package histori.server;
 
-import cloudos.server.asset.AssetStorageConfiguration;
-import cloudos.service.asset.AssetStorageService;
+import org.cobbzilla.wizard.asset.AssetStorageConfiguration;
+import org.cobbzilla.wizard.asset.AssetStorageService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.jknack.handlebars.Handlebars;
 import lombok.Getter;

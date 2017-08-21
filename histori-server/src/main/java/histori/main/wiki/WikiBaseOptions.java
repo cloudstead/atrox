@@ -1,8 +1,8 @@
 package histori.main.wiki;
 
-import cloudos.service.asset.AssetStorageService;
-import cloudos.service.asset.LocalAssetStorageService;
-import cloudos.service.asset.S3AssetStorageService;
+import org.cobbzilla.wizard.asset.AssetStorageService;
+import org.cobbzilla.wizard.asset.LocalAssetStorageService;
+import org.cobbzilla.wizard.asset.S3AssetStorageService;
 import histori.wiki.WikiArchive;
 import lombok.Getter;
 import lombok.Setter;

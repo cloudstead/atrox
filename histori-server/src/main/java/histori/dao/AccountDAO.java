@@ -4,7 +4,7 @@ import cloudos.dao.BasicAccountDAO;
 import cloudos.model.AccountBase;
 import cloudos.model.auth.AuthenticationException;
 import cloudos.model.auth.LoginRequest;
-import cloudos.service.asset.AssetStorageService;
+import org.cobbzilla.wizard.asset.AssetStorageService;
 import histori.ApiConstants;
 import histori.dao.archive.NexusArchiveDAO;
 import histori.dao.archive.VoteArchiveDAO;

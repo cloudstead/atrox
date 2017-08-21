@@ -1,7 +1,7 @@
 package histori.wiki;
 
-import cloudos.service.asset.AssetStorageService;
-import cloudos.service.asset.AssetStream;
+import org.cobbzilla.wizard.asset.AssetStorageService;
+import org.cobbzilla.wizard.asset.AssetStream;
 import com.amazonaws.util.StringInputStream;
 import histori.model.support.MultiNexusRequest;
 import histori.model.support.NexusRequest;
