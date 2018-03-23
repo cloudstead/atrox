@@ -43,7 +43,7 @@ This code is available under the GNU Affero General Public License, version 3: h
 
     <build>
         <plugins>
-            <!-- use Java 1.7 -->
+            <!-- use Java 8 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

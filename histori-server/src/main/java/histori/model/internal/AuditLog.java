@@ -1,11 +1,11 @@
 package histori.model.internal;
 
-import cloudos.model.auth.LoginRequest;
 import histori.model.auth.RegistrationRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.cobbzilla.wizard.auth.LoginRequest;
 import org.cobbzilla.wizard.model.StrongIdentifiableBase;
 
 import javax.persistence.Column;

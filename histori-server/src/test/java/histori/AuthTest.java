@@ -1,6 +1,5 @@
 package histori;
 
-import cloudos.model.auth.ResetPasswordRequest;
 import cloudos.resources.AuthResourceBase;
 import histori.model.Account;
 import histori.model.auth.HistoriLoginRequest;
@@ -8,6 +7,7 @@ import histori.model.auth.RegistrationRequest;
 import histori.model.support.AccountAuthResponse;
 import org.cobbzilla.mail.sender.mock.MockTemplatedMailSender;
 import org.cobbzilla.util.http.HttpStatusCodes;
+import org.cobbzilla.wizard.auth.ResetPasswordRequest;
 import org.junit.Test;
 
 import static cloudos.resources.AuthResourceBase.*;

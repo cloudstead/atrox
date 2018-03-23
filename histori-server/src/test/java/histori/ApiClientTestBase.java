@@ -1,6 +1,5 @@
 package histori;
 
-import cloudos.model.auth.LoginRequest;
 import com.fasterxml.jackson.databind.JavaType;
 import histori.dao.AccountDAO;
 import histori.model.Account;
@@ -9,9 +8,9 @@ import histori.model.auth.RegistrationRequest;
 import histori.model.support.AccountAuthResponse;
 import histori.model.support.NexusSummary;
 import histori.model.support.TimeRange;
-import histori.server.listener.DbSeedListener;
 import histori.server.HistoriConfiguration;
 import histori.server.HistoriServer;
+import histori.server.listener.DbSeedListener;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
 import org.cobbzilla.mail.sender.mock.MockTemplatedMailSender;
@@ -19,6 +18,7 @@ import org.cobbzilla.mail.sender.mock.MockTemplatedMailService;
 import org.cobbzilla.util.collection.SingletonList;
 import org.cobbzilla.util.json.JsonUtil;
 import org.cobbzilla.util.system.CommandShell;
+import org.cobbzilla.wizard.auth.LoginRequest;
 import org.cobbzilla.wizard.dao.SearchResults;
 import org.cobbzilla.wizard.server.RestServer;
 import org.cobbzilla.wizard.server.config.factory.ConfigurationSource;

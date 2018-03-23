@@ -2,7 +2,7 @@ package histori.dao.internal;
 
 import histori.model.auth.RegistrationRequest;
 import histori.model.internal.AuditLog;
-import cloudos.model.auth.LoginRequest;
+import org.cobbzilla.wizard.auth.LoginRequest;
 import org.cobbzilla.wizard.dao.AbstractCRUDDAO;
 import org.springframework.stereotype.Repository;
 

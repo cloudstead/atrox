@@ -1,9 +1,9 @@
 package histori.model.support;
 
-import cloudos.model.auth.AuthResponse;
 import histori.model.Account;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.cobbzilla.wizard.auth.AuthResponse;
 
 @NoArgsConstructor @Slf4j
 public class AccountAuthResponse extends AuthResponse<Account> {

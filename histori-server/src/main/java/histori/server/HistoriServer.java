@@ -3,6 +3,7 @@ package histori.server;
 import histori.server.listener.DbSeedListener;
 import histori.server.listener.TagCacheWarmerListener;
 import lombok.extern.slf4j.Slf4j;
+import org.cobbzilla.util.network.NetworkUtil;
 import org.cobbzilla.util.system.CommandShell;
 import org.cobbzilla.wizard.server.RestServerBase;
 import org.cobbzilla.wizard.server.RestServerLifecycleListener;
@@ -18,7 +19,7 @@ public class HistoriServer extends RestServerBase<HistoriConfiguration> {
 
     public static final String[] API_CONFIG_YML = {"histori-config.yml"};
 
-    @Override protected String getListenAddress() { return LOCALHOST; }
+    @Override protected String getListenAddress() { return NetworkUtil.IPv4_LOCALHOST; }
 
     private static final List<RestServerLifecycleListener> listeners = Arrays.asList(new RestServerLifecycleListener[] {
             new DbSeedListener(),

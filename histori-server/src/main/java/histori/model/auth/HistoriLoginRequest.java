@@ -1,8 +1,8 @@
 package histori.model.auth;
 
-import cloudos.model.auth.LoginRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.NoArgsConstructor;
+import org.cobbzilla.wizard.auth.LoginRequest;
 
 import static org.cobbzilla.util.daemon.ZillaRuntime.empty;
 

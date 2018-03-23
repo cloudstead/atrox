@@ -1,7 +1,5 @@
 package histori.resources;
 
-import cloudos.model.auth.AuthResponse;
-import cloudos.model.auth.AuthenticationException;
 import cloudos.resources.AuthResourceBase;
 import com.sun.jersey.api.core.HttpContext;
 import histori.dao.AccountDAO;
@@ -17,6 +15,8 @@ import histori.server.HistoriConfiguration;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.cobbzilla.mail.service.TemplatedMailService;
+import org.cobbzilla.wizard.auth.AuthResponse;
+import org.cobbzilla.wizard.auth.AuthenticationException;
 import org.cobbzilla.wizard.validation.ValidationResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
